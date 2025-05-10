@@ -6,9 +6,9 @@ import {
   ReferencedError,
 } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
-import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import type { FosterFamily } from "@prisma/client";
 import { FosterFamilyAvailability, Prisma } from "@prisma/client";
+import { fuzzySearchFosterFamilies } from "@prisma/client/sql";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 
@@ -22,13 +22,10 @@ export class FosterFamilyDbDelegate {
   }: {
     displayName?: string;
     maxHitCount: number;
-  }): Promise<
-    (FosterFamilyHit &
-      Pick<FosterFamily, "availability" | "city" | "zipCode">)[]
-  > {
-    // Don't use Algolia when there are no text search.
+  }) {
+    // When there are no text search, return hits ordered by name.
     if (displayName == null) {
-      const fosterFamilies = await prisma.fosterFamily.findMany({
+      return await prisma.fosterFamily.findMany({
         select: {
           availability: true,
           city: true,
@@ -39,25 +36,18 @@ export class FosterFamilyDbDelegate {
         orderBy: { displayName: "asc" },
         take: maxHitCount,
       });
-
-      return fosterFamilies.map((fosterFamily) => ({
-        ...fosterFamily,
-        _highlighted: {
-          displayName: fosterFamily.displayName,
-        },
-      }));
     }
 
-    const hits = await algolia.fosterFamily.findMany({
-      where: { displayName },
-      hitsPerPage: maxHitCount,
-    });
+    const hits = await prisma.$queryRawTyped(
+      fuzzySearchFosterFamilies(displayName, maxHitCount),
+    );
 
     const fosterFamilies = await prisma.fosterFamily.findMany({
       where: { id: { in: hits.map((hit) => hit.id) } },
       select: {
         availability: true,
         city: true,
+        displayName: true,
         id: true,
         zipCode: true,
       },
@@ -67,12 +57,9 @@ export class FosterFamilyDbDelegate {
       const fosterFamily = fosterFamilies.find(
         (fosterFamily) => fosterFamily.id === hit.id,
       );
-      invariant(
-        fosterFamily != null,
-        "Foster family from algolia should exists.",
-      );
+      invariant(fosterFamily != null, "foster family hit should exists.");
 
-      return { ...hit, ...fosterFamily };
+      return fosterFamily;
     });
   }
 

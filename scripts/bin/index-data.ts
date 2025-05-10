@@ -5,13 +5,7 @@ import { AlgoliaClient } from "@animeaux/algolia-client";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
 
-const ENTITY_NAMES = [
-  "animal",
-  "breed",
-  "color",
-  "fosterFamily",
-  "user",
-] as const;
+const ENTITY_NAMES = ["breed", "color", "fosterFamily", "user"] as const;
 
 type EntityName = (typeof ENTITY_NAMES)[number];
 
@@ -22,26 +16,6 @@ const entityName = z
 console.log(`🗄 Indexing ${entityName}...`);
 
 const indexors: Record<EntityName, () => Promise<void>> = {
-  async animal() {
-    const animals = await prisma.animal.findMany({
-      select: {
-        id: true,
-        name: true,
-        alias: true,
-        species: true,
-        status: true,
-        pickUpLocation: true,
-        pickUpDate: true,
-      },
-    });
-
-    await algolia.animal.deleteAll();
-    await algolia.animal.uploadSettings();
-    await algolia.animal.createMany(animals);
-
-    console.log(`- 👍 Indexed ${animals.length} animals`);
-  },
-
   async breed() {
     const breeds = await prisma.breed.findMany({
       select: { id: true, name: true, species: true },

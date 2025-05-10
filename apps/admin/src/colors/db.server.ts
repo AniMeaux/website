@@ -6,9 +6,10 @@ import {
   ReferencedError,
 } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
-import type { ColorHit } from "@animeaux/algolia-client";
 import type { Color } from "@prisma/client";
 import { Prisma } from "@prisma/client";
+import { fuzzySearchColors } from "@prisma/client/sql";
+import invariant from "tiny-invariant";
 
 export class ColorDbDelegate {
   async create(data: ColorData) {
@@ -80,24 +81,30 @@ export class ColorDbDelegate {
   }: {
     name?: string;
     maxHitCount: number;
-  }): Promise<ColorHit[]> {
-    // Don't use Algolia when there are no text search.
+  }) {
+    // When there are no text search, return hits ordered by name.
     if (name == null) {
-      const colors = await prisma.color.findMany({
+      return await prisma.color.findMany({
         select: { id: true, name: true },
         orderBy: { name: "asc" },
         take: maxHitCount,
       });
-
-      return colors.map((color) => ({
-        ...color,
-        _highlighted: { name: color.name },
-      }));
     }
 
-    return await algolia.color.findMany({
-      where: { name },
-      hitsPerPage: maxHitCount,
+    const hits = await prisma.$queryRawTyped(
+      fuzzySearchColors(name, maxHitCount),
+    );
+
+    const colors = await prisma.color.findMany({
+      where: { id: { in: hits.map((hit) => hit.id) } },
+      select: { id: true, name: true },
+    });
+
+    return hits.map((hit) => {
+      const color = colors.find((color) => color.id === hit.id);
+      invariant(color != null, "color hit should exists.");
+
+      return color;
     });
   }
 }

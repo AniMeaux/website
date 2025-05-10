@@ -4,7 +4,7 @@ import type {
   Settings,
 } from "@algolia/client-search";
 import { isIterable } from "@animeaux/core";
-import type { Species, Status, UserGroup } from "@prisma/client";
+import type { Species, UserGroup } from "@prisma/client";
 import type { SearchClient, SearchIndex } from "algoliasearch";
 import algoliasearch from "algoliasearch";
 import chunk from "lodash.chunk";
@@ -21,11 +21,9 @@ declare global {
 }
 
 export class AlgoliaClient {
-  readonly animal: AnimalDelegate;
   readonly breed: BreedDelegate;
   readonly color: ColorDelegate;
   readonly fosterFamily: FosterFamilyDelegate;
-  readonly pickUpLocation: PickUpLocationDelegate;
   readonly user: UserDelegate;
 
   constructor() {
@@ -41,11 +39,9 @@ export class AlgoliaClient {
       process.env.ALGOLIA_ADMIN_KEY,
     );
 
-    this.animal = new AnimalDelegate(client);
     this.breed = new BreedDelegate(client);
     this.color = new ColorDelegate(client);
     this.fosterFamily = new FosterFamilyDelegate(client);
-    this.pickUpLocation = new PickUpLocationDelegate(client);
     this.user = new UserDelegate(client);
   }
 }
@@ -63,14 +59,6 @@ abstract class IndexDelegate {
 
   async deleteAll() {
     return await this.index.clearObjects();
-  }
-}
-
-abstract class FacetDelegate {
-  protected readonly index: SearchIndex;
-
-  constructor(client: SearchClient, indexName: string) {
-    this.index = client.initIndex(indexName);
   }
 }
 
@@ -116,147 +104,6 @@ type SerializeValue<TValue> = TValue extends Date ? number : TValue;
 export type SerializeObject<TObject extends object> = {
   [key in keyof TObject]: SerializeValue<TObject[key]>;
 };
-
-export type Animal = {
-  alias: string | null;
-  name: string;
-  pickUpDate: Date;
-  pickUpLocation: string | null;
-  species: Species;
-  status: Status;
-};
-
-export type AnimalHit = Hit<Animal, "alias" | "name">;
-
-class AnimalDelegate extends IndexDelegate {
-  constructor(client: SearchClient) {
-    super(client, "animals");
-  }
-
-  async update(animal: UpdateData<Animal>) {
-    return await this.index.partialUpdateObject({
-      objectID: animal.id,
-      alias: animal.alias,
-      name: animal.name,
-      pickUpDate: animal.pickUpDate?.getTime(),
-      pickUpLocation: animal.pickUpLocation,
-      species: animal.species,
-      status: animal.status,
-    } satisfies PartialUpdateObjectParam<Animal>);
-  }
-
-  async create(animal: CreateData<Animal>) {
-    return await this.index.saveObject({
-      objectID: animal.id,
-      alias: animal.alias,
-      name: animal.name,
-      pickUpDate: animal.pickUpDate.getTime(),
-      pickUpLocation: animal.pickUpLocation,
-      species: animal.species,
-      status: animal.status,
-    } satisfies SaveObjectParam<Animal>);
-  }
-
-  async createMany(animals: CreateData<Animal>[]) {
-    return await this.index.saveObjects(
-      animals.map<SaveObjectParam<Animal>>((animal) => ({
-        objectID: animal.id,
-        alias: animal.alias,
-        name: animal.name,
-        pickUpDate: animal.pickUpDate.getTime(),
-        pickUpLocation: animal.pickUpLocation,
-        species: animal.species,
-        status: animal.status,
-      })),
-    );
-  }
-
-  async findMany({
-    where: { nameOrAlias, ...filters },
-    ...options
-  }: FindManyParam<{
-    nameOrAlias: string;
-    pickUpDate?: DateTimeFilter;
-    pickUpLocation?: string | Iterable<string>;
-    species?: Species | Iterable<Species>;
-    status?: Status | Iterable<Status>;
-  }>) {
-    let response: SearchResponse<SerializeObject<Animal>>;
-
-    if (options.hitsPerPage == null) {
-      response = await searchAll<SerializeObject<Animal>>(
-        this.index,
-        nameOrAlias,
-        { ...options, filters: createSearchFilters(filters) },
-      );
-    } else {
-      response = await this.index.search<SerializeObject<Animal>>(nameOrAlias, {
-        ...options,
-        filters: createSearchFilters(filters),
-      });
-    }
-
-    return response.hits.map<AnimalHit>((hit) => ({
-      id: hit.objectID,
-      alias: hit.alias,
-      name: hit.name,
-      pickUpDate: new Date(hit.pickUpDate),
-      pickUpLocation: hit.pickUpLocation,
-      species: hit.species,
-      status: hit.status,
-      _highlighted: {
-        alias: hit._highlightResult?.alias?.value ?? hit.alias,
-        name: hit._highlightResult?.name?.value ?? hit.name,
-      },
-    }));
-  }
-
-  async uploadSettings() {
-    return await this.index.setSettings({
-      ...DEFAULT_SETTINGS,
-      searchableAttributes: ["name", "alias"],
-      attributesForFaceting: [
-        "pickUpDate",
-        "searchable(pickUpLocation)",
-        "species",
-        "status",
-      ],
-      customRanking: ["desc(pickUpDate)"],
-      maxFacetHits: 20,
-    } satisfies SetSettingsParam<Animal>);
-  }
-}
-
-export type Location = {
-  value: string;
-};
-
-export type LocationHit = Hit<Location, "value">;
-
-class PickUpLocationDelegate extends FacetDelegate {
-  constructor(client: SearchClient) {
-    super(client, "animals");
-  }
-
-  async findMany({
-    where: { value },
-    ...options
-  }: FindManyParam<{ value: string }>) {
-    const response = await this.index.searchForFacetValues(
-      "pickUpLocation",
-      value,
-      options,
-    );
-
-    return response.facetHits.map<LocationHit>((hit) => ({
-      id: hit.value,
-      value: hit.value,
-      _highlighted: {
-        value: hit.highlighted,
-      },
-    }));
-  }
-}
 
 export type Breed = {
   name: string;

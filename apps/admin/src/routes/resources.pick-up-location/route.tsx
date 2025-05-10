@@ -23,9 +23,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
-    pickUpLocations: await db.pickUpLocation.fuzzySearch({
-      text: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
+    pickUpLocations: await db.pickUpLocation.fuzzySearch(searchParams.text, {
+      take: MAX_HIT_COUNT,
     }),
   });
 }

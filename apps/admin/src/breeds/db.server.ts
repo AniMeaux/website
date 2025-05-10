@@ -6,9 +6,10 @@ import {
   ReferencedError,
 } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
-import type { BreedHit } from "@animeaux/algolia-client";
 import type { Breed, Species } from "@prisma/client";
 import { Prisma } from "@prisma/client";
+import { fuzzySearchBreeds } from "@prisma/client/sql";
+import invariant from "tiny-invariant";
 
 export class BreedDbDelegate {
   async create(data: BreedData) {
@@ -82,11 +83,12 @@ export class BreedDbDelegate {
     name?: string;
     species?: Iterable<Species>;
     maxHitCount: number;
-  }): Promise<BreedHit[]> {
-    // Don't use Algolia when there are no text search.
+  }) {
+    const speciesArray = Array.from(species ?? []);
+
+    // When there are no text search, return hits ordered by name.
     if (name == null) {
-      const speciesArray = Array.from(species ?? []);
-      const breeds = await prisma.breed.findMany({
+      return await prisma.breed.findMany({
         where: {
           species: speciesArray.length === 0 ? undefined : { in: speciesArray },
         },
@@ -94,16 +96,22 @@ export class BreedDbDelegate {
         orderBy: { name: "asc" },
         take: maxHitCount,
       });
-
-      return breeds.map((breed) => ({
-        ...breed,
-        _highlighted: { name: breed.name },
-      }));
     }
 
-    return await algolia.breed.findMany({
-      where: { name, species },
-      hitsPerPage: maxHitCount,
+    const hits = await prisma.$queryRawTyped(
+      fuzzySearchBreeds(name, speciesArray, maxHitCount),
+    );
+
+    const breeds = await prisma.breed.findMany({
+      where: { id: { in: hits.map((hit) => hit.id) } },
+      select: { id: true, name: true, species: true },
+    });
+
+    return hits.map((hit) => {
+      const breed = breeds.find((breed) => breed.id === hit.id);
+      invariant(breed != null, "breed hit should exists.");
+
+      return breed;
     });
   }
 }

@@ -6,10 +6,11 @@ import {
   ReferencedError,
 } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
-import type { UserHit } from "@animeaux/algolia-client";
 import { generatePasswordHash } from "@animeaux/password";
 import type { User } from "@prisma/client";
 import { Prisma, UserGroup } from "@prisma/client";
+import { fuzzySearchUsers } from "@prisma/client/sql";
+import invariant from "tiny-invariant";
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}
@@ -27,28 +28,49 @@ export class UserDbDelegate {
     groups?: UserGroup[];
     isDisabled?: boolean;
     maxHitCount: number;
-  }): Promise<UserHit[]> {
-    // Don't use Algolia when there are no text search.
+  }) {
+    // When there are no text search, return hits ordered by name.
     if (displayName == null) {
-      const users = await prisma.user.findMany({
+      return await prisma.user.findMany({
         where: {
           groups: groups.length === 0 ? undefined : { hasSome: groups },
           isDisabled: isDisabled ?? undefined,
         },
-        select: { id: true, displayName: true, groups: true, isDisabled: true },
+        select: {
+          id: true,
+          displayName: true,
+          groups: true,
+          isDisabled: true,
+        },
         orderBy: { displayName: "asc" },
         take: maxHitCount,
       });
-
-      return users.map((user) => ({
-        ...user,
-        _highlighted: { displayName: user.displayName },
-      }));
     }
 
-    return await algolia.user.findMany({
-      where: { displayName, groups, isDisabled },
-      hitsPerPage: maxHitCount,
+    const hits = await prisma.$queryRawTyped(
+      fuzzySearchUsers(
+        displayName,
+        groups,
+        isDisabled == null ? [] : [isDisabled],
+        maxHitCount,
+      ),
+    );
+
+    const users = await prisma.user.findMany({
+      where: { id: { in: hits.map((hit) => hit.id) } },
+      select: {
+        id: true,
+        displayName: true,
+        groups: true,
+        isDisabled: true,
+      },
+    });
+
+    return hits.map((hit) => {
+      const user = users.find((user) => user.id === hit.id);
+      invariant(user != null, "user hit should exists.");
+
+      return user;
     });
   }
 

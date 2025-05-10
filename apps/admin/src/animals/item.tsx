@@ -15,9 +15,8 @@ import type { SuggestionItemProps } from "#core/form-elements/resource-input";
 import { SuggestionItem } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import type { AnimalHit } from "@animeaux/algolia-client";
 import { cn } from "@animeaux/core";
-import type { Animal, Breed, Color, User } from "@prisma/client";
+import type { Animal, Species, User } from "@prisma/client";
 import { Gender } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import { forwardRef } from "react";
@@ -219,11 +218,15 @@ export function AnimalSmallItem({
 export const AnimalSuggestionItem = forwardRef<
   React.ComponentRef<typeof SuggestionItem>,
   Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
-    animal: Pick<Animal, "avatar"> &
-      Pick<AnimalHit, "_highlighted" | "alias" | "id" | "name" | "species"> & {
-        breed: null | Pick<Breed, "name">;
-        color: null | Pick<Color, "name">;
-      };
+    animal: {
+      avatar: string;
+      alias: string | null;
+      name: string;
+      id: string;
+      species: Species;
+      breed: null | { name: string };
+      color: null | { name: string };
+    };
   }
 >(function AnimalSuggestionItem({ animal, ...rest }, ref) {
   return (
@@ -232,8 +235,8 @@ export const AnimalSuggestionItem = forwardRef<
       ref={ref}
       leftAdornment={<AnimalAvatar animal={animal} loading="eager" />}
       label={getAnimalDisplayName({
-        name: animal._highlighted.name,
-        alias: animal._highlighted.alias,
+        name: animal.name,
+        alias: animal.alias,
       })}
       secondaryLabel={getSpeciesLabels(animal)}
     />

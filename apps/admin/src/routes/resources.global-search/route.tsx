@@ -42,9 +42,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   if (entity === Entity.ANIMAL) {
-    const animals = await db.animal.fuzzySearch({
-      nameOrAlias: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
+    const animals = await db.animal.fuzzySearch(searchParams.text, {
+      select: {
+        alias: true,
+        avatar: true,
+        breed: { select: { name: true } },
+        color: { select: { name: true } },
+        id: true,
+        name: true,
+        pickUpDate: true,
+        pickUpLocation: true,
+        species: true,
+        status: true,
+      },
+      take: MAX_HIT_COUNT,
     });
 
     const items = animals.map((animal) => ({

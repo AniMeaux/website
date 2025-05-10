@@ -1,5 +1,4 @@
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
-import { algolia } from "#core/algolia/algolia.server";
 import { NotFoundError } from "#core/errors.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
@@ -54,7 +53,6 @@ export class AnimalSituationDbDelegate {
       this.normalize(data);
 
       await prisma.animal.update({ where: { id }, data });
-      await algolia.animal.update({ ...data, id });
     });
   }
 
