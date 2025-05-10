@@ -1,15 +1,19 @@
-import { algolia } from "#core/algolia/algolia.server";
 import {
   EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
 } from "#core/errors.server";
+import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
-import type { UserHit } from "@animeaux/algolia-client";
+import type { UserSearchParams } from "#users/search-params";
+import { UserSort } from "#users/search-params";
 import { generatePasswordHash } from "@animeaux/password";
+import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { User } from "@prisma/client";
 import { Prisma, UserGroup } from "@prisma/client";
+import { fuzzySearchUsers } from "@prisma/client/sql";
+import { DateTime } from "luxon";
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}
@@ -17,39 +21,41 @@ export class MissingPasswordError extends Error {}
 export class LockMyselfError extends Error {}
 
 export class UserDbDelegate {
-  async fuzzySearch({
-    displayName,
-    groups = [],
-    isDisabled,
-    maxHitCount,
-  }: {
-    displayName?: string;
-    groups?: UserGroup[];
-    isDisabled?: boolean;
-    maxHitCount: number;
-  }): Promise<UserHit[]> {
-    // Don't use Algolia when there are no text search.
-    if (displayName == null) {
-      const users = await prisma.user.findMany({
-        where: {
-          groups: groups.length === 0 ? undefined : { hasSome: groups },
-          isDisabled: isDisabled ?? undefined,
-        },
-        select: { id: true, displayName: true, groups: true, isDisabled: true },
-        orderBy: { displayName: "asc" },
-        take: maxHitCount,
-      });
+  async fuzzySearch<T extends Prisma.UserSelect>(
+    displayName: undefined | string,
+    {
+      select,
+      where,
+      take,
+    }: {
+      select: T;
+      where?: Prisma.UserWhereInput;
+      take?: number;
+    },
+  ) {
+    // Ensure we only use our selected properties.
+    const internalSelect = { id: true } satisfies Prisma.UserSelect;
 
-      return users.map((user) => ({
-        ...user,
-        _highlighted: { displayName: user.displayName },
-      }));
+    // When there are no text search, return hits ordered by name.
+    if (displayName == null) {
+      return await prisma.user.findMany({
+        where,
+        select: { ...select, ...internalSelect },
+        orderBy: { displayName: "asc" },
+        take,
+      });
     }
 
-    return await algolia.user.findMany({
-      where: { displayName, groups, isDisabled },
-      hitsPerPage: maxHitCount,
-    });
+    const hits = await prisma.$queryRawTyped(fuzzySearchUsers(displayName));
+
+    const users = (await prisma.user.findMany({
+      where: { ...where, id: { in: hits.map((hit) => hit.id) } },
+      select: { ...select, ...internalSelect },
+    })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>[];
+
+    return orderByRank(users, hits, { take }) as Prisma.UserGetPayload<{
+      select: typeof select & typeof internalSelect;
+    }>[];
   }
 
   async setIsDisabled(
@@ -62,21 +68,17 @@ export class UserDbDelegate {
       throw new DisableMyselfError();
     }
 
-    await prisma.$transaction(async (prisma) => {
-      try {
-        await prisma.user.update({ where: { id }, data: { isDisabled } });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.NOT_FOUND) {
-            throw new NotFoundError();
-          }
+    try {
+      await prisma.user.update({ where: { id }, data: { isDisabled } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
         }
-
-        throw error;
       }
 
-      await algolia.user.update({ id, isDisabled });
-    });
+      throw error;
+    }
   }
 
   async delete(userId: User["id"], currentUser: Pick<User, "id">) {
@@ -85,27 +87,23 @@ export class UserDbDelegate {
       throw new DeleteMyselfError();
     }
 
-    await prisma.$transaction(async (prisma) => {
-      try {
-        await prisma.user.delete({ where: { id: userId } });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          switch (error.code) {
-            case PrismaErrorCodes.NOT_FOUND: {
-              throw new NotFoundError();
-            }
+    try {
+      await prisma.user.delete({ where: { id: userId } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case PrismaErrorCodes.NOT_FOUND: {
+            throw new NotFoundError();
+          }
 
-            case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
-              throw new ReferencedError();
-            }
+          case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
+            throw new ReferencedError();
           }
         }
-
-        throw error;
       }
 
-      await algolia.user.delete(userId);
-    });
+      throw error;
+    }
   }
 
   async create({
@@ -122,36 +120,27 @@ export class UserDbDelegate {
 
     const passwordHash = await generatePasswordHash(temporaryPassword);
 
-    return await prisma.$transaction(async (prisma) => {
-      try {
-        const user = await prisma.user.create({
-          data: {
-            displayName,
-            email,
-            groups,
-            password: { create: { hash: passwordHash } },
-          },
-          select: { id: true, isDisabled: true },
-        });
-
-        await algolia.user.create({
-          id: user.id,
+    try {
+      const user = await prisma.user.create({
+        data: {
           displayName,
+          email,
           groups,
-          isDisabled: user.isDisabled,
-        });
+          password: { create: { hash: passwordHash } },
+        },
+        select: { id: true },
+      });
 
-        return user.id;
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-            throw new EmailAlreadyUsedError();
-          }
+      return user.id;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new EmailAlreadyUsedError();
         }
-
-        throw error;
       }
-    });
+
+      throw error;
+    }
   }
 
   async update(
@@ -176,39 +165,88 @@ export class UserDbDelegate {
         ? null
         : await generatePasswordHash(temporaryPassword);
 
-    await prisma.$transaction(async (prisma) => {
-      try {
-        const user = await prisma.user.update({
-          where: { id: userId },
-          data: {
-            displayName,
-            email,
-            groups,
-            shouldChangePassword: passwordHash != null || undefined,
-            password:
-              passwordHash == null
-                ? undefined
-                : { update: { hash: passwordHash } },
-          },
-          select: { id: true },
-        });
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          displayName,
+          email,
+          groups,
+          shouldChangePassword: passwordHash != null || undefined,
+          password:
+            passwordHash == null
+              ? undefined
+              : { update: { hash: passwordHash } },
+        },
+        select: { id: true },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case PrismaErrorCodes.NOT_FOUND: {
+            throw new NotFoundError();
+          }
 
-        await algolia.user.update({ id: user.id, displayName, groups });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          switch (error.code) {
-            case PrismaErrorCodes.NOT_FOUND: {
-              throw new NotFoundError();
-            }
-
-            case PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED: {
-              throw new EmailAlreadyUsedError();
-            }
+          case PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED: {
+            throw new EmailAlreadyUsedError();
           }
         }
-
-        throw error;
       }
-    });
+
+      throw error;
+    }
+  }
+
+  async createFindManyParams(
+    searchParams: SearchParamsIO.Infer<typeof UserSearchParams>,
+  ) {
+    const where: Prisma.UserWhereInput[] = [];
+
+    if (searchParams.groups.size > 0) {
+      where.push({ groups: { hasSome: Array.from(searchParams.groups) } });
+    }
+
+    if (
+      searchParams.lastActivityStart != null ||
+      searchParams.lastActivityEnd != null
+    ) {
+      const lastActivityAt: Prisma.DateTimeFilter = {};
+
+      if (searchParams.lastActivityStart != null) {
+        lastActivityAt.gte = searchParams.lastActivityStart;
+      }
+
+      if (searchParams.lastActivityEnd != null) {
+        lastActivityAt.lte = DateTime.fromJSDate(searchParams.lastActivityEnd)
+          .endOf("day")
+          .toJSDate();
+      }
+
+      where.push({ lastActivityAt });
+    }
+
+    if (searchParams.noActivity) {
+      where.push({ lastActivityAt: null });
+    }
+
+    if (searchParams.displayName != null) {
+      const hits = await prisma.$queryRawTyped(
+        fuzzySearchUsers(searchParams.displayName),
+      );
+
+      where.push({ id: { in: hits.map((hit) => hit.id) } });
+    }
+
+    const orderBy = USER_ORDER_BY[searchParams.sort];
+
+    return {
+      orderBy,
+      where: { AND: where },
+    } satisfies Prisma.UserFindManyArgs;
   }
 }
+
+const USER_ORDER_BY: Record<UserSort, Prisma.UserFindManyArgs["orderBy"]> = {
+  [UserSort.NAME]: { displayName: "asc" },
+  [UserSort.LAST_ACTIVITY]: { lastActivityAt: "desc" },
+};

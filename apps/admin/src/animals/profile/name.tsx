@@ -2,7 +2,7 @@ export function getAnimalDisplayName(animal: {
   name: string;
   alias?: null | string;
 }) {
-  if (animal.alias === null) {
+  if (animal.alias == null) {
     return animal.name;
   }
 

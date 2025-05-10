@@ -1,7 +1,6 @@
 import { ColorFilterForm } from "#colors/filter-form";
-import { ColorSearchParams, ColorSort } from "#colors/search-params";
+import { ColorSearchParams } from "#colors/search-params";
 import { Action } from "#core/actions";
-import { algolia } from "#core/algolia/algolia.server";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
@@ -22,7 +21,6 @@ import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
@@ -47,24 +45,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const pageSearchParams = PageSearchParams.parse(searchParams);
   const colorSearchParams = ColorSearchParams.parse(searchParams);
 
-  const where: Prisma.ColorWhereInput[] = [];
-
-  if (colorSearchParams.name != null) {
-    const colors = await algolia.color.findMany({
-      where: { name: colorSearchParams.name },
-    });
-
-    where.push({ id: { in: colors.map((color) => color.id) } });
-  }
+  const { where, orderBy } =
+    await db.color.createFindManyParams(colorSearchParams);
 
   const { colors, totalCount } = await promiseHash({
-    totalCount: prisma.color.count({ where: { AND: where } }),
+    totalCount: prisma.color.count({ where }),
 
     colors: prisma.color.findMany({
       skip: pageSearchParams.page * COLOR_COUNT_PER_PAGE,
       take: COLOR_COUNT_PER_PAGE,
-      orderBy: COLOR_ORDER_BY[colorSearchParams.sort],
-      where: { AND: where },
+      orderBy,
+      where,
       select: {
         id: true,
         name: true,
@@ -81,11 +72,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({ totalCount, pageCount, colors });
 }
-
-const COLOR_ORDER_BY: Record<ColorSort, Prisma.ColorFindManyArgs["orderBy"]> = {
-  [ColorSort.NAME]: { name: "asc" },
-  [ColorSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
-};
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Couleurs") }];

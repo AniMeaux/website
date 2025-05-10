@@ -1,5 +1,4 @@
 import { Action } from "#core/actions";
-import { algolia } from "#core/algolia/algolia.server";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
@@ -18,10 +17,9 @@ import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
 import { UserFilterForm } from "#users/filter-form";
 import { GROUP_ICON } from "#users/groups";
-import { UserSearchParams, UserSort } from "#users/search-params";
+import { UserSearchParams } from "#users/search-params";
 import { cn } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {
   LoaderFunctionArgs,
@@ -30,7 +28,6 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils/promise";
 
 const USER_COUNT_PER_PAGE = 20;
@@ -46,53 +43,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const pageSearchParams = PageSearchParams.parse(searchParams);
   const userSearchParams = UserSearchParams.parse(searchParams);
 
-  const where: Prisma.UserWhereInput[] = [];
-  if (userSearchParams.groups.size > 0) {
-    where.push({ groups: { hasSome: Array.from(userSearchParams.groups) } });
-  }
-
-  if (
-    userSearchParams.lastActivityStart != null ||
-    userSearchParams.lastActivityEnd != null
-  ) {
-    const lastActivityAt: Prisma.DateTimeFilter = {};
-
-    if (userSearchParams.lastActivityStart != null) {
-      lastActivityAt.gte = userSearchParams.lastActivityStart;
-    }
-
-    if (userSearchParams.lastActivityEnd != null) {
-      lastActivityAt.lte = DateTime.fromJSDate(userSearchParams.lastActivityEnd)
-        .endOf("day")
-        .toJSDate();
-    }
-
-    where.push({ lastActivityAt });
-  }
-
-  if (userSearchParams.noActivity) {
-    where.push({ lastActivityAt: null });
-  }
-
-  if (userSearchParams.displayName != null) {
-    const users = await algolia.user.findMany({
-      where: {
-        displayName: userSearchParams.displayName,
-        groups: userSearchParams.groups,
-      },
-    });
-
-    where.push({ id: { in: users.map((user) => user.id) } });
-  }
+  const { where, orderBy } =
+    await db.user.createFindManyParams(userSearchParams);
 
   const { userCount, users } = await promiseHash({
-    userCount: prisma.user.count({ where: { AND: where } }),
+    userCount: prisma.user.count({ where }),
 
     users: prisma.user.findMany({
       skip: pageSearchParams.page * USER_COUNT_PER_PAGE,
       take: USER_COUNT_PER_PAGE,
-      orderBy: USER_ORDER_BY[userSearchParams.sort],
-      where: { AND: where },
+      orderBy,
+      where,
       select: {
         displayName: true,
         groups: true,
@@ -107,11 +68,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({ pageCount, userCount, users });
 }
-
-const USER_ORDER_BY: Record<UserSort, Prisma.UserFindManyArgs["orderBy"]> = {
-  [UserSort.NAME]: { displayName: "asc" },
-  [UserSort.LAST_ACTIVITY]: { lastActivityAt: "desc" },
-};
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Utilisateurs") }];

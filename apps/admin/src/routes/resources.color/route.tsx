@@ -22,9 +22,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
-    colors: await db.color.fuzzySearch({
-      name: searchParams.name,
-      maxHitCount: 6,
+    colors: await db.color.fuzzySearch(searchParams.name, {
+      select: { name: true },
+      take: 6,
     }),
   });
 }

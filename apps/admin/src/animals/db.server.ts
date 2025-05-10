@@ -11,14 +11,18 @@ import {
 } from "#animals/search-params";
 import { AnimalSituationDbDelegate } from "#animals/situation/db.server";
 import { SORTED_SPECIES } from "#animals/species";
-import { algolia } from "#core/algolia/algolia.server";
 import { deleteImage } from "#core/cloudinary.server";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { Animal, AnimalDraft } from "@prisma/client";
 import { Prisma, Species, Status } from "@prisma/client";
+import {
+  fuzzySearchAnimals,
+  fuzzySearchPickUpLocations,
+} from "@prisma/client/sql";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 
@@ -48,62 +52,64 @@ export class AnimalDbDelegate {
       });
 
       await prisma.animalDraft.delete({ where: { ownerId } });
-      await algolia.animal.create({ ...data, id: animal.id });
 
       return animal.id;
     });
   }
 
   async delete(animalId: Animal["id"]) {
-    await prisma.$transaction(async (prisma) => {
-      try {
-        const animal = await prisma.animal.delete({
-          where: { id: animalId },
-          select: { avatar: true, pictures: true },
-        });
+    try {
+      const animal = await prisma.animal.delete({
+        where: { id: animalId },
+        select: { avatar: true, pictures: true },
+      });
 
-        await Promise.allSettled(getAllAnimalPictures(animal).map(deleteImage));
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.NOT_FOUND) {
-            throw new NotFoundError();
-          }
+      await Promise.allSettled(getAllAnimalPictures(animal).map(deleteImage));
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
         }
-
-        throw error;
       }
 
-      await algolia.animal.delete(animalId);
-    });
+      throw error;
+    }
   }
 
-  async fuzzySearch({
-    nameOrAlias,
-    maxHitCount,
-  }: {
-    nameOrAlias: string;
-    maxHitCount: number;
-  }) {
-    const hits = await algolia.animal.findMany({
-      where: { nameOrAlias },
-      hitsPerPage: maxHitCount,
-    });
+  async fuzzySearch<T extends Prisma.AnimalSelect>(
+    nameOrAlias: undefined | string,
+    {
+      select,
+      where,
+      take,
+    }: {
+      select: T;
+      where?: Prisma.AnimalWhereInput;
+      take?: number;
+    },
+  ) {
+    // Ensure we only use our selected properties.
+    const internalSelect = { id: true } satisfies Prisma.AnimalSelect;
 
-    const animals = await prisma.animal.findMany({
-      where: { id: { in: hits.map((hit) => hit.id) } },
-      select: {
-        avatar: true,
-        breed: { select: { name: true } },
-        color: { select: { name: true } },
-        id: true,
-      },
-    });
+    if (nameOrAlias == null) {
+      return await prisma.animal.findMany({
+        where,
+        select: { ...select, ...internalSelect },
+        orderBy: [{ name: "asc" }, { alias: "asc" }, { pickUpDate: "desc" }],
+        take,
+      });
+    }
 
-    return hits.map((hit) => {
-      const animal = animals.find((animal) => animal.id === hit.id);
-      invariant(animal != null, "Animal from algolia should exists.");
-      return { ...hit, ...animal };
-    });
+    const hits = await prisma.$queryRawTyped(fuzzySearchAnimals(nameOrAlias));
+
+    const animals = (await prisma.animal.findMany({
+      where: { ...where, id: { in: hits.map((hit) => hit.id) } },
+      select: { ...select, ...internalSelect },
+    })) as Prisma.AnimalGetPayload<{ select: typeof internalSelect }>[];
+
+    return orderByRank(animals, hits, { take }) as Prisma.AnimalGetPayload<{
+      select: typeof select & typeof internalSelect;
+    }>[];
   }
 
   async createFindManyParams(
@@ -206,20 +212,11 @@ export class AnimalDbDelegate {
     }
 
     if (searchParams.nameOrAlias != null) {
-      const animals = await algolia.animal.findMany({
-        where: {
-          nameOrAlias: searchParams.nameOrAlias,
-          pickUpDate: {
-            gte: searchParams.pickUpDateStart,
-            lte: searchParams.pickUpDateEnd,
-          },
-          pickUpLocation: searchParams.pickUpLocations,
-          species: searchParams.species,
-          status: searchParams.statuses,
-        },
-      });
+      const hits = await prisma.$queryRawTyped(
+        fuzzySearchAnimals(searchParams.nameOrAlias),
+      );
 
-      where.push({ id: { in: animals.map((animal) => animal.id) } });
+      where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
 
     if (searchParams.identification.size > 0) {
@@ -333,16 +330,40 @@ export class AnimalDbDelegate {
 }
 
 export class PickUpLocationDbDelegate {
-  async fuzzySearch({
-    text = "",
-    maxHitCount,
-  }: {
-    text?: string;
-    maxHitCount: number;
-  }) {
-    return await algolia.pickUpLocation.findMany({
-      where: { value: text },
-      maxFacetHits: maxHitCount,
+  async fuzzySearch(
+    name: undefined | string,
+    { take }: { take?: number } = {},
+  ) {
+    // When there are no text search, return hits ordered by usage count.
+    if (name == null) {
+      const groups = await prisma.animal.groupBy({
+        by: "pickUpLocation",
+        where: { pickUpLocation: { not: null } },
+        _count: { pickUpLocation: true },
+        orderBy: { _count: { pickUpLocation: "desc" } },
+        take,
+      });
+
+      return groups.map((group) => {
+        invariant(
+          group.pickUpLocation != null,
+          "pickUpLocation should be defined",
+        );
+
+        return { name: group.pickUpLocation };
+      });
+    }
+
+    let hits = await prisma.$queryRawTyped(fuzzySearchPickUpLocations(name));
+
+    if (take != null) {
+      hits = hits.slice(0, take);
+    }
+
+    return hits.map((hit) => {
+      invariant(hit.name != null, "name should be defined");
+
+      return { name: hit.name };
     });
   }
 }

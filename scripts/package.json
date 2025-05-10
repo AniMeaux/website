@@ -7,7 +7,6 @@
     "copy-data": "./bin/copy-data.ts",
     "download-all-data": "./bin/download-all-data.ts",
     "generate-image-placeholder": "./bin/generate-image-placeholder.ts",
-    "index-data": "./bin/index-data.ts",
     "seed-data": "./bin/seed-data.ts"
   },
   "imports": {
@@ -17,8 +16,6 @@
     "generate": "# Nothing to generate"
   },
   "devDependencies": {
-    "@algolia/client-search": "^4.22.1",
-    "@animeaux/algolia-client": "*",
     "@animeaux/core": "*",
     "@animeaux/password": "*",
     "@faker-js/faker": "^8.0.2",
@@ -28,7 +25,6 @@
     "@types/pg": "^8.10.2",
     "@types/pg-copy-streams": "^1.2.2",
     "@unpic/pixels": "^1.2.0",
-    "algoliasearch": "^4.19.1",
     "blurhash": "^2.0.5",
     "d3-dsv": "^3.0.1",
     "dotenv-flow": "^4.1.0",
@@ -37,7 +33,6 @@
     "pg-copy-streams": "^6.0.6",
     "tiny-invariant": "^1.3.1",
     "tsx": "^4.7.0",
-    "type-fest": "^4.3.1",
-    "zod": "^3.22.2"
+    "type-fest": "^4.3.1"
   }
 }

@@ -178,7 +178,7 @@ function Combobox({
     cleanedSearch !== "" &&
     pickUpLocations.every(
       (pickUpLocation) =>
-        pickUpLocation.value.toLowerCase() !== normalizedSearch,
+        pickUpLocation.name.toLowerCase() !== normalizedSearch,
     )
   ) {
     // Replace the last item by the additional one so we always have at most
@@ -187,23 +187,16 @@ function Combobox({
       visiblePickUpLocation.splice(-1);
     }
 
-    visiblePickUpLocation.push({
-      id: cleanedSearch,
-      value: cleanedSearch,
-      isAdditional: true,
-      _highlighted: {
-        value: `Ajouter : **${cleanedSearch}**`,
-      },
-    });
+    visiblePickUpLocation.push({ name: cleanedSearch, isAdditional: true });
   }
 
   const combobox = useCombobox({
     isOpen: true,
     inputValue,
     items: visiblePickUpLocation,
-    itemToString: (pickUpLocation) => pickUpLocation?.value ?? "",
+    itemToString: (pickUpLocation) => pickUpLocation?.name ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
-      onSelectedItem(selectedItem?.value ?? null);
+      onSelectedItem(selectedItem?.name ?? null);
     },
     onInputValueChange: ({ inputValue = "" }) => {
       setInputValue(inputValue);
@@ -245,12 +238,16 @@ function Combobox({
               // > components) but got: undefined. You likely forgot to export
               // > your component from the file it's defined in, or you might
               // > have mixed up default and named imports.
-              key={pickUpLocation.value}
+              key={pickUpLocation.name}
               {...combobox.getItemProps({ item: pickUpLocation, index })}
-              isValue={selectedPickUpLocation === pickUpLocation.value}
+              isValue={selectedPickUpLocation === pickUpLocation.name}
               isAdditional={pickUpLocation.isAdditional}
               leftAdornment={<Icon href="icon-location-dot-solid" />}
-              label={pickUpLocation._highlighted.value}
+              label={
+                pickUpLocation.isAdditional
+                  ? `Ajouter : ${pickUpLocation.name}`
+                  : pickUpLocation.name
+              }
             />
           ))}
 
