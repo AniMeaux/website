@@ -331,7 +331,8 @@ export function FosterFamilyForm({
 
           <Separator />
 
-            {!(defaultFosterFamily?.isBanned) ? (
+          {!(defaultFosterFamily?.isBanned) ? (
+            <>
               <Form.Row>
                 <Form.Field>
                   <Form.Label>
@@ -419,9 +420,10 @@ export function FosterFamilyForm({
                   </Form.Field>
                 ) : null}
               </Form.Row>
-            ) : null}
 
-          <Separator />
+              <Separator />
+            </>
+          ) : null}
 
           <Form.Field>
             <Form.Label>
