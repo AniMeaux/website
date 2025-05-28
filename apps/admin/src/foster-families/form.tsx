@@ -331,7 +331,7 @@ export function FosterFamilyForm({
 
           <Separator />
 
-          {!(defaultFosterFamily?.isBanned) ? (
+          {!defaultFosterFamily?.isBanned ? (
             <>
               <Form.Row>
                 <Form.Field>
@@ -389,7 +389,9 @@ export function FosterFamilyForm({
                       rightAdornment={
                         availabilityExpirationDateState !== "" ? (
                           <Input.ActionAdornment
-                            onClick={() => setAvailabilityExpirationDateState("")}
+                            onClick={() =>
+                              setAvailabilityExpirationDateState("")
+                            }
                           >
                             <Icon href="icon-x-mark-solid" />
                           </Input.ActionAdornment>
@@ -397,10 +399,13 @@ export function FosterFamilyForm({
                       }
                     />
 
-                    {fetcher.data?.errors?.fieldErrors.availabilityExpirationDate !=
-                    null ? (
+                    {fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null ? (
                       <Form.ErrorMessage id="availabilityExpirationDate-error">
-                        {fetcher.data.errors.fieldErrors.availabilityExpirationDate}
+                        {
+                          fetcher.data.errors.fieldErrors
+                            .availabilityExpirationDate
+                        }
                       </Form.ErrorMessage>
                     ) : null}
 
@@ -409,7 +414,8 @@ export function FosterFamilyForm({
                       <strong className="text-caption-emphasis">
                         {
                           AVAILABILITY_TRANSLATION[
-                            availabilityState === FosterFamilyAvailability.AVAILABLE
+                            availabilityState ===
+                            FosterFamilyAvailability.AVAILABLE
                               ? FosterFamilyAvailability.UNAVAILABLE
                               : FosterFamilyAvailability.AVAILABLE
                           ]

@@ -115,8 +115,8 @@ export class FosterFamilyDbDelegate {
           where: { id: fosterFamilyId },
           data: {
             isBanned,
-            availability: isBanned ? 'UNAVAILABLE' : 'UNKNOWN',
-            availabilityExpirationDate: null
+            availability: isBanned ? "UNAVAILABLE" : "UNKNOWN",
+            availabilityExpirationDate: null,
           },
         });
       } catch (error) {
