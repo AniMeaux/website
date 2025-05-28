@@ -113,7 +113,11 @@ export class FosterFamilyDbDelegate {
       try {
         await prisma.fosterFamily.update({
           where: { id: fosterFamilyId },
-          data: { isBanned },
+          data: {
+            isBanned,
+            availability: isBanned ? 'UNAVAILABLE' : 'UNKNOWN',
+            availabilityExpirationDate: null
+          },
         });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {

@@ -55,6 +55,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       email: true,
       garden: true,
       housing: true,
+      isBanned: true,
       phone: true,
       speciesAlreadyPresent: true,
       speciesToHost: true,

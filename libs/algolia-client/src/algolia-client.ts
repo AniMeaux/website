@@ -409,10 +409,10 @@ class ColorDelegate extends IndexDelegate {
 
 export type FosterFamily = {
   displayName: string;
-  isBanned: boolean;
+  isBanned?: boolean;
 };
 
-export type FosterFamilyHit = Hit<FosterFamily>;
+export type FosterFamilyHit = Hit<FosterFamily, "displayName">;
 
 class FosterFamilyDelegate extends IndexDelegate {
   constructor(client: SearchClient) {
@@ -472,7 +472,6 @@ class FosterFamilyDelegate extends IndexDelegate {
         _highlighted: {
           displayName:
             hit._highlightResult?.displayName?.value ?? hit.displayName,
-          isBanned: hit.isBanned,
         },
       };
     });
