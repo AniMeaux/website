@@ -8,6 +8,7 @@ import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
+import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
@@ -119,6 +120,18 @@ export function SectionStandConfiguration() {
 
       <FormLayout.Field>
         <FormLayout.Label>Emplacement</FormLayout.Label>
+
+        <FormLayout.Output>
+          {standConfiguration.zone == null
+            ? "-"
+            : STAND_ZONE_TRANSLATION[standConfiguration.zone]}
+        </FormLayout.Output>
+      </FormLayout.Field>
+
+      <FormLayout.Field>
+        <FormLayout.Label>
+          Commentaire sur votre choix d’emplacement
+        </FormLayout.Label>
 
         <FormLayout.Output>
           {standConfiguration.placementComment != null ? (
