@@ -5,10 +5,14 @@ import { BaseLink } from "#core/base-link";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { ErrorsInlineHelper } from "#core/data-display/errors";
-import { InlineHelper } from "#core/data-display/helper";
+import { BlockHelper, InlineHelper } from "#core/data-display/helper";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { db } from "#core/db.server";
-import { NotFoundError, ReferencedError } from "#core/errors.server";
+import {
+  BanMyselfError,
+  NotFoundError,
+  ReferencedError,
+} from "#core/errors.server";
 import { assertIsDefined } from "#core/is-defined.server";
 import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
@@ -17,14 +21,16 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { Dialog } from "#core/popovers/dialog";
 import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server";
+import { badRequest, notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,
 } from "#foster-families/avatar";
 import { ActionFormData } from "#foster-families/form";
+import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
+import type { FosterFamily } from "@prisma/client";
 import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
@@ -34,7 +40,7 @@ import type {
 import { json, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { promiseHash } from "remix-utils/promise";
 import { ContactCard } from "./contact-card";
 import { SituationCard } from "./situation-card";
@@ -74,6 +80,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         garden: true,
         housing: true,
         id: true,
+        isBanned: true,
         phone: true,
         speciesAlreadyPresent: true,
         speciesToHost: true,
@@ -120,11 +127,13 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(fosterFamily.displayName) }];
 };
 
-export async function action({ request, params }: ActionFunctionArgs) {
-  if (request.method.toUpperCase() !== "DELETE") {
-    throw notFound();
-  }
+const BanActionFormData = FormDataDelegate.create(
+  zu.object({
+    isBanned: zu.checkbox(),
+  }),
+);
 
+export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
@@ -139,8 +148,27 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw notFound();
   }
 
+  if (request.method.toUpperCase() === "DELETE") {
+    return await actionDelete({ fosterFamilyId: paramsResult.data.id });
+  }
+
+  return await actionBan({
+    request,
+    fosterFamilyId: paramsResult.data.id,
+  });
+}
+
+type ActionData = {
+  errors?: string[];
+};
+
+async function actionDelete({
+  fosterFamilyId,
+}: {
+  fosterFamilyId: FosterFamily["id"];
+}) {
   try {
-    await db.fosterFamily.delete(paramsResult.data.id);
+    await db.fosterFamily.delete(fosterFamilyId);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw notFound();
@@ -165,14 +193,49 @@ export async function action({ request, params }: ActionFunctionArgs) {
   throw redirect(Routes.fosterFamilies.toString());
 }
 
+async function actionBan({
+  fosterFamilyId,
+  request,
+}: Pick<ActionFunctionArgs, "request"> & {
+  fosterFamilyId: FosterFamily["id"];
+}) {
+  const formData = BanActionFormData.safeParse(await request.formData());
+  if (!formData.success) {
+    throw badRequest();
+  }
+
+  try {
+    await db.fosterFamily.setIsBanned(fosterFamilyId, formData.data.isBanned);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw notFound();
+    }
+
+    if (error instanceof BanMyselfError) {
+      throw badRequest();
+    }
+
+    throw error;
+  }
+
+  return json<ActionData>({});
+}
+
 export function ErrorBoundary() {
   return <ErrorPage />;
 }
 
 export default function Route() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
+
   return (
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
+        {fosterFamily.isBanned ? (
+          <BlockHelper variant="warning" icon="icon-ban-solid">
+            {fosterFamily.displayName} est actuellement banni.
+          </BlockHelper>
+        ) : null}
         <HeaderCard />
 
         <section className="grid grid-cols-1 gap-1 md:hidden">
@@ -180,7 +243,7 @@ export default function Route() {
           <SituationCard />
           <CommentsCard />
           <FosterAnimalsCard />
-          <ActionCard />
+          <ActionsCard />
         </section>
 
         <section className="hidden md:grid md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
@@ -192,7 +255,7 @@ export default function Route() {
           <section className="md:flex md:flex-col md:gap-2">
             <SituationCard />
             <CommentsCard />
-            <ActionCard />
+            <ActionsCard />
           </section>
         </section>
       </PageLayout.Content>
@@ -347,12 +410,7 @@ function FosterAnimalsCard() {
   );
 }
 
-function ActionCard() {
-  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
-  const canDelete = fosterAnimalCount === 0;
-  const fetcher = useFetcher<typeof action>();
-  const [isHelperVisible, setIsHelperVisible] = useState(false);
-
+function ActionsCard() {
   return (
     <Card>
       <Card.Header>
@@ -360,65 +418,170 @@ function ActionCard() {
       </Card.Header>
 
       <Card.Content>
-        {isHelperVisible ? (
-          <InlineHelper
-            variant="info"
-            action={
-              <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
-            }
-          >
-            La famille d’accueil ne peut être supprimée tant qu’elle a des
-            animaux accueillis.
-          </InlineHelper>
-        ) : null}
-
-        <Dialog>
-          <Dialog.Trigger
-            asChild
-            onClick={
-              canDelete
-                ? undefined
-                : (event) => {
-                    // Don't open de dialog.
-                    event.preventDefault();
-
-                    setIsHelperVisible(true);
-                  }
-            }
-          >
-            <Action variant="secondary" color="red">
-              <Action.Icon href="icon-trash-solid" />
-              Supprimer
-            </Action>
-          </Dialog.Trigger>
-
-          <Dialog.Content variant="alert">
-            <Dialog.Header>Supprimer {fosterFamily.displayName}</Dialog.Header>
-
-            <Dialog.Message>
-              Êtes-vous sûr de vouloir supprimer{" "}
-              <strong className="text-body-emphasis">
-                {fosterFamily.displayName}
-              </strong>
-              {" "}?
-              <br />
-              L’action est irréversible.
-            </Dialog.Message>
-
-            <ErrorsInlineHelper errors={fetcher.data?.errors} />
-
-            <Dialog.Actions>
-              <Dialog.CloseAction>Annuler</Dialog.CloseAction>
-
-              <fetcher.Form method="DELETE" className="flex">
-                <Dialog.ConfirmAction type="submit">
-                  Oui, supprimer
-                </Dialog.ConfirmAction>
-              </fetcher.Form>
-            </Dialog.Actions>
-          </Dialog.Content>
-        </Dialog>
+        <div className="flex flex-col gap-1">
+          <ActionBan />
+          <ActionDelete />
+        </div>
       </Card.Content>
     </Card>
+  );
+}
+
+function ActionBan() {
+  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
+  const fetcher = useFetcher<typeof action>();
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
+  const canBan = fosterAnimalCount === 0;
+
+  const done = fetcher.state === "idle" && fetcher.data != null;
+  useEffect(() => {
+    if (done) {
+      setIsDialogOpened(false);
+    }
+  }, [done]);
+
+  const [isHelperVisible, setIsHelperVisible] = useState(false);
+
+  return (
+    <>
+      {isHelperVisible ? (
+        <InlineHelper
+          variant="info"
+          action={
+            <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
+          }
+        >
+          La famille d’accueil ne peut être bloquée tant qu’elle a des animaux
+          accueillis.
+        </InlineHelper>
+      ) : null}
+
+      <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
+        <Dialog.Trigger
+          asChild
+          onClick={
+            canBan
+              ? undefined
+              : (event) => {
+                  // Don't open de dialog.
+                  event.preventDefault();
+
+                  setIsHelperVisible(true);
+                }
+          }
+        >
+          <Action variant="secondary" color="orange">
+            <Action.Icon href="icon-ban-solid" />
+            {fosterFamily.isBanned ? "Débannir" : "Bannir"}
+          </Action>
+        </Dialog.Trigger>
+
+        <Dialog.Content variant="warning">
+          <Dialog.Header>
+            {fosterFamily.isBanned ? "Débannir" : "Bannir"}{" "}
+            {fosterFamily.displayName}
+          </Dialog.Header>
+
+          <Dialog.Message>
+            Êtes-vous sûr de vouloir{" "}
+            {fosterFamily.isBanned ? "débannir" : "bannir"}{" "}
+            <strong className="text-body-emphasis">
+              {fosterFamily.displayName}
+            </strong>
+            {" "}?
+          </Dialog.Message>
+
+          <ErrorsInlineHelper errors={fetcher.data?.errors} />
+
+          <Dialog.Actions>
+            <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+            <fetcher.Form method="POST" className="flex">
+              {!fosterFamily.isBanned ? (
+                <input
+                  type="hidden"
+                  name={BanActionFormData.keys.isBanned}
+                  value="on"
+                />
+              ) : null}
+
+              <Dialog.ConfirmAction type="submit">
+                Oui, {fosterFamily.isBanned ? "débannir" : "bannir"}
+              </Dialog.ConfirmAction>
+            </fetcher.Form>
+          </Dialog.Actions>
+        </Dialog.Content>
+      </Dialog>
+    </>
+  );
+}
+
+function ActionDelete() {
+  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
+  const canDelete = fosterAnimalCount === 0;
+  const fetcher = useFetcher<typeof action>();
+  const [isHelperVisible, setIsHelperVisible] = useState(false);
+
+  return (
+    <>
+      {isHelperVisible ? (
+        <InlineHelper
+          variant="info"
+          action={
+            <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
+          }
+        >
+          La famille d’accueil ne peut être supprimée tant qu’elle a des animaux
+          accueillis.
+        </InlineHelper>
+      ) : null}
+
+      <Dialog>
+        <Dialog.Trigger
+          asChild
+          onClick={
+            canDelete
+              ? undefined
+              : (event) => {
+                  // Don't open de dialog.
+                  event.preventDefault();
+
+                  setIsHelperVisible(true);
+                }
+          }
+        >
+          <Action variant="secondary" color="red">
+            <Action.Icon href="icon-trash-solid" />
+            Supprimer
+          </Action>
+        </Dialog.Trigger>
+
+        <Dialog.Content variant="alert">
+          <Dialog.Header>Supprimer {fosterFamily.displayName}</Dialog.Header>
+
+          <Dialog.Message>
+            Êtes-vous sûr de vouloir supprimer{" "}
+            <strong className="text-body-emphasis">
+              {fosterFamily.displayName}
+            </strong>
+            {" "}?
+            <br />
+            L’action est irréversible.
+          </Dialog.Message>
+
+          <ErrorsInlineHelper errors={fetcher.data?.errors} />
+
+          <Dialog.Actions>
+            <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+            <fetcher.Form method="DELETE" className="flex">
+              <Dialog.ConfirmAction type="submit">
+                Oui, supprimer
+              </Dialog.ConfirmAction>
+            </fetcher.Form>
+          </Dialog.Actions>
+        </Dialog.Content>
+      </Dialog>
+    </>
   );
 }
