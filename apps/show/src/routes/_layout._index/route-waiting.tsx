@@ -53,11 +53,11 @@ function SectionComeBack() {
 
       <LazyElement asChild>
         <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
-          <Section.Title>Revient en 2025</Section.Title>
+          <Section.Title>Revient en 2026</Section.Title>
 
           <p>
             Le Salon des Ani’Meaux revient en force pour une nouvelle édition en
-            2025 ! Préparez-vous à vivre une expérience unique dédiée au
+            2026 ! Préparez-vous à vivre une expérience unique dédiée au
             bien-être des animaux domestiques et sauvages.
           </p>
 
