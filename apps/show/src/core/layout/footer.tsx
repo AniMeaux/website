@@ -130,7 +130,7 @@ export const Footer = {
           <ProseInlineAction asChild>
             <Link to={CLIENT_ENV.ANIMEAUX_URL}>Ani’Meaux</Link>
           </ProseInlineAction>{" "}
-          au Colisée de Meaux, les 7 et 8 juin 2025 de 10h à 18h.
+          au Colisée de Meaux.
         </p>
       </Section.TextAside>
     );

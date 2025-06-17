@@ -4,7 +4,7 @@ volumes:
 services:
   postgres:
     container_name: animeaux-postgres
-    image: postgres:latest
+    image: postgres:15
     restart: unless-stopped
     environment:
       PGDATA: /data
