@@ -26,6 +26,8 @@ export const fosterFamilyHandlers = [
         where.displayName = { contains: query, mode: "insensitive" };
       }
 
+      where.isBanned = false;
+
       const { totalCount, fosterFamilies } = await promiseHash({
         totalCount: prisma.fosterFamily.count({ where }),
         fosterFamilies: prisma.fosterFamily.findMany({
@@ -33,7 +35,7 @@ export const fosterFamilyHandlers = [
           orderBy: { displayName: "asc" },
           take: hitsPerPage,
           skip: page * hitsPerPage,
-          select: { id: true, displayName: true },
+          select: { id: true, isBanned: true, displayName: true },
         }),
       });
 
