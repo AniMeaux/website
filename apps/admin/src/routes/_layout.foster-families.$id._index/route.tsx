@@ -8,11 +8,7 @@ import { ErrorsInlineHelper } from "#core/data-display/errors";
 import { BlockHelper, InlineHelper } from "#core/data-display/helper";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { db } from "#core/db.server";
-import {
-  BanMyselfError,
-  NotFoundError,
-  ReferencedError,
-} from "#core/errors.server";
+import { NotFoundError, ReferencedError } from "#core/errors.server";
 import { assertIsDefined } from "#core/is-defined.server";
 import { AvatarCard } from "#core/layout/avatar-card";
 import { Card } from "#core/layout/card";
@@ -209,10 +205,6 @@ async function actionBan({
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw notFound();
-    }
-
-    if (error instanceof BanMyselfError) {
-      throw badRequest();
     }
 
     throw error;
@@ -428,10 +420,9 @@ function ActionsCard() {
 }
 
 function ActionBan() {
-  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
+  const { fosterFamily } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
   const [isDialogOpened, setIsDialogOpened] = useState(false);
-  const canBan = fosterAnimalCount === 0;
 
   const done = fetcher.state === "idle" && fetcher.data != null;
   useEffect(() => {
@@ -440,79 +431,51 @@ function ActionBan() {
     }
   }, [done]);
 
-  const [isHelperVisible, setIsHelperVisible] = useState(false);
-
   return (
-    <>
-      {isHelperVisible ? (
-        <InlineHelper
-          variant="info"
-          action={
-            <button onClick={() => setIsHelperVisible(false)}>Fermer</button>
-          }
-        >
-          La famille d’accueil ne peut être bloquée tant qu’elle a des animaux
-          accueillis.
-        </InlineHelper>
-      ) : null}
+    <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
+      <Dialog.Trigger asChild>
+        <Action variant="secondary" color="orange">
+          <Action.Icon href="icon-ban-solid" />
+          {fosterFamily.isBanned ? "Débannir" : "Bannir"}
+        </Action>
+      </Dialog.Trigger>
 
-      <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
-        <Dialog.Trigger
-          asChild
-          onClick={
-            canBan
-              ? undefined
-              : (event) => {
-                  // Don't open de dialog.
-                  event.preventDefault();
+      <Dialog.Content variant="warning">
+        <Dialog.Header>
+          {fosterFamily.isBanned ? "Débannir" : "Bannir"}{" "}
+          {fosterFamily.displayName}
+        </Dialog.Header>
 
-                  setIsHelperVisible(true);
-                }
-          }
-        >
-          <Action variant="secondary" color="orange">
-            <Action.Icon href="icon-ban-solid" />
-            {fosterFamily.isBanned ? "Débannir" : "Bannir"}
-          </Action>
-        </Dialog.Trigger>
-
-        <Dialog.Content variant="warning">
-          <Dialog.Header>
-            {fosterFamily.isBanned ? "Débannir" : "Bannir"}{" "}
+        <Dialog.Message>
+          Êtes-vous sûr de vouloir{" "}
+          {fosterFamily.isBanned ? "débannir" : "bannir"}{" "}
+          <strong className="text-body-emphasis">
             {fosterFamily.displayName}
-          </Dialog.Header>
+          </strong>
+          {" "}?
+        </Dialog.Message>
 
-          <Dialog.Message>
-            Êtes-vous sûr de vouloir{" "}
-            {fosterFamily.isBanned ? "débannir" : "bannir"}{" "}
-            <strong className="text-body-emphasis">
-              {fosterFamily.displayName}
-            </strong>
-            {" "}?
-          </Dialog.Message>
+        <ErrorsInlineHelper errors={fetcher.data?.errors} />
 
-          <ErrorsInlineHelper errors={fetcher.data?.errors} />
+        <Dialog.Actions>
+          <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
-          <Dialog.Actions>
-            <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+          <fetcher.Form method="POST" className="flex">
+            {!fosterFamily.isBanned ? (
+              <input
+                type="hidden"
+                name={BanActionFormData.keys.isBanned}
+                value="on"
+              />
+            ) : null}
 
-            <fetcher.Form method="POST" className="flex">
-              {!fosterFamily.isBanned ? (
-                <input
-                  type="hidden"
-                  name={BanActionFormData.keys.isBanned}
-                  value="on"
-                />
-              ) : null}
-
-              <Dialog.ConfirmAction type="submit">
-                Oui, {fosterFamily.isBanned ? "débannir" : "bannir"}
-              </Dialog.ConfirmAction>
-            </fetcher.Form>
-          </Dialog.Actions>
-        </Dialog.Content>
-      </Dialog>
-    </>
+            <Dialog.ConfirmAction type="submit">
+              Oui, {fosterFamily.isBanned ? "débannir" : "bannir"}
+            </Dialog.ConfirmAction>
+          </fetcher.Form>
+        </Dialog.Actions>
+      </Dialog.Content>
+    </Dialog>
   );
 }
 

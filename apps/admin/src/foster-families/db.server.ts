@@ -31,9 +31,7 @@ export class FosterFamilyDbDelegate {
     // Don't use Algolia when there are no text search.
     if (displayName == null) {
       const fosterFamilies = await prisma.fosterFamily.findMany({
-        where: {
-          isBanned: isBanned ?? undefined,
-        },
+        where: { isBanned },
         select: {
           availability: true,
           city: true,
@@ -50,7 +48,6 @@ export class FosterFamilyDbDelegate {
         ...fosterFamily,
         _highlighted: {
           displayName: fosterFamily.displayName,
-          isBanned: fosterFamily.isBanned,
         },
       }));
     }
@@ -115,8 +112,13 @@ export class FosterFamilyDbDelegate {
           where: { id: fosterFamilyId },
           data: {
             isBanned,
-            availability: isBanned ? "UNAVAILABLE" : "UNKNOWN",
-            availabilityExpirationDate: null,
+
+            ...(isBanned
+              ? {
+                  availability: FosterFamilyAvailability.UNAVAILABLE,
+                  availabilityExpirationDate: null,
+                }
+              : undefined),
           },
         });
       } catch (error) {
