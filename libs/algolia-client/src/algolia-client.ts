@@ -409,9 +409,10 @@ class ColorDelegate extends IndexDelegate {
 
 export type FosterFamily = {
   displayName: string;
+  isBanned?: boolean;
 };
 
-export type FosterFamilyHit = Hit<FosterFamily>;
+export type FosterFamilyHit = Hit<FosterFamily, "displayName">;
 
 class FosterFamilyDelegate extends IndexDelegate {
   constructor(client: SearchClient) {
@@ -422,6 +423,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     return await this.index.partialUpdateObject({
       objectID: fosterFamily.id,
       displayName: fosterFamily.displayName,
+      isBanned: fosterFamily.isBanned,
     } satisfies PartialUpdateObjectParam<FosterFamily>);
   }
 
@@ -429,6 +431,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     return await this.index.saveObject({
       objectID: fosterFamily.id,
       displayName: fosterFamily.displayName,
+      isBanned: fosterFamily.isBanned,
     } satisfies SaveObjectParam<FosterFamily>);
   }
 
@@ -437,26 +440,27 @@ class FosterFamilyDelegate extends IndexDelegate {
       fosterFamilies.map<SaveObjectParam<FosterFamily>>((object) => ({
         objectID: object.id,
         displayName: object.displayName,
+        isBanned: object.isBanned,
       })),
     );
   }
 
   async findMany({
-    where: { displayName },
+    where: { displayName, ...filters },
     ...options
-  }: FindManyParam<{ displayName: string }>) {
+  }: FindManyParam<{ displayName: string; isBanned?: boolean }>) {
     let response: SearchResponse<SerializeObject<FosterFamily>>;
 
     if (options.hitsPerPage == null) {
       response = await searchAll<SerializeObject<FosterFamily>>(
         this.index,
         displayName,
-        options,
+        { ...options, filters: createSearchFilters(filters) },
       );
     } else {
       response = await this.index.search<SerializeObject<FosterFamily>>(
         displayName,
-        options,
+        { ...options, filters: createSearchFilters(filters) },
       );
     }
 
@@ -464,6 +468,7 @@ class FosterFamilyDelegate extends IndexDelegate {
       return {
         id: hit.objectID,
         displayName: hit.displayName,
+        isBanned: hit.isBanned,
         _highlighted: {
           displayName:
             hit._highlightResult?.displayName?.value ?? hit.displayName,
@@ -476,6 +481,7 @@ class FosterFamilyDelegate extends IndexDelegate {
     await this.index.setSettings({
       ...DEFAULT_SETTINGS,
       searchableAttributes: ["displayName"],
+      attributesForFaceting: ["isBanned"],
     } satisfies SetSettingsParam<FosterFamily>);
   }
 }

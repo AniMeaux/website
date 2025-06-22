@@ -78,6 +78,7 @@ type DefaultFosterFamily = null | SerializeFrom<
     | "email"
     | "garden"
     | "housing"
+    | "isBanned"
     | "phone"
     | "speciesAlreadyPresent"
     | "speciesToHost"
@@ -330,95 +331,105 @@ export function FosterFamilyForm({
 
           <Separator />
 
-          <Form.Row>
-            <Form.Field>
-              <Form.Label>
-                Disponibilité <RequiredStar />
-              </Form.Label>
+          {!defaultFosterFamily?.isBanned ? (
+            <>
+              <Form.Row>
+                <Form.Field>
+                  <Form.Label>
+                    Disponibilité <RequiredStar />
+                  </Form.Label>
 
-              <RadioInputList>
-                {SORTED_AVAILABILITIES.map((availability) => (
-                  <RadioInput
-                    key={availability}
-                    label={AVAILABILITY_TRANSLATION[availability]}
-                    name={ActionFormData.keys.availability}
-                    value={availability}
-                    checked={availability === availabilityState}
-                    onChange={() => setAvailabilityState(availability)}
-                  />
-                ))}
-              </RadioInputList>
-            </Form.Field>
+                  <RadioInputList>
+                    {SORTED_AVAILABILITIES.map((availability) => (
+                      <RadioInput
+                        key={availability}
+                        label={AVAILABILITY_TRANSLATION[availability]}
+                        name={ActionFormData.keys.availability}
+                        value={availability}
+                        checked={availability === availabilityState}
+                        onChange={() => setAvailabilityState(availability)}
+                      />
+                    ))}
+                  </RadioInputList>
+                </Form.Field>
 
-            {availabilityState !== FosterFamilyAvailability.UNKNOWN ? (
-              <Form.Field>
-                <Form.Label
-                  htmlFor={ActionFormData.keys.availabilityExpirationDate}
-                >
-                  Jusqu’au
-                </Form.Label>
+                {availabilityState !== FosterFamilyAvailability.UNKNOWN ? (
+                  <Form.Field>
+                    <Form.Label
+                      htmlFor={ActionFormData.keys.availabilityExpirationDate}
+                    >
+                      Jusqu’au
+                    </Form.Label>
 
-                <Input
-                  ref={availabilityDateRef}
-                  id={ActionFormData.keys.availabilityExpirationDate}
-                  type="date"
-                  min={toIsoDateValue(DateTime.now().toJSDate())}
-                  name={ActionFormData.keys.availabilityExpirationDate}
-                  value={availabilityExpirationDateState}
-                  onChange={(event) =>
-                    setAvailabilityExpirationDateState(event.target.value)
-                  }
-                  hasError={
-                    fetcher.data?.errors?.fieldErrors
-                      .availabilityExpirationDate != null
-                  }
-                  aria-describedby={
-                    fetcher.data?.errors?.fieldErrors
-                      .availabilityExpirationDate != null
-                      ? "availabilityExpirationDate-error"
-                      : "availabilityExpirationDate-helper"
-                  }
-                  leftAdornment={
-                    <Input.Adornment>
-                      <Icon href="icon-calendar-days-solid" />
-                    </Input.Adornment>
-                  }
-                  rightAdornment={
-                    availabilityExpirationDateState !== "" ? (
-                      <Input.ActionAdornment
-                        onClick={() => setAvailabilityExpirationDateState("")}
-                      >
-                        <Icon href="icon-x-mark-solid" />
-                      </Input.ActionAdornment>
-                    ) : null
-                  }
-                />
+                    <Input
+                      ref={availabilityDateRef}
+                      id={ActionFormData.keys.availabilityExpirationDate}
+                      type="date"
+                      min={toIsoDateValue(DateTime.now().toJSDate())}
+                      name={ActionFormData.keys.availabilityExpirationDate}
+                      value={availabilityExpirationDateState}
+                      onChange={(event) =>
+                        setAvailabilityExpirationDateState(event.target.value)
+                      }
+                      hasError={
+                        fetcher.data?.errors?.fieldErrors
+                          .availabilityExpirationDate != null
+                      }
+                      aria-describedby={
+                        fetcher.data?.errors?.fieldErrors
+                          .availabilityExpirationDate != null
+                          ? "availabilityExpirationDate-error"
+                          : "availabilityExpirationDate-helper"
+                      }
+                      leftAdornment={
+                        <Input.Adornment>
+                          <Icon href="icon-calendar-days-solid" />
+                        </Input.Adornment>
+                      }
+                      rightAdornment={
+                        availabilityExpirationDateState !== "" ? (
+                          <Input.ActionAdornment
+                            onClick={() =>
+                              setAvailabilityExpirationDateState("")
+                            }
+                          >
+                            <Icon href="icon-x-mark-solid" />
+                          </Input.ActionAdornment>
+                        ) : null
+                      }
+                    />
 
-                {fetcher.data?.errors?.fieldErrors.availabilityExpirationDate !=
-                null ? (
-                  <Form.ErrorMessage id="availabilityExpirationDate-error">
-                    {fetcher.data.errors.fieldErrors.availabilityExpirationDate}
-                  </Form.ErrorMessage>
+                    {fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null ? (
+                      <Form.ErrorMessage id="availabilityExpirationDate-error">
+                        {
+                          fetcher.data.errors.fieldErrors
+                            .availabilityExpirationDate
+                        }
+                      </Form.ErrorMessage>
+                    ) : null}
+
+                    <Form.HelperMessage id="availabilityExpirationDate-helper">
+                      Une fois la date passée, la famille d’accueil sera{" "}
+                      <strong className="text-caption-emphasis">
+                        {
+                          AVAILABILITY_TRANSLATION[
+                            availabilityState ===
+                            FosterFamilyAvailability.AVAILABLE
+                              ? FosterFamilyAvailability.UNAVAILABLE
+                              : FosterFamilyAvailability.AVAILABLE
+                          ]
+                        }
+                      </strong>
+                      .
+                    </Form.HelperMessage>
+                  </Form.Field>
                 ) : null}
+              </Form.Row>
 
-                <Form.HelperMessage id="availabilityExpirationDate-helper">
-                  Une fois la date passée, la famille d’accueil sera{" "}
-                  <strong className="text-caption-emphasis">
-                    {
-                      AVAILABILITY_TRANSLATION[
-                        availabilityState === FosterFamilyAvailability.AVAILABLE
-                          ? FosterFamilyAvailability.UNAVAILABLE
-                          : FosterFamilyAvailability.AVAILABLE
-                      ]
-                    }
-                  </strong>
-                  .
-                </Form.HelperMessage>
-              </Form.Field>
-            ) : null}
-          </Form.Row>
-
-          <Separator />
+              <Separator />
+            </>
+          ) : null}
 
           <Form.Field>
             <Form.Label>

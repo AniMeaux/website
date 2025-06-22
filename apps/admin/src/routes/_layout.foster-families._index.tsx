@@ -5,6 +5,7 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
 import { Avatar } from "#core/data-display/avatar";
+import { Chip } from "#core/data-display/chip";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
@@ -136,6 +137,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         displayName: true,
         fosterAnimals: { select: { avatar: true, name: true, id: true } },
         id: true,
+        isBanned: true,
         zipCode: true,
       },
     }),
@@ -289,6 +291,15 @@ function FosterFamilyItem({
         <span className="text-body-emphasis">{fosterFamily.displayName}</span>
         <span className="text-gray-500">{getShortLocation(fosterFamily)}</span>
       </span>
+
+      {fosterFamily.isBanned ? (
+        <Chip
+          variant="primary"
+          color="orange"
+          icon="icon-ban-solid"
+          title="Bloqué"
+        />
+      ) : null}
 
       {fosterAnimalsAvatars.length > 0 ? (
         <span className="flex self-center">{fosterAnimalsAvatars}</span>

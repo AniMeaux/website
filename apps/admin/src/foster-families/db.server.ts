@@ -18,9 +18,11 @@ export class InvalidAvailabilityDateError extends Error {}
 export class FosterFamilyDbDelegate {
   async fuzzySearch({
     displayName,
+    isBanned,
     maxHitCount,
   }: {
     displayName?: string;
+    isBanned?: boolean;
     maxHitCount: number;
   }): Promise<
     (FosterFamilyHit &
@@ -29,11 +31,13 @@ export class FosterFamilyDbDelegate {
     // Don't use Algolia when there are no text search.
     if (displayName == null) {
       const fosterFamilies = await prisma.fosterFamily.findMany({
+        where: { isBanned },
         select: {
           availability: true,
           city: true,
           displayName: true,
           id: true,
+          isBanned: true,
           zipCode: true,
         },
         orderBy: { displayName: "asc" },
@@ -49,7 +53,7 @@ export class FosterFamilyDbDelegate {
     }
 
     const hits = await algolia.fosterFamily.findMany({
-      where: { displayName },
+      where: { displayName, isBanned },
       hitsPerPage: maxHitCount,
     });
 
@@ -59,6 +63,7 @@ export class FosterFamilyDbDelegate {
         availability: true,
         city: true,
         id: true,
+        isBanned: true,
         zipCode: true,
       },
     });
@@ -100,6 +105,36 @@ export class FosterFamilyDbDelegate {
     });
   }
 
+  async setIsBanned(fosterFamilyId: FosterFamily["id"], isBanned: boolean) {
+    await prisma.$transaction(async (prisma) => {
+      try {
+        await prisma.fosterFamily.update({
+          where: { id: fosterFamilyId },
+          data: {
+            isBanned,
+
+            ...(isBanned
+              ? {
+                  availability: FosterFamilyAvailability.UNAVAILABLE,
+                  availabilityExpirationDate: null,
+                }
+              : undefined),
+          },
+        });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === PrismaErrorCodes.NOT_FOUND) {
+            throw new NotFoundError();
+          }
+        }
+
+        throw error;
+      }
+
+      await algolia.fosterFamily.update({ id: fosterFamilyId, isBanned });
+    });
+  }
+
   async update(id: FosterFamily["id"], data: FosterFamilyData) {
     await prisma.$transaction(async (prisma) => {
       const fosterFamily = await prisma.fosterFamily.findUnique({
@@ -137,10 +172,14 @@ export class FosterFamilyDbDelegate {
       try {
         const fosterFamily = await prisma.fosterFamily.create({
           data,
-          select: { id: true },
+          select: { id: true, isBanned: true },
         });
 
-        await algolia.fosterFamily.create({ ...data, id: fosterFamily.id });
+        await algolia.fosterFamily.create({
+          ...data,
+          id: fosterFamily.id,
+          isBanned: fosterFamily.isBanned,
+        });
 
         return fosterFamily.id;
       } catch (error) {
