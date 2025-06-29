@@ -353,7 +353,7 @@ function Combobox({
                   key="search-item"
                   {...combobox.getItemProps({ item, index })}
                   leftAdornment={<Icon href="icon-magnifying-glass-solid" />}
-                  label={`Rechercher : **${cleanedInputValue}**`}
+                  label={`Rechercher : ${cleanedInputValue}`}
                 />
               );
             }

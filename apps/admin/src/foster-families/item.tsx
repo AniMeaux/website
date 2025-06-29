@@ -1,9 +1,7 @@
 import { SuggestionItem } from "#core/form-elements/resource-input";
 import { FosterFamilyAvatar } from "#foster-families/avatar";
-import type { FosterFamilyHit } from "@animeaux/algolia-client";
 import { getShortLocation } from "@animeaux/core";
-import type { FosterFamily } from "@prisma/client";
-import type { SerializeFrom } from "@remix-run/node";
+import type { FosterFamilyAvailability } from "@prisma/client";
 import { forwardRef } from "react";
 
 export const FosterFamilySuggestionItem = forwardRef<
@@ -12,8 +10,13 @@ export const FosterFamilySuggestionItem = forwardRef<
     React.ComponentPropsWithoutRef<typeof SuggestionItem>,
     "leftAdornment" | "label" | "secondaryLabel"
   > & {
-    fosterFamily: FosterFamilyHit &
-      SerializeFrom<Pick<FosterFamily, "availability" | "city" | "zipCode">>;
+    fosterFamily: {
+      id: string;
+      displayName: string;
+      availability: FosterFamilyAvailability;
+      city: string;
+      zipCode: string;
+    };
   }
 >(function FosterFamilySuggestionItem({ fosterFamily, ...rest }, ref) {
   return (
@@ -26,7 +29,7 @@ export const FosterFamilySuggestionItem = forwardRef<
           availability={fosterFamily.availability}
         />
       }
-      label={fosterFamily._highlighted.displayName}
+      label={fosterFamily.displayName}
       secondaryLabel={getShortLocation(fosterFamily)}
     />
   );

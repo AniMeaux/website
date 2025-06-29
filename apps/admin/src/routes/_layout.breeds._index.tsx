@@ -1,8 +1,7 @@
 import { SPECIES_ICON } from "#animals/species";
 import { BreedFilterForm } from "#breeds/filter-form";
-import { BreedSearchParams, BreedSort } from "#breeds/search-params";
+import { BreedSearchParams } from "#breeds/search-params";
 import { Action } from "#core/actions";
-import { algolia } from "#core/algolia/algolia.server";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
@@ -23,7 +22,6 @@ import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
@@ -48,31 +46,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const pageSearchParams = PageSearchParams.parse(searchParams);
   const breedSearchParams = BreedSearchParams.parse(searchParams);
 
-  const where: Prisma.BreedWhereInput[] = [];
-
-  if (breedSearchParams.species.size > 0) {
-    where.push({ species: { in: Array.from(breedSearchParams.species) } });
-  }
-
-  if (breedSearchParams.name != null) {
-    const breeds = await algolia.breed.findMany({
-      where: {
-        name: breedSearchParams.name,
-        species: breedSearchParams.species,
-      },
-    });
-
-    where.push({ id: { in: breeds.map((breed) => breed.id) } });
-  }
+  const { where, orderBy } =
+    await db.breed.createFindManyParams(breedSearchParams);
 
   const { breeds, totalCount } = await promiseHash({
-    totalCount: prisma.breed.count({ where: { AND: where } }),
+    totalCount: prisma.breed.count({ where }),
 
     breeds: prisma.breed.findMany({
       skip: pageSearchParams.page * BREED_COUNT_PER_PAGE,
       take: BREED_COUNT_PER_PAGE,
-      orderBy: BREED_ORDER_BY[breedSearchParams.sort],
-      where: { AND: where },
+      orderBy,
+      where,
       select: {
         id: true,
         name: true,
@@ -90,11 +74,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({ totalCount, pageCount, breeds });
 }
-
-const BREED_ORDER_BY: Record<BreedSort, Prisma.BreedFindManyArgs["orderBy"]> = {
-  [BreedSort.NAME]: { name: "asc" },
-  [BreedSort.ANIMAL_COUNT]: { animals: { _count: "desc" } },
-};
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Races") }];

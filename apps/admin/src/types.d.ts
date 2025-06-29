@@ -5,8 +5,6 @@ import "csstype";
 declare global {
   declare namespace NodeJS {
     interface ProcessEnv {
-      ALGOLIA_ADMIN_KEY?: string;
-      ALGOLIA_ID?: string;
       APPLICATION_TOKEN?: string;
       CLOUDINARY_API_KEY?: string;
       CLOUDINARY_API_SECRET?: string;

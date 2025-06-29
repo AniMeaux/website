@@ -1,4 +1,3 @@
-import { algolia } from "#core/algolia/algolia.server";
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
@@ -27,23 +26,19 @@ export class BreedNotForSpeciesError extends Error {}
 
 export class AnimalProfileDbDelegate {
   async update(id: Animal["id"], data: AnimalProfile) {
-    await prisma.$transaction(async (prisma) => {
-      await this.validate(prisma, data);
+    await this.validate(prisma, data);
 
-      try {
-        await prisma.animal.update({ where: { id }, data });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.NOT_FOUND) {
-            throw new NotFoundError();
-          }
+    try {
+      await prisma.animal.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
         }
-
-        throw error;
       }
 
-      await algolia.animal.update({ ...data, id });
-    });
+      throw error;
+    }
   }
 
   async updateDraft(ownerId: AnimalDraft["ownerId"], data: AnimalProfile) {

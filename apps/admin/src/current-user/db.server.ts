@@ -1,4 +1,3 @@
-import { algolia } from "#core/algolia/algolia.server";
 import { EmailAlreadyUsedError, PrismaErrorCodes } from "#core/errors.server";
 import { setCurrentUserForMonitoring } from "#core/monitoring.server";
 import { Routes } from "#core/navigation";
@@ -138,21 +137,17 @@ export class CurrentUserDbDelegate {
     id: User["id"],
     data: Pick<User, "email" | "displayName">,
   ) {
-    await prisma.$transaction(async (prisma) => {
-      try {
-        await prisma.user.update({ where: { id }, data });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-            throw new EmailAlreadyUsedError();
-          }
+    try {
+      await prisma.user.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new EmailAlreadyUsedError();
         }
-
-        throw error;
       }
 
-      await algolia.user.update({ ...data, id });
-    });
+      throw error;
+    }
   }
 
   private async redirectToLogin(request: Request) {

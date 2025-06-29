@@ -22,11 +22,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
-    managers: await db.user.fuzzySearch({
-      displayName: searchParams.displayName,
-      groups: [UserGroup.ANIMAL_MANAGER],
-      isDisabled: false,
-      maxHitCount: 6,
+    managers: await db.user.fuzzySearch(searchParams.displayName, {
+      where: {
+        groups: { hasSome: [UserGroup.ANIMAL_MANAGER] },
+        isDisabled: false,
+      },
+      select: {
+        displayName: true,
+        groups: true,
+        isDisabled: true,
+      },
+      take: 6,
     }),
   });
 }
