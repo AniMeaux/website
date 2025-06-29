@@ -11,7 +11,6 @@ import { prisma } from "#core/prisma.server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { Breed } from "@prisma/client";
 import { Prisma } from "@prisma/client";
-import { fuzzySearchBreeds } from "@prisma/client/sql";
 
 export class BreedDbDelegate {
   async create(data: BreedData) {
@@ -87,7 +86,7 @@ export class BreedDbDelegate {
       });
     }
 
-    const hits = await prisma.$queryRawTyped(fuzzySearchBreeds(name));
+    const hits = await this.getHits(name);
 
     const breeds = (await prisma.breed.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
@@ -109,9 +108,7 @@ export class BreedDbDelegate {
     }
 
     if (searchParams.name != null) {
-      const hits = await prisma.$queryRawTyped(
-        fuzzySearchBreeds(searchParams.name),
-      );
+      const hits = await this.getHits(searchParams.name);
 
       where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
@@ -122,6 +119,29 @@ export class BreedDbDelegate {
       orderBy,
       where: { AND: where },
     } satisfies Prisma.BreedFindManyArgs;
+  }
+
+  private async getHits(
+    name: string,
+  ): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_breeds AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY[name], ${name}) AS "matchRank"
+          FROM
+            "Breed"
+        )
+      SELECT
+        *
+      FROM
+        ranked_breeds
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 }
 

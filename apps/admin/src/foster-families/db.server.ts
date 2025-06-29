@@ -10,7 +10,6 @@ import type { FosterFamilySearchParams } from "#foster-families/search-params";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { FosterFamily } from "@prisma/client";
 import { FosterFamilyAvailability, Prisma } from "@prisma/client";
-import { fuzzySearchFosterFamilies } from "@prisma/client/sql";
 import { DateTime } from "luxon";
 
 export class MissingSpeciesToHostError extends Error {}
@@ -42,9 +41,7 @@ export class FosterFamilyDbDelegate {
       });
     }
 
-    const hits = await prisma.$queryRawTyped(
-      fuzzySearchFosterFamilies(displayName),
-    );
+    const hits = await this.getHits(displayName);
 
     const fosterFamilies = (await prisma.fosterFamily.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
@@ -175,9 +172,7 @@ export class FosterFamilyDbDelegate {
     }
 
     if (searchParams.displayName != null) {
-      const hits = await prisma.$queryRawTyped(
-        fuzzySearchFosterFamilies(searchParams.displayName),
-      );
+      const hits = await this.getHits(searchParams.displayName);
 
       where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
@@ -232,6 +227,29 @@ export class FosterFamilyDbDelegate {
       orderBy: { displayName: "asc" },
       where: { AND: where },
     } satisfies Prisma.FosterFamilyFindManyArgs;
+  }
+
+  private async getHits(
+    displayName: string,
+  ): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_foster_families AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY["displayName"], ${displayName}) AS "matchRank"
+          FROM
+            "FosterFamily"
+        )
+      SELECT
+        *
+      FROM
+        ranked_foster_families
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 
   private validate(

@@ -12,7 +12,6 @@ import { generatePasswordHash } from "@animeaux/password";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { User } from "@prisma/client";
 import { Prisma, UserGroup } from "@prisma/client";
-import { fuzzySearchUsers } from "@prisma/client/sql";
 import { DateTime } from "luxon";
 
 export class DisableMyselfError extends Error {}
@@ -46,7 +45,7 @@ export class UserDbDelegate {
       });
     }
 
-    const hits = await prisma.$queryRawTyped(fuzzySearchUsers(displayName));
+    const hits = await this.getHits(displayName);
 
     const users = (await prisma.user.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
@@ -230,9 +229,7 @@ export class UserDbDelegate {
     }
 
     if (searchParams.displayName != null) {
-      const hits = await prisma.$queryRawTyped(
-        fuzzySearchUsers(searchParams.displayName),
-      );
+      const hits = await this.getHits(searchParams.displayName);
 
       where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
@@ -243,6 +240,29 @@ export class UserDbDelegate {
       orderBy,
       where: { AND: where },
     } satisfies Prisma.UserFindManyArgs;
+  }
+
+  private async getHits(
+    displayName: string,
+  ): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_users AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY["displayName"], ${displayName}) AS "matchRank"
+          FROM
+            "User"
+        )
+      SELECT
+        *
+      FROM
+        ranked_users
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 }
 

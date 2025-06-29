@@ -3,7 +3,7 @@ module.exports = {
     createApp({
       name: "prisma",
       script: "yarn generate:prisma",
-      watch: ["./prisma/schema.prisma", "./prisma/sql/**/*"],
+      watch: ["./prisma/schema.prisma"],
     }),
 
     createApp({

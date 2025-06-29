@@ -19,10 +19,6 @@ import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { Animal, AnimalDraft } from "@prisma/client";
 import { Prisma, Species, Status } from "@prisma/client";
-import {
-  fuzzySearchAnimals,
-  fuzzySearchPickUpLocations,
-} from "@prisma/client/sql";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 
@@ -100,7 +96,7 @@ export class AnimalDbDelegate {
       });
     }
 
-    const hits = await prisma.$queryRawTyped(fuzzySearchAnimals(nameOrAlias));
+    const hits = await this.getHits(nameOrAlias);
 
     const animals = (await prisma.animal.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
@@ -110,6 +106,29 @@ export class AnimalDbDelegate {
     return orderByRank(animals, hits, { take }) as Prisma.AnimalGetPayload<{
       select: typeof select & typeof internalSelect;
     }>[];
+  }
+
+  private async getHits(
+    nameOrAlias: string,
+  ): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_animals AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY[name, alias], ${nameOrAlias}) AS "matchRank"
+          FROM
+            "Animal"
+        )
+      SELECT
+        *
+      FROM
+        ranked_animals
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 
   async createFindManyParams(
@@ -212,9 +231,7 @@ export class AnimalDbDelegate {
     }
 
     if (searchParams.nameOrAlias != null) {
-      const hits = await prisma.$queryRawTyped(
-        fuzzySearchAnimals(searchParams.nameOrAlias),
-      );
+      const hits = await this.getHits(searchParams.nameOrAlias);
 
       where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
@@ -354,7 +371,7 @@ export class PickUpLocationDbDelegate {
       });
     }
 
-    let hits = await prisma.$queryRawTyped(fuzzySearchPickUpLocations(name));
+    let hits = await this.getHits(name);
 
     if (take != null) {
       hits = hits.slice(0, take);
@@ -365,6 +382,40 @@ export class PickUpLocationDbDelegate {
 
       return { name: hit.name };
     });
+  }
+
+  private async getHits(
+    name: string,
+  ): Promise<{ name: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_locations AS (
+          WITH
+            locations AS (
+              SELECT
+                "pickUpLocation" as name
+              FROM
+                "Animal"
+              WHERE
+                "pickUpLocation" IS NOT NULL
+              GROUP BY
+                "pickUpLocation"
+            )
+          SELECT
+            name,
+            match_sorter_rank (ARRAY[name], ${name}) AS "matchRank"
+          FROM
+            locations
+        )
+      SELECT
+        *
+      FROM
+        ranked_locations
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 }
 

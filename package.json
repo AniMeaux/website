@@ -19,7 +19,7 @@
     "down:docker": "docker compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
     "generate": "run-s generate:prisma generate:workspaces",
-    "generate:prisma": "prisma generate --sql",
+    "generate:prisma": "prisma generate",
     "generate:workspaces": "yarn workspaces run generate",
     "lint": "run-p --aggregate-output --continue-on-error lint:*",
     "lint:format": "prettier --list-different .",

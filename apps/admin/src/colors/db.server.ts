@@ -11,7 +11,6 @@ import { prisma } from "#core/prisma.server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { Color } from "@prisma/client";
 import { Prisma } from "@prisma/client";
-import { fuzzySearchColors } from "@prisma/client/sql";
 
 export class ColorDbDelegate {
   async create(data: ColorData) {
@@ -87,7 +86,7 @@ export class ColorDbDelegate {
       });
     }
 
-    const hits = await prisma.$queryRawTyped(fuzzySearchColors(name));
+    const hits = await this.getHits(name);
 
     const colors = (await prisma.color.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
@@ -105,9 +104,7 @@ export class ColorDbDelegate {
     const where: Prisma.ColorWhereInput[] = [];
 
     if (searchParams.name != null) {
-      const hits = await prisma.$queryRawTyped(
-        fuzzySearchColors(searchParams.name),
-      );
+      const hits = await this.getHits(searchParams.name);
 
       where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
@@ -118,6 +115,29 @@ export class ColorDbDelegate {
       orderBy,
       where: { AND: where },
     } satisfies Prisma.ColorFindManyArgs;
+  }
+
+  private async getHits(
+    name: string,
+  ): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_colors AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY[name], ${name}) AS "matchRank"
+          FROM
+            "Color"
+        )
+      SELECT
+        *
+      FROM
+        ranked_colors
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 }
 
