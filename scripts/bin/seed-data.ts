@@ -119,6 +119,7 @@ async function seedFosterFamilies() {
       );
 
       return {
+        isBanned: faker.datatype.boolean({ probability: 1 / 10 }),
         availability,
         availabilityExpirationDate:
           availability === FosterFamilyAvailability.UNKNOWN

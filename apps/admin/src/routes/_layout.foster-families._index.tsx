@@ -1,6 +1,5 @@
 import { AnimalAvatar } from "#animals/avatar";
 import { Action } from "#core/actions";
-import { algolia } from "#core/algolia/algolia.server";
 import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
@@ -20,7 +19,6 @@ import { FosterFamilyFilters } from "#foster-families/filter-form";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { cn, getShortLocation } from "@animeaux/core";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { Prisma } from "@prisma/client";
 import { UserGroup } from "@prisma/client";
 import type {
   LoaderFunctionArgs,
@@ -47,75 +45,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const pageSearchParams = PageSearchParams.parse(searchParams);
   const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
 
-  const where: Prisma.FosterFamilyWhereInput[] = [];
-  if (fosterFamilySearchParams.zipCode != null) {
-    where.push({ zipCode: { startsWith: fosterFamilySearchParams.zipCode } });
-  }
-
-  if (fosterFamilySearchParams.cities.size > 0) {
-    where.push({
-      city: {
-        in: Array.from(fosterFamilySearchParams.cities),
-        mode: "insensitive",
-      },
-    });
-  }
-
-  if (fosterFamilySearchParams.displayName != null) {
-    const fosterFamilies = await algolia.fosterFamily.findMany({
-      where: { displayName: fosterFamilySearchParams.displayName },
-    });
-
-    where.push({
-      id: { in: fosterFamilies.map((fosterFamily) => fosterFamily.id) },
-    });
-  }
-
-  if (fosterFamilySearchParams.availability.size > 0) {
-    where.push({
-      availability: { in: Array.from(fosterFamilySearchParams.availability) },
-    });
-  }
-
-  if (fosterFamilySearchParams.garden.size > 0) {
-    where.push({ garden: { in: Array.from(fosterFamilySearchParams.garden) } });
-  }
-
-  if (fosterFamilySearchParams.housing.size > 0) {
-    where.push({
-      housing: { in: Array.from(fosterFamilySearchParams.housing) },
-    });
-  }
-
-  if (fosterFamilySearchParams.speciesToHost != null) {
-    where.push({
-      speciesToHost: { has: fosterFamilySearchParams.speciesToHost },
-    });
-  }
-
-  fosterFamilySearchParams.speciesAlreadyPresent.forEach((species) => {
-    where.push({
-      OR: [
-        { speciesAlreadyPresent: { has: species } },
-        { fosterAnimals: { some: { species } } },
-      ],
-    });
-  });
-
-  if (fosterFamilySearchParams.speciesToAvoid.size > 0) {
-    where.push({
-      NOT: {
-        speciesAlreadyPresent: {
-          hasSome: Array.from(fosterFamilySearchParams.speciesToAvoid),
-        },
-      },
-      fosterAnimals: {
-        none: {
-          species: { in: Array.from(fosterFamilySearchParams.speciesToAvoid) },
-        },
-      },
-    });
-  }
+  const { where, orderBy } = await db.fosterFamily.createFindManyParams(
+    fosterFamilySearchParams,
+  );
 
   const { possibleCities, totalCount, fosterFamilies } = await promiseHash({
     possibleCities: prisma.fosterFamily.groupBy({
@@ -124,13 +56,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
       orderBy: { city: "asc" },
     }),
 
-    totalCount: prisma.fosterFamily.count({ where: { AND: where } }),
+    totalCount: prisma.fosterFamily.count({ where }),
 
     fosterFamilies: prisma.fosterFamily.findMany({
       skip: pageSearchParams.page * FOSTER_FAMILY_COUNT_PER_PAGE,
       take: FOSTER_FAMILY_COUNT_PER_PAGE,
-      orderBy: { displayName: "asc" },
-      where: { AND: where },
+      orderBy,
+      where,
       select: {
         availability: true,
         city: true,

@@ -16,7 +16,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 
-const eventSelect = Prisma.validator<Prisma.EventArgs>()({
+const eventSelect = Prisma.validator<Prisma.EventFindManyArgs>()({
   select: {
     id: true,
     image: true,

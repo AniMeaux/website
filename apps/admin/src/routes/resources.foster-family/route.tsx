@@ -22,11 +22,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
-    fosterFamilies: await db.fosterFamily.fuzzySearch({
-      displayName: searchParams.displayName,
-      // Use 5 instead of 6 to save space for the additional item.
-      maxHitCount: 5,
-      isBanned: false,
-    }),
+    fosterFamilies: await db.fosterFamily.fuzzySearch(
+      searchParams.displayName,
+      {
+        where: { isBanned: false },
+        select: {
+          availability: true,
+          city: true,
+          displayName: true,
+          zipCode: true,
+        },
+        // Use 5 instead of 6 to save space for the additional item.
+        take: 5,
+      },
+    ),
   });
 }

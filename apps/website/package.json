@@ -28,7 +28,7 @@
   "dependencies": {
     "@animeaux/core": "*",
     "@animeaux/search-params-io": "*",
-    "@prisma/client": "^5.8.1",
+    "@prisma/client": "^6.7.0",
     "@remix-run/node": "~2.9.2",
     "@remix-run/react": "~2.9.2",
     "@remix-run/serve": "~2.9.2",

@@ -22,10 +22,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 
   return json({
-    breeds: await db.breed.fuzzySearch({
-      name: searchParams.name,
-      species: searchParams.species,
-      maxHitCount: 6,
+    breeds: await db.breed.fuzzySearch(searchParams.name, {
+      where: {
+        species:
+          searchParams.species.size === 0
+            ? undefined
+            : { in: Array.from(searchParams.species) },
+      },
+      select: {
+        name: true,
+        species: true,
+      },
+      take: 6,
     }),
   });
 }

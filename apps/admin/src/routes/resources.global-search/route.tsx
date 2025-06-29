@@ -42,9 +42,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   if (entity === Entity.ANIMAL) {
-    const animals = await db.animal.fuzzySearch({
-      nameOrAlias: searchParams.text,
-      maxHitCount: MAX_HIT_COUNT,
+    const animals = await db.animal.fuzzySearch(searchParams.text, {
+      select: {
+        alias: true,
+        avatar: true,
+        breed: { select: { name: true } },
+        color: { select: { name: true } },
+        name: true,
+        pickUpDate: true,
+        pickUpLocation: true,
+        species: true,
+        status: true,
+      },
+      take: MAX_HIT_COUNT,
     });
 
     const items = animals.map((animal) => ({
@@ -55,9 +65,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return json({ items });
   }
 
-  const fosterFamilies = await db.fosterFamily.fuzzySearch({
-    displayName: searchParams.text,
-    maxHitCount: MAX_HIT_COUNT,
+  const fosterFamilies = await db.fosterFamily.fuzzySearch(searchParams.text, {
+    select: {
+      availability: true,
+      city: true,
+      displayName: true,
+      zipCode: true,
+    },
+    take: MAX_HIT_COUNT,
   });
 
   const items = fosterFamilies.map((fosterFamily) => ({
