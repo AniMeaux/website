@@ -6,10 +6,10 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { getLongLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
-export function ContactCard() {
-  const { fosterFamily } = useLoaderData<loader>();
+export function CardContact() {
+  const { fosterFamily } = useLoaderData<typeof loader>();
 
   return (
     <Card>

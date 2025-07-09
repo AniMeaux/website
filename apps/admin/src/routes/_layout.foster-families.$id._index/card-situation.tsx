@@ -19,9 +19,9 @@ import {
 } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
-export function SituationCard() {
+export function CardSituation() {
   const { fosterFamily } = useLoaderData<typeof loader>();
 
   return (
