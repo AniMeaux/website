@@ -33,14 +33,14 @@ export default function Route() {
 
   return (
     <PageLayout.Root>
+      <CardHeader />
+
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         {fosterFamily.isBanned ? (
           <BlockHelper variant="warning" icon="icon-ban-solid">
             {fosterFamily.displayName} est actuellement banni.
           </BlockHelper>
         ) : null}
-
-        <CardHeader />
 
         <section className="grid grid-cols-1 gap-1 md:hidden">
           <CardContact />
