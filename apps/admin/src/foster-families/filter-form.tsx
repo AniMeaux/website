@@ -9,11 +9,8 @@ import { Filters } from "#core/controllers/filters";
 import { ControlledInput } from "#core/form-elements/controlled-input";
 import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import {
-  AVAILABILITY_TRANSLATION,
-  AvailabilityIcon,
-  SORTED_AVAILABILITIES,
-} from "#foster-families/availability";
+import { FosterFamilyAvailability } from "#foster-families/availability";
+import { AvailabilityIcon } from "#foster-families/availability-icon";
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -100,11 +97,11 @@ export function FosterFamilyFilters({
           )}
         >
           <ToggleInputList>
-            {SORTED_AVAILABILITIES.map((availability) => (
+            {FosterFamilyAvailability.values.map((availability) => (
               <ToggleInput
                 key={availability}
                 type="checkbox"
-                label={AVAILABILITY_TRANSLATION[availability]}
+                label={FosterFamilyAvailability.translation[availability]}
                 name={FosterFamilySearchParams.keys.availability}
                 value={availability}
                 icon={<AvailabilityIcon availability={availability} />}

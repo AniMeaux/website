@@ -5,18 +5,12 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
-import {
-  AVAILABILITY_TRANSLATION,
-  AvailabilityIcon,
-} from "#foster-families/availability";
+import { FosterFamilyAvailability } from "#foster-families/availability";
+import { AvailabilityIcon } from "#foster-families/availability-icon";
 import { ICON_BY_HOUSING } from "#foster-families/housing";
 import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
-import {
-  FosterFamilyAvailability,
-  FosterFamilyGarden,
-  FosterFamilyHousing,
-} from "@prisma/client";
+import { FosterFamilyGarden, FosterFamilyHousing } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
@@ -43,18 +37,27 @@ export function CardSituation() {
           <SimpleItem
             icon={<AvailabilityIcon availability={fosterFamily.availability} />}
           >
-            {fosterFamily.availability === FosterFamilyAvailability.UNKNOWN ? (
+            {fosterFamily.availability ===
+            FosterFamilyAvailability.Enum.UNKNOWN ? (
               <>
                 Disponibilité{" "}
                 <strong className="text-body-emphasis">
-                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
+                  {
+                    FosterFamilyAvailability.translation[
+                      fosterFamily.availability
+                    ]
+                  }
                 </strong>
               </>
             ) : (
               <>
                 Est{" "}
                 <strong className="text-body-emphasis">
-                  {AVAILABILITY_TRANSLATION[fosterFamily.availability]}
+                  {
+                    FosterFamilyAvailability.translation[
+                      fosterFamily.availability
+                    ]
+                  }
                 </strong>
                 {fosterFamily.availabilityExpirationDate != null ? (
                   <>

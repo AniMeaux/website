@@ -1,7 +1,7 @@
 import { SuggestionItem } from "#core/form-elements/resource-input";
+import type { FosterFamilyAvailability } from "#foster-families/availability";
 import { FosterFamilyAvatar } from "#foster-families/avatar";
 import { getShortLocation } from "@animeaux/core";
-import type { FosterFamilyAvailability } from "@prisma/client";
 import { forwardRef } from "react";
 
 export const FosterFamilySuggestionItem = forwardRef<
@@ -13,7 +13,7 @@ export const FosterFamilySuggestionItem = forwardRef<
     fosterFamily: {
       id: string;
       displayName: string;
-      availability: FosterFamilyAvailability;
+      availability: FosterFamilyAvailability.Enum;
       city: string;
       zipCode: string;
     };

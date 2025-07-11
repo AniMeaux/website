@@ -1,14 +1,14 @@
 import type { AvatarColor } from "#core/data-display/avatar";
 import { Avatar } from "#core/data-display/avatar";
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import { Icon } from "#generated/icon";
-import { FosterFamilyAvailability } from "@prisma/client";
 import type { Except } from "type-fest";
 
 export function FosterFamilyAvatar({
   availability,
   ...props
 }: Except<React.ComponentPropsWithoutRef<typeof Avatar>, "color"> & {
-  availability: FosterFamilyAvailability;
+  availability: FosterFamilyAvailability.Enum;
 }) {
   return (
     <Avatar {...props} color={AVATAR_COLOR_BY_AVAILABILITY[availability]}>
@@ -18,10 +18,10 @@ export function FosterFamilyAvatar({
 }
 
 export const AVATAR_COLOR_BY_AVAILABILITY: Record<
-  FosterFamilyAvailability,
+  FosterFamilyAvailability.Enum,
   AvatarColor
 > = {
-  [FosterFamilyAvailability.AVAILABLE]: "green-light",
-  [FosterFamilyAvailability.UNAVAILABLE]: "red-light",
-  [FosterFamilyAvailability.UNKNOWN]: "gray-light",
+  [FosterFamilyAvailability.Enum.AVAILABLE]: "green-light",
+  [FosterFamilyAvailability.Enum.UNAVAILABLE]: "red-light",
+  [FosterFamilyAvailability.Enum.UNKNOWN]: "gray-light",
 };

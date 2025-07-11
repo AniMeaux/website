@@ -1,7 +1,7 @@
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
-  FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -79,7 +79,7 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
 
 const Schema = zu.object({
   availability: zu.searchParams.set(
-    zu.searchParams.nativeEnum(FosterFamilyAvailability),
+    zu.searchParams.nativeEnum(FosterFamilyAvailability.Enum),
   ),
   displayName: zu.searchParams.string(),
   garden: zu.searchParams.set(zu.searchParams.nativeEnum(FosterFamilyGarden)),

@@ -6,7 +6,7 @@ import { SimpleEmpty } from "#core/data-display/empty";
 import { InlineHelper } from "#core/data-display/helper";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
-import { FosterFamilyAvailability } from "@prisma/client";
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
@@ -54,7 +54,8 @@ export function CardFosterAnimals() {
           />
         ) : (
           <>
-            {fosterFamily.availability === FosterFamilyAvailability.AVAILABLE &&
+            {fosterFamily.availability ===
+              FosterFamilyAvailability.Enum.AVAILABLE &&
             fosterFamily.availabilityExpirationDate != null ? (
               <span className="grid grid-cols-1 px-1.5 md:px-2">
                 <InlineHelper variant="warning" icon="icon-clock-solid">

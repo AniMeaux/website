@@ -12,10 +12,7 @@ import {
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Textarea } from "#core/form-elements/textarea";
 import { Separator } from "#core/layout/separator";
-import {
-  AVAILABILITY_TRANSLATION,
-  SORTED_AVAILABILITIES,
-} from "#foster-families/availability";
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -27,7 +24,6 @@ import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type { FosterFamily } from "@prisma/client";
 import {
-  FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -41,7 +37,7 @@ import { useEffect, useRef, useState } from "react";
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
     address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
-    availability: zu.nativeEnum(FosterFamilyAvailability),
+    availability: zu.nativeEnum(FosterFamilyAvailability.Enum),
     availabilityExpirationDate: zu.text(
       zu.coerce
         .date({ invalid_type_error: "Veuillez entrer une date valide" })
@@ -142,7 +138,7 @@ export function FosterFamilyForm({
   }, [hash]);
 
   const [availabilityState, setAvailabilityState] = useState(
-    defaultFosterFamily?.availability ?? FosterFamilyAvailability.UNKNOWN,
+    defaultFosterFamily?.availability ?? FosterFamilyAvailability.Enum.UNKNOWN,
   );
 
   const [availabilityExpirationDateState, setAvailabilityExpirationDateState] =
@@ -340,10 +336,12 @@ export function FosterFamilyForm({
                   </Form.Label>
 
                   <RadioInputList>
-                    {SORTED_AVAILABILITIES.map((availability) => (
+                    {FosterFamilyAvailability.values.map((availability) => (
                       <RadioInput
                         key={availability}
-                        label={AVAILABILITY_TRANSLATION[availability]}
+                        label={
+                          FosterFamilyAvailability.translation[availability]
+                        }
                         name={ActionFormData.keys.availability}
                         value={availability}
                         checked={availability === availabilityState}
@@ -353,7 +351,7 @@ export function FosterFamilyForm({
                   </RadioInputList>
                 </Form.Field>
 
-                {availabilityState !== FosterFamilyAvailability.UNKNOWN ? (
+                {availabilityState !== FosterFamilyAvailability.Enum.UNKNOWN ? (
                   <Form.Field>
                     <Form.Label
                       htmlFor={ActionFormData.keys.availabilityExpirationDate}
@@ -413,11 +411,11 @@ export function FosterFamilyForm({
                       Une fois la date passée, la famille d’accueil sera{" "}
                       <strong className="text-caption-emphasis">
                         {
-                          AVAILABILITY_TRANSLATION[
+                          FosterFamilyAvailability.translation[
                             availabilityState ===
-                            FosterFamilyAvailability.AVAILABLE
-                              ? FosterFamilyAvailability.UNAVAILABLE
-                              : FosterFamilyAvailability.AVAILABLE
+                            FosterFamilyAvailability.Enum.AVAILABLE
+                              ? FosterFamilyAvailability.Enum.UNAVAILABLE
+                              : FosterFamilyAvailability.Enum.AVAILABLE
                           ]
                         }
                       </strong>

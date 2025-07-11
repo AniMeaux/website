@@ -6,10 +6,11 @@ import {
 } from "#core/errors.server";
 import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import type { FosterFamilySearchParams } from "#foster-families/search-params";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type { FosterFamily } from "@prisma/client";
-import { FosterFamilyAvailability, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
 
 export class MissingSpeciesToHostError extends Error {}
@@ -84,7 +85,7 @@ export class FosterFamilyDbDelegate {
 
           ...(isBanned
             ? {
-                availability: FosterFamilyAvailability.UNAVAILABLE,
+                availability: FosterFamilyAvailability.Enum.UNAVAILABLE,
                 availabilityExpirationDate: null,
               }
             : undefined),
@@ -265,7 +266,7 @@ export class FosterFamilyDbDelegate {
     }
 
     if (
-      newData.availability !== FosterFamilyAvailability.UNKNOWN &&
+      newData.availability !== FosterFamilyAvailability.Enum.UNKNOWN &&
       newData.availabilityExpirationDate != null
     ) {
       if (
@@ -278,7 +279,7 @@ export class FosterFamilyDbDelegate {
   }
 
   private normalize(data: FosterFamilyData) {
-    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
+    if (data.availability === FosterFamilyAvailability.Enum.UNKNOWN) {
       data.availabilityExpirationDate = null;
     }
   }

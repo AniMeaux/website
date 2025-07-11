@@ -1,44 +1,14 @@
-import { Icon } from "#generated/icon";
-import { cn } from "@animeaux/core";
-import { FosterFamilyAvailability } from "@prisma/client";
-import type { Except } from "type-fest";
+import { FosterFamilyAvailability as PrismaFosterFamilyAvailability } from "@prisma/client";
 
-export const AVAILABILITY_TRANSLATION: Record<
-  FosterFamilyAvailability,
-  string
-> = {
-  [FosterFamilyAvailability.AVAILABLE]: "Disponible",
-  [FosterFamilyAvailability.UNAVAILABLE]: "Indisponible",
-  [FosterFamilyAvailability.UNKNOWN]: "Inconnue",
-};
+export namespace FosterFamilyAvailability {
+  export const Enum = PrismaFosterFamilyAvailability;
+  export type Enum = PrismaFosterFamilyAvailability;
 
-export const SORTED_AVAILABILITIES = [
-  FosterFamilyAvailability.UNKNOWN,
-  FosterFamilyAvailability.AVAILABLE,
-  FosterFamilyAvailability.UNAVAILABLE,
-];
+  export const translation: Record<Enum, string> = {
+    [Enum.AVAILABLE]: "Disponible",
+    [Enum.UNAVAILABLE]: "Indisponible",
+    [Enum.UNKNOWN]: "Inconnue",
+  };
 
-export function AvailabilityIcon({
-  availability,
-  className,
-  ...props
-}: Except<React.ComponentPropsWithoutRef<typeof Icon>, "href"> & {
-  availability: FosterFamilyAvailability;
-}) {
-  return (
-    <Icon
-      {...props}
-      href="icon-status-solid"
-      className={cn(ICON_CLASS_NAMES_BY_AVAILABILITY[availability], className)}
-    />
-  );
+  export const values = [Enum.UNKNOWN, Enum.AVAILABLE, Enum.UNAVAILABLE];
 }
-
-const ICON_CLASS_NAMES_BY_AVAILABILITY: Record<
-  FosterFamilyAvailability,
-  string
-> = {
-  [FosterFamilyAvailability.AVAILABLE]: cn("text-green-600"),
-  [FosterFamilyAvailability.UNAVAILABLE]: cn("text-red-500"),
-  [FosterFamilyAvailability.UNKNOWN]: cn("text-gray-800"),
-};

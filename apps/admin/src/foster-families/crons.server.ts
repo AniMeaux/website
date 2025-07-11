@@ -1,6 +1,6 @@
 import type { CronDefinition } from "#core/crons/shared.server";
 import { prisma } from "#core/prisma.server";
-import { FosterFamilyAvailability } from "@prisma/client";
+import { FosterFamilyAvailability } from "#foster-families/availability";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils/promise";
 
@@ -15,22 +15,22 @@ export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
     const { unavailable, available } = await promiseHash({
       unavailable: prisma.fosterFamily.updateMany({
         where: {
-          availability: FosterFamilyAvailability.AVAILABLE,
+          availability: FosterFamilyAvailability.Enum.AVAILABLE,
           availabilityExpirationDate: { lt: today },
         },
         data: {
-          availability: FosterFamilyAvailability.UNAVAILABLE,
+          availability: FosterFamilyAvailability.Enum.UNAVAILABLE,
           availabilityExpirationDate: null,
         },
       }),
 
       available: prisma.fosterFamily.updateMany({
         where: {
-          availability: FosterFamilyAvailability.UNAVAILABLE,
+          availability: FosterFamilyAvailability.Enum.UNAVAILABLE,
           availabilityExpirationDate: { lt: today },
         },
         data: {
-          availability: FosterFamilyAvailability.AVAILABLE,
+          availability: FosterFamilyAvailability.Enum.AVAILABLE,
           availabilityExpirationDate: null,
         },
       }),
