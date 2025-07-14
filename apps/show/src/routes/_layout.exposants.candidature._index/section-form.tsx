@@ -43,8 +43,8 @@ import {
   useFormAction,
   useNavigation,
 } from "@remix-run/react";
-import { ActionSchema } from "./action";
-import type { action } from "./route";
+import { ActionSchema } from "./action-schema";
+import type { action } from "./action.server";
 
 export function SectionForm() {
   const formAction = useFormAction();
