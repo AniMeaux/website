@@ -1,7 +1,7 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { InputFile } from "#core/form-elements/input-file";
 import { FormLayout } from "#core/layout/form-layout";
-import type { GoogleClient } from "@animeaux/google-client/server";
+import type { GoogleClient } from "@animeaux/file-storage/server";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";
 

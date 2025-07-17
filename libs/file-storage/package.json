@@ -1,5 +1,5 @@
 {
-  "name": "@animeaux/google-client",
+  "name": "@animeaux/file-storage",
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,

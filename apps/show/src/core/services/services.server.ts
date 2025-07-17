@@ -3,7 +3,7 @@ import type { Services } from "#core/services/service.server";
 import { ServiceExhibitor } from "#exhibitors/service.server";
 import { ServicePartner } from "#partners/service.server";
 import { ServiceProvider } from "#providers/service.server";
-import { GoogleClient } from "@animeaux/google-client/server";
+import { GoogleClient } from "@animeaux/file-storage/server";
 
 class ServicesImpl implements Services {
   readonly animation: ServiceAnimation;
