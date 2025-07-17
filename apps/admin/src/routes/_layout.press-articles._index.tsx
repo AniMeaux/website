@@ -186,7 +186,7 @@ function PressArticleItem({
         {pressArticle.image === null ? (
           <DynamicImage
             loading={imageLoading}
-            imageId="press-articles/fallback"
+            imageId="press-articles/fallback_bwzzbv"
             alt={pressArticle.title}
             fallbackSize="512"
             sizeMapping={{ default: "300px" }}
