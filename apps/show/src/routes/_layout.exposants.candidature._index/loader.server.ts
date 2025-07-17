@@ -1,4 +1,5 @@
 import { notFound } from "#core/response.server";
+import { services } from "#core/services/services.server";
 import { json } from "@remix-run/node";
 
 export async function loader() {
@@ -6,5 +7,9 @@ export async function loader() {
     throw notFound();
   }
 
-  return json("ok" as const);
+  const files = await services.fileStorage.getFiles(
+    process.env.GOOGLE_DRIVE_APPLICATION_FOLDER_ID,
+  );
+
+  return json({ files });
 }

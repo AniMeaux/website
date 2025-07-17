@@ -13,7 +13,7 @@ export { loader } from "./loader.server";
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data === "ok" ? "Candidature exposant" : getErrorTitle(404),
+      data != null ? "Candidature exposant" : getErrorTitle(404),
     ),
   });
 };

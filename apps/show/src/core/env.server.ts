@@ -87,6 +87,7 @@ const ProcessEnvSchema = zu
     FEATURE_FLAG_SITE_ONLINE: zu.enum(["true", "false"]).optional(),
     GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
     GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
+    GOOGLE_DRIVE_APPLICATION_FOLDER_ID: zu.string(),
     GOOGLE_DRIVE_SHARED_FOLDER_ID: zu.string(),
     GOOGLE_TAG_MANAGER_ID: zu.string().optional(),
     INSTAGRAM_URL: zu.string(),

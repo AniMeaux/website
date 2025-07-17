@@ -4,6 +4,7 @@ import { Form, useFormAction, useNavigation } from "@remix-run/react";
 import { FieldsetBilling } from "./fieldset-billing";
 import { FieldsetComments } from "./fieldset-comments";
 import { FieldsetContact } from "./fieldset-contact";
+import { FieldsetDocuments } from "./fieldset-documents";
 import { FieldsetParticipation } from "./fieldset-participation";
 import { FieldsetPartnership } from "./fieldset-partnership";
 import { FieldsetStructure } from "./fieldset-structure";
@@ -23,6 +24,10 @@ export function SectionForm() {
             method="POST"
             encType="multipart/form-data"
           >
+            <FieldsetDocuments />
+
+            <FormLayout.SectionSeparator />
+
             <FieldsetContact />
 
             <FormLayout.SectionSeparator />
