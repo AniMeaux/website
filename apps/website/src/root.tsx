@@ -7,9 +7,7 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle, pageDescription } from "#core/page-title";
 import { theme } from "#generated/theme";
 import appleTouchIcon from "#images/apple-touch-icon.png";
-import background from "#images/background.svg";
 import favicon from "#images/favicon.svg";
-import maskIcon from "#images/mask-icon.svg";
 import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
@@ -46,11 +44,6 @@ export const links: LinksFunction = () => {
   return [
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: favicon },
-    {
-      rel: "mask-icon",
-      href: maskIcon,
-      color: theme.colors.brandBlue.DEFAULT,
-    },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
     {
@@ -130,11 +123,7 @@ function Document({
   }
 
   return (
-    <html
-      lang="fr"
-      className="bg-gray-50 bg-repeat"
-      style={{ backgroundImage: `url("${background}"` }}
-    >
+    <html lang="fr" className="bg-gray-50">
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.colors.gray[50]} />
