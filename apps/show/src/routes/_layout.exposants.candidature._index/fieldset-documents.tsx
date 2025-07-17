@@ -32,6 +32,11 @@ export function FieldsetDocuments() {
         label="J’ai lu et j’accepte le règlement ainsi que les tarifs applicables"
         field={fieldset.acceptInnerRegulation}
       />
+
+      <FieldSwitch
+        label="Je m’engage à respecter la charte du bien-être animal ainsi que le règlement sanitaire du Salon des Ani’Meaux"
+        field={fieldset.acceptCharterAndHealthRegulation}
+      />
     </FormLayout.Section>
   );
 }
