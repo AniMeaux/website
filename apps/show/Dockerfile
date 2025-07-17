@@ -14,8 +14,8 @@ FROM base as deps
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/cloudinary/package.json ./libs/cloudinary/
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/files-io/package.json ./libs/files-io/
-ADD ./libs/google-client/package.json ./libs/google-client/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/resend/package.json ./libs/resend/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
@@ -30,8 +30,8 @@ COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/cloudinary/package.json ./libs/cloudinary/
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/files-io/package.json ./libs/files-io/
-ADD ./libs/google-client/package.json ./libs/google-client/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/resend/package.json ./libs/resend/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
@@ -50,8 +50,8 @@ RUN yarn generate:prisma
 
 ADD ./libs/cloudinary ./libs/cloudinary
 ADD ./libs/core ./libs/core
+ADD ./libs/file-storage ./libs/file-storage
 ADD ./libs/files-io ./libs/files-io
-ADD ./libs/google-client ./libs/google-client
 ADD ./libs/react-primitives ./libs/react-primitives
 ADD ./libs/resend ./libs/resend
 ADD ./libs/search-params-io ./libs/search-params-io

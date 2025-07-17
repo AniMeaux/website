@@ -34,7 +34,7 @@
     "@animeaux/cloudinary": "*",
     "@animeaux/core": "*",
     "@animeaux/files-io": "*",
-    "@animeaux/google-client": "*",
+    "@animeaux/file-storage": "*",
     "@animeaux/react-primitives": "*",
     "@animeaux/resend": "*",
     "@animeaux/search-params-io": "*",

@@ -1,7 +1,7 @@
 import {
   FILE_SIZE_LIMIT_B,
   FILE_SIZE_LIMIT_MB,
-} from "@animeaux/google-client/client";
+} from "@animeaux/file-storage/client";
 import { zu } from "@animeaux/zod-utils";
 
 const fileSchema = zu

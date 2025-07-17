@@ -186,6 +186,29 @@ export const FormLayout = {
     );
   }),
 
+  RowFluid: forwardRef<
+    React.ComponentRef<typeof Primitive.div>,
+    React.ComponentPropsWithoutRef<typeof Primitive.div> & {
+      columnMinWidth: string;
+      repeatCount?: "auto-fit" | "auto-fill";
+    }
+  >(function FormLayoutRowFuild(
+    { columnMinWidth, repeatCount = "auto-fit", className, style, ...props },
+    ref,
+  ) {
+    return (
+      <Primitive.div
+        {...props}
+        ref={ref}
+        className={cn("grid gap-2", className)}
+        style={{
+          ...style,
+          gridTemplateColumns: `repeat(${repeatCount}, minmax(${columnMinWidth}, 1fr))`,
+        }}
+      />
+    );
+  }),
+
   Field: forwardRef<
     React.ComponentRef<typeof Primitive.div>,
     React.ComponentPropsWithoutRef<typeof Primitive.div> & {
