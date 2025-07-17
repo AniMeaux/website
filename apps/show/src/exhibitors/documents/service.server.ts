@@ -94,7 +94,7 @@ export class ServiceDocuments extends Service {
       return null;
     }
 
-    return this.services.drive.getFile(fileId);
+    return this.services.fileStorage.getFile(fileId);
   }
 
   async update(token: string, data: DocumentsData) {

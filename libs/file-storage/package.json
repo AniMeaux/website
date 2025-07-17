@@ -1,5 +1,5 @@
 {
-  "name": "@animeaux/google-client",
+  "name": "@animeaux/file-storage",
   "version": "1.0.0",
   "private": true,
   "sideEffects": false,
@@ -27,7 +27,8 @@
     "@animeaux/zod-utils": "*",
     "@mjackson/lazy-file": "^3.2.0",
     "@sentry/remix": "^8.37.1",
-    "googleapis": "^144.0.0"
+    "googleapis": "^144.0.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@mjackson/form-data-parser": "^0.4.0",

@@ -1,5 +1,5 @@
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
-import { googleClient } from "#core/google-client.server";
+import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
@@ -143,7 +143,7 @@ export class ShowExhibitorApplicationDbDelegate {
         data.status === ShowExhibitorApplicationStatus.VALIDATED &&
         application.exhibitorId == null
       ) {
-        const folder = await googleClient.createFolder(
+        const folder = await fileStorage.createFolder(
           application.structureName,
           { parentFolderId: process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID },
         );

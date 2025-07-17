@@ -67,7 +67,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw badRequest();
   }
 
-  const reversibleUpload = services.drive.createReversibleUpload();
+  const reversibleUpload = services.fileStorage.createReversibleUpload();
 
   const formData = await parseFormData(request, async (fileUpload) => {
     if (

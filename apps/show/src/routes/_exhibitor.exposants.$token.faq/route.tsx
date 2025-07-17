@@ -11,7 +11,7 @@ import { SectionSharedFiles } from "./section-shared-files";
 import { SectionTitle } from "./section-title";
 
 export async function loader() {
-  const files = await services.drive.getFiles(
+  const files = await services.fileStorage.getFiles(
     process.env.GOOGLE_DRIVE_SHARED_FOLDER_ID,
   );
 

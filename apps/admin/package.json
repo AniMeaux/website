@@ -27,8 +27,8 @@
   },
   "dependencies": {
     "@animeaux/core": "*",
+    "@animeaux/file-storage": "*",
     "@animeaux/form-data": "*",
-    "@animeaux/google-client": "*",
     "@animeaux/password": "*",
     "@animeaux/react-primitives": "*",
     "@animeaux/search-params-io": "*",

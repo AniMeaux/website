@@ -8,27 +8,25 @@ export function SectionDescription() {
       <Section.TextAside asChild>
         <LightBoardCard>
           <p>
-            Ce formulaire nous permettra de mieux vous connaître, d’évaluer
-            votre activité et de sélectionner les exposants qui s’intégreront au
-            mieux à notre événement.
+            Ce formulaire nous permet de mieux connaître votre activité afin de
+            sélectionner les exposants les plus en phase avec les valeurs du
+            salon et les attentes de nos visiteurs. La candidature ne garantit
+            pas une place : les organisateurs se réservent le droit de
+            sélection.
           </p>
 
           <p>
-            Votre candidature ne garantit pas automatiquement une place, mais
-            elle nous aidera à faire les meilleurs choix pour offrir une
-            expérience enrichissante à nos visiteurs. Les organisateurs du salon
-            se réservent le droit de sélectionner les exposants en fonction de
-            la pertinence de leurs activités et de l’adéquation avec les valeurs
-            du salon.
+            Après validation, un second formulaire vous permettra de préciser
+            vos besoins logistiques (électricité, matériel, etc.) et de procéder
+            au paiement de votre stand et options.
           </p>
 
           <p>
-            Nous vous remercions par avance pour votre intérêt et votre
-            participation. N’hésitez pas à nous contacter par e-mail à{" "}
+            Merci pour votre intérêt ! Pour toute question, contactez-nous à{" "}
             <ProseInlineAction asChild>
               <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
-            </ProseInlineAction>{" "}
-            si vous avez des questions supplémentaires.
+            </ProseInlineAction>
+            .
           </p>
         </LightBoardCard>
       </Section.TextAside>
