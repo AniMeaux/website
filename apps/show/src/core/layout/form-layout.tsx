@@ -227,7 +227,7 @@ export const FormLayout = {
           "grid",
           orientation === "vertical"
             ? "grid-cols-1"
-            : "grid-cols-fr-auto items-start gap-2",
+            : "grid-cols-fr-auto items-start gap-x-2",
           disabled ? "opacity-disabled" : undefined,
           className,
         )}
@@ -269,7 +269,7 @@ export const FormLayout = {
         {...props}
         ref={ref}
         className={cn(
-          "text-caption-lowercase-default",
+          "col-span-full text-caption-lowercase-default",
           variant === "error" ? "text-mystic" : undefined,
           className,
         )}

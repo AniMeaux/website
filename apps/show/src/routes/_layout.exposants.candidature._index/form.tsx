@@ -28,6 +28,7 @@ export const [FieldsetsProvider, useFieldsets] = createStrictContext<{
 type Fieldsets = ReturnType<typeof useForm>[1];
 
 export const FieldsetId = {
+  DOCUMENTS: "documents",
   CONTACT: "contact",
   STRUCTURE: "structure",
   BILLING: "billing",
