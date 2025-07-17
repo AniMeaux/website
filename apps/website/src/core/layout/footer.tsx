@@ -3,7 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { LineShapeHorizontal } from "#core/layout/line-shape";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import nameAndLogo from "#images/name-and-logo.svg";
+import largeLogo from "#images/large-logo.svg";
 import { SubscriptionForm } from "#routes/resources.subscribe/input";
 import { cn } from "@animeaux/core";
 
@@ -54,9 +54,9 @@ export function Footer() {
 
         <section className={cn("flex flex-col items-start gap-6", "md:flex-1")}>
           <img
-            src={nameAndLogo}
+            src={largeLogo}
             alt="Ani’Meaux"
-            className={cn("h-[60px]", "md:h-20")}
+            className="h-[160px] self-center md:self-auto"
           />
 
           <ul className="flex flex-col">

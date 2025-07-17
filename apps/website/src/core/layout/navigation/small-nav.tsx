@@ -10,6 +10,7 @@ import { SubNavDiscover } from "#core/layout/navigation/sub-nav-discover";
 import { SubNavWarn } from "#core/layout/navigation/sub-nav-warn";
 import { useScrollLock } from "#core/scroll-lock";
 import { Icon } from "#generated/icon";
+import logo from "#images/logo.svg";
 import nameAndLogo from "#images/name-and-logo.svg";
 import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";
@@ -70,26 +71,11 @@ export function SmallNav({
         )}
       >
         <BaseLink to="/" className="z-10 flex overflow-hidden">
-          <Transition in={!state.isOpened} timeout={100}>
-            {(transitionState) => {
-              return (
-                <img
-                  src={nameAndLogo}
-                  alt="Ani’Meaux"
-                  className={cn("h-[40px]", {
-                    // 100px is enough to hide the text.
-                    // TODO: Find a better way to do this.
-                    "-translate-x-[100px] transition-transform duration-100 ease-in-out":
-                      transitionState === "exiting",
-                    "-translate-x-[100px]": transitionState === "exited",
-                    "translate-x-0 transition-transform duration-100 ease-in-out":
-                      transitionState === "entering",
-                    "translate-x-0": transitionState === "entered",
-                  })}
-                />
-              );
-            }}
-          </Transition>
+          <img
+            src={state.isOpened ? logo : nameAndLogo}
+            alt="Ani’Meaux"
+            className="h-[40px]"
+          />
         </BaseLink>
 
         <button
