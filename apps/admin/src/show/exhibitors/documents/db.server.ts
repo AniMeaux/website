@@ -1,5 +1,5 @@
 import { PrismaErrorCodes } from "#core/errors.server";
-import { googleClient } from "#core/google-client.server";
+import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
@@ -49,7 +49,7 @@ export class ShowExhibitorDocumentsDbDelegate {
       return null;
     }
 
-    return googleClient.getFile(fileId);
+    return fileStorage.getFile(fileId);
   }
 
   async update(exhibitorId: string, data: ShowExhibitorDocumentsData) {

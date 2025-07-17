@@ -47,20 +47,38 @@ declare global {
   }
 }
 
-const processEnvSchema = zu.object({
-  GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
-  GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
-  GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
-  RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
-  SENTRY_DSN: zu.string().optional(),
-  SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
-  SENTRY_TRACES_SAMPLE_RATE: zu.coerce
-    .number()
-    .min(0)
-    .max(1)
-    // Because we access the raw value and not the parsed one, we need to be
-    // sure the type remains string and not number.
-    .transform((value) => String(value))
-    .optional(),
-  SHOW_URL: zu.string(),
-});
+const processEnvSchema = zu
+  .object({
+    GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
+    GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
+    GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
+    NODE_ENV: zu.enum(["development", "production", "test"]),
+    RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
+    SENTRY_DSN: zu.string().optional(),
+    SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
+    SENTRY_TRACES_SAMPLE_RATE: zu.coerce
+      .number()
+      .min(0)
+      .max(1)
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not number.
+      .transform((value) => String(value))
+      .optional(),
+    SHOW_URL: zu.string(),
+  })
+  .refine(
+    (env) =>
+      env.GOOGLE_API_CLIENT_EMAIL != null || env.NODE_ENV !== "production",
+    {
+      message:
+        "`GOOGLE_API_CLIENT_EMAIL` is required when `NODE_ENV=production`",
+    },
+  )
+  .refine(
+    (env) =>
+      env.GOOGLE_API_PRIVATE_KEY != null || env.NODE_ENV !== "production",
+    {
+      message:
+        "`GOOGLE_API_PRIVATE_KEY` is required when `NODE_ENV=production`",
+    },
+  );

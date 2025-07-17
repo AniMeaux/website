@@ -1,76 +1,40 @@
 import { catchError } from "@animeaux/core";
 import { safeParse, zu } from "@animeaux/zod-utils";
 import type { FileUpload } from "@mjackson/form-data-parser";
-import { LazyFile } from "@mjackson/lazy-file";
 import { captureException } from "@sentry/remix";
 import type { drive_v3 } from "googleapis";
 import { google } from "googleapis";
 import { Readable } from "node:stream";
 import type { ReadableStream } from "node:stream/web";
+import { FileStorage } from "./file-storage";
 
 /**
  * @see https://developers.google.com/drive/api
  */
-export class GoogleClient {
-  private readonly drive: null | drive_v3.Drive;
+export class FileStorageGoogleDrive extends FileStorage {
+  readonly #drive: drive_v3.Drive;
 
-  constructor(credentials?: { clientEmail: string; privateKey: string }) {
-    if (credentials == null) {
-      this.drive = null;
-    } else {
-      const auth = new google.auth.GoogleAuth({
-        scopes: ["https://www.googleapis.com/auth/drive"],
-        credentials: {
-          client_email: credentials.clientEmail,
-          private_key: credentials.privateKey
-            // Prevent node crypto error:
-            // Error: error:1E08010C:DECODER routines::unsupported
-            // See https://stackoverflow.com/questions/74131595/error-error1e08010cdecoder-routinesunsupported-with-google-auth-library
-            .replace(/\\n/g, "\n"),
-        },
-      });
+  constructor(credentials: { clientEmail: string; privateKey: string }) {
+    super();
 
-      this.drive = google.drive({ version: "v3", auth });
-    }
-  }
+    const auth = new google.auth.GoogleAuth({
+      scopes: ["https://www.googleapis.com/auth/drive"],
+      credentials: {
+        client_email: credentials.clientEmail,
+        private_key: credentials.privateKey
+          // Prevent node crypto error:
+          // Error: error:1E08010C:DECODER routines::unsupported
+          // See https://stackoverflow.com/questions/74131595/error-error1e08010cdecoder-routinesunsupported-with-google-auth-library
+          .replace(/\\n/g, "\n"),
+      },
+    });
 
-  createReversibleUpload() {
-    const uploadedFileIds: string[] = [];
-
-    const upload = async (
-      fileUpload: FileUpload,
-      params: { parentFolderId: string },
-    ) => {
-      const file = await this.createFile(fileUpload, params);
-
-      uploadedFileIds.push(file.id);
-
-      return new LazyFile(
-        {
-          byteLength: file.size,
-          stream: () => {
-            throw new Error("Not supported");
-          },
-        },
-        file.id,
-        { type: fileUpload.type },
-      );
-    };
-
-    const revert = async () => {
-      await Promise.allSettled(
-        uploadedFileIds.map((fileId) => this.deleteFile(fileId)),
-      );
-    };
-
-    return { upload, revert };
+    this.#drive = google.drive({ version: "v3", auth });
   }
 
   async getFile(fileId: string) {
-    const drive = this.#getDrive();
-
     const [error, response] = await catchError(() =>
-      drive.files.get({
+      this.#drive.files.get({
         fileId,
         fields: Object.values(fileSchema.keyof().enum).join(","),
       }),
@@ -89,10 +53,8 @@ export class GoogleClient {
   }
 
   async getFiles(folderId: string) {
-    const drive = this.#getDrive();
-
     const [error, response] = await catchError(() =>
-      drive.files.list({
+      this.#drive.files.list({
         q: `'${folderId}' in parents`,
         fields: `files(${Object.values(fileSchema.keyof().enum).join(",")})`,
         orderBy: "name_natural",
@@ -112,10 +74,8 @@ export class GoogleClient {
   }
 
   async createFolder(folderName: string, params: { parentFolderId: string }) {
-    const drive = this.#getDrive();
-
     const [error, response] = await catchError(() =>
-      drive.files.create({
+      this.#drive.files.create({
         requestBody: {
           name: folderName,
           mimeType: "application/vnd.google-apps.folder",
@@ -141,10 +101,8 @@ export class GoogleClient {
   }
 
   async createFile(fileUpload: FileUpload, params: { parentFolderId: string }) {
-    const drive = this.#getDrive();
-
     const [error, response] = await catchError(() =>
-      drive.files.create({
+      this.#drive.files.create({
         requestBody: {
           name: fileUpload.name,
           parents: [params.parentFolderId],
@@ -179,10 +137,8 @@ export class GoogleClient {
   }
 
   async deleteFile(fileId: string) {
-    const drive = this.#getDrive();
-
     const [error, response] = await catchError(() =>
-      drive.files.delete({ fileId }),
+      this.#drive.files.delete({ fileId }),
     );
 
     if (error != null) {
@@ -205,20 +161,6 @@ export class GoogleClient {
 
     return true;
   }
-
-  #getDrive() {
-    if (this.drive != null) {
-      return this.drive;
-    }
-
-    throw new Error(
-      "Create instance with credentials before using GoogleClient",
-    );
-  }
-}
-
-export namespace GoogleClient {
-  export type File = Awaited<ReturnType<GoogleClient["getFile"]>>;
 }
 
 const createFileOrFolderSchema = zu.object({

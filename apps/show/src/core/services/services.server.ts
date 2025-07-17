@@ -3,11 +3,15 @@ import type { Services } from "#core/services/service.server";
 import { ServiceExhibitor } from "#exhibitors/service.server";
 import { ServicePartner } from "#partners/service.server";
 import { ServiceProvider } from "#providers/service.server";
-import { GoogleClient } from "@animeaux/file-storage/server";
+import type { FileStorage } from "@animeaux/file-storage/server";
+import {
+  FileStorageGoogleDrive,
+  FileStorageMock,
+} from "@animeaux/file-storage/server";
 
 class ServicesImpl implements Services {
   readonly animation: ServiceAnimation;
-  readonly drive: GoogleClient;
+  readonly fileStorage: FileStorage;
   readonly exhibitor: ServiceExhibitor;
   readonly partner: ServicePartner;
   readonly provider: ServiceProvider;
@@ -15,15 +19,17 @@ class ServicesImpl implements Services {
   constructor() {
     this.animation = new ServiceAnimation(this);
 
-    this.drive = new GoogleClient(
+    if (
       process.env.GOOGLE_API_CLIENT_EMAIL != null &&
       process.env.GOOGLE_API_PRIVATE_KEY != null
-        ? {
-            clientEmail: process.env.GOOGLE_API_CLIENT_EMAIL,
-            privateKey: process.env.GOOGLE_API_PRIVATE_KEY,
-          }
-        : undefined,
-    );
+    ) {
+      this.fileStorage = new FileStorageGoogleDrive({
+        clientEmail: process.env.GOOGLE_API_CLIENT_EMAIL,
+        privateKey: process.env.GOOGLE_API_PRIVATE_KEY,
+      });
+    } else {
+      this.fileStorage = new FileStorageMock();
+    }
 
     this.exhibitor = new ServiceExhibitor(this);
     this.partner = new ServicePartner(this);

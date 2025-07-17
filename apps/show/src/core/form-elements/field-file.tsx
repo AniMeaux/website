@@ -1,7 +1,7 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { InputFile } from "#core/form-elements/input-file";
 import { FormLayout } from "#core/layout/form-layout";
-import type { GoogleClient } from "@animeaux/file-storage/server";
+import type { FileStorage } from "@animeaux/file-storage/server";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";
 
@@ -15,7 +15,7 @@ export function FieldFile({
   field: FieldMetadata<undefined | File>;
   label: React.ReactNode;
   currentIdField: FieldMetadata<string>;
-  defaultFile?: null | GoogleClient.File;
+  defaultFile?: null | FileStorage.File;
   helper?: React.ReactNode;
 }) {
   return (

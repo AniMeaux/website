@@ -1,8 +1,8 @@
 import type { ServiceExhibitor } from "#exhibitors/service.server";
-import type { GoogleClient } from "@animeaux/file-storage/server";
+import type { FileStorage } from "@animeaux/file-storage/server";
 
 export interface Services {
-  readonly drive: GoogleClient;
+  readonly fileStorage: FileStorage;
   readonly exhibitor: ServiceExhibitor;
 }
 
