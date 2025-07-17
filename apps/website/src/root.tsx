@@ -7,7 +7,6 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle, pageDescription } from "#core/page-title";
 import { theme } from "#generated/theme";
 import appleTouchIcon from "#images/apple-touch-icon.png";
-import background from "#images/background.svg";
 import favicon from "#images/favicon.svg";
 import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
@@ -124,11 +123,7 @@ function Document({
   }
 
   return (
-    <html
-      lang="fr"
-      className="bg-gray-50 bg-repeat"
-      style={{ backgroundImage: `url("${background}"` }}
-    >
+    <html lang="fr" className="bg-gray-50">
       <head>
         <meta charSet="utf-8" />
         <meta name="theme-color" content={theme.colors.gray[50]} />
