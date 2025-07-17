@@ -92,7 +92,7 @@ function PressArticleItem({
       >
         {pressArticle.image == null ? (
           <DynamicImage
-            imageId="press-articles/fallback"
+            imageId="press-articles/fallback_bwzzbv"
             alt={pressArticle.title}
             sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}
             fallbackSize="512"
