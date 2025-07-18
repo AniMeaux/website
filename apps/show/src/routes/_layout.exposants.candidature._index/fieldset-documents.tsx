@@ -17,12 +17,22 @@ export function FieldsetDocuments() {
       <FormLayout.RowFluid columnMinWidth="150px">
         {files.map((file) => (
           <FormLayout.Field key={file.id}>
-            <FileItem.Root>
-              <FileItem.Icon mimeType={file.mimeType} />
+            <FileItem.Root asChild>
+              <a
+                href={file.webViewLink}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-transparent active:bg-mystic-100 can-hover:hover:bg-mystic-50 can-hover:focus-visible:focus-spaced active:can-hover:hover:bg-mystic-100"
+              >
+                <FileItem.Icon mimeType={file.mimeType} />
 
-              <FileItem.Thumbnail src={file.thumbnailLink} />
+                <FileItem.Thumbnail
+                  src={file.thumbnailLink}
+                  className="transition-transform duration-slow can-hover:group-hover/item:scale-105"
+                />
 
-              <FileItem.Filename>{file.name}</FileItem.Filename>
+                <FileItem.Filename>{file.name}</FileItem.Filename>
+              </a>
             </FileItem.Root>
           </FormLayout.Field>
         ))}
