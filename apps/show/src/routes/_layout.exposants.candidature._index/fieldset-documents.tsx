@@ -1,13 +1,17 @@
 import { FileItem } from "#core/data-display/file-item";
+import { FieldSwitch } from "#core/form-elements/field-switch";
 import { FormLayout } from "#core/layout/form-layout";
 import { useLoaderData } from "@remix-run/react";
+import { FieldsetId, useFieldsets } from "./form";
 import type { loader } from "./loader.server";
 
 export function FieldsetDocuments() {
   const { files } = useLoaderData<typeof loader>();
+  const { fieldsets } = useFieldsets();
+  const fieldset = fieldsets.documents.getFieldset();
 
   return (
-    <FormLayout.Section>
+    <FormLayout.Section id={FieldsetId.DOCUMENTS}>
       <FormLayout.Title>Documents</FormLayout.Title>
 
       <FormLayout.RowFluid columnMinWidth="150px">
@@ -23,6 +27,16 @@ export function FieldsetDocuments() {
           </FormLayout.Field>
         ))}
       </FormLayout.RowFluid>
+
+      <FieldSwitch
+        label="J’ai lu et j’accepte le règlement ainsi que les tarifs applicables"
+        field={fieldset.acceptInnerRegulation}
+      />
+
+      <FieldSwitch
+        label="Je m’engage à respecter la charte du bien-être animal ainsi que le règlement sanitaire du Salon des Ani’Meaux"
+        field={fieldset.acceptCharterAndHealthRegulation}
+      />
     </FormLayout.Section>
   );
 }

@@ -17,6 +17,17 @@ import {
 
 export const ActionSchema = zu
   .object({
+    documents: zu.object({
+      acceptCharterAndHealthRegulation: zu.literal("on", {
+        required_error:
+          "Veuillez vous engager à respecter la charte et le règlement sanitaire",
+      }),
+      acceptInnerRegulation: zu.literal("on", {
+        required_error:
+          "Veuillez accepter le règlement et les tarifs pour finaliser votre inscription",
+      }),
+    }),
+
     contact: zu.object({
       lastname: zu
         .string({ required_error: "Veuillez entrer un nom" })

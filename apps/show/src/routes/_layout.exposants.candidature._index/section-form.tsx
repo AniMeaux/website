@@ -65,6 +65,18 @@ export function SectionForm() {
 
         <FormLayout.Nav>
           <FormLayout.NavItem
+            sectionId={FieldsetId.DOCUMENTS}
+            isComplete={
+              fieldsets.documents.valid &&
+              fieldsets.documents.value?.acceptInnerRegulation === "on" &&
+              fieldsets.documents.value?.acceptCharterAndHealthRegulation ===
+                "on"
+            }
+          >
+            Documents
+          </FormLayout.NavItem>
+
+          <FormLayout.NavItem
             sectionId={FieldsetId.CONTACT}
             isComplete={
               fieldsets.contact.valid &&
