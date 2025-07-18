@@ -289,6 +289,16 @@ export function createEmailTemplateConfirmation(
         <EmailHtml.Output.Table>
           <EmailHtml.Output.Row>
             <EmailHtml.Output.Label>
+              Pourquoi souhaitez-vous exposer au Salon des Ani’Meaux ?
+            </EmailHtml.Output.Label>
+
+            <EmailHtml.Output.Value>
+              {application.motivation}
+            </EmailHtml.Output.Value>
+          </EmailHtml.Output.Row>
+
+          <EmailHtml.Output.Row>
+            <EmailHtml.Output.Label>
               Comment avez-vous connu le salon ?
             </EmailHtml.Output.Label>
 

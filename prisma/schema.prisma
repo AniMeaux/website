@@ -402,6 +402,8 @@ model ShowExhibitorApplication {
   partnershipCategory      ShowPartnershipCategory?
   otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
 
+  motivation String @db.VarChar(1000)
+
   discoverySource String @db.VarChar(128)
 
   comments String? @db.VarChar(512)

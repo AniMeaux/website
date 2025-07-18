@@ -11,6 +11,13 @@ export function FieldsetComments() {
     <FormLayout.Section id={FieldsetId.COMMENTS}>
       <FormLayout.Title>Commentaires</FormLayout.Title>
 
+      <FieldTextarea
+        label="Pourquoi souhaitez-vous exposer au Salon des Ani’Meaux ?"
+        field={fieldset.motivation}
+        rows={3}
+        hideCaracterCount
+      />
+
       <FieldText
         label="Comment avez-vous connu le salon ?"
         field={fieldset.discoverySource}

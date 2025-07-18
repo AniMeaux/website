@@ -108,6 +108,8 @@ export async function action({ request }: ActionFunctionArgs) {
         ? submission.value.partnershipCategory
         : undefined,
 
+      motivation: submission.value.comments.motivation,
+
       discoverySource: submission.value.comments.discoverySource,
 
       comments: submission.value.comments.comments,
