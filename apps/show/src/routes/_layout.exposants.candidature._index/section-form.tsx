@@ -68,7 +68,9 @@ export function SectionForm() {
             sectionId={FieldsetId.DOCUMENTS}
             isComplete={
               fieldsets.documents.valid &&
-              fieldsets.documents.value?.acceptInnerRegulation === "on"
+              fieldsets.documents.value?.acceptInnerRegulation === "on" &&
+              fieldsets.documents.value?.acceptCharterAndHealthRegulation ===
+                "on"
             }
           >
             Documents
