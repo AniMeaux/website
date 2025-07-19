@@ -10,7 +10,7 @@ import {
 } from "#show/exhibitors/applications/status";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardSituation() {
   const { application } = useLoaderData<typeof loader>();

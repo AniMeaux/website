@@ -8,7 +8,7 @@ import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target
 import { LegalStatus } from "#show/exhibitors/applications/legal-status";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardStructure() {
   const { application } = useLoaderData<typeof loader>();

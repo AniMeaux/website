@@ -7,7 +7,7 @@ import {
 
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardPartnership() {
   const { application } = useLoaderData<typeof loader>();

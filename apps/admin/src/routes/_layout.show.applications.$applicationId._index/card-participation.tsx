@@ -3,7 +3,7 @@ import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
 import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardParticipation() {
   const { application } = useLoaderData<typeof loader>();

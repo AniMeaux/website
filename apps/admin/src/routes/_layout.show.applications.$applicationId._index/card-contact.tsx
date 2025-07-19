@@ -2,7 +2,7 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardContact() {
   const { application } = useLoaderData<typeof loader>();
