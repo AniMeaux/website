@@ -4,23 +4,23 @@ import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionDescription() {
-  const { profile, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section id="description">
       <FormLayout.Header>
         <FormLayout.Title>Description</FormLayout.Title>
 
-        {profile.descriptionStatus !== ShowExhibitorProfileStatus.VALIDATED ? (
+        {exhibitor.descriptionStatus !== ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
               to={Routes.exhibitors
-                .token(token)
+                .token(exhibitor.token)
                 .profile.editDescription.toString()}
               title="Modifier"
             >
@@ -40,9 +40,9 @@ export function SectionDescription() {
       </HelperCard.Root>
 
       <LightBoardCard isSmall>
-        {profile.description != null ? (
+        {exhibitor.description != null ? (
           <Markdown
-            content={profile.description}
+            content={exhibitor.description}
             components={PARAGRAPH_COMPONENTS}
             className="block"
           />
@@ -55,32 +55,31 @@ export function SectionDescription() {
 }
 
 function SectionStatus() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (profile.descriptionStatus === ShowExhibitorProfileStatus.NOT_TOUCHED) {
+  if (exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorProfileStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorProfileStatus.VALIDATED]: "Validée",
-    } satisfies Record<typeof profile.descriptionStatus, string>
-  )[profile.descriptionStatus];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validée",
+    } satisfies Record<typeof exhibitor.descriptionStatus, string>
+  )[exhibitor.descriptionStatus];
 
   const content = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "Votre description est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorProfileStatus.TO_MODIFY]:
-        profile.descriptionStatusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.descriptionStatusMessage ??
         "Votre description nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorProfileStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "Votre description est complétée et validée par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof profile.descriptionStatus, string>
-  )[profile.descriptionStatus];
+    } satisfies Record<typeof exhibitor.descriptionStatus, string>
+  )[exhibitor.descriptionStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

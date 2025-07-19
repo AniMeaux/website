@@ -50,7 +50,7 @@ export function CardSituation() {
                     .id(application.exhibitor.id)
                     .toString()}
                 >
-                  {application.exhibitor.profile?.name}
+                  {application.exhibitor.name}
                 </BaseLink>
               </ProseInlineAction>
             </SimpleItem>

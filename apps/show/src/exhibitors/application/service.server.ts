@@ -44,16 +44,16 @@ export class ServiceApplication extends Service {
     exhibitorId: string,
     params: { select: T },
   ) {
-    const application = await prisma.showExhibitorApplication.findUnique({
-      where: { exhibitorId },
-      select: params.select,
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id: exhibitorId },
+      select: { application: { select: params.select } },
     });
 
-    if (application == null) {
+    if (exhibitor?.application == null) {
       throw notFound();
     }
 
-    return application;
+    return exhibitor.application;
   }
 
   async create(data: ExhibitorApplicationData) {

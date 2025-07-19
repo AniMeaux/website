@@ -16,10 +16,11 @@ import { SectionOnStand } from "./section-on-stand";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, animations } = await promiseHash({
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
+  const { exhibitor, animations } = await promiseHash({
+    exhibitor: services.exhibitor.getByToken(routeParams.token, {
       select: {
         id: true,
+        token: true,
         name: true,
         onStandAnimations: true,
         onStandAnimationsStatus: true,
@@ -31,10 +32,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
       select: {
         animators: {
           where: { isVisible: true },
-          orderBy: { profile: { name: "asc" } },
-          select: {
-            profile: { select: { id: true, links: true, name: true } },
-          },
+          orderBy: { name: "asc" },
+          select: { id: true, links: true, name: true },
         },
         description: true,
         endTime: true,
@@ -48,33 +47,28 @@ export async function loader({ params }: LoaderFunctionArgs) {
   });
 
   return {
-    profile,
+    exhibitor,
+
     animations: animations.map((animation) => ({
       ...animation,
 
-      animators: animation.animators.map((animator) => {
-        if (animator.profile == null) {
-          throw notFound();
-        }
-
-        const { links, ...profile } = animator.profile;
-
+      animators: animation.animators.map(({ links, ...animator }) => {
         const url = links[0];
+
         if (url == null) {
           throw notFound();
         }
 
-        return { ...profile, url };
+        return { ...animator, url };
       }),
     })),
-    token: routeParams.token,
   };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? ["Animations", data.profile.name] : getErrorTitle(404),
+      data != null ? ["Animations", data.exhibitor.name] : getErrorTitle(404),
     ),
   });
 };

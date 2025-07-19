@@ -6,12 +6,12 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function FieldsetDocuments() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   const filesItems = [
-    { label: "Pièce d’identité", file: documents.identificationFile },
-    { label: "Justificatif d’immatriculation", file: documents.kbisFile },
-    { label: "Assurance", file: documents.insuranceFile },
+    { label: "Pièce d’identité", file: exhibitor.identificationFile },
+    { label: "Justificatif d’immatriculation", file: exhibitor.kbisFile },
+    { label: "Assurance", file: exhibitor.insuranceFile },
   ];
 
   return (

@@ -18,13 +18,9 @@ export class ServicePartner extends Service {
 
         exhibitor: {
           select: {
-            profile: {
-              select: {
-                logoPath: true,
-                name: true,
-                links: true,
-              },
-            },
+            logoPath: true,
+            name: true,
+            links: true,
           },
         },
       },
@@ -32,18 +28,13 @@ export class ServicePartner extends Service {
 
     const partners = partnersRaw.map((partner) => {
       if (partner.exhibitor != null) {
-        invariant(
-          partner.exhibitor.profile != null,
-          "exhibitor should have a profile",
-        );
-
-        const [url] = partner.exhibitor.profile.links;
+        const [url] = partner.exhibitor.links;
         invariant(url != null, "exhibitor should have at least one link");
 
         return {
           id: partner.id,
-          logoPath: partner.exhibitor.profile.logoPath,
-          name: partner.exhibitor.profile.name,
+          logoPath: partner.exhibitor.logoPath,
+          name: partner.exhibitor.name,
           url,
         };
       }

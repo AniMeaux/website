@@ -93,11 +93,11 @@ function ItemLegalStatus() {
 }
 
 function ItemName() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-house-building-light" />}>
-      {profile.name}
+      {exhibitor.name}
     </SimpleItem>
   );
 }

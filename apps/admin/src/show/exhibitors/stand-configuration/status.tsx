@@ -1,39 +1,17 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { cn } from "@animeaux/core";
-import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
-
-export namespace StandConfigurationStatus {
-  export const Enum = ShowExhibitorStandConfigurationStatus;
-  export type Enum = ShowExhibitorStandConfigurationStatus;
-
-  export const translation: Record<Enum, string> = {
-    [Enum.AWAITING_VALIDATION]: "Non traité",
-    [Enum.TO_BE_FILLED]: "Aucune modification",
-    [Enum.TO_MODIFY]: "Modification demandée",
-    [Enum.VALIDATED]: "Validé",
-  };
-
-  export const values = [
-    Enum.TO_BE_FILLED,
-    Enum.AWAITING_VALIDATION,
-    Enum.TO_MODIFY,
-    Enum.VALIDATED,
-  ];
-}
 
 export function StandConfigurationStatusIcon({
   status,
   className,
 }: {
-  status: StandConfigurationStatus.Enum;
+  status: ExhibitorStatus.Enum;
   className?: string;
 }) {
   return (
-    <span
-      title={StandConfigurationStatus.translation[status]}
-      className={className}
-    >
+    <span title={ExhibitorStatus.translation[status]} className={className}>
       <Icon
         href={ICON_NAME_BY_STATUS[status]}
         className={ICON_CLASS_NAMES_BY_STATUS[status]}
@@ -42,19 +20,16 @@ export function StandConfigurationStatusIcon({
   );
 }
 
-const ICON_NAME_BY_STATUS: Record<StandConfigurationStatus.Enum, IconName> = {
-  [StandConfigurationStatus.Enum.AWAITING_VALIDATION]: "icon-circle-light",
-  [StandConfigurationStatus.Enum.TO_BE_FILLED]: "icon-circle-dash-light",
-  [StandConfigurationStatus.Enum.TO_MODIFY]: "icon-circle-pen-solid",
-  [StandConfigurationStatus.Enum.VALIDATED]: "icon-circle-check-solid",
+const ICON_NAME_BY_STATUS: Record<ExhibitorStatus.Enum, IconName> = {
+  [ExhibitorStatus.Enum.AWAITING_VALIDATION]: "icon-circle-light",
+  [ExhibitorStatus.Enum.TO_BE_FILLED]: "icon-circle-dash-light",
+  [ExhibitorStatus.Enum.TO_MODIFY]: "icon-circle-pen-solid",
+  [ExhibitorStatus.Enum.VALIDATED]: "icon-circle-check-solid",
 };
 
-const ICON_CLASS_NAMES_BY_STATUS: Record<
-  StandConfigurationStatus.Enum,
-  string
-> = {
-  [StandConfigurationStatus.Enum.AWAITING_VALIDATION]: cn("text-gray-900"),
-  [StandConfigurationStatus.Enum.TO_BE_FILLED]: cn("text-gray-900"),
-  [StandConfigurationStatus.Enum.TO_MODIFY]: cn("text-yellow-500"),
-  [StandConfigurationStatus.Enum.VALIDATED]: cn("text-green-600"),
+const ICON_CLASS_NAMES_BY_STATUS: Record<ExhibitorStatus.Enum, string> = {
+  [ExhibitorStatus.Enum.AWAITING_VALIDATION]: cn("text-gray-900"),
+  [ExhibitorStatus.Enum.TO_BE_FILLED]: cn("text-gray-900"),
+  [ExhibitorStatus.Enum.TO_MODIFY]: cn("text-yellow-500"),
+  [ExhibitorStatus.Enum.VALIDATED]: cn("text-green-600"),
 };

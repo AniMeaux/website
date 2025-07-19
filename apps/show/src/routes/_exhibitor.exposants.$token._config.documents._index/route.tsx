@@ -15,16 +15,17 @@ import { SectionStructure } from "./section-structure";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { documents, files, profile, application } = await promiseHash({
-    documents: services.exhibitor.documents.getByToken(routeParams.token, {
-      select: { status: true, statusMessage: true },
+  const { exhibitor, files, application } = await promiseHash({
+    exhibitor: services.exhibitor.getByToken(routeParams.token, {
+      select: {
+        token: true,
+        documentStatus: true,
+        documentStatusMessage: true,
+        name: true,
+      },
     }),
 
-    files: services.exhibitor.documents.getFilesByToken(routeParams.token),
-
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true },
-    }),
+    files: services.exhibitor.getFilesByToken(routeParams.token),
 
     application: services.exhibitor.application.getByToken(routeParams.token, {
       select: {
@@ -44,17 +45,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
   });
 
   return {
-    documents: { ...documents, ...files },
-    profile,
+    exhibitor: { ...exhibitor, ...files },
     application,
-    token: routeParams.token,
   };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? ["Documents", data.profile.name] : getErrorTitle(404),
+      data != null ? ["Documents", data.exhibitor.name] : getErrorTitle(404),
     ),
   });
 };

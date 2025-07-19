@@ -13,10 +13,8 @@ import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
-import {
-  StandConfigurationStatus,
-  StandConfigurationStatusIcon,
-} from "#show/exhibitors/stand-configuration/status";
+import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -62,24 +60,26 @@ export function CardStandConfiguration() {
 }
 
 function StandConfigurationStatusHelper() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <StandConfigurationStatusIcon status={standConfiguration.status} />
+          <StandConfigurationStatusIcon
+            status={exhibitor.standConfigurationStatus}
+          />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {StandConfigurationStatus.translation[standConfiguration.status]}
+          {ExhibitorStatus.translation[exhibitor.standConfigurationStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {standConfiguration.statusMessage != null ? (
+      {exhibitor.standConfigurationStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {standConfiguration.statusMessage}
+            {exhibitor.standConfigurationStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}
@@ -88,37 +88,33 @@ function StandConfigurationStatusHelper() {
 }
 
 function ItemPeopleCount() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-people-group-light" />}>
-      <strong className="text-body-emphasis">
-        {standConfiguration.peopleCount}
-      </strong>{" "}
+      <strong className="text-body-emphasis">{exhibitor.peopleCount}</strong>{" "}
       personne
-      {standConfiguration.peopleCount > 1 ? "s" : null} sur le stand
+      {exhibitor.peopleCount > 1 ? "s" : null} sur le stand
       <br />
       Avec{" "}
       <strong className="text-body-emphasis">
-        {standConfiguration.chairCount}
+        {exhibitor.chairCount}
       </strong>{" "}
-      chaise{standConfiguration.chairCount > 1 ? "s" : null}
+      chaise{exhibitor.chairCount > 1 ? "s" : null}
     </SimpleItem>
   );
 }
 
 function ItemTable() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-table-picnic-light" />}>
-      <strong className="text-body-emphasis">
-        {standConfiguration.tableCount}
-      </strong>{" "}
-      table{standConfiguration.tableCount > 1 ? "s" : null}
+      <strong className="text-body-emphasis">{exhibitor.tableCount}</strong>{" "}
+      table{exhibitor.tableCount > 1 ? "s" : null}
       <br />
       <strong className="text-body-emphasis">
-        {standConfiguration.hasTablecloths ? "Avec" : "Sans"}
+        {exhibitor.hasTablecloths ? "Avec" : "Sans"}
       </strong>{" "}
       nappage
     </SimpleItem>
@@ -126,21 +122,19 @@ function ItemTable() {
 }
 
 function ItemDivider() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
-      <strong className="text-body-emphasis">
-        {standConfiguration.dividerCount}
-      </strong>{" "}
+      <strong className="text-body-emphasis">{exhibitor.dividerCount}</strong>{" "}
       cloison
-      {standConfiguration.dividerCount > 1 ? "s" : null}
-      {standConfiguration.dividerType != null ? (
+      {exhibitor.dividerCount > 1 ? "s" : null}
+      {exhibitor.dividerType != null ? (
         <>
           <br />
           En{" "}
           <strong className="text-body-emphasis">
-            {DividerType.translation[standConfiguration.dividerType]}
+            {DividerType.translation[exhibitor.dividerType]}
           </strong>
         </>
       ) : null}
@@ -149,26 +143,26 @@ function ItemDivider() {
 }
 
 function ItemStandInfo() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
       Stand de{" "}
       <strong className="text-body-emphasis">
-        {StandSize.translation[standConfiguration.size]}
+        {StandSize.translation[exhibitor.size]}
       </strong>
-      {standConfiguration.zone != null ? (
+      {exhibitor.zone != null ? (
         <>
           <br />
           En{" "}
           <strong className="text-body-emphasis">
-            {StandZone.translation[standConfiguration.zone]}
+            {StandZone.translation[exhibitor.zone]}
           </strong>
         </>
       ) : null}
       <br />
       <strong className="text-body-emphasis">
-        {standConfiguration.hasElectricalConnection ? "Avec" : "Sans"}
+        {exhibitor.hasElectricalConnection ? "Avec" : "Sans"}
       </strong>{" "}
       raccordement électrique
     </SimpleItem>
@@ -176,9 +170,9 @@ function ItemStandInfo() {
 }
 
 function ItemInstallationDay() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (standConfiguration.installationDay == null) {
+  if (exhibitor.installationDay == null) {
     return null;
   }
 
@@ -186,23 +180,23 @@ function ItemInstallationDay() {
     <SimpleItem isLightIcon icon={<Icon href="icon-calendar-day-light" />}>
       Installation le{" "}
       <strong className="text-body-emphasis">
-        {InstallationDay.translation[standConfiguration.installationDay]}
+        {InstallationDay.translation[exhibitor.installationDay]}
       </strong>
     </SimpleItem>
   );
 }
 
 function ItemComment() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (standConfiguration.placementComment == null) {
+  if (exhibitor.placementComment == null) {
     return null;
   }
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-comment-light" />}>
       <Markdown components={SENTENCE_COMPONENTS}>
-        {standConfiguration.placementComment}
+        {exhibitor.placementComment}
       </Markdown>
     </SimpleItem>
   );

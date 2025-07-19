@@ -6,7 +6,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -16,9 +16,9 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
-      activityTargets: profile.activityTargets,
-      activityFields: profile.activityFields,
-      links: profile.links,
+      activityTargets: exhibitor.activityTargets,
+      activityFields: exhibitor.activityFields,
+      links: exhibitor.links,
     },
 
     onValidate: ({ formData }) =>

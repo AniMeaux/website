@@ -18,8 +18,8 @@ export function ExhibitorItem({
       className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
     >
       <DynamicImage
-        imageId={ImageUrl.parse(exhibitor.profile.logoPath).id}
-        alt={exhibitor.profile.name}
+        imageId={ImageUrl.parse(exhibitor.logoPath).id}
+        alt={exhibitor.name}
         sizeMapping={{ default: "60px" }}
         fallbackSize="128"
         background="none"
@@ -41,7 +41,7 @@ export function ExhibitorItem({
             : undefined
         }
       >
-        {exhibitor.profile.name}
+        {exhibitor.name}
       </span>
 
       <VisibilityIcon

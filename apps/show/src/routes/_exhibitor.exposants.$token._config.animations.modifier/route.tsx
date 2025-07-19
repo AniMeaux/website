@@ -10,7 +10,7 @@ import { OnStandAnimationsEmails } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
@@ -22,20 +22,15 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    {
-      select: {
-        name: true,
-        onStandAnimations: true,
-        onStandAnimationsStatus: true,
-      },
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      name: true,
+      onStandAnimations: true,
+      onStandAnimationsStatus: true,
     },
-  );
+  });
 
-  if (
-    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
-  ) {
+  if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       createPath({
         pathname: Routes.exhibitors
@@ -46,14 +41,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
     );
   }
 
-  return { profile };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier les animations", data.profile.name]
+        ? ["Modifier les animations", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -62,14 +57,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    { select: { onStandAnimationsStatus: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { onStandAnimationsStatus: true },
+  });
 
-  if (
-    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
-  ) {
+  if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -81,7 +73,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.profile.updateOnStandAnimations(routeParams.token, {
+  await services.exhibitor.updateOnStandAnimations(routeParams.token, {
     onStandAnimations: submission.value.onStandAnimations || null,
   });
 

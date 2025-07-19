@@ -39,14 +39,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       exhibitor: {
         select: {
           id: true,
-
-          profile: {
-            select: {
-              logoPath: true,
-              name: true,
-              links: true,
-            },
-          },
+          logoPath: true,
+          name: true,
+          links: true,
         },
       },
     },
@@ -70,11 +65,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     });
   }
 
-  if (partner.exhibitor.profile == null) {
-    throw notFound();
-  }
+  const exhibitorUrl = partner.exhibitor.links[0];
 
-  const exhibitorUrl = partner.exhibitor.profile.links[0];
   if (exhibitorUrl == null) {
     throw notFound();
   }
@@ -83,8 +75,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     partner: {
       ...partner,
       exhibitorId: partner.exhibitor.id,
-      logoPath: partner.exhibitor.profile.logoPath,
-      name: partner.exhibitor.profile.name,
+      logoPath: partner.exhibitor.logoPath,
+      name: partner.exhibitor.name,
       url: exhibitorUrl,
     },
   });

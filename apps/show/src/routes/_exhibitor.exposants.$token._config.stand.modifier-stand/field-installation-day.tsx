@@ -6,13 +6,13 @@ import {
 } from "#exhibitors/stand-configuration/installation-day";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowExhibitorStandConfigurationInstallationDay } from "@prisma/client";
+import type { ShowInstallationDay } from "@prisma/client";
 
 export function FieldInstallationDay({
   field,
   label,
 }: {
-  field: FieldMetadata<ShowExhibitorStandConfigurationInstallationDay>;
+  field: FieldMetadata<ShowInstallationDay>;
   label: React.ReactNode;
 }) {
   return (
@@ -28,11 +28,7 @@ export function FieldInstallationDay({
             <FormLayout.Selector.Input {...props} key={props.key} />
 
             <FormLayout.Selector.Label>
-              {
-                INSTALLATION_DAY_TRANSLATION[
-                  props.value as ShowExhibitorStandConfigurationInstallationDay
-                ]
-              }
+              {INSTALLATION_DAY_TRANSLATION[props.value as ShowInstallationDay]}
             </FormLayout.Selector.Label>
 
             <FormLayout.Selector.RadioIcon />

@@ -1,16 +1,14 @@
 import { Empty } from "#core/data-display/empty";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
-import {
-  ProfileStatus,
-  ProfileStatusIcon,
-} from "#show/exhibitors/profile/status";
+import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardDescription() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -21,10 +19,10 @@ export function CardDescription() {
       <Card.Content>
         <DescriptionStatusHelper />
 
-        {profile.description != null ? (
+        {exhibitor.description != null ? (
           <div>
             <Markdown components={ARTICLE_COMPONENTS}>
-              {profile.description}
+              {exhibitor.description}
             </Markdown>
           </div>
         ) : (
@@ -40,24 +38,24 @@ export function CardDescription() {
 }
 
 function DescriptionStatusHelper() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <ProfileStatusIcon status={profile.descriptionStatus} />
+          <ProfileStatusIcon status={exhibitor.descriptionStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {ProfileStatus.translation[profile.descriptionStatus]}
+          {ExhibitorStatus.translation[exhibitor.descriptionStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {profile.descriptionStatusMessage != null ? (
+      {exhibitor.descriptionStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {profile.descriptionStatusMessage}
+            {exhibitor.descriptionStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}
