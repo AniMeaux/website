@@ -4,14 +4,14 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function LayoutHeader() {
-  const { profile, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  const routes = Routes.exhibitors.token(token);
+  const routes = Routes.exhibitors.token(exhibitor.token);
 
   return (
     <Header.Root>
       <Header.NavItem to={routes.toString()} exclude={routes.faq.toString()}>
-        {profile.name}
+        {exhibitor.name}
       </Header.NavItem>
 
       <Header.NavItem to={routes.faq.toString()}>

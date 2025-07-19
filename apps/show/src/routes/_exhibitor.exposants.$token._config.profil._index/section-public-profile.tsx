@@ -9,24 +9,23 @@ import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
 import { Icon } from "#generated/icon";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionPublicProfile() {
-  const { profile, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
       <FormLayout.Header>
         <FormLayout.Title>Profil public</FormLayout.Title>
 
-        {profile.publicProfileStatus !==
-        ShowExhibitorProfileStatus.VALIDATED ? (
+        {exhibitor.publicProfileStatus !== ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
               to={Routes.exhibitors
-                .token(token)
+                .token(exhibitor.token)
                 .profile.editPublicProfile.toString()}
               title="Modifier"
             >
@@ -43,10 +42,10 @@ export function SectionPublicProfile() {
           <FormLayout.Label>Logo</FormLayout.Label>
 
           <DynamicImage
-            alt={profile.name}
+            alt={exhibitor.name}
             aspectRatio="4:3"
             fallbackSize="512"
-            image={ImageUrl.parse(profile.logoPath)}
+            image={ImageUrl.parse(exhibitor.logoPath)}
             fillTransparentBackground
             objectFit="contain"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
@@ -61,7 +60,7 @@ export function SectionPublicProfile() {
 
             <ChipList asChild>
               <FormLayout.Output>
-                {profile.activityTargets.map((activityTarget) => (
+                {exhibitor.activityTargets.map((activityTarget) => (
                   <ChipActivityTarget
                     key={activityTarget}
                     activityTarget={activityTarget}
@@ -76,7 +75,7 @@ export function SectionPublicProfile() {
 
             <ChipList asChild>
               <FormLayout.Output>
-                {profile.activityFields.map((activityField) => (
+                {exhibitor.activityFields.map((activityField) => (
                   <ChipActivityField
                     key={activityField}
                     activityField={activityField}
@@ -95,7 +94,7 @@ export function SectionPublicProfile() {
 
         <FormLayout.Output>
           {joinReactNodes(
-            profile.links.map((link) => (
+            exhibitor.links.map((link) => (
               <ProseInlineAction key={link} variant="subtle" asChild>
                 <a href={link} target="_blank" rel="noreferrer">
                   {link}
@@ -111,32 +110,31 @@ export function SectionPublicProfile() {
 }
 
 function SectionStatus() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.NOT_TOUCHED) {
+  if (exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorProfileStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorProfileStatus.VALIDATED]: "Validé",
-    } satisfies Record<typeof profile.publicProfileStatus, string>
-  )[profile.publicProfileStatus];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validé",
+    } satisfies Record<typeof exhibitor.publicProfileStatus, string>
+  )[exhibitor.publicProfileStatus];
 
   const content = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "Votre profil public est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorProfileStatus.TO_MODIFY]:
-        profile.publicProfileStatusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.publicProfileStatusMessage ??
         "Votre profil public nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorProfileStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "Votre profil public est complété et validé par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof profile.publicProfileStatus, string>
-  )[profile.publicProfileStatus];
+    } satisfies Record<typeof exhibitor.publicProfileStatus, string>
+  )[exhibitor.publicProfileStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

@@ -10,31 +10,28 @@ import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/in
 import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import type { EmailTemplate } from "@animeaux/resend";
-import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export namespace StandConfigurationEmails {
   export async function submitted(token: string): Promise<EmailTemplate> {
-    const { standConfiguration, application } = await promiseHash({
-      standConfiguration: services.exhibitor.standConfiguration.getByToken(
-        token,
-        {
-          select: {
-            chairCount: true,
-            dividerCount: true,
-            dividerType: true,
-            hasElectricalConnection: true,
-            hasTablecloths: true,
-            installationDay: true,
-            peopleCount: true,
-            placementComment: true,
-            size: true,
-            tableCount: true,
-            zone: true,
-          },
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
+        select: {
+          chairCount: true,
+          dividerCount: true,
+          dividerType: true,
+          hasElectricalConnection: true,
+          hasTablecloths: true,
+          installationDay: true,
+          peopleCount: true,
+          placementComment: true,
+          size: true,
+          tableCount: true,
+          zone: true,
         },
-      ),
+      }),
 
       application: services.exhibitor.application.getByToken(token, {
         select: { contactEmail: true },
@@ -55,7 +52,7 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+                {STAND_SIZE_TRANSLATION[exhibitor.size]}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -65,7 +62,7 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
+                {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -73,8 +70,8 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Output.Label>Type de cloisons</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.dividerType != null
-                  ? DIVIDER_TYPE_TRANSLATION[standConfiguration.dividerType]
+                {exhibitor.dividerType != null
+                  ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
                   : "-"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -85,7 +82,7 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.dividerCount}
+                {exhibitor.dividerCount}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -93,7 +90,7 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Output.Label>Nombre de tables</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.tableCount}
+                {exhibitor.tableCount}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -103,7 +100,7 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.hasTablecloths ? "Oui" : "Non"}
+                {exhibitor.hasTablecloths ? "Oui" : "Non"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -113,7 +110,7 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.peopleCount}
+                {exhibitor.peopleCount}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -121,7 +118,7 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Output.Label>Nombre de chaises</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.chairCount}
+                {exhibitor.chairCount}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -131,10 +128,8 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.installationDay != null
-                  ? INSTALLATION_DAY_TRANSLATION[
-                      standConfiguration.installationDay
-                    ]
+                {exhibitor.installationDay != null
+                  ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
                   : "-"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -143,8 +138,8 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.zone != null
-                  ? STAND_ZONE_TRANSLATION[standConfiguration.zone]
+                {exhibitor.zone != null
+                  ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                   : "-"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -155,9 +150,9 @@ export namespace StandConfigurationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {standConfiguration.placementComment != null ? (
+                {exhibitor.placementComment != null ? (
                   <EmailHtml.Markdown
-                    content={standConfiguration.placementComment}
+                    content={exhibitor.placementComment}
                     components={EMAIL_SENTENCE_COMPONENTS}
                   />
                 ) : (
@@ -213,30 +208,24 @@ export namespace StandConfigurationEmails {
   export async function treated(
     exhibitorId: string,
   ): Promise<null | EmailTemplate> {
-    const { standConfiguration, exhibitor, application } = await promiseHash({
-      standConfiguration: services.exhibitor.standConfiguration.getByExhibitor(
-        exhibitorId,
-        {
-          select: {
-            chairCount: true,
-            dividerCount: true,
-            dividerType: true,
-            hasElectricalConnection: true,
-            hasTablecloths: true,
-            installationDay: true,
-            peopleCount: true,
-            placementComment: true,
-            size: true,
-            status: true,
-            statusMessage: true,
-            tableCount: true,
-            zone: true,
-          },
-        },
-      ),
-
+    const { exhibitor, application } = await promiseHash({
       exhibitor: services.exhibitor.get(exhibitorId, {
-        select: { token: true },
+        select: {
+          token: true,
+          chairCount: true,
+          dividerCount: true,
+          dividerType: true,
+          hasElectricalConnection: true,
+          hasTablecloths: true,
+          installationDay: true,
+          peopleCount: true,
+          placementComment: true,
+          size: true,
+          standConfigurationStatus: true,
+          standConfigurationStatusMessage: true,
+          tableCount: true,
+          zone: true,
+        },
       }),
 
       application: services.exhibitor.application.getByExhibitor(exhibitorId, {
@@ -245,16 +234,15 @@ export namespace StandConfigurationEmails {
     });
 
     if (
-      standConfiguration.status ===
-        ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION ||
-      standConfiguration.status ===
-        ShowExhibitorStandConfigurationStatus.TO_BE_FILLED
+      exhibitor.standConfigurationStatus ===
+        ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.standConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
       return null;
     }
 
-    switch (standConfiguration.status) {
-      case ShowExhibitorStandConfigurationStatus.VALIDATED: {
+    switch (exhibitor.standConfigurationStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
         function SectionStand() {
           return (
             <EmailHtml.Section.Root>
@@ -269,7 +257,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+                    {STAND_SIZE_TRANSLATION[exhibitor.size]}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -279,7 +267,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
+                    {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -289,8 +277,8 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.dividerType != null
-                      ? DIVIDER_TYPE_TRANSLATION[standConfiguration.dividerType]
+                    {exhibitor.dividerType != null
+                      ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
                       : "-"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
@@ -301,7 +289,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.dividerCount}
+                    {exhibitor.dividerCount}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -311,7 +299,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.tableCount}
+                    {exhibitor.tableCount}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -321,7 +309,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.hasTablecloths ? "Oui" : "Non"}
+                    {exhibitor.hasTablecloths ? "Oui" : "Non"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -331,7 +319,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.peopleCount}
+                    {exhibitor.peopleCount}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -341,7 +329,7 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.chairCount}
+                    {exhibitor.chairCount}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -351,10 +339,8 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.installationDay != null
-                      ? INSTALLATION_DAY_TRANSLATION[
-                          standConfiguration.installationDay
-                        ]
+                    {exhibitor.installationDay != null
+                      ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
                       : "-"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
@@ -363,8 +349,8 @@ export namespace StandConfigurationEmails {
                   <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.zone != null
-                      ? STAND_ZONE_TRANSLATION[standConfiguration.zone]
+                    {exhibitor.zone != null
+                      ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                       : "-"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
@@ -375,9 +361,9 @@ export namespace StandConfigurationEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {standConfiguration.placementComment != null ? (
+                    {exhibitor.placementComment != null ? (
                       <EmailHtml.Markdown
-                        content={standConfiguration.placementComment}
+                        content={exhibitor.placementComment}
                         components={EMAIL_SENTENCE_COMPONENTS}
                       />
                     ) : (
@@ -430,10 +416,10 @@ export namespace StandConfigurationEmails {
         };
       }
 
-      case ShowExhibitorStandConfigurationStatus.TO_MODIFY: {
+      case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
-          standConfiguration.statusMessage != null,
-          "A statusMessage should exists",
+          exhibitor.standConfigurationStatusMessage != null,
+          "A standConfigurationStatusMessage should exists",
         );
 
         return {
@@ -447,7 +433,7 @@ export namespace StandConfigurationEmails {
 
               <EmailHtml.Section.Root>
                 <EmailHtml.Markdown
-                  content={standConfiguration.statusMessage}
+                  content={exhibitor.standConfigurationStatusMessage}
                   components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
@@ -474,7 +460,7 @@ export namespace StandConfigurationEmails {
       }
 
       default: {
-        return standConfiguration.status satisfies never;
+        return exhibitor.standConfigurationStatus satisfies never;
       }
     }
   }

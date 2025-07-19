@@ -6,7 +6,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -16,7 +16,7 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
-      description: profile.description ?? "",
+      description: exhibitor.description ?? "",
     },
 
     onValidate: ({ formData }) =>

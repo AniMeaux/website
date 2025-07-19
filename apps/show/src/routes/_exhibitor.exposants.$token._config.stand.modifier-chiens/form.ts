@@ -6,7 +6,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { dogsConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -16,7 +16,7 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
-      dogs: dogsConfiguration.dogs.map((dog) => ({
+      dogs: exhibitor.dogs.map((dog) => ({
         ...dog,
         isSterilized: dog.isSterilized ? "on" : "off",
         isCategorized: dog.isCategorized ? "on" : "off",

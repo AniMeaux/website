@@ -1,31 +1,23 @@
+import { createImageBlurhash } from "#core/blurhash.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import type { Services } from "#core/services/service.server";
 import { Service } from "#core/services/service.server";
 import { ServiceApplication } from "#exhibitors/application/service.server";
-import { ServiceDocuments } from "#exhibitors/documents/service.server";
-import { ServiceDogsConfiguration } from "#exhibitors/dogs-configuration/service.server";
-import { ServiceProfile } from "#exhibitors/profile/service.server";
 import { ExhibitorSearchParamsN } from "#exhibitors/search-params";
-import { ServiceStandConfiguration } from "#exhibitors/stand-configuration/service.server";
-import type { Prisma } from "@prisma/client";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ImageUrl } from "@animeaux/core";
+import type { Prisma, ShowExhibitor } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
+import { captureException } from "@sentry/remix";
+import { promiseHash } from "remix-utils/promise";
 
 export class ServiceExhibitor extends Service {
   readonly application: ServiceApplication;
-  readonly documents: ServiceDocuments;
-  readonly dogsConfiguration: ServiceDogsConfiguration;
-  readonly profile: ServiceProfile;
-  readonly standConfiguration: ServiceStandConfiguration;
 
   constructor(services: Services) {
     super(services);
 
     this.application = new ServiceApplication(services);
-    this.documents = new ServiceDocuments(services);
-    this.dogsConfiguration = new ServiceDogsConfiguration(services);
-    this.profile = new ServiceProfile(services);
-    this.standConfiguration = new ServiceStandConfiguration(services);
   }
 
   async get<T extends Prisma.ShowExhibitorSelect>(
@@ -72,17 +64,13 @@ export class ServiceExhibitor extends Service {
 
     if (params.searchParams.targets.size > 0) {
       where.push({
-        profile: {
-          activityTargets: { hasSome: Array.from(params.searchParams.targets) },
-        },
+        activityTargets: { hasSome: Array.from(params.searchParams.targets) },
       });
     }
 
     if (params.searchParams.fields.size > 0) {
       where.push({
-        profile: {
-          activityFields: { hasSome: Array.from(params.searchParams.fields) },
-        },
+        activityFields: { hasSome: Array.from(params.searchParams.fields) },
       });
     }
 
@@ -113,17 +101,217 @@ export class ServiceExhibitor extends Service {
       )
     ) {
       where.push({
-        profile: {
-          onStandAnimationsStatus: ShowExhibitorProfileStatus.VALIDATED,
-          onStandAnimations: { not: null },
-        },
+        onStandAnimationsStatus: ShowExhibitorStatus.VALIDATED,
+        onStandAnimations: { not: null },
       });
     }
 
     return await prisma.showExhibitor.findMany({
       where: { AND: where },
-      orderBy: { profile: { name: "asc" } },
+      orderBy: { name: "asc" },
       select: params.select,
     });
   }
+
+  async getFilesByToken(token: string) {
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { token },
+      select: {
+        identificationFileId: true,
+        insuranceFileId: true,
+        kbisFileId: true,
+      },
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return await this.#getFiles(exhibitor);
+  }
+
+  async getFilesByExhibitor(exhibitorId: string) {
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id: exhibitorId },
+      select: {
+        identificationFileId: true,
+        insuranceFileId: true,
+        kbisFileId: true,
+      },
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return await this.#getFiles(exhibitor);
+  }
+
+  async #getFiles(
+    exhibitor: Pick<
+      ShowExhibitor,
+      "identificationFileId" | "insuranceFileId" | "kbisFileId"
+    >,
+  ) {
+    return await promiseHash({
+      identificationFile: this.#getFileMaybe(exhibitor.identificationFileId),
+      insuranceFile: this.#getFileMaybe(exhibitor.insuranceFileId),
+      kbisFile: this.#getFileMaybe(exhibitor.kbisFileId),
+    });
+  }
+
+  async #getFileMaybe(fileId: null | string) {
+    if (fileId == null) {
+      return null;
+    }
+
+    return this.services.fileStorage.getFile(fileId);
+  }
+
+  async updateDocuments(token: string, data: DocumentsData) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        documentStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
+
+  async updateDogs(token: string, data: ExhibitorDogData[]) {
+    return await prisma.$transaction(async (prisma) => {
+      const exhibitor = await prisma.showExhibitor.update({
+        where: { token },
+        data: {
+          dogsConfigurationStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+        },
+        select: { id: true },
+      });
+
+      await prisma.showExhibitorDog.deleteMany({
+        where: { exhibitorId: exhibitor.id },
+      });
+
+      await prisma.showExhibitorDog.createMany({
+        data: data.map((dog) => ({
+          ...dog,
+
+          exhibitorId: exhibitor.id,
+        })),
+      });
+
+      return true;
+    });
+  }
+
+  async updatePublicProfile(token: string, data: ExhibitorPublicProfileData) {
+    const logoPath =
+      typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set;
+
+    if (logoPath != null) {
+      try {
+        const blurhash = await createImageBlurhash(logoPath);
+        data.logoPath = ImageUrl.stringify({ id: logoPath, blurhash });
+      } catch (error) {
+        console.error(error);
+        captureException(error, { extra: { logoPath } });
+      }
+    }
+
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        publicProfileStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
+
+  async updateDescription(token: string, data: ExhibitorDescriptionData) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        descriptionStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
+
+  async updateOnStandAnimations(
+    token: string,
+    data: ExhibitorOnStandAnimationsData,
+  ) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        onStandAnimationsStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
+
+  async updateStand(token: string, data: ExhibitorStandConfigurationData) {
+    await prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        standConfigurationStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
 }
+
+type DocumentsData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "identificationFileId" | "insuranceFileId" | "kbisFileId"
+>;
+
+type ExhibitorDogData = Pick<
+  Prisma.ShowExhibitorDogCreateManyInput,
+  "gender" | "idNumber" | "isCategorized" | "isSterilized"
+>;
+
+type ExhibitorPublicProfileData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "activityFields" | "activityTargets" | "links" | "logoPath"
+>;
+
+type ExhibitorDescriptionData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "description"
+>;
+
+type ExhibitorOnStandAnimationsData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "onStandAnimations"
+>;
+
+type ExhibitorStandConfigurationData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  | "chairCount"
+  | "dividerCount"
+  | "dividerType"
+  | "hasElectricalConnection"
+  | "hasTablecloths"
+  | "installationDay"
+  | "peopleCount"
+  | "placementComment"
+  | "size"
+  | "tableCount"
+  | "zone"
+>;

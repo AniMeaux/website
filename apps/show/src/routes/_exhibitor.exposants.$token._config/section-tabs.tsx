@@ -5,9 +5,9 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionTabs() {
-  const { token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  const routes = Routes.exhibitors.token(token);
+  const routes = Routes.exhibitors.token(exhibitor.token);
 
   return (
     <section

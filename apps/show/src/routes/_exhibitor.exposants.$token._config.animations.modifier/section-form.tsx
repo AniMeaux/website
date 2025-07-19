@@ -78,7 +78,7 @@ export function SectionForm() {
 }
 
 function useForm() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -88,7 +88,7 @@ function useForm() {
     lastResult: actionData,
 
     defaultValue: {
-      onStandAnimations: profile.onStandAnimations,
+      onStandAnimations: exhibitor.onStandAnimations,
     },
 
     onValidate: ({ formData }) =>

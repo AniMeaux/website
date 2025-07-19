@@ -12,7 +12,7 @@ import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
@@ -25,35 +25,31 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    {
-      select: {
-        updatedAt: true,
-        activityFields: true,
-        activityTargets: true,
-        links: true,
-        logoPath: true,
-        name: true,
-        publicProfileStatus: true,
-      },
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      activityFields: true,
+      activityTargets: true,
+      links: true,
+      logoPath: true,
+      name: true,
+      publicProfileStatus: true,
     },
-  );
+  });
 
-  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.VALIDATED) {
+  if (exhibitor.publicProfileStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       Routes.exhibitors.token(routeParams.token).profile.toString(),
     );
   }
 
-  return { profile };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier le profil public", data.profile.name]
+        ? ["Modifier le profil public", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -62,12 +58,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    { select: { publicProfileStatus: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { publicProfileStatus: true },
+  });
 
-  if (profile.publicProfileStatus === ShowExhibitorProfileStatus.VALIDATED) {
+  if (exhibitor.publicProfileStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -77,7 +72,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     const errors = await reversibleUpload.revert();
 
     if (errors != null) {
-      captureException(new Error("Could not delete exhibitor profile logo"), {
+      captureException(new Error("Could not delete exhibitor logo"), {
         extra: {
           errors: errors.map(({ error, ...rest }) => ({
             ...rest,
@@ -113,7 +108,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await services.exhibitor.profile.updatePublicProfile(routeParams.token, {
+    await services.exhibitor.updatePublicProfile(routeParams.token, {
       activityTargets: submission.value.activityTargets,
       activityFields: submission.value.activityFields,
       links: submission.value.links,

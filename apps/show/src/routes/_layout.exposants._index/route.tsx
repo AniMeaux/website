@@ -4,7 +4,7 @@ import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { services } from "#core/services/services.server";
 import { ExhibitorSearchParams } from "#exhibitors/search-params";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { SectionList } from "./section-list";
@@ -27,19 +27,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
     select: {
       id: true,
-
-      profile: {
-        select: {
-          name: true,
-          logoPath: true,
-          activityFields: true,
-          activityTargets: true,
-          links: true,
-          onStandAnimationsStatus: true,
-          onStandAnimations:
-            process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true",
-        },
-      },
+      name: true,
+      logoPath: true,
+      activityFields: true,
+      activityTargets: true,
+      links: true,
+      onStandAnimationsStatus: true,
+      onStandAnimations:
+        process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true",
 
       partnership: { select: { isVisible: true } },
 
@@ -49,25 +44,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return json({
     exhibitors: exhibitors.map(
-      ({ profile, partnership, _count, ...exhibitor }) => {
-        if (profile == null) {
-          throw notFound();
-        }
-
-        const {
-          links,
-          onStandAnimations,
-          onStandAnimationsStatus,
-          ...publicProfile
-        } = profile;
-
+      ({
+        partnership,
+        _count,
+        links,
+        onStandAnimations,
+        onStandAnimationsStatus,
+        ...exhibitor
+      }) => {
         const url = links[0];
+
         if (url == null) {
           throw notFound();
         }
 
         return {
           ...exhibitor,
+          url,
 
           isOrganizer: exhibitor.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
@@ -79,16 +72,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
             process.env.FEATURE_FLAG_SHOW_PROGRAM === "true" &&
             _count.animations > 0,
 
-          profile: {
-            ...publicProfile,
-            url,
-
-            onStandAnimations:
-              process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true" &&
-              onStandAnimationsStatus === ShowExhibitorProfileStatus.VALIDATED
-                ? onStandAnimations
-                : null,
-          },
+          onStandAnimations:
+            process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true" &&
+            onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED
+              ? onStandAnimations
+              : null,
         };
       },
     ),

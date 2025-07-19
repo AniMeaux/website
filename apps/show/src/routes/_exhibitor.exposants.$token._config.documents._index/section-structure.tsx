@@ -6,7 +6,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionStructure() {
-  const { profile, application } = useLoaderData<typeof loader>();
+  const { exhibitor, application } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
@@ -15,7 +15,7 @@ export function SectionStructure() {
       <FormLayout.Field>
         <FormLayout.Label>Nom</FormLayout.Label>
 
-        <FormLayout.Output>{profile.name}</FormLayout.Output>
+        <FormLayout.Output>{exhibitor.name}</FormLayout.Output>
       </FormLayout.Field>
 
       <FormLayout.Row>

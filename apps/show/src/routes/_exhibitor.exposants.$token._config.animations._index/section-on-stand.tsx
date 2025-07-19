@@ -5,23 +5,24 @@ import { LightBoardCard } from "#core/layout/light-board-card";
 import { Routes } from "#core/navigation";
 import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionOnStand() {
-  const { profile, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section id="on-stand-animations">
       <FormLayout.Header>
         <FormLayout.Title>Animations sur stand</FormLayout.Title>
 
-        {profile.onStandAnimationsStatus !==
-        ShowExhibitorProfileStatus.VALIDATED ? (
+        {exhibitor.onStandAnimationsStatus !== ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
-              to={Routes.exhibitors.token(token).animations.edit.toString()}
+              to={Routes.exhibitors
+                .token(exhibitor.token)
+                .animations.edit.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />
@@ -50,7 +51,7 @@ export function SectionOnStand() {
         </p>
       </HelperCard.Root>
 
-      {profile.onStandAnimations == null ? (
+      {exhibitor.onStandAnimations == null ? (
         <LightBoardCard isSmall>
           <p>Aucune animation sur stand prévue.</p>
         </LightBoardCard>
@@ -59,14 +60,14 @@ export function SectionOnStand() {
           <FormLayout.Field>
             <FormLayout.Label>Description</FormLayout.Label>
 
-            <FormLayout.Output>{profile.onStandAnimations}</FormLayout.Output>
+            <FormLayout.Output>{exhibitor.onStandAnimations}</FormLayout.Output>
           </FormLayout.Field>
 
           <FormLayout.Field>
             <FormLayout.Label>Aperçu</FormLayout.Label>
 
             <CardAnimationsOnStand
-              onStandAnimations={profile.onStandAnimations}
+              onStandAnimations={exhibitor.onStandAnimations}
             />
           </FormLayout.Field>
         </FormLayout.Row>
@@ -76,34 +77,31 @@ export function SectionOnStand() {
 }
 
 function SectionStatus() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (
-    profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
-  ) {
+  if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorProfileStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorProfileStatus.VALIDATED]: "Validée",
-    } satisfies Record<typeof profile.onStandAnimationsStatus, string>
-  )[profile.onStandAnimationsStatus];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validée",
+    } satisfies Record<typeof exhibitor.onStandAnimationsStatus, string>
+  )[exhibitor.onStandAnimationsStatus];
 
   const content = (
     {
-      [ShowExhibitorProfileStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "La description de vos animations sur stand est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorProfileStatus.TO_MODIFY]:
-        profile.onStandAnimationsStatusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.onStandAnimationsStatusMessage ??
         "La description de vos animations sur stand nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorProfileStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "La description de vos animations sur stand est complétée et validée par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof profile.onStandAnimationsStatus, string>
-  )[profile.onStandAnimationsStatus];
+    } satisfies Record<typeof exhibitor.onStandAnimationsStatus, string>
+  )[exhibitor.onStandAnimationsStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

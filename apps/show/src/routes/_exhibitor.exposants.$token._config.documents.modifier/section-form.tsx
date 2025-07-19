@@ -13,7 +13,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function SectionForm() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const formAction = useFormAction();
   const navigation = useNavigation();
   const [form, fieldset] = useForm();
@@ -29,7 +29,7 @@ export function SectionForm() {
               label="Pièce d’identité"
               field={fieldset.identificationFile}
               currentIdField={fieldset.identificationFileCurrentId}
-              defaultFile={documents.identificationFile}
+              defaultFile={exhibitor.identificationFile}
               helper={<FormLayout.Helper>CNI ou Passeport</FormLayout.Helper>}
             />
 
@@ -37,7 +37,7 @@ export function SectionForm() {
               label="Justificatif d’immatriculation"
               field={fieldset.kbisFile}
               currentIdField={fieldset.kbisFileCurrentId}
-              defaultFile={documents.kbisFile}
+              defaultFile={exhibitor.kbisFile}
               helper={
                 <FormLayout.Helper>Kbis, SIRENE ou récépissé</FormLayout.Helper>
               }
@@ -47,7 +47,7 @@ export function SectionForm() {
               label="Assurance"
               field={fieldset.insuranceFile}
               currentIdField={fieldset.insuranceFileCurrentId}
-              defaultFile={documents.insuranceFile}
+              defaultFile={exhibitor.insuranceFile}
             />
           </FormLayout.Row>
         </FormLayout.Section>
@@ -67,7 +67,7 @@ export function SectionForm() {
 }
 
 function useForm() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -77,9 +77,9 @@ function useForm() {
     lastResult: actionData,
 
     defaultValue: {
-      identificationFileCurrentId: documents.identificationFile?.id,
-      insuranceFileCurrentId: documents.insuranceFile?.id,
-      kbisFileCurrentId: documents.kbisFile?.id,
+      identificationFileCurrentId: exhibitor.identificationFile?.id,
+      insuranceFileCurrentId: exhibitor.insuranceFile?.id,
+      kbisFileCurrentId: exhibitor.kbisFile?.id,
     },
 
     onValidate: ({ formData }) =>

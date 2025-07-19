@@ -4,22 +4,24 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorDocumentsStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionDocuments() {
-  const { documents, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
       <FormLayout.Header>
         <FormLayout.Title>Documents</FormLayout.Title>
 
-        {documents.status !== ShowExhibitorDocumentsStatus.VALIDATED ? (
+        {exhibitor.documentStatus !== ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
-              to={Routes.exhibitors.token(token).documents.edit.toString()}
+              to={Routes.exhibitors
+                .token(exhibitor.token)
+                .documents.edit.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />
@@ -35,14 +37,14 @@ export function SectionDocuments() {
           <FormLayout.Label>Pièce d’identité</FormLayout.Label>
 
           <FileItem.Root>
-            <FileItem.Icon mimeType={documents.identificationFile?.mimeType} />
+            <FileItem.Icon mimeType={exhibitor.identificationFile?.mimeType} />
 
             <FileItem.Thumbnail
-              src={documents.identificationFile?.thumbnailLink}
+              src={exhibitor.identificationFile?.thumbnailLink}
             />
 
             <FileItem.Filename>
-              {documents.identificationFile?.originalFilename}
+              {exhibitor.identificationFile?.originalFilename}
             </FileItem.Filename>
           </FileItem.Root>
         </FormLayout.Field>
@@ -51,12 +53,12 @@ export function SectionDocuments() {
           <FormLayout.Label>Justificatif d’immatriculation</FormLayout.Label>
 
           <FileItem.Root>
-            <FileItem.Icon mimeType={documents.kbisFile?.mimeType} />
+            <FileItem.Icon mimeType={exhibitor.kbisFile?.mimeType} />
 
-            <FileItem.Thumbnail src={documents.kbisFile?.thumbnailLink} />
+            <FileItem.Thumbnail src={exhibitor.kbisFile?.thumbnailLink} />
 
             <FileItem.Filename>
-              {documents.kbisFile?.originalFilename}
+              {exhibitor.kbisFile?.originalFilename}
             </FileItem.Filename>
           </FileItem.Root>
         </FormLayout.Field>
@@ -65,12 +67,12 @@ export function SectionDocuments() {
           <FormLayout.Label>Assurance</FormLayout.Label>
 
           <FileItem.Root>
-            <FileItem.Icon mimeType={documents.insuranceFile?.mimeType} />
+            <FileItem.Icon mimeType={exhibitor.insuranceFile?.mimeType} />
 
-            <FileItem.Thumbnail src={documents.insuranceFile?.thumbnailLink} />
+            <FileItem.Thumbnail src={exhibitor.insuranceFile?.thumbnailLink} />
 
             <FileItem.Filename>
-              {documents.insuranceFile?.originalFilename}
+              {exhibitor.insuranceFile?.originalFilename}
             </FileItem.Filename>
           </FileItem.Root>
         </FormLayout.Field>
@@ -80,32 +82,31 @@ export function SectionDocuments() {
 }
 
 function SectionStatus() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (documents.status === ShowExhibitorDocumentsStatus.TO_BE_FILLED) {
+  if (exhibitor.documentStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorDocumentsStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorDocumentsStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorDocumentsStatus.VALIDATED]: "Validé",
-    } satisfies Record<typeof documents.status, string>
-  )[documents.status];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validé",
+    } satisfies Record<typeof exhibitor.documentStatus, string>
+  )[exhibitor.documentStatus];
 
   const content = (
     {
-      [ShowExhibitorDocumentsStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "Votre dossier est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorDocumentsStatus.TO_MODIFY]:
-        documents.statusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.documentStatusMessage ??
         "Votre dossier nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorDocumentsStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "Votre dossier est complété et validé par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof documents.status, string>
-  )[documents.status];
+    } satisfies Record<typeof exhibitor.documentStatus, string>
+  )[exhibitor.documentStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

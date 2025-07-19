@@ -18,13 +18,13 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { application, profile } = await promiseHash({
+  const { application, exhibitor } = await promiseHash({
     application: services.exhibitor.application.getByToken(routeParams.token, {
       select: { status: true },
     }),
 
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true },
+    exhibitor: services.exhibitor.getByToken(routeParams.token, {
+      select: { name: true, token: true },
     }),
   });
 
@@ -33,7 +33,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  return { profile, token: routeParams.token };
+  return { exhibitor };
 }
 
 export function ErrorBoundary() {

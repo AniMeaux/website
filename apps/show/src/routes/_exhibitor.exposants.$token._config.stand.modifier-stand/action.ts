@@ -3,8 +3,8 @@ import { MAX_PEOPLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/people-co
 import { MAX_TABLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/table-count";
 import { zu } from "@animeaux/zod-utils";
 import {
-  ShowExhibitorStandConfigurationDividerType,
-  ShowExhibitorStandConfigurationInstallationDay,
+  ShowDividerType,
+  ShowInstallationDay,
   ShowStandSize,
   ShowStandZone,
 } from "@prisma/client";
@@ -23,7 +23,7 @@ export const ActionSchema = zu
       })
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre positif"),
-    dividerType: zu.nativeEnum(ShowExhibitorStandConfigurationDividerType, {
+    dividerType: zu.nativeEnum(ShowDividerType, {
       required_error: "Veuillez choisir un type de cloisons",
     }),
     hasElectricalConnection: zu
@@ -36,10 +36,9 @@ export const ActionSchema = zu
         required_error: "Veuillez choisir une option",
       })
       .transform((value) => value === "on"),
-    installationDay: zu.nativeEnum(
-      ShowExhibitorStandConfigurationInstallationDay,
-      { required_error: "Veuillez choisir un jour d’installation" },
-    ),
+    installationDay: zu.nativeEnum(ShowInstallationDay, {
+      required_error: "Veuillez choisir un jour d’installation",
+    }),
     peopleCount: zu.coerce
       .number({
         message: "Veuillez entrer un nombre valide",

@@ -9,12 +9,11 @@ import { SectionTitle } from "./section-title";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    { select: { name: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { name: true, token: true },
+  });
 
-  return { token: routeParams.token, profile };
+  return { exhibitor };
 }
 
 export default function Route() {
