@@ -567,6 +567,10 @@ async function seedShowExhibitorApplications() {
               )
             : undefined,
 
+        motivation: faker.lorem
+          .paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
+          .substring(0, 1000),
+
         discoverySource: faker.lorem.word(),
 
         comments: faker.helpers.maybe(

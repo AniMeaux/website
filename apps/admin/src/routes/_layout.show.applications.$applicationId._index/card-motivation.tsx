@@ -3,23 +3,19 @@ import { Card } from "#core/layout/card";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
-export function CardComments() {
+export function CardMotivation() {
   const { application } = useLoaderData<typeof loader>();
-
-  if (application.comments == null) {
-    return null;
-  }
 
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Commentaires</Card.Title>
+        <Card.Title>Motivation</Card.Title>
       </Card.Header>
 
       <Card.Content>
         <div>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {application.comments}
+            {application.motivation}
           </Markdown>
         </div>
       </Card.Content>

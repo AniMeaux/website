@@ -195,6 +195,12 @@ export const ActionSchema = zu
     ),
 
     comments: zu.object({
+      motivation: zu
+        .string({ required_error: "Veuillez entrer une réponse" })
+        .trim()
+        .min(1, "Veuillez entrer une réponse")
+        .max(1000, "Veuillez entrer une réponse plus courte"),
+
       discoverySource: zu
         .string({ required_error: "Veuillez entrer une réponse" })
         .trim()
