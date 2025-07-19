@@ -6,6 +6,7 @@ import type { MetaFunction } from "@remix-run/react";
 import { CardComments } from "./card-comments";
 import { CardContact } from "./card-contact";
 import { CardDiscoverySource } from "./card-discovery-source";
+import { CardMotivation } from "./card-motivation";
 import { CardParticipation } from "./card-participation";
 import { CardPartnership } from "./card-partnership";
 import { CardSituation } from "./card-situation";
@@ -57,6 +58,8 @@ export default function Route() {
           <CardPartnership />
           <CardDiscoverySource />
         </div>
+
+        <CardMotivation />
       </div>
     </PageLayout.Content>
   );

@@ -36,6 +36,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         desiredStandSize: true,
         discoverySource: true,
         id: true,
+        motivation: true,
         otherPartnershipCategory: true,
         partnershipCategory: true,
         proposalForOnStageEntertainment: true,
