@@ -1,6 +1,6 @@
 import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
-import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
+import { ApplicationEmails } from "#exhibitors/application/emails.server";
 import { DocumentsEmails } from "#exhibitors/documents/email.server";
 import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server.js";
 import { ExhibitorEmails } from "#exhibitors/email.server";
@@ -34,9 +34,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   switch (action.data.type) {
     case ActionSchemaApplicationStatusUpdated.shape.type.value: {
-      email.send.template(
-        createEmailTemplateStatusUpdate(action.data.applicationId),
-      );
+      email.send.template(ApplicationEmails.treated(action.data.applicationId));
 
       return json({ ok: true });
     }

@@ -2,7 +2,7 @@ import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { email } from "#core/emails.server";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
-import { createEmailTemplateConfirmation } from "#exhibitors/application/emails.server";
+import { ApplicationEmails } from "#exhibitors/application/emails.server";
 import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
 import { ServiceApplication } from "#exhibitors/application/service.server";
 import { isPartnershipCategory } from "#exhibitors/partnership/category";
@@ -135,7 +135,7 @@ export async function action({ request }: ActionFunctionArgs) {
     throw error;
   }
 
-  email.send.template(createEmailTemplateConfirmation(application));
+  email.send.template(ApplicationEmails.submitted(application));
 
   throw redirect(
     Routes.exhibitors.application.applicationId(application.id).toString(),
