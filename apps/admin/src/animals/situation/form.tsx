@@ -179,6 +179,21 @@ export function AnimalSituationForm({
         <Form.Fields>
           <Form.Errors errors={fetcher.data?.errors?.formErrors} />
 
+          {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
+            <>
+              <Form.Field>
+                <Form.Label>Famille d’accueil</Form.Label>
+
+                <FosterFamilyInput
+                  name={ActionFormData.keys.fosterFamilyId}
+                  defaultValue={defaultAnimal?.fosterFamily}
+                />
+              </Form.Field>
+
+              <Separator />
+            </>
+          ) : null}
+
           <Form.Field>
             <Form.Label>
               Statut <RequiredStar />
@@ -363,21 +378,6 @@ export function AnimalSituationForm({
               ))}
             </RadioInputList>
           </Form.Field>
-
-          {ACTIVE_ANIMAL_STATUS.includes(statusState) ? (
-            <>
-              <Separator />
-
-              <Form.Field>
-                <Form.Label>Famille d’accueil</Form.Label>
-
-                <FosterFamilyInput
-                  name={ActionFormData.keys.fosterFamilyId}
-                  defaultValue={defaultAnimal?.fosterFamily}
-                />
-              </Form.Field>
-            </>
-          ) : null}
 
           <Separator />
 
