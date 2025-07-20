@@ -5,6 +5,7 @@ import { DocumentsEmails } from "#exhibitors/documents/email.server";
 import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server.js";
 import { ExhibitorEmails } from "#exhibitors/email.server";
 import {
+  DescriptionEmails,
   OnStandAnimationsEmails,
   PublicProfileEmails,
 } from "#exhibitors/profile/email.server";
@@ -24,6 +25,7 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaExhibitorVisibleTreated,
       ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
+      ActionSchemaDescriptionTreated,
       ActionSchemaStandConfigurationTreated,
     ])
     .safeParse(await request.json());
@@ -73,6 +75,12 @@ export async function action({ request }: ActionFunctionArgs) {
       return json({ ok: true });
     }
 
+    case ActionSchemaDescriptionTreated.shape.type.value: {
+      email.send.template(DescriptionEmails.treated(action.data.exhibitorId));
+
+      return json({ ok: true });
+    }
+
     case ActionSchemaStandConfigurationTreated.shape.type.value: {
       email.send.template(
         StandConfigurationEmails.treated(action.data.exhibitorId),
@@ -114,6 +122,11 @@ const ActionSchemaOnStandAnimationsTreated = zu.object({
 
 const ActionSchemaPublicProfileTreated = zu.object({
   type: zu.literal("public-profile-treated"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaDescriptionTreated = zu.object({
+  type: zu.literal("description-treated"),
   exhibitorId: zu.string().uuid(),
 });
 

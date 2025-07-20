@@ -340,6 +340,33 @@ export class ShowExhibitorDbDelegate {
     }
   }
 
+  async updateDescription(id: string, data: ShowExhibitorDescriptionData) {
+    this.#normalizeDescription(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "description-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizeDescription(data: ShowExhibitorDescriptionData) {
+    if (data.descriptionStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.descriptionStatusMessage = null;
+    }
+  }
+
   async updateName(id: string, data: ShowExhibitorNameData) {
     try {
       await prisma.showExhibitor.update({ where: { id }, data });
@@ -442,6 +469,11 @@ type ShowExhibitorPublicProfileData = Pick<
   | "links"
   | "publicProfileStatus"
   | "publicProfileStatusMessage"
+>;
+
+type ShowExhibitorDescriptionData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "description" | "descriptionStatus" | "descriptionStatusMessage"
 >;
 
 type ShowExhibitorNameData = Pick<Prisma.ShowExhibitorUpdateInput, "name">;

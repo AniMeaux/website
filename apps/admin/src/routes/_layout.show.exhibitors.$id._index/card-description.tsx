@@ -1,6 +1,9 @@
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { Empty } from "#core/data-display/empty";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation.js";
 import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -14,6 +17,16 @@ export function CardDescription() {
     <Card>
       <Card.Header>
         <Card.Title>Description</Card.Title>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors
+              .id(exhibitor.id)
+              .edit.description.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>
