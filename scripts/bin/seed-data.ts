@@ -543,6 +543,9 @@ async function seedShowExhibitorApplications() {
         structureOtherLegalStatus:
           legalStatus == null ? faker.lorem.word() : undefined,
         structureSiret: faker.string.numeric({ length: 14 }),
+        structureActivityDescription: faker.lorem
+          .paragraph(faker.number.int({ min: 1, max: 5 }))
+          .substring(0, 300),
         structureActivityTargets: faker.helpers.arrayElements(
           Object.values(ShowActivityTarget),
           { min: 1, max: 3 },

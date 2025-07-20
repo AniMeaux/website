@@ -152,6 +152,16 @@ export namespace ApplicationEmails {
             </EmailHtml.Output.Row>
 
             <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Présentation de l’activité
+              </EmailHtml.Output.Label>
+
+              <EmailHtml.Output.Value>
+                {application.structureActivityDescription}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+
+            <EmailHtml.Output.Row>
               <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
