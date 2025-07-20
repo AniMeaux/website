@@ -30,12 +30,11 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await db.show.exhibitor.profile.findUniqueByExhibitor(
-    routeParams.id,
-    { select: { name: true } },
-  );
+  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: { name: true },
+  });
 
-  return json({ profile });
+  return json({ exhbitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -46,8 +45,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Structure"]
+        data?.exhbitor.name != null
+          ? [`Modifier ${data.exhbitor.name}`, "Structure"]
           : getErrorTitle(404),
       ),
     },
@@ -82,7 +81,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.profile.updateName(routeParams.id, {
+  await db.show.exhibitor.updateName(routeParams.id, {
     name: submission.value.name,
   });
 

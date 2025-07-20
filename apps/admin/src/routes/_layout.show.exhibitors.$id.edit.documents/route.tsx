@@ -32,20 +32,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, documents, files } = await promiseHash({
-    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-      select: { name: true },
+  const { exhibitor, files } = await promiseHash({
+    exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
+      select: { name: true, documentStatus: true, documentStatusMessage: true },
     }),
 
-    documents: db.show.exhibitor.documents.findUniqueByExhibitor(
-      routeParams.id,
-      { select: { status: true, statusMessage: true } },
-    ),
-
-    files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
+    files: db.show.exhibitor.getFiles(routeParams.id),
   });
 
-  return json({ profile, documents: { ...documents, ...files } });
+  return json({ exhibitor: { ...exhibitor, ...files } });
 }
 
 const RouteParamsSchema = zu.object({
@@ -56,8 +51,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Documents"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Documents"]
           : getErrorTitle(404),
       ),
     },
@@ -92,9 +87,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.documents.update(routeParams.id, {
-    status: submission.value.status,
-    statusMessage: submission.value.statusMessage || null,
+  await db.show.exhibitor.updateDocuments(routeParams.id, {
+    documentStatus: submission.value.status,
+    documentStatusMessage: submission.value.statusMessage || null,
   });
 
   return json<ActionData>({

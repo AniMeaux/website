@@ -90,12 +90,9 @@ function ItemExhibitorSpace() {
 }
 
 function ItemLocationNumber() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (
-    standConfiguration.standNumber == null &&
-    standConfiguration.locationNumber == null
-  ) {
+  if (exhibitor.standNumber == null && exhibitor.locationNumber == null) {
     return null;
   }
 
@@ -103,19 +100,19 @@ function ItemLocationNumber() {
     <SimpleItem isLightIcon icon={<Icon href="icon-expand-light" />}>
       {joinReactNodes(
         [
-          standConfiguration.standNumber != null ? (
+          exhibitor.standNumber != null ? (
             <Fragment key="stand-number">
               Stand nº
               <strong className="text-body-emphasis">
-                {standConfiguration.standNumber}
+                {exhibitor.standNumber}
               </strong>
             </Fragment>
           ) : null,
-          standConfiguration.locationNumber != null ? (
+          exhibitor.locationNumber != null ? (
             <Fragment key="location-number">
               Emplacement nº
               <strong className="text-body-emphasis">
-                {standConfiguration.locationNumber}
+                {exhibitor.locationNumber}
               </strong>
             </Fragment>
           ) : null,

@@ -11,23 +11,25 @@ import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/in
 import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionStandConfiguration() {
-  const { standConfiguration, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
       <FormLayout.Header>
         <FormLayout.Title>Configuration de stand</FormLayout.Title>
 
-        {standConfiguration.status !==
-        ShowExhibitorStandConfigurationStatus.VALIDATED ? (
+        {exhibitor.standConfigurationStatus !==
+        ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
-              to={Routes.exhibitors.token(token).stand.editStand.toString()}
+              to={Routes.exhibitors
+                .token(exhibitor.token)
+                .stand.editStand.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />
@@ -43,7 +45,7 @@ export function SectionStandConfiguration() {
           <FormLayout.Label>Taille du stand</FormLayout.Label>
 
           <FormLayout.Output>
-            {STAND_SIZE_TRANSLATION[standConfiguration.size]}
+            {STAND_SIZE_TRANSLATION[exhibitor.size]}
           </FormLayout.Output>
         </FormLayout.Field>
 
@@ -51,7 +53,7 @@ export function SectionStandConfiguration() {
           <FormLayout.Label>Raccordement électrique</FormLayout.Label>
 
           <FormLayout.Output>
-            {standConfiguration.hasElectricalConnection ? "Oui" : "Non"}
+            {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
           </FormLayout.Output>
         </FormLayout.Field>
       </FormLayout.Row>
@@ -61,8 +63,8 @@ export function SectionStandConfiguration() {
           <FormLayout.Label>Type de cloisons</FormLayout.Label>
 
           <FormLayout.Output>
-            {standConfiguration.dividerType != null
-              ? DIVIDER_TYPE_TRANSLATION[standConfiguration.dividerType]
+            {exhibitor.dividerType != null
+              ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
               : "-"}
           </FormLayout.Output>
         </FormLayout.Field>
@@ -70,9 +72,7 @@ export function SectionStandConfiguration() {
         <FormLayout.Field>
           <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
 
-          <FormLayout.Output>
-            {standConfiguration.dividerCount}
-          </FormLayout.Output>
+          <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
         </FormLayout.Field>
       </FormLayout.Row>
 
@@ -80,14 +80,14 @@ export function SectionStandConfiguration() {
         <FormLayout.Field>
           <FormLayout.Label>Nombre de tables</FormLayout.Label>
 
-          <FormLayout.Output>{standConfiguration.tableCount}</FormLayout.Output>
+          <FormLayout.Output>{exhibitor.tableCount}</FormLayout.Output>
         </FormLayout.Field>
 
         <FormLayout.Field>
           <FormLayout.Label>Nappage des tables</FormLayout.Label>
 
           <FormLayout.Output>
-            {standConfiguration.hasTablecloths ? "Oui" : "Non"}
+            {exhibitor.hasTablecloths ? "Oui" : "Non"}
           </FormLayout.Output>
         </FormLayout.Field>
       </FormLayout.Row>
@@ -96,15 +96,13 @@ export function SectionStandConfiguration() {
         <FormLayout.Field>
           <FormLayout.Label>Nombre de personnes sur le stand</FormLayout.Label>
 
-          <FormLayout.Output>
-            {standConfiguration.peopleCount}
-          </FormLayout.Output>
+          <FormLayout.Output>{exhibitor.peopleCount}</FormLayout.Output>
         </FormLayout.Field>
 
         <FormLayout.Field>
           <FormLayout.Label>Nombre de chaises</FormLayout.Label>
 
-          <FormLayout.Output>{standConfiguration.chairCount}</FormLayout.Output>
+          <FormLayout.Output>{exhibitor.chairCount}</FormLayout.Output>
         </FormLayout.Field>
       </FormLayout.Row>
 
@@ -112,8 +110,8 @@ export function SectionStandConfiguration() {
         <FormLayout.Label>Jour d’installation</FormLayout.Label>
 
         <FormLayout.Output>
-          {standConfiguration.installationDay != null
-            ? INSTALLATION_DAY_TRANSLATION[standConfiguration.installationDay]
+          {exhibitor.installationDay != null
+            ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
             : "-"}
         </FormLayout.Output>
       </FormLayout.Field>
@@ -122,9 +120,9 @@ export function SectionStandConfiguration() {
         <FormLayout.Label>Emplacement</FormLayout.Label>
 
         <FormLayout.Output>
-          {standConfiguration.zone == null
+          {exhibitor.zone == null
             ? "-"
-            : STAND_ZONE_TRANSLATION[standConfiguration.zone]}
+            : STAND_ZONE_TRANSLATION[exhibitor.zone]}
         </FormLayout.Output>
       </FormLayout.Field>
 
@@ -134,9 +132,9 @@ export function SectionStandConfiguration() {
         </FormLayout.Label>
 
         <FormLayout.Output>
-          {standConfiguration.placementComment != null ? (
+          {exhibitor.placementComment != null ? (
             <Markdown
-              content={standConfiguration.placementComment}
+              content={exhibitor.placementComment}
               components={SENTENCE_COMPONENTS}
             />
           ) : (
@@ -149,35 +147,31 @@ export function SectionStandConfiguration() {
 }
 
 function SectionStatus() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (
-    standConfiguration.status ===
-    ShowExhibitorStandConfigurationStatus.TO_BE_FILLED
-  ) {
+  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorStandConfigurationStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorStandConfigurationStatus.VALIDATED]: "Validée",
-    } satisfies Record<typeof standConfiguration.status, string>
-  )[standConfiguration.status];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validée",
+    } satisfies Record<typeof exhibitor.standConfigurationStatus, string>
+  )[exhibitor.standConfigurationStatus];
 
   const content = (
     {
-      [ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "La configuration de votre stand est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorStandConfigurationStatus.TO_MODIFY]:
-        standConfiguration.statusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.standConfigurationStatusMessage ??
         "La configuration de votre stand nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorStandConfigurationStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "La configuration de votre stand est validée par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof standConfiguration.status, string>
-  )[standConfiguration.status];
+    } satisfies Record<typeof exhibitor.standConfigurationStatus, string>
+  )[exhibitor.standConfigurationStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

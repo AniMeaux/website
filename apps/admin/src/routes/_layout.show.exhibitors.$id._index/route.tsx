@@ -31,22 +31,55 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const {
-    exhibitor,
-    application,
-    documents,
-    dogsConfiguration,
-    files,
-    partner,
-    profile,
-    standConfiguration,
-  } = await promiseHash({
+  const { exhibitor, application, files, partner } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
         id: true,
         isVisible: true,
         token: true,
         hasPaid: true,
+        documentStatus: true,
+        documentStatusMessage: true,
+        folderId: true,
+        dogsConfigurationStatus: true,
+        dogsConfigurationStatusMessage: true,
+        dogs: {
+          select: {
+            gender: true,
+            id: true,
+            idNumber: true,
+            isCategorized: true,
+            isSterilized: true,
+          },
+        },
+        activityFields: true,
+        activityTargets: true,
+        description: true,
+        descriptionStatus: true,
+        descriptionStatusMessage: true,
+        links: true,
+        logoPath: true,
+        name: true,
+        onStandAnimations: true,
+        onStandAnimationsStatus: true,
+        onStandAnimationsStatusMessage: true,
+        publicProfileStatus: true,
+        publicProfileStatusMessage: true,
+        chairCount: true,
+        dividerCount: true,
+        dividerType: true,
+        hasElectricalConnection: true,
+        hasTablecloths: true,
+        installationDay: true,
+        locationNumber: true,
+        peopleCount: true,
+        placementComment: true,
+        size: true,
+        standNumber: true,
+        standConfigurationStatus: true,
+        standConfigurationStatusMessage: true,
+        tableCount: true,
+        zone: true,
       },
     }),
 
@@ -71,38 +104,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       },
     ),
 
-    documents: db.show.exhibitor.documents.findUniqueByExhibitor(
-      routeParams.id,
-      {
-        select: {
-          status: true,
-          statusMessage: true,
-          folderId: true,
-        },
-      },
-    ),
-
-    dogsConfiguration:
-      db.show.exhibitor.dogsConfiguration.findUniqueByExhibitor(
-        routeParams.id,
-        {
-          select: {
-            status: true,
-            statusMessage: true,
-            dogs: {
-              select: {
-                gender: true,
-                id: true,
-                idNumber: true,
-                isCategorized: true,
-                isSterilized: true,
-              },
-            },
-          },
-        },
-      ),
-
-    files: db.show.exhibitor.documents.getFilesByExhibitor(routeParams.id),
+    files: db.show.exhibitor.getFiles(routeParams.id),
 
     partner: db.show.partner.findUniqueByExhibitor(routeParams.id, {
       select: {
@@ -110,58 +112,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         category: true,
       },
     }),
-
-    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-      select: {
-        activityFields: true,
-        activityTargets: true,
-        description: true,
-        descriptionStatus: true,
-        descriptionStatusMessage: true,
-        links: true,
-        logoPath: true,
-        name: true,
-        onStandAnimations: true,
-        onStandAnimationsStatus: true,
-        onStandAnimationsStatusMessage: true,
-        publicProfileStatus: true,
-        publicProfileStatusMessage: true,
-      },
-    }),
-
-    standConfiguration:
-      db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
-        routeParams.id,
-        {
-          select: {
-            chairCount: true,
-            dividerCount: true,
-            dividerType: true,
-            hasElectricalConnection: true,
-            hasTablecloths: true,
-            installationDay: true,
-            locationNumber: true,
-            peopleCount: true,
-            placementComment: true,
-            size: true,
-            standNumber: true,
-            status: true,
-            statusMessage: true,
-            tableCount: true,
-            zone: true,
-          },
-        },
-      ),
   });
 
   return json({
-    exhibitor,
+    exhibitor: { ...exhibitor, ...files },
     application,
-    documents: { ...documents, ...files },
-    dogsConfiguration,
     partner,
-    profile,
-    standConfiguration,
   });
 }
 
@@ -170,13 +126,7 @@ const RouteParamsSchema = zu.object({
 });
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [
-    {
-      title: getPageTitle(
-        data?.profile.name != null ? data.profile.name : getErrorTitle(404),
-      ),
-    },
-  ];
+  return [{ title: getPageTitle(data?.exhibitor.name ?? getErrorTitle(404)) }];
 };
 
 export function ErrorBoundary() {
@@ -211,12 +161,12 @@ export default function Route() {
   );
 }
 
-export function Header() {
-  const { profile } = useLoaderData<typeof loader>();
+function Header() {
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Header.Root>
-      <PageLayout.Header.Title>{profile.name}</PageLayout.Header.Title>
+      <PageLayout.Header.Title>{exhibitor.name}</PageLayout.Header.Title>
     </PageLayout.Header.Root>
   );
 }

@@ -10,15 +10,15 @@ import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export namespace PublicProfileEmails {
   export async function submitted(token: string): Promise<EmailTemplate> {
-    const { profile, application } = await promiseHash({
-      profile: services.exhibitor.profile.getByToken(token, {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
         select: {
           activityFields: true,
           activityTargets: true,
@@ -46,7 +46,7 @@ export namespace PublicProfileEmails {
                 <Img
                   src={createImageUrl(
                     process.env.CLOUDINARY_CLOUD_NAME,
-                    ImageUrl.parse(profile.logoPath).id,
+                    ImageUrl.parse(exhibitor.logoPath).id,
                     {
                       size: "512",
                       aspectRatio: "4:3",
@@ -54,7 +54,7 @@ export namespace PublicProfileEmails {
                       fillTransparentBackground: true,
                     },
                   )}
-                  alt={profile.name}
+                  alt={exhibitor.name}
                   // Reset Img default styles to avoid conflicts.
                   style={{ border: undefined }}
                   className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
@@ -66,7 +66,7 @@ export namespace PublicProfileEmails {
               <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {profile.activityTargets
+                {exhibitor.activityTargets
                   .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
                   .join(", ")}
               </EmailHtml.Output.Value>
@@ -78,7 +78,7 @@ export namespace PublicProfileEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {profile.activityFields
+                {exhibitor.activityFields
                   .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
                   .join(", ")}
               </EmailHtml.Output.Value>
@@ -90,7 +90,7 @@ export namespace PublicProfileEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {joinReactNodes(profile.links, <br />)}
+                {joinReactNodes(exhibitor.links, <br />)}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
@@ -142,9 +142,10 @@ export namespace PublicProfileEmails {
   export async function treated(
     exhibitorId: string,
   ): Promise<null | EmailTemplate> {
-    const { profile, exhibitor, application } = await promiseHash({
-      profile: services.exhibitor.profile.getByExhibitor(exhibitorId, {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.get(exhibitorId, {
         select: {
+          token: true,
           activityFields: true,
           activityTargets: true,
           links: true,
@@ -155,25 +156,21 @@ export namespace PublicProfileEmails {
         },
       }),
 
-      exhibitor: services.exhibitor.get(exhibitorId, {
-        select: { token: true },
-      }),
-
       application: services.exhibitor.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
 
     if (
-      profile.publicProfileStatus ===
-        ShowExhibitorProfileStatus.AWAITING_VALIDATION ||
-      profile.publicProfileStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
+      exhibitor.publicProfileStatus ===
+        ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
       return null;
     }
 
-    switch (profile.publicProfileStatus) {
-      case ShowExhibitorProfileStatus.VALIDATED: {
+    switch (exhibitor.publicProfileStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
         function SectionPublicProfile() {
           return (
             <EmailHtml.Section.Root>
@@ -187,7 +184,7 @@ export namespace PublicProfileEmails {
                     <Img
                       src={createImageUrl(
                         process.env.CLOUDINARY_CLOUD_NAME,
-                        ImageUrl.parse(profile.logoPath).id,
+                        ImageUrl.parse(exhibitor.logoPath).id,
                         {
                           size: "512",
                           aspectRatio: "4:3",
@@ -195,7 +192,7 @@ export namespace PublicProfileEmails {
                           fillTransparentBackground: true,
                         },
                       )}
-                      alt={profile.name}
+                      alt={exhibitor.name}
                       // Reset Img default styles to avoid conflicts.
                       style={{ border: undefined }}
                       className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
@@ -207,7 +204,7 @@ export namespace PublicProfileEmails {
                   <EmailHtml.Output.Label>Cibles</EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {profile.activityTargets
+                    {exhibitor.activityTargets
                       .map((target) => ACTIVITY_TARGET_TRANSLATION[target])
                       .join(", ")}
                   </EmailHtml.Output.Value>
@@ -219,7 +216,7 @@ export namespace PublicProfileEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {profile.activityFields
+                    {exhibitor.activityFields
                       .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
                       .join(", ")}
                   </EmailHtml.Output.Value>
@@ -231,7 +228,7 @@ export namespace PublicProfileEmails {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {joinReactNodes(profile.links, <br />)}
+                    {joinReactNodes(exhibitor.links, <br />)}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
               </EmailHtml.Output.Table>
@@ -280,9 +277,9 @@ export namespace PublicProfileEmails {
         };
       }
 
-      case ShowExhibitorProfileStatus.TO_MODIFY: {
+      case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
-          profile.publicProfileStatusMessage != null,
+          exhibitor.publicProfileStatusMessage != null,
           "A publicProfileStatusMessage should exists",
         );
 
@@ -297,7 +294,7 @@ export namespace PublicProfileEmails {
 
               <EmailHtml.Section.Root>
                 <EmailHtml.Markdown
-                  content={profile.publicProfileStatusMessage}
+                  content={exhibitor.publicProfileStatusMessage}
                   components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
@@ -324,87 +321,220 @@ export namespace PublicProfileEmails {
       }
 
       default: {
-        return profile.publicProfileStatus satisfies never;
+        return exhibitor.publicProfileStatus satisfies never;
       }
     }
   }
 }
 
-export async function createEmailTemplateDescriptionUpdated(
-  token: string,
-): Promise<EmailTemplate> {
-  const { profile, application } = await promiseHash({
-    profile: services.exhibitor.profile.getByToken(token, {
-      select: { description: true },
-    }),
+export namespace DescriptionEmails {
+  export async function submitted(token: string): Promise<EmailTemplate> {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
+        select: { description: true },
+      }),
 
-    application: services.exhibitor.application.getByToken(token, {
-      select: { contactEmail: true },
-    }),
-  });
+      application: services.exhibitor.application.getByToken(token, {
+        select: { contactEmail: true },
+      }),
+    });
 
-  function SectionDescription() {
-    return (
-      <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
+    function SectionDescription() {
+      return (
+        <EmailHtml.Section.Root>
+          <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
 
-        {profile.description != null ? (
-          <EmailHtml.Markdown
-            content={profile.description}
-            components={EMAIL_PARAGRAPH_COMPONENTS}
-          />
-        ) : (
-          <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
-        )}
-      </EmailHtml.Section.Root>
-    );
+          {exhibitor.description != null ? (
+            <EmailHtml.Markdown
+              content={exhibitor.description}
+              components={EMAIL_PARAGRAPH_COMPONENTS}
+            />
+          ) : (
+            <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
+          )}
+        </EmailHtml.Section.Root>
+      );
+    }
+
+    return {
+      name: "description-exposant-mis-a-jour",
+      from: "Salon des Ani’Meaux <salon@animeaux.org>",
+      to: [application.contactEmail],
+      subject: "Description mise à jour - Salon des Ani’Meaux 2025",
+      body: (
+        <EmailHtml.Root>
+          <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
+
+          <EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              Votre description a bien été mise à jour et est en attente de
+              traitement.
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              <EmailHtml.Button
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
+              >
+                Accédez à votre profil
+              </EmailHtml.Button>
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              Pour toute question ou complément d’information, n’hésitez pas à
+              nous contacter en répondant à cet e-mail.
+            </EmailHtml.Paragraph>
+          </EmailHtml.Section.Root>
+
+          <EmailHtml.SectionSeparator />
+
+          <SectionDescription />
+
+          <EmailHtml.SectionSeparator />
+
+          <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+        </EmailHtml.Root>
+      ),
+    };
   }
 
-  return {
-    name: "description-exposant-mis-a-jour",
-    from: "Salon des Ani’Meaux <salon@animeaux.org>",
-    to: [application.contactEmail],
-    subject: "Description mise à jour - Salon des Ani’Meaux 2025",
-    body: (
-      <EmailHtml.Root>
-        <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
+  export async function treated(
+    exhibitorId: string,
+  ): Promise<null | EmailTemplate> {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.get(exhibitorId, {
+        select: {
+          token: true,
+          description: true,
+          descriptionStatus: true,
+          descriptionStatusMessage: true,
+        },
+      }),
 
-        <EmailHtml.Section.Root>
-          <EmailHtml.Paragraph>
-            Votre description a bien été mise à jour et est en attente de
-            traitement.
-          </EmailHtml.Paragraph>
+      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+        select: { contactEmail: true },
+      }),
+    });
 
-          <EmailHtml.Paragraph>
-            <EmailHtml.Button
-              href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
-            >
-              Accédez à votre profil
-            </EmailHtml.Button>
-          </EmailHtml.Paragraph>
+    if (
+      exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED
+    ) {
+      return null;
+    }
 
-          <EmailHtml.Paragraph>
-            Pour toute question ou complément d’information, n’hésitez pas à
-            nous contacter en répondant à cet e-mail.
-          </EmailHtml.Paragraph>
-        </EmailHtml.Section.Root>
+    switch (exhibitor.descriptionStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
+        function SectionDescription() {
+          return (
+            <EmailHtml.Section.Root>
+              <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
 
-        <EmailHtml.SectionSeparator />
+              {exhibitor.description != null ? (
+                <EmailHtml.Markdown
+                  content={exhibitor.description}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+              ) : (
+                <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
+              )}
+            </EmailHtml.Section.Root>
+          );
+        }
 
-        <SectionDescription />
+        return {
+          name: "description-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Description - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Description</EmailHtml.Title>
 
-        <EmailHtml.SectionSeparator />
+              <EmailHtml.Section.Root>
+                <EmailHtml.Paragraph>
+                  Votre description a été validé et ne peut plus être modifiée.
+                </EmailHtml.Paragraph>
 
-        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
-      </EmailHtml.Root>
-    ),
-  };
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <SectionDescription />
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      case ShowExhibitorStatus.TO_MODIFY: {
+        invariant(
+          exhibitor.descriptionStatusMessage != null,
+          "A descriptionStatusMessage should exists",
+        );
+
+        return {
+          name: "description-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Description - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Description</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Markdown
+                  content={exhibitor.descriptionStatusMessage}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      default: {
+        return exhibitor.descriptionStatus satisfies never;
+      }
+    }
+  }
 }
 
 export namespace OnStandAnimationsEmails {
   export async function submitted(token: string): Promise<EmailTemplate> {
-    const { profile, application } = await promiseHash({
-      profile: services.exhibitor.profile.getByToken(token, {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
         select: { onStandAnimations: true },
       }),
 
@@ -450,9 +580,9 @@ export namespace OnStandAnimationsEmails {
                 <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
 
                 <EmailHtml.Output.Value>
-                  {profile.onStandAnimations != null ? (
+                  {exhibitor.onStandAnimations != null ? (
                     <EmailHtml.Markdown
-                      content={profile.onStandAnimations}
+                      content={exhibitor.onStandAnimations}
                       components={EMAIL_SENTENCE_COMPONENTS}
                     />
                   ) : (
@@ -474,17 +604,14 @@ export namespace OnStandAnimationsEmails {
   export async function treated(
     exhibitorId: string,
   ): Promise<null | EmailTemplate> {
-    const { profile, exhibitor, application } = await promiseHash({
-      profile: services.exhibitor.profile.getByExhibitor(exhibitorId, {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.get(exhibitorId, {
         select: {
+          token: true,
           onStandAnimations: true,
           onStandAnimationsStatus: true,
           onStandAnimationsStatusMessage: true,
         },
-      }),
-
-      exhibitor: services.exhibitor.get(exhibitorId, {
-        select: { token: true },
       }),
 
       application: services.exhibitor.application.getByExhibitor(exhibitorId, {
@@ -493,15 +620,15 @@ export namespace OnStandAnimationsEmails {
     });
 
     if (
-      profile.onStandAnimationsStatus ===
-        ShowExhibitorProfileStatus.AWAITING_VALIDATION ||
-      profile.onStandAnimationsStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
+      exhibitor.onStandAnimationsStatus ===
+        ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
       return null;
     }
 
-    switch (profile.onStandAnimationsStatus) {
-      case ShowExhibitorProfileStatus.VALIDATED: {
+    switch (exhibitor.onStandAnimationsStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
         return {
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
@@ -539,9 +666,9 @@ export namespace OnStandAnimationsEmails {
                     <EmailHtml.Output.Label>Description</EmailHtml.Output.Label>
 
                     <EmailHtml.Output.Value>
-                      {profile.onStandAnimations != null ? (
+                      {exhibitor.onStandAnimations != null ? (
                         <EmailHtml.Markdown
-                          content={profile.onStandAnimations}
+                          content={exhibitor.onStandAnimations}
                           components={EMAIL_SENTENCE_COMPONENTS}
                         />
                       ) : (
@@ -560,9 +687,9 @@ export namespace OnStandAnimationsEmails {
         };
       }
 
-      case ShowExhibitorProfileStatus.TO_MODIFY: {
+      case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
-          profile.onStandAnimationsStatusMessage != null,
+          exhibitor.onStandAnimationsStatusMessage != null,
           "A onStandAnimationsStatusMessage should exists",
         );
 
@@ -577,7 +704,7 @@ export namespace OnStandAnimationsEmails {
 
               <EmailHtml.Section.Root>
                 <EmailHtml.Markdown
-                  content={profile.onStandAnimationsStatusMessage}
+                  content={exhibitor.onStandAnimationsStatusMessage}
                   components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
@@ -604,7 +731,7 @@ export namespace OnStandAnimationsEmails {
       }
 
       default: {
-        return profile.onStandAnimationsStatus satisfies never;
+        return exhibitor.onStandAnimationsStatus satisfies never;
       }
     }
   }

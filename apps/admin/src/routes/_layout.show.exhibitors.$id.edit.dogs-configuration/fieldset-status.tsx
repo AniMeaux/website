@@ -2,7 +2,7 @@ import { FieldRadios } from "#core/form-elements/field-radios";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
-import { DogsConfigurationStatus } from "#show/exhibitors/dogs-configuration/status.js";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { useForm } from "./form";
 
 export function FieldsetStatus() {
@@ -21,11 +21,11 @@ export function FieldsetStatus() {
           <FieldRadios
             label="Statut"
             field={fields.status}
-            getLabel={(status) => DogsConfigurationStatus.translation[status]}
-            options={DogsConfigurationStatus.values}
+            getLabel={(status) => ExhibitorStatus.translation[status]}
+            options={ExhibitorStatus.values}
           />
 
-          {fields.status.value === DogsConfigurationStatus.Enum.TO_MODIFY ? (
+          {fields.status.value === ExhibitorStatus.Enum.TO_MODIFY ? (
             <FieldTextarea
               label="Message"
               field={fields.statusMessage}

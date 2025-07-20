@@ -3,7 +3,7 @@ import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
-import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu
@@ -53,7 +53,7 @@ export const ActionSchema = zu
       required_error: "Veuillez choisir une taille de stand",
     }),
 
-    status: zu.nativeEnum(StandConfigurationStatus.Enum),
+    status: zu.nativeEnum(ExhibitorStatus.Enum),
 
     statusMessage: zu.string().trim().optional(),
 
@@ -70,7 +70,7 @@ export const ActionSchema = zu
   })
   .refine(
     (value) =>
-      value.status !== StandConfigurationStatus.Enum.TO_MODIFY ||
+      value.status !== ExhibitorStatus.Enum.TO_MODIFY ||
       value.statusMessage != null,
     {
       message: "Veuillez entrer un message",

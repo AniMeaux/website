@@ -1,14 +1,12 @@
 import { PrismaErrorCodes } from "#core/errors.server";
+import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
-import { ShowExhibitorDocumentsDbDelegate } from "#show/exhibitors/documents/db.server";
-import { ShowExhibitorDogsConfigurationDbDelegate } from "#show/exhibitors/dogs-configuration/db.server";
 import { Payment } from "#show/exhibitors/payment";
-import { ShowExhibitorProfileDbDelegate } from "#show/exhibitors/profile/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
-import { ShowExhibitorStandConfigurationDbDelegate } from "#show/exhibitors/stand-configuration/db.server";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { Visibility } from "#show/visibility";
 import { catchError } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
@@ -16,10 +14,6 @@ import { promiseHash } from "remix-utils/promise";
 
 export class ShowExhibitorDbDelegate {
   readonly application = new ShowExhibitorApplicationDbDelegate();
-  readonly documents = new ShowExhibitorDocumentsDbDelegate();
-  readonly dogsConfiguration = new ShowExhibitorDogsConfigurationDbDelegate();
-  readonly profile = new ShowExhibitorProfileDbDelegate();
-  readonly standConfiguration = new ShowExhibitorStandConfigurationDbDelegate();
 
   async findUnique<T extends Prisma.ShowExhibitorSelect>(
     id: string,
@@ -51,7 +45,7 @@ export class ShowExhibitorDbDelegate {
     ) {
       where.push({
         animations: { none: {} },
-        profile: { onStandAnimations: null },
+        onStandAnimations: null,
       });
     }
 
@@ -68,7 +62,7 @@ export class ShowExhibitorDbDelegate {
         ExhibitorSearchParamsN.Animation.ON_STAND,
       )
     ) {
-      where.push({ profile: { onStandAnimations: { not: null } } });
+      where.push({ onStandAnimations: { not: null } });
     }
 
     if (params.searchParams.applicationStatuses.size > 0) {
@@ -81,61 +75,49 @@ export class ShowExhibitorDbDelegate {
 
     if (params.searchParams.descriptionStatuses.size > 0) {
       statusesWhere.push({
-        profile: {
-          descriptionStatus: {
-            in: Array.from(params.searchParams.descriptionStatuses),
-          },
+        descriptionStatus: {
+          in: Array.from(params.searchParams.descriptionStatuses),
         },
       });
     }
 
     if (params.searchParams.documentsStatuses.size > 0) {
       statusesWhere.push({
-        documents: {
-          status: {
-            in: Array.from(params.searchParams.documentsStatuses),
-          },
+        documentStatus: {
+          in: Array.from(params.searchParams.documentsStatuses),
         },
       });
     }
 
     if (params.searchParams.dogsConfigurationStatuses.size > 0) {
       statusesWhere.push({
-        dogsConfiguration: {
-          status: {
-            in: Array.from(params.searchParams.dogsConfigurationStatuses),
-          },
+        dogsConfigurationStatus: {
+          in: Array.from(params.searchParams.dogsConfigurationStatuses),
         },
       });
     }
 
     if (params.searchParams.fields.size > 0) {
       where.push({
-        profile: {
-          activityFields: {
-            hasSome: Array.from(params.searchParams.fields),
-          },
+        activityFields: {
+          hasSome: Array.from(params.searchParams.fields),
         },
       });
     }
 
     if (params.searchParams.name != null) {
       where.push({
-        profile: {
-          name: {
-            contains: params.searchParams.name,
-            mode: "insensitive",
-          },
+        name: {
+          contains: params.searchParams.name,
+          mode: "insensitive",
         },
       });
     }
 
     if (params.searchParams.onStandAnimationsStatuses.size > 0) {
       statusesWhere.push({
-        profile: {
-          onStandAnimationsStatus: {
-            in: Array.from(params.searchParams.onStandAnimationsStatuses),
-          },
+        onStandAnimationsStatus: {
+          in: Array.from(params.searchParams.onStandAnimationsStatuses),
         },
       });
     }
@@ -160,30 +142,24 @@ export class ShowExhibitorDbDelegate {
 
     if (params.searchParams.publicProfileStatuses.size > 0) {
       statusesWhere.push({
-        profile: {
-          publicProfileStatus: {
-            in: Array.from(params.searchParams.publicProfileStatuses),
-          },
+        publicProfileStatus: {
+          in: Array.from(params.searchParams.publicProfileStatuses),
         },
       });
     }
 
     if (params.searchParams.standConfigurationStatuses.size > 0) {
       statusesWhere.push({
-        standConfiguration: {
-          status: {
-            in: Array.from(params.searchParams.standConfigurationStatuses),
-          },
+        standConfigurationStatus: {
+          in: Array.from(params.searchParams.standConfigurationStatuses),
         },
       });
     }
 
     if (params.searchParams.targets.size > 0) {
       where.push({
-        profile: {
-          activityTargets: {
-            hasSome: Array.from(params.searchParams.targets),
-          },
+        activityTargets: {
+          hasSome: Array.from(params.searchParams.targets),
         },
       });
     }
@@ -234,13 +210,8 @@ export class ShowExhibitorDbDelegate {
           data: {
             hasPaid: data.hasPaid,
             isVisible: data.isVisible,
-
-            standConfiguration: {
-              update: {
-                locationNumber: data.locationNumber,
-                standNumber: data.standNumber,
-              },
-            },
+            locationNumber: data.locationNumber,
+            standNumber: data.standNumber,
           },
           select: { isVisible: true },
         });
@@ -266,21 +237,266 @@ export class ShowExhibitorDbDelegate {
       });
     }
   }
+
+  async getFiles(id: string) {
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id },
+      select: {
+        identificationFileId: true,
+        insuranceFileId: true,
+        kbisFileId: true,
+      },
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return await promiseHash({
+      identificationFile: this.#getFileMaybe(exhibitor.identificationFileId),
+      insuranceFile: this.#getFileMaybe(exhibitor.insuranceFileId),
+      kbisFile: this.#getFileMaybe(exhibitor.kbisFileId),
+    });
+  }
+
+  async #getFileMaybe(fileId: null | string) {
+    if (fileId == null) {
+      return null;
+    }
+
+    return fileStorage.getFile(fileId);
+  }
+
+  async updateDocuments(id: string, data: ShowExhibitorDocumentsData) {
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "documents-treated",
+      exhibitorId: id,
+    });
+  }
+
+  async updateDogs(id: string, data: ShowExhibitorDogsConfigurationData) {
+    this.#normalizeDogs(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "dogs-configuration-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizeDogs(data: ShowExhibitorDogsConfigurationData) {
+    if (data.dogsConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.dogsConfigurationStatusMessage = null;
+    }
+  }
+
+  async updatePublicProfile(id: string, data: ShowExhibitorPublicProfileData) {
+    this.#normalizePublicProfile(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "public-profile-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizePublicProfile(data: ShowExhibitorPublicProfileData) {
+    if (data.publicProfileStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.publicProfileStatusMessage = null;
+    }
+  }
+
+  async updateDescription(id: string, data: ShowExhibitorDescriptionData) {
+    this.#normalizeDescription(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "description-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizeDescription(data: ShowExhibitorDescriptionData) {
+    if (data.descriptionStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.descriptionStatusMessage = null;
+    }
+  }
+
+  async updateName(id: string, data: ShowExhibitorNameData) {
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+  }
+
+  async updateOnStandAnimations(
+    id: string,
+    data: ShowExhibitorOnStandAnimationsData,
+  ) {
+    this.#normalizeOnStandAnimations(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "on-stand-animations-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizeOnStandAnimations(data: ShowExhibitorOnStandAnimationsData) {
+    if (data.onStandAnimationsStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.onStandAnimationsStatusMessage = null;
+    }
+  }
+
+  async updateStand(id: string, data: ShowExhibitorStandConfigurationData) {
+    this.#normalizeStand(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "stand-configuration-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizeStand(data: ShowExhibitorStandConfigurationData) {
+    if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.standConfigurationStatusMessage = null;
+    }
+  }
 }
 
 const FIND_ORDER_BY_SORT: Record<
   ExhibitorSearchParamsN.Sort,
   Prisma.ShowExhibitorFindManyArgs["orderBy"]
 > = {
-  [ExhibitorSearchParamsN.Sort.NAME]: { profile: { name: "asc" } },
+  [ExhibitorSearchParamsN.Sort.NAME]: { name: "asc" },
   [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
 };
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
-  "hasPaid" | "isVisible"
-> &
-  Pick<
-    Prisma.ShowExhibitorStandConfigurationUpdateInput,
-    "locationNumber" | "standNumber"
-  >;
+  "hasPaid" | "isVisible" | "locationNumber" | "standNumber"
+>;
+
+type ShowExhibitorDocumentsData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "documentStatus" | "documentStatusMessage"
+>;
+
+type ShowExhibitorDogsConfigurationData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "dogsConfigurationStatus" | "dogsConfigurationStatusMessage"
+>;
+
+type ShowExhibitorPublicProfileData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  | "activityFields"
+  | "activityTargets"
+  | "links"
+  | "publicProfileStatus"
+  | "publicProfileStatusMessage"
+>;
+
+type ShowExhibitorDescriptionData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "description" | "descriptionStatus" | "descriptionStatusMessage"
+>;
+
+type ShowExhibitorNameData = Pick<Prisma.ShowExhibitorUpdateInput, "name">;
+
+type ShowExhibitorOnStandAnimationsData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  | "onStandAnimations"
+  | "onStandAnimationsStatus"
+  | "onStandAnimationsStatusMessage"
+>;
+
+type ShowExhibitorStandConfigurationData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  | "chairCount"
+  | "dividerCount"
+  | "dividerType"
+  | "hasElectricalConnection"
+  | "hasTablecloths"
+  | "installationDay"
+  | "peopleCount"
+  | "size"
+  | "standConfigurationStatus"
+  | "standConfigurationStatusMessage"
+  | "tableCount"
+  | "zone"
+>;

@@ -19,54 +19,32 @@ import { SectionValidated } from "./section-validated";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const {
-    exhibitor,
-    application,
-    profile,
-    standConfiguration,
-    documents,
-    dogsConfiguration,
-  } = await promiseHash({
+  const { exhibitor, application } = await promiseHash({
     exhibitor: services.exhibitor.getByToken(routeParams.token, {
-      select: { hasPaid: true, partnership: { select: { category: true } } },
+      select: {
+        token: true,
+        hasPaid: true,
+        partnership: { select: { category: true } },
+        documentStatus: true,
+        documentStatusMessage: true,
+        dogsConfigurationStatus: true,
+        name: true,
+        publicProfileStatus: true,
+        descriptionStatus: true,
+        onStandAnimationsStatus: true,
+        standNumber: true,
+        standConfigurationStatus: true,
+      },
     }),
 
     application: services.exhibitor.application.getByToken(routeParams.token, {
       select: { otherPartnershipCategory: true },
     }),
-
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: {
-        name: true,
-        publicProfileStatus: true,
-        descriptionStatus: true,
-        onStandAnimationsStatus: true,
-      },
-    }),
-
-    standConfiguration: services.exhibitor.standConfiguration.getByToken(
-      routeParams.token,
-      { select: { standNumber: true, status: true } },
-    ),
-
-    documents: services.exhibitor.documents.getByToken(routeParams.token, {
-      select: { status: true, statusMessage: true },
-    }),
-
-    dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
-      routeParams.token,
-      { select: { status: true } },
-    ),
   });
 
   return {
     exhibitor,
     application,
-    profile,
-    standConfiguration,
-    documents,
-    dogsConfiguration,
-    token: routeParams.token,
   };
 }
 
@@ -74,7 +52,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Tableau de bord", data.profile.name]
+        ? ["Tableau de bord", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });

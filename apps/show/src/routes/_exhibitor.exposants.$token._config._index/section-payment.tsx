@@ -1,10 +1,10 @@
 import { HelperCard } from "#core/layout/helper-card";
-import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionPayment() {
-  const { exhibitor, standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   if (exhibitor.hasPaid) {
     return (
@@ -19,10 +19,7 @@ export function SectionPayment() {
     );
   }
 
-  if (
-    standConfiguration.status ===
-    ShowExhibitorStandConfigurationStatus.VALIDATED
-  ) {
+  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     return (
       <HelperCard.Root color="paleBlue">
         <HelperCard.Title>En attente de paiement</HelperCard.Title>

@@ -61,7 +61,7 @@ export function FieldsetProfile() {
 }
 
 function FieldLogo() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Form.Field>
@@ -70,8 +70,8 @@ function FieldLogo() {
       </Form.Label>
 
       <DynamicImage
-        imageId={ImageUrl.parse(profile.logoPath).id}
-        alt={profile.name}
+        imageId={ImageUrl.parse(exhibitor.logoPath).id}
+        alt={exhibitor.name}
         sizeMapping={{ default: "100vw", md: "600px" }}
         fallbackSize="1024"
         background="none"

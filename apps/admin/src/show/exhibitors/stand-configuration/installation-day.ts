@@ -1,8 +1,8 @@
-import { ShowExhibitorStandConfigurationInstallationDay } from "@prisma/client";
+import { ShowInstallationDay } from "@prisma/client";
 
 export namespace InstallationDay {
-  export const Enum = ShowExhibitorStandConfigurationInstallationDay;
-  export type Enum = ShowExhibitorStandConfigurationInstallationDay;
+  export const Enum = ShowInstallationDay;
+  export type Enum = ShowInstallationDay;
 
   export const translation: Record<Enum, string> = {
     [Enum.FRIDAY]: "Vendredi à partir de 15h",

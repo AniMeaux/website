@@ -1,10 +1,11 @@
 import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
-import { createEmailTemplateStatusUpdate } from "#exhibitors/application/emails.server";
+import { ApplicationEmails } from "#exhibitors/application/emails.server";
 import { DocumentsEmails } from "#exhibitors/documents/email.server";
 import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server.js";
 import { ExhibitorEmails } from "#exhibitors/email.server";
 import {
+  DescriptionEmails,
   OnStandAnimationsEmails,
   PublicProfileEmails,
 } from "#exhibitors/profile/email.server";
@@ -24,6 +25,7 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaExhibitorVisibleTreated,
       ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
+      ActionSchemaDescriptionTreated,
       ActionSchemaStandConfigurationTreated,
     ])
     .safeParse(await request.json());
@@ -34,9 +36,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   switch (action.data.type) {
     case ActionSchemaApplicationStatusUpdated.shape.type.value: {
-      email.send.template(
-        createEmailTemplateStatusUpdate(action.data.applicationId),
-      );
+      email.send.template(ApplicationEmails.treated(action.data.applicationId));
 
       return json({ ok: true });
     }
@@ -71,6 +71,12 @@ export async function action({ request }: ActionFunctionArgs) {
 
     case ActionSchemaPublicProfileTreated.shape.type.value: {
       email.send.template(PublicProfileEmails.treated(action.data.exhibitorId));
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaDescriptionTreated.shape.type.value: {
+      email.send.template(DescriptionEmails.treated(action.data.exhibitorId));
 
       return json({ ok: true });
     }
@@ -116,6 +122,11 @@ const ActionSchemaOnStandAnimationsTreated = zu.object({
 
 const ActionSchemaPublicProfileTreated = zu.object({
   type: zu.literal("public-profile-treated"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaDescriptionTreated = zu.object({
+  type: zu.literal("description-treated"),
   exhibitorId: zu.string().uuid(),
 });
 

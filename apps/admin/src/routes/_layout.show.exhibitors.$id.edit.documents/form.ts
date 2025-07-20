@@ -7,7 +7,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -27,8 +27,8 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      status: documents.status,
-      statusMessage: documents.statusMessage ?? "",
+      status: exhibitor.documentStatus,
+      statusMessage: exhibitor.documentStatusMessage ?? "",
     },
 
     onValidate: ({ formData }) =>

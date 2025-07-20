@@ -8,16 +8,14 @@ import {
 } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
-import {
-  ProfileStatus,
-  ProfileStatusIcon,
-} from "#show/exhibitors/profile/status";
+import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardOnStandAnimations() {
-  const { profile, exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -38,10 +36,10 @@ export function CardOnStandAnimations() {
       <Card.Content>
         <OnStandAnimationsStatusHelper />
 
-        {profile.onStandAnimations != null ? (
+        {exhibitor.onStandAnimations != null ? (
           <div>
             <Markdown components={SENTENCE_COMPONENTS}>
-              {profile.onStandAnimations}
+              {exhibitor.onStandAnimations}
             </Markdown>
           </div>
         ) : (
@@ -57,24 +55,24 @@ export function CardOnStandAnimations() {
 }
 
 function OnStandAnimationsStatusHelper() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <ProfileStatusIcon status={profile.onStandAnimationsStatus} />
+          <ProfileStatusIcon status={exhibitor.onStandAnimationsStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {ProfileStatus.translation[profile.onStandAnimationsStatus]}
+          {ExhibitorStatus.translation[exhibitor.onStandAnimationsStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {profile.onStandAnimationsStatusMessage != null ? (
+      {exhibitor.onStandAnimationsStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {profile.onStandAnimationsStatusMessage}
+            {exhibitor.onStandAnimationsStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}

@@ -50,16 +50,15 @@ export function SectionList() {
             <ExhibitorItem
               key={exhibitor.id}
               exhibitor={{
-                activityFields: exhibitor.profile.activityFields,
-                activityTargets: exhibitor.profile.activityTargets,
+                activityFields: exhibitor.activityFields,
+                activityTargets: exhibitor.activityTargets,
                 hasOnStageAnimation: exhibitor.hasOnStageAnimation,
                 isPartner: exhibitor.isPartner,
                 isOrganizer: exhibitor.isOrganizer,
-                logoPath: exhibitor.profile.logoPath,
-                name: exhibitor.profile.name,
-                url: exhibitor.profile.url,
-                onStandAnimations:
-                  exhibitor.profile.onStandAnimations || undefined,
+                logoPath: exhibitor.logoPath,
+                name: exhibitor.name,
+                url: exhibitor.url,
+                onStandAnimations: exhibitor.onStandAnimations || undefined,
               }}
               imageLoading={index < 5 ? "eager" : "lazy"}
               imageSizes={{

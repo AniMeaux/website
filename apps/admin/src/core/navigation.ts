@@ -91,6 +91,10 @@ export const Routes = {
         toString: () => `/show/exhibitors/${id}` as const,
 
         edit: {
+          description: {
+            toString: () => `/show/exhibitors/${id}/edit/description` as const,
+          },
+
           documents: {
             toString: () => `/show/exhibitors/${id}/edit/documents` as const,
           },

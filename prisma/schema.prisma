@@ -289,6 +289,175 @@ enum Diagnosis {
   UNKNOWN
 }
 
+model ShowExhibitorApplication {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  status         ShowExhibitorApplicationStatus @default(UNTREATED)
+  refusalMessage String?
+
+  contactLastname  String @db.VarChar(64)
+  contactFirstname String @db.VarChar(64)
+  contactEmail     String @unique @db.VarChar(64)
+  contactPhone     String @db.VarChar(64)
+
+  structureName             String                               @db.VarChar(64)
+  structureUrl              String                               @db.VarChar(128)
+  structureLegalStatus      ShowExhibitorApplicationLegalStatus?
+  structureOtherLegalStatus String?                              @db.VarChar(64)
+  structureSiret            String                               @db.VarChar(128)
+  structureActivityTargets  ShowActivityTarget[]
+  structureActivityFields   ShowActivityField[]
+  structureAddress          String                               @db.VarChar(128)
+  structureZipCode          String                               @db.VarChar(64)
+  structureCity             String                               @db.VarChar(128)
+  structureCountry          String                               @db.VarChar(64)
+  structureLogoPath         String                               @db.VarChar(128)
+
+  billingAddress String @db.VarChar(128)
+  billingCity    String @db.VarChar(128)
+  billingZipCode String @db.VarChar(64)
+  billingCountry String @db.VarChar(64)
+
+  desiredStandSize                ShowStandSize
+  proposalForOnStageEntertainment String?       @db.VarChar(512)
+
+  partnershipCategory      ShowPartnershipCategory?
+  otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
+
+  motivation String @db.VarChar(1000)
+
+  discoverySource String @db.VarChar(128)
+
+  comments String? @db.VarChar(512)
+
+  exhibitor ShowExhibitor?
+}
+
+enum ShowExhibitorApplicationStatus {
+  UNTREATED
+  REFUSED
+  VALIDATED
+  WAITING_LIST
+}
+
+enum ShowExhibitorApplicationOtherPartnershipCategory {
+  MAYBE
+  NO_PARTNERSHIP
+}
+
+enum ShowExhibitorApplicationLegalStatus {
+  ASSOCIATION
+  SOLE_PROPRIETORSHIP
+  COMPANY
+}
+
+model ShowExhibitor {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isVisible Boolean  @default(false)
+
+  // Used by exhibitors to "sign in" to their account.
+  token String @unique @default(uuid()) @db.Uuid
+
+  hasPaid Boolean @default(false)
+
+  application   ShowExhibitorApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String                   @unique @db.Uuid
+
+  partnership ShowPartner?
+  animations  ShowAnimation[]
+
+  // -- Profile ----------------------------------------------------------------
+
+  name String @db.VarChar(64)
+
+  publicProfileStatus        ShowExhibitorStatus  @default(TO_BE_FILLED)
+  publicProfileStatusMessage String?
+  activityFields             ShowActivityField[]
+  activityTargets            ShowActivityTarget[]
+  links                      String[]
+  logoPath                   String               @db.VarChar(128)
+
+  descriptionStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  descriptionStatusMessage String?
+  description              String?             @db.VarChar(512)
+
+  onStandAnimationsStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  onStandAnimationsStatusMessage String?
+  onStandAnimations              String?             @db.VarChar(256)
+
+  // -- Documents --------------------------------------------------------------
+
+  documentStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  documentStatusMessage String?
+
+  folderId             String  @db.VarChar(128)
+  identificationFileId String? @db.VarChar(128)
+  insuranceFileId      String? @db.VarChar(128)
+  kbisFileId           String? @db.VarChar(128)
+
+  // -- Dogs Configuration -----------------------------------------------------
+
+  dogsConfigurationStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  dogsConfigurationStatusMessage String?
+
+  dogs ShowExhibitorDog[]
+
+  // -- Stand Configuration ----------------------------------------------------
+
+  standConfigurationStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  standConfigurationStatusMessage String?
+
+  chairCount              Int                  @default(1)
+  dividerCount            Int                  @default(0)
+  dividerType             ShowDividerType?
+  hasElectricalConnection Boolean              @default(false)
+  hasTablecloths          Boolean              @default(true)
+  installationDay         ShowInstallationDay?
+  locationNumber          String?              @db.VarChar(16)
+  peopleCount             Int                  @default(1)
+  placementComment        String?              @db.VarChar(256)
+  size                    ShowStandSize
+  standNumber             String?              @db.VarChar(16)
+  tableCount              Int
+  zone                    ShowStandZone?
+}
+
+enum ShowExhibitorStatus {
+  TO_BE_FILLED
+  AWAITING_VALIDATION
+  TO_MODIFY
+  VALIDATED
+}
+
+enum ShowDividerType {
+  GRID
+  FABRIC_PANEL
+  WOOD_PANEL
+}
+
+enum ShowInstallationDay {
+  FRIDAY
+  SATURDAY
+}
+
+model ShowExhibitorDog {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @db.Uuid
+
+  gender        Gender
+  idNumber      String  @db.VarChar(64)
+  isCategorized Boolean
+  isSterilized  Boolean
+}
+
 model ShowProvider {
   id        String   @id @default(uuid()) @db.VarChar(255)
   createdAt DateTime @default(now())
@@ -339,225 +508,6 @@ model ShowAnimation {
   registrationUrl String?       @db.VarChar(128)
   startTime       DateTime
   zone            ShowStandZone
-}
-
-model ShowExhibitor {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  isVisible Boolean  @default(false)
-
-  // Used by exhibitors to "sign in" to their account.
-  token String @unique @default(uuid()) @db.Uuid
-
-  hasPaid Boolean @default(false)
-
-  partnership ShowPartner?
-  animations  ShowAnimation[]
-
-  application        ShowExhibitorApplication?
-  documents          ShowExhibitorDocuments?
-  dogsConfiguration  ShowExhibitorDogsConfiguration?
-  profile            ShowExhibitorProfile?
-  standConfiguration ShowExhibitorStandConfiguration?
-}
-
-model ShowExhibitorApplication {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  exhibitor   ShowExhibitor? @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String?        @unique @db.Uuid
-
-  status         ShowExhibitorApplicationStatus @default(UNTREATED)
-  refusalMessage String?
-
-  contactLastname  String @db.VarChar(64)
-  contactFirstname String @db.VarChar(64)
-  contactEmail     String @unique @db.VarChar(64)
-  contactPhone     String @db.VarChar(64)
-
-  structureName             String                               @db.VarChar(64)
-  structureUrl              String                               @db.VarChar(128)
-  structureLegalStatus      ShowExhibitorApplicationLegalStatus?
-  structureOtherLegalStatus String?                              @db.VarChar(64)
-  structureSiret            String                               @db.VarChar(128)
-  structureActivityTargets  ShowActivityTarget[]
-  structureActivityFields   ShowActivityField[]
-  structureAddress          String                               @db.VarChar(128)
-  structureZipCode          String                               @db.VarChar(64)
-  structureCity             String                               @db.VarChar(128)
-  structureCountry          String                               @db.VarChar(64)
-  structureLogoPath         String                               @db.VarChar(128)
-
-  billingAddress String @db.VarChar(128)
-  billingCity    String @db.VarChar(128)
-  billingZipCode String @db.VarChar(64)
-  billingCountry String @db.VarChar(64)
-
-  desiredStandSize                ShowStandSize
-  proposalForOnStageEntertainment String?       @db.VarChar(512)
-
-  partnershipCategory      ShowPartnershipCategory?
-  otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
-
-  discoverySource String @db.VarChar(128)
-
-  comments String? @db.VarChar(512)
-}
-
-enum ShowExhibitorApplicationStatus {
-  UNTREATED
-  REFUSED
-  VALIDATED
-  WAITING_LIST
-}
-
-enum ShowExhibitorApplicationOtherPartnershipCategory {
-  MAYBE
-  NO_PARTNERSHIP
-}
-
-enum ShowExhibitorApplicationLegalStatus {
-  ASSOCIATION
-  SOLE_PROPRIETORSHIP
-  COMPANY
-}
-
-model ShowExhibitorDocuments {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String        @unique @db.Uuid
-
-  status        ShowExhibitorDocumentsStatus @default(TO_BE_FILLED)
-  statusMessage String?
-
-  folderId             String  @db.VarChar(128)
-  identificationFileId String? @db.VarChar(128)
-  insuranceFileId      String? @db.VarChar(128)
-  kbisFileId           String? @db.VarChar(128)
-}
-
-enum ShowExhibitorDocumentsStatus {
-  TO_BE_FILLED
-  AWAITING_VALIDATION
-  TO_MODIFY
-  VALIDATED
-}
-
-model ShowExhibitorProfile {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String        @unique @db.Uuid
-  name        String        @db.VarChar(64)
-
-  publicProfileStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  publicProfileStatusMessage String?
-  activityFields             ShowActivityField[]
-  activityTargets            ShowActivityTarget[]
-  links                      String[]
-  logoPath                   String                     @db.VarChar(128)
-
-  descriptionStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  descriptionStatusMessage String?
-  description              String?                    @db.VarChar(512)
-
-  onStandAnimationsStatus        ShowExhibitorProfileStatus @default(NOT_TOUCHED)
-  onStandAnimationsStatusMessage String?
-  onStandAnimations              String?                    @db.VarChar(256)
-}
-
-enum ShowExhibitorProfileStatus {
-  NOT_TOUCHED
-  AWAITING_VALIDATION
-  TO_MODIFY
-  VALIDATED
-}
-
-model ShowExhibitorStandConfiguration {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String        @unique @db.Uuid
-
-  status        ShowExhibitorStandConfigurationStatus @default(TO_BE_FILLED)
-  statusMessage String?
-
-  chairCount              Int                                             @default(1)
-  dividerCount            Int                                             @default(0)
-  dividerType             ShowExhibitorStandConfigurationDividerType?
-  hasElectricalConnection Boolean                                         @default(false)
-  hasTablecloths          Boolean                                         @default(true)
-  installationDay         ShowExhibitorStandConfigurationInstallationDay?
-  locationNumber          String?                                         @db.VarChar(16)
-  peopleCount             Int                                             @default(1)
-  placementComment        String?                                         @db.VarChar(256)
-  size                    ShowStandSize
-  standNumber             String?                                         @db.VarChar(16)
-  tableCount              Int
-  zone                    ShowStandZone?
-}
-
-enum ShowExhibitorStandConfigurationStatus {
-  TO_BE_FILLED
-  AWAITING_VALIDATION
-  TO_MODIFY
-  VALIDATED
-}
-
-enum ShowExhibitorStandConfigurationDividerType {
-  GRID
-  FABRIC_PANEL
-  WOOD_PANEL
-}
-
-enum ShowExhibitorStandConfigurationInstallationDay {
-  FRIDAY
-  SATURDAY
-}
-
-model ShowExhibitorDogsConfiguration {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String        @unique @db.Uuid
-
-  status        ShowExhibitorDogsConfigurationStatus @default(NOT_TOUCHED)
-  statusMessage String?
-
-  dogs ShowExhibitorDog[]
-}
-
-enum ShowExhibitorDogsConfigurationStatus {
-  NOT_TOUCHED
-  AWAITING_VALIDATION
-  TO_MODIFY
-  VALIDATED
-}
-
-model ShowExhibitorDog {
-  id        String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  dogsConfiguration   ShowExhibitorDogsConfiguration @relation(fields: [dogsConfigurationId], references: [id], onDelete: Cascade)
-  dogsConfigurationId String                         @db.Uuid
-
-  gender        Gender
-  idNumber      String  @db.VarChar(64)
-  isCategorized Boolean
-  isSterilized  Boolean
 }
 
 enum ShowStandZone {

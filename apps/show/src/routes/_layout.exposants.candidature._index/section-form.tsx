@@ -147,6 +147,7 @@ export function SectionForm() {
             sectionId={FieldsetId.COMMENTS}
             isComplete={
               fieldsets.comments.valid &&
+              fieldsets.comments.value?.motivation != null &&
               fieldsets.comments.value?.discoverySource != null
             }
           >

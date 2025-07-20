@@ -13,7 +13,6 @@ import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
 import { FieldsetConfiguration } from "./fieldset-configuration";
@@ -32,34 +31,25 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, standConfiguration } = await promiseHash({
-    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-      select: { name: true },
-    }),
-
-    standConfiguration:
-      db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
-        routeParams.id,
-        {
-          select: {
-            chairCount: true,
-            dividerCount: true,
-            dividerType: true,
-            hasElectricalConnection: true,
-            hasTablecloths: true,
-            installationDay: true,
-            peopleCount: true,
-            size: true,
-            status: true,
-            statusMessage: true,
-            tableCount: true,
-            zone: true,
-          },
-        },
-      ),
+  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: {
+      name: true,
+      chairCount: true,
+      dividerCount: true,
+      dividerType: true,
+      hasElectricalConnection: true,
+      hasTablecloths: true,
+      installationDay: true,
+      peopleCount: true,
+      size: true,
+      standConfigurationStatus: true,
+      standConfigurationStatusMessage: true,
+      tableCount: true,
+      zone: true,
+    },
   });
 
-  return json({ profile, standConfiguration });
+  return json({ exhbitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -70,8 +60,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Configuration de stand"]
+        data?.exhbitor.name != null
+          ? [`Modifier ${data.exhbitor.name}`, "Configuration de stand"]
           : getErrorTitle(404),
       ),
     },
@@ -106,7 +96,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.standConfiguration.update(routeParams.id, {
+  await db.show.exhibitor.updateStand(routeParams.id, {
     chairCount: submission.value.chairCount,
     dividerCount: submission.value.dividerCount,
     dividerType: submission.value.dividerType,
@@ -115,8 +105,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     installationDay: submission.value.installationDay,
     peopleCount: submission.value.peopleCount,
     size: submission.value.size,
-    status: submission.value.status,
-    statusMessage: submission.value.statusMessage || null,
+    standConfigurationStatus: submission.value.status,
+    standConfigurationStatusMessage: submission.value.statusMessage || null,
     tableCount: submission.value.tableCount,
     zone: submission.value.zone,
   });

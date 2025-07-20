@@ -6,7 +6,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
 
   const [form, fields] = useFormBase({
@@ -16,19 +16,17 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
-      chairCount: standConfiguration.chairCount,
-      dividerCount: standConfiguration.dividerCount,
-      dividerType: standConfiguration.dividerType,
-      hasElectricalConnection: standConfiguration.hasElectricalConnection
-        ? "on"
-        : "off",
-      hasTablecloths: standConfiguration.hasTablecloths ? "on" : "off",
-      installationDay: standConfiguration.installationDay,
-      peopleCount: standConfiguration.peopleCount,
-      placementComment: standConfiguration.placementComment,
-      size: standConfiguration.size,
-      tableCount: standConfiguration.tableCount,
-      zone: standConfiguration.zone,
+      chairCount: exhibitor.chairCount,
+      dividerCount: exhibitor.dividerCount,
+      dividerType: exhibitor.dividerType,
+      hasElectricalConnection: exhibitor.hasElectricalConnection ? "on" : "off",
+      hasTablecloths: exhibitor.hasTablecloths ? "on" : "off",
+      installationDay: exhibitor.installationDay,
+      peopleCount: exhibitor.peopleCount,
+      placementComment: exhibitor.placementComment,
+      size: exhibitor.size,
+      tableCount: exhibitor.tableCount,
+      zone: exhibitor.zone,
     },
 
     onValidate: ({ formData }) =>

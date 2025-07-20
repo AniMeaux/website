@@ -11,7 +11,7 @@ import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
-import { ShowExhibitorDocumentsStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
@@ -24,32 +24,31 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { documents, files, profile } = await promiseHash({
-    documents: services.exhibitor.documents.getByToken(routeParams.token, {
-      select: { status: true },
+  const { exhibitor, files } = await promiseHash({
+    exhibitor: services.exhibitor.getByToken(routeParams.token, {
+      select: {
+        documentStatus: true,
+        name: true,
+      },
     }),
 
-    files: services.exhibitor.documents.getFilesByToken(routeParams.token),
-
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true },
-    }),
+    files: services.exhibitor.getFilesByToken(routeParams.token),
   });
 
-  if (documents.status === ShowExhibitorDocumentsStatus.VALIDATED) {
+  if (exhibitor.documentStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       Routes.exhibitors.token(routeParams.token).documents.toString(),
     );
   }
 
-  return { documents: { ...documents, ...files }, profile };
+  return { exhibitor: { ...exhibitor, ...files } };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier les documents", data.profile.name]
+        ? ["Modifier les documents", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -58,12 +57,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const documents = await services.exhibitor.documents.getByToken(
-    routeParams.token,
-    { select: { status: true, folderId: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { documentStatus: true, folderId: true },
+  });
 
-  if (documents.status === ShowExhibitorDocumentsStatus.VALIDATED) {
+  if (exhibitor.documentStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -82,7 +80,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
     try {
       return await reversibleUpload.upload(fileUpload, {
-        parentFolderId: documents.folderId,
+        parentFolderId: exhibitor.folderId,
       });
     } catch (error) {
       captureException(error);
@@ -100,7 +98,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await services.exhibitor.documents.update(routeParams.token, {
+    await services.exhibitor.updateDocuments(routeParams.token, {
       identificationFileId:
         submission.value.identificationFile?.name ??
         submission.value.identificationFileCurrentId,

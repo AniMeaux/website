@@ -31,22 +31,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await db.show.exhibitor.profile.findUniqueByExhibitor(
-    routeParams.id,
-    {
-      select: {
-        activityFields: true,
-        activityTargets: true,
-        links: true,
-        logoPath: true,
-        name: true,
-        publicProfileStatus: true,
-        publicProfileStatusMessage: true,
-      },
+  const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: {
+      activityFields: true,
+      activityTargets: true,
+      links: true,
+      logoPath: true,
+      name: true,
+      publicProfileStatus: true,
+      publicProfileStatusMessage: true,
     },
-  );
+  });
 
-  return json({ profile });
+  return json({ exhibitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -57,8 +54,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Profil public"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Profil public"]
           : getErrorTitle(404),
       ),
     },
@@ -93,7 +90,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.profile.updatePublicProfile(routeParams.id, {
+  await db.show.exhibitor.updatePublicProfile(routeParams.id, {
     activityFields: submission.value.activityFields,
     activityTargets: submission.value.activityTargets,
     links: submission.value.links,

@@ -3,17 +3,15 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionStandNumber() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (standConfiguration.standNumber == null) {
+  if (exhibitor.standNumber == null) {
     return null;
   }
 
   return (
     <HelperCard.Root color="paleBlue">
-      <HelperCard.Title>
-        Stand nº{standConfiguration.standNumber}
-      </HelperCard.Title>
+      <HelperCard.Title>Stand nº{exhibitor.standNumber}</HelperCard.Title>
 
       <p>
         Votre numéro de stand est défini et vous pourrez l’utiliser pour vous

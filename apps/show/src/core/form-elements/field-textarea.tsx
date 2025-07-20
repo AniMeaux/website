@@ -9,11 +9,13 @@ export function FieldTextarea({
   label,
   rows,
   placeholder,
+  hideCaracterCount = false,
 }: {
   field: FieldMetadata<string>;
   label: React.ReactNode;
   rows?: number;
   placeholder?: string;
+  hideCaracterCount?: boolean;
 }) {
   const textareaProps = withoutKey(getTextareaProps(field));
 
@@ -30,7 +32,9 @@ export function FieldTextarea({
 
       <FieldErrorHelper field={field} />
 
-      {field.errors == null && textareaProps.maxLength != null ? (
+      {field.errors == null &&
+      textareaProps.maxLength != null &&
+      !hideCaracterCount ? (
         <FormLayout.Helper>
           {field.value?.trim().length ?? 0} / {textareaProps.maxLength}
         </FormLayout.Helper>

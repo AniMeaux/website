@@ -19,7 +19,7 @@ import {
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationOtherPartnershipCategory,
   ShowExhibitorApplicationStatus,
-  ShowExhibitorProfileStatus,
+  ShowExhibitorStatus,
   ShowPartnershipCategory,
   ShowStandSize,
   ShowStandZone,
@@ -35,21 +35,26 @@ console.log("🌱 Seeding data...");
 
 const prisma = new PrismaClient();
 
+const seeds = {
+  animals: Promise.resolve().then(seedAnimals),
+  breeds: Promise.resolve().then(seedBreeds),
+  colors: Promise.resolve().then(seedColors),
+  events: Promise.resolve().then(seedEvents),
+  fosterFamilies: Promise.resolve().then(seedFosterFamilies),
+  pressArticles: Promise.resolve().then(seedPressArticle),
+  showAnimations: Promise.resolve().then(seedShowAnimations),
+  showExhibitorApplications: Promise.resolve().then(
+    seedShowExhibitorApplications,
+  ),
+  showExhibitors: Promise.resolve().then(seedShowExhibitors),
+  showExhibitorsDogs: Promise.resolve().then(seedShowExhibitorsDogs),
+  showPartners: Promise.resolve().then(seedShowPartners),
+  showProviders: Promise.resolve().then(seedShowProviders),
+  users: Promise.resolve().then(seedUsers),
+};
+
 try {
-  await Promise.all([
-    seedUsers(),
-    seedFosterFamilies(),
-    seedBreeds(),
-    seedColors(),
-    seedEvents(),
-    seedPressArticle(),
-    seedShowProviders(),
-    seedShowExhibitorApplications(),
-  ]);
-
-  await Promise.all([seedAnimals(), seedShowExhibitors()]);
-
-  await Promise.all([seedShowPartners(), seedShowAnimations()]);
+  await Promise.all(Object.values(seeds));
 } finally {
   await prisma.$disconnect();
 }
@@ -304,6 +309,13 @@ function createEventInput({
 }
 
 async function seedAnimals() {
+  await Promise.all([
+    seeds.users,
+    seeds.breeds,
+    seeds.colors,
+    seeds.fosterFamilies,
+  ]);
+
   const [managers, breeds, colors, fosterFamilies] = await Promise.all([
     prisma.user.findMany({
       where: { isDisabled: false, groups: { has: UserGroup.ANIMAL_MANAGER } },
@@ -567,6 +579,10 @@ async function seedShowExhibitorApplications() {
               )
             : undefined,
 
+        motivation: faker.lorem
+          .paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
+          .substring(0, 1000),
+
         discoverySource: faker.lorem.word(),
 
         comments: faker.helpers.maybe(
@@ -582,6 +598,8 @@ async function seedShowExhibitorApplications() {
 }
 
 async function seedShowExhibitors() {
+  await seeds.showExhibitorApplications;
+
   const applications = await prisma.showExhibitorApplication.findMany({
     where: { status: ShowExhibitorApplicationStatus.VALIDATED },
     select: {
@@ -597,56 +615,110 @@ async function seedShowExhibitors() {
 
   await Promise.all(
     applications.map((application) => {
+      const publicProfileStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorStatus),
+      );
+
       const descriptionStatus = faker.helpers.arrayElement(
-        Object.values(ShowExhibitorProfileStatus),
+        Object.values(ShowExhibitorStatus),
       );
 
       const onStandAnimationsStatus = faker.helpers.arrayElement(
-        Object.values(ShowExhibitorProfileStatus),
+        Object.values(ShowExhibitorStatus),
+      );
+
+      const documentStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorStatus),
+      );
+
+      const dogsConfigurationStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorStatus),
+      );
+
+      const standConfigurationStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorStatus),
       );
 
       return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
           hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
+          applicationId: application.id,
 
-          application: { connect: { id: application.id } },
+          // -- Profile --------------------------------------------------------
 
-          documents: { create: { folderId: faker.string.uuid() } },
+          name: application.structureName,
 
-          dogsConfiguration: { create: {} },
+          publicProfileStatus,
+          publicProfileStatusMessage:
+            publicProfileStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
 
-          profile: {
-            create: {
-              activityFields: application.structureActivityFields,
-              activityTargets: application.structureActivityTargets,
-              links: [application.structureUrl].concat(
-                repeate({ min: 0, max: 2 }, () => faker.internet.url()),
-              ),
-              logoPath: application.structureLogoPath,
-              name: application.structureName,
+          activityFields: application.structureActivityFields,
+          activityTargets: application.structureActivityTargets,
+          links: [application.structureUrl].concat(
+            repeate({ min: 0, max: 2 }, () => faker.internet.url()),
+          ),
+          logoPath: application.structureLogoPath,
 
-              descriptionStatus,
-              description:
-                descriptionStatus === ShowExhibitorProfileStatus.NOT_TOUCHED
-                  ? undefined
-                  : faker.lorem.paragraph().substring(0, 512),
+          descriptionStatus,
+          descriptionStatusMessage:
+            descriptionStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
+          description:
+            descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED
+              ? undefined
+              : faker.lorem.paragraph().substring(0, 512),
 
-              onStandAnimationsStatus,
-              onStandAnimations:
-                onStandAnimationsStatus ===
-                ShowExhibitorProfileStatus.NOT_TOUCHED
-                  ? undefined
-                  : faker.lorem.lines().substring(0, 256),
-            },
-          },
+          onStandAnimationsStatus,
+          onStandAnimationsStatusMessage:
+            onStandAnimationsStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
+          onStandAnimations:
+            onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED
+              ? undefined
+              : faker.lorem.lines().substring(0, 256),
 
-          standConfiguration: {
-            create: {
-              size: application.desiredStandSize,
-              tableCount: faker.number.int({ min: 0, max: 3 }),
-            },
-          },
+          // -- Documents ------------------------------------------------------
+
+          documentStatus,
+          documentStatusMessage:
+            documentStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
+
+          folderId: faker.string.uuid(),
+
+          ...faker.helpers.maybe(
+            () => ({
+              identificationFileId: faker.string.uuid(),
+              insuranceFileId: faker.string.uuid(),
+              kbisFileId: faker.string.uuid(),
+            }),
+            { probability: 1 / 2 },
+          ),
+
+          // -- Dogs Configuration ---------------------------------------------
+
+          dogsConfigurationStatus,
+          dogsConfigurationStatusMessage:
+            dogsConfigurationStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
+
+          // -- Stand Configuration --------------------------------------------
+
+          standConfigurationStatus,
+          standConfigurationStatusMessage:
+            standConfigurationStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
+
+          size: application.desiredStandSize,
+          tableCount: faker.number.int({ min: 0, max: 3 }),
         },
       });
     }),
@@ -656,7 +728,37 @@ async function seedShowExhibitors() {
   console.log(`- 👍 ${count} show exhibitors`);
 }
 
+async function seedShowExhibitorsDogs() {
+  await seeds.showExhibitors;
+
+  const exhibitors = await prisma.showExhibitor.findMany({
+    where: {
+      dogsConfigurationStatus: { not: ShowExhibitorStatus.TO_BE_FILLED },
+    },
+    select: { id: true },
+  });
+
+  await Promise.all(
+    exhibitors.map((exhibitor) =>
+      prisma.showExhibitorDog.createMany({
+        data: repeate({ min: 1, max: 3 }, () => ({
+          exhibitorId: exhibitor.id,
+          gender: faker.helpers.arrayElement(Object.values(Gender)),
+          idNumber: faker.string.numeric(15),
+          isCategorized: faker.datatype.boolean(),
+          isSterilized: faker.datatype.boolean(),
+        })),
+      }),
+    ),
+  );
+
+  const count = await prisma.showExhibitorDog.count();
+  console.log(`- 👍 ${count} show exhibitors dogs`);
+}
+
 async function seedShowPartners() {
+  await seeds.showExhibitors;
+
   const exhibitors = await prisma.showExhibitor.findMany({
     where: {
       application: {
@@ -677,7 +779,7 @@ async function seedShowPartners() {
   await prisma.showPartner.createMany({
     data: [
       ...exhibitors.map((exhibitor) => ({
-        isVisible: exhibitor.isVisible,
+        isVisible: exhibitor.isVisible && faker.datatype.boolean(),
         exhibitorId: exhibitor.id,
         category: exhibitor.application!.partnershipCategory!,
       })),
@@ -698,6 +800,8 @@ async function seedShowPartners() {
 }
 
 async function seedShowAnimations() {
+  await seeds.showExhibitors;
+
   const exhibitors = await prisma.showExhibitor.findMany({
     select: { id: true },
   });
@@ -707,13 +811,13 @@ async function seedShowAnimations() {
   [
     // Saturday.
     {
-      start: DateTime.fromISO("2025-06-07T10:00:00.000+02:00"),
-      end: DateTime.fromISO("2025-06-07T18:00:00.000+02:00"),
+      start: DateTime.fromISO("2026-06-06T10:00:00.000+02:00"),
+      end: DateTime.fromISO("2026-06-06T18:00:00.000+02:00"),
     },
     // Sunday.
     {
-      start: DateTime.fromISO("2025-06-08T10:00:00.000+02:00"),
-      end: DateTime.fromISO("2025-06-08T18:00:00.000+02:00"),
+      start: DateTime.fromISO("2026-06-07T10:00:00.000+02:00"),
+      end: DateTime.fromISO("2026-06-07T18:00:00.000+02:00"),
     },
   ].forEach((showDay) => {
     let startTime = showDay.start;

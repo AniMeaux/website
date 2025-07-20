@@ -13,7 +13,6 @@ import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
 import { FieldsetStatus } from "./fieldset-status";
@@ -31,19 +30,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, dogsConfiguration } = await promiseHash({
-    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-      select: { name: true },
-    }),
-
-    dogsConfiguration:
-      db.show.exhibitor.dogsConfiguration.findUniqueByExhibitor(
-        routeParams.id,
-        { select: { status: true, statusMessage: true } },
-      ),
+  const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: {
+      name: true,
+      dogsConfigurationStatus: true,
+      dogsConfigurationStatusMessage: true,
+    },
   });
 
-  return json({ profile, dogsConfiguration });
+  return json({ exhibitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -54,8 +49,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Chiens sur stand"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Chiens sur stand"]
           : getErrorTitle(404),
       ),
     },
@@ -90,9 +85,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.dogsConfiguration.update(routeParams.id, {
-    status: submission.value.status,
-    statusMessage: submission.value.statusMessage || null,
+  await db.show.exhibitor.updateDogs(routeParams.id, {
+    dogsConfigurationStatus: submission.value.status,
+    dogsConfigurationStatusMessage: submission.value.statusMessage || null,
   });
 
   return json<ActionData>({

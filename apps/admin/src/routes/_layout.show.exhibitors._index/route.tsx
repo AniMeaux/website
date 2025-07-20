@@ -3,7 +3,6 @@ import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ExhibitorFilters } from "#show/exhibitors/filter-form";
@@ -35,33 +34,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
       createdAt: true,
       id: true,
       isVisible: true,
+      logoPath: true,
+      name: true,
 
       application: {
         select: { status: true },
-      },
-
-      profile: {
-        select: {
-          logoPath: true,
-          name: true,
-        },
       },
     },
   });
 
   const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
 
-  return json({
-    totalCount,
-    pageCount,
-    exhibitors: exhibitors.map(({ application, profile, ...exhibitor }) => {
-      if (profile == null || application == null) {
-        throw notFound();
-      }
-
-      return { ...exhibitor, application, profile };
-    }),
-  });
+  return json({ totalCount, pageCount, exhibitors });
 }
 
 const EXHIBITOR_COUNT_PER_PAGE = 20;

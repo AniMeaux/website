@@ -13,7 +13,6 @@ import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
 import { FieldsetSituation } from "./fieldset-situation";
@@ -31,23 +30,17 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { profile, exhbitor, standConfiguration } = await promiseHash({
-    profile: db.show.exhibitor.profile.findUniqueByExhibitor(routeParams.id, {
-      select: { name: true },
-    }),
-
-    exhbitor: db.show.exhibitor.findUnique(routeParams.id, {
-      select: { hasPaid: true, isVisible: true },
-    }),
-
-    standConfiguration:
-      db.show.exhibitor.standConfiguration.findUniqueByExhibitor(
-        routeParams.id,
-        { select: { locationNumber: true, standNumber: true } },
-      ),
+  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: {
+      name: true,
+      hasPaid: true,
+      isVisible: true,
+      locationNumber: true,
+      standNumber: true,
+    },
   });
 
-  return json({ profile, exhbitor, standConfiguration });
+  return json({ exhbitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -58,8 +51,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Situation"]
+        data?.exhbitor.name != null
+          ? [`Modifier ${data.exhbitor.name}`, "Situation"]
           : getErrorTitle(404),
       ),
     },

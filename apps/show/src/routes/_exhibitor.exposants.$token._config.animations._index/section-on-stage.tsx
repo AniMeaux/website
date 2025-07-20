@@ -11,7 +11,7 @@ import { DateTime } from "luxon";
 import type { loader } from "./route";
 
 export function SectionOnStage() {
-  const { profile, animations } = useLoaderData<typeof loader>();
+  const { exhibitor, animations } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section>
@@ -37,7 +37,7 @@ export function SectionOnStage() {
         animations.map((animation) => (
           <AnimationItem
             key={animation.id}
-            id={profile.id}
+            id={exhibitor.id}
             animation={animation}
           />
         ))

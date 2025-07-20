@@ -8,10 +8,8 @@ import { Card } from "#core/layout/card.js";
 import { Separator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon.js";
-import {
-  DogsConfigurationStatus,
-  DogsConfigurationStatusIcon,
-} from "#show/exhibitors/dogs-configuration/status.js";
+import { DogsConfigurationStatusIcon } from "#show/exhibitors/dogs-configuration/status.js";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper.js";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender } from "@prisma/client";
@@ -19,7 +17,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardDogsConfiguration() {
-  const { exhibitor, dogsConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -40,11 +38,9 @@ export function CardDogsConfiguration() {
       <Card.Content>
         <DogsConfigurationStatusHelper />
 
-        {dogsConfiguration.dogs.length > 0 ? (
+        {exhibitor.dogs.length > 0 ? (
           joinReactNodes(
-            dogsConfiguration.dogs.map((dog) => (
-              <DogItem key={dog.id} dog={dog} />
-            )),
+            exhibitor.dogs.map((dog) => <DogItem key={dog.id} dog={dog} />),
             <Separator />,
           )
         ) : (
@@ -60,24 +56,26 @@ export function CardDogsConfiguration() {
 }
 
 function DogsConfigurationStatusHelper() {
-  const { dogsConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <DogsConfigurationStatusIcon status={dogsConfiguration.status} />
+          <DogsConfigurationStatusIcon
+            status={exhibitor.dogsConfigurationStatus}
+          />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {DogsConfigurationStatus.translation[dogsConfiguration.status]}
+          {ExhibitorStatus.translation[exhibitor.dogsConfigurationStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {dogsConfiguration.statusMessage != null ? (
+      {exhibitor.dogsConfigurationStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {dogsConfiguration.statusMessage}
+            {exhibitor.dogsConfigurationStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}

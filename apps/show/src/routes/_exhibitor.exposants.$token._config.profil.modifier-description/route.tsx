@@ -6,11 +6,11 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services/services.server";
-import { createEmailTemplateDescriptionUpdated } from "#exhibitors/profile/email.server";
+import { DescriptionEmails } from "#exhibitors/profile/email.server";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
-import { ShowExhibitorProfileStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
@@ -22,12 +22,11 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    { select: { description: true, descriptionStatus: true, name: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { description: true, descriptionStatus: true, name: true },
+  });
 
-  if (profile.descriptionStatus === ShowExhibitorProfileStatus.VALIDATED) {
+  if (exhibitor.descriptionStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       createPath({
         pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
@@ -36,14 +35,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
     );
   }
 
-  return { profile };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier la description", data.profile.name]
+        ? ["Modifier la description", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -52,12 +51,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    { select: { descriptionStatus: true } },
-  );
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { descriptionStatus: true },
+  });
 
-  if (profile.descriptionStatus === ShowExhibitorProfileStatus.VALIDATED) {
+  if (exhibitor.descriptionStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -69,11 +67,11 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.profile.updateDescription(routeParams.token, {
+  await services.exhibitor.updateDescription(routeParams.token, {
     description: submission.value.description || null,
   });
 
-  email.send.template(createEmailTemplateDescriptionUpdated(routeParams.token));
+  email.send.template(DescriptionEmails.submitted(routeParams.token));
 
   throw redirect(
     createPath({

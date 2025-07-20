@@ -5,21 +5,19 @@ import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
-import {
-  DocumentsStatus,
-  DocumentsStatusIcon,
-} from "#show/exhibitors/documents/status";
+import { DocumentsStatusIcon } from "#show/exhibitors/documents/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardDocuments() {
-  const { exhibitor, documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   const filesItems = [
-    { label: "Pièce d’identité", file: documents.identificationFile },
-    { label: "Justificatif d’immatriculation", file: documents.kbisFile },
-    { label: "Assurance", file: documents.insuranceFile },
+    { label: "Pièce d’identité", file: exhibitor.identificationFile },
+    { label: "Justificatif d’immatriculation", file: exhibitor.kbisFile },
+    { label: "Assurance", file: exhibitor.insuranceFile },
   ];
 
   return (
@@ -29,7 +27,7 @@ export function CardDocuments() {
 
         <Action variant="text" color="gray" asChild>
           <BaseLink
-            to={`https://drive.google.com/drive/folders/${documents.folderId}?usp=drive_link`}
+            to={`https://drive.google.com/drive/folders/${exhibitor.folderId}?usp=drive_link`}
             shouldOpenInNewTarget
           >
             <Action.Icon href="icon-google-drive-solid" />
@@ -83,24 +81,24 @@ export function CardDocuments() {
 }
 
 function DocumentsStatusHelper() {
-  const { documents } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <DocumentsStatusIcon status={documents.status} />
+          <DocumentsStatusIcon status={exhibitor.documentStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {DocumentsStatus.translation[documents.status]}
+          {ExhibitorStatus.translation[exhibitor.documentStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {documents.statusMessage != null ? (
+      {exhibitor.documentStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {documents.statusMessage}
+            {exhibitor.documentStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}

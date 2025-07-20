@@ -12,7 +12,7 @@ import { useForm } from "./form";
 import type { loader } from "./route";
 
 export function FieldsetPublicProfile() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const { fields } = useForm();
 
   return (
@@ -22,7 +22,7 @@ export function FieldsetPublicProfile() {
       <FieldLogo
         label="Logo"
         field={fields.logo}
-        defaultLogo={{ path: profile.logoPath, alt: profile.name }}
+        defaultLogo={{ path: exhibitor.logoPath, alt: exhibitor.name }}
       />
 
       <FieldActivityTarget label="Cibles" field={fields.activityTargets} />

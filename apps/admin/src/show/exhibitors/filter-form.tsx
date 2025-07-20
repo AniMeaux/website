@@ -14,27 +14,16 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
-import {
-  DocumentsStatus,
-  DocumentsStatusIcon,
-} from "#show/exhibitors/documents/status";
-import {
-  DogsConfigurationStatus,
-  DogsConfigurationStatusIcon,
-} from "#show/exhibitors/dogs-configuration/status";
+import { DocumentsStatusIcon } from "#show/exhibitors/documents/status";
+import { DogsConfigurationStatusIcon } from "#show/exhibitors/dogs-configuration/status";
 import { Payment, PaymentIcon } from "#show/exhibitors/payment";
-import {
-  ProfileStatus,
-  ProfileStatusIcon,
-} from "#show/exhibitors/profile/status";
+import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import {
   ExhibitorSearchParams,
   ExhibitorSearchParamsN,
 } from "#show/exhibitors/search-params";
-import {
-  StandConfigurationStatus,
-  StandConfigurationStatusIcon,
-} from "#show/exhibitors/stand-configuration/status";
+import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import {
   PartnershipCategory,
   PartnershipCategoryIcon,
@@ -471,11 +460,11 @@ function FilterStatuses() {
           <Form.Label>Profil public</Form.Label>
 
           <ToggleInputList>
-            {ProfileStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={ProfileStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.publicProfileStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
@@ -492,11 +481,11 @@ function FilterStatuses() {
           <Form.Label>Description</Form.Label>
 
           <ToggleInputList>
-            {ProfileStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={ProfileStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.descriptionStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
@@ -511,11 +500,11 @@ function FilterStatuses() {
           <Form.Label>Animations sur stand</Form.Label>
 
           <ToggleInputList>
-            {ProfileStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={ProfileStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.onStandAnimationsStatuses}
                 value={status}
                 icon={<ProfileStatusIcon status={status} />}
@@ -532,11 +521,11 @@ function FilterStatuses() {
           <Form.Label>Documents</Form.Label>
 
           <ToggleInputList>
-            {DocumentsStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={DocumentsStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.documentsStatuses}
                 value={status}
                 icon={<DocumentsStatusIcon status={status} />}
@@ -551,11 +540,11 @@ function FilterStatuses() {
           <Form.Label>Configuration de stand</Form.Label>
 
           <ToggleInputList>
-            {StandConfigurationStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={StandConfigurationStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.standConfigurationStatuses}
                 value={status}
                 icon={<StandConfigurationStatusIcon status={status} />}
@@ -572,11 +561,11 @@ function FilterStatuses() {
           <Form.Label>Chiens sur stand</Form.Label>
 
           <ToggleInputList>
-            {DogsConfigurationStatus.values.map((status) => (
+            {ExhibitorStatus.values.map((status) => (
               <ToggleInput
                 key={status}
                 type="checkbox"
-                label={DogsConfigurationStatus.translation[status]}
+                label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.dogsConfigurationStatuses}
                 value={status}
                 icon={<DogsConfigurationStatusIcon status={status} />}

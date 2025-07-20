@@ -8,7 +8,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { standConfiguration } = useLoaderData<typeof loader>();
+  const { exhbitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -28,20 +28,20 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      chairCount: standConfiguration.chairCount,
-      dividerCount: standConfiguration.dividerCount,
-      dividerType: standConfiguration.dividerType,
+      chairCount: exhbitor.chairCount,
+      dividerCount: exhbitor.dividerCount,
+      dividerType: exhbitor.dividerType,
       hasElectricalConnection: OnOff.fromBoolean(
-        standConfiguration.hasElectricalConnection,
+        exhbitor.hasElectricalConnection,
       ),
-      hasTablecloths: OnOff.fromBoolean(standConfiguration.hasTablecloths),
-      installationDay: standConfiguration.installationDay,
-      peopleCount: standConfiguration.peopleCount,
-      size: standConfiguration.size,
-      status: standConfiguration.status,
-      statusMessage: standConfiguration.statusMessage ?? "",
-      tableCount: standConfiguration.tableCount,
-      zone: standConfiguration.zone,
+      hasTablecloths: OnOff.fromBoolean(exhbitor.hasTablecloths),
+      installationDay: exhbitor.installationDay,
+      peopleCount: exhbitor.peopleCount,
+      size: exhbitor.size,
+      status: exhbitor.standConfigurationStatus,
+      statusMessage: exhbitor.standConfigurationStatusMessage ?? "",
+      tableCount: exhbitor.tableCount,
+      zone: exhbitor.zone,
     },
 
     onValidate: ({ formData }) =>
