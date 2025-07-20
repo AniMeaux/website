@@ -327,75 +327,75 @@ export namespace PublicProfileEmails {
   }
 }
 
-export async function createEmailTemplateDescriptionUpdated(
-  token: string,
-): Promise<EmailTemplate> {
-  const { exhibitor, application } = await promiseHash({
-    exhibitor: services.exhibitor.getByToken(token, {
-      select: { description: true },
-    }),
+export namespace DescriptionEmails {
+  export async function submitted(token: string): Promise<EmailTemplate> {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
+        select: { description: true },
+      }),
 
-    application: services.exhibitor.application.getByToken(token, {
-      select: { contactEmail: true },
-    }),
-  });
+      application: services.exhibitor.application.getByToken(token, {
+        select: { contactEmail: true },
+      }),
+    });
 
-  function SectionDescription() {
-    return (
-      <EmailHtml.Section.Root>
-        <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
-
-        {exhibitor.description != null ? (
-          <EmailHtml.Markdown
-            content={exhibitor.description}
-            components={EMAIL_PARAGRAPH_COMPONENTS}
-          />
-        ) : (
-          <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
-        )}
-      </EmailHtml.Section.Root>
-    );
-  }
-
-  return {
-    name: "description-exposant-mis-a-jour",
-    from: "Salon des Ani’Meaux <salon@animeaux.org>",
-    to: [application.contactEmail],
-    subject: "Description mise à jour - Salon des Ani’Meaux 2025",
-    body: (
-      <EmailHtml.Root>
-        <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
-
+    function SectionDescription() {
+      return (
         <EmailHtml.Section.Root>
-          <EmailHtml.Paragraph>
-            Votre description a bien été mise à jour et est en attente de
-            traitement.
-          </EmailHtml.Paragraph>
+          <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
 
-          <EmailHtml.Paragraph>
-            <EmailHtml.Button
-              href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
-            >
-              Accédez à votre profil
-            </EmailHtml.Button>
-          </EmailHtml.Paragraph>
-
-          <EmailHtml.Paragraph>
-            Pour toute question ou complément d’information, n’hésitez pas à
-            nous contacter en répondant à cet e-mail.
-          </EmailHtml.Paragraph>
+          {exhibitor.description != null ? (
+            <EmailHtml.Markdown
+              content={exhibitor.description}
+              components={EMAIL_PARAGRAPH_COMPONENTS}
+            />
+          ) : (
+            <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
+          )}
         </EmailHtml.Section.Root>
+      );
+    }
 
-        <EmailHtml.SectionSeparator />
+    return {
+      name: "description-exposant-mis-a-jour",
+      from: "Salon des Ani’Meaux <salon@animeaux.org>",
+      to: [application.contactEmail],
+      subject: "Description mise à jour - Salon des Ani’Meaux 2025",
+      body: (
+        <EmailHtml.Root>
+          <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
 
-        <SectionDescription />
+          <EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              Votre description a bien été mise à jour et est en attente de
+              traitement.
+            </EmailHtml.Paragraph>
 
-        <EmailHtml.SectionSeparator />
+            <EmailHtml.Paragraph>
+              <EmailHtml.Button
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).profile.toString()}`}
+              >
+                Accédez à votre profil
+              </EmailHtml.Button>
+            </EmailHtml.Paragraph>
 
-        <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
-      </EmailHtml.Root>
-    ),
-  };
+            <EmailHtml.Paragraph>
+              Pour toute question ou complément d’information, n’hésitez pas à
+              nous contacter en répondant à cet e-mail.
+            </EmailHtml.Paragraph>
+          </EmailHtml.Section.Root>
+
+          <EmailHtml.SectionSeparator />
+
+          <SectionDescription />
+
+          <EmailHtml.SectionSeparator />
+
+          <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+        </EmailHtml.Root>
+      ),
+    };
+  }
 }
 
 export namespace OnStandAnimationsEmails {
