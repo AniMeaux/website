@@ -189,10 +189,10 @@ export function AnimalSituationForm({
                   defaultValue={defaultAnimal?.fosterFamily}
                 />
               </Form.Field>
+
+              <Separator />
             </>
           ) : null}
-
-          <Separator />
 
           <Form.Field>
             <Form.Label>
