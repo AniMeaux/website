@@ -10,11 +10,10 @@ import { RouteParamsSchema } from "#exhibitors/route-params";
 import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
-import { ShowExhibitorStandConfigurationStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -22,51 +21,38 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { standConfiguration, profile } = await promiseHash({
-    standConfiguration: services.exhibitor.standConfiguration.getByToken(
-      routeParams.token,
-      {
-        select: {
-          chairCount: true,
-          dividerCount: true,
-          dividerType: true,
-          hasElectricalConnection: true,
-          hasTablecloths: true,
-          installationDay: true,
-          peopleCount: true,
-          placementComment: true,
-          size: true,
-          status: true,
-          tableCount: true,
-          updatedAt: true,
-          zone: true,
-        },
-      },
-    ),
-
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: {
-        name: true,
-        activityFields: true,
-      },
-    }),
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      name: true,
+      activityFields: true,
+      chairCount: true,
+      dividerCount: true,
+      dividerType: true,
+      hasElectricalConnection: true,
+      hasTablecloths: true,
+      installationDay: true,
+      peopleCount: true,
+      placementComment: true,
+      size: true,
+      standConfigurationStatus: true,
+      tableCount: true,
+      updatedAt: true,
+      zone: true,
+    },
   });
 
-  if (
-    standConfiguration.status ===
-    ShowExhibitorStandConfigurationStatus.VALIDATED
-  ) {
+  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
   }
 
-  return { standConfiguration, profile };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier la configuration de stand", data.profile.name]
+        ? ["Modifier la configuration de stand", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -75,15 +61,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const standConfiguration =
-    await services.exhibitor.standConfiguration.getByToken(routeParams.token, {
-      select: { status: true },
-    });
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { standConfigurationStatus: true },
+  });
 
-  if (
-    standConfiguration.status ===
-    ShowExhibitorStandConfigurationStatus.VALIDATED
-  ) {
+  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -95,7 +77,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.standConfiguration.update(routeParams.token, {
+  await services.exhibitor.updateStand(routeParams.token, {
     chairCount: submission.value.chairCount,
     dividerCount: submission.value.dividerCount,
     dividerType: submission.value.dividerType,

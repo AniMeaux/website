@@ -15,6 +15,7 @@ export {
   nativeEnum,
   number,
   object,
+  preprocess,
   string,
   undefined,
   union,

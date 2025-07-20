@@ -1,21 +1,24 @@
-import { ProfileStatus } from "#show/exhibitors/profile/status";
-import { zu } from "@animeaux/zod-utils";
+import { ExhibitorStatus } from "#show/exhibitors/status";
+import { normalizeLineBreaks, zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu
   .object({
-    onStandAnimations: zu
-      .string()
-      .trim()
-      .max(256, "Veuillez entrer une description plus courte")
-      .optional(),
+    onStandAnimations: zu.preprocess(
+      normalizeLineBreaks,
+      zu
+        .string()
+        .trim()
+        .max(256, "Veuillez entrer une description plus courte")
+        .optional(),
+    ),
 
-    status: zu.nativeEnum(ProfileStatus.Enum),
+    status: zu.nativeEnum(ExhibitorStatus.Enum),
 
     statusMessage: zu.string().trim().optional(),
   })
   .refine(
     (value) =>
-      value.status !== ProfileStatus.Enum.TO_MODIFY ||
+      value.status !== ExhibitorStatus.Enum.TO_MODIFY ||
       value.statusMessage != null,
     {
       message: "Veuillez entrer un message",

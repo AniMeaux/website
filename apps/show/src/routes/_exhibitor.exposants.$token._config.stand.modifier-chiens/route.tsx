@@ -10,12 +10,11 @@ import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.se
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
-import { ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { createPath } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -23,33 +22,24 @@ import { SectionHelper } from "./section-helper";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { dogsConfiguration, profile } = await promiseHash({
-    dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
-      routeParams.token,
-      {
-        select: {
-          status: true,
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      dogsConfigurationStatus: true,
 
-          dogs: {
-            select: {
-              gender: true,
-              idNumber: true,
-              isCategorized: true,
-              isSterilized: true,
-            },
-          },
+      dogs: {
+        select: {
+          gender: true,
+          idNumber: true,
+          isCategorized: true,
+          isSterilized: true,
         },
       },
-    ),
 
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true },
-    }),
+      name: true,
+    },
   });
 
-  if (
-    dogsConfiguration.status === ShowExhibitorDogsConfigurationStatus.VALIDATED
-  ) {
+  if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       createPath({
         pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
@@ -58,14 +48,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
     );
   }
 
-  return { dogsConfiguration, profile };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null
-        ? ["Modifier les chiens sur stand", data.profile.name]
+        ? ["Modifier les chiens sur stand", data.exhibitor.name]
         : getErrorTitle(404),
     ),
   });
@@ -74,14 +64,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const dogsConfiguration =
-    await services.exhibitor.dogsConfiguration.getByToken(routeParams.token, {
-      select: { status: true },
-    });
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: { dogsConfigurationStatus: true },
+  });
 
-  if (
-    dogsConfiguration.status === ShowExhibitorDogsConfigurationStatus.VALIDATED
-  ) {
+  if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
@@ -93,10 +80,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     return json(submission.reply(), { status: 400 });
   }
 
-  await services.exhibitor.dogsConfiguration.update(
-    routeParams.token,
-    submission.value.dogs,
-  );
+  await services.exhibitor.updateDogs(routeParams.token, submission.value.dogs);
 
   email.send.template(DogsConfigurationEmails.submitted(routeParams.token));
 

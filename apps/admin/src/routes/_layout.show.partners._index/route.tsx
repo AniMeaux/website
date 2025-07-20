@@ -44,13 +44,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
       exhibitor: {
         select: {
           id: true,
-          profile: {
-            select: {
-              logoPath: true,
-              name: true,
-              links: true,
-            },
-          },
+          logoPath: true,
+          name: true,
+          links: true,
         },
       },
     },
@@ -78,11 +74,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
         };
       }
 
-      if (exhibitor.profile == null) {
-        throw notFound();
-      }
+      const exhibitorUrl = exhibitor.links[0];
 
-      const exhibitorUrl = exhibitor.profile.links[0];
       if (exhibitorUrl == null) {
         throw notFound();
       }
@@ -90,8 +83,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
       return {
         ...partner,
         exhibitorId: exhibitor.id,
-        logoPath: exhibitor.profile.logoPath,
-        name: exhibitor.profile.name,
+        logoPath: exhibitor.logoPath,
+        name: exhibitor.name,
         url: exhibitorUrl,
       };
     }),

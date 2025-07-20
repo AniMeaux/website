@@ -7,7 +7,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -27,9 +27,9 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      onStandAnimations: profile.onStandAnimations ?? "",
-      status: profile.onStandAnimationsStatus,
-      statusMessage: profile.onStandAnimationsStatusMessage ?? "",
+      onStandAnimations: exhibitor.onStandAnimations ?? "",
+      status: exhibitor.onStandAnimationsStatus,
+      statusMessage: exhibitor.onStandAnimationsStatusMessage ?? "",
     },
 
     onValidate: ({ formData }) =>

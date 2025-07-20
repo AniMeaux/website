@@ -8,17 +8,15 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
-import {
-  ProfileStatus,
-  ProfileStatusIcon,
-} from "#show/exhibitors/profile/status";
+import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardProfile() {
-  const { exhibitor, profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -40,8 +38,8 @@ export function CardProfile() {
         <PublicProfileStatusHelper />
 
         <DynamicImage
-          imageId={ImageUrl.parse(profile.logoPath).id}
-          alt={profile.name}
+          imageId={ImageUrl.parse(exhibitor.logoPath).id}
+          alt={exhibitor.name}
           sizeMapping={{ default: "160px", sm: "100vw", md: "33vw" }}
           fallbackSize="512"
           background="none"
@@ -53,20 +51,20 @@ export function CardProfile() {
             isLightIcon
             icon={<Icon href="icon-bullseye-arrow-light" />}
           >
-            {profile.activityTargets
+            {exhibitor.activityTargets
               .map((target) => ActivityTarget.translation[target])
               .join(", ")}
           </SimpleItem>
 
           <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
-            {profile.activityFields
+            {exhibitor.activityFields
               .map((field) => ActivityField.translation[field])
               .join(", ")}
           </SimpleItem>
 
           <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
             {joinReactNodes(
-              profile.links.map((link) => (
+              exhibitor.links.map((link) => (
                 <ProseInlineAction key={link} variant="subtle" asChild>
                   <a href={link} target="_blank" rel="noreferrer">
                     {link}
@@ -83,24 +81,24 @@ export function CardProfile() {
 }
 
 function PublicProfileStatusHelper() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <ProfileStatusIcon status={profile.publicProfileStatus} />
+          <ProfileStatusIcon status={exhibitor.publicProfileStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
-          {ProfileStatus.translation[profile.publicProfileStatus]}
+          {ExhibitorStatus.translation[exhibitor.publicProfileStatus]}
         </StatusHelper.Title>
       </StatusHelper.Header>
 
-      {profile.publicProfileStatusMessage != null ? (
+      {exhibitor.publicProfileStatusMessage != null ? (
         <StatusHelper.Content>
           <Markdown components={ARTICLE_COMPONENTS}>
-            {profile.publicProfileStatusMessage}
+            {exhibitor.publicProfileStatusMessage}
           </Markdown>
         </StatusHelper.Content>
       ) : null}

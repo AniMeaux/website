@@ -58,7 +58,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         exhibitor: {
           select: {
             id: true,
-            profile: { select: { name: true } },
+            name: true,
           },
         },
       },

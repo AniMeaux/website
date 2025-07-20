@@ -1,6 +1,7 @@
 import { FieldText } from "#core/form-elements/field-text";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
+import type { FieldMetadata } from "@conform-to/react";
 import { FieldsetId, useFieldsets } from "./form";
 
 export function FieldsetComments() {
@@ -13,7 +14,7 @@ export function FieldsetComments() {
 
       <FieldTextarea
         label="Pourquoi souhaitez-vous exposer au Salon des Ani’Meaux ?"
-        field={fieldset.motivation}
+        field={fieldset.motivation as FieldMetadata<string>}
         rows={3}
         hideCaracterCount
       />
@@ -23,7 +24,11 @@ export function FieldsetComments() {
         field={fieldset.discoverySource}
       />
 
-      <FieldTextarea label="Remarques" field={fieldset.comments} rows={3} />
+      <FieldTextarea
+        label="Remarques"
+        field={fieldset.comments as FieldMetadata<undefined | string>}
+        rows={3}
+      />
     </FormLayout.Section>
   );
 }

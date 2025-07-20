@@ -7,7 +7,6 @@ import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import { SectionDogs } from "./section-dogs";
 import { SectionHelper } from "./section-helper";
 import { SectionStandConfiguration } from "./section-stand-configuration";
@@ -15,63 +14,43 @@ import { SectionStandConfiguration } from "./section-stand-configuration";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { standConfiguration, profile, dogsConfiguration } = await promiseHash({
-    standConfiguration: services.exhibitor.standConfiguration.getByToken(
-      routeParams.token,
-      {
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      token: true,
+      dogsConfigurationStatus: true,
+      dogsConfigurationStatusMessage: true,
+      dogs: {
         select: {
-          chairCount: true,
-          dividerCount: true,
-          dividerType: true,
-          hasElectricalConnection: true,
-          hasTablecloths: true,
-          installationDay: true,
-          peopleCount: true,
-          placementComment: true,
-          size: true,
-          status: true,
-          statusMessage: true,
-          tableCount: true,
-          zone: true,
+          gender: true,
+          idNumber: true,
+          isCategorized: true,
+          isSterilized: true,
         },
       },
-    ),
-
-    dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
-      routeParams.token,
-      {
-        select: {
-          status: true,
-          statusMessage: true,
-          dogs: {
-            select: {
-              gender: true,
-              idNumber: true,
-              isCategorized: true,
-              isSterilized: true,
-            },
-          },
-        },
-      },
-    ),
-
-    profile: services.exhibitor.profile.getByToken(routeParams.token, {
-      select: { name: true },
-    }),
+      name: true,
+      chairCount: true,
+      dividerCount: true,
+      dividerType: true,
+      hasElectricalConnection: true,
+      hasTablecloths: true,
+      installationDay: true,
+      peopleCount: true,
+      placementComment: true,
+      size: true,
+      standConfigurationStatus: true,
+      standConfigurationStatusMessage: true,
+      tableCount: true,
+      zone: true,
+    },
   });
 
-  return {
-    standConfiguration,
-    profile,
-    dogsConfiguration,
-    token: routeParams.token,
-  };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? ["Stand", data.profile.name] : getErrorTitle(404),
+      data != null ? ["Stand", data.exhibitor.name] : getErrorTitle(404),
     ),
   });
 };

@@ -5,14 +5,14 @@ import {
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import type { EmailTemplate } from "@animeaux/resend";
-import { ShowExhibitorDocumentsStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export namespace DocumentsEmails {
   export async function submitted(token: string): Promise<EmailTemplate> {
-    const { documents, application } = await promiseHash({
-      documents: services.exhibitor.documents.getFilesByToken(token),
+    const { files, application } = await promiseHash({
+      files: services.exhibitor.getFilesByToken(token),
 
       application: services.exhibitor.application.getByToken(token, {
         select: { contactEmail: true },
@@ -58,7 +58,7 @@ export namespace DocumentsEmails {
                 </EmailHtml.Output.Label>
 
                 <EmailHtml.Output.Value>
-                  {documents.identificationFile?.originalFilename ?? "-"}
+                  {files.identificationFile?.originalFilename ?? "-"}
                 </EmailHtml.Output.Value>
               </EmailHtml.Output.Row>
 
@@ -68,7 +68,7 @@ export namespace DocumentsEmails {
                 </EmailHtml.Output.Label>
 
                 <EmailHtml.Output.Value>
-                  {documents.kbisFile?.originalFilename ?? "-"}
+                  {files.kbisFile?.originalFilename ?? "-"}
                 </EmailHtml.Output.Value>
               </EmailHtml.Output.Row>
 
@@ -76,7 +76,7 @@ export namespace DocumentsEmails {
                 <EmailHtml.Output.Label>Assurance</EmailHtml.Output.Label>
 
                 <EmailHtml.Output.Value>
-                  {documents.insuranceFile?.originalFilename ?? "-"}
+                  {files.insuranceFile?.originalFilename ?? "-"}
                 </EmailHtml.Output.Value>
               </EmailHtml.Output.Row>
             </EmailHtml.Output.Table>
@@ -93,16 +93,16 @@ export namespace DocumentsEmails {
   export async function treated(
     exhibitorId: string,
   ): Promise<null | EmailTemplate> {
-    const { documents, files, exhibitor, application } = await promiseHash({
-      documents: services.exhibitor.documents.getByExhibitor(exhibitorId, {
-        select: { status: true, statusMessage: true },
-      }),
-
-      files: services.exhibitor.documents.getFilesByExhibitor(exhibitorId),
-
+    const { exhibitor, files, application } = await promiseHash({
       exhibitor: services.exhibitor.get(exhibitorId, {
-        select: { token: true },
+        select: {
+          token: true,
+          documentStatus: true,
+          documentStatusMessage: true,
+        },
       }),
+
+      files: services.exhibitor.getFilesByExhibitor(exhibitorId),
 
       application: services.exhibitor.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
@@ -110,14 +110,14 @@ export namespace DocumentsEmails {
     });
 
     if (
-      documents.status === ShowExhibitorDocumentsStatus.AWAITING_VALIDATION ||
-      documents.status === ShowExhibitorDocumentsStatus.TO_BE_FILLED
+      exhibitor.documentStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.documentStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
       return null;
     }
 
-    switch (documents.status) {
-      case ShowExhibitorDocumentsStatus.VALIDATED: {
+    switch (exhibitor.documentStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
         return {
           name: "documents-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
@@ -189,10 +189,10 @@ export namespace DocumentsEmails {
         };
       }
 
-      case ShowExhibitorDocumentsStatus.TO_MODIFY: {
+      case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
-          documents.statusMessage != null,
-          "A statusMessage should exists",
+          exhibitor.documentStatusMessage != null,
+          "A documentStatusMessage should exists",
         );
 
         return {
@@ -206,7 +206,7 @@ export namespace DocumentsEmails {
 
               <EmailHtml.Section.Root>
                 <EmailHtml.Markdown
-                  content={documents.statusMessage}
+                  content={exhibitor.documentStatusMessage}
                   components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
@@ -233,7 +233,7 @@ export namespace DocumentsEmails {
       }
 
       default: {
-        return documents.status satisfies never;
+        return exhibitor.documentStatus satisfies never;
       }
     }
   }

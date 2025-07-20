@@ -24,7 +24,7 @@ import { useForm } from "./form";
 import type { loader } from "./route";
 
 export function FieldsetStand() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const { fields } = useForm();
 
   return (
@@ -34,7 +34,7 @@ export function FieldsetStand() {
       <FieldStandSize
         label="Taille du stand"
         field={fields.size}
-        selectedActivityFields={profile.activityFields}
+        selectedActivityFields={exhibitor.activityFields}
       />
 
       <FieldYesNo

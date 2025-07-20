@@ -62,11 +62,9 @@ export class ShowPartnerDbDelegate {
           { name: { contains: params.searchParams.name, mode: "insensitive" } },
           {
             exhibitor: {
-              profile: {
-                name: {
-                  contains: params.searchParams.name,
-                  mode: "insensitive",
-                },
+              name: {
+                contains: params.searchParams.name,
+                mode: "insensitive",
               },
             },
           },

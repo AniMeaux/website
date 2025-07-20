@@ -6,13 +6,13 @@ import {
 } from "#exhibitors/stand-configuration/divider-type";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowExhibitorStandConfigurationDividerType } from "@prisma/client";
+import type { ShowDividerType } from "@prisma/client";
 
 export function FieldDividerType({
   field,
   label,
 }: {
-  field: FieldMetadata<null | ShowExhibitorStandConfigurationDividerType>;
+  field: FieldMetadata<null | ShowDividerType>;
   label: React.ReactNode;
 }) {
   return (
@@ -28,11 +28,7 @@ export function FieldDividerType({
             <FormLayout.Selector.Input {...props} key={props.key} />
 
             <FormLayout.Selector.Label>
-              {
-                DIVIDER_TYPE_TRANSLATION[
-                  props.value as ShowExhibitorStandConfigurationDividerType
-                ]
-              }
+              {DIVIDER_TYPE_TRANSLATION[props.value as ShowDividerType]}
             </FormLayout.Selector.Label>
 
             <FormLayout.Selector.RadioIcon />

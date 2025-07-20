@@ -7,7 +7,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { profile } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -27,11 +27,11 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      activityFields: profile.activityFields,
-      activityTargets: profile.activityTargets,
-      links: profile.links,
-      status: profile.publicProfileStatus,
-      statusMessage: profile.publicProfileStatusMessage ?? "",
+      activityFields: exhibitor.activityFields,
+      activityTargets: exhibitor.activityTargets,
+      links: exhibitor.links,
+      status: exhibitor.publicProfileStatus,
+      statusMessage: exhibitor.publicProfileStatusMessage ?? "",
     },
 
     onValidate: ({ formData }) =>

@@ -31,19 +31,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await db.show.exhibitor.profile.findUniqueByExhibitor(
-    routeParams.id,
-    {
-      select: {
-        name: true,
-        onStandAnimations: true,
-        onStandAnimationsStatus: true,
-        onStandAnimationsStatusMessage: true,
-      },
+  const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
+    select: {
+      name: true,
+      onStandAnimations: true,
+      onStandAnimationsStatus: true,
+      onStandAnimationsStatusMessage: true,
     },
-  );
+  });
 
-  return json({ profile });
+  return json({ exhibitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -54,8 +51,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.profile.name != null
-          ? [`Modifier ${data.profile.name}`, "Animations sur stand"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Animations sur stand"]
           : getErrorTitle(404),
       ),
     },
@@ -90,7 +87,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  await db.show.exhibitor.profile.updateOnStandAnimations(routeParams.id, {
+  await db.show.exhibitor.updateOnStandAnimations(routeParams.id, {
     onStandAnimations: submission.value.onStandAnimations || null,
     onStandAnimationsStatus: submission.value.status,
     onStandAnimationsStatusMessage: submission.value.statusMessage || null,

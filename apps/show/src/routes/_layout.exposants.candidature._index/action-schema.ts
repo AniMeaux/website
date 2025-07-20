@@ -5,7 +5,7 @@ import {
   IMAGE_SIZE_LIMIT_B,
   IMAGE_SIZE_LIMIT_MB,
 } from "@animeaux/cloudinary/client";
-import { simpleUrl, zu } from "@animeaux/zod-utils";
+import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
   ShowActivityTarget,
@@ -179,11 +179,15 @@ export const ActionSchema = zu
       desiredStandSize: zu.nativeEnum(ShowStandSize, {
         required_error: "Veuillez choisir une taille de stand",
       }),
-      proposalForOnStageEntertainment: zu
-        .string()
-        .trim()
-        .max(512, "Veuillez entrer un text plus court")
-        .optional(),
+
+      proposalForOnStageEntertainment: zu.preprocess(
+        normalizeLineBreaks,
+        zu
+          .string()
+          .trim()
+          .max(512, "Veuillez entrer un text plus court")
+          .optional(),
+      ),
     }),
 
     partnershipCategory: zu.union(
@@ -195,11 +199,14 @@ export const ActionSchema = zu
     ),
 
     comments: zu.object({
-      motivation: zu
-        .string({ required_error: "Veuillez entrer une réponse" })
-        .trim()
-        .min(1, "Veuillez entrer une réponse")
-        .max(1000, "Veuillez entrer une réponse plus courte"),
+      motivation: zu.preprocess(
+        normalizeLineBreaks,
+        zu
+          .string({ required_error: "Veuillez entrer une réponse" })
+          .trim()
+          .min(1, "Veuillez entrer une réponse")
+          .max(1000, "Veuillez entrer une réponse plus courte"),
+      ),
 
       discoverySource: zu
         .string({ required_error: "Veuillez entrer une réponse" })
@@ -207,11 +214,14 @@ export const ActionSchema = zu
         .min(1, "Veuillez entrer une réponse")
         .max(128, "Veuillez entrer une réponse plus courte"),
 
-      comments: zu
-        .string()
-        .trim()
-        .max(512, "Veuillez entrer un commentaire plus court")
-        .optional(),
+      comments: zu.preprocess(
+        normalizeLineBreaks,
+        zu
+          .string()
+          .trim()
+          .max(512, "Veuillez entrer un commentaire plus court")
+          .optional(),
+      ),
     }),
   })
   .refine(

@@ -1,9 +1,6 @@
 import type { IconName } from "#generated/icon";
-import { DocumentsStatus } from "#show/exhibitors/documents/status";
-import { DogsConfigurationStatus } from "#show/exhibitors/dogs-configuration/status";
 import { Payment } from "#show/exhibitors/payment";
-import { ProfileStatus } from "#show/exhibitors/profile/status";
-import { StandConfigurationStatus } from "#show/exhibitors/stand-configuration/status";
+import { ExhibitorStatus } from "#show/exhibitors/status";
 import { PartnershipCategory } from "#show/partners/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
@@ -201,31 +198,31 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(ShowExhibitorApplicationStatus),
   ),
   descriptionStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ProfileStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   documentsStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(DocumentsStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   dogsConfigurationStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(DogsConfigurationStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
   name: zu.searchParams.string(),
   onStandAnimationsStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ProfileStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   partnershipCategories: zu.searchParams.set(
     zu.searchParams.nativeEnum(PartnershipCategory.Enum),
   ),
   payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
   publicProfileStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ProfileStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   sort: zu.searchParams
     .nativeEnum(ExhibitorSearchParamsN.Sort)
     .default(ExhibitorSearchParamsN.SORT_DEFAULT_VALUE),
   standConfigurationStatuses: zu.searchParams.set(
-    zu.searchParams.nativeEnum(StandConfigurationStatus.Enum),
+    zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),

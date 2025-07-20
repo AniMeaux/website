@@ -36,18 +36,12 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
         animators: {
           where: { isVisible: true },
-          orderBy: { profile: { name: "asc" } },
+          orderBy: { name: "asc" },
           select: {
             id: true,
-
-            profile: {
-              select: {
-                id: true,
-                links: true,
-                name: true,
-                logoPath: true,
-              },
-            },
+            links: true,
+            name: true,
+            logoPath: true,
 
             partnership: { select: { isVisible: true } },
           },
@@ -62,22 +56,17 @@ export async function loader({ params }: LoaderFunctionArgs) {
       animations.map((animation) => ({
         ...animation,
 
-        animators: animation.animators.map((animator) => {
-          if (animator.profile == null) {
-            throw notFound();
-          }
-
-          const { links, ...profile } = animator.profile;
-
+        animators: animation.animators.map(({ links, ...animator }) => {
           const url = links[0];
+
           if (url == null) {
             throw notFound();
           }
 
           return {
-            ...profile,
-            url,
+            ...animator,
 
+            url,
             isOrganizer: animator.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
             isPartner:

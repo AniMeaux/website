@@ -14,32 +14,29 @@ import { SectionPublicProfile } from "./section-public-profile";
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const profile = await services.exhibitor.profile.getByToken(
-    routeParams.token,
-    {
-      select: {
-        activityFields: true,
-        activityTargets: true,
-        description: true,
-        descriptionStatus: true,
-        descriptionStatusMessage: true,
-        links: true,
-        logoPath: true,
-        name: true,
-        publicProfileStatus: true,
-        publicProfileStatusMessage: true,
-        updatedAt: true,
-      },
+  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
+    select: {
+      token: true,
+      activityFields: true,
+      activityTargets: true,
+      description: true,
+      descriptionStatus: true,
+      descriptionStatusMessage: true,
+      links: true,
+      logoPath: true,
+      name: true,
+      publicProfileStatus: true,
+      publicProfileStatusMessage: true,
     },
-  );
+  });
 
-  return { profile, token: routeParams.token };
+  return { exhibitor };
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
-      data != null ? ["Profil", data.profile.name] : getErrorTitle(404),
+      data != null ? ["Profil", data.exhibitor.name] : getErrorTitle(404),
     ),
   });
 };

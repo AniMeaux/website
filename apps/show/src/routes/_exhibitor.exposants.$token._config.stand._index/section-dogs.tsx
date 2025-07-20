@@ -7,23 +7,24 @@ import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender";
 import { DogsHelper } from "#exhibitors/dogs-configuration/helper";
 import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
+import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function SectionDogs() {
-  const { dogsConfiguration, token } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <FormLayout.Section id="dogs">
       <FormLayout.Header>
         <FormLayout.Title>Chiens sur stand</FormLayout.Title>
 
-        {dogsConfiguration.status !==
-        ShowExhibitorDogsConfigurationStatus.VALIDATED ? (
+        {exhibitor.dogsConfigurationStatus !== ShowExhibitorStatus.VALIDATED ? (
           <FormLayout.HeaderAction asChild>
             <Link
-              to={Routes.exhibitors.token(token).stand.editDogs.toString()}
+              to={Routes.exhibitors
+                .token(exhibitor.token)
+                .stand.editDogs.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />
@@ -36,13 +37,13 @@ export function SectionDogs() {
 
       <DogsHelper />
 
-      {dogsConfiguration.dogs.length === 0 ? (
+      {exhibitor.dogs.length === 0 ? (
         <LightBoardCard isSmall>
           <p>Aucun chien présent sur le stand.</p>
         </LightBoardCard>
       ) : (
         joinReactNodes(
-          dogsConfiguration.dogs.map((dog) => (
+          exhibitor.dogs.map((dog) => (
             <SectionDog key={dog.idNumber} dog={dog} />
           )),
           <FormLayout.FieldSeparator />,
@@ -116,35 +117,31 @@ function SectionDog({
 }
 
 function SectionStatus() {
-  const { dogsConfiguration } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (
-    dogsConfiguration.status ===
-    ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED
-  ) {
+  if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED) {
     return null;
   }
 
   const title = (
     {
-      [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
-        "En cours de traitement",
-      [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]: "À modifier",
-      [ShowExhibitorDogsConfigurationStatus.VALIDATED]: "Validé",
-    } satisfies Record<typeof dogsConfiguration.status, string>
-  )[dogsConfiguration.status];
+      [ShowExhibitorStatus.AWAITING_VALIDATION]: "En cours de traitement",
+      [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
+      [ShowExhibitorStatus.VALIDATED]: "Validé",
+    } satisfies Record<typeof exhibitor.dogsConfigurationStatus, string>
+  )[exhibitor.dogsConfigurationStatus];
 
   const content = (
     {
-      [ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION]:
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
         "Le profil des chiens sur votre stand est en cours de traitement par notre équipe. Pour toute question, vous pouvez nous contacter par e-mail à salon@animeaux.org.",
-      [ShowExhibitorDogsConfigurationStatus.TO_MODIFY]:
-        dogsConfiguration.statusMessage ??
+      [ShowExhibitorStatus.TO_MODIFY]:
+        exhibitor.dogsConfigurationStatusMessage ??
         "Le profil des chiens sur votre stand nécessite quelques modifications. Nous vous invitons à les apporter rapidement et à nous contacter par e-mail à salon@animeaux.org pour toute question.",
-      [ShowExhibitorDogsConfigurationStatus.VALIDATED]:
+      [ShowExhibitorStatus.VALIDATED]:
         "Le profil des chiens sur votre stand est validé par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
-    } satisfies Record<typeof dogsConfiguration.status, string>
-  )[dogsConfiguration.status];
+    } satisfies Record<typeof exhibitor.dogsConfigurationStatus, string>
+  )[exhibitor.dogsConfigurationStatus];
 
   return (
     <HelperCard.Root color="paleBlue">

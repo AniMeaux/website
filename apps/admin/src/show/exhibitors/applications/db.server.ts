@@ -6,7 +6,7 @@ import { notFound } from "#core/response.server";
 import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
-import type { ShowExhibitorApplication } from "@prisma/client";
+import type { ShowExhibitor, ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import partition from "lodash.partition";
 import { promiseHash } from "remix-utils/promise";
@@ -34,16 +34,16 @@ export class ShowExhibitorApplicationDbDelegate {
     exhibitorId: string,
     params: { select: T },
   ) {
-    const application = await prisma.showExhibitorApplication.findUnique({
-      where: { exhibitorId },
-      select: params.select,
+    const exhibitor = await prisma.showExhibitor.findUnique({
+      where: { id: exhibitorId },
+      select: { application: { select: params.select } },
     });
 
-    if (application == null) {
+    if (exhibitor?.application == null) {
       throw notFound();
     }
 
-    return application;
+    return exhibitor.application;
   }
 
   async findMany<T extends Prisma.ShowExhibitorApplicationSelect>(params: {
@@ -122,12 +122,15 @@ export class ShowExhibitorApplicationDbDelegate {
     this.normalize(data);
 
     await prisma.$transaction(async (prisma) => {
-      let application: ShowExhibitorApplication;
+      let application: ShowExhibitorApplication & {
+        exhibitor: null | Pick<ShowExhibitor, "id">;
+      };
 
       try {
         application = await prisma.showExhibitorApplication.update({
           where: { id },
           data,
+          include: { exhibitor: { select: { id: true } } },
         });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -141,7 +144,7 @@ export class ShowExhibitorApplicationDbDelegate {
 
       if (
         data.status === ShowExhibitorApplicationStatus.VALIDATED &&
-        application.exhibitorId == null
+        application.exhibitor == null
       ) {
         const folder = await fileStorage.createFolder(
           application.structureName,
@@ -162,26 +165,14 @@ export class ShowExhibitorApplicationDbDelegate {
 
             application: { connect: { id } },
 
-            documents: { create: { folderId: folder.id } },
-
-            dogsConfiguration: { create: {} },
-
-            profile: {
-              create: {
-                activityTargets: application.structureActivityTargets,
-                activityFields: application.structureActivityFields,
-                links: [application.structureUrl],
-                logoPath: application.structureLogoPath,
-                name: application.structureName,
-              },
-            },
-
-            standConfiguration: {
-              create: {
-                size: application.desiredStandSize,
-                tableCount: TABLE_COUNT_BY_SIZE[application.desiredStandSize],
-              },
-            },
+            folderId: folder.id,
+            activityTargets: application.structureActivityTargets,
+            activityFields: application.structureActivityFields,
+            links: [application.structureUrl],
+            logoPath: application.structureLogoPath,
+            name: application.structureName,
+            size: application.desiredStandSize,
+            tableCount: TABLE_COUNT_BY_SIZE[application.desiredStandSize],
           },
         });
       }

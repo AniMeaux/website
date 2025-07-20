@@ -9,7 +9,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { exhbitor, standConfiguration } = useLoaderData<typeof loader>();
+  const { exhbitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -31,8 +31,8 @@ export function useFormRoot() {
     defaultValue: {
       hasPaid: Payment.fromBoolean(exhbitor.hasPaid),
       isVisible: Visibility.fromBoolean(exhbitor.isVisible),
-      locationNumber: standConfiguration.locationNumber,
-      standNumber: standConfiguration.standNumber,
+      locationNumber: exhbitor.locationNumber,
+      standNumber: exhbitor.standNumber,
     },
 
     onValidate: ({ formData }) =>

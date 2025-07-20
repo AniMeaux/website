@@ -8,29 +8,26 @@ import { services } from "#core/services/services.server";
 import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender";
 import { joinReactNodes } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
-import { Gender, ShowExhibitorDogsConfigurationStatus } from "@prisma/client";
+import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
 export namespace DogsConfigurationEmails {
   export async function submitted(token: string): Promise<EmailTemplate> {
-    const { dogsConfiguration, application } = await promiseHash({
-      dogsConfiguration: services.exhibitor.dogsConfiguration.getByToken(
-        token,
-        {
-          select: {
-            dogs: {
-              select: {
-                gender: true,
-                id: true,
-                idNumber: true,
-                isCategorized: true,
-                isSterilized: true,
-              },
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.getByToken(token, {
+        select: {
+          dogs: {
+            select: {
+              gender: true,
+              id: true,
+              idNumber: true,
+              isCategorized: true,
+              isSterilized: true,
             },
           },
         },
-      ),
+      }),
 
       application: services.exhibitor.application.getByToken(token, {
         select: { contactEmail: true },
@@ -41,7 +38,7 @@ export namespace DogsConfigurationEmails {
       dog,
       _isFirst,
     }: IsFirstProps & {
-      dog: (typeof dogsConfiguration.dogs)[number];
+      dog: (typeof exhibitor.dogs)[number];
     }) {
       return (
         <>
@@ -93,14 +90,14 @@ export namespace DogsConfigurationEmails {
         <EmailHtml.Section.Root>
           <EmailHtml.Section.Title>Chiens sur stand</EmailHtml.Section.Title>
 
-          {dogsConfiguration.dogs.length === 0 ? (
+          {exhibitor.dogs.length === 0 ? (
             <EmailHtml.Paragraph>
               Aucun chien présent sur le stand.
             </EmailHtml.Paragraph>
           ) : (
             <EmailHtml.Output.Table>
               {joinReactNodes(
-                dogsConfiguration.dogs.map((dog) => (
+                exhibitor.dogs.map((dog) => (
                   <SectionDog key={dog.id} dog={dog} />
                 )),
                 <EmailHtml.Output.RowSeparator />,
@@ -154,29 +151,23 @@ export namespace DogsConfigurationEmails {
   export async function treated(
     exhibitorId: string,
   ): Promise<null | EmailTemplate> {
-    const { dogsConfiguration, exhibitor, application } = await promiseHash({
-      dogsConfiguration: services.exhibitor.dogsConfiguration.getByExhibitor(
-        exhibitorId,
-        {
-          select: {
-            status: true,
-            statusMessage: true,
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.get(exhibitorId, {
+        select: {
+          token: true,
+          dogsConfigurationStatus: true,
+          dogsConfigurationStatusMessage: true,
 
-            dogs: {
-              select: {
-                gender: true,
-                id: true,
-                idNumber: true,
-                isCategorized: true,
-                isSterilized: true,
-              },
+          dogs: {
+            select: {
+              gender: true,
+              id: true,
+              idNumber: true,
+              isCategorized: true,
+              isSterilized: true,
             },
           },
         },
-      ),
-
-      exhibitor: services.exhibitor.get(exhibitorId, {
-        select: { token: true },
       }),
 
       application: services.exhibitor.application.getByExhibitor(exhibitorId, {
@@ -185,21 +176,20 @@ export namespace DogsConfigurationEmails {
     });
 
     if (
-      dogsConfiguration.status ===
-        ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION ||
-      dogsConfiguration.status ===
-        ShowExhibitorDogsConfigurationStatus.NOT_TOUCHED
+      exhibitor.dogsConfigurationStatus ===
+        ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
       return null;
     }
 
-    switch (dogsConfiguration.status) {
-      case ShowExhibitorDogsConfigurationStatus.VALIDATED: {
+    switch (exhibitor.dogsConfigurationStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
         function SectionDog({
           dog,
           _isFirst,
         }: IsFirstProps & {
-          dog: (typeof dogsConfiguration.dogs)[number];
+          dog: (typeof exhibitor.dogs)[number];
         }) {
           return (
             <>
@@ -253,14 +243,14 @@ export namespace DogsConfigurationEmails {
                 Chiens sur stand
               </EmailHtml.Section.Title>
 
-              {dogsConfiguration.dogs.length === 0 ? (
+              {exhibitor.dogs.length === 0 ? (
                 <EmailHtml.Paragraph>
                   Aucun chien présent sur le stand.
                 </EmailHtml.Paragraph>
               ) : (
                 <EmailHtml.Output.Table>
                   {joinReactNodes(
-                    dogsConfiguration.dogs.map((dog) => (
+                    exhibitor.dogs.map((dog) => (
                       <SectionDog key={dog.id} dog={dog} />
                     )),
                     <EmailHtml.Output.RowSeparator />,
@@ -311,10 +301,10 @@ export namespace DogsConfigurationEmails {
         };
       }
 
-      case ShowExhibitorDogsConfigurationStatus.TO_MODIFY: {
+      case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
-          dogsConfiguration.statusMessage != null,
-          "A statusMessage should exists",
+          exhibitor.dogsConfigurationStatusMessage != null,
+          "A dogsConfigurationStatusMessage should exists",
         );
 
         return {
@@ -328,7 +318,7 @@ export namespace DogsConfigurationEmails {
 
               <EmailHtml.Section.Root>
                 <EmailHtml.Markdown
-                  content={dogsConfiguration.statusMessage}
+                  content={exhibitor.dogsConfigurationStatusMessage}
                   components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
@@ -355,7 +345,7 @@ export namespace DogsConfigurationEmails {
       }
 
       default: {
-        return dogsConfiguration.status satisfies never;
+        return exhibitor.dogsConfigurationStatus satisfies never;
       }
     }
   }

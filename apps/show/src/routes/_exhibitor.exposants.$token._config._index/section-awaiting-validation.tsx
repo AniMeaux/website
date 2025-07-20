@@ -1,10 +1,5 @@
 import { FormLayout } from "#core/layout/form-layout";
-import {
-  ShowExhibitorDocumentsStatus,
-  ShowExhibitorDogsConfigurationStatus,
-  ShowExhibitorProfileStatus,
-  ShowExhibitorStandConfigurationStatus,
-} from "@prisma/client";
+import { ShowExhibitorStatus } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 import {
@@ -17,62 +12,62 @@ import {
 } from "./task-items";
 
 export function SectionAwaitingValidation() {
-  const { standConfiguration, profile, documents, dogsConfiguration } =
-    useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
 
   const items: React.ReactNode[] = [];
 
-  if (documents.status === ShowExhibitorDocumentsStatus.AWAITING_VALIDATION) {
-    items.push(<TaskItemDocument key="documents" status={documents.status} />);
-  }
-
-  if (
-    standConfiguration.status ===
-    ShowExhibitorStandConfigurationStatus.AWAITING_VALIDATION
-  ) {
+  if (exhibitor.documentStatus === ShowExhibitorStatus.AWAITING_VALIDATION) {
     items.push(
-      <TaskItemStand key="stand" status={standConfiguration.status} />,
+      <TaskItemDocument key="documents" status={exhibitor.documentStatus} />,
     );
   }
 
   if (
-    profile.descriptionStatus === ShowExhibitorProfileStatus.AWAITING_VALIDATION
+    exhibitor.standConfigurationStatus ===
+    ShowExhibitorStatus.AWAITING_VALIDATION
   ) {
+    items.push(
+      <TaskItemStand key="stand" status={exhibitor.standConfigurationStatus} />,
+    );
+  }
+
+  if (exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION) {
     items.push(
       <TaskItemDescription
         key="description"
-        status={profile.descriptionStatus}
+        status={exhibitor.descriptionStatus}
       />,
     );
   }
 
   if (
-    dogsConfiguration.status ===
-    ShowExhibitorDogsConfigurationStatus.AWAITING_VALIDATION
+    exhibitor.dogsConfigurationStatus ===
+    ShowExhibitorStatus.AWAITING_VALIDATION
   ) {
-    items.push(<TaskItemDogs key="dogs" status={dogsConfiguration.status} />);
+    items.push(
+      <TaskItemDogs key="dogs" status={exhibitor.dogsConfigurationStatus} />,
+    );
   }
 
   if (
-    profile.publicProfileStatus ===
-    ShowExhibitorProfileStatus.AWAITING_VALIDATION
+    exhibitor.publicProfileStatus === ShowExhibitorStatus.AWAITING_VALIDATION
   ) {
     items.push(
       <TaskItemPublicProfile
         key="public-profile"
-        status={profile.publicProfileStatus}
+        status={exhibitor.publicProfileStatus}
       />,
     );
   }
 
   if (
-    profile.onStandAnimationsStatus ===
-    ShowExhibitorProfileStatus.AWAITING_VALIDATION
+    exhibitor.onStandAnimationsStatus ===
+    ShowExhibitorStatus.AWAITING_VALIDATION
   ) {
     items.push(
       <TaskItemOnStandAnimations
         key="on-stand-animations"
-        status={profile.onStandAnimationsStatus}
+        status={exhibitor.onStandAnimationsStatus}
       />,
     );
   }
