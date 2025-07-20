@@ -1,5 +1,4 @@
 import { db } from "#core/db.server";
-import { assertIsDefined } from "#core/is-defined.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
@@ -42,6 +41,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         proposalForOnStageEntertainment: true,
         refusalMessage: true,
         status: true,
+        structureActivityDescription: true,
         structureActivityFields: true,
         structureActivityTargets: true,
         structureAddress: true,
@@ -64,8 +64,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       },
     },
   );
-
-  assertIsDefined(application);
 
   return json({ application });
 }

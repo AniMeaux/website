@@ -90,6 +90,14 @@ export const ActionSchema = zu
           .trim()
           .min(1, "Veuillez entrer un pays")
           .max(64, "Veuillez entrer un pays plus court"),
+        activityDescription: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string({ required_error: "Veuillez entrer une description" })
+            .trim()
+            .min(1, "Veuillez entrer une description")
+            .max(300, "Veuillez entrer une description plus courte"),
+        ),
         activityTargets: zu.repeatable(
           zu
             .array(zu.nativeEnum(ShowActivityTarget))

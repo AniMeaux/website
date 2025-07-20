@@ -1,6 +1,7 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FieldNumeric } from "#core/form-elements/field-numeric";
 import { FieldText } from "#core/form-elements/field-text";
+import { FieldTextarea } from "#core/form-elements/field-textarea.js";
 import { FieldUrl } from "#core/form-elements/field-url";
 import { FormLayout } from "#core/layout/form-layout";
 import { FieldActivityField } from "#exhibitors/activity-field/field";
@@ -11,6 +12,7 @@ import {
   SORTED_LEGAL_STATUS,
 } from "#exhibitors/application/legal-status";
 import { FieldLogo } from "#exhibitors/field-logo";
+import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 import type { ShowExhibitorApplicationLegalStatus } from "@prisma/client";
 import { FieldsetId, useFieldsets } from "./form";
@@ -51,6 +53,12 @@ export function FieldsetStructure() {
         <FieldText label="Ville" field={fieldset.city} />
         <FieldText label="Pays" field={fieldset.country} />
       </FormLayout.Row>
+
+      <FieldTextarea
+        label="Présentation de l’activité"
+        field={fieldset.activityDescription as FieldMetadata<string>}
+        rows={3}
+      />
 
       <FieldActivityTarget label="Cibles" field={fieldset.activityTargets} />
 

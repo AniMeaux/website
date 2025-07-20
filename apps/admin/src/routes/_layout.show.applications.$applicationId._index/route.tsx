@@ -3,6 +3,7 @@ import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import { zu } from "@animeaux/zod-utils";
 import type { MetaFunction } from "@remix-run/react";
+import { CardActivityDescription } from "./card-activity-description";
 import { CardComments } from "./card-comments";
 import { CardContact } from "./card-contact";
 import { CardDiscoverySource } from "./card-discovery-source";
@@ -51,6 +52,7 @@ export default function Route() {
 
       <div className="grid grid-cols-1 gap-1 md:gap-2">
         <CardStructure />
+        <CardActivityDescription />
         <CardParticipation />
         <CardComments />
 
