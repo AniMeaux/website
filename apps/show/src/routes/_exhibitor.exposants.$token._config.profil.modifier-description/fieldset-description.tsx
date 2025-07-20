@@ -1,6 +1,7 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
+import type { FieldMetadata } from "@conform-to/react";
 import { useForm } from "./form";
 
 export function FieldsetDescription() {
@@ -17,7 +18,11 @@ export function FieldsetDescription() {
         </p>
       </HelperCard.Root>
 
-      <FieldTextarea label="Description" field={fields.description} rows={5} />
+      <FieldTextarea
+        label="Description"
+        field={fields.description as FieldMetadata<string>}
+        rows={5}
+      />
     </FormLayout.Section>
   );
 }

@@ -2,6 +2,7 @@ import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
+import type { FieldMetadata } from "@conform-to/react";
 import { getFormProps, useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import {
@@ -18,6 +19,10 @@ export function SectionForm() {
   const formAction = useFormAction();
   const navigation = useNavigation();
   const [form, fieldset] = useForm();
+
+  const fieldsetOnStandAnimations = fieldset.onStandAnimations as FieldMetadata<
+    undefined | string
+  >;
 
   return (
     <FormLayout.Form asChild>
@@ -46,17 +51,17 @@ export function SectionForm() {
           <FormLayout.Row>
             <FieldTextarea
               label="Description"
-              field={fieldset.onStandAnimations}
+              field={fieldsetOnStandAnimations}
               rows={3}
               placeholder="Personnalisation d’accessoires. [Inscrivez-vous !](https://lien.fr)"
             />
 
-            {fieldset.onStandAnimations.value != null ? (
+            {fieldsetOnStandAnimations.value != null ? (
               <FormLayout.Field>
                 <FormLayout.Label>Aperçu</FormLayout.Label>
 
                 <CardAnimationsOnStand
-                  onStandAnimations={fieldset.onStandAnimations.value}
+                  onStandAnimations={fieldsetOnStandAnimations.value}
                 />
               </FormLayout.Field>
             ) : null}
