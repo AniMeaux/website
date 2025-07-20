@@ -396,6 +396,139 @@ export namespace DescriptionEmails {
       ),
     };
   }
+
+  export async function treated(
+    exhibitorId: string,
+  ): Promise<null | EmailTemplate> {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: services.exhibitor.get(exhibitorId, {
+        select: {
+          token: true,
+          description: true,
+          descriptionStatus: true,
+          descriptionStatusMessage: true,
+        },
+      }),
+
+      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+        select: { contactEmail: true },
+      }),
+    });
+
+    if (
+      exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
+      exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED
+    ) {
+      return null;
+    }
+
+    switch (exhibitor.descriptionStatus) {
+      case ShowExhibitorStatus.VALIDATED: {
+        function SectionDescription() {
+          return (
+            <EmailHtml.Section.Root>
+              <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
+
+              {exhibitor.description != null ? (
+                <EmailHtml.Markdown
+                  content={exhibitor.description}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+              ) : (
+                <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
+              )}
+            </EmailHtml.Section.Root>
+          );
+        }
+
+        return {
+          name: "description-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Description - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Description</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Paragraph>
+                  Votre description a été validé et ne peut plus être modifiée.
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <SectionDescription />
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      case ShowExhibitorStatus.TO_MODIFY: {
+        invariant(
+          exhibitor.descriptionStatusMessage != null,
+          "A descriptionStatusMessage should exists",
+        );
+
+        return {
+          name: "description-exposant-traité",
+          from: "Salon des Ani’Meaux <salon@animeaux.org>",
+          to: [application.contactEmail],
+          subject: "Description - Salon des Ani’Meaux 2025",
+          body: (
+            <EmailHtml.Root>
+              <EmailHtml.Title>Description</EmailHtml.Title>
+
+              <EmailHtml.Section.Root>
+                <EmailHtml.Markdown
+                  content={exhibitor.descriptionStatusMessage}
+                  components={EMAIL_PARAGRAPH_COMPONENTS}
+                />
+
+                <EmailHtml.Paragraph>
+                  <EmailHtml.Button
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).profile.toString()}`}
+                  >
+                    Accédez à votre profil
+                  </EmailHtml.Button>
+                </EmailHtml.Paragraph>
+
+                <EmailHtml.Paragraph>
+                  Pour toute question ou complément d’information, n’hésitez pas
+                  à nous contacter en répondant à cet e-mail.
+                </EmailHtml.Paragraph>
+              </EmailHtml.Section.Root>
+
+              <EmailHtml.SectionSeparator />
+
+              <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+            </EmailHtml.Root>
+          ),
+        };
+      }
+
+      default: {
+        return exhibitor.descriptionStatus satisfies never;
+      }
+    }
+  }
 }
 
 export namespace OnStandAnimationsEmails {
