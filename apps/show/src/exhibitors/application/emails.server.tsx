@@ -210,34 +210,6 @@ export namespace ApplicationEmails {
       );
     }
 
-    function SectionBilling() {
-      return (
-        <EmailHtml.Section.Root>
-          <EmailHtml.Section.Title>Facturation</EmailHtml.Section.Title>
-
-          <EmailHtml.Output.Table>
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Adresse de facturation
-              </EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                <EmailHtml.Markdown
-                  content={getCompleteLocation({
-                    address: application.billingAddress,
-                    zipCode: application.billingZipCode,
-                    city: application.billingCity,
-                    country: application.billingCountry,
-                  })}
-                  components={EMAIL_SENTENCE_COMPONENTS}
-                />
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-          </EmailHtml.Output.Table>
-        </EmailHtml.Section.Root>
-      );
-    }
-
     function SectionParticipation() {
       return (
         <EmailHtml.Section.Root>
@@ -349,7 +321,6 @@ export namespace ApplicationEmails {
 
           <SectionContact />
           <SectionStructure />
-          <SectionBilling />
           <SectionParticipation />
           <SectionPartnership />
           <SectionComments />

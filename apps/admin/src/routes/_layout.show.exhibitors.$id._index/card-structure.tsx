@@ -33,7 +33,6 @@ export function CardStructure() {
         <ItemList>
           <ItemName />
           <ItemAddress />
-          <ItemBillingAddress />
           <ItemLegalStatus />
         </ItemList>
       </Card.Content>
@@ -52,26 +51,6 @@ function ItemAddress() {
           zipCode: application.structureZipCode,
           city: application.structureCity,
           country: application.structureCountry,
-        })}
-      </Markdown>
-    </SimpleItem>
-  );
-}
-
-function ItemBillingAddress() {
-  const { application } = useLoaderData<typeof loader>();
-
-  return (
-    <SimpleItem
-      isLightIcon
-      icon={<Icon href="icon-envelope-open-dollar-light" />}
-    >
-      <Markdown components={SENTENCE_COMPONENTS}>
-        {getCompleteLocation({
-          address: application.billingAddress,
-          zipCode: application.billingZipCode,
-          city: application.billingCity,
-          country: application.billingCountry,
         })}
       </Markdown>
     </SimpleItem>
