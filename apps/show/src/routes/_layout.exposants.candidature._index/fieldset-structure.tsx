@@ -1,5 +1,6 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FieldNumeric } from "#core/form-elements/field-numeric";
+import { FieldSwitch } from "#core/form-elements/field-switch.js";
 import { FieldText } from "#core/form-elements/field-text";
 import { FieldTextarea } from "#core/form-elements/field-textarea.js";
 import { FieldUrl } from "#core/form-elements/field-url";
@@ -53,6 +54,11 @@ export function FieldsetStructure() {
         <FieldText label="Ville" field={fieldset.city} />
         <FieldText label="Pays" field={fieldset.country} />
       </FormLayout.Row>
+
+      <FieldSwitch
+        label="Je possède une responsabilité civile professionnelle"
+        field={fieldset.haveCivilLiability}
+      />
 
       <FieldTextarea
         label="Présentation de l’activité"

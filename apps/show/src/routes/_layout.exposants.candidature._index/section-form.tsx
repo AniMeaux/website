@@ -96,6 +96,7 @@ export function SectionForm() {
               fieldsets.structure.value?.zipCode != null &&
               fieldsets.structure.value?.city != null &&
               fieldsets.structure.value?.country != null &&
+              fieldsets.structure.value?.haveCivilLiability === "on" &&
               fieldsets.structure.value?.activityDescription != null &&
               fieldsets.structure.value?.activityTargets != null &&
               fieldsets.structure.value?.activityFields != null &&

@@ -90,6 +90,10 @@ export const ActionSchema = zu
           .trim()
           .min(1, "Veuillez entrer un pays")
           .max(64, "Veuillez entrer un pays plus court"),
+        haveCivilLiability: zu.literal("on", {
+          required_error:
+            "Vous devez en posséder une responsabilité civile professionnelle",
+        }),
         activityDescription: zu.preprocess(
           normalizeLineBreaks,
           zu
