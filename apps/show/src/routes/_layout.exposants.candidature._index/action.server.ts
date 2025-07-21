@@ -85,15 +85,6 @@ export async function action({ request }: ActionFunctionArgs) {
       structureActivityFields: submission.value.structure.activityFields,
       structureLogoPath: submission.value.structure.logo.name,
 
-      billingAddress:
-        submission.value.billing.address ?? submission.value.structure.address,
-      billingZipCode:
-        submission.value.billing.zipCode ?? submission.value.structure.zipCode,
-      billingCity:
-        submission.value.billing.city ?? submission.value.structure.city,
-      billingCountry:
-        submission.value.billing.country ?? submission.value.structure.country,
-
       desiredStandSize: submission.value.participation.desiredStandSize,
       proposalForOnStageEntertainment:
         submission.value.participation.proposalForOnStageEntertainment,

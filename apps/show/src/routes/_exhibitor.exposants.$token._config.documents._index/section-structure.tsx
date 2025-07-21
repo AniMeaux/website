@@ -36,39 +36,21 @@ export function SectionStructure() {
         </FormLayout.Field>
       </FormLayout.Row>
 
-      <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Adresse de domiciliation</FormLayout.Label>
+      <FormLayout.Field>
+        <FormLayout.Label>Adresse de domiciliation</FormLayout.Label>
 
-          <FormLayout.Output>
-            <Markdown
-              content={getCompleteLocation({
-                address: application.structureAddress,
-                zipCode: application.structureZipCode,
-                city: application.structureCity,
-                country: application.structureCountry,
-              })}
-              components={SENTENCE_COMPONENTS}
-            />
-          </FormLayout.Output>
-        </FormLayout.Field>
-
-        <FormLayout.Field>
-          <FormLayout.Label>Adresse de facturation</FormLayout.Label>
-
-          <FormLayout.Output>
-            <Markdown
-              content={getCompleteLocation({
-                address: application.billingAddress,
-                zipCode: application.billingZipCode,
-                city: application.billingCity,
-                country: application.billingCountry,
-              })}
-              components={SENTENCE_COMPONENTS}
-            />
-          </FormLayout.Output>
-        </FormLayout.Field>
-      </FormLayout.Row>
+        <FormLayout.Output>
+          <Markdown
+            content={getCompleteLocation({
+              address: application.structureAddress,
+              zipCode: application.structureZipCode,
+              city: application.structureCity,
+              country: application.structureCountry,
+            })}
+            components={SENTENCE_COMPONENTS}
+          />
+        </FormLayout.Output>
+      </FormLayout.Field>
     </FormLayout.Section>
   );
 }

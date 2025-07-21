@@ -87,10 +87,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       routeParams.id,
       {
         select: {
-          billingAddress: true,
-          billingCity: true,
-          billingCountry: true,
-          billingZipCode: true,
           id: true,
           status: true,
           structureAddress: true,

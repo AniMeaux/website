@@ -14,8 +14,6 @@ export function useForm() {
     shouldValidate: "onBlur",
     lastResult: actionData,
 
-    defaultValue: { billing: { sameAsStructure: "on" } },
-
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: ActionSchema }),
   });
@@ -31,7 +29,6 @@ export const FieldsetId = {
   DOCUMENTS: "documents",
   CONTACT: "contact",
   STRUCTURE: "structure",
-  BILLING: "billing",
   PARTICIPATION: "participation",
   PARTNERSHIP: "partnership",
   COMMENTS: "comments",

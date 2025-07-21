@@ -1,7 +1,6 @@
 import { FormLayout } from "#core/layout/form-layout";
 import { getFormProps } from "@conform-to/react";
 import { Form, useFormAction, useNavigation } from "@remix-run/react";
-import { FieldsetBilling } from "./fieldset-billing";
 import { FieldsetComments } from "./fieldset-comments";
 import { FieldsetContact } from "./fieldset-contact";
 import { FieldsetDocuments } from "./fieldset-documents";
@@ -33,10 +32,6 @@ export function SectionForm() {
             <FormLayout.SectionSeparator />
 
             <FieldsetStructure />
-
-            <FormLayout.SectionSeparator />
-
-            <FieldsetBilling />
 
             <FormLayout.SectionSeparator />
 
@@ -108,20 +103,6 @@ export function SectionForm() {
             }
           >
             Structure
-          </FormLayout.NavItem>
-
-          <FormLayout.NavItem
-            sectionId={FieldsetId.BILLING}
-            isComplete={
-              fieldsets.billing.valid &&
-              (fieldsets.billing.value?.sameAsStructure === "on" ||
-                (fieldsets.billing.value?.address != null &&
-                  fieldsets.billing.value?.zipCode != null &&
-                  fieldsets.billing.value?.city != null &&
-                  fieldsets.billing.value?.country != null))
-            }
-          >
-            Facturation
           </FormLayout.NavItem>
 
           <FormLayout.NavItem

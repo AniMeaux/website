@@ -22,10 +22,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     routeParams.applicationId,
     {
       select: {
-        billingAddress: true,
-        billingCity: true,
-        billingCountry: true,
-        billingZipCode: true,
         comments: true,
         contactEmail: true,
         contactFirstname: true,

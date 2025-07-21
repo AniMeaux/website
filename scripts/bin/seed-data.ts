@@ -560,11 +560,6 @@ async function seedShowExhibitorApplications() {
         structureCountry: faker.location.country(),
         structureLogoPath: faker.string.uuid(),
 
-        billingAddress: faker.location.streetAddress(),
-        billingZipCode: faker.location.zipCode(),
-        billingCity: faker.location.city(),
-        billingCountry: faker.location.country(),
-
         desiredStandSize: faker.helpers.arrayElement(
           Object.values(ShowStandSize),
         ),

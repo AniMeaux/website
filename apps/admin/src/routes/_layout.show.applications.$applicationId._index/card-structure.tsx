@@ -54,20 +54,6 @@ export function CardStructure() {
 
             <SimpleItem
               isLightIcon
-              icon={<Icon href="icon-envelope-open-dollar-light" />}
-            >
-              <Markdown components={SENTENCE_COMPONENTS}>
-                {getCompleteLocation({
-                  address: application.billingAddress,
-                  zipCode: application.billingZipCode,
-                  city: application.billingCity,
-                  country: application.billingCountry,
-                })}
-              </Markdown>
-            </SimpleItem>
-
-            <SimpleItem
-              isLightIcon
               icon={<Icon href="icon-fingerprint-light" />}
             >
               {LegalStatus.getVisibleLegalStatus({

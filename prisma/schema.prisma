@@ -316,11 +316,6 @@ model ShowExhibitorApplication {
   structureCountry             String                               @db.VarChar(64)
   structureLogoPath            String                               @db.VarChar(128)
 
-  billingAddress String @db.VarChar(128)
-  billingCity    String @db.VarChar(128)
-  billingZipCode String @db.VarChar(64)
-  billingCountry String @db.VarChar(64)
-
   desiredStandSize                ShowStandSize
   proposalForOnStageEntertainment String?       @db.VarChar(512)
 
