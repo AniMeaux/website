@@ -242,7 +242,7 @@ function AnimationItem({
     animators: {
       id: string;
       isOrganizer: boolean;
-      isPartner: boolean;
+      isSponsor: boolean;
       logoPath: string;
       name: string;
       url: string;
@@ -420,7 +420,7 @@ function AnimationItem({
                           title="Organisateur du Salon des Ani’Meaux"
                         />
                       </>
-                    ) : animator.isPartner ? (
+                    ) : animator.isSponsor ? (
                       <>
                         &nbsp;
                         <IconInline

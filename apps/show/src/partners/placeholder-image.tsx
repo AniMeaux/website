@@ -2,13 +2,13 @@ import { DynamicImage } from "#core/data-display/image";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 
-export const PartnersPlaceholderImage = forwardRef<
+export const SponsorsPlaceholderImage = forwardRef<
   React.ComponentRef<typeof DynamicImage>,
   Except<
     React.ComponentPropsWithoutRef<typeof DynamicImage>,
     "alt" | "aspectRatio" | "image" | "title"
   >
->(function PartnersPlaceholderImage(props, ref) {
+>(function SponsorsPlaceholderImage(props, ref) {
   return (
     <DynamicImage
       {...props}

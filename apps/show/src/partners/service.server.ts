@@ -3,9 +3,9 @@ import { Service } from "#core/services/service.server";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 
-export class ServicePartner extends Service {
+export class ServiceSponsor extends Service {
   async getManyVisible() {
-    const partnersRaw = await prisma.showPartner.findMany({
+    const sponsorsRaw = await prisma.showSponsor.findMany({
       where: {
         isVisible: true,
         OR: [{ exhibitorId: null }, { exhibitor: { isVisible: true } }],
@@ -26,31 +26,31 @@ export class ServicePartner extends Service {
       },
     });
 
-    const partners = partnersRaw.map((partner) => {
-      if (partner.exhibitor != null) {
-        const [url] = partner.exhibitor.links;
+    const sponsors = sponsorsRaw.map((sponsor) => {
+      if (sponsor.exhibitor != null) {
+        const [url] = sponsor.exhibitor.links;
         invariant(url != null, "exhibitor should have at least one link");
 
         return {
-          id: partner.id,
-          logoPath: partner.exhibitor.logoPath,
-          name: partner.exhibitor.name,
+          id: sponsor.id,
+          logoPath: sponsor.exhibitor.logoPath,
+          name: sponsor.exhibitor.name,
           url,
         };
       }
 
-      invariant(partner.logoPath != null, "partner should have a logo");
-      invariant(partner.name != null, "partner should have a name");
-      invariant(partner.url != null, "partner should have an URL");
+      invariant(sponsor.logoPath != null, "sponsor should have a logo");
+      invariant(sponsor.name != null, "sponsor should have a name");
+      invariant(sponsor.url != null, "sponsor should have an URL");
 
       return {
-        id: partner.id,
-        logoPath: partner.logoPath,
-        name: partner.name,
-        url: partner.url,
+        id: sponsor.id,
+        logoPath: sponsor.logoPath,
+        name: sponsor.name,
+        url: sponsor.url,
       };
     });
 
-    return orderBy(partners, (partner) => partner.name, "asc");
+    return orderBy(sponsors, (sponsor) => sponsor.name, "asc");
   }
 }

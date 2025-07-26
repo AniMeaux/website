@@ -9,14 +9,14 @@ import { LayoutHeader } from "./header";
 export async function loader() {
   if (
     process.env.FEATURE_FLAG_SITE_ONLINE !== "true" ||
-    process.env.FEATURE_FLAG_SHOW_PARTNERS !== "true"
+    process.env.FEATURE_FLAG_SHOW_SPONSORS !== "true"
   ) {
-    return json({ partners: [] });
+    return json({ sponsors: [] });
   }
 
-  const partners = await services.partner.getManyVisible();
+  const sponsors = await services.sponsor.getManyVisible();
 
-  return json({ partners });
+  return json({ sponsors });
 }
 
 export default function Route() {

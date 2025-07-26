@@ -36,7 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       onStandAnimations:
         process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true",
 
-      partnership: { select: { isVisible: true } },
+      sponsorship: { select: { isVisible: true } },
 
       _count: { select: { animations: { where: { isVisible: true } } } },
     },
@@ -45,7 +45,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json({
     exhibitors: exhibitors.map(
       ({
-        partnership,
+        sponsorship,
         _count,
         links,
         onStandAnimations,
@@ -64,9 +64,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
           isOrganizer: exhibitor.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
-          isPartner:
-            process.env.FEATURE_FLAG_SHOW_PARTNERS === "true" &&
-            (partnership?.isVisible ?? false),
+          isSponsor:
+            process.env.FEATURE_FLAG_SHOW_SPONSORS === "true" &&
+            (sponsorship?.isVisible ?? false),
 
           hasOnStageAnimation:
             process.env.FEATURE_FLAG_SHOW_PROGRAM === "true" &&

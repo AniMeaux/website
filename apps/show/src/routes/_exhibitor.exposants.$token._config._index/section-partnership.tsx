@@ -3,14 +3,14 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import {
-  PARTNERSHIP_CATEGORY_TRANSLATION,
-  PartnershipCategoryDescription,
+  SPONSORSHIP_CATEGORY_TRANSLATION,
+  SponsorshipCategoryDescription,
 } from "#exhibitors/partnership/category";
-import { ShowExhibitorApplicationOtherPartnershipCategory } from "@prisma/client";
+import { ShowExhibitorApplicationOtherSponsorshipCategory } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
-export function SectionPartnership() {
+export function SectionSponsorship() {
   return (
     <FormLayout.Section>
       <FormLayout.Title>Sponsor</FormLayout.Title>
@@ -23,11 +23,11 @@ export function SectionPartnership() {
 function StatusHelper() {
   const { exhibitor, application } = useLoaderData<typeof loader>();
 
-  if (exhibitor.partnership != null) {
+  if (exhibitor.sponsorship != null) {
     return (
       <HelperCard.Root color="alabaster">
         <HelperCard.Title>
-          {PARTNERSHIP_CATEGORY_TRANSLATION[exhibitor.partnership.category]}
+          {SPONSORSHIP_CATEGORY_TRANSLATION[exhibitor.sponsorship.category]}
         </HelperCard.Title>
 
         <p>
@@ -37,16 +37,16 @@ function StatusHelper() {
           la cause animale.
         </p>
 
-        <PartnershipCategoryDescription
-          category={exhibitor.partnership.category}
+        <SponsorshipCategoryDescription
+          category={exhibitor.sponsorship.category}
         />
       </HelperCard.Root>
     );
   }
 
   if (
-    application.otherPartnershipCategory ===
-    ShowExhibitorApplicationOtherPartnershipCategory.MAYBE
+    application.otherSponsorshipCategory ===
+    ShowExhibitorApplicationOtherSponsorshipCategory.MAYBE
   ) {
     return (
       <HelperCard.Root color="paleBlue">

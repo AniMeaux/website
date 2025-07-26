@@ -5,31 +5,31 @@ import {
 } from "#core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  ShowPartnershipCategory,
+  ShowExhibitorApplicationOtherSponsorshipCategory,
+  ShowSponsorshipCategory,
 } from "@prisma/client";
 
-export const PARTNERSHIP_CATEGORY_TRANSLATION: Record<
-  ShowPartnershipCategory,
+export const SPONSORSHIP_CATEGORY_TRANSLATION: Record<
+  ShowSponsorshipCategory,
   string
 > = {
-  [ShowPartnershipCategory.POLLEN]: "Pollen",
-  [ShowPartnershipCategory.BRONZE]: "Pott de bronze",
-  [ShowPartnershipCategory.SILVER]: "Pott d’argent",
-  [ShowPartnershipCategory.GOLD]: "Pott d’or",
+  [ShowSponsorshipCategory.POLLEN]: "Pollen",
+  [ShowSponsorshipCategory.BRONZE]: "Pott de bronze",
+  [ShowSponsorshipCategory.SILVER]: "Pott d’argent",
+  [ShowSponsorshipCategory.GOLD]: "Pott d’or",
 };
 
-export function PartnershipCategoryDescription({
+export function SponsorshipCategoryDescription({
   category,
   className,
 }: {
-  category: ShowPartnershipCategory;
+  category: ShowSponsorshipCategory;
   className?: string;
 }) {
   return (
     <div className={cn("grid grid-cols-1", className)}>
       <Markdown
-        content={PARTNERSHIP_CATEGORY_DESCRIPTION[category]}
+        content={SPONSORSHIP_CATEGORY_DESCRIPTION[category]}
         components={{
           ...PARAGRAPH_COMPONENTS,
 
@@ -52,27 +52,27 @@ export function PartnershipCategoryDescription({
   );
 }
 
-const PARTNERSHIP_CATEGORY_DESCRIPTION: Record<
-  ShowPartnershipCategory,
+const SPONSORSHIP_CATEGORY_DESCRIPTION: Record<
+  ShowSponsorshipCategory,
   string
 > = {
-  [ShowPartnershipCategory.POLLEN]: `À partir de 100 € de don pour les stands de 6 m² et 9 m :
+  [ShowSponsorshipCategory.POLLEN]: `À partir de 100 € de don pour les stands de 6 m² et 9 m :
 
 - -40 % sur le stand
 - Visibilité digitale légère (site internet) - **mise en ligne au plus tard en avril 2025**.`,
 
-  [ShowPartnershipCategory.BRONZE]: `À partir de 200 € de don :
+  [ShowSponsorshipCategory.BRONZE]: `À partir de 200 € de don :
 
 - Visibilité digitale (réseaux sociaux, site internet) - **mise en ligne au plus tard en avril 2025**.`,
 
-  [ShowPartnershipCategory.SILVER]: `À partir de 500 € de don :
+  [ShowSponsorshipCategory.SILVER]: `À partir de 500 € de don :
 
 - Visibilité digitale (réseaux sociaux, site internet) - **mise en ligne au plus tard en avril 2025**.
 - Visibilité imprimée (flyer, affiche) - **impression courant avril 2025**.
 - Stand offert.
 - Flyer dans les gift bags - **à nous fournir au plus tard le vendredi 6 juin à 9h**.`,
 
-  [ShowPartnershipCategory.GOLD]: `À partir de 1 000 € de don :
+  [ShowSponsorshipCategory.GOLD]: `À partir de 1 000 € de don :
 
 - Visibilité digitale (réseaux sociaux, site internet) - **mise en ligne au plus tard en avril 2025**.
 - Visibilité imprimée (flyer, affiche) - **impression courant avril 2025**.
@@ -81,32 +81,32 @@ const PARTNERSHIP_CATEGORY_DESCRIPTION: Record<
 - Visibilité sur les supports de l’association Ani’Meaux pendant 1 an.`,
 };
 
-export const SORTED_PARTNERSHIP_CATEGORIES = [
-  ShowPartnershipCategory.POLLEN,
-  ShowPartnershipCategory.BRONZE,
-  ShowPartnershipCategory.SILVER,
-  ShowPartnershipCategory.GOLD,
+export const SORTED_SPONSORSHIP_CATEGORIES = [
+  ShowSponsorshipCategory.POLLEN,
+  ShowSponsorshipCategory.BRONZE,
+  ShowSponsorshipCategory.SILVER,
+  ShowSponsorshipCategory.GOLD,
 ];
 
-export const EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION: Record<
-  ShowExhibitorApplicationOtherPartnershipCategory,
+export const EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION: Record<
+  ShowExhibitorApplicationOtherSponsorshipCategory,
   string
 > = {
-  [ShowExhibitorApplicationOtherPartnershipCategory.MAYBE]:
+  [ShowExhibitorApplicationOtherSponsorshipCategory.MAYBE]:
     "J’aimerais étudier un peu plus la question",
-  [ShowExhibitorApplicationOtherPartnershipCategory.NO_PARTNERSHIP]:
+  [ShowExhibitorApplicationOtherSponsorshipCategory.NO_SPONSORSHIP]:
     "Malheureusement ce n’est pas possible",
 };
 
-export const SORTED_EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORIES = [
-  ShowExhibitorApplicationOtherPartnershipCategory.MAYBE,
-  ShowExhibitorApplicationOtherPartnershipCategory.NO_PARTNERSHIP,
+export const SORTED_EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORIES = [
+  ShowExhibitorApplicationOtherSponsorshipCategory.MAYBE,
+  ShowExhibitorApplicationOtherSponsorshipCategory.NO_SPONSORSHIP,
 ];
 
-export function isPartnershipCategory(
+export function isSponsorshipCategory(
   category:
-    | ShowPartnershipCategory
-    | ShowExhibitorApplicationOtherPartnershipCategory,
-): category is ShowPartnershipCategory {
-  return SORTED_PARTNERSHIP_CATEGORIES.includes(category);
+    | ShowSponsorshipCategory
+    | ShowExhibitorApplicationOtherSponsorshipCategory,
+): category is ShowSponsorshipCategory {
+  return SORTED_SPONSORSHIP_CATEGORIES.includes(category);
 }

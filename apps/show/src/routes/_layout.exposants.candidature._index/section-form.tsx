@@ -5,7 +5,7 @@ import { FieldsetComments } from "./fieldset-comments";
 import { FieldsetContact } from "./fieldset-contact";
 import { FieldsetDocuments } from "./fieldset-documents";
 import { FieldsetParticipation } from "./fieldset-participation";
-import { FieldsetPartnership } from "./fieldset-partnership";
+import { FieldsetSponsorship } from "./fieldset-partnership";
 import { FieldsetStructure } from "./fieldset-structure";
 import { FieldsetId, FieldsetsProvider, useForm } from "./form";
 
@@ -39,7 +39,7 @@ export function SectionForm() {
 
             <FormLayout.SectionSeparator />
 
-            <FieldsetPartnership />
+            <FieldsetSponsorship />
 
             <FormLayout.SectionSeparator />
 
@@ -117,10 +117,10 @@ export function SectionForm() {
           </FormLayout.NavItem>
 
           <FormLayout.NavItem
-            sectionId={FieldsetId.PARTNERSHIP}
+            sectionId={FieldsetId.SPONSORSHIP}
             isComplete={
-              fieldsets.partnershipCategory.valid &&
-              fieldsets.partnershipCategory.value != null
+              fieldsets.sponsorshipCategory.valid &&
+              fieldsets.sponsorshipCategory.value != null
             }
           >
             Sponsor

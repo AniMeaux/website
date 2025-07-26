@@ -4,19 +4,19 @@ import { Link } from "@remix-run/react";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 
-export const PartnerItem = forwardRef<
+export const SponsorItem = forwardRef<
   React.ComponentRef<"li">,
   Except<React.ComponentPropsWithoutRef<"li">, "children"> & {
-    partner: { logoPath: string; name: string; url: string };
+    sponsor: { logoPath: string; name: string; url: string };
     imageSizes: React.ComponentPropsWithoutRef<typeof DynamicImage>["sizes"];
     imageFallbackSize: React.ComponentPropsWithoutRef<
       typeof DynamicImage
     >["fallbackSize"];
     isSmall?: boolean;
   }
->(function PartnerItem(
+>(function SponsorItem(
   {
-    partner,
+    sponsor,
     isSmall = false,
     imageFallbackSize,
     imageSizes,
@@ -28,16 +28,16 @@ export const PartnerItem = forwardRef<
   return (
     <li {...props} ref={ref} className={cn("grid grid-cols-1", className)}>
       <Link
-        to={partner.url}
+        to={sponsor.url}
         className={cn(
           "group/item grid grid-cols-1 overflow-hidden focus-visible:focus-spaced",
           isSmall ? "rounded-1" : "rounded-2 border border-alabaster",
         )}
       >
         <DynamicImage
-          image={ImageUrl.parse(partner.logoPath)}
+          image={ImageUrl.parse(sponsor.logoPath)}
           fillTransparentBackground
-          alt={partner.name}
+          alt={sponsor.name}
           aspectRatio="4:3"
           objectFit="contain"
           fallbackSize={imageFallbackSize}

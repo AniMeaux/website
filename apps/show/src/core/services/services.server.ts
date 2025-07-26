@@ -1,7 +1,7 @@
 import { ServiceAnimation } from "#animations/service.server.js";
 import type { Services } from "#core/services/service.server";
 import { ServiceExhibitor } from "#exhibitors/service.server";
-import { ServicePartner } from "#partners/service.server";
+import { ServiceSponsor } from "#partners/service.server";
 import { ServiceProvider } from "#providers/service.server";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import {
@@ -13,7 +13,7 @@ class ServicesImpl implements Services {
   readonly animation: ServiceAnimation;
   readonly fileStorage: FileStorage;
   readonly exhibitor: ServiceExhibitor;
-  readonly partner: ServicePartner;
+  readonly sponsor: ServiceSponsor;
   readonly provider: ServiceProvider;
 
   constructor() {
@@ -32,7 +32,7 @@ class ServicesImpl implements Services {
     }
 
     this.exhibitor = new ServiceExhibitor(this);
-    this.partner = new ServicePartner(this);
+    this.sponsor = new ServiceSponsor(this);
     this.provider = new ServiceProvider(this);
   }
 }

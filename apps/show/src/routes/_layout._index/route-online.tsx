@@ -8,8 +8,8 @@ import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
 import { ShowDay } from "#core/show-day";
 import { Pictogram } from "#generated/pictogram";
-import { PartnerItem } from "#partners/item";
-import { PartnersPlaceholderImage } from "#partners/placeholder-image";
+import { SponsorItem } from "#partners/item";
+import { SponsorsPlaceholderImage } from "#partners/placeholder-image";
 import { ProviderItem } from "#providers/item";
 import { ProvidersPlaceholderImage } from "#providers/placeholder-image";
 import { cn } from "@animeaux/core";
@@ -25,7 +25,7 @@ export function RouteOnline() {
       <SectionComeWithYourDog />
       <SectionPresentation />
       <SectionOrigin />
-      <SectionPartners />
+      <SectionSponsors />
       <SectionExhibitors />
       <SectionPreviousEditions />
       <SectionAccess />
@@ -317,8 +317,8 @@ function SectionOrigin() {
   );
 }
 
-function SectionPartners() {
-  const { partners } = useLoaderData<typeof loader>();
+function SectionSponsors() {
+  const { sponsors } = useLoaderData<typeof loader>();
 
   return (
     <Section.Root width="full" columnCount={1}>
@@ -335,9 +335,9 @@ function SectionPartners() {
       </LazyElement>
 
       <section className="grid grid-cols-1 px-safe-page-narrow md:px-safe-page-normal">
-        {partners.length === 0 ? (
+        {sponsors.length === 0 ? (
           <LazyElement asChild>
-            <PartnersPlaceholderImage
+            <SponsorsPlaceholderImage
               fallbackSize="1024"
               sizes={{ default: "100vw", md: "640px" }}
               className="w-full max-w-screen-sm translate-y-4 justify-self-center opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100"
@@ -345,10 +345,10 @@ function SectionPartners() {
           </LazyElement>
         ) : (
           <ul className="flex flex-wrap justify-center gap-1 md:gap-2">
-            {partners.map((partner) => (
-              <LazyElement key={partner.id} asChild>
-                <PartnerItem
-                  partner={partner}
+            {sponsors.map((sponsor) => (
+              <LazyElement key={sponsor.id} asChild>
+                <SponsorItem
+                  sponsor={sponsor}
                   imageFallbackSize="256"
                   imageSizes={{ default: "130px", md: "180px" }}
                   className="w-[130px] flex-none translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100 md:w-[180px]"

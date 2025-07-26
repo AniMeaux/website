@@ -14,7 +14,7 @@ export const handle: RouteHandle = {
 };
 
 export async function loader() {
-  const { exhibitorCount, partners, providers } = await promiseHash({
+  const { exhibitorCount, sponsors, providers } = await promiseHash({
     exhibitorCount:
       process.env.FEATURE_FLAG_SITE_ONLINE === "true" &&
       process.env.FEATURE_FLAG_SHOW_EXHIBITORS === "true"
@@ -22,10 +22,10 @@ export async function loader() {
           services.exhibitor.getCount()
         : Promise.resolve(null),
 
-    partners:
+    sponsors:
       process.env.FEATURE_FLAG_SITE_ONLINE === "true" &&
-      process.env.FEATURE_FLAG_SHOW_PARTNERS === "true"
-        ? services.partner.getManyVisible()
+      process.env.FEATURE_FLAG_SHOW_SPONSORS === "true"
+        ? services.sponsor.getManyVisible()
         : Promise.resolve([]),
 
     providers:
@@ -35,7 +35,7 @@ export async function loader() {
         : Promise.resolve([]),
   });
 
-  return json({ exhibitorCount, partners, providers });
+  return json({ exhibitorCount, sponsors, providers });
 }
 
 export const meta: MetaFunction = () => {

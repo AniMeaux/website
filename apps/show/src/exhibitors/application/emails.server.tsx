@@ -10,8 +10,8 @@ import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
 import {
-  EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION,
-  PARTNERSHIP_CATEGORY_TRANSLATION,
+  EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION,
+  SPONSORSHIP_CATEGORY_TRANSLATION,
 } from "#exhibitors/partnership/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
@@ -240,7 +240,7 @@ export namespace ApplicationEmails {
       );
     }
 
-    function SectionPartnership() {
+    function SectionSponsorship() {
       return (
         <EmailHtml.Section.Root>
           <EmailHtml.Section.Title>Sponsor</EmailHtml.Section.Title>
@@ -252,13 +252,13 @@ export namespace ApplicationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.partnershipCategory != null
-                  ? PARTNERSHIP_CATEGORY_TRANSLATION[
-                      application.partnershipCategory
+                {application.sponsorshipCategory != null
+                  ? SPONSORSHIP_CATEGORY_TRANSLATION[
+                      application.sponsorshipCategory
                     ]
-                  : application.otherPartnershipCategory != null
-                    ? EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION[
-                        application.otherPartnershipCategory
+                  : application.otherSponsorshipCategory != null
+                    ? EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION[
+                        application.otherSponsorshipCategory
                       ]
                     : null}
               </EmailHtml.Output.Value>
@@ -322,7 +322,7 @@ export namespace ApplicationEmails {
           <SectionContact />
           <SectionStructure />
           <SectionParticipation />
-          <SectionPartnership />
+          <SectionSponsorship />
           <SectionComments />
 
           <EmailHtml.SectionSeparator />

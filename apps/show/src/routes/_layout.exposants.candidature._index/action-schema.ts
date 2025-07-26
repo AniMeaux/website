@@ -10,8 +10,8 @@ import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationLegalStatus,
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  ShowPartnershipCategory,
+  ShowExhibitorApplicationOtherSponsorshipCategory,
+  ShowSponsorshipCategory,
   ShowStandSize,
 } from "@prisma/client";
 
@@ -168,10 +168,10 @@ export const ActionSchema = zu
       ),
     }),
 
-    partnershipCategory: zu.union(
+    sponsorshipCategory: zu.union(
       [
-        zu.nativeEnum(ShowPartnershipCategory),
-        zu.nativeEnum(ShowExhibitorApplicationOtherPartnershipCategory),
+        zu.nativeEnum(ShowSponsorshipCategory),
+        zu.nativeEnum(ShowExhibitorApplicationOtherSponsorshipCategory),
       ],
       { required_error: "Veuillez choisir une option" },
     ),

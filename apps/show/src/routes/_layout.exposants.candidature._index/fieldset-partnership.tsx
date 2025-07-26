@@ -2,22 +2,22 @@ import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import {
-  EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION,
-  PARTNERSHIP_CATEGORY_TRANSLATION,
-  PartnershipCategoryDescription,
-  SORTED_EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORIES,
-  SORTED_PARTNERSHIP_CATEGORIES,
+  EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION,
+  SORTED_EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORIES,
+  SORTED_SPONSORSHIP_CATEGORIES,
+  SPONSORSHIP_CATEGORY_TRANSLATION,
+  SponsorshipCategoryDescription,
 } from "#exhibitors/partnership/category";
 import { getCollectionProps } from "@conform-to/react";
 import type {
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  ShowPartnershipCategory,
+  ShowExhibitorApplicationOtherSponsorshipCategory,
+  ShowSponsorshipCategory,
 } from "@prisma/client";
 import { FieldsetId, useFieldsets } from "./form";
 
-export function FieldsetPartnership() {
+export function FieldsetSponsorship() {
   return (
-    <FormLayout.Section id={FieldsetId.PARTNERSHIP}>
+    <FormLayout.Section id={FieldsetId.SPONSORSHIP}>
       <FormLayout.Title>Sponsor</FormLayout.Title>
 
       <HelperCard.Root color="paleBlue">
@@ -37,14 +37,14 @@ export function FieldsetPartnership() {
         </p>
       </HelperCard.Root>
 
-      <FieldPartnershipCategory />
+      <FieldSponsorshipCategory />
     </FormLayout.Section>
   );
 }
 
-function FieldPartnershipCategory() {
+function FieldSponsorshipCategory() {
   const { fieldsets } = useFieldsets();
-  const field = fieldsets.partnershipCategory;
+  const field = fieldsets.sponsorshipCategory;
 
   return (
     <FormLayout.Field>
@@ -53,9 +53,9 @@ function FieldPartnershipCategory() {
       <FormLayout.Selectors columnMinWidth="100%">
         {getCollectionProps(field, {
           type: "radio",
-          options: SORTED_PARTNERSHIP_CATEGORIES,
+          options: SORTED_SPONSORSHIP_CATEGORIES,
         }).map((props) => {
-          const category = props.value as ShowPartnershipCategory;
+          const category = props.value as ShowSponsorshipCategory;
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -63,10 +63,10 @@ function FieldPartnershipCategory() {
 
               <FormLayout.Selector.Label className="grid grid-cols-1 gap-1">
                 <strong className="text-body-lowercase-emphasis">
-                  {PARTNERSHIP_CATEGORY_TRANSLATION[category]}
+                  {SPONSORSHIP_CATEGORY_TRANSLATION[category]}
                 </strong>
 
-                <PartnershipCategoryDescription
+                <SponsorshipCategoryDescription
                   category={category}
                   className="text-caption-lowercase-default"
                 />
@@ -79,15 +79,15 @@ function FieldPartnershipCategory() {
 
         {getCollectionProps(field, {
           type: "radio",
-          options: SORTED_EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORIES,
+          options: SORTED_EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORIES,
         }).map((props) => (
           <FormLayout.Selector.Root key={props.key}>
             <FormLayout.Selector.Input {...props} key={props.key} />
 
             <FormLayout.Selector.Label>
               {
-                EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION[
-                  props.value as ShowExhibitorApplicationOtherPartnershipCategory
+                EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION[
+                  props.value as ShowExhibitorApplicationOtherSponsorshipCategory
                 ]
               }
             </FormLayout.Selector.Label>
