@@ -18,7 +18,7 @@ import { FieldsetId, useFieldsets } from "./form";
 export function FieldsetPartnership() {
   return (
     <FormLayout.Section id={FieldsetId.PARTNERSHIP}>
-      <FormLayout.Title>Partenariat</FormLayout.Title>
+      <FormLayout.Title>Sponsor</FormLayout.Title>
 
       <HelperCard.Root color="paleBlue">
         <HelperCard.Title>
@@ -27,12 +27,12 @@ export function FieldsetPartnership() {
         </HelperCard.Title>
 
         <p>
-          Devenez partenaire en apportant votre soutien financier à notre
+          Devenez sponsor en apportant votre soutien financier à notre
           association organisatrice. Votre contribution nous permettra de
           proposer un événement encore plus exceptionnel, avec des animations
           variées, des exposants de qualité et des moments de partage
-          inoubliables. En devenant partenaire, vous marquerez votre engagement
-          en faveur du bien-être animal et bénéficierez d’une visibilité auprès
+          inoubliables. En devenant sponsor, vous marquerez votre engagement en
+          faveur du bien-être animal et bénéficierez d’une visibilité auprès
           d’un large public passionné.
         </p>
       </HelperCard.Root>
@@ -48,7 +48,7 @@ function FieldPartnershipCategory() {
 
   return (
     <FormLayout.Field>
-      <FormLayout.Label>Catégorie de partenariat</FormLayout.Label>
+      <FormLayout.Label>Catégorie de sponsor</FormLayout.Label>
 
       <FormLayout.Selectors columnMinWidth="100%">
         {getCollectionProps(field, {

@@ -324,9 +324,7 @@ function SectionPartners() {
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
-          <Section.Title className="md:text-center">
-            Nos partenaires
-          </Section.Title>
+          <Section.Title className="md:text-center">Nos sponsors</Section.Title>
 
           <p className="md:text-center">
             Le Salon des Ani’Meaux est imaginé et mis en place par des

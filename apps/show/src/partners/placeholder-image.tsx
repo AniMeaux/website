@@ -14,8 +14,8 @@ export const PartnersPlaceholderImage = forwardRef<
       {...props}
       ref={ref}
       image={{ id: "/show/partenaires-placeholder_ma4otz" }}
-      alt="Partenaires du Salon des Ani’Meaux."
-      title="Partenaires du Salon des Ani’Meaux."
+      alt="Sponsors du Salon des Ani’Meaux."
+      title="Sponsors du Salon des Ani’Meaux."
       aspectRatio="16:9"
     />
   );

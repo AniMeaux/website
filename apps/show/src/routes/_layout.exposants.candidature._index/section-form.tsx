@@ -123,7 +123,7 @@ export function SectionForm() {
               fieldsets.partnershipCategory.value != null
             }
           >
-            Partenariat
+            Sponsor
           </FormLayout.NavItem>
 
           <FormLayout.NavItem

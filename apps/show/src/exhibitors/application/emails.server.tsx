@@ -243,12 +243,12 @@ export namespace ApplicationEmails {
     function SectionPartnership() {
       return (
         <EmailHtml.Section.Root>
-          <EmailHtml.Section.Title>Partenariat</EmailHtml.Section.Title>
+          <EmailHtml.Section.Title>Sponsor</EmailHtml.Section.Title>
 
           <EmailHtml.Output.Table>
             <EmailHtml.Output.Row>
               <EmailHtml.Output.Label>
-                Catégorie de partenariat
+                Catégorie de sponsor
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>

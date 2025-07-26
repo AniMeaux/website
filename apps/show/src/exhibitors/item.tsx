@@ -75,7 +75,7 @@ export function ExhibitorItem({
                 &nbsp;
                 <IconInline
                   id="award-solid"
-                  title="Partenaire du Salon des Ani’Meaux"
+                  title="Sponsor du Salon des Ani’Meaux"
                 />
               </>
             ) : null}

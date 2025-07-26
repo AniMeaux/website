@@ -164,7 +164,7 @@ function ActiveFilterPartnership() {
         <Icon id="award-solid" />
       </InputActiveFilter.Icon>
 
-      <InputActiveFilter.Label>Partenaire du Salon</InputActiveFilter.Label>
+      <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
 
       <InputActiveFilter.RemoveIcon />
     </InputActiveFilter.Root>

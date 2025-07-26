@@ -13,7 +13,7 @@ import type { loader } from "./route";
 export function SectionPartnership() {
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Partenariat</FormLayout.Title>
+      <FormLayout.Title>Sponsor</FormLayout.Title>
 
       <StatusHelper />
     </FormLayout.Section>
@@ -33,8 +33,8 @@ function StatusHelper() {
         <p>
           Merci pour votre engagement !
           <br />
-          Votre partenariat est essentiel pour sensibiliser et rassembler autour
-          de la cause animale.
+          Votre soutien est essentiel pour sensibiliser et rassembler autour de
+          la cause animale.
         </p>
 
         <PartnershipCategoryDescription
@@ -55,14 +55,14 @@ function StatusHelper() {
         </HelperCard.Title>
 
         <p>
-          Nous serions ravis de vous compter parmi nos partenaires et de vous
+          Nous serions ravis de vous compter parmi nos sponsors et de vous
           offrir une visibilité renforcée tout au long de l’événement !
         </p>
 
         <p>
           Si vous avez pris votre décision ou souhaitez obtenir plus
-          d’informations sur les possibilités de partenariat, n’hésitez pas à
-          nous contacter par e-mail à{" "}
+          d’informations sur les possibilités de sponsor, n’hésitez pas à nous
+          contacter par e-mail à{" "}
           <ProseInlineAction asChild>
             <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
           </ProseInlineAction>
@@ -75,7 +75,7 @@ function StatusHelper() {
   return (
     <LightBoardCard isSmall>
       <p>
-        Vous n’êtes actuellement pas partenaire. Si vous souhaitez le devenir,
+        Vous n’êtes actuellement pas sponsor. Si vous souhaitez le devenir,
         n’hésitez pas à nous contacter par e-mail à{" "}
         <ProseInlineAction asChild>
           <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>

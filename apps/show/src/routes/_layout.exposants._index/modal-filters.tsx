@@ -260,9 +260,7 @@ function FieldPartnership() {
             <Icon id="award-light" />
           </FormLayout.Selector.UncheckedIcon>
 
-          <FormLayout.Selector.Label>
-            Partenaire du Salon
-          </FormLayout.Selector.Label>
+          <FormLayout.Selector.Label>Sponsor</FormLayout.Selector.Label>
 
           <FormLayout.Selector.CheckboxIcon />
         </FormLayout.Selector.Root>
