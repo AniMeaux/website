@@ -3,7 +3,7 @@ import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
-import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
+import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/partnership-category";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
 import type { ShowExhibitor, ShowExhibitorApplication } from "@prisma/client";
@@ -54,16 +54,16 @@ export class ShowExhibitorApplicationDbDelegate {
   }) {
     const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
 
-    if (params.searchParams.partnershipCategories.size > 0) {
-      const [partnershipCategories, otherPartnershipCategories] = partition(
-        Array.from(params.searchParams.partnershipCategories),
-        ApplicationPartnershipCategory.isPartnershipCategory,
+    if (params.searchParams.sponsorshipCategories.size > 0) {
+      const [sponsorshipCategories, otherSponsorshipCategories] = partition(
+        Array.from(params.searchParams.sponsorshipCategories),
+        ApplicationSponsorshipCategory.isSponsorshipCategory,
       );
 
       where.push({
         OR: [
-          { partnershipCategory: { in: partnershipCategories } },
-          { otherPartnershipCategory: { in: otherPartnershipCategories } },
+          { sponsorshipCategory: { in: sponsorshipCategories } },
+          { otherSponsorshipCategory: { in: otherSponsorshipCategories } },
         ],
       });
     }
@@ -153,11 +153,11 @@ export class ShowExhibitorApplicationDbDelegate {
 
         await prisma.showExhibitor.create({
           data: {
-            ...(application.partnershipCategory != null
+            ...(application.sponsorshipCategory != null
               ? {
-                  partnership: {
+                  sponsorship: {
                     create: {
-                      category: application.partnershipCategory,
+                      category: application.sponsorshipCategory,
                     },
                   },
                 }

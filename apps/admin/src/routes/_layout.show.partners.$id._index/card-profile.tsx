@@ -8,7 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
 export function CardProfile() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
@@ -19,8 +19,8 @@ export function CardProfile() {
       <Card.Content>
         <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
           <DynamicImage
-            imageId={ImageUrl.parse(partner.logoPath).id}
-            alt={partner.name}
+            imageId={ImageUrl.parse(sponsor.logoPath).id}
+            alt={sponsor.name}
             sizeMapping={{ default: "160px", sm: "100vw", md: "33vw" }}
             fallbackSize="512"
             background="none"
@@ -37,13 +37,13 @@ export function CardProfile() {
 }
 
 function ItemUrl() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
       <ProseInlineAction variant="subtle" asChild>
-        <a href={partner.url} target="_blank" rel="noreferrer">
-          {partner.url}
+        <a href={sponsor.url} target="_blank" rel="noreferrer">
+          {sponsor.url}
         </a>
       </ProseInlineAction>
     </SimpleItem>

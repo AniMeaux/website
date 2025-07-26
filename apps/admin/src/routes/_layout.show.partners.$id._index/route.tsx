@@ -26,7 +26,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const partner = await db.show.partner.findUnique(routeParams.id, {
+  const sponsor = await db.show.sponsor.findUnique(routeParams.id, {
     select: {
       id: true,
       isVisible: true,
@@ -47,17 +47,17 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   });
 
-  if (partner.exhibitor == null) {
-    invariant(partner.logoPath != null, "A logoPath should be defined");
-    invariant(partner.name != null, "A name should be defined");
-    invariant(partner.url != null, "A url should be defined");
+  if (sponsor.exhibitor == null) {
+    invariant(sponsor.logoPath != null, "A logoPath should be defined");
+    invariant(sponsor.name != null, "A name should be defined");
+    invariant(sponsor.url != null, "A url should be defined");
 
     return json({
-      partner: {
-        ...partner,
-        logoPath: partner.logoPath,
-        name: partner.name,
-        url: partner.url,
+      sponsor: {
+        ...sponsor,
+        logoPath: sponsor.logoPath,
+        name: sponsor.name,
+        url: sponsor.url,
 
         // Add this for a better type completion.
         exhibitorId: null,
@@ -65,18 +65,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     });
   }
 
-  const exhibitorUrl = partner.exhibitor.links[0];
+  const exhibitorUrl = sponsor.exhibitor.links[0];
 
   if (exhibitorUrl == null) {
     throw notFound();
   }
 
   return json({
-    partner: {
-      ...partner,
-      exhibitorId: partner.exhibitor.id,
-      logoPath: partner.exhibitor.logoPath,
-      name: partner.exhibitor.name,
+    sponsor: {
+      ...sponsor,
+      exhibitorId: sponsor.exhibitor.id,
+      logoPath: sponsor.exhibitor.logoPath,
+      name: sponsor.exhibitor.name,
       url: exhibitorUrl,
     },
   });
@@ -87,7 +87,7 @@ const RouteParamsSchema = zu.object({
 });
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [{ title: getPageTitle(data?.partner.name ?? getErrorTitle(404)) }];
+  return [{ title: getPageTitle(data?.sponsor.name ?? getErrorTitle(404)) }];
 };
 
 export function ErrorBoundary() {
@@ -115,11 +115,11 @@ export default function Route() {
 }
 
 export function Header() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Header.Root>
-      <PageLayout.Header.Title>{partner.name}</PageLayout.Header.Title>
+      <PageLayout.Header.Title>{sponsor.name}</PageLayout.Header.Title>
     </PageLayout.Header.Root>
   );
 }

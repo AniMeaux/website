@@ -122,11 +122,11 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
-    if (params.searchParams.partnershipCategories.size > 0) {
+    if (params.searchParams.sponsorshipCategories.size > 0) {
       where.push({
-        partnership: {
+        sponsorship: {
           category: {
-            in: Array.from(params.searchParams.partnershipCategories),
+            in: Array.from(params.searchParams.sponsorshipCategories),
           },
         },
       });

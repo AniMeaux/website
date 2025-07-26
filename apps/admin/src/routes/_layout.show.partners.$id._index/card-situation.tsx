@@ -4,7 +4,7 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { PartnershipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/partners/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -28,22 +28,22 @@ export function CardSituation() {
 }
 
 function ItemCategory() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
       Sponsor{" "}
       <strong className="text-body-emphasis">
-        {PartnershipCategory.translation[partner.category]}
+        {SponsorshipCategory.translation[sponsor.category]}
       </strong>
     </SimpleItem>
   );
 }
 
 function ItemExhibitor() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
-  if (partner.exhibitorId == null) {
+  if (sponsor.exhibitorId == null) {
     return null;
   }
 
@@ -52,7 +52,7 @@ function ItemExhibitor() {
       Est un{" "}
       <ProseInlineAction asChild>
         <BaseLink
-          to={Routes.show.exhibitors.id(partner.exhibitorId).toString()}
+          to={Routes.show.exhibitors.id(sponsor.exhibitorId).toString()}
         >
           Exposant
         </BaseLink>
@@ -62,17 +62,17 @@ function ItemExhibitor() {
 }
 
 function ItemVisibility() {
-  const { partner } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem
       icon={
         <VisibilityIcon
-          visibility={Visibility.fromBoolean(partner.isVisible)}
+          visibility={Visibility.fromBoolean(sponsor.isVisible)}
         />
       }
     >
-      {partner.isVisible ? (
+      {sponsor.isVisible ? (
         <>
           <strong className="text-body-emphasis">Est visible</strong> sur le
           site

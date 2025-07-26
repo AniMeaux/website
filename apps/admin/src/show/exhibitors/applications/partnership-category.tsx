@@ -1,55 +1,55 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import {
-  PartnershipCategory,
-  PartnershipCategoryIcon,
+  SponsorshipCategory,
+  SponsorshipCategoryIcon,
 } from "#show/partners/category";
-import { ShowExhibitorApplicationOtherPartnershipCategory } from "@prisma/client";
+import { ShowExhibitorApplicationOtherSponsorshipCategory } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 
-export namespace ApplicationPartnershipCategory {
+export namespace ApplicationSponsorshipCategory {
   export const Enum = {
-    ...PartnershipCategory.Enum,
-    ...ShowExhibitorApplicationOtherPartnershipCategory,
+    ...SponsorshipCategory.Enum,
+    ...ShowExhibitorApplicationOtherSponsorshipCategory,
   } as const;
 
   export type Enum = (typeof Enum)[keyof typeof Enum];
 
   export const translation: Record<Enum, string> = {
-    ...PartnershipCategory.translation,
+    ...SponsorshipCategory.translation,
 
     [Enum.MAYBE]: "J’aimerais étudier un peu plus la question",
-    [Enum.NO_PARTNERSHIP]: "Malheureusement ce n’est pas possible",
+    [Enum.NO_SPONSORSHIP]: "Malheureusement ce n’est pas possible",
   };
 
   export const values = [
-    ...PartnershipCategory.values,
+    ...SponsorshipCategory.values,
 
     Enum.MAYBE,
-    Enum.NO_PARTNERSHIP,
+    Enum.NO_SPONSORSHIP,
   ];
 
-  export function isPartnershipCategory(
-    category: PartnershipCategory.Enum | Enum,
-  ): category is PartnershipCategory.Enum {
-    return PartnershipCategory.values.includes(category);
+  export function isSponsorshipCategory(
+    category: SponsorshipCategory.Enum | Enum,
+  ): category is SponsorshipCategory.Enum {
+    return SponsorshipCategory.values.includes(category);
   }
 }
 
-export const ApplicationPartnershipCategoryIcon = forwardRef<
+export const ApplicationSponsorshipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
-    category: ApplicationPartnershipCategory.Enum;
+    category: ApplicationSponsorshipCategory.Enum;
     variant?: "light" | "solid";
   }
->(function ApplicationPartnershipCategoryIcon(
+>(function ApplicationSponsorshipCategoryIcon(
   { category, variant = "light", ...props },
   ref,
 ) {
-  if (ApplicationPartnershipCategory.isPartnershipCategory(category)) {
+  if (ApplicationSponsorshipCategory.isSponsorshipCategory(category)) {
     return (
-      <PartnershipCategoryIcon
+      <SponsorshipCategoryIcon
         {...props}
         category={category}
         variant={variant}
@@ -61,22 +61,22 @@ export const ApplicationPartnershipCategoryIcon = forwardRef<
     <span
       {...props}
       ref={ref}
-      title={ApplicationPartnershipCategory.translation[category]}
+      title={ApplicationSponsorshipCategory.translation[category]}
     >
-      <Icon href={APPLICATION_PARTNERSHIP_CATEGORY_ICON[category][variant]} />
+      <Icon href={APPLICATION_SPONSORSHIP_CATEGORY_ICON[category][variant]} />
     </span>
   );
 });
 
-const APPLICATION_PARTNERSHIP_CATEGORY_ICON: Record<
-  ShowExhibitorApplicationOtherPartnershipCategory,
+const APPLICATION_SPONSORSHIP_CATEGORY_ICON: Record<
+  ShowExhibitorApplicationOtherSponsorshipCategory,
   { solid: IconName; light: IconName }
 > = {
-  [ApplicationPartnershipCategory.Enum.MAYBE]: {
+  [ApplicationSponsorshipCategory.Enum.MAYBE]: {
     light: "icon-award-question-light",
     solid: "icon-award-question-solid",
   },
-  [ApplicationPartnershipCategory.Enum.NO_PARTNERSHIP]: {
+  [ApplicationSponsorshipCategory.Enum.NO_SPONSORSHIP]: {
     light: "icon-award-slash-light",
     solid: "icon-award-slash-solid",
   },

@@ -9,7 +9,7 @@ import { CardContact } from "./card-contact";
 import { CardDiscoverySource } from "./card-discovery-source";
 import { CardMotivation } from "./card-motivation";
 import { CardParticipation } from "./card-participation";
-import { CardPartnership } from "./card-partnership";
+import { CardSponsorship } from "./card-partnership";
 import { CardSituation } from "./card-situation";
 import { CardSituationRefusalMessage } from "./card-situation-refusal-message";
 import { CardStructure } from "./card-structure";
@@ -57,7 +57,7 @@ export default function Route() {
         <CardComments />
 
         <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
-          <CardPartnership />
+          <CardSponsorship />
           <CardDiscoverySource />
         </div>
 

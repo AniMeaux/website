@@ -5,17 +5,17 @@ import { ControlledInput } from "#core/form-elements/controlled-input";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
 import {
-  PartnershipCategory,
-  PartnershipCategoryIcon,
+  SponsorshipCategory,
+  SponsorshipCategoryIcon,
 } from "#show/partners/category";
 import {
-  PartnerSearchParams,
-  PartnerSearchParamsN,
+  SponsorSearchParams,
+  SponsorSearchParamsN,
 } from "#show/partners/search-params";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
-export function PartnerFilters() {
+export function SponsorFilters() {
   return (
     <Filters>
       <Filters.Actions>
@@ -38,39 +38,39 @@ export function PartnerFilters() {
 
 function FilterCategory() {
   const [searchParams] = useOptimisticSearchParams();
-  const partnerSearchParams = PartnerSearchParams.parse(searchParams);
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={PartnerSearchParams.keys.categories}
+      value={SponsorSearchParams.keys.categories}
       label="Catégorie de sponsor"
-      count={partnerSearchParams.categories.size}
-      hiddenContent={Array.from(partnerSearchParams.categories).map(
+      count={sponsorSearchParams.categories.size}
+      hiddenContent={Array.from(sponsorSearchParams.categories).map(
         (category) => (
           <input
             key={category}
             type="hidden"
-            name={PartnerSearchParams.keys.categories}
+            name={SponsorSearchParams.keys.categories}
             value={category}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {PartnershipCategory.values.map((category) => (
+        {SponsorshipCategory.values.map((category) => (
           <ToggleInput
             key={category}
             type="checkbox"
-            label={PartnershipCategory.translation[category]}
-            name={PartnerSearchParams.keys.categories}
+            label={SponsorshipCategory.translation[category]}
+            name={SponsorSearchParams.keys.categories}
             value={category}
             icon={
-              <PartnershipCategoryIcon category={category} variant="light" />
+              <SponsorshipCategoryIcon category={category} variant="light" />
             }
             iconChecked={
-              <PartnershipCategoryIcon category={category} variant="solid" />
+              <SponsorshipCategoryIcon category={category} variant="solid" />
             }
-            checked={partnerSearchParams.categories.has(category)}
+            checked={sponsorSearchParams.categories.has(category)}
             onChange={() => {}}
           />
         ))}
@@ -81,43 +81,43 @@ function FilterCategory() {
 
 function FilterExhibitor() {
   const [searchParams] = useOptimisticSearchParams();
-  const partnerSearchParams = PartnerSearchParams.parse(searchParams);
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={PartnerSearchParams.keys.exhibitor}
+      value={SponsorSearchParams.keys.exhibitor}
       label="Exposant"
-      count={partnerSearchParams.exhibitor.size}
-      hiddenContent={Array.from(partnerSearchParams.exhibitor).map(
+      count={sponsorSearchParams.exhibitor.size}
+      hiddenContent={Array.from(sponsorSearchParams.exhibitor).map(
         (exhibitor) => (
           <input
             key={exhibitor}
             type="hidden"
-            name={PartnerSearchParams.keys.exhibitor}
+            name={SponsorSearchParams.keys.exhibitor}
             value={exhibitor}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {PartnerSearchParamsN.Exhibitor.values.map((exhibitor) => (
+        {SponsorSearchParamsN.Exhibitor.values.map((exhibitor) => (
           <ToggleInput
             key={exhibitor}
             type="checkbox"
-            label={PartnerSearchParamsN.Exhibitor.translation[exhibitor]}
-            name={PartnerSearchParams.keys.exhibitor}
+            label={SponsorSearchParamsN.Exhibitor.translation[exhibitor]}
+            name={SponsorSearchParams.keys.exhibitor}
             value={exhibitor}
             icon={
               <Icon
-                href={PartnerSearchParamsN.Exhibitor.icon[exhibitor].light}
+                href={SponsorSearchParamsN.Exhibitor.icon[exhibitor].light}
               />
             }
             iconChecked={
               <Icon
-                href={PartnerSearchParamsN.Exhibitor.icon[exhibitor].solid}
+                href={SponsorSearchParamsN.Exhibitor.icon[exhibitor].solid}
               />
             }
-            checked={partnerSearchParams.exhibitor.has(exhibitor)}
+            checked={sponsorSearchParams.exhibitor.has(exhibitor)}
             onChange={() => {}}
           />
         ))}
@@ -128,35 +128,35 @@ function FilterExhibitor() {
 
 function FilterName() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const partnerSearchParams = PartnerSearchParams.parse(searchParams);
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={PartnerSearchParams.keys.name}
+      value={SponsorSearchParams.keys.name}
       label="Nom"
-      count={partnerSearchParams.name == null ? 0 : 1}
+      count={sponsorSearchParams.name == null ? 0 : 1}
       hiddenContent={
-        partnerSearchParams.name != null ? (
+        sponsorSearchParams.name != null ? (
           <input
             type="hidden"
-            name={PartnerSearchParams.keys.name}
-            value={partnerSearchParams.name}
+            name={SponsorSearchParams.keys.name}
+            value={sponsorSearchParams.name}
           />
         ) : null
       }
     >
       <ControlledInput
-        name={PartnerSearchParams.keys.name}
-        value={partnerSearchParams.name ?? ""}
+        name={SponsorSearchParams.keys.name}
+        value={sponsorSearchParams.name ?? ""}
         rightAdornment={
-          partnerSearchParams.name != null ? (
+          sponsorSearchParams.name != null ? (
             <ControlledInput.ActionAdornment
               onClick={() =>
                 setSearchParams((searchParams) => {
-                  return PartnerSearchParams.set(
+                  return SponsorSearchParams.set(
                     searchParams,
-                    (partnerSearchParams) => ({
-                      ...partnerSearchParams,
+                    (sponsorSearchParams) => ({
+                      ...sponsorSearchParams,
                       name: undefined,
                     }),
                   );
@@ -174,19 +174,19 @@ function FilterName() {
 
 function FilterVisibility() {
   const [searchParams] = useOptimisticSearchParams();
-  const partnerSearchParams = PartnerSearchParams.parse(searchParams);
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={PartnerSearchParams.keys.visibility}
+      value={SponsorSearchParams.keys.visibility}
       label="Visibilité"
-      count={partnerSearchParams.visibility.size}
-      hiddenContent={Array.from(partnerSearchParams.visibility).map(
+      count={sponsorSearchParams.visibility.size}
+      hiddenContent={Array.from(sponsorSearchParams.visibility).map(
         (visibility) => (
           <input
             key={visibility}
             type="hidden"
-            name={PartnerSearchParams.keys.visibility}
+            name={SponsorSearchParams.keys.visibility}
             value={visibility}
           />
         ),
@@ -198,13 +198,13 @@ function FilterVisibility() {
             key={visibility}
             type="checkbox"
             label={Visibility.translation[visibility]}
-            name={PartnerSearchParams.keys.visibility}
+            name={SponsorSearchParams.keys.visibility}
             value={visibility}
             icon={<VisibilityIcon variant="light" visibility={visibility} />}
             iconChecked={
               <VisibilityIcon variant="solid" visibility={visibility} />
             }
-            checked={partnerSearchParams.visibility.has(visibility)}
+            checked={sponsorSearchParams.visibility.has(visibility)}
             onChange={() => {}}
           />
         ))}

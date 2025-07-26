@@ -1,4 +1,4 @@
-import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
+import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/partnership-category";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
@@ -11,7 +11,7 @@ export const ApplicationSearchParams = SearchParamsIO.create({
   keys: {
     fields: "fi",
     name: "q",
-    partnershipCategories: "pc",
+    sponsorshipCategories: "pc",
     sort: "sort",
     statuses: "st",
     targets: "ta",
@@ -21,9 +21,9 @@ export const ApplicationSearchParams = SearchParamsIO.create({
     return SearchParamsSchema.parse({
       fields: SearchParamsIO.getValues(searchParams, keys.fields),
       name: SearchParamsIO.getValue(searchParams, keys.name),
-      partnershipCategories: SearchParamsIO.getValues(
+      sponsorshipCategories: SearchParamsIO.getValues(
         searchParams,
-        keys.partnershipCategories,
+        keys.sponsorshipCategories,
       ),
       sort: SearchParamsIO.getValue(searchParams, keys.sort),
       statuses: SearchParamsIO.getValues(searchParams, keys.statuses),
@@ -36,8 +36,8 @@ export const ApplicationSearchParams = SearchParamsIO.create({
     SearchParamsIO.setValue(searchParams, keys.name, data.name);
     SearchParamsIO.setValues(
       searchParams,
-      keys.partnershipCategories,
-      data.partnershipCategories,
+      keys.sponsorshipCategories,
+      data.sponsorshipCategories,
     );
     SearchParamsIO.setValue(searchParams, keys.sort, data.sort);
     SearchParamsIO.setValues(searchParams, keys.statuses, data.statuses);
@@ -59,12 +59,12 @@ export namespace ApplicationSearchParamsN {
 const SearchParamsSchema = zu.object({
   fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
   name: zu.searchParams.string(),
-  partnershipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ApplicationPartnershipCategory.Enum),
-  ),
   sort: zu.searchParams
     .nativeEnum(ApplicationSearchParamsN.Sort)
     .default(ApplicationSearchParamsN.DEFAULT_SORT),
+  sponsorshipCategories: zu.searchParams.set(
+    zu.searchParams.nativeEnum(ApplicationSponsorshipCategory.Enum),
+  ),
   statuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowExhibitorApplicationStatus),
   ),
