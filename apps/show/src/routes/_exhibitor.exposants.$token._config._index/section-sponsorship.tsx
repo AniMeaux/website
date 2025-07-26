@@ -5,7 +5,7 @@ import { LightBoardCard } from "#core/layout/light-board-card";
 import {
   SPONSORSHIP_CATEGORY_TRANSLATION,
   SponsorshipCategoryDescription,
-} from "#exhibitors/partnership/category";
+} from "#exhibitors/sponsorship/category";
 import { ShowExhibitorApplicationOtherSponsorshipCategory } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";

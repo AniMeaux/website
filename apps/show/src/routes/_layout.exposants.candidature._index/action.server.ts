@@ -5,7 +5,7 @@ import { services } from "#core/services/services.server";
 import { ApplicationEmails } from "#exhibitors/application/emails.server";
 import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
 import { ServiceApplication } from "#exhibitors/application/service.server";
-import { isSponsorshipCategory } from "#exhibitors/partnership/category";
+import { isSponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { catchError } from "@animeaux/core";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";

@@ -1,8 +1,8 @@
 import { ServiceAnimation } from "#animations/service.server.js";
 import type { Services } from "#core/services/service.server";
 import { ServiceExhibitor } from "#exhibitors/service.server";
-import { ServiceSponsor } from "#partners/service.server";
 import { ServiceProvider } from "#providers/service.server";
+import { ServiceSponsor } from "#sponsors/service.server";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import {
   FileStorageGoogleDrive,

@@ -7,7 +7,7 @@ import {
   SORTED_SPONSORSHIP_CATEGORIES,
   SPONSORSHIP_CATEGORY_TRANSLATION,
   SponsorshipCategoryDescription,
-} from "#exhibitors/partnership/category";
+} from "#exhibitors/sponsorship/category";
 import { getCollectionProps } from "@conform-to/react";
 import type {
   ShowExhibitorApplicationOtherSponsorshipCategory,

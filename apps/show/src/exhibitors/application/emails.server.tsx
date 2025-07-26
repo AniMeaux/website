@@ -12,7 +12,7 @@ import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
 import {
   EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION,
   SPONSORSHIP_CATEGORY_TRANSLATION,
-} from "#exhibitors/partnership/category";
+} from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";

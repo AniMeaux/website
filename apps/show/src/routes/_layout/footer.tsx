@@ -4,8 +4,8 @@ import { Footer } from "#core/layout/footer";
 import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { ShowDay } from "#core/show-day";
-import { SponsorItem } from "#partners/item";
-import { SponsorsPlaceholderImage } from "#partners/placeholder-image";
+import { SponsorItem } from "#sponsors/item.js";
+import { SponsorsPlaceholderImage } from "#sponsors/placeholder-image.js";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
