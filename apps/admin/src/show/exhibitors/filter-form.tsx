@@ -239,7 +239,7 @@ function FilterPartnership() {
   return (
     <Filters.Filter
       value={ExhibitorSearchParams.keys.partnershipCategories}
-      label="Catégorie de partenariat"
+      label="Catégorie de sponsor"
       count={exhibitorSearchParams.partnershipCategories.size}
       hiddenContent={Array.from(
         exhibitorSearchParams.partnershipCategories,

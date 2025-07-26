@@ -132,7 +132,7 @@ function ItemPartnership() {
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
-      Partenaire{" "}
+      Sponsor{" "}
       <ProseInlineAction asChild>
         <BaseLink to={Routes.show.partners.id(partner.id).toString()}>
           {PartnershipCategory.translation[partner.category]}

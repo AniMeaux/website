@@ -32,7 +32,7 @@ function ItemCategory() {
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
-      Partenaire{" "}
+      Sponsor{" "}
       <strong className="text-body-emphasis">
         {PartnershipCategory.translation[partner.category]}
       </strong>

@@ -17,7 +17,7 @@ export function CardList() {
     <Card>
       <Card.Header>
         <Card.Title>
-          {totalCount} {totalCount > 1 ? "partenaires" : "partenaire"}
+          {totalCount} {totalCount > 1 ? "sponsors" : "sponsor"}
         </Card.Title>
       </Card.Header>
 
@@ -33,7 +33,7 @@ export function CardList() {
             isCompact
             icon="🏅"
             iconAlt="Médaille"
-            title="Aucun partenaire trouvé"
+            title="Aucun sponsor trouvé"
             message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
             titleElementType="h3"
             action={

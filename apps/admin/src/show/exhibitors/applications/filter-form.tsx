@@ -242,7 +242,7 @@ export function ApplicationFilters() {
 
         <Filters.Filter
           value={ApplicationSearchParams.keys.partnershipCategories}
-          label="Catégorie de partenariat"
+          label="Catégorie de sponsor"
           count={applicationSearchParams.partnershipCategories.size}
           hiddenContent={Array.from(
             applicationSearchParams.partnershipCategories,

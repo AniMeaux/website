@@ -20,7 +20,7 @@ export function CardPartnership() {
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Partenariat</Card.Title>
+        <Card.Title>Sponsor</Card.Title>
       </Card.Header>
 
       <Card.Content>

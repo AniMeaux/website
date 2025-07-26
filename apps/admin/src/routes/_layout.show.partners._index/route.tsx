@@ -94,7 +94,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 const PARTNER_COUNT_PER_PAGE = 20;
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Partenaires") }];
+  return [{ title: getPageTitle("Sponsors") }];
 };
 
 export default function Route() {
