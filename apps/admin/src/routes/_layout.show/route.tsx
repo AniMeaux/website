@@ -32,7 +32,7 @@ export default function Route() {
           Exposants
         </PageLayout.Tab>
 
-        <PageLayout.Tab isNavLink to={Routes.show.partners.toString()}>
+        <PageLayout.Tab isNavLink to={Routes.show.sponsors.toString()}>
           Sponsors
         </PageLayout.Tab>
       </PageLayout.Tabs>

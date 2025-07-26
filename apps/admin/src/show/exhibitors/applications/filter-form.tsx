@@ -10,13 +10,13 @@ import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
 import {
-  ApplicationSponsorshipCategory,
-  ApplicationSponsorshipCategoryIcon,
-} from "#show/exhibitors/applications/partnership-category";
-import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params";
+import {
+  ApplicationSponsorshipCategory,
+  ApplicationSponsorshipCategoryIcon,
+} from "#show/exhibitors/applications/sponsorship-category";
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,

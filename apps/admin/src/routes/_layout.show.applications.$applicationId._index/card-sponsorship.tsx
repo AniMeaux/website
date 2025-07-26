@@ -3,7 +3,7 @@ import { Card } from "#core/layout/card";
 import {
   ApplicationSponsorshipCategory,
   ApplicationSponsorshipCategoryIcon,
-} from "#show/exhibitors/applications/partnership-category";
+} from "#show/exhibitors/applications/sponsorship-category";
 
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";

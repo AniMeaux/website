@@ -3,7 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
-import { SponsorSearchParams } from "#show/partners/search-params";
+import { SponsorSearchParams } from "#show/sponsors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { SponsorItem } from "./item";

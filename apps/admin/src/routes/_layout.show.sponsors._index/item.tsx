@@ -1,7 +1,7 @@
 import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
-import { SponsorshipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { ImageUrl } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
@@ -14,7 +14,7 @@ export function SponsorItem({
 }) {
   return (
     <BaseLink
-      to={Routes.show.partners.id(sponsor.id).toString()}
+      to={Routes.show.sponsors.id(sponsor.id).toString()}
       className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
     >
       <DynamicImage

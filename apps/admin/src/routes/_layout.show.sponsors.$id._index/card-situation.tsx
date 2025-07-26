@@ -4,7 +4,7 @@ import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { SponsorshipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";

@@ -3,7 +3,7 @@ import { Icon } from "#generated/icon";
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#show/partners/category";
+} from "#show/sponsors/category";
 import { ShowExhibitorApplicationOtherSponsorshipCategory } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";

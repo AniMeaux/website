@@ -130,11 +130,11 @@ export const Routes = {
       }),
     },
 
-    partners: {
-      toString: () => "/show/partners" as const,
+    sponsors: {
+      toString: () => "/show/sponsors" as const,
 
       id: (id: string) => ({
-        toString: () => `/show/partners/${id}` as const,
+        toString: () => `/show/sponsors/${id}` as const,
       }),
     },
   },

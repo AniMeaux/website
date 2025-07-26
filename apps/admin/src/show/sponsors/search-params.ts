@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon.js";
-import { SponsorshipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";

@@ -9,7 +9,7 @@ import {
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import { Payment, PaymentIcon } from "#show/exhibitors/payment";
-import { SponsorshipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
@@ -134,7 +134,7 @@ function ItemSponsorship() {
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
       Sponsor{" "}
       <ProseInlineAction asChild>
-        <BaseLink to={Routes.show.partners.id(sponsor.id).toString()}>
+        <BaseLink to={Routes.show.sponsors.id(sponsor.id).toString()}>
           {SponsorshipCategory.translation[sponsor.category]}
         </BaseLink>
       </ProseInlineAction>

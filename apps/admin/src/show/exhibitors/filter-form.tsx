@@ -27,7 +27,7 @@ import { ExhibitorStatus } from "#show/exhibitors/status";
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#show/partners/category";
+} from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

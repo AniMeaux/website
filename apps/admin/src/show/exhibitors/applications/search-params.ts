@@ -1,4 +1,4 @@
-import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/partnership-category";
+import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/sponsorship-category";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {

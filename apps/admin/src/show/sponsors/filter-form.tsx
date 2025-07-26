@@ -7,11 +7,11 @@ import { Icon } from "#generated/icon";
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#show/partners/category";
+} from "#show/sponsors/category";
 import {
   SponsorSearchParams,
   SponsorSearchParamsN,
-} from "#show/partners/search-params";
+} from "#show/sponsors/search-params";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

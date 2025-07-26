@@ -1,6 +1,6 @@
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
-import { SponsorSearchParamsN } from "#show/partners/search-params";
+import { SponsorSearchParamsN } from "#show/sponsors/search-params";
 import { Visibility } from "#show/visibility";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
