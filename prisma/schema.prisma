@@ -319,8 +319,8 @@ model ShowExhibitorApplication {
   desiredStandSize                ShowStandSize
   proposalForOnStageEntertainment String?       @db.VarChar(512)
 
-  partnershipCategory      ShowPartnershipCategory?
-  otherPartnershipCategory ShowExhibitorApplicationOtherPartnershipCategory?
+  sponsorshipCategory      ShowSponsorshipCategory?
+  otherSponsorshipCategory ShowExhibitorApplicationOtherSponsorshipCategory?
 
   motivation String @db.VarChar(1000)
 
@@ -338,9 +338,9 @@ enum ShowExhibitorApplicationStatus {
   WAITING_LIST
 }
 
-enum ShowExhibitorApplicationOtherPartnershipCategory {
+enum ShowExhibitorApplicationOtherSponsorshipCategory {
   MAYBE
-  NO_PARTNERSHIP
+  NO_SPONSORSHIP
 }
 
 enum ShowExhibitorApplicationLegalStatus {
@@ -363,7 +363,7 @@ model ShowExhibitor {
   application   ShowExhibitorApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   applicationId String                   @unique @db.Uuid
 
-  partnership ShowPartner?
+  sponsorship ShowSponsor?
   animations  ShowAnimation[]
 
   // -- Profile ----------------------------------------------------------------
@@ -465,13 +465,13 @@ model ShowProvider {
   url      String @unique @db.VarChar(128)
 }
 
-model ShowPartner {
+model ShowSponsor {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   isVisible Boolean  @default(false)
 
-  category ShowPartnershipCategory
+  category ShowSponsorshipCategory
 
   // Either an exhibitor...
   exhibitor   ShowExhibitor? @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
@@ -483,7 +483,7 @@ model ShowPartner {
   url      String? @unique @db.VarChar(128)
 }
 
-enum ShowPartnershipCategory {
+enum ShowSponsorshipCategory {
   POLLEN
   BRONZE
   SILVER
