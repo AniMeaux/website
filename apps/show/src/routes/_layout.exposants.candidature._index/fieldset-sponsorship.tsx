@@ -1,18 +1,8 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
-import {
-  EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION,
-  SORTED_EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORIES,
-  SORTED_SPONSORSHIP_CATEGORIES,
-  SPONSORSHIP_CATEGORY_TRANSLATION,
-  SponsorshipCategoryDescription,
-} from "#exhibitors/sponsorship/category";
+import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { getCollectionProps } from "@conform-to/react";
-import type {
-  ShowExhibitorApplicationOtherSponsorshipCategory,
-  ShowSponsorshipCategory,
-} from "@prisma/client";
 import { FieldsetId, useFieldsets } from "./form";
 
 export function FieldsetSponsorship() {
@@ -48,53 +38,27 @@ function FieldSponsorshipCategory() {
 
   return (
     <FormLayout.Field>
-      <FormLayout.Label>Catégorie de sponsor</FormLayout.Label>
+      <FormLayout.Label>Catégorie</FormLayout.Label>
 
       <FormLayout.Selectors columnMinWidth="100%">
         {getCollectionProps(field, {
           type: "radio",
-          options: SORTED_SPONSORSHIP_CATEGORIES,
+          options: SponsorshipCategory.values,
         }).map((props) => {
-          const category = props.value as ShowSponsorshipCategory;
+          const category = props.value as SponsorshipCategory.Enum;
 
           return (
             <FormLayout.Selector.Root key={props.key}>
               <FormLayout.Selector.Input {...props} key={props.key} />
 
               <FormLayout.Selector.Label className="grid grid-cols-1 gap-1">
-                <strong className="text-body-lowercase-emphasis">
-                  {SPONSORSHIP_CATEGORY_TRANSLATION[category]}
-                </strong>
-
-                <SponsorshipCategoryDescription
-                  category={category}
-                  className="text-caption-lowercase-default"
-                />
+                {SponsorshipCategory.translation[category]}
               </FormLayout.Selector.Label>
 
               <FormLayout.Selector.RadioIcon />
             </FormLayout.Selector.Root>
           );
         })}
-
-        {getCollectionProps(field, {
-          type: "radio",
-          options: SORTED_EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORIES,
-        }).map((props) => (
-          <FormLayout.Selector.Root key={props.key}>
-            <FormLayout.Selector.Input {...props} key={props.key} />
-
-            <FormLayout.Selector.Label>
-              {
-                EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION[
-                  props.value as ShowExhibitorApplicationOtherSponsorshipCategory
-                ]
-              }
-            </FormLayout.Selector.Label>
-
-            <FormLayout.Selector.RadioIcon />
-          </FormLayout.Selector.Root>
-        ))}
       </FormLayout.Selectors>
 
       <FieldErrorHelper field={field} />

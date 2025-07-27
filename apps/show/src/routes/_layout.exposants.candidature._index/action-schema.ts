@@ -1,5 +1,6 @@
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
 import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
+import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
 import {
   IMAGE_SIZE_LIMIT_B,
@@ -10,8 +11,6 @@ import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationLegalStatus,
-  ShowExhibitorApplicationOtherSponsorshipCategory,
-  ShowSponsorshipCategory,
   ShowStandSize,
 } from "@prisma/client";
 
@@ -168,13 +167,9 @@ export const ActionSchema = zu
       ),
     }),
 
-    sponsorshipCategory: zu.union(
-      [
-        zu.nativeEnum(ShowSponsorshipCategory),
-        zu.nativeEnum(ShowExhibitorApplicationOtherSponsorshipCategory),
-      ],
-      { required_error: "Veuillez choisir une option" },
-    ),
+    sponsorshipCategory: zu.nativeEnum(SponsorshipCategory.Enum, {
+      required_error: "Veuillez choisir une option",
+    }),
 
     comments: zu.object({
       motivation: zu.preprocess(
