@@ -42,6 +42,7 @@ export function FieldsetSponsorship() {
 function FieldSponsorshipCategory() {
   const { fieldsets } = useFieldsets();
   const field = fieldsets.sponsorshipCategory;
+  const value = field.value as undefined | SponsorshipCategory.Enum;
 
   return (
     <FormLayout.Field>
@@ -69,6 +70,14 @@ function FieldSponsorshipCategory() {
       </FormLayout.Selectors>
 
       <FieldErrorHelper field={field} />
+
+      {field.errors == null && value != null ? (
+        <FormLayout.Helper id={field.descriptionId}>
+          {value === SponsorshipCategory.Enum.NO_SPONSORSHIP
+            ? "En devenant sponsor vous avez plus de chance d’être exposant"
+            : "En choisissant d’être sponsor vous vous engagez à payer"}
+        </FormLayout.Helper>
+      ) : null}
     </FormLayout.Field>
   );
 }
