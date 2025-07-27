@@ -31,6 +31,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         createdAt: true,
         desiredStandSize: true,
         discoverySource: true,
+        discoverySourceOther: true,
         id: true,
         motivation: true,
         sponsorshipCategory: true,
