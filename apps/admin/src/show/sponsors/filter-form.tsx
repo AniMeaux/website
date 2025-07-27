@@ -43,7 +43,7 @@ function FilterCategory() {
   return (
     <Filters.Filter
       value={SponsorSearchParams.keys.categories}
-      label="Catégorie de sponsor"
+      label="Catégorie"
       count={sponsorSearchParams.categories.size}
       hiddenContent={Array.from(sponsorSearchParams.categories).map(
         (category) => (

@@ -46,6 +46,7 @@ export function getClientEnv() {
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
+    SPONSORSHIP_URL: process.env.SPONSORSHIP_URL,
     TICKETING_URL: process.env.TICKETING_URL,
   };
 }
@@ -108,6 +109,7 @@ const ProcessEnvSchema = zu
       // sure the type remains string and not number.
       .transform((value) => String(value))
       .optional(),
+    SPONSORSHIP_URL: zu.string().optional(),
     TICKETING_URL: zu.string(),
   })
   .refine(

@@ -18,10 +18,34 @@ export namespace SponsorshipCategory {
   export const values = [Enum.POLLEN, Enum.BRONZE, Enum.SILVER, Enum.GOLD];
 }
 
+export namespace SponsorshipOptionalCategory {
+  export const Enum = {
+    ...SponsorshipCategory.Enum,
+    NO_SPONSORSHIP: "NO_SPONSORSHIP",
+  } as const;
+
+  export type Enum = (typeof Enum)[keyof typeof Enum];
+
+  export const translation: Record<Enum, string> = {
+    ...SponsorshipCategory.translation,
+    [Enum.NO_SPONSORSHIP]: "Malheureusement ce n’est pas possible",
+  };
+
+  export const values = [...SponsorshipCategory.values, Enum.NO_SPONSORSHIP];
+
+  export function toDb(category: Enum): undefined | ShowSponsorshipCategory {
+    return category === Enum.NO_SPONSORSHIP ? undefined : category;
+  }
+
+  export function fromDb(category: null | ShowSponsorshipCategory): Enum {
+    return category == null ? Enum.NO_SPONSORSHIP : category;
+  }
+}
+
 export const SponsorshipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
-    category: SponsorshipCategory.Enum;
+    category: SponsorshipOptionalCategory.Enum;
     variant?: "light" | "solid";
   }
 >(function SponsorshipCategoryIcon(
@@ -32,7 +56,7 @@ export const SponsorshipCategoryIcon = forwardRef<
     <span
       {...props}
       ref={ref}
-      title={SponsorshipCategory.translation[category]}
+      title={SponsorshipOptionalCategory.translation[category]}
     >
       <Icon href={SPONSORSHIP_CATEGORY_ICON[category][variant]} />
     </span>
@@ -40,23 +64,27 @@ export const SponsorshipCategoryIcon = forwardRef<
 });
 
 const SPONSORSHIP_CATEGORY_ICON: Record<
-  SponsorshipCategory.Enum,
+  SponsorshipOptionalCategory.Enum,
   { solid: IconName; light: IconName }
 > = {
-  [SponsorshipCategory.Enum.POLLEN]: {
+  [SponsorshipOptionalCategory.Enum.POLLEN]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [SponsorshipCategory.Enum.BRONZE]: {
+  [SponsorshipOptionalCategory.Enum.BRONZE]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [SponsorshipCategory.Enum.SILVER]: {
+  [SponsorshipOptionalCategory.Enum.SILVER]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [SponsorshipCategory.Enum.GOLD]: {
+  [SponsorshipOptionalCategory.Enum.GOLD]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
+  },
+  [SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP]: {
+    light: "icon-award-slash-light",
+    solid: "icon-award-slash-solid",
   },
 };

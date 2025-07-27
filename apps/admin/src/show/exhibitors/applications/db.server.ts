@@ -4,11 +4,10 @@ import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
-import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/sponsorship-category";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import type { ShowExhibitor, ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
-import partition from "lodash.partition";
 import { promiseHash } from "remix-utils/promise";
 
 export class MissingRefusalMessageError extends Error {}
@@ -55,17 +54,30 @@ export class ShowExhibitorApplicationDbDelegate {
     const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
 
     if (params.searchParams.sponsorshipCategories.size > 0) {
-      const [sponsorshipCategories, otherSponsorshipCategories] = partition(
-        Array.from(params.searchParams.sponsorshipCategories),
-        ApplicationSponsorshipCategory.isSponsorshipCategory,
-      );
+      const sponsorshipCategoryWhere: Prisma.ShowExhibitorApplicationWhereInput[] =
+        [];
 
-      where.push({
-        OR: [
-          { sponsorshipCategory: { in: sponsorshipCategories } },
-          { otherSponsorshipCategory: { in: otherSponsorshipCategories } },
-        ],
-      });
+      if (
+        params.searchParams.sponsorshipCategories.has(
+          SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP,
+        )
+      ) {
+        sponsorshipCategoryWhere.push({ sponsorshipCategory: null });
+      }
+
+      const sponsorshipCategories = Array.from(
+        params.searchParams.sponsorshipCategories,
+      )
+        .map(SponsorshipOptionalCategory.toDb)
+        .filter(Boolean);
+
+      if (sponsorshipCategories.length > 0) {
+        sponsorshipCategoryWhere.push({
+          sponsorshipCategory: { in: sponsorshipCategories },
+        });
+      }
+
+      where.push({ OR: sponsorshipCategoryWhere });
     }
 
     if (params.searchParams.name != null) {

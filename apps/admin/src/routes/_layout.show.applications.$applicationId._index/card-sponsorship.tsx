@@ -1,21 +1,14 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import {
-  ApplicationSponsorshipCategory,
-  ApplicationSponsorshipCategoryIcon,
-} from "#show/exhibitors/applications/sponsorship-category";
-
+  SponsorshipCategoryIcon,
+  SponsorshipOptionalCategory,
+} from "#show/sponsors/category";
 import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
 import type { loader } from "./loader.server";
 
 export function CardSponsorship() {
   const { application } = useLoaderData<typeof loader>();
-
-  const category =
-    application.sponsorshipCategory ?? application.otherSponsorshipCategory;
-
-  invariant(category != null, "A category should exist");
 
   return (
     <Card>
@@ -27,9 +20,17 @@ export function CardSponsorship() {
         <ItemList>
           <SimpleItem
             isLightIcon
-            icon={<ApplicationSponsorshipCategoryIcon category={category} />}
+            icon={
+              <SponsorshipCategoryIcon
+                category={application.sponsorshipCategory}
+              />
+            }
           >
-            {ApplicationSponsorshipCategory.translation[category]}
+            {
+              SponsorshipOptionalCategory.translation[
+                application.sponsorshipCategory
+              ]
+            }
           </SimpleItem>
         </ItemList>
       </Card.Content>

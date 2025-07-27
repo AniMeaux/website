@@ -319,8 +319,7 @@ model ShowExhibitorApplication {
   desiredStandSize                ShowStandSize
   proposalForOnStageEntertainment String?       @db.VarChar(512)
 
-  sponsorshipCategory      ShowSponsorshipCategory?
-  otherSponsorshipCategory ShowExhibitorApplicationOtherSponsorshipCategory?
+  sponsorshipCategory ShowSponsorshipCategory?
 
   motivation String @db.VarChar(1000)
 
@@ -336,11 +335,6 @@ enum ShowExhibitorApplicationStatus {
   REFUSED
   VALIDATED
   WAITING_LIST
-}
-
-enum ShowExhibitorApplicationOtherSponsorshipCategory {
-  MAYBE
-  NO_SPONSORSHIP
 }
 
 enum ShowExhibitorApplicationLegalStatus {

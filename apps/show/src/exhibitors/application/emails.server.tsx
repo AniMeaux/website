@@ -9,10 +9,7 @@ import { services } from "#core/services/services.server";
 import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
-import {
-  EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION,
-  SPONSORSHIP_CATEGORY_TRANSLATION,
-} from "#exhibitors/sponsorship/category";
+import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
@@ -247,20 +244,14 @@ export namespace ApplicationEmails {
 
           <EmailHtml.Output.Table>
             <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Catégorie de sponsor
-              </EmailHtml.Output.Label>
+              <EmailHtml.Output.Label>Catégorie</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.sponsorshipCategory != null
-                  ? SPONSORSHIP_CATEGORY_TRANSLATION[
-                      application.sponsorshipCategory
-                    ]
-                  : application.otherSponsorshipCategory != null
-                    ? EXHIBITOR_APPLICATION_OTHER_SPONSORSHIP_CATEGORY_TRANSLATION[
-                        application.otherSponsorshipCategory
-                      ]
-                    : null}
+                {
+                  SponsorshipCategory.translation[
+                    SponsorshipCategory.fromDb(application.sponsorshipCategory)
+                  ]
+                }
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>

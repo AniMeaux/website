@@ -25,8 +25,8 @@ import {
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import {
-  SponsorshipCategory,
   SponsorshipCategoryIcon,
+  SponsorshipOptionalCategory,
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
@@ -253,11 +253,11 @@ function FilterSponsorship() {
       ))}
     >
       <ToggleInputList>
-        {SponsorshipCategory.values.map((category) => (
+        {SponsorshipOptionalCategory.values.map((category) => (
           <ToggleInput
             key={category}
             type="checkbox"
-            label={SponsorshipCategory.translation[category]}
+            label={SponsorshipOptionalCategory.translation[category]}
             name={ExhibitorSearchParams.keys.sponsorshipCategories}
             value={category}
             icon={
