@@ -17,7 +17,6 @@ import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationLegalStatus,
-  ShowExhibitorApplicationOtherSponsorshipCategory,
   ShowExhibitorApplicationStatus,
   ShowExhibitorStatus,
   ShowSponsorshipCategory,
@@ -519,12 +518,6 @@ async function seedShowExhibitorApplications() {
         { probability: 9 / 10 },
       );
 
-      const sponsorshipCategory = faker.helpers.maybe(
-        () =>
-          faker.helpers.arrayElement(Object.values(ShowSponsorshipCategory)),
-        { probability: 1 / 6 },
-      );
-
       return {
         status,
         refusalMessage:
@@ -569,13 +562,11 @@ async function seedShowExhibitorApplications() {
           { probability: 1 / 10 },
         ),
 
-        sponsorshipCategory,
-        otherSponsorshipCategory:
-          sponsorshipCategory == null
-            ? faker.helpers.arrayElement(
-                Object.values(ShowExhibitorApplicationOtherSponsorshipCategory),
-              )
-            : undefined,
+        sponsorshipCategory: faker.helpers.maybe(
+          () =>
+            faker.helpers.arrayElement(Object.values(ShowSponsorshipCategory)),
+          { probability: 1 / 6 },
+        ),
 
         motivation: faker.lorem
           .paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
