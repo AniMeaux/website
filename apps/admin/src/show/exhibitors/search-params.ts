@@ -1,7 +1,7 @@
 import type { IconName } from "#generated/icon";
 import { Payment } from "#show/exhibitors/payment";
 import { ExhibitorStatus } from "#show/exhibitors/status";
-import { SponsorshipCategory } from "#show/sponsors/category";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
@@ -212,7 +212,7 @@ const SearchParamsSchema = zu.object({
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
   sponsorshipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(SponsorshipCategory.Enum),
+    zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
   ),
   payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
   publicProfileStatuses: zu.searchParams.set(

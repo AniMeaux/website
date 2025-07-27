@@ -14,14 +14,14 @@ import {
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params";
 import {
-  ApplicationSponsorshipCategory,
-  ApplicationSponsorshipCategoryIcon,
-} from "#show/exhibitors/applications/sponsorship-category";
-import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
+import {
+  SponsorshipCategoryIcon,
+  SponsorshipOptionalCategory,
+} from "#show/sponsors/category";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters() {
@@ -256,21 +256,21 @@ export function ApplicationFilters() {
           ))}
         >
           <ToggleInputList>
-            {ApplicationSponsorshipCategory.values.map((category) => (
+            {SponsorshipOptionalCategory.values.map((category) => (
               <ToggleInput
                 key={category}
                 type="checkbox"
-                label={ApplicationSponsorshipCategory.translation[category]}
+                label={SponsorshipOptionalCategory.translation[category]}
                 name={ApplicationSearchParams.keys.sponsorshipCategories}
                 value={category}
                 icon={
-                  <ApplicationSponsorshipCategoryIcon
+                  <SponsorshipCategoryIcon
                     category={category}
                     variant="light"
                   />
                 }
                 iconChecked={
-                  <ApplicationSponsorshipCategoryIcon
+                  <SponsorshipCategoryIcon
                     category={category}
                     variant="solid"
                   />

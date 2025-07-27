@@ -1,4 +1,4 @@
-import { ApplicationSponsorshipCategory } from "#show/exhibitors/applications/sponsorship-category";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import {
@@ -63,7 +63,7 @@ const SearchParamsSchema = zu.object({
     .nativeEnum(ApplicationSearchParamsN.Sort)
     .default(ApplicationSearchParamsN.DEFAULT_SORT),
   sponsorshipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(ApplicationSponsorshipCategory.Enum),
+    zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
   ),
   statuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ShowExhibitorApplicationStatus),
