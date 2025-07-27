@@ -31,6 +31,16 @@ function StatusHelper() {
           <br />
           Votre soutien est essentiel pour sensibiliser et rassembler autour de
           la cause animale.
+          {CLIENT_ENV.SPONSORSHIP_URL != null ? (
+            <>
+              {" "}
+              Consultez{" "}
+              <ProseInlineAction asChild>
+                <a href={CLIENT_ENV.SPONSORSHIP_URL}>notre document</a>
+              </ProseInlineAction>{" "}
+              détaillant toutes les informations nécessaires.
+            </>
+          ) : null}
         </p>
       </HelperCard.Root>
     );

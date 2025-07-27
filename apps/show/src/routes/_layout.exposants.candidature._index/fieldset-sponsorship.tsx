@@ -1,3 +1,4 @@
+import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
@@ -11,20 +12,26 @@ export function FieldsetSponsorship() {
       <FormLayout.Title>Sponsor</FormLayout.Title>
 
       <HelperCard.Root color="paleBlue">
-        <HelperCard.Title>
-          Vous souhaitez soutenir le Salon des Ani’Meaux et contribuer à sa
-          réussite ?
-        </HelperCard.Title>
-
-        <p>
-          Devenez sponsor en apportant votre soutien financier à notre
-          association organisatrice. Votre contribution nous permettra de
-          proposer un événement encore plus exceptionnel, avec des animations
-          variées, des exposants de qualité et des moments de partage
-          inoubliables. En devenant sponsor, vous marquerez votre engagement en
-          faveur du bien-être animal et bénéficierez d’une visibilité auprès
-          d’un large public passionné.
-        </p>
+        {CLIENT_ENV.SPONSORSHIP_URL == null ? (
+          <p>
+            Pour soutenir le Salon des Ani’Meaux et contribuer à son succès,
+            devenez sponsor. Votre soutien financier nous aidera à créer un
+            événement mémorable, avec des animations variées et des exposants de
+            qualité, tout en promouvant le bien-être animal.
+          </p>
+        ) : (
+          <p>
+            Pour soutenir le Salon des Ani’Meaux et contribuer à son succès,
+            consultez{" "}
+            <ProseInlineAction asChild>
+              <a href={CLIENT_ENV.SPONSORSHIP_URL}>notre document</a>
+            </ProseInlineAction>{" "}
+            détaillant toutes les informations nécessaires pour devenir sponsor.
+            Votre soutien financier nous aidera à créer un événement mémorable,
+            avec des animations variées et des exposants de qualité, tout en
+            promouvant le bien-être animal.
+          </p>
+        )}
       </HelperCard.Root>
 
       <FieldSponsorshipCategory />
