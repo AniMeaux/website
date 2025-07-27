@@ -56,9 +56,9 @@ export function CardStructure() {
               isLightIcon
               icon={<Icon href="icon-fingerprint-light" />}
             >
-              {LegalStatus.getVisibleLegalStatus({
+              {LegalStatus.getVisibleValue({
                 legalStatus: application.structureLegalStatus,
-                otherLegalStatus: application.structureOtherLegalStatus,
+                legalStatusOther: application.structureLegalStatusOther,
               })}{" "}
               • {application.structureSiret}
             </SimpleItem>
