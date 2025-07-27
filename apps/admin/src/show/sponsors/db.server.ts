@@ -1,44 +1,44 @@
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
-import { PartnerSearchParamsN } from "#show/partners/search-params";
+import { SponsorSearchParamsN } from "#show/sponsors/search-params";
 import { Visibility } from "#show/visibility";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
-export class ShowPartnerDbDelegate {
-  async findUnique<T extends Prisma.ShowPartnerSelect>(
+export class ShowSponsorDbDelegate {
+  async findUnique<T extends Prisma.ShowSponsorSelect>(
     id: string,
     params: { select: T },
   ) {
-    const partner = await prisma.showPartner.findUnique({
+    const sponsor = await prisma.showSponsor.findUnique({
       where: { id },
       select: params.select,
     });
 
-    if (partner == null) {
+    if (sponsor == null) {
       throw notFound();
     }
 
-    return partner;
+    return sponsor;
   }
 
-  async findUniqueByExhibitor<T extends Prisma.ShowPartnerSelect>(
+  async findUniqueByExhibitor<T extends Prisma.ShowSponsorSelect>(
     exhibitorId: string,
     params: { select: T },
   ) {
-    return await prisma.showPartner.findUnique({
+    return await prisma.showSponsor.findUnique({
       where: { exhibitorId },
       select: params.select,
     });
   }
 
-  async findMany<T extends Prisma.ShowPartnerSelect>(params: {
-    searchParams: PartnerSearchParamsN.Value;
+  async findMany<T extends Prisma.ShowSponsorSelect>(params: {
+    searchParams: SponsorSearchParamsN.Value;
     page: number;
     countPerPage: number;
     select: T;
   }) {
-    const where: Prisma.ShowPartnerWhereInput[] = [];
+    const where: Prisma.ShowSponsorWhereInput[] = [];
 
     if (params.searchParams.categories.size > 0) {
       where.push({
@@ -49,7 +49,7 @@ export class ShowPartnerDbDelegate {
     if (params.searchParams.exhibitor.size === 1) {
       where.push({
         exhibitorId: params.searchParams.exhibitor.has(
-          PartnerSearchParamsN.Exhibitor.Enum.YES,
+          SponsorSearchParamsN.Exhibitor.Enum.YES,
         )
           ? { not: null }
           : null,
@@ -80,12 +80,12 @@ export class ShowPartnerDbDelegate {
       });
     }
 
-    const { partners, totalCount } = await promiseHash({
-      totalCount: prisma.showPartner.count({
+    const { sponsors, totalCount } = await promiseHash({
+      totalCount: prisma.showSponsor.count({
         where: { AND: where },
       }),
 
-      partners: prisma.showPartner.findMany({
+      sponsors: prisma.showSponsor.findMany({
         where: { AND: where },
         skip: params.page * params.countPerPage,
         take: params.countPerPage,
@@ -94,6 +94,6 @@ export class ShowPartnerDbDelegate {
       }),
     });
 
-    return { partners, totalCount };
+    return { sponsors, totalCount };
   }
 }

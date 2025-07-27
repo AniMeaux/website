@@ -3,17 +3,17 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import {
-  PARTNERSHIP_CATEGORY_TRANSLATION,
-  PartnershipCategoryDescription,
-} from "#exhibitors/partnership/category";
-import { ShowExhibitorApplicationOtherPartnershipCategory } from "@prisma/client";
+  SPONSORSHIP_CATEGORY_TRANSLATION,
+  SponsorshipCategoryDescription,
+} from "#exhibitors/sponsorship/category";
+import { ShowExhibitorApplicationOtherSponsorshipCategory } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
-export function SectionPartnership() {
+export function SectionSponsorship() {
   return (
     <FormLayout.Section>
-      <FormLayout.Title>Partenariat</FormLayout.Title>
+      <FormLayout.Title>Sponsor</FormLayout.Title>
 
       <StatusHelper />
     </FormLayout.Section>
@@ -23,30 +23,30 @@ export function SectionPartnership() {
 function StatusHelper() {
   const { exhibitor, application } = useLoaderData<typeof loader>();
 
-  if (exhibitor.partnership != null) {
+  if (exhibitor.sponsorship != null) {
     return (
       <HelperCard.Root color="alabaster">
         <HelperCard.Title>
-          {PARTNERSHIP_CATEGORY_TRANSLATION[exhibitor.partnership.category]}
+          {SPONSORSHIP_CATEGORY_TRANSLATION[exhibitor.sponsorship.category]}
         </HelperCard.Title>
 
         <p>
           Merci pour votre engagement !
           <br />
-          Votre partenariat est essentiel pour sensibiliser et rassembler autour
-          de la cause animale.
+          Votre soutien est essentiel pour sensibiliser et rassembler autour de
+          la cause animale.
         </p>
 
-        <PartnershipCategoryDescription
-          category={exhibitor.partnership.category}
+        <SponsorshipCategoryDescription
+          category={exhibitor.sponsorship.category}
         />
       </HelperCard.Root>
     );
   }
 
   if (
-    application.otherPartnershipCategory ===
-    ShowExhibitorApplicationOtherPartnershipCategory.MAYBE
+    application.otherSponsorshipCategory ===
+    ShowExhibitorApplicationOtherSponsorshipCategory.MAYBE
   ) {
     return (
       <HelperCard.Root color="paleBlue">
@@ -55,14 +55,14 @@ function StatusHelper() {
         </HelperCard.Title>
 
         <p>
-          Nous serions ravis de vous compter parmi nos partenaires et de vous
+          Nous serions ravis de vous compter parmi nos sponsors et de vous
           offrir une visibilité renforcée tout au long de l’événement !
         </p>
 
         <p>
           Si vous avez pris votre décision ou souhaitez obtenir plus
-          d’informations sur les possibilités de partenariat, n’hésitez pas à
-          nous contacter par e-mail à{" "}
+          d’informations sur les possibilités de sponsor, n’hésitez pas à nous
+          contacter par e-mail à{" "}
           <ProseInlineAction asChild>
             <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>
           </ProseInlineAction>
@@ -75,7 +75,7 @@ function StatusHelper() {
   return (
     <LightBoardCard isSmall>
       <p>
-        Vous n’êtes actuellement pas partenaire. Si vous souhaitez le devenir,
+        Vous n’êtes actuellement pas sponsor. Si vous souhaitez le devenir,
         n’hésitez pas à nous contacter par e-mail à{" "}
         <ProseInlineAction asChild>
           <a href="mailto:salon@animeaux.org">salon@animeaux.org</a>

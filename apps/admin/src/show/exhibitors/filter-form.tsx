@@ -25,9 +25,9 @@ import {
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import {
-  PartnershipCategory,
-  PartnershipCategoryIcon,
-} from "#show/partners/category";
+  SponsorshipCategory,
+  SponsorshipCategoryIcon,
+} from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
@@ -49,7 +49,7 @@ export function ExhibitorFilters() {
         <FilterStatuses />
         <FilterPayment />
         <FilterActivity />
-        <FilterPartnership />
+        <FilterSponsorship />
         <FilterAnimations />
       </Filters.Content>
     </Filters>
@@ -232,41 +232,41 @@ function FilterName() {
   );
 }
 
-function FilterPartnership() {
+function FilterSponsorship() {
   const [searchParams] = useOptimisticSearchParams();
   const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.partnershipCategories}
-      label="Catégorie de partenariat"
-      count={exhibitorSearchParams.partnershipCategories.size}
+      value={ExhibitorSearchParams.keys.sponsorshipCategories}
+      label="Catégorie de sponsor"
+      count={exhibitorSearchParams.sponsorshipCategories.size}
       hiddenContent={Array.from(
-        exhibitorSearchParams.partnershipCategories,
+        exhibitorSearchParams.sponsorshipCategories,
       ).map((category) => (
         <input
           key={category}
           type="hidden"
-          name={ExhibitorSearchParams.keys.partnershipCategories}
+          name={ExhibitorSearchParams.keys.sponsorshipCategories}
           value={category}
         />
       ))}
     >
       <ToggleInputList>
-        {PartnershipCategory.values.map((category) => (
+        {SponsorshipCategory.values.map((category) => (
           <ToggleInput
             key={category}
             type="checkbox"
-            label={PartnershipCategory.translation[category]}
-            name={ExhibitorSearchParams.keys.partnershipCategories}
+            label={SponsorshipCategory.translation[category]}
+            name={ExhibitorSearchParams.keys.sponsorshipCategories}
             value={category}
             icon={
-              <PartnershipCategoryIcon category={category} variant="light" />
+              <SponsorshipCategoryIcon category={category} variant="light" />
             }
             iconChecked={
-              <PartnershipCategoryIcon category={category} variant="solid" />
+              <SponsorshipCategoryIcon category={category} variant="solid" />
             }
-            checked={exhibitorSearchParams.partnershipCategories.has(category)}
+            checked={exhibitorSearchParams.sponsorshipCategories.has(category)}
             onChange={() => {}}
           />
         ))}

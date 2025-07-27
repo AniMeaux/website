@@ -34,9 +34,9 @@ export function getClientEnv() {
     FEATURE_FLAG_SHOW_EXHIBITORS: process.env.FEATURE_FLAG_SHOW_EXHIBITORS,
     FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS:
       process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS,
-    FEATURE_FLAG_SHOW_PARTNERS: process.env.FEATURE_FLAG_SHOW_PARTNERS,
     FEATURE_FLAG_SHOW_PROVIDERS: process.env.FEATURE_FLAG_SHOW_PROVIDERS,
     FEATURE_FLAG_SHOW_PROGRAM: process.env.FEATURE_FLAG_SHOW_PROGRAM,
+    FEATURE_FLAG_SHOW_SPONSORS: process.env.FEATURE_FLAG_SHOW_SPONSORS,
     FEATURE_FLAG_SITE_ONLINE: process.env.FEATURE_FLAG_SITE_ONLINE,
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     INSTAGRAM_URL: process.env.INSTAGRAM_URL,
@@ -81,9 +81,9 @@ const ProcessEnvSchema = zu
     FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS: zu
       .enum(["true", "false"])
       .optional(),
-    FEATURE_FLAG_SHOW_PARTNERS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SHOW_PROVIDERS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SHOW_PROGRAM: zu.enum(["true", "false"]).optional(),
+    FEATURE_FLAG_SHOW_SPONSORS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SITE_ONLINE: zu.enum(["true", "false"]).optional(),
     GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
     GOOGLE_API_PRIVATE_KEY: zu.string().optional(),

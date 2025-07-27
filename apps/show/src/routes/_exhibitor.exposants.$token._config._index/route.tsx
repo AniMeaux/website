@@ -10,8 +10,8 @@ import type { MetaFunction } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 import { SectionAwaitingValidation } from "./section-awaiting-validation";
 import { SectionHelper } from "./section-helper";
-import { SectionPartnership } from "./section-partnership";
 import { SectionPayment } from "./section-payment";
+import { SectionSponsorship } from "./section-sponsorship";
 import { SectionStandNumber } from "./section-stand-number";
 import { SectionToComplete } from "./section-to-complete";
 import { SectionValidated } from "./section-validated";
@@ -24,7 +24,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       select: {
         token: true,
         hasPaid: true,
-        partnership: { select: { category: true } },
+        sponsorship: { select: { category: true } },
         documentStatus: true,
         documentStatusMessage: true,
         dogsConfigurationStatus: true,
@@ -38,7 +38,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     }),
 
     application: services.exhibitor.application.getByToken(routeParams.token, {
-      select: { otherPartnershipCategory: true },
+      select: { otherSponsorshipCategory: true },
     }),
   });
 
@@ -70,7 +70,7 @@ export default function Route() {
           <SectionAwaitingValidation />
           <SectionValidated />
 
-          <SectionPartnership />
+          <SectionSponsorship />
         </div>
       </FormLayout.Form>
 

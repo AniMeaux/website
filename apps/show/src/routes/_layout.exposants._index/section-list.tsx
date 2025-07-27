@@ -37,7 +37,7 @@ export function SectionList() {
             </Action>
           </ModalFilters.Trigger>
 
-          <ActiveFilterPartnership />
+          <ActiveFilterSponsorship />
           <ActiveFilterAnimations />
           <ActiveFilterFields />
           <ActiveFilterTargets />
@@ -53,7 +53,7 @@ export function SectionList() {
                 activityFields: exhibitor.activityFields,
                 activityTargets: exhibitor.activityTargets,
                 hasOnStageAnimation: exhibitor.hasOnStageAnimation,
-                isPartner: exhibitor.isPartner,
+                isSponsor: exhibitor.isSponsor,
                 isOrganizer: exhibitor.isOrganizer,
                 logoPath: exhibitor.logoPath,
                 name: exhibitor.name,
@@ -146,17 +146,17 @@ function ActiveFilterFields() {
   ));
 }
 
-function ActiveFilterPartnership() {
+function ActiveFilterSponsorship() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  if (!exhibitorSearchParams.isPartner) {
+  if (!exhibitorSearchParams.isSponsor) {
     return null;
   }
 
   return (
     <InputActiveFilter.Root>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.isPartner}
+        name={ExhibitorSearchParams.keys.isSponsor}
         value="on"
       />
 
@@ -164,7 +164,7 @@ function ActiveFilterPartnership() {
         <Icon id="award-solid" />
       </InputActiveFilter.Icon>
 
-      <InputActiveFilter.Label>Partenaire du Salon</InputActiveFilter.Label>
+      <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
 
       <InputActiveFilter.RemoveIcon />
     </InputActiveFilter.Root>

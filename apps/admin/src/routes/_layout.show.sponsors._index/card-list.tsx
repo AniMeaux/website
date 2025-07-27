@@ -3,29 +3,29 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
-import { PartnerSearchParams } from "#show/partners/search-params";
+import { SponsorSearchParams } from "#show/sponsors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
-import { PartnerItem } from "./item";
+import { SponsorItem } from "./item";
 import type { loader } from "./route";
 
 export function CardList() {
-  const { totalCount, pageCount, partners } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, sponsors } = useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {totalCount} {totalCount > 1 ? "partenaires" : "partenaire"}
+          {totalCount} {totalCount > 1 ? "sponsors" : "sponsor"}
         </Card.Title>
       </Card.Header>
 
       <Card.Content hasListItems>
-        {partners.length > 0 ? (
+        {sponsors.length > 0 ? (
           <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto] md:gap-x-2">
-            {partners.map((partner) => (
-              <PartnerItem key={partner.id} partner={partner} />
+            {sponsors.map((sponsor) => (
+              <SponsorItem key={sponsor.id} sponsor={sponsor} />
             ))}
           </div>
         ) : (
@@ -33,11 +33,11 @@ export function CardList() {
             isCompact
             icon="🏅"
             iconAlt="Médaille"
-            title="Aucun partenaire trouvé"
+            title="Aucun sponsor trouvé"
             message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
             titleElementType="h3"
             action={
-              !PartnerSearchParams.isEmpty(searchParams) ? (
+              !SponsorSearchParams.isEmpty(searchParams) ? (
                 <Action asChild>
                   <BaseLink to={{ search: "" }}>Effacer les filtres</BaseLink>
                 </Action>

@@ -6,8 +6,8 @@ import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { PartnerFilters } from "#show/partners/filter-form";
-import { PartnerSearchParams } from "#show/partners/search-params";
+import { SponsorFilters } from "#show/sponsors/filter-form";
+import { SponsorSearchParams } from "#show/sponsors/search-params";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -28,10 +28,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const searchParams = new URL(request.url).searchParams;
 
-  const { partners, totalCount } = await db.show.partner.findMany({
+  const { sponsors, totalCount } = await db.show.sponsor.findMany({
     page: PageSearchParams.parse(searchParams).page,
-    countPerPage: PARTNER_COUNT_PER_PAGE,
-    searchParams: PartnerSearchParams.parse(searchParams),
+    countPerPage: SPONSOR_COUNT_PER_PAGE,
+    searchParams: SponsorSearchParams.parse(searchParams),
     select: {
       id: true,
       isVisible: true,
@@ -52,19 +52,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
     },
   });
 
-  const pageCount = Math.ceil(totalCount / PARTNER_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / SPONSOR_COUNT_PER_PAGE);
 
   return json({
     totalCount,
     pageCount,
-    partners: partners.map(({ exhibitor, logoPath, name, url, ...partner }) => {
+    sponsors: sponsors.map(({ exhibitor, logoPath, name, url, ...sponsor }) => {
       if (exhibitor == null) {
         invariant(logoPath != null, "A logoPath should be defined");
         invariant(name != null, "A name should be defined");
         invariant(url != null, "A url should be defined");
 
         return {
-          ...partner,
+          ...sponsor,
           logoPath,
           name,
           url,
@@ -81,7 +81,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       }
 
       return {
-        ...partner,
+        ...sponsor,
         exhibitorId: exhibitor.id,
         logoPath: exhibitor.logoPath,
         name: exhibitor.name,
@@ -91,10 +91,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
 }
 
-const PARTNER_COUNT_PER_PAGE = 20;
+const SPONSOR_COUNT_PER_PAGE = 20;
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Partenaires") }];
+  return [{ title: getPageTitle("Sponsors") }];
 };
 
 export default function Route() {
@@ -114,14 +114,14 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <PartnerFilters />
+              <SponsorFilters />
             </Card.Content>
           </Card>
         </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <PartnerFilters />
+        <SponsorFilters />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
   );

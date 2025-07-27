@@ -1,7 +1,7 @@
 import type { IconName } from "#generated/icon";
 import { Payment } from "#show/exhibitors/payment";
 import { ExhibitorStatus } from "#show/exhibitors/status";
-import { PartnershipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
@@ -21,10 +21,10 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     fields: "fi",
     name: "q",
     onStandAnimationsStatuses: "osas",
-    partnershipCategories: "pc",
     payment: "p",
     publicProfileStatuses: "ps",
     sort: "sort",
+    sponsorshipCategories: "pc",
     standConfigurationStatuses: "scs",
     targets: "ta",
     visibility: "vi",
@@ -55,16 +55,16 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
         searchParams,
         keys.onStandAnimationsStatuses,
       ),
-      partnershipCategories: SearchParamsIO.getValues(
-        searchParams,
-        keys.partnershipCategories,
-      ),
       payment: SearchParamsIO.getValues(searchParams, keys.payment),
       publicProfileStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.publicProfileStatuses,
       ),
       sort: SearchParamsIO.getValue(searchParams, keys.sort),
+      sponsorshipCategories: SearchParamsIO.getValues(
+        searchParams,
+        keys.sponsorshipCategories,
+      ),
       standConfigurationStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.standConfigurationStatuses,
@@ -100,8 +100,8 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     SearchParamsIO.setValue(searchParams, keys.name, data.name);
     SearchParamsIO.setValues(
       searchParams,
-      keys.partnershipCategories,
-      data.partnershipCategories,
+      keys.sponsorshipCategories,
+      data.sponsorshipCategories,
     );
     SearchParamsIO.setValues(searchParams, keys.payment, data.payment);
     SearchParamsIO.setValues(
@@ -211,8 +211,8 @@ const SearchParamsSchema = zu.object({
   onStandAnimationsStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
-  partnershipCategories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(PartnershipCategory.Enum),
+  sponsorshipCategories: zu.searchParams.set(
+    zu.searchParams.nativeEnum(SponsorshipCategory.Enum),
   ),
   payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
   publicProfileStatuses: zu.searchParams.set(

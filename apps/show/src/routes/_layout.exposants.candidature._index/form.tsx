@@ -30,6 +30,6 @@ export const FieldsetId = {
   CONTACT: "contact",
   STRUCTURE: "structure",
   PARTICIPATION: "participation",
-  PARTNERSHIP: "partnership",
+  SPONSORSHIP: "sponsorship",
   COMMENTS: "comments",
 } as const;

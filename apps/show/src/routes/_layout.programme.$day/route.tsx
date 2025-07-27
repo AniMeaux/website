@@ -43,7 +43,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
             name: true,
             logoPath: true,
 
-            partnership: { select: { isVisible: true } },
+            sponsorship: { select: { isVisible: true } },
           },
         },
       },
@@ -69,9 +69,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
             url,
             isOrganizer: animator.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
-            isPartner:
-              process.env.FEATURE_FLAG_SHOW_PARTNERS === "true" &&
-              (animator.partnership?.isVisible ?? false),
+            isSponsor:
+              process.env.FEATURE_FLAG_SHOW_SPONSORS === "true" &&
+              (animator.sponsorship?.isVisible ?? false),
           };
         }),
       })),

@@ -1,12 +1,12 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { ShowPartnershipCategory } from "@prisma/client";
+import { ShowSponsorshipCategory } from "@prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 
-export namespace PartnershipCategory {
-  export const Enum = ShowPartnershipCategory;
-  export type Enum = ShowPartnershipCategory;
+export namespace SponsorshipCategory {
+  export const Enum = ShowSponsorshipCategory;
+  export type Enum = ShowSponsorshipCategory;
 
   export const translation: Record<Enum, string> = {
     [Enum.POLLEN]: "Pollen",
@@ -18,13 +18,13 @@ export namespace PartnershipCategory {
   export const values = [Enum.POLLEN, Enum.BRONZE, Enum.SILVER, Enum.GOLD];
 }
 
-export const PartnershipCategoryIcon = forwardRef<
+export const SponsorshipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
-    category: PartnershipCategory.Enum;
+    category: SponsorshipCategory.Enum;
     variant?: "light" | "solid";
   }
->(function PartnershipCategoryIcon(
+>(function SponsorshipCategoryIcon(
   { category, variant = "light", ...props },
   ref,
 ) {
@@ -32,30 +32,30 @@ export const PartnershipCategoryIcon = forwardRef<
     <span
       {...props}
       ref={ref}
-      title={PartnershipCategory.translation[category]}
+      title={SponsorshipCategory.translation[category]}
     >
-      <Icon href={PARTNERSHIP_CATEGORY_ICON[category][variant]} />
+      <Icon href={SPONSORSHIP_CATEGORY_ICON[category][variant]} />
     </span>
   );
 });
 
-const PARTNERSHIP_CATEGORY_ICON: Record<
-  PartnershipCategory.Enum,
+const SPONSORSHIP_CATEGORY_ICON: Record<
+  SponsorshipCategory.Enum,
   { solid: IconName; light: IconName }
 > = {
-  [PartnershipCategory.Enum.POLLEN]: {
+  [SponsorshipCategory.Enum.POLLEN]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [PartnershipCategory.Enum.BRONZE]: {
+  [SponsorshipCategory.Enum.BRONZE]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [PartnershipCategory.Enum.SILVER]: {
+  [SponsorshipCategory.Enum.SILVER]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },
-  [PartnershipCategory.Enum.GOLD]: {
+  [SponsorshipCategory.Enum.GOLD]: {
     light: "icon-award-light",
     solid: "icon-award-solid",
   },

@@ -13,7 +13,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     targets: "target",
     fields: "field",
     eventTypes: "event",
-    isPartner: "partner",
+    isSponsor: "sponsor",
   },
 
   parseFunction: (searchParams, keys) => {
@@ -21,7 +21,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       targets: SearchParamsReader.getValues(searchParams, keys.targets),
       fields: SearchParamsReader.getValues(searchParams, keys.fields),
       eventTypes: SearchParamsReader.getValues(searchParams, keys.eventTypes),
-      isPartner: SearchParamsReader.getValue(searchParams, keys.isPartner),
+      isSponsor: SearchParamsReader.getValue(searchParams, keys.isSponsor),
     });
   },
 
@@ -34,8 +34,8 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
 
     SearchParamsIO.setValue(
       searchParams,
-      keys.isPartner,
-      data.isPartner ? "on" : undefined,
+      keys.isSponsor,
+      data.isSponsor ? "on" : undefined,
     );
   },
 });
@@ -93,11 +93,11 @@ const Schema = zu.object({
       return eventTypes;
     }),
 
-  isPartner: zu.searchParams
+  isSponsor: zu.searchParams
     .boolean()
     .transform(
-      (isPartner) =>
-        isPartner && CLIENT_ENV.FEATURE_FLAG_SHOW_PARTNERS === "true",
+      (isSponsor) =>
+        isSponsor && CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS === "true",
     ),
 });
 

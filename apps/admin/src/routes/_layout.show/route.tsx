@@ -32,8 +32,8 @@ export default function Route() {
           Exposants
         </PageLayout.Tab>
 
-        <PageLayout.Tab isNavLink to={Routes.show.partners.toString()}>
-          Partenaires
+        <PageLayout.Tab isNavLink to={Routes.show.sponsors.toString()}>
+          Sponsors
         </PageLayout.Tab>
       </PageLayout.Tabs>
 

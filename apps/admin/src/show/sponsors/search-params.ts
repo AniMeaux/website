@@ -1,10 +1,10 @@
 import type { IconName } from "#generated/icon.js";
-import { PartnershipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 
-export const PartnerSearchParams = SearchParamsIO.create({
+export const SponsorSearchParams = SearchParamsIO.create({
   keys: {
     categories: "c",
     exhibitor: "e",
@@ -32,8 +32,8 @@ export const PartnerSearchParams = SearchParamsIO.create({
   },
 });
 
-export namespace PartnerSearchParamsN {
-  export type Value = SearchParamsIO.Infer<typeof PartnerSearchParams>;
+export namespace SponsorSearchParamsN {
+  export type Value = SearchParamsIO.Infer<typeof SponsorSearchParams>;
 
   export namespace Exhibitor {
     export const Enum = { YES: "YES", NO: "NO" } as const;
@@ -61,10 +61,10 @@ export namespace PartnerSearchParamsN {
 
 const SearchParamsSchema = zu.object({
   categories: zu.searchParams.set(
-    zu.searchParams.nativeEnum(PartnershipCategory.Enum),
+    zu.searchParams.nativeEnum(SponsorshipCategory.Enum),
   ),
   exhibitor: zu.searchParams.set(
-    zu.searchParams.nativeEnum(PartnerSearchParamsN.Exhibitor.Enum),
+    zu.searchParams.nativeEnum(SponsorSearchParamsN.Exhibitor.Enum),
   ),
   name: zu.searchParams.string(),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
