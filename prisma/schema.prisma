@@ -323,7 +323,8 @@ model ShowExhibitorApplication {
 
   motivation String @db.VarChar(1000)
 
-  discoverySource String @db.VarChar(128)
+  discoverySource      ShowExhibitorApplicationDiscoverySource
+  discoverySourceOther String?                                 @db.VarChar(128)
 
   comments String? @db.VarChar(512)
 
@@ -341,6 +342,16 @@ enum ShowExhibitorApplicationLegalStatus {
   ASSOCIATION
   SOLE_PROPRIETORSHIP
   COMPANY
+}
+
+enum ShowExhibitorApplicationDiscoverySource {
+  FACEBOOK
+  INSTAGRAM
+  OTHER
+  PRESS
+  PREVIOUS_PARTICIPANT
+  SEARCH_ENGINE
+  WORD_OF_MOUTH
 }
 
 model ShowExhibitor {

@@ -16,6 +16,7 @@ import {
   ScreeningResult,
   ShowActivityField,
   ShowActivityTarget,
+  ShowExhibitorApplicationDiscoverySource,
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationStatus,
   ShowExhibitorStatus,
@@ -518,6 +519,10 @@ async function seedShowExhibitorApplications() {
         { probability: 9 / 10 },
       );
 
+      const discoverySource = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationDiscoverySource),
+      );
+
       return {
         status,
         refusalMessage:
@@ -572,7 +577,11 @@ async function seedShowExhibitorApplications() {
           .paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
           .substring(0, 1000),
 
-        discoverySource: faker.lorem.word(),
+        discoverySource,
+        discoverySourceOther:
+          discoverySource === ShowExhibitorApplicationDiscoverySource.OTHER
+            ? faker.lorem.word()
+            : undefined,
 
         comments: faker.helpers.maybe(
           () => faker.lorem.paragraph().substring(0, 512),
