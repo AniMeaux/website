@@ -35,6 +35,7 @@ export function FieldsetParticipation() {
           >
         }
         rows={3}
+        helper="Sous réserve de disponibilité"
       />
     </FormLayout.Section>
   );
