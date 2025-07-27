@@ -1,4 +1,5 @@
 import { FormLayout } from "#core/layout/form-layout";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { getFormProps } from "@conform-to/react";
 import { Form, useFormAction, useNavigation } from "@remix-run/react";
 import { FieldsetComments } from "./fieldset-comments";
@@ -131,7 +132,10 @@ export function SectionForm() {
             isComplete={
               fieldsets.comments.valid &&
               fieldsets.comments.value?.motivation != null &&
-              fieldsets.comments.value?.discoverySource != null
+              fieldsets.comments.value?.discoverySource != null &&
+              (fieldsets.comments.value.discoverySource !==
+                DiscoverySource.Enum.OTHER ||
+                fieldsets.comments.value.discoverySourceOther != null)
             }
           >
             Commentaires

@@ -1,4 +1,6 @@
+import { Enums } from "#core/enums.js";
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
@@ -171,31 +173,59 @@ export const ActionSchema = zu
       required_error: "Veuillez choisir une option",
     }),
 
-    comments: zu.object({
-      motivation: zu.preprocess(
-        normalizeLineBreaks,
-        zu
-          .string({ required_error: "Veuillez entrer une réponse" })
-          .trim()
-          .min(1, "Veuillez entrer une réponse")
-          .max(1000, "Veuillez entrer une réponse plus courte"),
-      ),
+    comments: zu
+      .object({
+        motivation: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string({ required_error: "Veuillez entrer une réponse" })
+            .trim()
+            .min(1, "Veuillez entrer une réponse")
+            .max(1000, "Veuillez entrer une réponse plus courte"),
+        ),
 
-      discoverySource: zu
-        .string({ required_error: "Veuillez entrer une réponse" })
-        .trim()
-        .min(1, "Veuillez entrer une réponse")
-        .max(128, "Veuillez entrer une réponse plus courte"),
+        comments: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string()
+            .trim()
+            .max(512, "Veuillez entrer un commentaire plus court")
+            .optional(),
+        ),
+      })
+      .and(
+        zu.discriminatedUnion(
+          "discoverySource",
+          [
+            zu.object({
+              discoverySource: zu.literal(DiscoverySource.Enum.OTHER),
+              discoverySourceOther: zu
+                .string({ required_error: "Veuillez entrer une réponse" })
+                .trim()
+                .min(1, "Veuillez entrer une réponse")
+                .max(128, "Veuillez entrer une réponse plus courte"),
+            }),
+            zu.object({
+              discoverySource: zu.nativeEnum(
+                Enums.omit(DiscoverySource.Enum, [DiscoverySource.Enum.OTHER]),
+              ),
+              discoverySourceOther: zu.undefined(),
+            }),
+          ],
+          {
+            // When `discoverySource` is not defined, the issue is a
+            // "invalid_union_discriminator" and its message can only be
+            // customized using `errorMap`.
+            errorMap: (issue, context) => {
+              if (issue.code === zu.ZodIssueCode.invalid_union_discriminator) {
+                return { message: "Veuillez choisir une option" };
+              }
 
-      comments: zu.preprocess(
-        normalizeLineBreaks,
-        zu
-          .string()
-          .trim()
-          .max(512, "Veuillez entrer un commentaire plus court")
-          .optional(),
+              return { message: context.defaultError };
+            },
+          },
+        ),
       ),
-    }),
   })
   .refine(
     (value) => {

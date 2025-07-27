@@ -8,6 +8,7 @@ import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
@@ -281,7 +282,7 @@ export namespace ApplicationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.discoverySource}
+                {DiscoverySource.getVisibleValue(application)}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 

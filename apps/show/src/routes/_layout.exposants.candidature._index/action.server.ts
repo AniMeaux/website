@@ -96,6 +96,7 @@ export async function action({ request }: ActionFunctionArgs) {
       motivation: submission.value.comments.motivation,
 
       discoverySource: submission.value.comments.discoverySource,
+      discoverySourceOther: submission.value.comments.discoverySourceOther,
 
       comments: submission.value.comments.comments,
     }),
