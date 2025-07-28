@@ -33,7 +33,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         structureCity: true,
         structureCountry: true,
         structureLegalStatus: true,
-        structureOtherLegalStatus: true,
+        structureLegalStatusOther: true,
         structureSiret: true,
         structureZipCode: true,
       },

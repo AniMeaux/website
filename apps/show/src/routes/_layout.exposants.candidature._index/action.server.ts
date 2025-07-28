@@ -3,7 +3,6 @@ import { email } from "#core/emails.server";
 import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { ApplicationEmails } from "#exhibitors/application/emails.server";
-import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
 import { ServiceApplication } from "#exhibitors/application/service.server";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { catchError } from "@animeaux/core";
@@ -69,11 +68,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
       structureName: submission.value.structure.name,
       structureUrl: submission.value.structure.url,
-      structureLegalStatus:
-        submission.value.structure.legalStatus === OTHER_SHOW_LEGAL_STATUS
-          ? undefined
-          : submission.value.structure.legalStatus,
-      structureOtherLegalStatus: submission.value.structure.otherLegalStatus,
+      structureLegalStatus: submission.value.structure.legalStatus,
+      structureLegalStatusOther: submission.value.structure.legalStatusOther,
       structureSiret: submission.value.structure.siret,
       structureAddress: submission.value.structure.address,
       structureZipCode: submission.value.structure.zipCode,

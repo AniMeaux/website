@@ -9,7 +9,7 @@ import { services } from "#core/services/services.server";
 import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
-import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
+import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
@@ -115,9 +115,10 @@ export namespace ApplicationEmails {
               <EmailHtml.Output.Label>Forme juridique</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.structureLegalStatus != null
-                  ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
-                  : application.structureOtherLegalStatus}
+                {LegalStatus.getVisibleValue({
+                  legalStatus: application.structureLegalStatus,
+                  legalStatusOther: application.structureLegalStatusOther,
+                })}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 

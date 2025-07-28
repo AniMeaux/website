@@ -1,7 +1,7 @@
 import { Enums } from "#core/enums.js";
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
-import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
+import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
 import {
@@ -12,7 +12,6 @@ import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
   ShowActivityTarget,
-  ShowExhibitorApplicationLegalStatus,
   ShowStandSize,
 } from "@prisma/client";
 
@@ -125,18 +124,20 @@ export const ActionSchema = zu
           "legalStatus",
           [
             zu.object({
-              legalStatus: zu.nativeEnum(ShowExhibitorApplicationLegalStatus),
-              otherLegalStatus: zu.undefined(),
-            }),
-            zu.object({
-              legalStatus: zu.literal(OTHER_SHOW_LEGAL_STATUS),
-              otherLegalStatus: zu
+              legalStatus: zu.literal(LegalStatus.Enum.OTHER),
+              legalStatusOther: zu
                 .string({
                   required_error: "Veuillez entrer une forme juridique",
                 })
                 .trim()
                 .min(1, "Veuillez entrer une forme juridique")
                 .max(64, "Veuillez entrer une forme juridique plus courte"),
+            }),
+            zu.object({
+              legalStatus: zu.nativeEnum(
+                Enums.omit(LegalStatus.Enum, [LegalStatus.Enum.OTHER]),
+              ),
+              legalStatusOther: zu.undefined(),
             }),
           ],
           {
