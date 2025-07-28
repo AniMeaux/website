@@ -561,7 +561,7 @@ async function seedShowExhibitorApplications() {
         ),
 
         proposalForOnStageEntertainment: faker.helpers.maybe(
-          () => faker.lorem.paragraph().substring(0, 512),
+          () => faker.lorem.paragraph().substring(0, 500),
           { probability: 1 / 10 },
         ),
 
@@ -582,7 +582,7 @@ async function seedShowExhibitorApplications() {
             : undefined,
 
         comments: faker.helpers.maybe(
-          () => faker.lorem.paragraph().substring(0, 512),
+          () => faker.lorem.paragraph().substring(0, 500),
           { probability: 1 / 5 },
         ),
       };
