@@ -511,12 +511,8 @@ async function seedShowExhibitorApplications() {
         Object.values(ShowExhibitorApplicationStatus),
       );
 
-      const legalStatus = faker.helpers.maybe(
-        () =>
-          faker.helpers.arrayElement(
-            Object.values(ShowExhibitorApplicationLegalStatus),
-          ),
-        { probability: 9 / 10 },
+      const legalStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationLegalStatus),
       );
 
       const discoverySource = faker.helpers.arrayElement(
@@ -538,8 +534,10 @@ async function seedShowExhibitorApplications() {
         structureName: faker.company.name(),
         structureUrl: faker.internet.url(),
         structureLegalStatus: legalStatus,
-        structureOtherLegalStatus:
-          legalStatus == null ? faker.lorem.word() : undefined,
+        structureLegalStatusOther:
+          legalStatus == ShowExhibitorApplicationLegalStatus.OTHER
+            ? faker.lorem.word()
+            : undefined,
         structureSiret: faker.string.numeric({ length: 14 }),
         structureActivityDescription: faker.lorem
           .paragraph(faker.number.int({ min: 1, max: 5 }))

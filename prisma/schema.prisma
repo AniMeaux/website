@@ -302,19 +302,19 @@ model ShowExhibitorApplication {
   contactEmail     String @unique @db.VarChar(64)
   contactPhone     String @db.VarChar(64)
 
-  structureName                String                               @db.VarChar(64)
-  structureUrl                 String                               @db.VarChar(128)
-  structureLegalStatus         ShowExhibitorApplicationLegalStatus?
-  structureOtherLegalStatus    String?                              @db.VarChar(64)
-  structureSiret               String                               @db.VarChar(128)
-  structureActivityDescription String                               @db.VarChar(300)
+  structureName                String                              @db.VarChar(64)
+  structureUrl                 String                              @db.VarChar(128)
+  structureLegalStatus         ShowExhibitorApplicationLegalStatus
+  structureLegalStatusOther    String?                             @db.VarChar(64)
+  structureSiret               String                              @db.VarChar(128)
+  structureActivityDescription String                              @db.VarChar(300)
   structureActivityTargets     ShowActivityTarget[]
   structureActivityFields      ShowActivityField[]
-  structureAddress             String                               @db.VarChar(128)
-  structureZipCode             String                               @db.VarChar(64)
-  structureCity                String                               @db.VarChar(128)
-  structureCountry             String                               @db.VarChar(64)
-  structureLogoPath            String                               @db.VarChar(128)
+  structureAddress             String                              @db.VarChar(128)
+  structureZipCode             String                              @db.VarChar(64)
+  structureCity                String                              @db.VarChar(128)
+  structureCountry             String                              @db.VarChar(64)
+  structureLogoPath            String                              @db.VarChar(128)
 
   desiredStandSize                ShowStandSize
   proposalForOnStageEntertainment String?       @db.VarChar(512)
@@ -340,8 +340,9 @@ enum ShowExhibitorApplicationStatus {
 
 enum ShowExhibitorApplicationLegalStatus {
   ASSOCIATION
-  SOLE_PROPRIETORSHIP
   COMPANY
+  OTHER
+  SOLE_PROPRIETORSHIP
 }
 
 enum ShowExhibitorApplicationDiscoverySource {
