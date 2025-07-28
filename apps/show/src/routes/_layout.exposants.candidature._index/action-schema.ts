@@ -227,6 +227,17 @@ export const ActionSchema = zu
           },
         ),
       ),
+
+    personalData: zu.object({
+      acceptDataUsage: zu.literal("on", {
+        required_error:
+          "Vous devez accepter l’utilisation de vos données pour le traitement de votre candidature",
+      }),
+      acceptEmails: zu.literal("on", {
+        required_error:
+          "Vous devez accepter de recevoir les informations exposants",
+      }),
+    }),
   })
   .refine(
     (value) => {

@@ -6,6 +6,7 @@ import { FieldsetComments } from "./fieldset-comments";
 import { FieldsetContact } from "./fieldset-contact";
 import { FieldsetDocuments } from "./fieldset-documents";
 import { FieldsetParticipation } from "./fieldset-participation";
+import { FieldsetPersonalData } from "./fieldset-personal-data";
 import { FieldsetSponsorship } from "./fieldset-sponsorship";
 import { FieldsetStructure } from "./fieldset-structure";
 import { FieldsetId, FieldsetsProvider, useForm } from "./form";
@@ -45,6 +46,10 @@ export function SectionForm() {
             <FormLayout.SectionSeparator />
 
             <FieldsetComments />
+
+            <FormLayout.SectionSeparator />
+
+            <FieldsetPersonalData />
 
             <FormLayout.SectionSeparator />
 
@@ -139,6 +144,17 @@ export function SectionForm() {
             }
           >
             Commentaires
+          </FormLayout.NavItem>
+
+          <FormLayout.NavItem
+            sectionId={FieldsetId.PERSONAL_DATA}
+            isComplete={
+              fieldsets.personalData.valid &&
+              fieldsets.personalData.value?.acceptDataUsage === "on" &&
+              fieldsets.personalData.value?.acceptEmails === "on"
+            }
+          >
+            Données
           </FormLayout.NavItem>
         </FormLayout.Nav>
       </FormLayout.Root>
