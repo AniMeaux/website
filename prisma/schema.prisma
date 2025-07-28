@@ -317,7 +317,7 @@ model ShowExhibitorApplication {
   structureLogoPath            String                              @db.VarChar(128)
 
   desiredStandSize                ShowStandSize
-  proposalForOnStageEntertainment String?       @db.VarChar(512)
+  proposalForOnStageEntertainment String?       @db.VarChar(500)
 
   sponsorshipCategory ShowSponsorshipCategory?
 
@@ -326,7 +326,7 @@ model ShowExhibitorApplication {
   discoverySource      ShowExhibitorApplicationDiscoverySource
   discoverySourceOther String?                                 @db.VarChar(128)
 
-  comments String? @db.VarChar(512)
+  comments String? @db.VarChar(500)
 
   exhibitor ShowExhibitor?
 }

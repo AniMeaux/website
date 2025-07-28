@@ -165,7 +165,7 @@ export const ActionSchema = zu
         zu
           .string()
           .trim()
-          .max(512, "Veuillez entrer un text plus court")
+          .max(500, "Veuillez entrer un text plus court")
           .optional(),
       ),
     }),
@@ -190,7 +190,7 @@ export const ActionSchema = zu
           zu
             .string()
             .trim()
-            .max(512, "Veuillez entrer un commentaire plus court")
+            .max(500, "Veuillez entrer un commentaire plus court")
             .optional(),
         ),
       })
