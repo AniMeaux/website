@@ -59,7 +59,7 @@ export function SectionForm() {
                 navigation.formAction === formAction
               }
             >
-              Envoyer
+              Envoyer ma candidature
             </FormLayout.Action>
           </Form>
         </FormLayout.Form>
