@@ -1,4 +1,5 @@
 import { zu } from "@animeaux/zod-utils";
+import { DateTime } from "luxon";
 
 export function checkEnv() {
   const result = ProcessEnvSchema.safeParse(process.env);
@@ -26,6 +27,8 @@ export function checkEnv() {
 export function getClientEnv() {
   return {
     ANIMEAUX_URL: process.env.ANIMEAUX_URL,
+    APPLICATION_VALIDATION_START_DATE:
+      process.env.APPLICATION_VALIDATION_START_DATE,
     CARPOOL_FACEBOOK_GROUP_URL: process.env.CARPOOL_FACEBOOK_GROUP_URL,
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     FACEBOOK_URL: process.env.FACEBOOK_URL,
@@ -69,6 +72,11 @@ const ProcessEnvSchema = zu
   .object({
     ANIMEAUX_URL: zu.string(),
     APPLICATION_TOKEN_ADMIN: zu.string(),
+    APPLICATION_VALIDATION_START_DATE: zu.coerce
+      .date()
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not Date.
+      .transform((date) => DateTime.fromJSDate(date).toISODate()),
     CARPOOL_FACEBOOK_GROUP_URL: zu.string(),
     CLOUDINARY_API_KEY: zu.string(),
     CLOUDINARY_API_SECRET: zu.string(),
