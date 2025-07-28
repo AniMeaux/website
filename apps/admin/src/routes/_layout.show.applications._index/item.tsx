@@ -23,9 +23,9 @@ export function ApplicationItem({
       <span className="text-body-emphasis">{application.structureName}</span>
 
       <span className="hidden @lg/card-content:inline">
-        {LegalStatus.getVisibleLegalStatus({
+        {LegalStatus.getVisibleValue({
           legalStatus: application.structureLegalStatus,
-          otherLegalStatus: application.structureOtherLegalStatus,
+          legalStatusOther: application.structureLegalStatusOther,
         })}
       </span>
 

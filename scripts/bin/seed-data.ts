@@ -16,6 +16,7 @@ import {
   ScreeningResult,
   ShowActivityField,
   ShowActivityTarget,
+  ShowExhibitorApplicationDiscoverySource,
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationStatus,
   ShowExhibitorStatus,
@@ -510,12 +511,12 @@ async function seedShowExhibitorApplications() {
         Object.values(ShowExhibitorApplicationStatus),
       );
 
-      const legalStatus = faker.helpers.maybe(
-        () =>
-          faker.helpers.arrayElement(
-            Object.values(ShowExhibitorApplicationLegalStatus),
-          ),
-        { probability: 9 / 10 },
+      const legalStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationLegalStatus),
+      );
+
+      const discoverySource = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorApplicationDiscoverySource),
       );
 
       return {
@@ -533,8 +534,10 @@ async function seedShowExhibitorApplications() {
         structureName: faker.company.name(),
         structureUrl: faker.internet.url(),
         structureLegalStatus: legalStatus,
-        structureOtherLegalStatus:
-          legalStatus == null ? faker.lorem.word() : undefined,
+        structureLegalStatusOther:
+          legalStatus == ShowExhibitorApplicationLegalStatus.OTHER
+            ? faker.lorem.word()
+            : undefined,
         structureSiret: faker.string.numeric({ length: 14 }),
         structureActivityDescription: faker.lorem
           .paragraph(faker.number.int({ min: 1, max: 5 }))
@@ -572,7 +575,11 @@ async function seedShowExhibitorApplications() {
           .paragraphs(faker.number.int({ min: 1, max: 5 }), "\n\n")
           .substring(0, 1000),
 
-        discoverySource: faker.lorem.word(),
+        discoverySource,
+        discoverySourceOther:
+          discoverySource === ShowExhibitorApplicationDiscoverySource.OTHER
+            ? faker.lorem.word()
+            : undefined,
 
         comments: faker.helpers.maybe(
           () => faker.lorem.paragraph().substring(0, 512),

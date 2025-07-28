@@ -93,7 +93,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           structureCity: true,
           structureCountry: true,
           structureLegalStatus: true,
-          structureOtherLegalStatus: true,
+          structureLegalStatusOther: true,
           structureSiret: true,
           structureZipCode: true,
         },

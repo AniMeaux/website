@@ -1,6 +1,6 @@
 import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
-import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
+import { LegalStatus } from "#exhibitors/application/legal-status";
 import { getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -23,9 +23,10 @@ export function SectionStructure() {
           <FormLayout.Label>Forme juridique</FormLayout.Label>
 
           <FormLayout.Output>
-            {application.structureLegalStatus != null
-              ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
-              : application.structureOtherLegalStatus}
+            {LegalStatus.getVisibleValue({
+              legalStatus: application.structureLegalStatus,
+              legalStatusOther: application.structureLegalStatusOther,
+            })}
           </FormLayout.Output>
         </FormLayout.Field>
 
