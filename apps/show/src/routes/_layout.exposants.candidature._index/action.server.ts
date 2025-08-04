@@ -1,8 +1,5 @@
-import { cloudinary } from "#core/cloudinary/cloudinary.server";
-import { email } from "#core/emails.server";
 import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import { ApplicationEmails } from "#exhibitors/application/emails.server";
+import { services } from "#core/services.server.js";
 import { ServiceApplication } from "#exhibitors/application/service.server";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { catchError } from "@animeaux/core";
@@ -15,7 +12,7 @@ import { v4 as uuid } from "uuid";
 import { ActionSchema } from "./action-schema";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const reversibleUpload = cloudinary.reversibleUpload.create();
+  const reversibleUpload = services.image.createReversibleUpload();
 
   async function revertUpload() {
     const errors = await reversibleUpload.revert();
@@ -60,7 +57,7 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   const [error, application] = await catchError(() =>
-    services.exhibitor.application.create({
+    services.application.create({
       contactFirstname: submission.value.contact.firstname,
       contactLastname: submission.value.contact.lastname,
       contactEmail: submission.value.contact.email,
@@ -117,7 +114,7 @@ export async function action({ request }: ActionFunctionArgs) {
     throw error;
   }
 
-  email.send.template(ApplicationEmails.submitted(application));
+  services.applicationEmail.submitted(application);
 
   throw redirect(
     Routes.exhibitors.application.applicationId(application.id).toString(),

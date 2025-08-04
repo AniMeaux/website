@@ -1,5 +1,5 @@
 import { notFound } from "#core/response.server";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import { json } from "@remix-run/node";
 
 export async function loader() {

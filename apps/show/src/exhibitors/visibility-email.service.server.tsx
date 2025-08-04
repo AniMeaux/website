@@ -1,16 +1,21 @@
-import { EmailHtml } from "#core/data-display/email-html.server";
-import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import type { EmailTemplate } from "@animeaux/resend";
+import { EmailHtml } from "#core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { Routes } from "#core/navigation.js";
+import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 
-export namespace ExhibitorEmails {
-  export async function isVisible(exhibitorId: string): Promise<EmailTemplate> {
-    const application = await services.exhibitor.application.getByExhibitor(
-      exhibitorId,
-      { select: { contactEmail: true } },
-    );
+export class ServiceExhibitorVisibilityEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private application: ServiceApplication,
+  ) {}
 
-    return {
+  async isVisible(exhibitorId: string) {
+    const application = await this.application.getByExhibitor(exhibitorId, {
+      select: { contactEmail: true },
+    });
+
+    await this.email.send({
       name: "exposant-visible",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -44,6 +49,6 @@ export namespace ExhibitorEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 }

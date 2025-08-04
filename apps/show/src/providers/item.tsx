@@ -1,5 +1,6 @@
 import { DynamicImage } from "#core/data-display/image";
-import { ImageUrl, cn } from "@animeaux/core";
+import { ImageData } from "#core/image/data.js";
+import { cn } from "@animeaux/core";
 import { Link } from "@remix-run/react";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
@@ -24,7 +25,7 @@ export const ProviderItem = forwardRef<
         className="group/item grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-visible:focus-spaced"
       >
         <DynamicImage
-          image={ImageUrl.parse(provider.logoPath)}
+          image={ImageData.parse(provider.logoPath)}
           fillTransparentBackground
           alt={provider.name}
           aspectRatio="4:3"

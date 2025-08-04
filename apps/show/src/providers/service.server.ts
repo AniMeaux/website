@@ -1,9 +1,11 @@
-import { prisma } from "#core/prisma.server";
-import { Service } from "#core/services/service.server";
+import type { ServicePrisma } from "#core/prisma.service.server.js";
 
-export class ServiceProvider extends Service {
+export class ServiceProvider {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private prisma: ServicePrisma) {}
+
   async getManyVisible() {
-    return await prisma.showProvider.findMany({
+    return await this.prisma.showProvider.findMany({
       where: { isVisible: true },
       orderBy: { name: "asc" },
       select: {

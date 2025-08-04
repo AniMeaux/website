@@ -31,12 +31,10 @@
     "script": "NODE_OPTIONS=\"-r dotenv-flow/config\" tsx"
   },
   "dependencies": {
-    "@animeaux/cloudinary": "*",
     "@animeaux/core": "*",
     "@animeaux/files-io": "*",
     "@animeaux/file-storage": "*",
     "@animeaux/react-primitives": "*",
-    "@animeaux/resend": "*",
     "@animeaux/search-params-io": "*",
     "@animeaux/zod-utils": "*",
     "@conform-to/react": "^1.2.2",

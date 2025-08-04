@@ -1,21 +1,29 @@
-import type { IsFirstProps } from "#core/data-display/email-html.server";
+import type { IsFirstProps } from "#core/data-display/email-html.server.js";
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server";
-import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender";
+} from "#core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { Routes } from "#core/navigation.js";
+import type { ServiceApplication } from "#exhibitors/application/service.server.js";
+import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender.js";
+import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { joinReactNodes } from "@animeaux/core";
-import type { EmailTemplate } from "@animeaux/resend";
 import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
-export namespace DogsConfigurationEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
+export class ServiceExhibitorDogConfigurationEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(token: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.getByToken(token, {
+      exhibitor: this.exhibitor.getByToken(token, {
         select: {
           dogs: {
             select: {
@@ -29,7 +37,7 @@ export namespace DogsConfigurationEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByToken(token, {
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
@@ -108,7 +116,7 @@ export namespace DogsConfigurationEmails {
       );
     }
 
-    return {
+    await this.email.send({
       name: "chiens-exposant-demandé",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -145,14 +153,12 @@ export namespace DogsConfigurationEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           dogsConfigurationStatus: true,
@@ -170,7 +176,7 @@ export namespace DogsConfigurationEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -180,7 +186,7 @@ export namespace DogsConfigurationEmails {
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.dogsConfigurationStatus) {
@@ -261,7 +267,7 @@ export namespace DogsConfigurationEmails {
           );
         }
 
-        return {
+        return await this.email.send({
           name: "chiens-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -298,7 +304,7 @@ export namespace DogsConfigurationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -307,7 +313,7 @@ export namespace DogsConfigurationEmails {
           "A dogsConfigurationStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "chiens-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -341,7 +347,7 @@ export namespace DogsConfigurationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {

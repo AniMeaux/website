@@ -1,5 +1,5 @@
 import { notFound } from "#core/response.server";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 
@@ -10,7 +10,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const application = await services.exhibitor.application.get(
+  const application = await services.application.get(
     routeParams.applicationId,
     { select: { contactEmail: true } },
   );
