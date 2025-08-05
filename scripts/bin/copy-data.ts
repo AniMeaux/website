@@ -17,11 +17,11 @@ const TABLES_NAME = [
   "Password",
   "PressArticle",
   "ShowAnimation",
-  "ShowExhibitorApplication",
   "ShowExhibitorDog",
   "ShowPartner",
   "ShowProvider",
   "ShowExhibitor",
+  "ShowExhibitorApplication",
   "User",
 ];
 
