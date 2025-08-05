@@ -1,3 +1,6 @@
+import { ActivityAction } from "#activity/action.js";
+import { Activity } from "#activity/db.server.js";
+import { ActivityResource } from "#activity/resource.js";
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { NotFoundError } from "#core/errors.server";
 import { Routes } from "#core/navigation";
@@ -35,16 +38,16 @@ export class MissingPickUpLocationError extends Error {}
 export class NotManagerError extends Error {}
 
 export class AnimalSituationDbDelegate {
-  async update(id: Animal["id"], data: AnimalSituation) {
+  async update(
+    id: Animal["id"],
+    data: AnimalSituation,
+    currentUser: { id: string },
+  ) {
     await prisma.$transaction(async (prisma) => {
       const currentAnimal = await prisma.animal.findUnique({
         where: { id },
-        select: {
-          managerId: true,
-          nextVaccinationDate: true,
-          pickUpLocation: true,
-        },
       });
+
       if (currentAnimal == null) {
         throw new NotFoundError();
       }
@@ -52,7 +55,16 @@ export class AnimalSituationDbDelegate {
       await this.validate(prisma, data, currentAnimal);
       this.normalize(data);
 
-      await prisma.animal.update({ where: { id }, data });
+      const newAnimal = await prisma.animal.update({ where: { id }, data });
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.UPDATE,
+        resource: ActivityResource.Enum.ANIMAL,
+        resourceId: id,
+        before: currentAnimal,
+        after: newAnimal,
+      });
     });
   }
 

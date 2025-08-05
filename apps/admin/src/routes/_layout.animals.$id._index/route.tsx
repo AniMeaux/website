@@ -165,7 +165,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -179,7 +179,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await db.animal.delete(result.data);
+    await db.animal.delete(result.data, currentUser);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw notFound();

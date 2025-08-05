@@ -88,7 +88,7 @@ type ActionData = {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -110,20 +110,24 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await db.animal.profile.update(paramsResult.data.id, {
-      species: formData.data.species,
-      name: formData.data.name,
-      alias: formData.data.alias || null,
-      birthdate: formData.data.birthdate,
-      breedId: formData.data.breedId || null,
-      colorId: formData.data.colorId || null,
-      description: formData.data.description || null,
-      gender: formData.data.gender,
-      iCadNumber: formData.data.iCadNumber || null,
-      isOkCats: formData.data.isOkCats,
-      isOkChildren: formData.data.isOkChildren,
-      isOkDogs: formData.data.isOkDogs,
-    });
+    await db.animal.profile.update(
+      paramsResult.data.id,
+      {
+        species: formData.data.species,
+        name: formData.data.name,
+        alias: formData.data.alias || null,
+        birthdate: formData.data.birthdate,
+        breedId: formData.data.breedId || null,
+        colorId: formData.data.colorId || null,
+        description: formData.data.description || null,
+        gender: formData.data.gender,
+        iCadNumber: formData.data.iCadNumber || null,
+        isOkCats: formData.data.isOkCats,
+        isOkChildren: formData.data.isOkChildren,
+        isOkDogs: formData.data.isOkDogs,
+      },
+      currentUser,
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
       return json<ActionData>(

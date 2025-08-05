@@ -1,3 +1,6 @@
+import { ActivityAction } from "#activity/action.js";
+import { Activity } from "#activity/db.server.js";
+import { ActivityResource } from "#activity/resource.js";
 import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
 import type { AnimalPictures } from "#animals/pictures/db.server";
 import { AnimalPictureDbDelegate } from "#animals/pictures/db.server";
@@ -27,8 +30,12 @@ export class AnimalDbDelegate {
   readonly profile = new AnimalProfileDbDelegate();
   readonly situation = new AnimalSituationDbDelegate();
 
-  async create(draft: null | AnimalDraft, pictures: AnimalPictures) {
-    return await prisma.$transaction(async (prisma) => {
+  async create(
+    draft: null | AnimalDraft,
+    pictures: AnimalPictures,
+    currentUser: { id: string },
+  ) {
+    const animal = await prisma.$transaction(async (prisma) => {
       if (
         !this.profile.draftHasProfile(draft) ||
         !this.situation.draftHasSituation(draft)
@@ -44,23 +51,39 @@ export class AnimalDbDelegate {
 
       const animal = await prisma.animal.create({
         data: { ...data, ...pictures },
-        select: { id: true },
       });
 
       await prisma.animalDraft.delete({ where: { ownerId } });
 
-      return animal.id;
+      return animal;
     });
+
+    await Activity.create({
+      currentUser,
+      action: ActivityAction.Enum.CREATE,
+      resource: ActivityResource.Enum.ANIMAL,
+      resourceId: animal.id,
+      after: animal,
+    });
+
+    return animal.id;
   }
 
-  async delete(animalId: Animal["id"]) {
+  async delete(animalId: Animal["id"], currentUser: { id: string }) {
     try {
       const animal = await prisma.animal.delete({
         where: { id: animalId },
-        select: { avatar: true, pictures: true },
       });
 
       await Promise.allSettled(getAllAnimalPictures(animal).map(deleteImage));
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.DELETE,
+        resource: ActivityResource.Enum.ANIMAL,
+        resourceId: animalId,
+        before: animal,
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
