@@ -1,9 +1,26 @@
 import type { ActivitySearchParams } from "#activity/search-params";
 import { prisma } from "#core/prisma.server.js";
+import { notFound } from "#core/response.server.js";
 import type { Prisma } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
 export namespace Activity {
+  export async function findUnique<T extends Prisma.ActivitySelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const activity = await prisma.activity.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (activity == null) {
+      throw notFound();
+    }
+
+    return activity;
+  }
+
   export async function findMany<T extends Prisma.ActivitySelect>(params: {
     searchParams: ActivitySearchParams.Value;
     page: number;
