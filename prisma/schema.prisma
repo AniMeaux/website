@@ -24,6 +24,7 @@ model User {
   draftManagedAnimals AnimalDraft[] @relation("Draft_managerToUser")
   managedAnimals      Animal[]
   password            Password?
+  activities          Activity[]
 }
 
 model Password {
@@ -32,10 +33,52 @@ model Password {
   userId String @unique
 }
 
-model FosterFamily {
+model Activity {
   id        String   @id @default(uuid()) @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  actorType ActivityActorType
+  actorId   String            @db.VarChar(255)
+
+  user      User?   @relation(fields: [userIdRef], references: [id], onDelete: SetNull)
+  userIdRef String? @db.VarChar(255)
+
+  action     ActivityAction
+  resource   ActivityResource
+  resourceId String           @db.VarChar(255)
+
+  animal   Animal? @relation(fields: [animalId], references: [id], onDelete: SetNull)
+  animalId String? @db.VarChar(255)
+
+  fosterFamily   FosterFamily? @relation(fields: [fosterFamilyId], references: [id], onDelete: SetNull)
+  fosterFamilyId String?       @db.VarChar(255)
+
+  before Json?
+  after  Json?
+}
+
+enum ActivityActorType {
+  CRON
+  USER
+}
+
+enum ActivityAction {
+  CREATE
+  DELETE
+  UPDATE
+}
+
+enum ActivityResource {
+  ANIMAL
+  FOSTER_FAMILY
+}
+
+model FosterFamily {
+  id         String     @id @default(uuid()) @db.VarChar(255)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  activities Activity[]
 
   availability               FosterFamilyAvailability @default(UNKNOWN)
   availabilityExpirationDate DateTime?
@@ -103,9 +146,10 @@ model Color {
 }
 
 model Animal {
-  id        String   @id @default(uuid()) @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String     @id @default(uuid()) @db.VarChar(255)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  activities Activity[]
 
   adoptionDate             DateTime?
   adoptionOption           AdoptionOption?

@@ -9,6 +9,7 @@ const { Client } = pg;
 
 // Order: last table is copied first.
 const TABLES_NAME = [
+  "Activity",
   "Animal",
   "Breed",
   "Color",
