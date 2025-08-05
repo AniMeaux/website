@@ -88,7 +88,7 @@ type ActionData = {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -125,10 +125,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
     const avatar = formData.data.pictures[0];
     invariant(avatar != null, "The avatar should exists");
 
-    await db.animal.picture.update(paramsResult.data.id, {
-      avatar,
-      pictures: formData.data.pictures.slice(1),
-    });
+    await db.animal.picture.update(
+      paramsResult.data.id,
+      {
+        avatar,
+        pictures: formData.data.pictures.slice(1),
+      },
+      currentUser,
+    );
   } catch (error) {
     if (error instanceof CloudinaryUploadApiError) {
       return json<ActionData>(

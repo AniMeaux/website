@@ -1,6 +1,6 @@
 import { db } from "#core/db.server";
-import { assertIsDefined } from "#core/is-defined.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -23,10 +23,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     routeParams.applicationId,
     {
       select: {
-        billingAddress: true,
-        billingCity: true,
-        billingCountry: true,
-        billingZipCode: true,
         comments: true,
         contactEmail: true,
         contactFirstname: true,
@@ -35,22 +31,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         createdAt: true,
         desiredStandSize: true,
         discoverySource: true,
+        discoverySourceOther: true,
         id: true,
         motivation: true,
-        otherPartnershipCategory: true,
-        partnershipCategory: true,
+        sponsorshipCategory: true,
         proposalForOnStageEntertainment: true,
         refusalMessage: true,
         status: true,
+        structureActivityDescription: true,
         structureActivityFields: true,
         structureActivityTargets: true,
         structureAddress: true,
         structureCity: true,
         structureCountry: true,
         structureLegalStatus: true,
+        structureLegalStatusOther: true,
         structureLogoPath: true,
         structureName: true,
-        structureOtherLegalStatus: true,
         structureSiret: true,
         structureUrl: true,
         structureZipCode: true,
@@ -65,7 +62,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   );
 
-  assertIsDefined(application);
+  return json({
+    application: {
+      ...application,
 
-  return json({ application });
+      sponsorshipCategory: SponsorshipOptionalCategory.fromDb(
+        application.sponsorshipCategory,
+      ),
+    },
+  });
 }

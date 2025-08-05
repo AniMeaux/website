@@ -1,12 +1,13 @@
 import { FormLayout } from "#core/layout/form-layout";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { getFormProps } from "@conform-to/react";
 import { Form, useFormAction, useNavigation } from "@remix-run/react";
-import { FieldsetBilling } from "./fieldset-billing";
 import { FieldsetComments } from "./fieldset-comments";
 import { FieldsetContact } from "./fieldset-contact";
 import { FieldsetDocuments } from "./fieldset-documents";
 import { FieldsetParticipation } from "./fieldset-participation";
-import { FieldsetPartnership } from "./fieldset-partnership";
+import { FieldsetPersonalData } from "./fieldset-personal-data";
+import { FieldsetSponsorship } from "./fieldset-sponsorship";
 import { FieldsetStructure } from "./fieldset-structure";
 import { FieldsetId, FieldsetsProvider, useForm } from "./form";
 
@@ -36,19 +37,19 @@ export function SectionForm() {
 
             <FormLayout.SectionSeparator />
 
-            <FieldsetBilling />
-
-            <FormLayout.SectionSeparator />
-
             <FieldsetParticipation />
 
             <FormLayout.SectionSeparator />
 
-            <FieldsetPartnership />
+            <FieldsetSponsorship />
 
             <FormLayout.SectionSeparator />
 
             <FieldsetComments />
+
+            <FormLayout.SectionSeparator />
+
+            <FieldsetPersonalData />
 
             <FormLayout.SectionSeparator />
 
@@ -58,7 +59,7 @@ export function SectionForm() {
                 navigation.formAction === formAction
               }
             >
-              Envoyer
+              Envoyer ma candidature
             </FormLayout.Action>
           </Form>
         </FormLayout.Form>
@@ -101,26 +102,14 @@ export function SectionForm() {
               fieldsets.structure.value?.zipCode != null &&
               fieldsets.structure.value?.city != null &&
               fieldsets.structure.value?.country != null &&
+              fieldsets.structure.value?.haveCivilLiability === "on" &&
+              fieldsets.structure.value?.activityDescription != null &&
               fieldsets.structure.value?.activityTargets != null &&
               fieldsets.structure.value?.activityFields != null &&
               fieldsets.structure.value?.logo != null
             }
           >
             Structure
-          </FormLayout.NavItem>
-
-          <FormLayout.NavItem
-            sectionId={FieldsetId.BILLING}
-            isComplete={
-              fieldsets.billing.valid &&
-              (fieldsets.billing.value?.sameAsStructure === "on" ||
-                (fieldsets.billing.value?.address != null &&
-                  fieldsets.billing.value?.zipCode != null &&
-                  fieldsets.billing.value?.city != null &&
-                  fieldsets.billing.value?.country != null))
-            }
-          >
-            Facturation
           </FormLayout.NavItem>
 
           <FormLayout.NavItem
@@ -134,13 +123,13 @@ export function SectionForm() {
           </FormLayout.NavItem>
 
           <FormLayout.NavItem
-            sectionId={FieldsetId.PARTNERSHIP}
+            sectionId={FieldsetId.SPONSORSHIP}
             isComplete={
-              fieldsets.partnershipCategory.valid &&
-              fieldsets.partnershipCategory.value != null
+              fieldsets.sponsorshipCategory.valid &&
+              fieldsets.sponsorshipCategory.value != null
             }
           >
-            Partenariat
+            Sponsor
           </FormLayout.NavItem>
 
           <FormLayout.NavItem
@@ -148,10 +137,24 @@ export function SectionForm() {
             isComplete={
               fieldsets.comments.valid &&
               fieldsets.comments.value?.motivation != null &&
-              fieldsets.comments.value?.discoverySource != null
+              fieldsets.comments.value?.discoverySource != null &&
+              (fieldsets.comments.value.discoverySource !==
+                DiscoverySource.Enum.OTHER ||
+                fieldsets.comments.value.discoverySourceOther != null)
             }
           >
             Commentaires
+          </FormLayout.NavItem>
+
+          <FormLayout.NavItem
+            sectionId={FieldsetId.PERSONAL_DATA}
+            isComplete={
+              fieldsets.personalData.valid &&
+              fieldsets.personalData.value?.acceptDataUsage === "on" &&
+              fieldsets.personalData.value?.acceptEmails === "on"
+            }
+          >
+            Données
           </FormLayout.NavItem>
         </FormLayout.Nav>
       </FormLayout.Root>

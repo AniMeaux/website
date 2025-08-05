@@ -7,6 +7,7 @@ import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/application
 import { Payment } from "#show/exhibitors/payment";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
 import { ExhibitorStatus } from "#show/exhibitors/status";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { catchError } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
@@ -122,14 +123,30 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
-    if (params.searchParams.partnershipCategories.size > 0) {
-      where.push({
-        partnership: {
-          category: {
-            in: Array.from(params.searchParams.partnershipCategories),
-          },
-        },
-      });
+    if (params.searchParams.sponsorshipCategories.size > 0) {
+      const sponsorshipCategoryWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (
+        params.searchParams.sponsorshipCategories.has(
+          SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP,
+        )
+      ) {
+        sponsorshipCategoryWhere.push({ sponsorship: null });
+      }
+
+      const sponsorshipCategories = Array.from(
+        params.searchParams.sponsorshipCategories,
+      )
+        .map(SponsorshipOptionalCategory.toDb)
+        .filter(Boolean);
+
+      if (sponsorshipCategories.length > 0) {
+        sponsorshipCategoryWhere.push({
+          sponsorship: { category: { in: sponsorshipCategories } },
+        });
+      }
+
+      where.push({ OR: sponsorshipCategoryWhere });
     }
 
     if (params.searchParams.payment.size > 0) {

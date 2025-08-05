@@ -3,12 +3,11 @@ import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
-import { ApplicationPartnershipCategory } from "#show/exhibitors/applications/partnership-category";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import type { ShowExhibitor, ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
-import partition from "lodash.partition";
 import { promiseHash } from "remix-utils/promise";
 
 export class MissingRefusalMessageError extends Error {}
@@ -54,18 +53,31 @@ export class ShowExhibitorApplicationDbDelegate {
   }) {
     const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
 
-    if (params.searchParams.partnershipCategories.size > 0) {
-      const [partnershipCategories, otherPartnershipCategories] = partition(
-        Array.from(params.searchParams.partnershipCategories),
-        ApplicationPartnershipCategory.isPartnershipCategory,
-      );
+    if (params.searchParams.sponsorshipCategories.size > 0) {
+      const sponsorshipCategoryWhere: Prisma.ShowExhibitorApplicationWhereInput[] =
+        [];
 
-      where.push({
-        OR: [
-          { partnershipCategory: { in: partnershipCategories } },
-          { otherPartnershipCategory: { in: otherPartnershipCategories } },
-        ],
-      });
+      if (
+        params.searchParams.sponsorshipCategories.has(
+          SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP,
+        )
+      ) {
+        sponsorshipCategoryWhere.push({ sponsorshipCategory: null });
+      }
+
+      const sponsorshipCategories = Array.from(
+        params.searchParams.sponsorshipCategories,
+      )
+        .map(SponsorshipOptionalCategory.toDb)
+        .filter(Boolean);
+
+      if (sponsorshipCategories.length > 0) {
+        sponsorshipCategoryWhere.push({
+          sponsorshipCategory: { in: sponsorshipCategories },
+        });
+      }
+
+      where.push({ OR: sponsorshipCategoryWhere });
     }
 
     if (params.searchParams.name != null) {
@@ -153,11 +165,11 @@ export class ShowExhibitorApplicationDbDelegate {
 
         await prisma.showExhibitor.create({
           data: {
-            ...(application.partnershipCategory != null
+            ...(application.sponsorshipCategory != null
               ? {
-                  partnership: {
+                  sponsorship: {
                     create: {
-                      category: application.partnershipCategory,
+                      category: application.sponsorshipCategory,
                     },
                   },
                 }

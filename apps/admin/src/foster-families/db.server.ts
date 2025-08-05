@@ -1,3 +1,6 @@
+import { ActivityAction } from "#activity/action.js";
+import { Activity } from "#activity/db.server.js";
+import { ActivityResource } from "#activity/resource.js";
 import {
   EmailAlreadyUsedError,
   NotFoundError,
@@ -55,9 +58,22 @@ export class FosterFamilyDbDelegate {
     }>[];
   }
 
-  async delete(fosterFamilyId: FosterFamily["id"]) {
+  async delete(
+    fosterFamilyId: FosterFamily["id"],
+    currentUser: { id: string },
+  ) {
     try {
-      await prisma.fosterFamily.delete({ where: { id: fosterFamilyId } });
+      const fosterFamily = await prisma.fosterFamily.delete({
+        where: { id: fosterFamilyId },
+      });
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.DELETE,
+        resource: ActivityResource.Enum.FOSTER_FAMILY,
+        resourceId: fosterFamilyId,
+        before: fosterFamily,
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
@@ -75,9 +91,21 @@ export class FosterFamilyDbDelegate {
     }
   }
 
-  async setIsBanned(fosterFamilyId: FosterFamily["id"], isBanned: boolean) {
-    try {
-      await prisma.fosterFamily.update({
+  async setIsBanned(
+    fosterFamilyId: FosterFamily["id"],
+    isBanned: boolean,
+    currentUser: { id: string },
+  ) {
+    await prisma.$transaction(async (prisma) => {
+      const currentFosterFamily = await prisma.fosterFamily.findUnique({
+        where: { id: fosterFamilyId },
+      });
+
+      if (currentFosterFamily == null) {
+        throw new NotFoundError();
+      }
+
+      const newFosterFamily = await prisma.fosterFamily.update({
         where: { id: fosterFamilyId },
         data: {
           isBanned,
@@ -90,67 +118,86 @@ export class FosterFamilyDbDelegate {
             : undefined),
         },
       });
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.UPDATE,
+        resource: ActivityResource.Enum.FOSTER_FAMILY,
+        resourceId: fosterFamilyId,
+        before: currentFosterFamily,
+        after: newFosterFamily,
+      });
+    });
+  }
+
+  async update(
+    id: FosterFamily["id"],
+    data: FosterFamilyData,
+    currentUser: { id: string },
+  ) {
+    await prisma.$transaction(async (prisma) => {
+      const currentFosterFamily = await prisma.fosterFamily.findUnique({
+        where: { id },
+      });
+
+      if (currentFosterFamily == null) {
+        throw new NotFoundError();
+      }
+
+      this.validate(data, currentFosterFamily);
+      this.normalize(data);
+
+      try {
+        const newFosterFamily = await prisma.fosterFamily.update({
+          where: { id },
+          data,
+        });
+
+        await Activity.create({
+          currentUser,
+          action: ActivityAction.Enum.UPDATE,
+          resource: ActivityResource.Enum.FOSTER_FAMILY,
+          resourceId: id,
+          before: currentFosterFamily,
+          after: newFosterFamily,
+        });
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+            throw new EmailAlreadyUsedError();
+          }
+        }
+
+        throw error;
+      }
+    });
+  }
+
+  async create(data: FosterFamilyData, currentUser: { id: string }) {
+    this.validate(data);
+    this.normalize(data);
+
+    try {
+      const fosterFamily = await prisma.fosterFamily.create({ data });
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.CREATE,
+        resource: ActivityResource.Enum.FOSTER_FAMILY,
+        resourceId: fosterFamily.id,
+        after: fosterFamily,
+      });
+
+      return fosterFamily.id;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new EmailAlreadyUsedError();
         }
       }
 
       throw error;
     }
-  }
-
-  async update(id: FosterFamily["id"], data: FosterFamilyData) {
-    await prisma.$transaction(async (prisma) => {
-      const fosterFamily = await prisma.fosterFamily.findUnique({
-        where: { id },
-        select: { speciesToHost: true },
-      });
-
-      if (fosterFamily == null) {
-        throw new NotFoundError();
-      }
-
-      this.validate(data, fosterFamily);
-      this.normalize(data);
-
-      try {
-        await prisma.fosterFamily.update({ where: { id }, data });
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-            throw new EmailAlreadyUsedError();
-          }
-        }
-
-        throw error;
-      }
-    });
-  }
-
-  async create(data: FosterFamilyData) {
-    return await prisma.$transaction(async (prisma) => {
-      this.validate(data);
-      this.normalize(data);
-
-      try {
-        const fosterFamily = await prisma.fosterFamily.create({
-          data,
-          select: { id: true },
-        });
-
-        return fosterFamily.id;
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-            throw new EmailAlreadyUsedError();
-          }
-        }
-
-        throw error;
-      }
-    });
   }
 
   async createFindManyParams(

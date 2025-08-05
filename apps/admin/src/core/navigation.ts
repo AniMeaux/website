@@ -130,11 +130,11 @@ export const Routes = {
       }),
     },
 
-    partners: {
-      toString: () => "/show/partners" as const,
+    sponsors: {
+      toString: () => "/show/sponsors" as const,
 
       id: (id: string) => ({
-        toString: () => `/show/partners/${id}` as const,
+        toString: () => `/show/sponsors/${id}` as const,
       }),
     },
   },
@@ -145,6 +145,12 @@ export const Routes = {
       edit: { toString: () => `/users/${id}/edit` as const },
     }),
     new: { toString: () => "/users/new" as const },
+  },
+  activity: {
+    toString: () => "/activity" as const,
+    id: (id: string) => ({
+      toString: () => `/activity/${id}` as const,
+    }),
   },
   definePassword: { toString: () => "/define-password" as const },
   downloads: {

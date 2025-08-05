@@ -1,6 +1,6 @@
 import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
-import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
+import { LegalStatus } from "#exhibitors/application/legal-status";
 import { getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -23,9 +23,10 @@ export function SectionStructure() {
           <FormLayout.Label>Forme juridique</FormLayout.Label>
 
           <FormLayout.Output>
-            {application.structureLegalStatus != null
-              ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
-              : application.structureOtherLegalStatus}
+            {LegalStatus.getVisibleValue({
+              legalStatus: application.structureLegalStatus,
+              legalStatusOther: application.structureLegalStatusOther,
+            })}
           </FormLayout.Output>
         </FormLayout.Field>
 
@@ -36,39 +37,21 @@ export function SectionStructure() {
         </FormLayout.Field>
       </FormLayout.Row>
 
-      <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Adresse de domiciliation</FormLayout.Label>
+      <FormLayout.Field>
+        <FormLayout.Label>Adresse de domiciliation</FormLayout.Label>
 
-          <FormLayout.Output>
-            <Markdown
-              content={getCompleteLocation({
-                address: application.structureAddress,
-                zipCode: application.structureZipCode,
-                city: application.structureCity,
-                country: application.structureCountry,
-              })}
-              components={SENTENCE_COMPONENTS}
-            />
-          </FormLayout.Output>
-        </FormLayout.Field>
-
-        <FormLayout.Field>
-          <FormLayout.Label>Adresse de facturation</FormLayout.Label>
-
-          <FormLayout.Output>
-            <Markdown
-              content={getCompleteLocation({
-                address: application.billingAddress,
-                zipCode: application.billingZipCode,
-                city: application.billingCity,
-                country: application.billingCountry,
-              })}
-              components={SENTENCE_COMPONENTS}
-            />
-          </FormLayout.Output>
-        </FormLayout.Field>
-      </FormLayout.Row>
+        <FormLayout.Output>
+          <Markdown
+            content={getCompleteLocation({
+              address: application.structureAddress,
+              zipCode: application.structureZipCode,
+              city: application.structureCity,
+              country: application.structureCountry,
+            })}
+            components={SENTENCE_COMPONENTS}
+          />
+        </FormLayout.Output>
+      </FormLayout.Field>
     </FormLayout.Section>
   );
 }

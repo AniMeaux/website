@@ -22,12 +22,20 @@ export function toIsoDateValue(
 
 export function toRoundedRelative(isoDate: string) {
   const date = DateTime.fromISO(isoDate);
+  const now = DateTime.now();
 
-  if (DateTime.now().minus({ minutes: 1 }) <= date) {
+  if (now.minus({ minutes: 1 }) <= date) {
     return "il y a moins de 1 minute";
   }
 
-  return date.toRelative();
+  if (now.minus({ days: 7 }) <= date) {
+    return date.toRelative();
+  }
+
+  return date.toLocaleString({
+    ...DateTime.DATE_MED,
+    year: now.hasSame(date, "year") ? undefined : "numeric",
+  });
 }
 
 export function startOfDay(date: undefined | Date) {

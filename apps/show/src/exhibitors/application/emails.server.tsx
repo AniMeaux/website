@@ -8,11 +8,9 @@ import { Routes } from "#core/navigation";
 import { services } from "#core/services/services.server";
 import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
-import { LEGAL_STATUS_TRANSLATION } from "#exhibitors/application/legal-status";
-import {
-  EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION,
-  PARTNERSHIP_CATEGORY_TRANSLATION,
-} from "#exhibitors/partnership/category";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
+import { LegalStatus } from "#exhibitors/application/legal-status";
+import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
 import { ImageUrl, getCompleteLocation } from "@animeaux/core";
 import type { EmailTemplate } from "@animeaux/resend";
@@ -117,9 +115,10 @@ export namespace ApplicationEmails {
               <EmailHtml.Output.Label>Forme juridique</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.structureLegalStatus != null
-                  ? LEGAL_STATUS_TRANSLATION[application.structureLegalStatus]
-                  : application.structureOtherLegalStatus}
+                {LegalStatus.getVisibleValue({
+                  legalStatus: application.structureLegalStatus,
+                  legalStatusOther: application.structureLegalStatusOther,
+                })}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -148,6 +147,16 @@ export namespace ApplicationEmails {
                   })}
                   components={EMAIL_SENTENCE_COMPONENTS}
                 />
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Présentation de l’activité
+              </EmailHtml.Output.Label>
+
+              <EmailHtml.Output.Value>
+                {application.structureActivityDescription}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -200,34 +209,6 @@ export namespace ApplicationEmails {
       );
     }
 
-    function SectionBilling() {
-      return (
-        <EmailHtml.Section.Root>
-          <EmailHtml.Section.Title>Facturation</EmailHtml.Section.Title>
-
-          <EmailHtml.Output.Table>
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Adresse de facturation
-              </EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                <EmailHtml.Markdown
-                  content={getCompleteLocation({
-                    address: application.billingAddress,
-                    zipCode: application.billingZipCode,
-                    city: application.billingCity,
-                    country: application.billingCountry,
-                  })}
-                  components={EMAIL_SENTENCE_COMPONENTS}
-                />
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-          </EmailHtml.Output.Table>
-        </EmailHtml.Section.Root>
-      );
-    }
-
     function SectionParticipation() {
       return (
         <EmailHtml.Section.Root>
@@ -258,27 +239,21 @@ export namespace ApplicationEmails {
       );
     }
 
-    function SectionPartnership() {
+    function SectionSponsorship() {
       return (
         <EmailHtml.Section.Root>
-          <EmailHtml.Section.Title>Partenariat</EmailHtml.Section.Title>
+          <EmailHtml.Section.Title>Sponsor</EmailHtml.Section.Title>
 
           <EmailHtml.Output.Table>
             <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Catégorie de partenariat
-              </EmailHtml.Output.Label>
+              <EmailHtml.Output.Label>Catégorie</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.partnershipCategory != null
-                  ? PARTNERSHIP_CATEGORY_TRANSLATION[
-                      application.partnershipCategory
-                    ]
-                  : application.otherPartnershipCategory != null
-                    ? EXHIBITOR_APPLICATION_OTHER_PARTNERSHIP_CATEGORY_TRANSLATION[
-                        application.otherPartnershipCategory
-                      ]
-                    : null}
+                {
+                  SponsorshipCategory.translation[
+                    SponsorshipCategory.fromDb(application.sponsorshipCategory)
+                  ]
+                }
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
@@ -308,7 +283,7 @@ export namespace ApplicationEmails {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {application.discoverySource}
+                {DiscoverySource.getVisibleValue(application)}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -339,9 +314,8 @@ export namespace ApplicationEmails {
 
           <SectionContact />
           <SectionStructure />
-          <SectionBilling />
           <SectionParticipation />
-          <SectionPartnership />
+          <SectionSponsorship />
           <SectionComments />
 
           <EmailHtml.SectionSeparator />

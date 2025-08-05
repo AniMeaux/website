@@ -3,14 +3,15 @@ import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import { zu } from "@animeaux/zod-utils";
 import type { MetaFunction } from "@remix-run/react";
+import { CardActivityDescription } from "./card-activity-description";
 import { CardComments } from "./card-comments";
 import { CardContact } from "./card-contact";
 import { CardDiscoverySource } from "./card-discovery-source";
 import { CardMotivation } from "./card-motivation";
 import { CardParticipation } from "./card-participation";
-import { CardPartnership } from "./card-partnership";
 import { CardSituation } from "./card-situation";
 import { CardSituationRefusalMessage } from "./card-situation-refusal-message";
+import { CardSponsorship } from "./card-sponsorship";
 import { CardStructure } from "./card-structure";
 import type { loader } from "./loader.server";
 
@@ -51,11 +52,12 @@ export default function Route() {
 
       <div className="grid grid-cols-1 gap-1 md:gap-2">
         <CardStructure />
+        <CardActivityDescription />
         <CardParticipation />
         <CardComments />
 
         <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-2">
-          <CardPartnership />
+          <CardSponsorship />
           <CardDiscoverySource />
         </div>
 

@@ -46,7 +46,7 @@ type ActionData = {
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -64,22 +64,25 @@ export async function action({ request }: ActionFunctionArgs) {
   }
 
   try {
-    const fosterFamilyId = await db.fosterFamily.create({
-      address: formData.data.address,
-      availability: formData.data.availability,
-      availabilityExpirationDate:
-        formData.data.availabilityExpirationDate ?? null,
-      city: formData.data.city,
-      comments: formData.data.comments || null,
-      displayName: formData.data.displayName,
-      email: formData.data.email,
-      garden: formData.data.garden,
-      housing: formData.data.housing,
-      phone: formData.data.phone,
-      speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
-      speciesToHost: formData.data.speciesToHost,
-      zipCode: formData.data.zipCode,
-    });
+    const fosterFamilyId = await db.fosterFamily.create(
+      {
+        address: formData.data.address,
+        availability: formData.data.availability,
+        availabilityExpirationDate:
+          formData.data.availabilityExpirationDate ?? null,
+        city: formData.data.city,
+        comments: formData.data.comments || null,
+        displayName: formData.data.displayName,
+        email: formData.data.email,
+        garden: formData.data.garden,
+        housing: formData.data.housing,
+        phone: formData.data.phone,
+        speciesAlreadyPresent: formData.data.speciesAlreadyPresent,
+        speciesToHost: formData.data.speciesToHost,
+        zipCode: formData.data.zipCode,
+      },
+      currentUser,
+    );
 
     const url = new URL(request.url);
     const { next } = NextSearchParams.parse(url.searchParams);

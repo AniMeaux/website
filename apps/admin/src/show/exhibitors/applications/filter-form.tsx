@@ -10,10 +10,6 @@ import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
 import {
-  ApplicationPartnershipCategory,
-  ApplicationPartnershipCategoryIcon,
-} from "#show/exhibitors/applications/partnership-category";
-import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params";
@@ -22,6 +18,10 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
+import {
+  SponsorshipCategoryIcon,
+  SponsorshipOptionalCategory,
+} from "#show/sponsors/category";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters() {
@@ -241,41 +241,41 @@ export function ApplicationFilters() {
         </Filters.Filter>
 
         <Filters.Filter
-          value={ApplicationSearchParams.keys.partnershipCategories}
-          label="Catégorie de partenariat"
-          count={applicationSearchParams.partnershipCategories.size}
+          value={ApplicationSearchParams.keys.sponsorshipCategories}
+          label="Catégorie de sponsor"
+          count={applicationSearchParams.sponsorshipCategories.size}
           hiddenContent={Array.from(
-            applicationSearchParams.partnershipCategories,
+            applicationSearchParams.sponsorshipCategories,
           ).map((category) => (
             <input
               key={category}
               type="hidden"
-              name={ApplicationSearchParams.keys.partnershipCategories}
+              name={ApplicationSearchParams.keys.sponsorshipCategories}
               value={category}
             />
           ))}
         >
           <ToggleInputList>
-            {ApplicationPartnershipCategory.values.map((category) => (
+            {SponsorshipOptionalCategory.values.map((category) => (
               <ToggleInput
                 key={category}
                 type="checkbox"
-                label={ApplicationPartnershipCategory.translation[category]}
-                name={ApplicationSearchParams.keys.partnershipCategories}
+                label={SponsorshipOptionalCategory.translation[category]}
+                name={ApplicationSearchParams.keys.sponsorshipCategories}
                 value={category}
                 icon={
-                  <ApplicationPartnershipCategoryIcon
+                  <SponsorshipCategoryIcon
                     category={category}
                     variant="light"
                   />
                 }
                 iconChecked={
-                  <ApplicationPartnershipCategoryIcon
+                  <SponsorshipCategoryIcon
                     category={category}
                     variant="solid"
                   />
                 }
-                checked={applicationSearchParams.partnershipCategories.has(
+                checked={applicationSearchParams.sponsorshipCategories.has(
                   category,
                 )}
                 onChange={() => {}}

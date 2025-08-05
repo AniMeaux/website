@@ -80,7 +80,7 @@ export const ModalFilters = {
                   asChild
                 >
                   <SearchParamsForm>
-                    <FieldPartnership />
+                    <FieldSponsorship />
                     <FieldAnimations />
                     <FieldTargets />
                     <FieldFields />
@@ -233,10 +233,10 @@ function FieldFields() {
   );
 }
 
-function FieldPartnership() {
+function FieldSponsorship() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  if (CLIENT_ENV.FEATURE_FLAG_SHOW_PARTNERS !== "true") {
+  if (CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS !== "true") {
     return null;
   }
 
@@ -245,10 +245,10 @@ function FieldPartnership() {
       <FormLayout.Selectors columnMinWidth="250px" repeatCount="auto-fill">
         <FormLayout.Selector.Root>
           <FormLayout.Selector.Input
-            name={ExhibitorSearchParams.keys.isPartner}
+            name={ExhibitorSearchParams.keys.isSponsor}
             type="checkbox"
             value="on"
-            checked={exhibitorSearchParams.isPartner}
+            checked={exhibitorSearchParams.isSponsor}
             onChange={() => {}}
           />
 
@@ -260,9 +260,7 @@ function FieldPartnership() {
             <Icon id="award-light" />
           </FormLayout.Selector.UncheckedIcon>
 
-          <FormLayout.Selector.Label>
-            Partenaire du Salon
-          </FormLayout.Selector.Label>
+          <FormLayout.Selector.Label>Sponsor</FormLayout.Selector.Label>
 
           <FormLayout.Selector.CheckboxIcon />
         </FormLayout.Selector.Root>

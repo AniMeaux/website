@@ -1,8 +1,10 @@
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
+import { ActivityAction } from "#activity/action.js";
+import { Activity } from "#activity/db.server.js";
+import { ActivityResource } from "#activity/resource.js";
+import { NotFoundError } from "#core/errors.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
-import type { Animal, AnimalDraft } from "@prisma/client";
-import { Prisma } from "@prisma/client";
+import type { Animal, AnimalDraft, Prisma } from "@prisma/client";
 import { redirect } from "@remix-run/node";
 
 type ProfileKeys =
@@ -25,20 +27,31 @@ type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>;
 export class BreedNotForSpeciesError extends Error {}
 
 export class AnimalProfileDbDelegate {
-  async update(id: Animal["id"], data: AnimalProfile) {
-    await this.validate(prisma, data);
+  async update(
+    id: Animal["id"],
+    data: AnimalProfile,
+    currentUser: { id: string },
+  ) {
+    await prisma.$transaction(async (prisma) => {
+      await this.validate(prisma, data);
 
-    try {
-      await prisma.animal.update({ where: { id }, data });
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
-        }
+      const currentAnimal = await prisma.animal.findUnique({ where: { id } });
+
+      if (currentAnimal == null) {
+        throw new NotFoundError();
       }
 
-      throw error;
-    }
+      const newAnimal = await prisma.animal.update({ where: { id }, data });
+
+      await Activity.create({
+        currentUser,
+        action: ActivityAction.Enum.UPDATE,
+        resource: ActivityResource.Enum.ANIMAL,
+        resourceId: id,
+        before: currentAnimal,
+        after: newAnimal,
+      });
+    });
   }
 
   async updateDraft(ownerId: AnimalDraft["ownerId"], data: AnimalProfile) {

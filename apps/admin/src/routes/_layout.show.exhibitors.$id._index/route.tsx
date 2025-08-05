@@ -31,7 +31,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { exhibitor, application, files, partner } = await promiseHash({
+  const { exhibitor, application, files, sponsor } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
         id: true,
@@ -87,17 +87,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       routeParams.id,
       {
         select: {
-          billingAddress: true,
-          billingCity: true,
-          billingCountry: true,
-          billingZipCode: true,
           id: true,
           status: true,
           structureAddress: true,
           structureCity: true,
           structureCountry: true,
           structureLegalStatus: true,
-          structureOtherLegalStatus: true,
+          structureLegalStatusOther: true,
           structureSiret: true,
           structureZipCode: true,
         },
@@ -106,7 +102,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
     files: db.show.exhibitor.getFiles(routeParams.id),
 
-    partner: db.show.partner.findUniqueByExhibitor(routeParams.id, {
+    sponsor: db.show.sponsor.findUniqueByExhibitor(routeParams.id, {
       select: {
         id: true,
         category: true,
@@ -117,7 +113,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   return json({
     exhibitor: { ...exhibitor, ...files },
     application,
-    partner,
+    sponsor,
   });
 }
 

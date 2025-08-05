@@ -1,20 +1,37 @@
 import { ShowExhibitorApplicationLegalStatus } from "@prisma/client";
-import orderBy from "lodash.orderby";
+import invariant from "tiny-invariant";
 
-export const OTHER_SHOW_LEGAL_STATUS = "OTHER";
+export namespace LegalStatus {
+  export const Enum = ShowExhibitorApplicationLegalStatus;
+  export type Enum = ShowExhibitorApplicationLegalStatus;
 
-export const LEGAL_STATUS_TRANSLATION: Record<
-  ShowExhibitorApplicationLegalStatus | typeof OTHER_SHOW_LEGAL_STATUS,
-  string
-> = {
-  [ShowExhibitorApplicationLegalStatus.ASSOCIATION]: "Association",
-  [ShowExhibitorApplicationLegalStatus.COMPANY]: "Société (SA, SAS, SARL…)",
-  [ShowExhibitorApplicationLegalStatus.SOLE_PROPRIETORSHIP]:
-    "Entreprise individuelle",
-  [OTHER_SHOW_LEGAL_STATUS]: "Autre",
-};
+  export const values = [
+    Enum.ASSOCIATION,
+    Enum.SOLE_PROPRIETORSHIP,
+    Enum.COMPANY,
+    Enum.OTHER,
+  ];
 
-export const SORTED_LEGAL_STATUS = orderBy(
-  Object.values(ShowExhibitorApplicationLegalStatus),
-  (status) => LEGAL_STATUS_TRANSLATION[status],
-);
+  export const translation: Record<Enum, string> = {
+    [Enum.ASSOCIATION]: "Association",
+    [Enum.COMPANY]: "Société (SA, SAS, SARL…)",
+    [Enum.SOLE_PROPRIETORSHIP]: "Entreprise individuelle",
+    [Enum.OTHER]: "Autre",
+  };
+
+  export function getVisibleValue(application: {
+    legalStatus: Enum;
+    legalStatusOther?: null | string;
+  }) {
+    if (application.legalStatus != Enum.OTHER) {
+      return translation[application.legalStatus];
+    }
+
+    invariant(
+      application.legalStatusOther != null,
+      "An other legal status should be defined",
+    );
+
+    return application.legalStatusOther;
+  }
+}

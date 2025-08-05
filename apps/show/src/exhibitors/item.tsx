@@ -23,7 +23,7 @@ export function ExhibitorItem({
     activityFields: ShowActivityField[];
     activityTargets: ShowActivityTarget[];
     hasOnStageAnimation: boolean;
-    isPartner: boolean;
+    isSponsor: boolean;
     isOrganizer: boolean;
     logoPath: string;
     name: string;
@@ -70,12 +70,12 @@ export function ExhibitorItem({
                   title="Organisateur du Salon des Ani’Meaux"
                 />
               </>
-            ) : exhibitor.isPartner ? (
+            ) : exhibitor.isSponsor ? (
               <>
                 &nbsp;
                 <IconInline
                   id="award-solid"
-                  title="Partenaire du Salon des Ani’Meaux"
+                  title="Sponsor du Salon des Ani’Meaux"
                 />
               </>
             ) : null}

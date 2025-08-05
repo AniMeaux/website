@@ -1,5 +1,8 @@
+import { Enums } from "#core/enums.js";
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
-import { OTHER_SHOW_LEGAL_STATUS } from "#exhibitors/application/legal-status";
+import { DiscoverySource } from "#exhibitors/application/discovery-source";
+import { LegalStatus } from "#exhibitors/application/legal-status";
+import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
 import {
   IMAGE_SIZE_LIMIT_B,
@@ -9,9 +12,6 @@ import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
   ShowActivityTarget,
-  ShowExhibitorApplicationLegalStatus,
-  ShowExhibitorApplicationOtherPartnershipCategory,
-  ShowPartnershipCategory,
   ShowStandSize,
 } from "@prisma/client";
 
@@ -90,6 +90,18 @@ export const ActionSchema = zu
           .trim()
           .min(1, "Veuillez entrer un pays")
           .max(64, "Veuillez entrer un pays plus court"),
+        haveCivilLiability: zu.literal("on", {
+          required_error:
+            "Vous devez en posséder une responsabilité civile professionnelle",
+        }),
+        activityDescription: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string({ required_error: "Veuillez entrer une description" })
+            .trim()
+            .min(1, "Veuillez entrer une description")
+            .max(300, "Veuillez entrer une description plus courte"),
+        ),
         activityTargets: zu.repeatable(
           zu
             .array(zu.nativeEnum(ShowActivityTarget))
@@ -112,18 +124,20 @@ export const ActionSchema = zu
           "legalStatus",
           [
             zu.object({
-              legalStatus: zu.nativeEnum(ShowExhibitorApplicationLegalStatus),
-              otherLegalStatus: zu.undefined(),
-            }),
-            zu.object({
-              legalStatus: zu.literal(OTHER_SHOW_LEGAL_STATUS),
-              otherLegalStatus: zu
+              legalStatus: zu.literal(LegalStatus.Enum.OTHER),
+              legalStatusOther: zu
                 .string({
                   required_error: "Veuillez entrer une forme juridique",
                 })
                 .trim()
                 .min(1, "Veuillez entrer une forme juridique")
                 .max(64, "Veuillez entrer une forme juridique plus courte"),
+            }),
+            zu.object({
+              legalStatus: zu.nativeEnum(
+                Enums.omit(LegalStatus.Enum, [LegalStatus.Enum.OTHER]),
+              ),
+              legalStatusOther: zu.undefined(),
             }),
           ],
           {
@@ -141,40 +155,6 @@ export const ActionSchema = zu
         ),
       ),
 
-    billing: zu.discriminatedUnion("sameAsStructure", [
-      zu.object({
-        // Conform doesn't coerse `zu.literal(true)`.
-        sameAsStructure: zu.literal("on"),
-        address: zu.undefined(),
-        zipCode: zu.undefined(),
-        city: zu.undefined(),
-        country: zu.undefined(),
-      }),
-      zu.object({
-        sameAsStructure: zu.literal("off").optional(),
-        address: zu
-          .string({ required_error: "Veuillez entrer une adresse" })
-          .trim()
-          .min(1, "Veuillez entrer une adresse")
-          .max(128, "Veuillez entrer une adresse plus courte"),
-        zipCode: zu
-          .string({ required_error: "Veuillez entrer un code postal" })
-          .trim()
-          .regex(/^\d+$/, "Veuillez entrer un code postal valide")
-          .max(64, "Veuillez entrer un code postal plus court"),
-        city: zu
-          .string({ required_error: "Veuillez entrer une ville" })
-          .trim()
-          .min(1, "Veuillez entrer une ville")
-          .max(128, "Veuillez entrer une ville plus courte"),
-        country: zu
-          .string({ required_error: "Veuillez entrer un pays" })
-          .trim()
-          .min(1, "Veuillez entrer un pays")
-          .max(64, "Veuillez entrer un pays plus court"),
-      }),
-    ]),
-
     participation: zu.object({
       desiredStandSize: zu.nativeEnum(ShowStandSize, {
         required_error: "Veuillez choisir une taille de stand",
@@ -185,43 +165,78 @@ export const ActionSchema = zu
         zu
           .string()
           .trim()
-          .max(512, "Veuillez entrer un text plus court")
+          .max(500, "Veuillez entrer un text plus court")
           .optional(),
       ),
     }),
 
-    partnershipCategory: zu.union(
-      [
-        zu.nativeEnum(ShowPartnershipCategory),
-        zu.nativeEnum(ShowExhibitorApplicationOtherPartnershipCategory),
-      ],
-      { required_error: "Veuillez choisir une option" },
-    ),
+    sponsorshipCategory: zu.nativeEnum(SponsorshipCategory.Enum, {
+      required_error: "Veuillez choisir une option",
+    }),
 
-    comments: zu.object({
-      motivation: zu.preprocess(
-        normalizeLineBreaks,
-        zu
-          .string({ required_error: "Veuillez entrer une réponse" })
-          .trim()
-          .min(1, "Veuillez entrer une réponse")
-          .max(1000, "Veuillez entrer une réponse plus courte"),
+    comments: zu
+      .object({
+        motivation: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string({ required_error: "Veuillez entrer une réponse" })
+            .trim()
+            .min(1, "Veuillez entrer une réponse")
+            .max(1000, "Veuillez entrer une réponse plus courte"),
+        ),
+
+        comments: zu.preprocess(
+          normalizeLineBreaks,
+          zu
+            .string()
+            .trim()
+            .max(500, "Veuillez entrer un commentaire plus court")
+            .optional(),
+        ),
+      })
+      .and(
+        zu.discriminatedUnion(
+          "discoverySource",
+          [
+            zu.object({
+              discoverySource: zu.literal(DiscoverySource.Enum.OTHER),
+              discoverySourceOther: zu
+                .string({ required_error: "Veuillez entrer une réponse" })
+                .trim()
+                .min(1, "Veuillez entrer une réponse")
+                .max(128, "Veuillez entrer une réponse plus courte"),
+            }),
+            zu.object({
+              discoverySource: zu.nativeEnum(
+                Enums.omit(DiscoverySource.Enum, [DiscoverySource.Enum.OTHER]),
+              ),
+              discoverySourceOther: zu.undefined(),
+            }),
+          ],
+          {
+            // When `discoverySource` is not defined, the issue is a
+            // "invalid_union_discriminator" and its message can only be
+            // customized using `errorMap`.
+            errorMap: (issue, context) => {
+              if (issue.code === zu.ZodIssueCode.invalid_union_discriminator) {
+                return { message: "Veuillez choisir une option" };
+              }
+
+              return { message: context.defaultError };
+            },
+          },
+        ),
       ),
 
-      discoverySource: zu
-        .string({ required_error: "Veuillez entrer une réponse" })
-        .trim()
-        .min(1, "Veuillez entrer une réponse")
-        .max(128, "Veuillez entrer une réponse plus courte"),
-
-      comments: zu.preprocess(
-        normalizeLineBreaks,
-        zu
-          .string()
-          .trim()
-          .max(512, "Veuillez entrer un commentaire plus court")
-          .optional(),
-      ),
+    personalData: zu.object({
+      acceptDataUsage: zu.literal("on", {
+        required_error:
+          "Vous devez accepter l’utilisation de vos données pour le traitement de votre candidature",
+      }),
+      acceptEmails: zu.literal("on", {
+        required_error:
+          "Vous devez accepter de recevoir les informations exposants",
+      }),
     }),
   })
   .refine(

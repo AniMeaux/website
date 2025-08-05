@@ -29,15 +29,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     application: services.exhibitor.application.getByToken(routeParams.token, {
       select: {
-        billingAddress: true,
-        billingCity: true,
-        billingCountry: true,
-        billingZipCode: true,
         structureAddress: true,
         structureCity: true,
         structureCountry: true,
         structureLegalStatus: true,
-        structureOtherLegalStatus: true,
+        structureLegalStatusOther: true,
         structureSiret: true,
         structureZipCode: true,
       },

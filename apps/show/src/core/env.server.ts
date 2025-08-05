@@ -1,4 +1,5 @@
 import { zu } from "@animeaux/zod-utils";
+import { DateTime } from "luxon";
 
 export function checkEnv() {
   const result = ProcessEnvSchema.safeParse(process.env);
@@ -26,6 +27,8 @@ export function checkEnv() {
 export function getClientEnv() {
   return {
     ANIMEAUX_URL: process.env.ANIMEAUX_URL,
+    APPLICATION_VALIDATION_START_DATE:
+      process.env.APPLICATION_VALIDATION_START_DATE,
     CARPOOL_FACEBOOK_GROUP_URL: process.env.CARPOOL_FACEBOOK_GROUP_URL,
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     FACEBOOK_URL: process.env.FACEBOOK_URL,
@@ -34,9 +37,9 @@ export function getClientEnv() {
     FEATURE_FLAG_SHOW_EXHIBITORS: process.env.FEATURE_FLAG_SHOW_EXHIBITORS,
     FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS:
       process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS,
-    FEATURE_FLAG_SHOW_PARTNERS: process.env.FEATURE_FLAG_SHOW_PARTNERS,
     FEATURE_FLAG_SHOW_PROVIDERS: process.env.FEATURE_FLAG_SHOW_PROVIDERS,
     FEATURE_FLAG_SHOW_PROGRAM: process.env.FEATURE_FLAG_SHOW_PROGRAM,
+    FEATURE_FLAG_SHOW_SPONSORS: process.env.FEATURE_FLAG_SHOW_SPONSORS,
     FEATURE_FLAG_SITE_ONLINE: process.env.FEATURE_FLAG_SITE_ONLINE,
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     INSTAGRAM_URL: process.env.INSTAGRAM_URL,
@@ -46,6 +49,7 @@ export function getClientEnv() {
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
+    SPONSORSHIP_URL: process.env.SPONSORSHIP_URL,
     TICKETING_URL: process.env.TICKETING_URL,
   };
 }
@@ -68,6 +72,11 @@ const ProcessEnvSchema = zu
   .object({
     ANIMEAUX_URL: zu.string(),
     APPLICATION_TOKEN_ADMIN: zu.string(),
+    APPLICATION_VALIDATION_START_DATE: zu.coerce
+      .date()
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not Date.
+      .transform((date) => DateTime.fromJSDate(date).toISODate()),
     CARPOOL_FACEBOOK_GROUP_URL: zu.string(),
     CLOUDINARY_API_KEY: zu.string(),
     CLOUDINARY_API_SECRET: zu.string(),
@@ -81,9 +90,9 @@ const ProcessEnvSchema = zu
     FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS: zu
       .enum(["true", "false"])
       .optional(),
-    FEATURE_FLAG_SHOW_PARTNERS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SHOW_PROVIDERS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SHOW_PROGRAM: zu.enum(["true", "false"]).optional(),
+    FEATURE_FLAG_SHOW_SPONSORS: zu.enum(["true", "false"]).optional(),
     FEATURE_FLAG_SITE_ONLINE: zu.enum(["true", "false"]).optional(),
     GOOGLE_API_CLIENT_EMAIL: zu.string().optional(),
     GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
@@ -108,6 +117,7 @@ const ProcessEnvSchema = zu
       // sure the type remains string and not number.
       .transform((value) => String(value))
       .optional(),
+    SPONSORSHIP_URL: zu.string().optional(),
     TICKETING_URL: zu.string(),
   })
   .refine(

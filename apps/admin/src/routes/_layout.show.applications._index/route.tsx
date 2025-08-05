@@ -38,8 +38,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
         structureActivityFields: true,
         structureActivityTargets: true,
         structureLegalStatus: true,
+        structureLegalStatusOther: true,
         structureName: true,
-        structureOtherLegalStatus: true,
       },
     });
 

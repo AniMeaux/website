@@ -1,6 +1,7 @@
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
 import { Icon } from "#generated/icon";
+import { DiscoverySource } from "#show/exhibitors/applications/discovery-source";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -19,7 +20,7 @@ export function CardDiscoverySource() {
             isLightIcon
             icon={<Icon href="icon-people-arrows-light" />}
           >
-            {application.discoverySource}
+            {DiscoverySource.getVisibleValue(application)}
           </SimpleItem>
         </ItemList>
       </Card.Content>

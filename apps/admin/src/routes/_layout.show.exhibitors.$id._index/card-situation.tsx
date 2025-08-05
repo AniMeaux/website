@@ -9,7 +9,7 @@ import {
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
 import { Payment, PaymentIcon } from "#show/exhibitors/payment";
-import { PartnershipCategory } from "#show/partners/category";
+import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
@@ -41,7 +41,7 @@ export function CardSituation() {
           <ItemPayment />
           <ItemLocationNumber />
           <ItemApplication />
-          <ItemPartnership />
+          <ItemSponsorship />
           <ItemExhibitorSpace />
         </ItemList>
       </Card.Content>
@@ -123,19 +123,19 @@ function ItemLocationNumber() {
   );
 }
 
-function ItemPartnership() {
-  const { partner } = useLoaderData<typeof loader>();
+function ItemSponsorship() {
+  const { sponsor } = useLoaderData<typeof loader>();
 
-  if (partner == null) {
+  if (sponsor == null) {
     return null;
   }
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
-      Partenaire{" "}
+      Sponsor{" "}
       <ProseInlineAction asChild>
-        <BaseLink to={Routes.show.partners.id(partner.id).toString()}>
-          {PartnershipCategory.translation[partner.category]}
+        <BaseLink to={Routes.show.sponsors.id(sponsor.id).toString()}>
+          {SponsorshipCategory.translation[sponsor.category]}
         </BaseLink>
       </ProseInlineAction>
     </SimpleItem>

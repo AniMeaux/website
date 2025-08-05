@@ -215,6 +215,12 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     authorizedGroups: [UserGroup.ADMIN],
   },
   {
+    to: Routes.activity.toString(),
+    icon: "icon-wave-pulse-solid",
+    label: "Activité",
+    authorizedGroups: [UserGroup.ADMIN],
+  },
+  {
     to: Routes.pressArticles.toString(),
     icon: "icon-newspaper-solid",
     label: "Articles de presse",

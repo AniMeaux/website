@@ -2,7 +2,8 @@ import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { BoardCard } from "#core/layout/board-card";
 import { Section } from "#core/layout/section";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { DateTime } from "luxon";
+import type { loader } from "./loader.server";
 
 export function SectionInformation() {
   const { application } = useLoaderData<typeof loader>();
@@ -16,9 +17,6 @@ export function SectionInformation() {
           </h2>
 
           <p>
-            Votre dossier a bien été reçu et est actuellement en cours d’étude
-            par nos équipes de bénévoles.
-            <br />
             Un e-mail de confirmation vous a été envoyé à{" "}
             <strong className="text-body-lowercase-emphasis">
               {application.contactEmail}
@@ -26,8 +24,20 @@ export function SectionInformation() {
             .
             <br />
             <br />
+            Votre candidature est actuellement en cours d’étude par nos équipes
+            de bénévoles. Les validations commenceront à partir du{" "}
+            <strong className="text-body-lowercase-emphasis">
+              {DateTime.fromISO(
+                CLIENT_ENV.APPLICATION_VALIDATION_START_DATE,
+              ).toLocaleString({ month: "long", day: "numeric" })}
+            </strong>
+            . Après validation, un second formulaire vous permettra de préciser
+            vos besoins logistiques (électricité, matériel, etc.) et de procéder
+            au paiement de votre stand et options.
+            <br />
+            <br />
             Vous serez informé(e) par e-mail dès qu’une mise à jour concernant
-            votre demande sera disponible.
+            votre candidature sera disponible.
             <br />
             Pour toute question ou complément d’information, n’hésitez pas à
             nous contacter par e-mail à :{" "}

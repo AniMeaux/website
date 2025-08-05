@@ -33,7 +33,6 @@ export function CardStructure() {
         <ItemList>
           <ItemName />
           <ItemAddress />
-          <ItemBillingAddress />
           <ItemLegalStatus />
         </ItemList>
       </Card.Content>
@@ -58,34 +57,14 @@ function ItemAddress() {
   );
 }
 
-function ItemBillingAddress() {
-  const { application } = useLoaderData<typeof loader>();
-
-  return (
-    <SimpleItem
-      isLightIcon
-      icon={<Icon href="icon-envelope-open-dollar-light" />}
-    >
-      <Markdown components={SENTENCE_COMPONENTS}>
-        {getCompleteLocation({
-          address: application.billingAddress,
-          zipCode: application.billingZipCode,
-          city: application.billingCity,
-          country: application.billingCountry,
-        })}
-      </Markdown>
-    </SimpleItem>
-  );
-}
-
 function ItemLegalStatus() {
   const { application } = useLoaderData<typeof loader>();
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fingerprint-light" />}>
-      {LegalStatus.getVisibleLegalStatus({
+      {LegalStatus.getVisibleValue({
         legalStatus: application.structureLegalStatus,
-        otherLegalStatus: application.structureOtherLegalStatus,
+        legalStatusOther: application.structureLegalStatusOther,
       })}{" "}
       • {application.structureSiret}
     </SimpleItem>

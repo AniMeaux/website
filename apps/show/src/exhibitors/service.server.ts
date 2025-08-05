@@ -74,13 +74,13 @@ export class ServiceExhibitor extends Service {
       });
     }
 
-    if (params.searchParams.isPartner) {
+    if (params.searchParams.isSponsor) {
       if (process.env.ORGANIZER_EXHIBITOR_ID == null) {
-        where.push({ partnership: { isVisible: true } });
+        where.push({ sponsorship: { isVisible: true } });
       } else {
         where.push({
           OR: [
-            { partnership: { isVisible: true } },
+            { sponsorship: { isVisible: true } },
             { id: process.env.ORGANIZER_EXHIBITOR_ID },
           ],
         });

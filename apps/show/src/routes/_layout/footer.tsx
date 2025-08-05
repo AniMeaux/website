@@ -4,8 +4,8 @@ import { Footer } from "#core/layout/footer";
 import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { ShowDay } from "#core/show-day";
-import { PartnerItem } from "#partners/item";
-import { PartnersPlaceholderImage } from "#partners/placeholder-image";
+import { SponsorItem } from "#sponsors/item.js";
+import { SponsorsPlaceholderImage } from "#sponsors/placeholder-image.js";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 
@@ -18,7 +18,7 @@ export function LayoutFooter() {
 }
 
 function FooterOnline() {
-  const { partners } = useLoaderData<typeof loader>();
+  const { sponsors } = useLoaderData<typeof loader>();
 
   return (
     <Footer.Root>
@@ -59,19 +59,19 @@ function FooterOnline() {
 
       <Footer.ContentSection className="grid grid-cols-1 gap-4 md:grid-cols-fr-auto-fr md:items-center lg:gap-8">
         <Section.TextAside className="max-w-sm justify-self-center md:max-w-none md:justify-self-stretch">
-          {partners.length === 0 ? (
-            <PartnersPlaceholderImage
+          {sponsors.length === 0 ? (
+            <SponsorsPlaceholderImage
               sizes={{ default: "384px", md: "50vw", lg: "341px" }}
               fallbackSize="512"
               className="w-full"
             />
           ) : (
             <ul className="flex flex-wrap justify-center gap-1">
-              {partners.map((partner) => (
-                <PartnerItem
-                  key={partner.id}
+              {sponsors.map((sponsor) => (
+                <SponsorItem
+                  key={sponsor.id}
                   isSmall
-                  partner={partner}
+                  sponsor={sponsor}
                   imageFallbackSize="128"
                   imageSizes={{ default: "70px" }}
                   className="w-[70px] flex-none"
