@@ -54,7 +54,7 @@ type ActionData = {
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true, draft: true },
+    select: { id: true, groups: true, draft: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -89,10 +89,14 @@ export async function action({ request }: ActionFunctionArgs) {
     const avatar = formData.data.pictures[0];
     invariant(avatar != null, "The avatar should exists");
 
-    const animalId = await db.animal.create(currentUser.draft, {
-      avatar,
-      pictures: formData.data.pictures.slice(1),
-    });
+    const animalId = await db.animal.create(
+      currentUser.draft,
+      {
+        avatar,
+        pictures: formData.data.pictures.slice(1),
+      },
+      currentUser,
+    );
 
     // Redirect instead of going back so we can display the newly created
     // animal.

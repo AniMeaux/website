@@ -101,7 +101,7 @@ type ActionData = {
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -123,30 +123,34 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await db.animal.situation.update(paramsResult.data.id, {
-      adoptionDate: formData.data.adoptionDate ?? null,
-      adoptionOption: formData.data.adoptionOption ?? null,
-      comments: formData.data.comments || null,
-      diagnosis: formData.data.diagnosis,
-      fosterFamilyId: formData.data.fosterFamilyId ?? null,
-      isSterilizationMandatory:
-        formData.data.isSterilized !==
-        ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY,
-      isSterilized:
-        formData.data.isSterilized ===
-        ActionFormData.schema.shape.isSterilized.Enum.YES,
-      isVaccinationMandatory:
-        formData.data.vaccination ===
-        ActionFormData.schema.shape.vaccination.Enum.MANDATORY,
-      managerId: formData.data.managerId ?? null,
-      nextVaccinationDate: formData.data.nextVaccinationDate ?? null,
-      pickUpDate: formData.data.pickUpDate,
-      pickUpLocation: formData.data.pickUpLocation ?? null,
-      pickUpReason: formData.data.pickUpReason,
-      screeningFelv: formData.data.screeningFelv,
-      screeningFiv: formData.data.screeningFiv,
-      status: formData.data.status,
-    });
+    await db.animal.situation.update(
+      paramsResult.data.id,
+      {
+        adoptionDate: formData.data.adoptionDate ?? null,
+        adoptionOption: formData.data.adoptionOption ?? null,
+        comments: formData.data.comments || null,
+        diagnosis: formData.data.diagnosis,
+        fosterFamilyId: formData.data.fosterFamilyId ?? null,
+        isSterilizationMandatory:
+          formData.data.isSterilized !==
+          ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY,
+        isSterilized:
+          formData.data.isSterilized ===
+          ActionFormData.schema.shape.isSterilized.Enum.YES,
+        isVaccinationMandatory:
+          formData.data.vaccination ===
+          ActionFormData.schema.shape.vaccination.Enum.MANDATORY,
+        managerId: formData.data.managerId ?? null,
+        nextVaccinationDate: formData.data.nextVaccinationDate ?? null,
+        pickUpDate: formData.data.pickUpDate,
+        pickUpLocation: formData.data.pickUpLocation ?? null,
+        pickUpReason: formData.data.pickUpReason,
+        screeningFelv: formData.data.screeningFelv,
+        screeningFiv: formData.data.screeningFiv,
+        status: formData.data.status,
+      },
+      currentUser,
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
       return json<ActionData>(

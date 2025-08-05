@@ -1,4 +1,5 @@
 import { BaseLink } from "#core/base-link";
+import { toRoundedRelative } from "#core/dates";
 import { Routes } from "#core/navigation";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
 import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
@@ -53,10 +54,7 @@ export function ApplicationItem({
         title={`Candidature reçu le ${DateTime.fromISO(application.createdAt).toLocaleString(DateTime.DATETIME_MED)}`}
         className="text-right"
       >
-        {DateTime.fromISO(application.createdAt).toLocaleString({
-          ...DateTime.DATE_MED,
-          year: undefined,
-        })}
+        {toRoundedRelative(application.createdAt)}
       </span>
     </BaseLink>
   );

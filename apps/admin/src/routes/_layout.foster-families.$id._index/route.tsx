@@ -131,7 +131,7 @@ const BanActionFormData = FormDataDelegate.create(
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
+    select: { id: true, groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [
@@ -145,12 +145,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   if (request.method.toUpperCase() === "DELETE") {
-    return await actionDelete({ fosterFamilyId: paramsResult.data.id });
+    return await actionDelete({
+      fosterFamilyId: paramsResult.data.id,
+      currentUser,
+    });
   }
 
   return await actionBan({
-    request,
     fosterFamilyId: paramsResult.data.id,
+    request,
+    currentUser,
   });
 }
 
@@ -160,11 +164,13 @@ type ActionData = {
 
 async function actionDelete({
   fosterFamilyId,
+  currentUser,
 }: {
   fosterFamilyId: FosterFamily["id"];
+  currentUser: { id: string };
 }) {
   try {
-    await db.fosterFamily.delete(fosterFamilyId);
+    await db.fosterFamily.delete(fosterFamilyId, currentUser);
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw notFound();
@@ -191,9 +197,11 @@ async function actionDelete({
 
 async function actionBan({
   fosterFamilyId,
+  currentUser,
   request,
 }: Pick<ActionFunctionArgs, "request"> & {
   fosterFamilyId: FosterFamily["id"];
+  currentUser: { id: string };
 }) {
   const formData = BanActionFormData.safeParse(await request.formData());
   if (!formData.success) {
@@ -201,7 +209,11 @@ async function actionBan({
   }
 
   try {
-    await db.fosterFamily.setIsBanned(fosterFamilyId, formData.data.isBanned);
+    await db.fosterFamily.setIsBanned(
+      fosterFamilyId,
+      formData.data.isBanned,
+      currentUser,
+    );
   } catch (error) {
     if (error instanceof NotFoundError) {
       throw notFound();

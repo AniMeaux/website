@@ -37,6 +37,7 @@ type TableName = ConditionalKeys<
 const prisma = new PrismaClient();
 
 const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
+  activity: () => prisma.activity.findMany(),
   animal: () => prisma.animal.findMany(),
   animalDraft: () => prisma.animalDraft.findMany(),
   breed: () => prisma.breed.findMany(),

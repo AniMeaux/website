@@ -5,6 +5,9 @@ import { generatePasswordHash } from "@animeaux/password";
 import { fakerFR as faker } from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
 import {
+  ActivityAction,
+  ActivityActorType,
+  ActivityResource,
   AdoptionOption,
   Diagnosis,
   FosterFamilyAvailability,
@@ -36,6 +39,7 @@ console.log("🌱 Seeding data...");
 const prisma = new PrismaClient();
 
 const seeds = {
+  activities: Promise.resolve().then(seedActivities),
   animals: Promise.resolve().then(seedAnimals),
   breeds: Promise.resolve().then(seedBreeds),
   colors: Promise.resolve().then(seedColors),
@@ -114,6 +118,75 @@ async function seedUsers() {
 
   const count = await prisma.user.count();
   console.log(`- 👍 ${count} users`);
+}
+
+async function seedActivities() {
+  await Promise.all([seeds.users, seeds.animals, seeds.fosterFamilies]);
+
+  const now = DateTime.now();
+
+  const [users, animals, fosterFamilies] = await Promise.all([
+    prisma.user.findMany({ select: { id: true } }),
+    prisma.animal.findMany({ select: { id: true } }),
+    prisma.fosterFamily.findMany({ select: { id: true } }),
+  ]);
+
+  await Promise.all(
+    repeate({ min: 100, max: 200 }, async () => {
+      const actorType = faker.helpers.arrayElement(
+        Object.values(ActivityActorType),
+      );
+
+      const actorId =
+        actorType === ActivityActorType.CRON
+          ? `cron-${faker.lorem.slug()}`
+          : faker.helpers.arrayElement(users).id;
+
+      const action = faker.helpers.arrayElement(Object.values(ActivityAction));
+
+      const resource = faker.helpers.arrayElement(
+        Object.values(ActivityResource),
+      );
+
+      const resourceId =
+        action === ActivityAction.DELETE
+          ? faker.string.uuid()
+          : resource === ActivityResource.ANIMAL
+            ? faker.helpers.arrayElement(animals).id
+            : faker.helpers.arrayElement(fosterFamilies).id;
+
+      return await prisma.activity.create({
+        data: {
+          createdAt: faker.date.between({
+            from: now.minus({ year: 1 }).toJSDate(),
+            to: now.toJSDate(),
+          }),
+
+          actorType,
+          actorId,
+          userIdRef: actorType === ActivityActorType.USER ? actorId : undefined,
+          action,
+          resource,
+          resourceId,
+
+          ...(action === ActivityAction.DELETE
+            ? {}
+            : resource === ActivityResource.ANIMAL
+              ? { animalId: resourceId }
+              : { fosterFamilyId: resourceId }),
+
+          ...(action === ActivityAction.CREATE
+            ? { after: { id: resourceId } }
+            : action === ActivityAction.DELETE
+              ? { before: { id: resourceId } }
+              : { before: { id: resourceId }, after: { id: resourceId } }),
+        },
+      });
+    }),
+  );
+
+  const count = await prisma.activity.count();
+  console.log(`- 👍 ${count} activities`);
 }
 
 async function seedFosterFamilies() {

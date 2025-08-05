@@ -146,6 +146,12 @@ export const Routes = {
     }),
     new: { toString: () => "/users/new" as const },
   },
+  activity: {
+    toString: () => "/activity" as const,
+    id: (id: string) => ({
+      toString: () => `/activity/${id}` as const,
+    }),
+  },
   definePassword: { toString: () => "/define-password" as const },
   downloads: {
     animals: {
