@@ -472,6 +472,11 @@ model ShowExhibitor {
   zone                    ShowStandZone?
 }
 
+model ShowStandSizeLimit {
+  size     ShowStandSize @unique
+  maxCount Int
+}
+
 enum ShowExhibitorStatus {
   TO_BE_FILLED
   AWAITING_VALIDATION
