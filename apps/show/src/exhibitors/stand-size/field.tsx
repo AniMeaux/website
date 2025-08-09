@@ -9,10 +9,12 @@ import type { ShowActivityField } from "@prisma/client";
 export function FieldStandSize({
   field,
   label,
+  availableStandSizes,
   selectedActivityFields,
 }: {
   field: FieldMetadata<StandSize.Enum>;
   label: React.ReactNode;
+  availableStandSizes: StandSize.Enum[];
   selectedActivityFields: ShowActivityField[];
 }) {
   const hasLimitedStandSize = selectedActivityFields.some(
@@ -20,32 +22,42 @@ export function FieldStandSize({
       SMALL_SIZED_STANDS_ACTIVITY_FIELDS.includes(selectedActivityField),
   );
 
-  let options = StandSize.values;
-
-  if (hasLimitedStandSize) {
-    options = StandSize.valuesSmallSize;
-  }
+  const options = hasLimitedStandSize
+    ? StandSize.valuesSmallSize
+    : StandSize.values;
 
   return (
     <FormLayout.Field>
       <FormLayout.Label>{label}</FormLayout.Label>
 
       <FormLayout.Selectors columnMinWidth="170px">
-        {getCollectionProps(field, { type: "radio", options }).map((props) => (
-          <FormLayout.Selector.Root key={props.key}>
-            <FormLayout.Selector.Input {...props} key={props.key} />
+        {getCollectionProps(field, { type: "radio", options }).map((props) => {
+          const value = props.value as StandSize.Enum;
 
-            <FormLayout.Selector.Label>
-              {StandSize.translation[props.value as StandSize.Enum]}
-            </FormLayout.Selector.Label>
+          return (
+            <FormLayout.Selector.Root key={props.key}>
+              <FormLayout.Selector.Input
+                {...props}
+                key={props.key}
+                disabled={!availableStandSizes.includes(value)}
+              />
 
-            <FormLayout.Selector.RadioIcon />
-          </FormLayout.Selector.Root>
-        ))}
+              <FormLayout.Selector.Label>
+                {StandSize.translation[value]}
+              </FormLayout.Selector.Label>
+
+              <FormLayout.Selector.RadioIcon />
+            </FormLayout.Selector.Root>
+          );
+        })}
       </FormLayout.Selectors>
 
       {field.errors != null ? (
         <FieldErrorHelper field={field} />
+      ) : options.every((size) => !availableStandSizes.includes(size)) ? (
+        <FormLayout.Helper>
+          Aucun stand disponible pour le moment
+        </FormLayout.Helper>
       ) : (
         <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
       )}

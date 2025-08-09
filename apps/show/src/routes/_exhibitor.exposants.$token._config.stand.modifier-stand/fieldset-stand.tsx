@@ -17,6 +17,7 @@ import {
   MAX_TABLE_COUNT_BY_STAND_SIZE,
 } from "#exhibitors/stand-size/table-count";
 import { useLoaderData } from "@remix-run/react";
+import { useMemo } from "react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
 import { FieldStandZone } from "./field-stand-zone";
@@ -24,8 +25,18 @@ import { useForm } from "./form";
 import type { loader } from "./loader.server";
 
 export function FieldsetStand() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor, availableStandSizes } = useLoaderData<typeof loader>();
   const { fields } = useForm();
+
+  // Ensure the exhibitor's current stand size is available to let the user
+  // select it back after a change.
+  const ownAvailableStandSizes = useMemo(() => {
+    if (availableStandSizes.includes(exhibitor.size)) {
+      return availableStandSizes;
+    }
+
+    return availableStandSizes.concat([exhibitor.size]);
+  }, [availableStandSizes, exhibitor.size]);
 
   return (
     <FormLayout.Section>
@@ -34,6 +45,7 @@ export function FieldsetStand() {
       <FieldStandSize
         label="Taille du stand"
         field={fields.size}
+        availableStandSizes={ownAvailableStandSizes}
         selectedActivityFields={exhibitor.activityFields}
       />
 

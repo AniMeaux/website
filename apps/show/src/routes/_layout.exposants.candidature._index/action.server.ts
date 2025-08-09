@@ -9,9 +9,11 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { captureException } from "@sentry/remix";
 import { v4 as uuid } from "uuid";
-import { ActionSchema } from "./action-schema";
+import { createActionSchema } from "./action-schema";
 
 export async function action({ request }: ActionFunctionArgs) {
+  const availableStandSizes = await services.standSize.getAvailable();
+
   const reversibleUpload = services.image.createReversibleUpload();
 
   async function revertUpload() {
@@ -48,7 +50,9 @@ export async function action({ request }: ActionFunctionArgs) {
     }
   });
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, {
+    schema: createActionSchema(availableStandSizes),
+  });
 
   if (submission.status !== "success") {
     await revertUpload();
