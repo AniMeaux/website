@@ -21,7 +21,7 @@ import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
 import { FieldStandZone } from "./field-stand-zone";
 import { useForm } from "./form";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function FieldsetStand() {
   const { exhibitor } = useLoaderData<typeof loader>();
