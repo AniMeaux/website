@@ -4,25 +4,30 @@ import {
   EmailHtml,
 } from "#core/data-display/email-html.server";
 import { createImageUrl } from "#core/data-display/image";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { ImageData } from "#core/image/data.js";
 import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
 import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
-import { ImageUrl, getCompleteLocation } from "@animeaux/core";
-import type { EmailTemplate } from "@animeaux/resend";
+import { getCompleteLocation } from "@animeaux/core";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
 import invariant from "tiny-invariant";
+import type { ServiceApplication } from "./service.server";
 
-export namespace ApplicationEmails {
-  export function submitted(
-    application: ShowExhibitorApplication,
-  ): EmailTemplate {
+export class ServiceApplicationEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(application: ShowExhibitorApplication) {
     function SectionInformation() {
       return (
         <EmailHtml.Section.Root>
@@ -189,7 +194,7 @@ export namespace ApplicationEmails {
                 <Img
                   src={createImageUrl(
                     process.env.CLOUDINARY_CLOUD_NAME,
-                    ImageUrl.parse(application.structureLogoPath).id,
+                    ImageData.parse(application.structureLogoPath).id,
                     {
                       size: "512",
                       aspectRatio: "4:3",
@@ -299,7 +304,7 @@ export namespace ApplicationEmails {
       );
     }
 
-    return {
+    await this.email.send({
       name: "candidature-exposant-confirmation",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -323,28 +328,23 @@ export namespace ApplicationEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    applicationId: string,
-  ): Promise<null | EmailTemplate> {
-    const application = await services.exhibitor.application.get(
-      applicationId,
-      {
-        select: {
-          contactEmail: true,
-          status: true,
-          refusalMessage: true,
-          exhibitor: {
-            select: { token: true },
-          },
+  async treated(applicationId: string) {
+    const application = await this.application.get(applicationId, {
+      select: {
+        contactEmail: true,
+        status: true,
+        refusalMessage: true,
+        exhibitor: {
+          select: { token: true },
         },
       },
-    );
+    });
 
     if (application.status === ShowExhibitorApplicationStatus.UNTREATED) {
-      return null;
+      return;
     }
 
     switch (application.status) {
@@ -354,7 +354,7 @@ export namespace ApplicationEmails {
           "A refusalMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "candidature-exposant-refusee",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -375,13 +375,13 @@ export namespace ApplicationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorApplicationStatus.VALIDATED: {
         invariant(application.exhibitor != null, "An exhibitor should exists");
 
-        return {
+        return await this.email.send({
           name: "candidature-exposant-validee",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -471,11 +471,11 @@ export namespace ApplicationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorApplicationStatus.WAITING_LIST: {
-        return {
+        return await this.email.send({
           name: "candidature-exposant-liste-d-attente",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -526,7 +526,7 @@ export namespace ApplicationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {

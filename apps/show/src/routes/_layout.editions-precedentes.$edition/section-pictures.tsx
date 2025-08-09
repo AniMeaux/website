@@ -1,10 +1,10 @@
 import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { Tab, Tabs } from "#core/controllers/tabs";
 import { DynamicImage } from "#core/data-display/image";
+import type { ServiceImage } from "#core/image/service.server.js";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import type { PrevousEditionCloudinaryDelegate } from "#previous-editions/cloudinary.server";
 import { PicturesLocationState } from "#previous-editions/pictures-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
@@ -81,7 +81,7 @@ function PictureItem({
   picture,
   index,
 }: {
-  picture: SerializeFrom<PrevousEditionCloudinaryDelegate.Picture>;
+  picture: SerializeFrom<ServiceImage.Image>;
   index: number;
 }) {
   const { edition } = useLoaderData<typeof loader>();

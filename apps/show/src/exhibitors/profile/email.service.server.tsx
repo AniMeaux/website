@@ -2,23 +2,32 @@ import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server";
-import { createImageUrl } from "#core/data-display/image";
-import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
-import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
-import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import type { EmailTemplate } from "@animeaux/resend";
+} from "#core/data-display/email-html.server.js";
+import { createImageUrl } from "#core/data-display/image.js";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { ImageData } from "#core/image/data.js";
+import { Routes } from "#core/navigation.js";
+import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field.js";
+import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target.js";
+import type { ServiceApplication } from "#exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+import { joinReactNodes } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
-export namespace PublicProfileEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
+export class ServiceExhibitorPublicProfileEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(token: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.getByToken(token, {
+      exhibitor: this.exhibitor.getByToken(token, {
         select: {
           activityFields: true,
           activityTargets: true,
@@ -28,7 +37,7 @@ export namespace PublicProfileEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByToken(token, {
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
@@ -46,7 +55,7 @@ export namespace PublicProfileEmails {
                 <Img
                   src={createImageUrl(
                     process.env.CLOUDINARY_CLOUD_NAME,
-                    ImageUrl.parse(exhibitor.logoPath).id,
+                    ImageData.parse(exhibitor.logoPath).id,
                     {
                       size: "512",
                       aspectRatio: "4:3",
@@ -98,7 +107,7 @@ export namespace PublicProfileEmails {
       );
     }
 
-    return {
+    await this.email.send({
       name: "profil-public-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -136,14 +145,12 @@ export namespace PublicProfileEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           activityFields: true,
@@ -156,7 +163,7 @@ export namespace PublicProfileEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -166,7 +173,7 @@ export namespace PublicProfileEmails {
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.publicProfileStatus) {
@@ -184,7 +191,7 @@ export namespace PublicProfileEmails {
                     <Img
                       src={createImageUrl(
                         process.env.CLOUDINARY_CLOUD_NAME,
-                        ImageUrl.parse(exhibitor.logoPath).id,
+                        ImageData.parse(exhibitor.logoPath).id,
                         {
                           size: "512",
                           aspectRatio: "4:3",
@@ -236,7 +243,7 @@ export namespace PublicProfileEmails {
           );
         }
 
-        return {
+        return await this.email.send({
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -274,7 +281,7 @@ export namespace PublicProfileEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -283,7 +290,7 @@ export namespace PublicProfileEmails {
           "A publicProfileStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -317,7 +324,7 @@ export namespace PublicProfileEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {
@@ -327,14 +334,21 @@ export namespace PublicProfileEmails {
   }
 }
 
-export namespace DescriptionEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
+export class ServiceExhibitorDescriptionEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(token: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.getByToken(token, {
+      exhibitor: this.exhibitor.getByToken(token, {
         select: { description: true },
       }),
 
-      application: services.exhibitor.application.getByToken(token, {
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
@@ -356,7 +370,7 @@ export namespace DescriptionEmails {
       );
     }
 
-    return {
+    await this.email.send({
       name: "description-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -394,14 +408,12 @@ export namespace DescriptionEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           description: true,
@@ -410,7 +422,7 @@ export namespace DescriptionEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -419,7 +431,7 @@ export namespace DescriptionEmails {
       exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.descriptionStatus) {
@@ -441,7 +453,7 @@ export namespace DescriptionEmails {
           );
         }
 
-        return {
+        return await this.email.send({
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -478,7 +490,7 @@ export namespace DescriptionEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -487,7 +499,7 @@ export namespace DescriptionEmails {
           "A descriptionStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -521,7 +533,7 @@ export namespace DescriptionEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {
@@ -531,19 +543,26 @@ export namespace DescriptionEmails {
   }
 }
 
-export namespace OnStandAnimationsEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
+export class ServiceExhibitorOnStandAnimationEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(token: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.getByToken(token, {
+      exhibitor: this.exhibitor.getByToken(token, {
         select: { onStandAnimations: true },
       }),
 
-      application: services.exhibitor.application.getByToken(token, {
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
 
-    return {
+    await this.email.send({
       name: "animation-sur-stand-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -598,14 +617,12 @@ export namespace OnStandAnimationsEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           onStandAnimations: true,
@@ -614,7 +631,7 @@ export namespace OnStandAnimationsEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -624,12 +641,12 @@ export namespace OnStandAnimationsEmails {
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.onStandAnimationsStatus) {
       case ShowExhibitorStatus.VALIDATED: {
-        return {
+        return await this.email.send({
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -684,7 +701,7 @@ export namespace OnStandAnimationsEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -693,7 +710,7 @@ export namespace OnStandAnimationsEmails {
           "A onStandAnimationsStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -727,7 +744,7 @@ export namespace OnStandAnimationsEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {

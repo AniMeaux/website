@@ -1,18 +1,23 @@
-import { createImageBlurhash } from "#core/blurhash.server";
-import { PrismaErrorCodes, prisma } from "#core/prisma.server";
+import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
+import { ImageData } from "#core/image/data.js";
+import { ServicePrisma } from "#core/prisma.service.server.js";
 import { notFound } from "#core/response.server";
-import { Service } from "#core/services/service.server";
-import { ImageUrl } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
 import { captureException } from "@sentry/remix";
 import type { Except } from "type-fest";
 
-export class ServiceApplication extends Service {
+export class ServiceApplication {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private prisma: ServicePrisma,
+    private blurhash: ServiceBlurhash,
+  ) {}
+
   async get<T extends Prisma.ShowExhibitorApplicationSelect>(
     id: string,
     params: { select: T },
   ) {
-    const application = await prisma.showExhibitorApplication.findFirst({
+    const application = await this.prisma.showExhibitorApplication.findFirst({
       where: { id },
       select: params.select,
     });
@@ -28,7 +33,7 @@ export class ServiceApplication extends Service {
     token: string,
     params: { select: T },
   ) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { token },
       select: { application: { select: params.select } },
     });
@@ -44,7 +49,7 @@ export class ServiceApplication extends Service {
     exhibitorId: string,
     params: { select: T },
   ) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { id: exhibitorId },
       select: { application: { select: params.select } },
     });
@@ -58,9 +63,9 @@ export class ServiceApplication extends Service {
 
   async create(data: ExhibitorApplicationData) {
     try {
-      const blurhash = await createImageBlurhash(data.structureLogoPath);
+      const blurhash = await this.blurhash.create(data.structureLogoPath);
 
-      data.structureLogoPath = ImageUrl.stringify({
+      data.structureLogoPath = ImageData.stringify({
         id: data.structureLogoPath,
         blurhash,
       });
@@ -73,10 +78,12 @@ export class ServiceApplication extends Service {
     }
 
     try {
-      return await prisma.showExhibitorApplication.create({ data });
+      return await this.prisma.showExhibitorApplication.create({
+        data,
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+        if (error.code === ServicePrisma.ErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
           throw new ServiceApplication.EmailAlreadyUsedError();
         }
       }

@@ -1,7 +1,7 @@
-import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
+import { services } from "#core/services.server.js";
 import { PreviousEdition } from "#previous-editions/previous-edition";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
@@ -18,7 +18,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   return defer({
     edition: routeParams.edition,
-    pictures: cloudinary.previousEdition.findAllPictures(routeParams.edition),
+    pictures: services.image.getAllImages(routeParams.edition),
   });
 }
 

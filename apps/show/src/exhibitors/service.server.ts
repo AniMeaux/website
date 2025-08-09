@@ -1,30 +1,27 @@
-import { createImageBlurhash } from "#core/blurhash.server";
-import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server";
-import type { Services } from "#core/services/service.server";
-import { Service } from "#core/services/service.server";
-import { ServiceApplication } from "#exhibitors/application/service.server";
-import { ExhibitorSearchParamsN } from "#exhibitors/search-params";
-import { ImageUrl } from "@animeaux/core";
+import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
+import { ImageData } from "#core/image/data.js";
+import type { ServicePrisma } from "#core/prisma.service.server.js";
+import { notFound } from "#core/response.server.js";
+import { ExhibitorSearchParamsN } from "#exhibitors/search-params.js";
+import type { FileStorage } from "@animeaux/file-storage/server";
 import type { Prisma, ShowExhibitor } from "@prisma/client";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { captureException } from "@sentry/remix";
 import { promiseHash } from "remix-utils/promise";
 
-export class ServiceExhibitor extends Service {
-  readonly application: ServiceApplication;
-
-  constructor(services: Services) {
-    super(services);
-
-    this.application = new ServiceApplication(services);
-  }
+export class ServiceExhibitor {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private prisma: ServicePrisma,
+    private fileStorage: FileStorage,
+    private blurhash: ServiceBlurhash,
+  ) {}
 
   async get<T extends Prisma.ShowExhibitorSelect>(
     id: string,
     params: { select: T },
   ) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { id },
       select: params.select,
     });
@@ -40,7 +37,7 @@ export class ServiceExhibitor extends Service {
     token: string,
     params: { select: T },
   ) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { token },
       select: params.select,
     });
@@ -53,7 +50,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async getCount() {
-    return await prisma.showExhibitor.count();
+    return await this.prisma.showExhibitor.count();
   }
 
   async findManyVisible<T extends Prisma.ShowExhibitorSelect>(params: {
@@ -106,7 +103,7 @@ export class ServiceExhibitor extends Service {
       });
     }
 
-    return await prisma.showExhibitor.findMany({
+    return await this.prisma.showExhibitor.findMany({
       where: { AND: where },
       orderBy: { name: "asc" },
       select: params.select,
@@ -114,7 +111,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async getFilesByToken(token: string) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { token },
       select: {
         identificationFileId: true,
@@ -131,7 +128,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async getFilesByExhibitor(exhibitorId: string) {
-    const exhibitor = await prisma.showExhibitor.findUnique({
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { id: exhibitorId },
       select: {
         identificationFileId: true,
@@ -165,11 +162,11 @@ export class ServiceExhibitor extends Service {
       return null;
     }
 
-    return this.services.fileStorage.getFile(fileId);
+    return this.fileStorage.getFile(fileId);
   }
 
   async updateDocuments(token: string, data: DocumentsData) {
-    await prisma.showExhibitor.update({
+    await this.prisma.showExhibitor.update({
       where: { token },
       data: {
         ...data,
@@ -182,7 +179,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async updateDogs(token: string, data: ExhibitorDogData[]) {
-    return await prisma.$transaction(async (prisma) => {
+    return await this.prisma.$transaction(async (prisma) => {
       const exhibitor = await prisma.showExhibitor.update({
         where: { token },
         data: {
@@ -213,15 +210,15 @@ export class ServiceExhibitor extends Service {
 
     if (logoPath != null) {
       try {
-        const blurhash = await createImageBlurhash(logoPath);
-        data.logoPath = ImageUrl.stringify({ id: logoPath, blurhash });
+        const blurhash = await this.blurhash.create(logoPath);
+        data.logoPath = ImageData.stringify({ id: logoPath, blurhash });
       } catch (error) {
         console.error(error);
         captureException(error, { extra: { logoPath } });
       }
     }
 
-    await prisma.showExhibitor.update({
+    await this.prisma.showExhibitor.update({
       where: { token },
       data: {
         ...data,
@@ -234,7 +231,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async updateDescription(token: string, data: ExhibitorDescriptionData) {
-    await prisma.showExhibitor.update({
+    await this.prisma.showExhibitor.update({
       where: { token },
       data: {
         ...data,
@@ -250,7 +247,7 @@ export class ServiceExhibitor extends Service {
     token: string,
     data: ExhibitorOnStandAnimationsData,
   ) {
-    await prisma.showExhibitor.update({
+    await this.prisma.showExhibitor.update({
       where: { token },
       data: {
         ...data,
@@ -263,7 +260,7 @@ export class ServiceExhibitor extends Service {
   }
 
   async updateStand(token: string, data: ExhibitorStandConfigurationData) {
-    await prisma.showExhibitor.update({
+    await this.prisma.showExhibitor.update({
       where: { token },
       data: {
         ...data,

@@ -1,25 +1,33 @@
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server";
-import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import type { EmailTemplate } from "@animeaux/resend";
+} from "#core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { Routes } from "#core/navigation.js";
+import type { ServiceApplication } from "#exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
-export namespace DocumentsEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
-    const { files, application } = await promiseHash({
-      files: services.exhibitor.getFilesByToken(token),
+export class ServiceExhibitorDocumentEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
 
-      application: services.exhibitor.application.getByToken(token, {
+  async submitted(token: string) {
+    const { files, application } = await promiseHash({
+      files: this.exhibitor.getFilesByToken(token),
+
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
 
-    return {
+    await this.email.send({
       name: "documents-exposant-modifie",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -87,14 +95,12 @@ export namespace DocumentsEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, files, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           documentStatus: true,
@@ -102,9 +108,9 @@ export namespace DocumentsEmails {
         },
       }),
 
-      files: services.exhibitor.getFilesByExhibitor(exhibitorId),
+      files: this.exhibitor.getFilesByExhibitor(exhibitorId),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -113,12 +119,12 @@ export namespace DocumentsEmails {
       exhibitor.documentStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.documentStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.documentStatus) {
       case ShowExhibitorStatus.VALIDATED: {
-        return {
+        return await this.email.send({
           name: "documents-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -186,7 +192,7 @@ export namespace DocumentsEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -195,7 +201,7 @@ export namespace DocumentsEmails {
           "A documentStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "documents-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -229,7 +235,7 @@ export namespace DocumentsEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {

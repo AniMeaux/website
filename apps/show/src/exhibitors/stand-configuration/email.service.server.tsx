@@ -2,22 +2,30 @@ import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server";
-import { Routes } from "#core/navigation";
-import { services } from "#core/services/services.server";
-import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
-import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
-import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
-import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
-import type { EmailTemplate } from "@animeaux/resend";
+} from "#core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#core/email/service.server.js";
+import { Routes } from "#core/navigation.js";
+import type { ServiceApplication } from "#exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type.js";
+import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
+import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone.js";
+import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 
-export namespace StandConfigurationEmails {
-  export async function submitted(token: string): Promise<EmailTemplate> {
+export class ServiceExhibitorStandConfigurationEmail {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private email: ServiceEmail,
+    private exhibitor: ServiceExhibitor,
+    private application: ServiceApplication,
+  ) {}
+
+  async submitted(token: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.getByToken(token, {
+      exhibitor: this.exhibitor.getByToken(token, {
         select: {
           chairCount: true,
           dividerCount: true,
@@ -33,7 +41,7 @@ export namespace StandConfigurationEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByToken(token, {
+      application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
     });
@@ -165,7 +173,7 @@ export namespace StandConfigurationEmails {
       );
     }
 
-    return {
+    await this.email.send({
       name: "stand-exposant-demandé",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
@@ -202,14 +210,12 @@ export namespace StandConfigurationEmails {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    };
+    });
   }
 
-  export async function treated(
-    exhibitorId: string,
-  ): Promise<null | EmailTemplate> {
+  async treated(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({
-      exhibitor: services.exhibitor.get(exhibitorId, {
+      exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
           token: true,
           chairCount: true,
@@ -228,7 +234,7 @@ export namespace StandConfigurationEmails {
         },
       }),
 
-      application: services.exhibitor.application.getByExhibitor(exhibitorId, {
+      application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
     });
@@ -238,7 +244,7 @@ export namespace StandConfigurationEmails {
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.standConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return null;
+      return;
     }
 
     switch (exhibitor.standConfigurationStatus) {
@@ -376,7 +382,7 @@ export namespace StandConfigurationEmails {
           );
         }
 
-        return {
+        return await this.email.send({
           name: "stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -413,7 +419,7 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
@@ -422,7 +428,7 @@ export namespace StandConfigurationEmails {
           "A standConfigurationStatusMessage should exists",
         );
 
-        return {
+        return await this.email.send({
           name: "stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
@@ -456,7 +462,7 @@ export namespace StandConfigurationEmails {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        };
+        });
       }
 
       default: {

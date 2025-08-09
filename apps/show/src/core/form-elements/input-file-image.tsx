@@ -1,6 +1,7 @@
 import { DynamicImage } from "#core/data-display/image";
+import { ImageData } from "#core/image/data.js";
 import { Icon } from "#generated/icon";
-import { ImageUrl, cn, createHookContext, useIsMounted } from "@animeaux/core";
+import { cn, createHookContext, useIsMounted } from "@animeaux/core";
 import type { DataUrlFile } from "@animeaux/files-io";
 import { readFile } from "@animeaux/files-io";
 import { Primitive } from "@animeaux/react-primitives";
@@ -118,7 +119,7 @@ export const InputFileImage = {
             alt={defaultLogo.alt}
             aspectRatio="4:3"
             fallbackSize="512"
-            image={ImageUrl.parse(defaultLogo.path)}
+            image={ImageData.parse(defaultLogo.path)}
             fillTransparentBackground
             objectFit="contain"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}

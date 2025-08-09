@@ -2,13 +2,14 @@ import { ProseInlineAction } from "#core/actions/prose-inline-action";
 import { ChipList } from "#core/data-display/chip";
 import { DynamicImage } from "#core/data-display/image";
 import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
+import { ImageData } from "#core/image/data.js";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
 import { Icon } from "#generated/icon";
-import { ImageUrl, joinReactNodes } from "@animeaux/core";
+import { joinReactNodes } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -45,7 +46,7 @@ export function SectionPublicProfile() {
             alt={exhibitor.name}
             aspectRatio="4:3"
             fallbackSize="512"
-            image={ImageUrl.parse(exhibitor.logoPath)}
+            image={ImageData.parse(exhibitor.logoPath)}
             fillTransparentBackground
             objectFit="contain"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}

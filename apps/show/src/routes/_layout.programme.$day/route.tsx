@@ -2,7 +2,7 @@ import { ErrorPage, getErrorTitle } from "#core/data-display/error-page.js";
 import { createSocialMeta } from "#core/meta.js";
 import { getPageTitle } from "#core/page-title.js";
 import { notFound } from "#core/response.server.js";
-import { services } from "#core/services/services.server.js";
+import { services } from "#core/services.server.js";
 import { ShowDay } from "#core/show-day";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";

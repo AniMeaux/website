@@ -1,13 +1,11 @@
 import { getErrorTitle } from "#core/data-display/error-page";
-import { email } from "#core/emails.server";
 import { FormLayout } from "#core/layout/form-layout";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
-import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -91,7 +89,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     zone: submission.value.zone,
   });
 
-  email.send.template(StandConfigurationEmails.submitted(routeParams.token));
+  services.exhibitorEmail.standConfiguration.submitted(routeParams.token);
 
   throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
 }

@@ -2,7 +2,7 @@ import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import { ExhibitorSearchParams } from "#exhibitors/search-params";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

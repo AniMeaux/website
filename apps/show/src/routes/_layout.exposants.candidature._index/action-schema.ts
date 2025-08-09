@@ -1,13 +1,10 @@
 import { Enums } from "#core/enums.js";
+import { ImageLimits } from "#core/image/limits.js";
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
-import {
-  IMAGE_SIZE_LIMIT_B,
-  IMAGE_SIZE_LIMIT_MB,
-} from "@animeaux/cloudinary/client";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
@@ -115,8 +112,8 @@ export const ActionSchema = zu
         logo: zu
           .instanceof(File, { message: "Veuillez choisir un logo" })
           .refine(
-            (file) => file.size <= IMAGE_SIZE_LIMIT_B,
-            `Le logo doit faire moins de ${IMAGE_SIZE_LIMIT_MB} MB`,
+            (file) => file.size <= ImageLimits.MAX_SIZE_B,
+            `Le logo doit faire moins de ${ImageLimits.MAX_SIZE_MB} MB`,
           ),
       })
       .and(

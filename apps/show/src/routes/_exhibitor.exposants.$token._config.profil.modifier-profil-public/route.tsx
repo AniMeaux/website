@@ -1,13 +1,10 @@
-import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { getErrorTitle } from "#core/data-display/error-page";
-import { email } from "#core/emails.server";
 import { FormLayout } from "#core/layout/form-layout";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
-import { services } from "#core/services/services.server";
-import { PublicProfileEmails } from "#exhibitors/profile/email.server";
+import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -66,7 +63,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw badRequest();
   }
 
-  const reversibleUpload = cloudinary.reversibleUpload.create();
+  const reversibleUpload = services.image.createReversibleUpload();
 
   async function revertUpload() {
     const errors = await reversibleUpload.revert();
@@ -120,7 +117,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw error;
   }
 
-  email.send.template(PublicProfileEmails.submitted(routeParams.token));
+  services.exhibitorEmail.publicProfile.submitted(routeParams.token);
 
   throw redirect(Routes.exhibitors.token(routeParams.token).profile.toString());
 }
