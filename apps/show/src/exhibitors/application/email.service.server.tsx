@@ -12,7 +12,7 @@ import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activit
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
-import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size";
+import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { getCompleteLocation } from "@animeaux/core";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
@@ -226,7 +226,7 @@ export class ServiceApplicationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {STAND_SIZE_TRANSLATION[application.desiredStandSize]}
+                {StandSize.translation[application.desiredStandSize]}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 

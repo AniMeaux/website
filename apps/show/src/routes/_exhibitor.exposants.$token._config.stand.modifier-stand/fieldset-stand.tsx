@@ -11,11 +11,11 @@ import {
   MAX_PEOPLE_COUNT,
   MAX_PEOPLE_COUNT_BY_STAND_SIZE,
 } from "#exhibitors/stand-size/people-count";
+import type { StandSize } from "#exhibitors/stand-size/stand-size.js";
 import {
   MAX_TABLE_COUNT,
   MAX_TABLE_COUNT_BY_STAND_SIZE,
 } from "#exhibitors/stand-size/table-count";
-import type { ShowStandSize } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
@@ -52,7 +52,7 @@ export function FieldsetStand() {
             fields.size.value == null
               ? MAX_DIVIDER_COUNT
               : MAX_DIVIDER_COUNT_BY_STAND_SIZE[
-                  fields.size.value as ShowStandSize
+                  fields.size.value as StandSize.Enum
                 ]
           }
           helper={
@@ -67,7 +67,7 @@ export function FieldsetStand() {
         maxValue={
           fields.size.value == null
             ? MAX_TABLE_COUNT
-            : MAX_TABLE_COUNT_BY_STAND_SIZE[fields.size.value as ShowStandSize]
+            : MAX_TABLE_COUNT_BY_STAND_SIZE[fields.size.value as StandSize.Enum]
         }
         helper={
           <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
@@ -84,7 +84,7 @@ export function FieldsetStand() {
             fields.size.value == null
               ? MAX_PEOPLE_COUNT
               : MAX_PEOPLE_COUNT_BY_STAND_SIZE[
-                  fields.size.value as ShowStandSize
+                  fields.size.value as StandSize.Enum
                 ]
           }
         />

@@ -4,13 +4,9 @@ import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/a
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
-import { isLargeStandSize } from "#exhibitors/stand-size/stand-size";
+import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
-import {
-  ShowActivityField,
-  ShowActivityTarget,
-  ShowStandSize,
-} from "@prisma/client";
+import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
 
 export const ActionSchema = zu
   .object({
@@ -153,7 +149,7 @@ export const ActionSchema = zu
       ),
 
     participation: zu.object({
-      desiredStandSize: zu.nativeEnum(ShowStandSize, {
+      desiredStandSize: zu.nativeEnum(StandSize.Enum, {
         required_error: "Veuillez choisir une taille de stand",
       }),
 
@@ -245,7 +241,7 @@ export const ActionSchema = zu
 
       return (
         !hasLimitedStandSize ||
-        !isLargeStandSize(value.participation.desiredStandSize)
+        StandSize.valuesSmallSize.includes(value.participation.desiredStandSize)
       );
     },
     {

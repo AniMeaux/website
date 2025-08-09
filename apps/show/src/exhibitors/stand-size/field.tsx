@@ -1,21 +1,17 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
-import {
-  SORTED_STAND_SIZES,
-  STAND_SIZE_TRANSLATION,
-  isLargeStandSize,
-} from "#exhibitors/stand-size/stand-size";
+import { StandSize } from "#exhibitors/stand-size/stand-size";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowActivityField, ShowStandSize } from "@prisma/client";
+import type { ShowActivityField } from "@prisma/client";
 
 export function FieldStandSize({
   field,
   label,
   selectedActivityFields,
 }: {
-  field: FieldMetadata<ShowStandSize>;
+  field: FieldMetadata<StandSize.Enum>;
   label: React.ReactNode;
   selectedActivityFields: ShowActivityField[];
 }) {
@@ -24,12 +20,10 @@ export function FieldStandSize({
       SMALL_SIZED_STANDS_ACTIVITY_FIELDS.includes(selectedActivityField),
   );
 
-  let options = SORTED_STAND_SIZES;
+  let options = StandSize.values;
 
   if (hasLimitedStandSize) {
-    options = SORTED_STAND_SIZES.filter(
-      (standSize) => !isLargeStandSize(standSize),
-    );
+    options = StandSize.valuesSmallSize;
   }
 
   return (
@@ -42,7 +36,7 @@ export function FieldStandSize({
             <FormLayout.Selector.Input {...props} key={props.key} />
 
             <FormLayout.Selector.Label>
-              {STAND_SIZE_TRANSLATION[props.value as ShowStandSize]}
+              {StandSize.translation[props.value as StandSize.Enum]}
             </FormLayout.Selector.Label>
 
             <FormLayout.Selector.RadioIcon />

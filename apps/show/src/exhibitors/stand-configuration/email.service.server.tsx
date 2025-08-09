@@ -10,7 +10,7 @@ import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
 import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone.js";
-import { STAND_SIZE_TRANSLATION } from "#exhibitors/stand-size/stand-size.js";
+import { StandSize } from "#exhibitors/stand-size/stand-size.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
@@ -60,7 +60,7 @@ export class ServiceExhibitorStandConfigurationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {STAND_SIZE_TRANSLATION[exhibitor.size]}
+                {StandSize.translation[exhibitor.size]}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -263,7 +263,7 @@ export class ServiceExhibitorStandConfigurationEmail {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {STAND_SIZE_TRANSLATION[exhibitor.size]}
+                    {StandSize.translation[exhibitor.size]}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
