@@ -7,7 +7,7 @@ import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { ActionSchema } from "./action";
+import { ActionSchema } from "./action-schema";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
