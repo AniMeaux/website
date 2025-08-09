@@ -10,21 +10,24 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
 export function ManagedAnimalsCard() {
-  const { currentUser, managedAnimalCount, managedAnimals } =
-    useLoaderData<typeof loader>();
+  const { currentUser, animal } = useLoaderData<typeof loader>();
+
+  if (animal == null || !animal.isCurrentUserManager) {
+    return null;
+  }
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {managedAnimalCount === 0
+          {animal.managedCount === 0
             ? "À votre charge"
-            : managedAnimalCount > 1
-              ? `${managedAnimalCount} animaux à votre charge`
+            : animal.managedCount > 1
+              ? `${animal.managedCount} animaux à votre charge`
               : "1 animal à votre charge"}
         </Card.Title>
 
-        {managedAnimalCount > 0 ? (
+        {animal.managedCount > 0 ? (
           <Action asChild variant="text">
             <BaseLink
               to={{
@@ -41,8 +44,8 @@ export function ManagedAnimalsCard() {
         ) : null}
       </Card.Header>
 
-      <Card.Content hasHorizontalScroll={managedAnimalCount > 0}>
-        {managedAnimalCount === 0 || managedAnimals == null ? (
+      <Card.Content hasHorizontalScroll={animal.managedCount > 0}>
+        {animal.managedCount === 0 || animal.managed == null ? (
           <SimpleEmpty
             isCompact
             icon="🦤"
@@ -53,7 +56,7 @@ export function ManagedAnimalsCard() {
           />
         ) : (
           <ul className="flex">
-            {managedAnimals.map((animal) => (
+            {animal.managed.map((animal) => (
               <li
                 key={animal.id}
                 className="flex flex-none flex-col first:pl-1 last:pr-1 md:first:pl-1 md:last:pr-1"

@@ -19,21 +19,24 @@ import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
 
 export function AnimalsToVaccinateCard() {
-  const { animalToVaccinateCount, animalsToVaccinate } =
-    useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
+
+  if (animal == null) {
+    return null;
+  }
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {animalToVaccinateCount === 0
+          {animal.toVaccinateCount === 0
             ? "Vaccinations prévues"
-            : animalToVaccinateCount > 1
-              ? `${animalToVaccinateCount} vaccinations prévues`
+            : animal.toVaccinateCount > 1
+              ? `${animal.toVaccinateCount} vaccinations prévues`
               : "1 vaccination prévue"}
         </Card.Title>
 
-        {animalToVaccinateCount > 0 ? (
+        {animal.toVaccinateCount > 0 ? (
           <Action asChild variant="text">
             <BaseLink
               to={{
@@ -65,7 +68,7 @@ export function AnimalsToVaccinateCard() {
       </Card.Header>
 
       <Card.Content hasListItems>
-        {animalToVaccinateCount === 0 ? (
+        {animal.toVaccinateCount === 0 ? (
           <SimpleEmpty
             isCompact
             icon="💉"
@@ -77,7 +80,7 @@ export function AnimalsToVaccinateCard() {
           />
         ) : (
           <ul className="grid grid-cols-1">
-            {animalsToVaccinate.map((animal) => (
+            {animal.toVaccinate.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
                   animal={animal}

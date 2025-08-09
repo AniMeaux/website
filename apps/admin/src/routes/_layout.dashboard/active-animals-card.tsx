@@ -10,20 +10,24 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
 export function ActiveAnimalsCard() {
-  const { activeAnimalCount, activeAnimals } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
+
+  if (animal == null) {
+    return null;
+  }
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {activeAnimalCount === 0
+          {animal.activeCount === 0
             ? "Animaux en charge"
-            : activeAnimalCount > 1
-              ? `${activeAnimalCount} animaux en charge`
+            : animal.activeCount > 1
+              ? `${animal.activeCount} animaux en charge`
               : "1 animal en charge"}
         </Card.Title>
 
-        {activeAnimalCount > 0 ? (
+        {animal.activeCount > 0 ? (
           <Action asChild variant="text">
             <BaseLink
               to={{
@@ -39,8 +43,8 @@ export function ActiveAnimalsCard() {
         ) : null}
       </Card.Header>
 
-      <Card.Content hasHorizontalScroll={activeAnimalCount > 0}>
-        {activeAnimalCount === 0 ? (
+      <Card.Content hasHorizontalScroll={animal.activeCount > 0}>
+        {animal.activeCount === 0 ? (
           <SimpleEmpty
             isCompact
             icon="🦤"
@@ -51,7 +55,7 @@ export function ActiveAnimalsCard() {
           />
         ) : (
           <ul className="flex">
-            {activeAnimals.map((animal) => (
+            {animal.active.map((animal) => (
               <li
                 key={animal.id}
                 className="flex flex-none flex-col first:pl-1 last:pr-1 md:first:pl-1 md:last:pr-1"

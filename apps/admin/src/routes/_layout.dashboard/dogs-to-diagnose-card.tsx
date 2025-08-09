@@ -15,20 +15,24 @@ import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
 
 export function DogsToDiagnoseCard() {
-  const { dogToDiagnoseCount, dogsToDiagnose } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
+
+  if (animal == null) {
+    return null;
+  }
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {dogToDiagnoseCount === 0
+          {animal.dogToDiagnoseCount === 0
             ? "Diagnoses à prévoir"
-            : dogToDiagnoseCount > 1
-              ? `${dogToDiagnoseCount} diagnoses à prévoir`
+            : animal.dogToDiagnoseCount > 1
+              ? `${animal.dogToDiagnoseCount} diagnoses à prévoir`
               : "1 diagnose à prévoir"}
         </Card.Title>
 
-        {dogToDiagnoseCount > 0 ? (
+        {animal.dogToDiagnoseCount > 0 ? (
           <Action asChild variant="text">
             <BaseLink
               to={{
@@ -66,7 +70,7 @@ export function DogsToDiagnoseCard() {
       </Card.Header>
 
       <Card.Content hasListItems>
-        {dogToDiagnoseCount === 0 ? (
+        {animal.dogToDiagnoseCount === 0 ? (
           <SimpleEmpty
             isCompact
             icon="🛡️"
@@ -78,7 +82,7 @@ export function DogsToDiagnoseCard() {
           />
         ) : (
           <ul className="grid grid-cols-1">
-            {dogsToDiagnose.map((animal) => (
+            {animal.dogsToDiagnose.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
                   animal={animal}

@@ -17,21 +17,24 @@ import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
 
 export function AnimalsToSterilizeCard() {
-  const { animalToSterilizeCount, animalsToSterilize } =
-    useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>();
+
+  if (animal == null) {
+    return null;
+  }
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {animalToSterilizeCount === 0
+          {animal.toSterilizeCount === 0
             ? "Stérilisations à prévoir"
-            : animalToSterilizeCount > 1
-              ? `${animalToSterilizeCount} stérilisations à prévoir`
+            : animal.toSterilizeCount > 1
+              ? `${animal.toSterilizeCount} stérilisations à prévoir`
               : "1 stérilisation à prévoir"}
         </Card.Title>
 
-        {animalToSterilizeCount > 0 ? (
+        {animal.toSterilizeCount > 0 ? (
           <Action asChild variant="text">
             <BaseLink
               to={{
@@ -68,7 +71,7 @@ export function AnimalsToSterilizeCard() {
       </Card.Header>
 
       <Card.Content hasListItems>
-        {animalToSterilizeCount === 0 ? (
+        {animal.toSterilizeCount === 0 ? (
           <SimpleEmpty
             isCompact
             icon="✂️"
@@ -80,7 +83,7 @@ export function AnimalsToSterilizeCard() {
           />
         ) : (
           <ul className="grid grid-cols-1">
-            {animalsToSterilize.map((animal) => (
+            {animal.toSterilize.map((animal) => (
               <li key={animal.id} className="flex flex-col">
                 <AnimalSmallItem
                   animal={animal}
