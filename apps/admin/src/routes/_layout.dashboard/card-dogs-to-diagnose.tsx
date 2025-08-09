@@ -14,7 +14,7 @@ import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";
 
-export function DogsToDiagnoseCard() {
+export function CardDogsToDiagnose() {
   const { animal } = useLoaderData<typeof loader>();
 
   if (animal == null) {

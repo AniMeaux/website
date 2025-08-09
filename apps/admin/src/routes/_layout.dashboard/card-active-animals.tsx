@@ -9,7 +9,7 @@ import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
-export function ActiveAnimalsCard() {
+export function CardActiveAnimals() {
   const { animal } = useLoaderData<typeof loader>();
 
   if (animal == null) {
