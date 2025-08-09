@@ -7,11 +7,11 @@ import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function ManagedAnimalsCard() {
   const { currentUser, managedAnimalCount, managedAnimals } =
-    useLoaderData<loader>();
+    useLoaderData<typeof loader>();
 
   return (
     <Card>

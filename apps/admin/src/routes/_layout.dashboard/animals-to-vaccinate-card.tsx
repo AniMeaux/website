@@ -16,11 +16,11 @@ import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function AnimalsToVaccinateCard() {
   const { animalToVaccinateCount, animalsToVaccinate } =
-    useLoaderData<loader>();
+    useLoaderData<typeof loader>();
 
   return (
     <Card>

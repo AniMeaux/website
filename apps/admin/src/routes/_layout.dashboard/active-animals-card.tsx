@@ -7,10 +7,10 @@ import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function ActiveAnimalsCard() {
-  const { activeAnimalCount, activeAnimals } = useLoaderData<loader>();
+  const { activeAnimalCount, activeAnimals } = useLoaderData<typeof loader>();
 
   return (
     <Card>

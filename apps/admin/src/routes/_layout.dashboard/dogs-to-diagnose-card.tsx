@@ -12,10 +12,10 @@ import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function DogsToDiagnoseCard() {
-  const { dogToDiagnoseCount, dogsToDiagnose } = useLoaderData<loader>();
+  const { dogToDiagnoseCount, dogsToDiagnose } = useLoaderData<typeof loader>();
 
   return (
     <Card>

@@ -14,11 +14,11 @@ import { Routes } from "#core/navigation";
 import { formatAge } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function AnimalsToSterilizeCard() {
   const { animalToSterilizeCount, animalsToSterilize } =
-    useLoaderData<loader>();
+    useLoaderData<typeof loader>();
 
   return (
     <Card>
