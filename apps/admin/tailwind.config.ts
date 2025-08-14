@@ -35,6 +35,8 @@ export const screens = {
 export const colors = {
   black: defaultColors.black,
   blue: defaultColors.blue,
+  cyan: defaultColors.cyan,
+  emerald: defaultColors.emerald,
   gray: defaultColors.gray,
   green: defaultColors.green,
   inherit: defaultColors.inherit,

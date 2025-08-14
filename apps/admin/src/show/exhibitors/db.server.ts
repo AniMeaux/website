@@ -6,6 +6,7 @@ import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { Payment } from "#show/exhibitors/payment";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
+import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
@@ -453,6 +454,33 @@ export class ShowExhibitorDbDelegate {
     if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
       data.standConfigurationStatusMessage = null;
     }
+  }
+
+  async getStandSizeBooking() {
+    const { limits, groups } = await promiseHash({
+      limits: prisma.showStandSizeLimit.findMany(),
+
+      groups: prisma.showExhibitor.groupBy({
+        by: "size",
+        _count: { size: true },
+      }),
+    });
+
+    return StandSize.values.map((standSize) => {
+      const bookedCount =
+        groups.find((group) => group.size === standSize)?._count.size ?? 0;
+
+      const maxCount = limits.find(
+        (limit) => limit.size === standSize,
+      )?.maxCount;
+
+      return {
+        size: standSize,
+        bookedCount,
+        maxCount,
+        ratio: maxCount == null ? 0 : bookedCount / maxCount,
+      };
+    });
   }
 }
 
