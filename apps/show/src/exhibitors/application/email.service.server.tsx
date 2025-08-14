@@ -7,7 +7,7 @@ import { createImageUrl } from "#core/data-display/image";
 import type { ServiceEmail } from "#core/email/service.server.js";
 import { ImageData } from "#core/image/data.js";
 import { Routes } from "#core/navigation";
-import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
@@ -182,7 +182,7 @@ export class ServiceApplicationEmail {
 
               <EmailHtml.Output.Value>
                 {application.structureActivityFields
-                  .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                  .map((field) => ActivityField.translation[field])
                   .join(", ")}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>

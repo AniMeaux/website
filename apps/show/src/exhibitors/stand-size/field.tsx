@@ -1,10 +1,9 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
-import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { StandSize } from "#exhibitors/stand-size/stand-size";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowActivityField } from "@prisma/client";
 
 export function FieldStandSize({
   field,
@@ -15,11 +14,11 @@ export function FieldStandSize({
   field: FieldMetadata<StandSize.Enum>;
   label: React.ReactNode;
   availableStandSizes: StandSize.Enum[];
-  selectedActivityFields: ShowActivityField[];
+  selectedActivityFields: ActivityField.Enum[];
 }) {
   const hasLimitedStandSize = selectedActivityFields.some(
     (selectedActivityField) =>
-      SMALL_SIZED_STANDS_ACTIVITY_FIELDS.includes(selectedActivityField),
+      ActivityField.valuesSmallSizedStands.includes(selectedActivityField),
   );
 
   const options = hasLimitedStandSize
