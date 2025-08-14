@@ -6,6 +6,8 @@ export namespace ActivityField {
   export const Enum = ShowActivityField;
   export type Enum = ShowActivityField;
 
+  export const MAX_COUNT = 3;
+
   export const translation: Record<Enum, string> = {
     [Enum.ACCESSORIES]: "Accessoires",
     [Enum.ALTERNATIVE_MEDICINE]: "Médecine douce",

@@ -19,7 +19,11 @@ export const ActionSchema = zu.object({
   activityFields: zu.repeatable(
     zu
       .array(zu.nativeEnum(ActivityField.Enum))
-      .min(1, "Veuillez choisir un domaine d’activité"),
+      .min(1, "Veuillez choisir un domaine d’activité")
+      .max(
+        ActivityField.MAX_COUNT,
+        `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
+      ),
   ),
   links: zu.repeatable(
     zu

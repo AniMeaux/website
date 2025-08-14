@@ -107,7 +107,11 @@ export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
           activityFields: zu.repeatable(
             zu
               .array(zu.nativeEnum(ActivityField.Enum))
-              .min(1, "Veuillez choisir un domaine d’activité"),
+              .min(1, "Veuillez choisir un domaine d’activité")
+              .max(
+                ActivityField.MAX_COUNT,
+                `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
+              ),
           ),
           logo: zu
             .instanceof(File, { message: "Veuillez choisir un logo" })
