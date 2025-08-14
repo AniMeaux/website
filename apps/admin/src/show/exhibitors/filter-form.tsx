@@ -30,6 +30,7 @@ import {
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { StandSize } from "./stand-configuration/stand-size";
 
 export function ExhibitorFilters() {
   return (
@@ -50,6 +51,7 @@ export function ExhibitorFilters() {
         <FilterPayment />
         <FilterActivity />
         <FilterSponsorship />
+        <FilterStandSize />
         <FilterAnimations />
       </Filters.Content>
     </Filters>
@@ -351,6 +353,45 @@ function FilterSort() {
               <Icon href={ExhibitorSearchParamsN.SORT_ICONS[sort].solid} />
             }
             checked={sort === exhibitorSearchParams.sort}
+            onChange={() => {}}
+          />
+        ))}
+      </ToggleInputList>
+    </Filters.Filter>
+  );
+}
+
+function FilterStandSize() {
+  const [searchParams] = useOptimisticSearchParams();
+  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={ExhibitorSearchParams.keys.standSize}
+      label="Taille du stand"
+      count={exhibitorSearchParams.standSize.size}
+      hiddenContent={Array.from(exhibitorSearchParams.standSize).map(
+        (standSize) => (
+          <input
+            key={standSize}
+            type="hidden"
+            name={ExhibitorSearchParams.keys.standSize}
+            value={standSize}
+          />
+        ),
+      )}
+    >
+      <ToggleInputList>
+        {StandSize.values.map((standSize) => (
+          <ToggleInput
+            key={standSize}
+            type="checkbox"
+            label={StandSize.translation[standSize]}
+            name={ExhibitorSearchParams.keys.standSize}
+            value={standSize}
+            icon={<Icon href="icon-expand-light" />}
+            iconChecked={<Icon href="icon-expand-solid" />}
+            checked={exhibitorSearchParams.standSize.has(standSize)}
             onChange={() => {}}
           />
         ))}

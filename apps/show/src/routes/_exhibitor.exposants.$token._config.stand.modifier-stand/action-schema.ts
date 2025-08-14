@@ -1,11 +1,11 @@
 import { MAX_DIVIDER_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/divider-count";
 import { MAX_PEOPLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/people-count";
+import { StandSize } from "#exhibitors/stand-size/stand-size.js";
 import { MAX_TABLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/table-count";
 import { zu } from "@animeaux/zod-utils";
 import {
   ShowDividerType,
   ShowInstallationDay,
-  ShowStandSize,
   ShowStandZone,
 } from "@prisma/client";
 
@@ -50,7 +50,7 @@ export const ActionSchema = zu
       .trim()
       .max(256, "Veuillez entrer un commentaire plus court")
       .optional(),
-    size: zu.nativeEnum(ShowStandSize, {
+    size: zu.nativeEnum(StandSize.Enum, {
       required_error: "Veuillez choisir une taille de stand",
     }),
     tableCount: zu.coerce
