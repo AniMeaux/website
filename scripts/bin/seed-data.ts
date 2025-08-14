@@ -23,6 +23,7 @@ import {
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationStatus,
   ShowExhibitorStatus,
+  ShowInvoiceStatus,
   ShowSponsorshipCategory,
   ShowStandSize,
   ShowStandZone,
@@ -52,6 +53,7 @@ const seeds = {
   ),
   showExhibitors: Promise.resolve().then(seedShowExhibitors),
   showExhibitorsDogs: Promise.resolve().then(seedShowExhibitorsDogs),
+  seedShowExhibitorsInvoices: Promise.resolve().then(seedShowInvoices),
   showSponsors: Promise.resolve().then(seedShowSponsors),
   showProviders: Promise.resolve().then(seedShowProviders),
   users: Promise.resolve().then(seedUsers),
@@ -823,6 +825,41 @@ async function seedShowExhibitorsDogs() {
 
   const count = await prisma.showExhibitorDog.count();
   console.log(`- 👍 ${count} show exhibitors dogs`);
+}
+
+async function seedShowInvoices() {
+  await seeds.showExhibitors;
+
+  const exhibitors = await prisma.showExhibitor.findMany({
+    select: { id: true },
+  });
+
+  let invoiceNumber = 1;
+  const now = DateTime.now();
+
+  await Promise.all(
+    exhibitors.map((exhibitor) => {
+      const issueDate = faker.date.between({
+        from: now.minus({ months: 6 }).toJSDate(),
+        to: now.toJSDate(),
+      });
+
+      return prisma.showInvoice.create({
+        data: {
+          issueDate,
+          dueDate: faker.date.between({ from: issueDate, to: now.toJSDate() }),
+          amount: faker.number.int({ min: 50, max: 300 }),
+          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 3 })}`,
+          url: faker.internet.url(),
+          exhibitorId: exhibitor.id,
+          status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),
+        },
+      });
+    }),
+  );
+
+  const count = await prisma.showExhibitor.count();
+  console.log(`- 👍 ${count} show invoices`);
 }
 
 async function seedShowSponsors() {
