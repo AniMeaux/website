@@ -7,7 +7,7 @@ import { createImageUrl } from "#core/data-display/image.js";
 import type { ServiceEmail } from "#core/email/service.server.js";
 import { ImageData } from "#core/image/data.js";
 import { Routes } from "#core/navigation.js";
-import { ACTIVITY_FIELD_TRANSLATION } from "#exhibitors/activity-field/activity-field.js";
+import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
@@ -88,7 +88,7 @@ export class ServiceExhibitorPublicProfileEmail {
 
               <EmailHtml.Output.Value>
                 {exhibitor.activityFields
-                  .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                  .map((field) => ActivityField.translation[field])
                   .join(", ")}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -224,7 +224,7 @@ export class ServiceExhibitorPublicProfileEmail {
 
                   <EmailHtml.Output.Value>
                     {exhibitor.activityFields
-                      .map((field) => ACTIVITY_FIELD_TRANSLATION[field])
+                      .map((field) => ActivityField.translation[field])
                       .join(", ")}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>

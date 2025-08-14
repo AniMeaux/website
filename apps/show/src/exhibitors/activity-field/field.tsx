@@ -1,20 +1,15 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
-import {
-  ACTIVITY_FIELD_ICON,
-  ACTIVITY_FIELD_TRANSLATION,
-  SORTED_ACTIVITY_FIELDS,
-} from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { Icon } from "#generated/icon";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowActivityField } from "@prisma/client";
 
 export function FieldActivityField({
   field,
   label,
 }: {
-  field: FieldMetadata<ShowActivityField[]>;
+  field: FieldMetadata<ActivityField.Enum[]>;
   label: React.ReactNode;
 }) {
   return (
@@ -24,24 +19,24 @@ export function FieldActivityField({
       <FormLayout.Selectors columnMinWidth="250px">
         {getCollectionProps(field, {
           type: "checkbox",
-          options: SORTED_ACTIVITY_FIELDS,
+          options: ActivityField.values,
         }).map((props) => {
-          const activityField = props.value as ShowActivityField;
+          const activityField = props.value as ActivityField.Enum;
 
           return (
             <FormLayout.Selector.Root key={props.key}>
               <FormLayout.Selector.Input {...props} key={props.key} />
 
               <FormLayout.Selector.CheckedIcon asChild>
-                <Icon id={ACTIVITY_FIELD_ICON[activityField].solid} />
+                <Icon id={ActivityField.icon[activityField].solid} />
               </FormLayout.Selector.CheckedIcon>
 
               <FormLayout.Selector.UncheckedIcon asChild>
-                <Icon id={ACTIVITY_FIELD_ICON[activityField].light} />
+                <Icon id={ActivityField.icon[activityField].light} />
               </FormLayout.Selector.UncheckedIcon>
 
               <FormLayout.Selector.Label>
-                {ACTIVITY_FIELD_TRANSLATION[activityField]}
+                {ActivityField.translation[activityField]}
               </FormLayout.Selector.Label>
 
               <FormLayout.Selector.CheckboxIcon />

@@ -1,9 +1,9 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
+import type { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { FieldStandSize } from "#exhibitors/stand-size/field";
 import { ensureArray } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
-import type { ShowActivityField } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { FieldsetId, useFieldsets } from "./form";
 import type { loader } from "./loader.server";
@@ -24,8 +24,8 @@ export function FieldsetParticipation() {
         selectedActivityFields={ensureArray(
           fieldsets.structure.getFieldset().activityFields.value as
             | undefined
-            | ShowActivityField
-            | ShowActivityField[],
+            | ActivityField.Enum
+            | ActivityField.Enum[],
         )}
       />
 

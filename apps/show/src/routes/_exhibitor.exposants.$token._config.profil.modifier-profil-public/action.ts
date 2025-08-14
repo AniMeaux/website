@@ -1,6 +1,7 @@
 import { ImageLimits } from "#core/image/limits.js";
+import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
-import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
+import { ShowActivityTarget } from "@prisma/client";
 
 export const ActionSchema = zu.object({
   logo: zu
@@ -17,8 +18,12 @@ export const ActionSchema = zu.object({
   ),
   activityFields: zu.repeatable(
     zu
-      .array(zu.nativeEnum(ShowActivityField))
-      .min(1, "Veuillez choisir un domaine d’activité"),
+      .array(zu.nativeEnum(ActivityField.Enum))
+      .min(1, "Veuillez choisir un domaine d’activité")
+      .max(
+        ActivityField.MAX_COUNT,
+        `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
+      ),
   ),
   links: zu.repeatable(
     zu

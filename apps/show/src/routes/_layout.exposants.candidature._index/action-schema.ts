@@ -1,12 +1,12 @@
 import { Enums } from "#core/enums.js";
 import { ImageLimits } from "#core/image/limits.js";
-import { SMALL_SIZED_STANDS_ACTIVITY_FIELDS } from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
-import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
+import { ShowActivityTarget } from "@prisma/client";
 
 export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
   return zu
@@ -106,8 +106,12 @@ export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
           ),
           activityFields: zu.repeatable(
             zu
-              .array(zu.nativeEnum(ShowActivityField))
-              .min(1, "Veuillez choisir un domaine d’activité"),
+              .array(zu.nativeEnum(ActivityField.Enum))
+              .min(1, "Veuillez choisir un domaine d’activité")
+              .max(
+                ActivityField.MAX_COUNT,
+                `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
+              ),
           ),
           logo: zu
             .instanceof(File, { message: "Veuillez choisir un logo" })
@@ -250,7 +254,7 @@ export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
       (value) => {
         const hasLimitedStandSize = value.structure.activityFields.some(
           (activityField) =>
-            SMALL_SIZED_STANDS_ACTIVITY_FIELDS.includes(activityField),
+            ActivityField.valuesSmallSizedStands.includes(activityField),
         );
 
         return (

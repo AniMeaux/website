@@ -1,10 +1,6 @@
 import { Action } from "#core/actions/action";
 import { FormLayout } from "#core/layout/form-layout";
-import {
-  ACTIVITY_FIELD_ICON,
-  ACTIVITY_FIELD_TRANSLATION,
-  SORTED_ACTIVITY_FIELDS,
-} from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
@@ -203,7 +199,7 @@ function FieldFields() {
       <FormLayout.Label>Domaines d’activités</FormLayout.Label>
 
       <FormLayout.Selectors columnMinWidth="250px" repeatCount="auto-fill">
-        {SORTED_ACTIVITY_FIELDS.map((activityField) => (
+        {ActivityField.values.map((activityField) => (
           <FormLayout.Selector.Root key={activityField}>
             <FormLayout.Selector.Input
               name={ExhibitorSearchParams.keys.fields}
@@ -214,15 +210,15 @@ function FieldFields() {
             />
 
             <FormLayout.Selector.CheckedIcon asChild>
-              <Icon id={ACTIVITY_FIELD_ICON[activityField].solid} />
+              <Icon id={ActivityField.icon[activityField].solid} />
             </FormLayout.Selector.CheckedIcon>
 
             <FormLayout.Selector.UncheckedIcon asChild>
-              <Icon id={ACTIVITY_FIELD_ICON[activityField].light} />
+              <Icon id={ActivityField.icon[activityField].light} />
             </FormLayout.Selector.UncheckedIcon>
 
             <FormLayout.Selector.Label>
-              {ACTIVITY_FIELD_TRANSLATION[activityField]}
+              {ActivityField.translation[activityField]}
             </FormLayout.Selector.Label>
 
             <FormLayout.Selector.CheckboxIcon />
