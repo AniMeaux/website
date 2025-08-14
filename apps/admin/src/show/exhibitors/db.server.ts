@@ -174,6 +174,10 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.standSize.size > 0) {
+      where.push({ size: { in: Array.from(params.searchParams.standSize) } });
+    }
+
     if (params.searchParams.targets.size > 0) {
       where.push({
         activityTargets: {

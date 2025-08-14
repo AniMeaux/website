@@ -1,5 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Payment } from "#show/exhibitors/payment";
+import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
@@ -26,6 +27,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     sort: "sort",
     sponsorshipCategories: "pc",
     standConfigurationStatuses: "scs",
+    standSize: "size",
     targets: "ta",
     visibility: "vi",
   },
@@ -69,6 +71,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
         searchParams,
         keys.standConfigurationStatuses,
       ),
+      standSize: SearchParamsIO.getValues(searchParams, keys.standSize),
       targets: SearchParamsIO.getValues(searchParams, keys.targets),
       visibility: SearchParamsIO.getValues(searchParams, keys.visibility),
     });
@@ -115,6 +118,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.standConfigurationStatuses,
       data.standConfigurationStatuses,
     );
+    SearchParamsIO.setValues(searchParams, keys.standSize, data.standSize);
     SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
     SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility);
   },
@@ -224,6 +228,7 @@ const SearchParamsSchema = zu.object({
   standConfigurationStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
+  standSize: zu.searchParams.set(zu.searchParams.nativeEnum(StandSize.Enum)),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
 });
