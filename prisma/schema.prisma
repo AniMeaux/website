@@ -408,8 +408,6 @@ model ShowExhibitor {
   // Used by exhibitors to "sign in" to their account.
   token String @unique @default(uuid()) @db.Uuid
 
-  hasPaid Boolean @default(false)
-
   application   ShowExhibitorApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   applicationId String                   @unique @db.Uuid
 

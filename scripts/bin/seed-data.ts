@@ -713,7 +713,6 @@ async function seedShowExhibitors() {
       return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
-          hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
           applicationId: application.id,
 
           // -- Profile --------------------------------------------------------
