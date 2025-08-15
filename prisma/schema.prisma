@@ -415,6 +415,7 @@ model ShowExhibitor {
 
   sponsorship ShowSponsor?
   animations  ShowAnimation[]
+  invoices    ShowInvoice[]
 
   // -- Profile ----------------------------------------------------------------
 
@@ -507,6 +508,27 @@ model ShowExhibitorDog {
   idNumber      String  @db.VarChar(64)
   isCategorized Boolean
   isSterilized  Boolean
+}
+
+model ShowInvoice {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @unique @db.Uuid
+
+  issueDate DateTime
+  dueDate   DateTime
+  amount    Int
+  number    String            @db.VarChar(256)
+  url       String            @db.VarChar(128)
+  status    ShowInvoiceStatus @default(TO_PAY)
+}
+
+enum ShowInvoiceStatus {
+  TO_PAY
+  PAID
 }
 
 model ShowProvider {

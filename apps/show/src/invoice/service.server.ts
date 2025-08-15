@@ -1,0 +1,29 @@
+import type { ServicePrisma } from "#core/prisma.service.server.js";
+import { notFound } from "#core/response.server.js";
+import type { Prisma } from "@prisma/client";
+
+export class ServiceInvoice {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private prisma: ServicePrisma) {}
+
+  async getManyByToken<T extends Prisma.ShowInvoiceSelect>(
+    token: string,
+    params: { select: T },
+  ) {
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
+      where: { token },
+      select: {
+        invoices: {
+          orderBy: { issueDate: "desc" },
+          select: params.select,
+        },
+      },
+    });
+
+    if (exhibitor?.invoices == null) {
+      throw notFound();
+    }
+
+    return exhibitor.invoices;
+  }
+}

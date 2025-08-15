@@ -17,6 +17,7 @@ const TABLES_NAME = [
   "FosterFamily",
   "Password",
   "PressArticle",
+  "ShowInvoice",
   "ShowAnimation",
   "ShowExhibitorDog",
   "ShowPartner",
