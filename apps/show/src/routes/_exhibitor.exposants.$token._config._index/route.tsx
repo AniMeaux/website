@@ -21,7 +21,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
       token: true,
-      hasPaid: true,
       sponsorship: { select: { category: true } },
       documentStatus: true,
       documentStatusMessage: true,
@@ -32,6 +31,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       onStandAnimationsStatus: true,
       standNumber: true,
       standConfigurationStatus: true,
+      invoices: { select: { status: true } },
     },
   });
 
