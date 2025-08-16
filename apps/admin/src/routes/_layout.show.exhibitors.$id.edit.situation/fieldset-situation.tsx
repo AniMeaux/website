@@ -3,7 +3,6 @@ import { FieldRadios } from "#core/form-elements/field-radios";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator";
-import { Payment } from "#show/exhibitors/payment";
 import { Visibility } from "#show/visibility";
 import { useForm } from "./form";
 
@@ -19,13 +18,6 @@ export function FieldsetSituation() {
       <Card.Content>
         <Form.Fields>
           <Form.Errors errors={form.errors} />
-
-          <FieldRadios
-            label="Paiement"
-            field={fields.hasPaid}
-            getLabel={(payment) => Payment.translation[payment]}
-            options={Payment.values}
-          />
 
           <FieldRadios
             label="Visibilité"

@@ -3,6 +3,7 @@ import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { InvoiceStatus } from "#show/invoice/status.js";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -37,7 +38,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         id: true,
         isVisible: true,
         token: true,
-        hasPaid: true,
         documentStatus: true,
         documentStatusMessage: true,
         folderId: true,
@@ -71,6 +71,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         hasElectricalConnection: true,
         hasTablecloths: true,
         installationDay: true,
+        invoices: { select: { status: true } },
         locationNumber: true,
         peopleCount: true,
         placementComment: true,
@@ -111,7 +112,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   });
 
   return json({
-    exhibitor: { ...exhibitor, ...files },
+    exhibitor: {
+      ...exhibitor,
+      ...files,
+
+      invoiceStatus:
+        exhibitor.invoices.length === 0
+          ? null
+          : exhibitor.invoices.some(
+                (invoice) => invoice.status === InvoiceStatus.Enum.TO_PAY,
+              )
+            ? InvoiceStatus.Enum.TO_PAY
+            : InvoiceStatus.Enum.PAID,
+    },
     application,
     sponsor,
   });

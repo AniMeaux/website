@@ -1,5 +1,4 @@
 import { useBackIfPossible } from "#core/navigation";
-import { Payment } from "#show/exhibitors/payment";
 import { Visibility } from "#show/visibility";
 import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
@@ -29,7 +28,6 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      hasPaid: Payment.fromBoolean(exhbitor.hasPaid),
       isVisible: Visibility.fromBoolean(exhbitor.isVisible),
       locationNumber: exhbitor.locationNumber,
       standNumber: exhbitor.standNumber,
