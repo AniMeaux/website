@@ -1,12 +1,16 @@
-import { ProseInlineAction } from "#core/actions.js";
+import { Action, ProseInlineAction } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { Empty } from "#core/data-display/empty.js";
 import { ItemList, SimpleItem } from "#core/data-display/item.js";
 import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator.js";
+import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon.js";
+import { theme } from "#generated/theme.js";
 import { InvoiceIcon } from "#show/invoice/icon.js";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { joinReactNodes } from "@animeaux/core";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -25,7 +29,11 @@ export function CardInvoices() {
         {exhibitor.invoices.length > 0 ? (
           joinReactNodes(
             exhibitor.invoices.map((invoice) => (
-              <ItemInvoice key={invoice.id} invoice={invoice} />
+              <ItemInvoice
+                key={invoice.id}
+                invoice={invoice}
+                exhibitorId={exhibitor.id}
+              />
             )),
             <Separator />,
           )
@@ -43,7 +51,13 @@ export function CardInvoices() {
 
 type Invoice = SerializeFrom<typeof loader>["exhibitor"]["invoices"][number];
 
-function ItemInvoice({ invoice }: { invoice: Invoice }) {
+function ItemInvoice({
+  invoice,
+  exhibitorId,
+}: {
+  invoice: Invoice;
+  exhibitorId: string;
+}) {
   return (
     <div className="grid grid-cols-fr-auto gap-2">
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
@@ -58,7 +72,39 @@ function ItemInvoice({ invoice }: { invoice: Invoice }) {
         </ItemList>
       </div>
 
-      <Icon href="icon-ellipsis-solid" />
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <Action isIconOnly variant="text" color="gray">
+            <Action.Icon href="icon-ellipsis-solid" />
+          </Action>
+        </DropdownMenu.Trigger>
+
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            side="bottom"
+            align="end"
+            sideOffset={theme.spacing[1]}
+            collisionPadding={theme.spacing[1]}
+            className="z-20 grid w-[200px] grid-cols-1 gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 -animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          >
+            <DropdownMenu.Item asChild>
+              <BaseLink
+                to={Routes.show.exhibitors
+                  .id(exhibitorId)
+                  .invoice.id(invoice.id)
+                  .edit.toString()}
+                className="grid grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+              >
+                <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+                  <Icon href="icon-pen-solid" />
+                </span>
+
+                <span className="text-body-emphasis">Modifier</span>
+              </BaseLink>
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
     </div>
   );
 }
