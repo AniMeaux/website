@@ -1,6 +1,8 @@
 import { AlreadyExistError, PrismaErrorCodes } from "#core/errors.server";
+import { notifyShowApp } from "#core/notification.server.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
+import { InvoiceStatus } from "#show/invoice/status";
 import { catchError } from "@animeaux/core";
 import { Prisma } from "@prisma/client";
 
@@ -29,10 +31,15 @@ export class ShowInvoiceDbDelegate {
 
       throw error;
     }
+
+    await notifyShowApp({
+      type: "new-invoice",
+      exhibitorId: data.exhibitorId,
+    });
   }
 
   async update(invoiceId: string, data: UpdateData) {
-    const [error, becamePaid] = await catchError(() =>
+    const [error, invoice] = await catchError(() =>
       prisma.$transaction(async (prisma) => {
         const previousInvoice = await prisma.showInvoice.findUnique({
           where: { id: invoiceId },
@@ -52,10 +59,15 @@ export class ShowInvoiceDbDelegate {
             status: data.status,
             url: data.url,
           },
-          select: { status: true },
+          select: { status: true, exhibitorId: true },
         });
 
-        return invoice.status && !previousInvoice.status;
+        return {
+          ...invoice,
+          becamePaid:
+            invoice.status === InvoiceStatus.Enum.PAID &&
+            previousInvoice.status !== InvoiceStatus.Enum.PAID,
+        };
       }),
     );
 
@@ -75,8 +87,12 @@ export class ShowInvoiceDbDelegate {
       throw error;
     }
 
-    if (becamePaid) {
-      // TODO
+    if (invoice.becamePaid) {
+      await notifyShowApp({
+        type: "invoice-paid",
+        exhibitorId: invoice.exhibitorId,
+        invoiceId,
+      });
     }
   }
 
