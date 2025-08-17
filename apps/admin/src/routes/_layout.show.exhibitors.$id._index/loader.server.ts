@@ -32,6 +32,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         dogsConfigurationStatus: true,
         dogsConfigurationStatusMessage: true,
         dogs: {
+          orderBy: { createdAt: "desc" },
           select: {
             gender: true,
             id: true,
@@ -60,6 +61,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         hasTablecloths: true,
         installationDay: true,
         invoices: {
+          orderBy: { createdAt: "desc" },
           select: {
             amount: true,
             dueDate: true,
