@@ -9,11 +9,21 @@ import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon.js";
 import { InvoiceStatus } from "#show/invoice/status.js";
-import { useForm } from "./form";
+import type { FieldMetadata, FormMetadata } from "@conform-to/react";
 
-export function FieldsetInvoice() {
-  const { form, fields } = useForm();
-
+export function FieldsetInvoice({
+  form,
+  fields,
+}: {
+  form: { errors: FormMetadata["errors"] };
+  fields: {
+    amount: FieldMetadata<number>;
+    dueDate: FieldMetadata<Date>;
+    number: FieldMetadata<string>;
+    status: FieldMetadata<InvoiceStatus.Enum>;
+    url: FieldMetadata<string>;
+  };
+}) {
   return (
     <Card>
       <Card.Header>
