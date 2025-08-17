@@ -306,8 +306,7 @@ function FilterInvoiceStatuses() {
             label={InvoiceStatus.translation[status]}
             name={ExhibitorSearchParams.keys.invoiceStatuses}
             value={status}
-            icon={<InvoiceIcon variant="light" status={status} />}
-            iconChecked={<InvoiceIcon variant="solid" status={status} />}
+            icon={<InvoiceIcon status={status} />}
             checked={exhibitorSearchParams.invoiceStatuses.has(status)}
             onChange={() => {}}
           />
