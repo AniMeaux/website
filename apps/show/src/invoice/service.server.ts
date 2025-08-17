@@ -14,7 +14,7 @@ export class ServiceInvoice {
       where: { token },
       select: {
         invoices: {
-          orderBy: { issueDate: "desc" },
+          orderBy: { createdAt: "desc" },
           select: params.select,
         },
       },
