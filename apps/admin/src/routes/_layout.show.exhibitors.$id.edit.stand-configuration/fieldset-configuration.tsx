@@ -1,4 +1,4 @@
-import { FieldInput } from "#core/form-elements/field-input";
+import { FieldNumeric } from "#core/form-elements/field-numeric.js";
 import { FieldOnOff } from "#core/form-elements/field-on-off";
 import { FieldRadios } from "#core/form-elements/field-radios";
 import { Form } from "#core/form-elements/form";
@@ -49,19 +49,14 @@ export function FieldsetConfiguration() {
               options={DividerType.values}
             />
 
-            <FieldInput
+            <FieldNumeric
               label="Nombre de cloisons"
               field={fields.dividerCount}
-              inputMode="numeric"
             />
           </Form.Row>
 
           <Form.Row>
-            <FieldInput
-              label="Nombre de tables"
-              field={fields.tableCount}
-              inputMode="numeric"
-            />
+            <FieldNumeric label="Nombre de tables" field={fields.tableCount} />
 
             <FieldOnOff
               label="Nappage des tables"
@@ -70,17 +65,12 @@ export function FieldsetConfiguration() {
           </Form.Row>
 
           <Form.Row>
-            <FieldInput
+            <FieldNumeric
               label="Nombre de personnes sur le stand"
               field={fields.peopleCount}
-              inputMode="numeric"
             />
 
-            <FieldInput
-              label="Nombre de chaises"
-              field={fields.chairCount}
-              inputMode="numeric"
-            />
+            <FieldNumeric label="Nombre de chaises" field={fields.chairCount} />
           </Form.Row>
 
           <FieldRadios
