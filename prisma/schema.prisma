@@ -516,14 +516,13 @@ model ShowInvoice {
   updatedAt DateTime @updatedAt
 
   exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
-  exhibitorId String        @unique @db.Uuid
+  exhibitorId String        @db.Uuid
 
-  issueDate DateTime
-  dueDate   DateTime
-  amount    Int
-  number    String            @db.VarChar(256)
-  url       String            @db.VarChar(128)
-  status    ShowInvoiceStatus @default(TO_PAY)
+  amount  Int
+  dueDate DateTime
+  number  String            @unique @db.VarChar(256)
+  status  ShowInvoiceStatus @default(TO_PAY)
+  url     String            @db.VarChar(128)
 }
 
 enum ShowInvoiceStatus {
