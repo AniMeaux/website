@@ -4,7 +4,7 @@ export const QUESTIONS: Faq[] = [
   {
     question: "Quelles sont les dates et horaires du salon ?",
     answer: `
-Le salon se tiendra les **7 et 8 juin 2025**, de **10h à 18h** au **Colisée de Meaux, 73 avenue Henri Dunant, 77100 Meaux**.
+Le salon se tiendra les **6 et 7 juin 2026**, de **10h à 18h** au **Colisée de Meaux, 73 avenue Henri Dunant, 77100 Meaux**.
 `.trim(),
   },
   {
@@ -24,15 +24,15 @@ Vous pouvez joindre l’équipe à salon@animeaux.org.
   {
     question: "Quand puis-je installer mon stand ?",
     answer: `
-- **Vendredi 6 juin** : De 15h à 19h.
-- **Samedi 7 juin** : À partir de 8h00.
-- **Dimanche 8 juin** : À partir de 8h30.
+- **Vendredi 5 juin** : De 15h à 19h.
+- **Samedi 6 juin** : À partir de 8h00.
+- **Dimanche 7 juin** : À partir de 8h30.
 `.trim(),
   },
   {
     question: "Quand dois-je démonter mon stand ?",
     answer: `
-Le démontage commence **dimanche 8 juin à 18h** et doit être terminé à **20h**.
+Le démontage commence **dimanche 7 juin à 18h** et doit être terminé à **20h**.
 `.trim(),
   },
   {
@@ -95,13 +95,13 @@ Aucun remboursement ne sera effectué sauf en cas de force majeure.
     question:
       "Puis-je stocker des articles ou du matériel sur place avant ou après l’événement ?",
     answer: `
-Non, aucun stockage avant ou après le salon n’est possible. Tout matériel doit être retiré au plus tard le **dimanche 8 juin à 20h**. Votre matériel et vos produits peuvent rester dans la salle qui est fermée et sécurisée.
+Non, aucun stockage avant ou après le salon n’est possible. Tout matériel doit être retiré au plus tard le **dimanche 7 juin à 20h**. Votre matériel et vos produits peuvent rester dans la salle qui est fermée et sécurisée.
 `.trim(),
   },
   {
     question: "Y aura-t-il des opportunités de réseautage ?",
     answer: `
-Oui, un verre de l’amitié est organisé le **samedi 7 juin à 18h30** pour permettre aux exposants de rencontrer les autres participants et sponsors.
+Oui, un verre de l’amitié est organisé le **samedi 6 juin à 18h30** pour permettre aux exposants de rencontrer les autres participants et sponsors.
 `.trim(),
   },
   {
