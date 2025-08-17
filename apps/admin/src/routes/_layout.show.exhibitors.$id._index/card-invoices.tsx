@@ -5,6 +5,7 @@ import { ItemList, SimpleItem } from "#core/data-display/item.js";
 import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
+import { Dialog } from "#core/popovers/dialog.js";
 import { Icon } from "#generated/icon.js";
 import { theme } from "#generated/theme.js";
 import { InvoiceIcon } from "#show/invoice/icon.js";
@@ -12,8 +13,9 @@ import { InvoiceStatus } from "#show/invoice/status.js";
 import { joinReactNodes } from "@animeaux/core";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import type { action } from "./action.server";
 import type { loader } from "./loader.server";
 
 export function CardInvoices() {
@@ -37,7 +39,7 @@ export function CardInvoices() {
         {exhibitor.invoices.length > 0 ? (
           joinReactNodes(
             exhibitor.invoices.map((invoice) => (
-              <ItemInvoice
+              <InvoiceListItem
                 key={invoice.id}
                 invoice={invoice}
                 exhibitorId={exhibitor.id}
@@ -59,13 +61,15 @@ export function CardInvoices() {
 
 type Invoice = SerializeFrom<typeof loader>["exhibitor"]["invoices"][number];
 
-function ItemInvoice({
+function InvoiceListItem({
   invoice,
   exhibitorId,
 }: {
   invoice: Invoice;
   exhibitorId: string;
 }) {
+  const fetcher = useFetcher<typeof action>();
+
   return (
     <div className="grid grid-cols-fr-auto gap-2">
       <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
@@ -110,6 +114,52 @@ function ItemInvoice({
                 <span className="text-body-emphasis">Modifier</span>
               </BaseLink>
             </DropdownMenu.Item>
+
+            <hr className="border-t border-gray-100" />
+
+            <Dialog>
+              <DropdownMenu.Item
+                onSelect={(event) => event.preventDefault()}
+                asChild
+              >
+                <Dialog.Trigger className="grid grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100">
+                  <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+                    <Icon href="icon-trash-solid" />
+                  </span>
+
+                  <span className="text-body-emphasis">Supprimer</span>
+                </Dialog.Trigger>
+              </DropdownMenu.Item>
+
+              <Dialog.Content variant="alert">
+                <Dialog.Header>Supprimer {invoice.number}</Dialog.Header>
+
+                <Dialog.Message>
+                  Êtes-vous sûr de vouloir supprimer{" "}
+                  <strong className="text-body-emphasis">
+                    {invoice.number}
+                  </strong>
+                  {" "}?
+                  <br />
+                  L’action est irréversible.
+                </Dialog.Message>
+
+                <Dialog.Actions>
+                  <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+                  <fetcher.Form method="DELETE" className="flex">
+                    <Dialog.ConfirmAction
+                      type="submit"
+                      name="invoiceId"
+                      value={invoice.id}
+                    >
+                      Oui, supprimer
+                      <Action.Loader isLoading={fetcher.state !== "idle"} />
+                    </Dialog.ConfirmAction>
+                  </fetcher.Form>
+                </Dialog.Actions>
+              </Dialog.Content>
+            </Dialog>
           </DropdownMenu.Content>
         </DropdownMenu.Portal>
       </DropdownMenu.Root>

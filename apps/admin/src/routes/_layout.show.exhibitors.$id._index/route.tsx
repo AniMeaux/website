@@ -14,6 +14,7 @@ import { CardStandConfiguration } from "./card-stand-configuration";
 import { CardStructure } from "./card-structure";
 import type { loader } from "./loader.server";
 
+export { action } from "./action.server";
 export { loader } from "./loader.server";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

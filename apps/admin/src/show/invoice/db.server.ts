@@ -79,6 +79,20 @@ export class ShowInvoiceDbDelegate {
       // TODO
     }
   }
+
+  async delete(invoiceId: string) {
+    try {
+      await prisma.showInvoice.delete({ where: { id: invoiceId } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+  }
 }
 
 type CreateData = Pick<
