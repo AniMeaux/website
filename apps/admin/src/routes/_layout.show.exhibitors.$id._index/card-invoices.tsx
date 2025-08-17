@@ -23,6 +23,14 @@ export function CardInvoices() {
     <Card>
       <Card.Header>
         <Card.Title>Factures</Card.Title>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors.id(exhibitor.id).invoice.new.toString()}
+          >
+            Créer
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>
