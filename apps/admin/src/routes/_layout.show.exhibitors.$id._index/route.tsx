@@ -14,6 +14,7 @@ import { promiseHash } from "remix-utils/promise";
 import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
 import { CardDogsConfiguration } from "./card-dogs-configuration";
+import { CardInvoices } from "./card-invoices";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
@@ -71,7 +72,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         hasElectricalConnection: true,
         hasTablecloths: true,
         installationDay: true,
-        invoices: { select: { status: true } },
+        invoices: {
+          select: {
+            amount: true,
+            dueDate: true,
+            id: true,
+            number: true,
+            status: true,
+            url: true,
+          },
+        },
         locationNumber: true,
         peopleCount: true,
         placementComment: true,
@@ -163,6 +173,7 @@ export default function Route() {
           <CardStandConfiguration />
           <CardDogsConfiguration />
           <CardDocuments />
+          <CardInvoices />
           <CardOnStandAnimations />
         </div>
       </PageLayout.Content>
