@@ -13,6 +13,8 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaDocumentsTreated,
       ActionSchemaDogsConfigurationTreated,
       ActionSchemaExhibitorVisibleTreated,
+      ActionSchemaInvoicePaid,
+      ActionSchemaNewInvoice,
       ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
       ActionSchemaDescriptionTreated,
@@ -45,6 +47,21 @@ export async function action({ request }: ActionFunctionArgs) {
 
     case ActionSchemaExhibitorVisibleTreated.shape.type.value: {
       services.exhibitorEmail.visibility.isVisible(action.data.exhibitorId);
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaInvoicePaid.shape.type.value: {
+      services.invoiceEmail.paid(
+        action.data.exhibitorId,
+        action.data.invoiceId,
+      );
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaNewInvoice.shape.type.value: {
+      services.invoiceEmail.newInvoice(action.data.exhibitorId);
 
       return json({ ok: true });
     }
@@ -98,6 +115,17 @@ const ActionSchemaDogsConfigurationTreated = zu.object({
 
 const ActionSchemaExhibitorVisibleTreated = zu.object({
   type: zu.literal("exhibitor-visible"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaInvoicePaid = zu.object({
+  type: zu.literal("invoice-paid"),
+  exhibitorId: zu.string().uuid(),
+  invoiceId: zu.string().uuid(),
+});
+
+const ActionSchemaNewInvoice = zu.object({
+  type: zu.literal("new-invoice"),
   exhibitorId: zu.string().uuid(),
 });
 

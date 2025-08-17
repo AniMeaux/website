@@ -13,6 +13,7 @@ import { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { ModuleExhibitorEmail } from "#exhibitors/email.module.server.js";
 import { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { ServiceStandSize } from "#exhibitors/stand-size/service.server.js";
+import { ServiceInvoiceEmail } from "#invoice/email.service.server.js";
 import { ServiceInvoice } from "#invoice/service.server.js";
 import { ServiceProvider } from "#providers/service.server.js";
 import { ServiceSponsor } from "#sponsors/service.server.js";
@@ -91,6 +92,13 @@ class ServicesRootModule {
   );
 
   invoice = new ServiceInvoice(this.prisma);
+
+  invoiceEmail = new ServiceInvoiceEmail(
+    this.email,
+    this.exhibitor,
+    this.application,
+    this.invoice,
+  );
 }
 
 export const services = new ServicesRootModule();

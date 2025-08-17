@@ -6,6 +6,22 @@ export class ServiceInvoice {
   // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
+  async get<T extends Prisma.ShowInvoiceSelect>(
+    id: string,
+    params: { select: T },
+  ) {
+    const invoice = await this.prisma.showInvoice.findUnique({
+      where: { id },
+      select: params.select,
+    });
+
+    if (invoice == null) {
+      throw notFound();
+    }
+
+    return invoice;
+  }
+
   async getManyByToken<T extends Prisma.ShowInvoiceSelect>(
     token: string,
     params: { select: T },
