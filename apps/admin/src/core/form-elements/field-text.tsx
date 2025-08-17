@@ -5,7 +5,7 @@ import { RequiredStar } from "#core/form-elements/required-star";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";
 
-export function FieldInput({
+export function FieldText({
   field,
   label,
   helper,
