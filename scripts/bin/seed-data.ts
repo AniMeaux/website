@@ -713,7 +713,6 @@ async function seedShowExhibitors() {
       return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
-          hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
           applicationId: application.id,
 
           // -- Profile --------------------------------------------------------
@@ -839,17 +838,18 @@ async function seedShowInvoices() {
 
   await Promise.all(
     exhibitors.map((exhibitor) => {
-      const issueDate = faker.date.between({
-        from: now.minus({ months: 6 }).toJSDate(),
-        to: now.toJSDate(),
-      });
-
       return prisma.showInvoice.create({
         data: {
-          issueDate,
-          dueDate: faker.date.between({ from: issueDate, to: now.toJSDate() }),
+          dueDate: DateTime.fromJSDate(
+            faker.date.between({
+              from: now.toJSDate(),
+              to: now.plus({ months: 3 }).toJSDate(),
+            }),
+          )
+            .startOf("day")
+            .toJSDate(),
           amount: faker.number.int({ min: 50, max: 300 }),
-          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 3 })}`,
+          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4 })}`,
           url: faker.internet.url(),
           exhibitorId: exhibitor.id,
           status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),

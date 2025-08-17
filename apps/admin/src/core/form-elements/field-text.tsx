@@ -5,7 +5,7 @@ import { RequiredStar } from "#core/form-elements/required-star";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";
 
-export function FieldInput({
+export function FieldText({
   field,
   label,
   helper,
@@ -17,6 +17,7 @@ export function FieldInput({
   field: FieldMetadata<string | number>;
   label: React.ReactNode;
   helper?: React.ReactNode;
+  leftAdornment?: React.ComponentProps<typeof Input>["leftAdornment"];
 }) {
   return (
     <Form.Field>

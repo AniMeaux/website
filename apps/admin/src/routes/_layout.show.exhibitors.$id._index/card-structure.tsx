@@ -8,7 +8,7 @@ import { Icon } from "#generated/icon";
 import { LegalStatus } from "#show/exhibitors/applications/legal-status";
 import { getCompleteLocation } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardStructure() {
   const { exhibitor } = useLoaderData<typeof loader>();

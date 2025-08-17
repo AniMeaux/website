@@ -1,9 +1,8 @@
-import { FieldInput } from "#core/form-elements/field-input";
 import { FieldRadios } from "#core/form-elements/field-radios";
+import { FieldText } from "#core/form-elements/field-text";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator";
-import { Payment } from "#show/exhibitors/payment";
 import { Visibility } from "#show/visibility";
 import { useForm } from "./form";
 
@@ -21,13 +20,6 @@ export function FieldsetSituation() {
           <Form.Errors errors={form.errors} />
 
           <FieldRadios
-            label="Paiement"
-            field={fields.hasPaid}
-            getLabel={(payment) => Payment.translation[payment]}
-            options={Payment.values}
-          />
-
-          <FieldRadios
             label="Visibilité"
             field={fields.isVisible}
             getLabel={(visibility) => Visibility.translation[visibility]}
@@ -37,12 +29,12 @@ export function FieldsetSituation() {
           <Separator />
 
           <Form.Row>
-            <FieldInput
+            <FieldText
               label="Numéro d’emplacement"
               field={fields.locationNumber}
             />
 
-            <FieldInput label="Numéro de stand" field={fields.standNumber} />
+            <FieldText label="Numéro de stand" field={fields.standNumber} />
           </Form.Row>
         </Form.Fields>
       </Card.Content>

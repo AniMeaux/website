@@ -1,12 +1,7 @@
-import { Payment } from "#show/exhibitors/payment";
 import { Visibility } from "#show/visibility";
 import { zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu.object({
-  hasPaid: zu
-    .nativeEnum(Payment.Enum, { required_error: "Veuillez choisir une option" })
-    .transform(Payment.toBoolean),
-
   isVisible: zu
     .nativeEnum(Visibility.Enum, {
       required_error: "Veuillez choisir une option",

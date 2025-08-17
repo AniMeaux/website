@@ -16,7 +16,6 @@ import {
 } from "#show/exhibitors/applications/status";
 import { DocumentsStatusIcon } from "#show/exhibitors/documents/status";
 import { DogsConfigurationStatusIcon } from "#show/exhibitors/dogs-configuration/status";
-import { Payment, PaymentIcon } from "#show/exhibitors/payment";
 import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import {
   ExhibitorSearchParams,
@@ -24,6 +23,8 @@ import {
 } from "#show/exhibitors/search-params";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
+import { InvoiceIcon } from "#show/invoice/icon.js";
+import { InvoiceStatus } from "#show/invoice/status.js";
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
@@ -48,7 +49,7 @@ export function ExhibitorFilters() {
         <FilterName />
         <FilterVisibility />
         <FilterStatuses />
-        <FilterPayment />
+        <FilterInvoiceStatuses />
         <FilterActivity />
         <FilterSponsorship />
         <FilterStandSize />
@@ -277,37 +278,36 @@ function FilterSponsorship() {
   );
 }
 
-function FilterPayment() {
+function FilterInvoiceStatuses() {
   const [searchParams] = useOptimisticSearchParams();
   const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.payment}
-      label="Paiement"
-      count={exhibitorSearchParams.payment.size}
-      hiddenContent={Array.from(exhibitorSearchParams.payment).map(
-        (payment) => (
+      value={ExhibitorSearchParams.keys.invoiceStatuses}
+      label="Factures"
+      count={exhibitorSearchParams.invoiceStatuses.size}
+      hiddenContent={Array.from(exhibitorSearchParams.invoiceStatuses).map(
+        (status) => (
           <input
-            key={payment}
+            key={status}
             type="hidden"
-            name={ExhibitorSearchParams.keys.payment}
-            value={payment}
+            name={ExhibitorSearchParams.keys.invoiceStatuses}
+            value={status}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {Payment.values.map((payment) => (
+        {InvoiceStatus.values.map((status) => (
           <ToggleInput
-            key={payment}
+            key={status}
             type="checkbox"
-            label={Payment.translation[payment]}
-            name={ExhibitorSearchParams.keys.payment}
-            value={payment}
-            icon={<PaymentIcon variant="light" payment={payment} />}
-            iconChecked={<PaymentIcon variant="solid" payment={payment} />}
-            checked={exhibitorSearchParams.payment.has(payment)}
+            label={InvoiceStatus.translation[status]}
+            name={ExhibitorSearchParams.keys.invoiceStatuses}
+            value={status}
+            icon={<InvoiceIcon status={status} />}
+            checked={exhibitorSearchParams.invoiceStatuses.has(status)}
             onChange={() => {}}
           />
         ))}

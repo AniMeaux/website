@@ -1,14 +1,14 @@
+import { toIsoDateValue } from "#core/dates.js";
 import { useBackIfPossible } from "#core/navigation";
-import { Visibility } from "#show/visibility";
 import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { ActionSchema } from "./action";
+import { actionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { exhbitor } = useLoaderData<typeof loader>();
+  const { invoice } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -19,8 +19,8 @@ export function useFormRoot() {
   });
 
   const [form, fields] = useFormBase({
-    id: "exhibitor-situation",
-    constraint: getZodConstraint(ActionSchema),
+    id: "exhibitor-invoice",
+    constraint: getZodConstraint(actionSchema),
     shouldValidate: "onBlur",
     lastResult:
       fetcher.data != null && "submissionResult" in fetcher.data
@@ -28,13 +28,15 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      isVisible: Visibility.fromBoolean(exhbitor.isVisible),
-      locationNumber: exhbitor.locationNumber,
-      standNumber: exhbitor.standNumber,
+      amount: invoice.amount,
+      dueDate: toIsoDateValue(invoice.dueDate),
+      number: invoice.number,
+      status: invoice.status,
+      url: invoice.url,
     },
 
     onValidate: ({ formData }) =>
-      parseWithZod(formData, { schema: ActionSchema }),
+      parseWithZod(formData, { schema: actionSchema }),
   });
 
   return [form, fields, fetcher] as const;

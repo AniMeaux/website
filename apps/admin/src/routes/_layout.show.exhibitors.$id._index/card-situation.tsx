@@ -8,13 +8,14 @@ import {
   ApplicationStatusIcon,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
-import { Payment, PaymentIcon } from "#show/exhibitors/payment";
+import { InvoiceIcon } from "#show/invoice/icon.js";
+import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipCategory } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { Fragment } from "react/jsx-runtime";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardSituation() {
   const { exhibitor } = useLoaderData<typeof loader>();
@@ -38,7 +39,7 @@ export function CardSituation() {
       <Card.Content>
         <ItemList>
           <ItemVisibility />
-          <ItemPayment />
+          <ItemInvoiceStatus />
           <ItemLocationNumber />
           <ItemApplication />
           <ItemSponsorship />
@@ -142,16 +143,20 @@ function ItemSponsorship() {
   );
 }
 
-function ItemPayment() {
+function ItemInvoiceStatus() {
   const { exhibitor } = useLoaderData<typeof loader>();
+
+  if (exhibitor.invoiceStatus == null) {
+    return null;
+  }
 
   return (
     <SimpleItem
       isLightIcon
-      icon={<PaymentIcon payment={Payment.fromBoolean(exhibitor.hasPaid)} />}
+      icon={<InvoiceIcon status={exhibitor.invoiceStatus} />}
     >
       <strong className="text-body-emphasis">
-        {Payment.translation[Payment.fromBoolean(exhibitor.hasPaid)]}
+        {InvoiceStatus.translation[exhibitor.invoiceStatus]}
       </strong>
     </SimpleItem>
   );

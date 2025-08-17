@@ -1,4 +1,4 @@
-import { FieldInput } from "#core/form-elements/field-input";
+import { FieldText } from "#core/form-elements/field-text";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { useForm } from "./form";
@@ -14,7 +14,7 @@ export function FieldsetStructure() {
 
       <Card.Content>
         <Form.Fields>
-          <FieldInput label="Nom" field={fields.name} />
+          <FieldText label="Nom" field={fields.name} />
         </Form.Fields>
       </Card.Content>
     </Card>

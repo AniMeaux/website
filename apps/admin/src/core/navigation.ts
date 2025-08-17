@@ -127,6 +127,19 @@ export const Routes = {
             toString: () => `/show/exhibitors/${id}/edit/structure` as const,
           },
         },
+
+        invoice: {
+          id: (invoiceId: string) => ({
+            edit: {
+              toString: () =>
+                `/show/exhibitors/${id}/invoice/${invoiceId}/edit` as const,
+            },
+          }),
+
+          new: {
+            toString: () => `/show/exhibitors/${id}/invoice/new` as const,
+          },
+        },
       }),
     },
 
