@@ -17,7 +17,7 @@ import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configurati
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();

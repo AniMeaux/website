@@ -14,7 +14,7 @@ import { StatusHelper } from "#show/exhibitors/status-helper.js";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardDogsConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();

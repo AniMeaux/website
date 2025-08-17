@@ -10,7 +10,7 @@ import { joinReactNodes } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardInvoices() {
   const { exhibitor } = useLoaderData<typeof loader>();

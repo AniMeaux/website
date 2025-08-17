@@ -15,7 +15,7 @@ import { Visibility, VisibilityIcon } from "#show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { Fragment } from "react/jsx-runtime";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardSituation() {
   const { exhibitor } = useLoaderData<typeof loader>();
