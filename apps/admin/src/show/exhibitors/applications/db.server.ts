@@ -177,6 +177,10 @@ export class ShowExhibitorApplicationDbDelegate {
 
             application: { connect: { id } },
 
+            billingAddress: application.structureAddress,
+            billingCity: application.structureCity,
+            billingZipCode: application.structureZipCode,
+            billingCountry: application.structureCountry,
             folderId: folder.id,
             activityTargets: application.structureActivityTargets,
             activityFields: application.structureActivityFields,
