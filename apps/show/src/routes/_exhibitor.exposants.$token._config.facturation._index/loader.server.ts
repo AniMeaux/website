@@ -13,6 +13,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
         id: true,
         token: true,
         name: true,
+
+        billingAddress: true,
+        billingCity: true,
+        billingZipCode: true,
+        billingCountry: true,
       },
     }),
 
