@@ -111,7 +111,7 @@ export class ServiceExhibitorPublicProfileEmail {
       name: "profil-public-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Profil public mis à jour - Salon des Ani’Meaux 2025",
+      subject: "Profil public mis à jour - Salon des Ani’Meaux 2026",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Profil public mis à jour</EmailHtml.Title>
@@ -247,7 +247,7 @@ export class ServiceExhibitorPublicProfileEmail {
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Profil public - Salon des Ani’Meaux 2025",
+          subject: "Profil public - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Profil public</EmailHtml.Title>
@@ -294,7 +294,7 @@ export class ServiceExhibitorPublicProfileEmail {
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Profil public - Salon des Ani’Meaux 2025",
+          subject: "Profil public - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Profil public</EmailHtml.Title>
@@ -374,7 +374,7 @@ export class ServiceExhibitorDescriptionEmail {
       name: "description-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Description mise à jour - Salon des Ani’Meaux 2025",
+      subject: "Description mise à jour - Salon des Ani’Meaux 2026",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
@@ -457,7 +457,7 @@ export class ServiceExhibitorDescriptionEmail {
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Description - Salon des Ani’Meaux 2025",
+          subject: "Description - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Description</EmailHtml.Title>
@@ -503,7 +503,7 @@ export class ServiceExhibitorDescriptionEmail {
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Description - Salon des Ani’Meaux 2025",
+          subject: "Description - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Description</EmailHtml.Title>
@@ -566,7 +566,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
       name: "animation-sur-stand-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2025",
+      subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2026",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Animations sur stand mis à jour</EmailHtml.Title>
@@ -650,7 +650,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Animations sur stand - Salon des Ani’Meaux 2025",
+          subject: "Animations sur stand - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
@@ -714,7 +714,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Animations sur stand - Salon des Ani’Meaux 2025",
+          subject: "Animations sur stand - Salon des Ani’Meaux 2026",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Animations sur stand</EmailHtml.Title>

@@ -25,9 +25,9 @@ export function DogsHelper() {
         de votre arrivée. En choisissant de venir avec votre chien, vous vous
         engagez à être présent au salon au plus tard à{" "}
         <strong className="text-body-lowercase-emphasis">
-          8h30 le samedi 7 juin
+          8h30 le samedi 6 juin
         </strong>{" "}
-        2025.
+        2026.
       </p>
     </HelperCard.Root>
   );

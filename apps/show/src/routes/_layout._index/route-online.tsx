@@ -63,11 +63,11 @@ function SectionHero() {
             </h1>
 
             <p className="text-center md:text-left">
-              4ème édition du salon dédié au bien-être animal.
+              5ème édition du salon dédié au bien-être animal.
               <br />
               <strong className="text-body-lowercase-emphasis">
                 <time dateTime={ShowDay.openingTime.toISO()}>
-                  7 et 8 juin 2025 - 10h à 18h
+                  6 et 7 juin 2026 - 10h à 18h
                 </time>{" "}
                 - Colisée de Meaux.
               </strong>
