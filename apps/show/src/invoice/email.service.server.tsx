@@ -184,12 +184,20 @@ export class ServiceInvoiceEmail {
 
           <EmailHtml.Section.Root>
             <EmailHtml.Paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse vitae congue ipsum. Pellentesque non interdum nulla.
-              Praesent efficitur porttitor ultricies. Proin sit amet libero
-              facilisis, rhoncus massa ut, cursus felis. Pellentesque non libero
-              ut tortor egestas hendrerit. Cras tincidunt sagittis eleifend.
-              Fusce pellentesque pulvinar porttitor.
+              Bonjour,
+              <br />
+              <br />
+              Nous vous confirmons que la facture{" "}
+              <EmailHtml.Strong>{invoice.number}</EmailHtml.Strong> a bien été
+              réglée.
+              <br />
+              <br />
+              Votre paiement a été pris en compte et votre
+              inscription/prestation est désormais confirmée.
+              <br />
+              <br />
+              Vous pouvez retrouver vos factures et justificatifs à tout moment
+              depuis votre espace exposant.
             </EmailHtml.Paragraph>
 
             <EmailHtml.Paragraph>
@@ -201,6 +209,10 @@ export class ServiceInvoiceEmail {
             </EmailHtml.Paragraph>
 
             <EmailHtml.Paragraph>
+              Merci pour votre confiance et pour votre soutien au Salon des
+              Ani’Meaux.
+              <br />
+              <br />
               Pour toute question ou complément d’information, n’hésitez pas à
               nous contacter en répondant à cet e-mail.
             </EmailHtml.Paragraph>
