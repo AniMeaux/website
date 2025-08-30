@@ -408,13 +408,20 @@ model ShowExhibitor {
   // Used by exhibitors to "sign in" to their account.
   token String @unique @default(uuid()) @db.Uuid
 
-  hasPaid Boolean @default(false)
-
   application   ShowExhibitorApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   applicationId String                   @unique @db.Uuid
 
   sponsorship ShowSponsor?
   animations  ShowAnimation[]
+
+  // -- Billing ----------------------------------------------------------------
+
+  billingAddress String @db.VarChar(128)
+  billingCity    String @db.VarChar(128)
+  billingZipCode String @db.VarChar(64)
+  billingCountry String @db.VarChar(64)
+
+  invoices ShowInvoice[]
 
   // -- Profile ----------------------------------------------------------------
 
@@ -472,6 +479,11 @@ model ShowExhibitor {
   zone                    ShowStandZone?
 }
 
+model ShowStandSizeLimit {
+  size     ShowStandSize @unique
+  maxCount Int
+}
+
 enum ShowExhibitorStatus {
   TO_BE_FILLED
   AWAITING_VALIDATION
@@ -502,6 +514,26 @@ model ShowExhibitorDog {
   idNumber      String  @db.VarChar(64)
   isCategorized Boolean
   isSterilized  Boolean
+}
+
+model ShowInvoice {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
+  exhibitorId String        @db.Uuid
+
+  amount  Int
+  dueDate DateTime
+  number  String            @unique @db.VarChar(256)
+  status  ShowInvoiceStatus @default(TO_PAY)
+  url     String            @db.VarChar(128)
+}
+
+enum ShowInvoiceStatus {
+  TO_PAY
+  PAID
 }
 
 model ShowProvider {

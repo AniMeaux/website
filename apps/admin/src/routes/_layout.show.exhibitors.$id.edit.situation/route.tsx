@@ -33,7 +33,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: {
       name: true,
-      hasPaid: true,
       isVisible: true,
       locationNumber: true,
       standNumber: true,
@@ -88,7 +87,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   await db.show.exhibitor.update(routeParams.id, {
-    hasPaid: submission.value.hasPaid,
     isVisible: submission.value.isVisible,
     locationNumber: submission.value.locationNumber || null,
     standNumber: submission.value.standNumber || null,

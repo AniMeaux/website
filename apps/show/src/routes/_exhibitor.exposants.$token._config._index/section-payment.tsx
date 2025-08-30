@@ -1,38 +1,54 @@
+import { Action } from "#core/actions/action.js";
 import { HelperCard } from "#core/layout/helper-card";
-import { ShowExhibitorStatus } from "@prisma/client";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { Routes } from "#core/navigation.js";
+import { InvoiceStatus } from "#invoice/status.js";
+import { Link, useLoaderData } from "@remix-run/react";
+import type { loader } from "./loader.server";
 
 export function SectionPayment() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
-  if (exhibitor.hasPaid) {
+  if (exhibitor.invoices.length === 0) {
+    return null;
+  }
+
+  if (
+    exhibitor.invoices.every(
+      (invoice) => invoice.status === InvoiceStatus.Enum.PAID,
+    )
+  ) {
     return (
       <HelperCard.Root color="paleBlue">
         <HelperCard.Title>Paiement validé</HelperCard.Title>
 
         <p>
-          Le règlement des frais de tenue de stand a été validé. Votre
-          inscription est désormais confirmée.
+          Votre règlement a été reçu et validé. Votre inscription ou prestation
+          est désormais confirmée. Merci pour votre soutien à notre
+          association !
         </p>
       </HelperCard.Root>
     );
   }
 
-  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
-    return (
-      <HelperCard.Root color="paleBlue">
-        <HelperCard.Title>En attente de paiement</HelperCard.Title>
+  return (
+    <HelperCard.Root color="paleBlue">
+      <HelperCard.Title>En attente de paiement</HelperCard.Title>
 
-        <p>
-          Le règlement des frais de tenue de stand est actuellement en attente.
-          Votre inscription sera définitivement validée après réception du
-          paiement, pouvant être effectué par carte bancaire ou virement
-          bancaire.
-        </p>
-      </HelperCard.Root>
-    );
-  }
+      <p>
+        Nous sommes en attente d’un règlement de votre part. Votre inscription
+        ou prestation sera confirmée dès réception du paiement.
+      </p>
 
-  return null;
+      <p>
+        Règlement possible par carte bancaire ou virement bancaire. Plus vite
+        vous réglez, plus vite vous soutenez notre association !
+      </p>
+
+      <Action color="prussianBlue" className="justify-self-center" asChild>
+        <Link to={Routes.exhibitors.token(exhibitor.token).invoice.toString()}>
+          Payer maintenant
+        </Link>
+      </Action>
+    </HelperCard.Root>
+  );
 }

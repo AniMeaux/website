@@ -1,11 +1,13 @@
-import { prisma } from "#core/prisma.server";
-import { Service } from "#core/services/service.server";
+import type { ServicePrisma } from "#core/prisma.service.server.js";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 
-export class ServiceSponsor extends Service {
+export class ServiceSponsor {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private prisma: ServicePrisma) {}
+
   async getManyVisible() {
-    const sponsorsRaw = await prisma.showSponsor.findMany({
+    const sponsorsRaw = await this.prisma.showSponsor.findMany({
       where: {
         isVisible: true,
         OR: [{ exhibitorId: null }, { exhibitor: { isVisible: true } }],

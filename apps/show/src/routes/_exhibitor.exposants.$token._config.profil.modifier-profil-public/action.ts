@@ -1,16 +1,14 @@
-import {
-  IMAGE_SIZE_LIMIT_B,
-  IMAGE_SIZE_LIMIT_MB,
-} from "@animeaux/cloudinary/client";
+import { ImageLimits } from "#core/image/limits.js";
+import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
-import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
+import { ShowActivityTarget } from "@prisma/client";
 
 export const ActionSchema = zu.object({
   logo: zu
     .instanceof(File, { message: "Veuillez choisir un logo" })
     .refine(
-      (file) => file.size <= IMAGE_SIZE_LIMIT_B,
-      `Le logo doit faire moins de ${IMAGE_SIZE_LIMIT_MB} MB`,
+      (file) => file.size <= ImageLimits.MAX_SIZE_B,
+      `Le logo doit faire moins de ${ImageLimits.MAX_SIZE_MB} MB`,
     )
     .optional(),
   activityTargets: zu.repeatable(
@@ -20,8 +18,12 @@ export const ActionSchema = zu.object({
   ),
   activityFields: zu.repeatable(
     zu
-      .array(zu.nativeEnum(ShowActivityField))
-      .min(1, "Veuillez choisir un domaine d’activité"),
+      .array(zu.nativeEnum(ActivityField.Enum))
+      .min(1, "Veuillez choisir un domaine d’activité")
+      .max(
+        ActivityField.MAX_COUNT,
+        `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
+      ),
   ),
   links: zu.repeatable(
     zu

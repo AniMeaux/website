@@ -6,7 +6,7 @@ export function SectionHelper() {
     <FormLayout.AsideHelper.Root>
       <p>
         La fourniture des documents demandés est obligatoire pour valider votre
-        dossier et confirmer votre participation au Salon des Ani'Meaux 2025.
+        dossier et confirmer votre participation au Salon des Ani'Meaux 2026.
       </p>
 
       <p>

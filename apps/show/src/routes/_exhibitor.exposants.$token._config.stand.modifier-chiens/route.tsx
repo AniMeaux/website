@@ -1,12 +1,10 @@
 import { getErrorTitle } from "#core/data-display/error-page";
-import { email } from "#core/emails.server";
 import { FormLayout } from "#core/layout/form-layout";
 import { createSocialMeta } from "#core/meta";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
-import { services } from "#core/services/services.server";
-import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server";
+import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -82,7 +80,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   await services.exhibitor.updateDogs(routeParams.token, submission.value.dogs);
 
-  email.send.template(DogsConfigurationEmails.submitted(routeParams.token));
+  services.exhibitorEmail.dogConfiguration.submitted(routeParams.token);
 
   throw redirect(
     createPath({

@@ -31,8 +31,10 @@ export function SectionTabs() {
 
         <Tab to={routes.stand.toString()}>Stand</Tab>
 
+        <Tab to={routes.animations.toString()}>Animations</Tab>
+
         <div className="grid grid-cols-1 pr-safe-page-narrow md:pr-safe-page-normal">
-          <Tab to={routes.animations.toString()}>Animations</Tab>
+          <Tab to={routes.invoice.toString()}>Facturation</Tab>
         </div>
       </Tabs>
     </section>

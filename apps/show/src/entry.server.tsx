@@ -16,10 +16,6 @@ initMonitoring();
 
 const ABORT_DELAY_MS = 60_000;
 
-if (process.env.NODE_ENV === "development") {
-  import("#mocks/mocks.server").then((module) => module.startWorker());
-}
-
 export default function handleRequest(
   request: Request,
   responseStatusCode: number,

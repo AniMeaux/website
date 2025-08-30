@@ -17,12 +17,14 @@ const TABLES_NAME = [
   "FosterFamily",
   "Password",
   "PressArticle",
+  "ShowInvoice",
   "ShowAnimation",
   "ShowExhibitorDog",
   "ShowPartner",
   "ShowProvider",
   "ShowExhibitor",
   "ShowExhibitorApplication",
+  "ShowStandSizeLimit",
   "User",
 ];
 

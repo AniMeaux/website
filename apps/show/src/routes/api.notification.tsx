@@ -1,15 +1,5 @@
-import { email } from "#core/emails.server";
 import { badRequest, unauthorized } from "#core/response.server";
-import { ApplicationEmails } from "#exhibitors/application/emails.server";
-import { DocumentsEmails } from "#exhibitors/documents/email.server";
-import { DogsConfigurationEmails } from "#exhibitors/dogs-configuration/email.server.js";
-import { ExhibitorEmails } from "#exhibitors/email.server";
-import {
-  DescriptionEmails,
-  OnStandAnimationsEmails,
-  PublicProfileEmails,
-} from "#exhibitors/profile/email.server";
-import { StandConfigurationEmails } from "#exhibitors/stand-configuration/email.server";
+import { services } from "#core/services.server.js";
 import { zu } from "@animeaux/zod-utils";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -23,6 +13,8 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaDocumentsTreated,
       ActionSchemaDogsConfigurationTreated,
       ActionSchemaExhibitorVisibleTreated,
+      ActionSchemaInvoicePaid,
+      ActionSchemaNewInvoice,
       ActionSchemaOnStandAnimationsTreated,
       ActionSchemaPublicProfileTreated,
       ActionSchemaDescriptionTreated,
@@ -36,54 +28,65 @@ export async function action({ request }: ActionFunctionArgs) {
 
   switch (action.data.type) {
     case ActionSchemaApplicationStatusUpdated.shape.type.value: {
-      email.send.template(ApplicationEmails.treated(action.data.applicationId));
+      services.applicationEmail.treated(action.data.applicationId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaDocumentsTreated.shape.type.value: {
-      email.send.template(DocumentsEmails.treated(action.data.exhibitorId));
+      services.exhibitorEmail.document.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaDogsConfigurationTreated.shape.type.value: {
-      email.send.template(
-        DogsConfigurationEmails.treated(action.data.exhibitorId),
-      );
+      services.exhibitorEmail.dogConfiguration.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaExhibitorVisibleTreated.shape.type.value: {
-      email.send.template(ExhibitorEmails.isVisible(action.data.exhibitorId));
+      services.exhibitorEmail.visibility.isVisible(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
-    case ActionSchemaOnStandAnimationsTreated.shape.type.value: {
-      email.send.template(
-        OnStandAnimationsEmails.treated(action.data.exhibitorId),
+    case ActionSchemaInvoicePaid.shape.type.value: {
+      services.invoiceEmail.paid(
+        action.data.exhibitorId,
+        action.data.invoiceId,
       );
 
       return json({ ok: true });
     }
 
+    case ActionSchemaNewInvoice.shape.type.value: {
+      services.invoiceEmail.newInvoice(action.data.exhibitorId);
+
+      return json({ ok: true });
+    }
+
+    case ActionSchemaOnStandAnimationsTreated.shape.type.value: {
+      services.exhibitorEmail.onStandAnimation.treated(action.data.exhibitorId);
+
+      return json({ ok: true });
+    }
+
     case ActionSchemaPublicProfileTreated.shape.type.value: {
-      email.send.template(PublicProfileEmails.treated(action.data.exhibitorId));
+      services.exhibitorEmail.publicProfile.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaDescriptionTreated.shape.type.value: {
-      email.send.template(DescriptionEmails.treated(action.data.exhibitorId));
+      services.exhibitorEmail.description.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaStandConfigurationTreated.shape.type.value: {
-      email.send.template(
-        StandConfigurationEmails.treated(action.data.exhibitorId),
+      services.exhibitorEmail.standConfiguration.treated(
+        action.data.exhibitorId,
       );
 
       return json({ ok: true });
@@ -112,6 +115,17 @@ const ActionSchemaDogsConfigurationTreated = zu.object({
 
 const ActionSchemaExhibitorVisibleTreated = zu.object({
   type: zu.literal("exhibitor-visible"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaInvoicePaid = zu.object({
+  type: zu.literal("invoice-paid"),
+  exhibitorId: zu.string().uuid(),
+  invoiceId: zu.string().uuid(),
+});
+
+const ActionSchemaNewInvoice = zu.object({
+  type: zu.literal("new-invoice"),
   exhibitorId: zu.string().uuid(),
 });
 

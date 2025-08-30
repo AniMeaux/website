@@ -1,6 +1,8 @@
 import { Chip } from "#core/data-display/chip";
 import { IconInline } from "#core/data-display/icon-inline";
 import { DynamicImage } from "#core/data-display/image";
+import { ImageData } from "#core/image/data.js";
+import type { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
 import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
@@ -9,8 +11,8 @@ import {
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
-import { ImageUrl, cn } from "@animeaux/core";
-import type { ShowActivityField, ShowActivityTarget } from "@prisma/client";
+import { cn } from "@animeaux/core";
+import type { ShowActivityTarget } from "@prisma/client";
 import { Link } from "@remix-run/react";
 
 export function ExhibitorItem({
@@ -20,7 +22,7 @@ export function ExhibitorItem({
   className,
 }: {
   exhibitor: {
-    activityFields: ShowActivityField[];
+    activityFields: ActivityField.Enum[];
     activityTargets: ShowActivityTarget[];
     hasOnStageAnimation: boolean;
     isSponsor: boolean;
@@ -46,7 +48,7 @@ export function ExhibitorItem({
       >
         <div className="grid w-full grid-cols-1 overflow-hidden rounded-2 border border-alabaster">
           <DynamicImage
-            image={ImageUrl.parse(exhibitor.logoPath)}
+            image={ImageData.parse(exhibitor.logoPath)}
             fillTransparentBackground
             alt={exhibitor.name}
             loading={imageLoading}

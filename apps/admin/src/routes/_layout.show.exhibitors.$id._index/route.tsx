@@ -1,125 +1,21 @@
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
 import { CardDogsConfiguration } from "./card-dogs-configuration";
+import { CardInvoices } from "./card-invoices";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
 import { CardStandConfiguration } from "./card-stand-configuration";
 import { CardStructure } from "./card-structure";
+import type { loader } from "./loader.server";
 
-export async function loader({ request, params }: LoaderFunctionArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.SHOW_ORGANIZER,
-  ]);
-
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
-
-  const { exhibitor, application, files, sponsor } = await promiseHash({
-    exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
-      select: {
-        id: true,
-        isVisible: true,
-        token: true,
-        hasPaid: true,
-        documentStatus: true,
-        documentStatusMessage: true,
-        folderId: true,
-        dogsConfigurationStatus: true,
-        dogsConfigurationStatusMessage: true,
-        dogs: {
-          select: {
-            gender: true,
-            id: true,
-            idNumber: true,
-            isCategorized: true,
-            isSterilized: true,
-          },
-        },
-        activityFields: true,
-        activityTargets: true,
-        description: true,
-        descriptionStatus: true,
-        descriptionStatusMessage: true,
-        links: true,
-        logoPath: true,
-        name: true,
-        onStandAnimations: true,
-        onStandAnimationsStatus: true,
-        onStandAnimationsStatusMessage: true,
-        publicProfileStatus: true,
-        publicProfileStatusMessage: true,
-        chairCount: true,
-        dividerCount: true,
-        dividerType: true,
-        hasElectricalConnection: true,
-        hasTablecloths: true,
-        installationDay: true,
-        locationNumber: true,
-        peopleCount: true,
-        placementComment: true,
-        size: true,
-        standNumber: true,
-        standConfigurationStatus: true,
-        standConfigurationStatusMessage: true,
-        tableCount: true,
-        zone: true,
-      },
-    }),
-
-    application: db.show.exhibitor.application.findUniqueByExhibitor(
-      routeParams.id,
-      {
-        select: {
-          id: true,
-          status: true,
-          structureAddress: true,
-          structureCity: true,
-          structureCountry: true,
-          structureLegalStatus: true,
-          structureLegalStatusOther: true,
-          structureSiret: true,
-          structureZipCode: true,
-        },
-      },
-    ),
-
-    files: db.show.exhibitor.getFiles(routeParams.id),
-
-    sponsor: db.show.sponsor.findUniqueByExhibitor(routeParams.id, {
-      select: {
-        id: true,
-        category: true,
-      },
-    }),
-  });
-
-  return json({
-    exhibitor: { ...exhibitor, ...files },
-    application,
-    sponsor,
-  });
-}
-
-const RouteParamsSchema = zu.object({
-  id: zu.string().uuid(),
-});
+export { action } from "./action.server";
+export { loader } from "./loader.server";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(data?.exhibitor.name ?? getErrorTitle(404)) }];
@@ -150,6 +46,7 @@ export default function Route() {
           <CardStandConfiguration />
           <CardDogsConfiguration />
           <CardDocuments />
+          <CardInvoices />
           <CardOnStandAnimations />
         </div>
       </PageLayout.Content>

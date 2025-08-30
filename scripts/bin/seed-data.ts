@@ -23,6 +23,7 @@ import {
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationStatus,
   ShowExhibitorStatus,
+  ShowInvoiceStatus,
   ShowSponsorshipCategory,
   ShowStandSize,
   ShowStandZone,
@@ -52,6 +53,7 @@ const seeds = {
   ),
   showExhibitors: Promise.resolve().then(seedShowExhibitors),
   showExhibitorsDogs: Promise.resolve().then(seedShowExhibitorsDogs),
+  seedShowExhibitorsInvoices: Promise.resolve().then(seedShowInvoices),
   showSponsors: Promise.resolve().then(seedShowSponsors),
   showProviders: Promise.resolve().then(seedShowProviders),
   users: Promise.resolve().then(seedUsers),
@@ -678,6 +680,10 @@ async function seedShowExhibitors() {
       structureActivityTargets: true,
       structureActivityFields: true,
       structureLogoPath: true,
+      structureAddress: true,
+      structureCity: true,
+      structureCountry: true,
+      structureZipCode: true,
       desiredStandSize: true,
     },
   });
@@ -711,8 +717,14 @@ async function seedShowExhibitors() {
       return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
-          hasPaid: faker.datatype.boolean({ probability: 1 / 5 }),
           applicationId: application.id,
+
+          // -- Billing --------------------------------------------------------
+
+          billingAddress: application.structureAddress,
+          billingCity: application.structureCity,
+          billingZipCode: application.structureZipCode,
+          billingCountry: application.structureCountry,
 
           // -- Profile --------------------------------------------------------
 
@@ -823,6 +835,42 @@ async function seedShowExhibitorsDogs() {
 
   const count = await prisma.showExhibitorDog.count();
   console.log(`- 👍 ${count} show exhibitors dogs`);
+}
+
+async function seedShowInvoices() {
+  await seeds.showExhibitors;
+
+  const exhibitors = await prisma.showExhibitor.findMany({
+    select: { id: true },
+  });
+
+  let invoiceNumber = 1;
+  const now = DateTime.now();
+
+  await Promise.all(
+    exhibitors.map((exhibitor) => {
+      return prisma.showInvoice.create({
+        data: {
+          dueDate: DateTime.fromJSDate(
+            faker.date.between({
+              from: now.toJSDate(),
+              to: now.plus({ months: 3 }).toJSDate(),
+            }),
+          )
+            .startOf("day")
+            .toJSDate(),
+          amount: faker.number.int({ min: 50, max: 300 }),
+          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4 })}`,
+          url: faker.internet.url(),
+          exhibitorId: exhibitor.id,
+          status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),
+        },
+      });
+    }),
+  );
+
+  const count = await prisma.showExhibitor.count();
+  console.log(`- 👍 ${count} show invoices`);
 }
 
 async function seedShowSponsors() {

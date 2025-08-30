@@ -1,6 +1,6 @@
+import type { ImageData } from "#core/image/data.js";
 import type { ScreenSize } from "#generated/theme";
 import { theme } from "#generated/theme";
-import type { ImageData } from "@animeaux/core";
 import { cn } from "@animeaux/core";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";

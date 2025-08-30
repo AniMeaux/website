@@ -1,6 +1,7 @@
 import type { IconName } from "#generated/icon";
-import { Payment } from "#show/exhibitors/payment";
+import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
+import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { SearchParamsIO } from "@animeaux/search-params-io";
@@ -21,11 +22,12 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     fields: "fi",
     name: "q",
     onStandAnimationsStatuses: "osas",
-    payment: "p",
+    invoiceStatuses: "is",
     publicProfileStatuses: "ps",
     sort: "sort",
     sponsorshipCategories: "pc",
     standConfigurationStatuses: "scs",
+    standSize: "size",
     targets: "ta",
     visibility: "vi",
   },
@@ -55,7 +57,10 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
         searchParams,
         keys.onStandAnimationsStatuses,
       ),
-      payment: SearchParamsIO.getValues(searchParams, keys.payment),
+      invoiceStatuses: SearchParamsIO.getValues(
+        searchParams,
+        keys.invoiceStatuses,
+      ),
       publicProfileStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.publicProfileStatuses,
@@ -69,6 +74,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
         searchParams,
         keys.standConfigurationStatuses,
       ),
+      standSize: SearchParamsIO.getValues(searchParams, keys.standSize),
       targets: SearchParamsIO.getValues(searchParams, keys.targets),
       visibility: SearchParamsIO.getValues(searchParams, keys.visibility),
     });
@@ -103,7 +109,11 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.sponsorshipCategories,
       data.sponsorshipCategories,
     );
-    SearchParamsIO.setValues(searchParams, keys.payment, data.payment);
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.invoiceStatuses,
+      data.invoiceStatuses,
+    );
     SearchParamsIO.setValues(
       searchParams,
       keys.publicProfileStatuses,
@@ -115,6 +125,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.standConfigurationStatuses,
       data.standConfigurationStatuses,
     );
+    SearchParamsIO.setValues(searchParams, keys.standSize, data.standSize);
     SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
     SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility);
   },
@@ -214,7 +225,9 @@ const SearchParamsSchema = zu.object({
   sponsorshipCategories: zu.searchParams.set(
     zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
   ),
-  payment: zu.searchParams.set(zu.searchParams.nativeEnum(Payment.Enum)),
+  invoiceStatuses: zu.searchParams.set(
+    zu.searchParams.nativeEnum(InvoiceStatus.Enum),
+  ),
   publicProfileStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
@@ -224,6 +237,7 @@ const SearchParamsSchema = zu.object({
   standConfigurationStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
+  standSize: zu.searchParams.set(zu.searchParams.nativeEnum(StandSize.Enum)),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
 });

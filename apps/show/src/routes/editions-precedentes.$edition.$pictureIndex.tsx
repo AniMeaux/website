@@ -1,4 +1,3 @@
-import { cloudinary } from "#core/cloudinary/cloudinary.server";
 import { getErrorTitle } from "#core/data-display/error-page";
 import { DynamicImage } from "#core/data-display/image";
 import { useElementSize } from "#core/elements";
@@ -8,6 +7,7 @@ import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { notFound } from "#core/response.server";
 import { ScrollRestorationLocationState } from "#core/scroll-restoration";
+import { services } from "#core/services.server.js";
 import { Icon } from "#generated/icon";
 import { PicturesLocationState } from "#previous-editions/pictures-location-state";
 import {
@@ -35,9 +35,7 @@ const ParamsSchema = zu.object({
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(ParamsSchema, params);
 
-  const pictures = await cloudinary.previousEdition.findAllPictures(
-    routeParams.edition,
-  );
+  const pictures = await services.image.getAllImages(routeParams.edition);
 
   const picture = pictures[routeParams.pictureIndex];
   if (picture == null) {

@@ -5,6 +5,7 @@ import { DynamicImage } from "#core/data-display/image.js";
 import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
 import { useElementSize } from "#core/elements.js";
 import { BeeIllustration } from "#core/illustration/bee.js";
+import { ImageData } from "#core/image/data.js";
 import { Section } from "#core/layout/section.js";
 import { HorizontalSeparator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
@@ -16,7 +17,7 @@ import {
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
 import { Icon } from "#generated/icon.js";
 import { theme } from "#generated/theme.js";
-import { ImageUrl, cn } from "@animeaux/core";
+import { cn } from "@animeaux/core";
 import type { ShowActivityTarget } from "@prisma/client";
 import { ShowStandZone } from "@prisma/client";
 import * as Popover from "@radix-ui/react-popover";
@@ -397,7 +398,7 @@ function AnimationItem({
                 >
                   <div className="grid w-[48px] grid-cols-1 overflow-hidden rounded-0.5 border border-alabaster">
                     <DynamicImage
-                      image={ImageUrl.parse(animator.logoPath)}
+                      image={ImageData.parse(animator.logoPath)}
                       fillTransparentBackground
                       alt={animator.name}
                       loading="eager"

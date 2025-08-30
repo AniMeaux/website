@@ -4,9 +4,10 @@ import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
-import { Payment } from "#show/exhibitors/payment";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
+import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
+import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { catchError } from "@animeaux/core";
@@ -149,12 +150,26 @@ export class ShowExhibitorDbDelegate {
       where.push({ OR: sponsorshipCategoryWhere });
     }
 
-    if (params.searchParams.payment.size > 0) {
-      where.push({
-        OR: Array.from(params.searchParams.payment).map((payment) => ({
-          hasPaid: Payment.toBoolean(payment),
-        })),
-      });
+    if (params.searchParams.invoiceStatuses.size > 0) {
+      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
+        invoicesWhere.push({
+          invoices: {
+            every: { status: InvoiceStatus.Enum.PAID },
+            // Ensure at least 1 invoice exist.
+            some: {},
+          },
+        });
+      }
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
+        invoicesWhere.push({
+          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
+        });
+      }
+
+      where.push({ OR: invoicesWhere });
     }
 
     if (params.searchParams.publicProfileStatuses.size > 0) {
@@ -171,6 +186,10 @@ export class ShowExhibitorDbDelegate {
           in: Array.from(params.searchParams.standConfigurationStatuses),
         },
       });
+    }
+
+    if (params.searchParams.standSize.size > 0) {
+      where.push({ size: { in: Array.from(params.searchParams.standSize) } });
     }
 
     if (params.searchParams.targets.size > 0) {
@@ -225,7 +244,6 @@ export class ShowExhibitorDbDelegate {
         const exhibitor = await prisma.showExhibitor.update({
           where: { id: exhibitorId },
           data: {
-            hasPaid: data.hasPaid,
             isVisible: data.isVisible,
             locationNumber: data.locationNumber,
             standNumber: data.standNumber,
@@ -454,6 +472,33 @@ export class ShowExhibitorDbDelegate {
       data.standConfigurationStatusMessage = null;
     }
   }
+
+  async getStandSizeBooking() {
+    const { limits, groups } = await promiseHash({
+      limits: prisma.showStandSizeLimit.findMany(),
+
+      groups: prisma.showExhibitor.groupBy({
+        by: "size",
+        _count: { size: true },
+      }),
+    });
+
+    return StandSize.values.map((standSize) => {
+      const bookedCount =
+        groups.find((group) => group.size === standSize)?._count.size ?? 0;
+
+      const maxCount = limits.find(
+        (limit) => limit.size === standSize,
+      )?.maxCount;
+
+      return {
+        size: standSize,
+        bookedCount,
+        maxCount,
+        ratio: maxCount == null ? 0 : bookedCount / maxCount,
+      };
+    });
+  }
 }
 
 const FIND_ORDER_BY_SORT: Record<
@@ -466,7 +511,7 @@ const FIND_ORDER_BY_SORT: Record<
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
-  "hasPaid" | "isVisible" | "locationNumber" | "standNumber"
+  "isVisible" | "locationNumber" | "standNumber"
 >;
 
 type ShowExhibitorDocumentsData = Pick<

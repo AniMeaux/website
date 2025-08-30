@@ -43,6 +43,15 @@ export const Routes = {
         toString: () => `/exposants/${exhibitorToken}/faq` as const,
       },
 
+      invoice: {
+        toString: () => `/exposants/${exhibitorToken}/facturation` as const,
+
+        edit: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/facturation/modifier` as const,
+        },
+      },
+
       profile: {
         toString: () => `/exposants/${exhibitorToken}/profil` as const,
 

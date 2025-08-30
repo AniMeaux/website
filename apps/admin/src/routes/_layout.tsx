@@ -183,7 +183,11 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     to: Routes.dashboard.toString(),
     icon: "icon-table-layout-solid",
     label: "Tableau de bord",
-    authorizedGroups: [UserGroup.ADMIN, UserGroup.ANIMAL_MANAGER],
+    authorizedGroups: [
+      UserGroup.ADMIN,
+      UserGroup.ANIMAL_MANAGER,
+      UserGroup.SHOW_ORGANIZER,
+    ],
   },
   {
     to: Routes.animals.toString(),

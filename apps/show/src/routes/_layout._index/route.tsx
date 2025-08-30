@@ -2,7 +2,7 @@ import { ErrorPage } from "#core/data-display/error-page";
 import type { RouteHandle } from "#core/handles";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";

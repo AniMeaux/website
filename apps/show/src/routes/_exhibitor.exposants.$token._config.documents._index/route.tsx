@@ -2,7 +2,7 @@ import { getErrorTitle } from "#core/data-display/error-page";
 import { FormLayout } from "#core/layout/form-layout";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { services } from "#core/services/services.server";
+import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -27,7 +27,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
     files: services.exhibitor.getFilesByToken(routeParams.token),
 
-    application: services.exhibitor.application.getByToken(routeParams.token, {
+    application: services.application.getByToken(routeParams.token, {
       select: {
         structureAddress: true,
         structureCity: true,

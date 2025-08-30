@@ -419,7 +419,7 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "group/selector relative flex cursor-pointer items-start gap-1 rounded-0.5 px-1 py-0.5",
+            "group/selector relative flex items-start gap-1 rounded-0.5 px-1 py-0.5 has-[input:enabled]:cursor-pointer has-[input:disabled]:opacity-disabled",
             className,
           )}
         />
@@ -435,10 +435,10 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "peer/input absolute inset-0 -z-just-above h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-normal",
+            "peer/input absolute inset-0 -z-just-above h-full w-full appearance-none rounded-0.5 transition-colors duration-normal",
 
             // Background.
-            "bg-transparent checked:bg-mystic active:bg-mystic-100 checked:active:bg-mystic-700 can-hover:hover:bg-mystic-50 checked:can-hover:hover:bg-mystic-600 active:can-hover:hover:bg-mystic-100 checked:active:can-hover:hover:bg-mystic-700",
+            "bg-transparent enabled:checked:bg-mystic enabled:active:bg-mystic-100 enabled:checked:active:bg-mystic-700 enabled:can-hover:hover:bg-mystic-50 enabled:checked:can-hover:hover:bg-mystic-600 enabled:active:can-hover:hover:bg-mystic-100 enabled:checked:active:can-hover:hover:bg-mystic-700",
 
             // Border.
             "border border-mystic-200 checked:border-mystic",

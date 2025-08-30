@@ -13,7 +13,7 @@ import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardProfile() {
   const { exhibitor } = useLoaderData<typeof loader>();

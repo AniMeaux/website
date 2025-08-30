@@ -1,3 +1,4 @@
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import type { IconName } from "#generated/icon";
 import {
   SearchParamsIO,
@@ -5,7 +6,7 @@ import {
   useOptimisticSearchParams,
 } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import { ShowActivityField, ShowActivityTarget } from "@prisma/client";
+import { ShowActivityTarget } from "@prisma/client";
 import { useMemo } from "react";
 
 export const ExhibitorSearchParams = SearchParamsIO.create({
@@ -77,7 +78,7 @@ export namespace ExhibitorSearchParamsN {
 
 const Schema = zu.object({
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
-  fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
+  fields: zu.searchParams.set(zu.searchParams.nativeEnum(ActivityField.Enum)),
 
   eventTypes: zu.searchParams
     .set(zu.searchParams.nativeEnum(ExhibitorSearchParamsN.EventType.Enum))

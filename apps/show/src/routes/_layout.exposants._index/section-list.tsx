@@ -3,10 +3,7 @@ import { InputActiveFilter } from "#core/form-elements/input-active-filter";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Section } from "#core/layout/section";
 import { Routes } from "#core/navigation";
-import {
-  ACTIVITY_FIELD_ICON,
-  ACTIVITY_FIELD_TRANSLATION,
-} from "#exhibitors/activity-field/activity-field";
+import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
@@ -134,11 +131,11 @@ function ActiveFilterFields() {
       />
 
       <InputActiveFilter.Icon asChild>
-        <Icon id={ACTIVITY_FIELD_ICON[activityField].solid} />
+        <Icon id={ActivityField.icon[activityField].solid} />
       </InputActiveFilter.Icon>
 
       <InputActiveFilter.Label>
-        {ACTIVITY_FIELD_TRANSLATION[activityField]}
+        {ActivityField.translation[activityField]}
       </InputActiveFilter.Label>
 
       <InputActiveFilter.RemoveIcon />
