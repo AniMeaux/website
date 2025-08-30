@@ -105,6 +105,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       {
         select: {
           id: true,
+          contactEmail: true,
+          contactFirstname: true,
+          contactLastname: true,
+          contactPhone: true,
           status: true,
           structureAddress: true,
           structureCity: true,

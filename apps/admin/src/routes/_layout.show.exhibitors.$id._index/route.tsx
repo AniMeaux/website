@@ -3,6 +3,7 @@ import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
+import { CardContact } from "./card-contact";
 import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
 import { CardDogsConfiguration } from "./card-dogs-configuration";
@@ -38,6 +39,7 @@ export default function Route() {
       <PageLayout.Content className="grid grid-cols-1 gap-1 md:grid-cols-[minmax(0px,2fr)_minmax(250px,1fr)] md:items-start md:gap-2">
         <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
           <CardSituation />
+          <CardContact />
           <CardProfile />
           <CardStructure />
         </div>
