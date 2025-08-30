@@ -20,7 +20,7 @@ const TABLES_NAME = [
   "ShowInvoice",
   "ShowAnimation",
   "ShowExhibitorDog",
-  "ShowPartner",
+  "ShowSponsor",
   "ShowProvider",
   "ShowExhibitor",
   "ShowExhibitorApplication",
