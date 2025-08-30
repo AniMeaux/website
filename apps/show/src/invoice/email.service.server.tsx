@@ -1,9 +1,13 @@
-import { EmailHtml } from "#core/data-display/email-html.server.js";
+import {
+  EMAIL_SENTENCE_COMPONENTS,
+  EmailHtml,
+} from "#core/data-display/email-html.server.js";
 import type { ServiceEmail } from "#core/email/service.server.js";
 import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import type { ServiceInvoice } from "#invoice/service.server";
+import { getCompleteLocation } from "@animeaux/core";
 import { promiseHash } from "remix-utils/promise";
 
 export class ServiceInvoiceEmail {
@@ -14,6 +18,89 @@ export class ServiceInvoiceEmail {
     private application: ServiceApplication,
     private invoice: ServiceInvoice,
   ) {}
+
+  async billingAddressChanged(token: string) {
+    const { exhibitor, application } = await promiseHash({
+      exhibitor: this.exhibitor.getByToken(token, {
+        select: {
+          token: true,
+          billingAddress: true,
+          billingZipCode: true,
+          billingCity: true,
+          billingCountry: true,
+        },
+      }),
+
+      application: this.application.getByToken(token, {
+        select: { contactEmail: true },
+      }),
+    });
+
+    function SectionBilling() {
+      return (
+        <EmailHtml.Section.Root>
+          <EmailHtml.Output.Table>
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Adresse de facturation
+              </EmailHtml.Output.Label>
+
+              <EmailHtml.Output.Value>
+                <EmailHtml.Markdown
+                  content={getCompleteLocation({
+                    address: exhibitor.billingAddress,
+                    zipCode: exhibitor.billingZipCode,
+                    city: exhibitor.billingCity,
+                    country: exhibitor.billingCountry,
+                  })}
+                  components={EMAIL_SENTENCE_COMPONENTS}
+                />
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+          </EmailHtml.Output.Table>
+        </EmailHtml.Section.Root>
+      );
+    }
+
+    await this.email.send({
+      name: "exposant-adresse-de-facturation-mise-a-jour",
+      from: "Salon des Ani’Meaux <salon@animeaux.org>",
+      to: [application.contactEmail],
+      subject: "Adresse de facturation mise à jour - Salon des Ani’Meaux 2026",
+      body: (
+        <EmailHtml.Root>
+          <EmailHtml.Title>Adresse de facturation mise à jour</EmailHtml.Title>
+
+          <EmailHtml.Section.Root>
+            <EmailHtml.Paragraph>
+              Votre adresse de facturation a bien été mise à jour.
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              <EmailHtml.Button
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).invoice.toString()}`}
+              >
+                Accédez à la facturation
+              </EmailHtml.Button>
+            </EmailHtml.Paragraph>
+
+            <EmailHtml.Paragraph>
+              Pour toute question ou complément d’information, n’hésitez pas à
+              nous contacter en répondant à cet e-mail.
+            </EmailHtml.Paragraph>
+          </EmailHtml.Section.Root>
+
+          <EmailHtml.SectionSeparator />
+
+          <SectionBilling />
+
+          <EmailHtml.SectionSeparator />
+
+          <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
+        </EmailHtml.Root>
+      ),
+    });
+  }
 
   async newInvoice(exhibitorId: string) {
     const { exhibitor, application } = await promiseHash({

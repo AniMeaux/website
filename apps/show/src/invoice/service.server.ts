@@ -42,4 +42,28 @@ export class ServiceInvoice {
 
     return exhibitor.invoices;
   }
+
+  async getCountByToken(token: string) {
+    const exhibitor = await this.prisma.showExhibitor.findUnique({
+      where: { token },
+      select: { _count: { select: { invoices: {} } } },
+    });
+
+    if (exhibitor == null) {
+      throw notFound();
+    }
+
+    return exhibitor._count.invoices;
+  }
+
+  async updateAddress(token: string, data: UpdateData) {
+    await this.prisma.showExhibitor.update({ where: { token }, data });
+
+    return true;
+  }
 }
+
+type UpdateData = Pick<
+  Prisma.ShowExhibitorUpdateInput,
+  "billingAddress" | "billingCity" | "billingCountry" | "billingZipCode"
+>;
