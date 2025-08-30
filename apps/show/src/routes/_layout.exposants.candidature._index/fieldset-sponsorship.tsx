@@ -75,7 +75,7 @@ function FieldSponsorshipCategory() {
         <FormLayout.Helper id={field.descriptionId}>
           {value === SponsorshipCategory.Enum.NO_SPONSORSHIP
             ? "En devenant sponsor vous avez plus de chance d’être exposant"
-            : "En choisissant d’être sponsor vous vous engagez à payer"}
+            : "En devenant sponsor, vous confirmez votre engagement à régler le montant choisi et à soutenir le Salon des Ani’Meaux"}
         </FormLayout.Helper>
       ) : null}
     </FormLayout.Field>
