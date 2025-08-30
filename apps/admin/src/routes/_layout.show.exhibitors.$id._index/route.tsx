@@ -7,6 +7,7 @@ import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
 import { CardDogsConfiguration } from "./card-dogs-configuration";
 import { CardInvoices } from "./card-invoices";
+import { CardOnStageAnimations } from "./card-on-stage-animations";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
@@ -47,6 +48,7 @@ export default function Route() {
           <CardDogsConfiguration />
           <CardDocuments />
           <CardInvoices />
+          <CardOnStageAnimations />
           <CardOnStandAnimations />
         </div>
       </PageLayout.Content>
