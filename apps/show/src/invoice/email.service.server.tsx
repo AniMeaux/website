@@ -124,12 +124,16 @@ export class ServiceInvoiceEmail {
 
           <EmailHtml.Section.Root>
             <EmailHtml.Paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse vitae congue ipsum. Pellentesque non interdum nulla.
-              Praesent efficitur porttitor ultricies. Proin sit amet libero
-              facilisis, rhoncus massa ut, cursus felis. Pellentesque non libero
-              ut tortor egestas hendrerit. Cras tincidunt sagittis eleifend.
-              Fusce pellentesque pulvinar porttitor.
+              Bonjour,
+              <br />
+              <br />
+              Une nouvelle facture a été ajoutée dans votre espace exposant.
+              Vous pouvez la consulter et la régler directement en ligne.
+              <br />
+              <br />
+              Merci de procéder au paiement dans les délais indiqués afin de
+              confirmer définitivement votre inscription et de soutenir
+              l’organisation du Salon des Ani’Meaux.
             </EmailHtml.Paragraph>
 
             <EmailHtml.Paragraph>
