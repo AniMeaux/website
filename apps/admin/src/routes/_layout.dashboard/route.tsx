@@ -19,11 +19,6 @@ export default function Route() {
   return (
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
-        <section className="grid grid-cols-1 gap-1 empty:hidden md:grid-cols-2 md:gap-2">
-          <CardStandSizeBooking />
-          <CardUntreatedApplications />
-        </section>
-
         <section className="grid grid-cols-1 gap-1 empty:hidden md:grid-cols-3 md:gap-2">
           <CardAnimalsToVaccinate />
           <CardAnimalsToSterilize />
@@ -33,6 +28,11 @@ export default function Route() {
         <CardManagedAnimals />
 
         <CardActiveAnimals />
+
+        <section className="grid grid-cols-1 gap-1 empty:hidden md:grid-cols-2 md:gap-2">
+          <CardUntreatedApplications />
+          <CardStandSizeBooking />
+        </section>
       </PageLayout.Content>
     </PageLayout.Root>
   );
