@@ -6,6 +6,8 @@ import type { loader } from "./loader.server";
 import { SectionInformation } from "./section-information";
 import { SectionTitle } from "./section-title";
 
+export { loader } from "./loader.server";
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
