@@ -4,7 +4,7 @@ import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function SectionSponsorship() {
   return (

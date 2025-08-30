@@ -5,7 +5,7 @@ import { Icon } from "#generated/icon";
 import type { Extends } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function TaskItemDocument({ status }: { status: ShowExhibitorStatus }) {
   const { exhibitor } = useLoaderData<typeof loader>();

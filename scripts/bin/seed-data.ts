@@ -680,6 +680,10 @@ async function seedShowExhibitors() {
       structureActivityTargets: true,
       structureActivityFields: true,
       structureLogoPath: true,
+      structureAddress: true,
+      structureCity: true,
+      structureCountry: true,
+      structureZipCode: true,
       desiredStandSize: true,
     },
   });
@@ -714,6 +718,13 @@ async function seedShowExhibitors() {
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
           applicationId: application.id,
+
+          // -- Billing --------------------------------------------------------
+
+          billingAddress: application.structureAddress,
+          billingCity: application.structureCity,
+          billingZipCode: application.structureZipCode,
+          billingCountry: application.structureCountry,
 
           // -- Profile --------------------------------------------------------
 

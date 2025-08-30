@@ -1,16 +1,17 @@
+import { Routes } from "#core/navigation.js";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { exhibitor, invoices } = await promiseHash({
+  const { exhibitor, application, invoiceCount } = await promiseHash({
     exhibitor: services.exhibitor.getByToken(routeParams.token, {
       select: {
-        id: true,
         token: true,
         name: true,
 
@@ -21,17 +22,23 @@ export async function loader({ params }: LoaderFunctionArgs) {
       },
     }),
 
-    invoices: services.invoice.getManyByToken(routeParams.token, {
+    application: services.application.getByToken(routeParams.token, {
       select: {
-        id: true,
-        amount: true,
-        dueDate: true,
-        number: true,
-        status: true,
-        url: true,
+        structureAddress: true,
+        structureCity: true,
+        structureZipCode: true,
+        structureCountry: true,
       },
     }),
+
+    invoiceCount: services.invoice.getCountByToken(routeParams.token),
   });
 
-  return { exhibitor, invoices };
+  if (invoiceCount > 0) {
+    throw redirect(
+      Routes.exhibitors.token(routeParams.token).invoice.toString(),
+    );
+  }
+
+  return { exhibitor, application };
 }

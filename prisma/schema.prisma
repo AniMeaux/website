@@ -413,7 +413,15 @@ model ShowExhibitor {
 
   sponsorship ShowSponsor?
   animations  ShowAnimation[]
-  invoices    ShowInvoice[]
+
+  // -- Billing ----------------------------------------------------------------
+
+  billingAddress String @db.VarChar(128)
+  billingCity    String @db.VarChar(128)
+  billingZipCode String @db.VarChar(64)
+  billingCountry String @db.VarChar(64)
+
+  invoices ShowInvoice[]
 
   // -- Profile ----------------------------------------------------------------
 
