@@ -80,6 +80,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         standConfigurationStatusMessage: true,
         tableCount: true,
         zone: true,
+
+        animations: {
+          orderBy: { startTime: "asc" },
+          select: {
+            animators: {
+              orderBy: { name: "asc" },
+              select: { id: true, name: true },
+            },
+            description: true,
+            endTime: true,
+            id: true,
+            registrationUrl: true,
+            startTime: true,
+            targets: true,
+            zone: true,
+          },
+        },
       },
     }),
 
