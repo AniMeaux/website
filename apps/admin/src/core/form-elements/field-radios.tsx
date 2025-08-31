@@ -13,7 +13,7 @@ export function FieldRadios<TValue extends string>({
   required = false,
   helper,
 }: {
-  field: FieldMetadata<TValue>;
+  field: FieldMetadata<undefined | TValue>;
   options: TValue[];
   getLabel: (value: TValue) => string;
   label: React.ReactNode;

@@ -22,9 +22,7 @@ export const ActionSchema = zu
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre positif"),
 
-    dividerType: zu.nativeEnum(DividerType.Enum, {
-      required_error: "Veuillez choisir un type de cloisons",
-    }),
+    dividerType: zu.nativeEnum(DividerType.Enum).optional(),
 
     hasElectricalConnection: zu
       .nativeEnum(OnOff.Enum, {
@@ -38,9 +36,7 @@ export const ActionSchema = zu
       })
       .transform(OnOff.toBoolean),
 
-    installationDay: zu.nativeEnum(InstallationDay.Enum, {
-      required_error: "Veuillez choisir un jour d’installation",
-    }),
+    installationDay: zu.nativeEnum(InstallationDay.Enum).optional(),
 
     peopleCount: zu.coerce
       .number({
@@ -64,10 +60,26 @@ export const ActionSchema = zu
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre positif"),
 
-    zone: zu.nativeEnum(StandZone.Enum, {
-      required_error: "Veuillez choisir un emplacement",
-    }),
+    zone: zu.nativeEnum(StandZone.Enum).optional(),
   })
+  .refine(
+    (value) =>
+      value.status !== ExhibitorStatus.Enum.VALIDATED ||
+      value.dividerType != null,
+    {
+      message: "Veuillez choisir un type de cloisons",
+      path: ["dividerType"],
+    },
+  )
+  .refine(
+    (value) =>
+      value.status !== ExhibitorStatus.Enum.VALIDATED ||
+      value.installationDay != null,
+    {
+      message: "Veuillez choisir un jour d’installation",
+      path: ["installationDay"],
+    },
+  )
   .refine(
     (value) =>
       value.status !== ExhibitorStatus.Enum.TO_MODIFY ||
@@ -75,5 +87,13 @@ export const ActionSchema = zu
     {
       message: "Veuillez entrer un message",
       path: ["statusMessage"],
+    },
+  )
+  .refine(
+    (value) =>
+      value.status !== ExhibitorStatus.Enum.VALIDATED || value.zone != null,
+    {
+      message: "Veuillez choisir un emplacement",
+      path: ["zone"],
     },
   );

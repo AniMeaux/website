@@ -14,9 +14,7 @@ export function LayoutHeader() {
         {exhibitor.name}
       </Header.NavItem>
 
-      <Header.NavItem to={routes.faq.toString()}>
-        FAQ et Documents
-      </Header.NavItem>
+      <Header.NavItem to={routes.faq.toString()}>FAQ</Header.NavItem>
     </Header.Root>
   );
 }
