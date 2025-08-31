@@ -1,7 +1,7 @@
 import { Section } from "#core/layout/section";
 import { FaqItem, FaqList } from "#faq/item";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function SectionQuestions() {
   const { questions } = useLoaderData<typeof loader>();

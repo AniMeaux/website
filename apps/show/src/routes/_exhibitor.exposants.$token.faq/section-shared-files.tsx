@@ -3,7 +3,7 @@ import { LazyElement } from "#core/layout/lazy-element";
 import { Section } from "#core/layout/section";
 import { cn } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function SectionSharedFiles() {
   const { files } = useLoaderData<typeof loader>();
