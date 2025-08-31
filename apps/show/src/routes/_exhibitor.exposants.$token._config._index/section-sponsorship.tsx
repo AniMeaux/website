@@ -8,11 +8,15 @@ import type { loader } from "./loader.server";
 
 export function SectionSponsorship() {
   return (
-    <FormLayout.Section>
-      <FormLayout.Title>Sponsor</FormLayout.Title>
+    <>
+      <FormLayout.Section>
+        <FormLayout.Title>Sponsor</FormLayout.Title>
 
-      <StatusHelper />
-    </FormLayout.Section>
+        <StatusHelper />
+      </FormLayout.Section>
+
+      <FormLayout.SectionSeparator />
+    </>
   );
 }
 

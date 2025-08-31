@@ -5,6 +5,7 @@ import { getPageTitle } from "#core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import type { loader } from "./loader.server";
 import { SectionAwaitingValidation } from "./section-awaiting-validation";
+import { SectionDocuments } from "./section-documents";
 import { SectionHelper } from "./section-helper";
 import { SectionPayment } from "./section-payment";
 import { SectionSponsorship } from "./section-sponsorship";
@@ -37,6 +38,8 @@ export default function Route() {
           <SectionValidated />
 
           <SectionSponsorship />
+
+          <SectionDocuments />
         </div>
       </FormLayout.Form>
 
