@@ -24,7 +24,7 @@ const TABLES_NAME = [
   "ShowProvider",
   "ShowExhibitor",
   "ShowExhibitorApplication",
-  "ShowStandSizeLimit",
+  "ShowStandSize",
   "User",
 ];
 
