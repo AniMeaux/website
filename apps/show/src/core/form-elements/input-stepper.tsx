@@ -12,7 +12,7 @@ export const InputStepper = forwardRef<
     {
       value: string;
       onChange: React.Dispatch<string>;
-      min: number;
+      min?: number;
       max?: number;
       onFocus?: React.FocusEventHandler<React.ComponentRef<"div">>;
       onBlur?: React.FocusEventHandler<React.ComponentRef<"div">>;
@@ -22,8 +22,8 @@ export const InputStepper = forwardRef<
   {
     value: propValue,
     onChange,
-    min,
-    max,
+    min = Number.MIN_SAFE_INTEGER,
+    max = Number.MAX_SAFE_INTEGER,
     onFocus,
     onBlur,
     className,
@@ -35,10 +35,14 @@ export const InputStepper = forwardRef<
   value = isNaN(value) ? null : value;
 
   useEffect(() => {
-    if (value != null && max != null && value > max) {
-      onChange(String(max));
+    if (value != null) {
+      if (value < min) {
+        onChange(String(min));
+      } else if (value > max) {
+        onChange(String(max));
+      }
     }
-  }, [value, max, onChange]);
+  }, [value, min, max, onChange]);
 
   const ref = useRefOrProp(propRef);
 
@@ -58,17 +62,17 @@ export const InputStepper = forwardRef<
     >
       <ActionIcon
         onClick={() => {
-          const newValue = value == null ? 0 : Math.max(0, value - 1);
+          const newValue = value == null ? max : Math.max(min, value - 1);
 
           if (newValue !== value) {
             onChange(String(newValue));
 
-            if (newValue === 0) {
+            if (newValue === min) {
               ref.current?.focus();
             }
           }
         }}
-        disabled={value != null && value <= 0}
+        disabled={value != null && value <= min}
         color="alabaster"
         type="button"
       >
@@ -89,10 +93,7 @@ export const InputStepper = forwardRef<
 
       <ActionIcon
         onClick={() => {
-          const newValue =
-            value == null
-              ? max ?? 0
-              : Math.min(max ?? Number.MAX_SAFE_INTEGER, value + 1);
+          const newValue = value == null ? min : Math.min(max, value + 1);
 
           if (newValue !== value) {
             onChange(String(newValue));
@@ -102,7 +103,7 @@ export const InputStepper = forwardRef<
             }
           }
         }}
-        disabled={value != null && max != null && value >= max}
+        disabled={value != null && value >= max}
         color="alabaster"
         type="button"
       >

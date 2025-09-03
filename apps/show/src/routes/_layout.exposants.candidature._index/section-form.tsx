@@ -116,7 +116,7 @@ export function SectionForm() {
             sectionId={FieldsetId.PARTICIPATION}
             isComplete={
               fieldsets.participation.valid &&
-              fieldsets.participation.value?.desiredStandSize != null
+              fieldsets.participation.value?.desiredStandSizeId != null
             }
           >
             Participation

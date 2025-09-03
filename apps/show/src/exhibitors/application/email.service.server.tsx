@@ -12,9 +12,8 @@ import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activit
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
-import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { getCompleteLocation } from "@animeaux/core";
-import type { ShowExhibitorApplication } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
 import invariant from "tiny-invariant";
@@ -27,7 +26,11 @@ export class ServiceApplicationEmail {
     private application: ServiceApplication,
   ) {}
 
-  async submitted(application: ShowExhibitorApplication) {
+  async submitted(
+    application: Prisma.ShowExhibitorApplicationGetPayload<{
+      include: { desiredStandSize: { select: { label: true } } };
+    }>,
+  ) {
     function SectionInformation() {
       return (
         <EmailHtml.Section.Root>
@@ -226,7 +229,7 @@ export class ServiceApplicationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {StandSize.translation[application.desiredStandSize]}
+                {application.desiredStandSize.label}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 

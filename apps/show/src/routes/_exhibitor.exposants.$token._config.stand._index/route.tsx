@@ -36,7 +36,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       installationDay: true,
       peopleCount: true,
       placementComment: true,
-      size: true,
+      size: { select: { label: true } },
       standConfigurationStatus: true,
       standConfigurationStatusMessage: true,
       tableCount: true,

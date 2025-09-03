@@ -80,6 +80,7 @@ export class ServiceApplication {
     try {
       return await this.prisma.showExhibitorApplication.create({
         data,
+        include: { desiredStandSize: { select: { label: true } } },
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -98,6 +99,6 @@ export namespace ServiceApplication {
 }
 
 type ExhibitorApplicationData = Except<
-  Prisma.ShowExhibitorApplicationCreateInput,
+  Prisma.ShowExhibitorApplicationUncheckedCreateInput,
   "id" | "createdAt" | "updatedAt"
 >;
