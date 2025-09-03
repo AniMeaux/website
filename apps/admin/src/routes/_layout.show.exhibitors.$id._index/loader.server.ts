@@ -74,7 +74,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         locationNumber: true,
         peopleCount: true,
         placementComment: true,
-        size: true,
+        size: { select: { label: true } },
         standNumber: true,
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,

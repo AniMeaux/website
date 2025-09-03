@@ -2,7 +2,6 @@ import { Chip } from "#core/data-display/chip.js";
 import { Item, ItemList } from "#core/data-display/item.js";
 import { Card } from "#core/layout/card.js";
 import { Icon } from "#generated/icon.js";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -22,7 +21,7 @@ export function CardStandSizeBooking() {
       <Card.Content>
         <ItemList>
           {show.standSizeBooking.map((booking) => (
-            <Item.Root key={booking.size}>
+            <Item.Root key={booking.id}>
               <Item.Icon>
                 {booking.ratio === 0 ? (
                   <Icon href="icon-circle-light" className="text-gray-600" />
@@ -55,7 +54,7 @@ export function CardStandSizeBooking() {
               </Item.Icon>
 
               <Item.Content className="grid grid-cols-fr-auto items-center gap-1">
-                <span>{StandSize.translation[booking.size]}</span>
+                <span>{booking.label}</span>
 
                 <Chip
                   variant={booking.ratio > 1 ? "primary" : "secondary"}

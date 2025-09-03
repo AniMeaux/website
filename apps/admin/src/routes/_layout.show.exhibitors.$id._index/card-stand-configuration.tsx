@@ -11,7 +11,6 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
@@ -148,9 +147,7 @@ function ItemStandInfo() {
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
       Stand de{" "}
-      <strong className="text-body-emphasis">
-        {StandSize.translation[exhibitor.size]}
-      </strong>
+      <strong className="text-body-emphasis">{exhibitor.size.label}</strong>
       {exhibitor.zone != null ? (
         <>
           <br />

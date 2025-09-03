@@ -13,6 +13,7 @@ import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
 import { FieldsetConfiguration } from "./fieldset-configuration";
@@ -31,25 +32,31 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
-    select: {
-      name: true,
-      chairCount: true,
-      dividerCount: true,
-      dividerType: true,
-      hasElectricalConnection: true,
-      hasTablecloths: true,
-      installationDay: true,
-      peopleCount: true,
-      size: true,
-      standConfigurationStatus: true,
-      standConfigurationStatusMessage: true,
-      tableCount: true,
-      zone: true,
-    },
+  const { exhbitor, standSizes } = await promiseHash({
+    exhbitor: db.show.exhibitor.findUnique(routeParams.id, {
+      select: {
+        name: true,
+        chairCount: true,
+        dividerCount: true,
+        dividerType: true,
+        hasElectricalConnection: true,
+        hasTablecloths: true,
+        installationDay: true,
+        peopleCount: true,
+        size: true,
+        standConfigurationStatus: true,
+        standConfigurationStatusMessage: true,
+        tableCount: true,
+        zone: true,
+      },
+    }),
+
+    standSizes: db.show.standSize.findManyWithAvailability({
+      select: { id: true, label: true },
+    }),
   });
 
-  return json({ exhbitor });
+  return json({ exhbitor, standSizes });
 }
 
 const RouteParamsSchema = zu.object({
@@ -104,7 +111,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     hasTablecloths: submission.value.hasTablecloths,
     installationDay: submission.value.installationDay,
     peopleCount: submission.value.peopleCount,
-    size: submission.value.size,
+    sizeId: submission.value.sizeId,
     standConfigurationStatus: submission.value.status,
     standConfigurationStatusMessage: submission.value.statusMessage || null,
     tableCount: submission.value.tableCount,

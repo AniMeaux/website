@@ -37,7 +37,7 @@ export function useFormRoot() {
       hasTablecloths: OnOff.fromBoolean(exhbitor.hasTablecloths),
       installationDay: exhbitor.installationDay,
       peopleCount: exhbitor.peopleCount,
-      size: exhbitor.size,
+      sizeId: exhbitor.size.id,
       status: exhbitor.standConfigurationStatus,
       statusMessage: exhbitor.standConfigurationStatusMessage ?? "",
       tableCount: exhbitor.tableCount,

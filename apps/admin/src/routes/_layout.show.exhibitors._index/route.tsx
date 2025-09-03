@@ -12,6 +12,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
 import { CardList } from "./card-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -26,26 +27,35 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const searchParams = new URL(request.url).searchParams;
 
-  const { exhibitors, totalCount } = await db.show.exhibitor.findMany({
-    page: PageSearchParams.parse(searchParams).page,
-    countPerPage: EXHIBITOR_COUNT_PER_PAGE,
-    searchParams: ExhibitorSearchParams.parse(searchParams),
-    select: {
-      createdAt: true,
-      id: true,
-      isVisible: true,
-      logoPath: true,
-      name: true,
+  const {
+    exhibitors: { exhibitors, totalCount },
+    standSizes,
+  } = await promiseHash({
+    exhibitors: db.show.exhibitor.findMany({
+      page: PageSearchParams.parse(searchParams).page,
+      countPerPage: EXHIBITOR_COUNT_PER_PAGE,
+      searchParams: ExhibitorSearchParams.parse(searchParams),
+      select: {
+        createdAt: true,
+        id: true,
+        isVisible: true,
+        logoPath: true,
+        name: true,
 
-      application: {
-        select: { status: true },
+        application: {
+          select: { status: true },
+        },
       },
-    },
+    }),
+
+    standSizes: db.show.standSize.findMany({
+      select: { id: true, label: true },
+    }),
   });
 
   const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
 
-  return json({ totalCount, pageCount, exhibitors });
+  return json({ totalCount, pageCount, exhibitors, standSizes });
 }
 
 const EXHIBITOR_COUNT_PER_PAGE = 20;
@@ -55,7 +65,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount } = useLoaderData<typeof loader>();
+  const { totalCount, standSizes } = useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -71,14 +81,14 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <ExhibitorFilters />
+              <ExhibitorFilters standSizes={standSizes} />
             </Card.Content>
           </Card>
         </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <ExhibitorFilters />
+        <ExhibitorFilters standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
   );

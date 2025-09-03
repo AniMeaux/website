@@ -5,7 +5,6 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
@@ -188,8 +187,10 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
-    if (params.searchParams.standSize.size > 0) {
-      where.push({ size: { in: Array.from(params.searchParams.standSize) } });
+    if (params.searchParams.standSizesId.size > 0) {
+      where.push({
+        size: { id: { in: Array.from(params.searchParams.standSizesId) } },
+      });
     }
 
     if (params.searchParams.targets.size > 0) {
@@ -472,33 +473,6 @@ export class ShowExhibitorDbDelegate {
       data.standConfigurationStatusMessage = null;
     }
   }
-
-  async getStandSizeBooking() {
-    const { limits, groups } = await promiseHash({
-      limits: prisma.showStandSizeLimit.findMany(),
-
-      groups: prisma.showExhibitor.groupBy({
-        by: "size",
-        _count: { size: true },
-      }),
-    });
-
-    return StandSize.values.map((standSize) => {
-      const bookedCount =
-        groups.find((group) => group.size === standSize)?._count.size ?? 0;
-
-      const maxCount = limits.find(
-        (limit) => limit.size === standSize,
-      )?.maxCount;
-
-      return {
-        size: standSize,
-        bookedCount,
-        maxCount,
-        ratio: maxCount == null ? 0 : bookedCount / maxCount,
-      };
-    });
-  }
 }
 
 const FIND_ORDER_BY_SORT: Record<
@@ -548,7 +522,7 @@ type ShowExhibitorOnStandAnimationsData = Pick<
 >;
 
 type ShowExhibitorStandConfigurationData = Pick<
-  Prisma.ShowExhibitorUpdateInput,
+  Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
   | "dividerType"
@@ -556,7 +530,7 @@ type ShowExhibitorStandConfigurationData = Pick<
   | "hasTablecloths"
   | "installationDay"
   | "peopleCount"
-  | "size"
+  | "sizeId"
   | "standConfigurationStatus"
   | "standConfigurationStatusMessage"
   | "tableCount"

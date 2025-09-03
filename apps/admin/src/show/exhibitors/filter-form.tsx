@@ -31,9 +31,13 @@ import {
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { StandSize } from "./stand-configuration/stand-size";
+import type { ShowStandSize } from "@prisma/client";
 
-export function ExhibitorFilters() {
+export function ExhibitorFilters({
+  standSizes,
+}: {
+  standSizes: Pick<ShowStandSize, "id" | "label">[];
+}) {
   return (
     <Filters>
       <Filters.Actions>
@@ -52,7 +56,7 @@ export function ExhibitorFilters() {
         <FilterInvoiceStatuses />
         <FilterActivity />
         <FilterSponsorship />
-        <FilterStandSize />
+        <FilterStandSize standSizes={standSizes} />
         <FilterAnimations />
       </Filters.Content>
     </Filters>
@@ -361,37 +365,41 @@ function FilterSort() {
   );
 }
 
-function FilterStandSize() {
+function FilterStandSize({
+  standSizes,
+}: {
+  standSizes: Pick<ShowStandSize, "id" | "label">[];
+}) {
   const [searchParams] = useOptimisticSearchParams();
   const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.standSize}
+      value={ExhibitorSearchParams.keys.standSizesId}
       label="Taille du stand"
-      count={exhibitorSearchParams.standSize.size}
-      hiddenContent={Array.from(exhibitorSearchParams.standSize).map(
-        (standSize) => (
+      count={exhibitorSearchParams.standSizesId.size}
+      hiddenContent={Array.from(exhibitorSearchParams.standSizesId).map(
+        (standSizeId) => (
           <input
-            key={standSize}
+            key={standSizeId}
             type="hidden"
-            name={ExhibitorSearchParams.keys.standSize}
-            value={standSize}
+            name={ExhibitorSearchParams.keys.standSizesId}
+            value={standSizeId}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {StandSize.values.map((standSize) => (
+        {standSizes.map((standSize) => (
           <ToggleInput
-            key={standSize}
+            key={standSize.id}
             type="checkbox"
-            label={StandSize.translation[standSize]}
-            name={ExhibitorSearchParams.keys.standSize}
-            value={standSize}
+            label={standSize.label}
+            name={ExhibitorSearchParams.keys.standSizesId}
+            value={standSize.id}
             icon={<Icon href="icon-expand-light" />}
             iconChecked={<Icon href="icon-expand-solid" />}
-            checked={exhibitorSearchParams.standSize.has(standSize)}
+            checked={exhibitorSearchParams.standSizesId.has(standSize.id)}
             onChange={() => {}}
           />
         ))}
