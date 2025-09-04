@@ -534,5 +534,4 @@ type ShowExhibitorStandConfigurationData = Pick<
   | "standConfigurationStatus"
   | "standConfigurationStatusMessage"
   | "tableCount"
-  | "zone"
 >;

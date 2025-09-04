@@ -8,7 +8,6 @@ import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
-import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -110,16 +109,6 @@ export function SectionStandConfiguration() {
           {exhibitor.installationDay != null
             ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
             : "-"}
-        </FormLayout.Output>
-      </FormLayout.Field>
-
-      <FormLayout.Field>
-        <FormLayout.Label>Emplacement</FormLayout.Label>
-
-        <FormLayout.Output>
-          {exhibitor.zone == null
-            ? "-"
-            : STAND_ZONE_TRANSLATION[exhibitor.zone]}
         </FormLayout.Output>
       </FormLayout.Field>
 

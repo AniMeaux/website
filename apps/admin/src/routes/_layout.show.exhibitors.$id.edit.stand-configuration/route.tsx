@@ -47,7 +47,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,
         tableCount: true,
-        zone: true,
       },
     }),
 
@@ -115,7 +114,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
     standConfigurationStatus: submission.value.status,
     standConfigurationStatusMessage: submission.value.statusMessage || null,
     tableCount: submission.value.tableCount,
-    zone: submission.value.zone,
   });
 
   return json<ActionData>({

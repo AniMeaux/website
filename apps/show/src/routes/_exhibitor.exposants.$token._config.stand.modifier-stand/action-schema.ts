@@ -1,10 +1,6 @@
 import { zu } from "@animeaux/zod-utils";
 import type { ShowStandSize } from "@prisma/client";
-import {
-  ShowDividerType,
-  ShowInstallationDay,
-  ShowStandZone,
-} from "@prisma/client";
+import { ShowDividerType, ShowInstallationDay } from "@prisma/client";
 
 export function createActionSchema(
   availableStandSizes: Pick<
@@ -79,9 +75,6 @@ export function createActionSchema(
           })
           .int({ message: "Veuillez entrer un nombre entier" })
           .min(0, "Veuillez entrer un nombre positif"),
-        zone: zu.nativeEnum(ShowStandZone, {
-          required_error: "Veuillez choisir un emplacement",
-        }),
       })
       .refine(
         (value) => value.dividerCount <= value.standSize.maxDividerCount,
