@@ -29,7 +29,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         contactLastname: true,
         contactPhone: true,
         createdAt: true,
-        desiredStandSize: true,
+        desiredStandSize: { select: { id: true, label: true } },
         discoverySource: true,
         discoverySourceOther: true,
         id: true,

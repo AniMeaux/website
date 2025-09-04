@@ -153,6 +153,10 @@ export const Routes = {
 
     standSizes: {
       toString: () => "/show/stand-sizes" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/stand-sizes/${id}` as const,
+      }),
     },
   },
   users: {

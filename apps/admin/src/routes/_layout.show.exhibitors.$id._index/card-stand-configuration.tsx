@@ -1,4 +1,4 @@
-import { Action } from "#core/actions";
+import { Action, ProseInlineAction } from "#core/actions";
 import { BaseLink } from "#core/base-link";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import {
@@ -147,7 +147,11 @@ function ItemStandInfo() {
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
       Stand de{" "}
-      <strong className="text-body-emphasis">{exhibitor.size.label}</strong>
+      <ProseInlineAction asChild>
+        <BaseLink to={Routes.show.standSizes.id(exhibitor.size.id).toString()}>
+          {exhibitor.size.label}
+        </BaseLink>
+      </ProseInlineAction>
       {exhibitor.zone != null ? (
         <>
           <br />

@@ -1,16 +1,19 @@
+import { BaseLink } from "#core/base-link.js";
 import { Chip } from "#core/data-display/chip.js";
+import { Routes } from "#core/navigation.js";
 import { StandSizeBookingChip } from "#show/stand-size/booking-chip.js";
 import { StandSizeBookingIcon } from "#show/stand-size/booking-icon.js";
 import type { SerializeFrom } from "@remix-run/node";
 import type { loader } from "./route";
 
-export function StandSizeItem({
-  standSize,
-}: {
-  standSize: SerializeFrom<typeof loader>["standSizes"][number];
-}) {
+type StandSize = SerializeFrom<typeof loader>["standSizes"][number];
+
+export function StandSizeItem({ standSize }: { standSize: StandSize }) {
   return (
-    <div className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1">
+    <BaseLink
+      to={Routes.show.standSizes.id(standSize.id).toString()}
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+    >
       <StandSizeBookingIcon standSize={standSize} className="icon-20" />
 
       <div>{standSize.label}</div>
@@ -32,6 +35,6 @@ export function StandSizeItem({
 
         <StandSizeBookingChip standSize={standSize} />
       </div>
-    </div>
+    </BaseLink>
   );
 }
