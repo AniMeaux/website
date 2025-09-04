@@ -53,7 +53,7 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   showInvoice: () => prisma.showInvoice.findMany(),
   showProvider: () => prisma.showProvider.findMany(),
   showSponsor: () => prisma.showSponsor.findMany(),
-  showStandSizeLimit: () => prisma.showStandSizeLimit.findMany(),
+  showStandSize: () => prisma.showStandSize.findMany(),
   user: () => prisma.user.findMany(),
 };
 

@@ -150,6 +150,14 @@ export const Routes = {
         toString: () => `/show/sponsors/${id}` as const,
       }),
     },
+
+    standSizes: {
+      toString: () => "/show/stand-sizes" as const,
+
+      id: (id: string) => ({
+        toString: () => `/show/stand-sizes/${id}` as const,
+      }),
+    },
   },
   users: {
     toString: () => "/users" as const,

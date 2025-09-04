@@ -12,11 +12,11 @@ import { ServiceApplicationEmail } from "#exhibitors/application/email.service.s
 import { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { ModuleExhibitorEmail } from "#exhibitors/email.module.server.js";
 import { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { ServiceStandSize } from "#exhibitors/stand-size/service.server.js";
 import { ServiceInvoiceEmail } from "#invoice/email.service.server.js";
 import { ServiceInvoice } from "#invoice/service.server.js";
 import { ServiceProvider } from "#providers/service.server.js";
 import { ServiceSponsor } from "#sponsors/service.server.js";
+import { ServiceStandSize } from "#stand-size/service.server.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import {
   FileStorageGoogleDrive,

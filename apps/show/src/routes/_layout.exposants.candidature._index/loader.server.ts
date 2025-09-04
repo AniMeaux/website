@@ -8,13 +8,21 @@ export async function loader() {
     throw notFound();
   }
 
-  const { files, availableStandSizes } = await promiseHash({
+  const { files, standSizes } = await promiseHash({
     files: services.fileStorage.getFiles(
       process.env.GOOGLE_DRIVE_APPLICATION_FOLDER_ID,
     ),
 
-    availableStandSizes: services.standSize.getAvailable(),
+    standSizes: services.standSize.getManyVisible({
+      select: { id: true, label: true, isRestrictedByActivityField: true },
+    }),
   });
 
-  return json({ files, availableStandSizes });
+  return json({
+    files,
+    standSizes,
+    availableStandSizes: standSizes.filter(
+      (standSize) => standSize.isAvailable,
+    ),
+  });
 }

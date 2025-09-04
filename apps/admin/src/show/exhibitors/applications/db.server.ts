@@ -4,9 +4,8 @@ import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
-import { TABLE_COUNT_BY_SIZE } from "#show/exhibitors/stand-configuration/table";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
-import type { ShowExhibitor, ShowExhibitorApplication } from "@prisma/client";
+import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 
@@ -134,15 +133,21 @@ export class ShowExhibitorApplicationDbDelegate {
     this.normalize(data);
 
     await prisma.$transaction(async (prisma) => {
-      let application: ShowExhibitorApplication & {
-        exhibitor: null | Pick<ShowExhibitor, "id">;
-      };
+      let application: Prisma.ShowExhibitorApplicationGetPayload<{
+        include: {
+          exhibitor: { select: { id: true } };
+          desiredStandSize: { select: { id: true; maxTableCount: true } };
+        };
+      }>;
 
       try {
         application = await prisma.showExhibitorApplication.update({
           where: { id },
           data,
-          include: { exhibitor: { select: { id: true } } },
+          include: {
+            exhibitor: { select: { id: true } },
+            desiredStandSize: { select: { id: true, maxTableCount: true } },
+          },
         });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -176,6 +181,7 @@ export class ShowExhibitorApplicationDbDelegate {
               : {}),
 
             application: { connect: { id } },
+            size: { connect: { id: application.desiredStandSize.id } },
 
             billingAddress: application.structureAddress,
             billingCity: application.structureCity,
@@ -187,8 +193,7 @@ export class ShowExhibitorApplicationDbDelegate {
             links: [application.structureUrl],
             logoPath: application.structureLogoPath,
             name: application.structureName,
-            size: application.desiredStandSize,
-            tableCount: TABLE_COUNT_BY_SIZE[application.desiredStandSize],
+            tableCount: application.desiredStandSize.maxTableCount,
           },
         });
       }

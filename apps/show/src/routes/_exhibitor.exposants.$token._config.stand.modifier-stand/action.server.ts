@@ -7,22 +7,31 @@ import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { ActionSchema } from "./action-schema";
+import { createActionSchema } from "./action-schema";
+import { getStandSizesData } from "./stand-sizes.server";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
-    select: { standConfigurationStatus: true },
+    select: {
+      activityFields: true,
+      standConfigurationStatus: true,
+      size: { select: { id: true } },
+    },
   });
 
   if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
+  const { availableStandSizes } = await getStandSizesData(exhibitor);
+
   const formData = await request.formData();
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, {
+    schema: createActionSchema(availableStandSizes),
+  });
 
   if (submission.status !== "success") {
     return json(submission.reply(), { status: 400 });
@@ -37,7 +46,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     installationDay: submission.value.installationDay,
     peopleCount: submission.value.peopleCount,
     placementComment: submission.value.placementComment || null,
-    size: submission.value.size,
+    sizeId: submission.value.standSize.id,
     tableCount: submission.value.tableCount,
     zone: submission.value.zone,
   });

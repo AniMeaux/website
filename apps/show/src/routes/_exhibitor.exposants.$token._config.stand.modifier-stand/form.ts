@@ -2,17 +2,23 @@ import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useActionData, useLoaderData } from "@remix-run/react";
-import { ActionSchema } from "./action-schema";
+import { useMemo } from "react";
+import { createActionSchema } from "./action-schema";
 import type { action } from "./action.server";
 import type { loader } from "./loader.server";
 
 export function useFormRoot() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor, availableStandSizes } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+
+  const schema = useMemo(
+    () => createActionSchema(availableStandSizes),
+    [availableStandSizes],
+  );
 
   const [form, fields] = useFormBase({
     id: "exhibitor-stand",
-    constraint: getZodConstraint(ActionSchema),
+    constraint: getZodConstraint(schema),
     shouldValidate: "onBlur",
     lastResult: actionData,
 
@@ -25,13 +31,12 @@ export function useFormRoot() {
       installationDay: exhibitor.installationDay,
       peopleCount: exhibitor.peopleCount,
       placementComment: exhibitor.placementComment,
-      size: exhibitor.size,
+      standSize: exhibitor.size.id,
       tableCount: exhibitor.tableCount,
       zone: exhibitor.zone,
     },
 
-    onValidate: ({ formData }) =>
-      parseWithZod(formData, { schema: ActionSchema }),
+    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   });
 
   return [form, fields] as const;

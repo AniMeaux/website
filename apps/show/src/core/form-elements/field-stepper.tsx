@@ -8,11 +8,13 @@ import { useInputControl } from "@conform-to/react";
 export function FieldStepper({
   field,
   label,
+  minValue = 0,
   maxValue,
   helper,
 }: {
   field: FieldMetadata<number>;
   label: React.ReactNode;
+  minValue?: number;
   maxValue?: number;
   helper?: React.ReactNode;
 }) {
@@ -27,7 +29,7 @@ export function FieldStepper({
         id={field.id}
         value={fieldControl.value ?? ""}
         onChange={fieldControl.change}
-        min={0}
+        min={minValue}
         max={maxValue}
         onFocus={fieldControl.focus}
         onBlur={fieldControl.blur}

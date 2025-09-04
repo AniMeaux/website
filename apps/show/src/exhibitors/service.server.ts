@@ -299,7 +299,7 @@ type ExhibitorOnStandAnimationsData = Pick<
 >;
 
 type ExhibitorStandConfigurationData = Pick<
-  Prisma.ShowExhibitorUpdateInput,
+  Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
   | "dividerType"
@@ -308,7 +308,7 @@ type ExhibitorStandConfigurationData = Pick<
   | "installationDay"
   | "peopleCount"
   | "placementComment"
-  | "size"
+  | "sizeId"
   | "tableCount"
   | "zone"
 >;

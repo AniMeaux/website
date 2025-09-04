@@ -9,7 +9,6 @@ import { Routes } from "#core/navigation";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
 import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
-import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -44,9 +43,7 @@ export function SectionStandConfiguration() {
         <FormLayout.Field>
           <FormLayout.Label>Taille du stand</FormLayout.Label>
 
-          <FormLayout.Output>
-            {StandSize.translation[exhibitor.size]}
-          </FormLayout.Output>
+          <FormLayout.Output>{exhibitor.size.label}</FormLayout.Output>
         </FormLayout.Field>
 
         <FormLayout.Field>

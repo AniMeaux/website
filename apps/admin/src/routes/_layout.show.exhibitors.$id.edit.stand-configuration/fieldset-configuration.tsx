@@ -5,11 +5,14 @@ import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
+import { useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { useForm } from "./form";
+import type { loader } from "./route";
 
 export function FieldsetConfiguration() {
+  const { standSizes } = useLoaderData<typeof loader>();
   const { fields } = useForm();
 
   return (
@@ -22,9 +25,20 @@ export function FieldsetConfiguration() {
         <Form.Fields>
           <FieldRadios
             label="Taille du stand"
-            field={fields.size}
-            getLabel={(size) => StandSize.translation[size]}
-            options={StandSize.values}
+            field={fields.sizeId}
+            getLabel={(standSizeId) => {
+              const standSize = standSizes.find(
+                (standSize) => standSize.id === standSizeId,
+              );
+
+              invariant(
+                standSize != null,
+                `Stand size not found: ${standSizeId}`,
+              );
+
+              return standSize.label;
+            }}
+            options={standSizes.map((standSize) => standSize.id)}
           />
 
           <Form.Row>

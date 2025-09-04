@@ -1,6 +1,6 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
-import type { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { FieldStandSize } from "#exhibitors/stand-size/field";
 import { ensureArray } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
@@ -9,9 +9,25 @@ import { FieldsetId, useFieldsets } from "./form";
 import type { loader } from "./loader.server";
 
 export function FieldsetParticipation() {
-  const { availableStandSizes } = useLoaderData<typeof loader>();
+  const { standSizes } = useLoaderData<typeof loader>();
   const { fieldsets } = useFieldsets();
   const fieldset = fieldsets.participation.getFieldset();
+
+  const selectedActivityFields = ensureArray(
+    fieldsets.structure.getFieldset().activityFields.value as
+      | undefined
+      | ActivityField.Enum
+      | ActivityField.Enum[],
+  );
+
+  const hasLimitedStandSize = selectedActivityFields.some(
+    (selectedActivityField) =>
+      ActivityField.valuesWithLimitedStandSizes.includes(selectedActivityField),
+  );
+
+  const standSizesOptions = hasLimitedStandSize
+    ? standSizes.filter((standSize) => !standSize.isRestrictedByActivityField)
+    : standSizes;
 
   return (
     <FormLayout.Section id={FieldsetId.PARTICIPATION}>
@@ -19,14 +35,8 @@ export function FieldsetParticipation() {
 
       <FieldStandSize
         label="Taille du stand souhaité"
-        field={fieldset.desiredStandSize}
-        availableStandSizes={availableStandSizes}
-        selectedActivityFields={ensureArray(
-          fieldsets.structure.getFieldset().activityFields.value as
-            | undefined
-            | ActivityField.Enum
-            | ActivityField.Enum[],
-        )}
+        field={fieldset.desiredStandSizeId}
+        standSizes={standSizesOptions}
       />
 
       <FieldTextarea

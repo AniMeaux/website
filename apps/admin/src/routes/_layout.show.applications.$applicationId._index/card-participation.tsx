@@ -1,7 +1,9 @@
+import { ProseInlineAction } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -17,7 +19,16 @@ export function CardParticipation() {
       <Card.Content>
         <ItemList>
           <SimpleItem isLightIcon icon={<Icon href="icon-expand-light" />}>
-            {StandSize.translation[application.desiredStandSize]}
+            Stand de{" "}
+            <ProseInlineAction asChild>
+              <BaseLink
+                to={Routes.show.standSizes
+                  .id(application.desiredStandSize.id)
+                  .toString()}
+              >
+                {application.desiredStandSize.label}
+              </BaseLink>
+            </ProseInlineAction>
           </SimpleItem>
 
           <SimpleItem

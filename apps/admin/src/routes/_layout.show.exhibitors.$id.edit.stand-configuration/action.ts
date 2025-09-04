@@ -1,7 +1,6 @@
 import { OnOff } from "#core/form-elements/field-on-off";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { zu } from "@animeaux/zod-utils";
@@ -13,7 +12,7 @@ export const ActionSchema = zu
         message: "Veuillez entrer un nombre valide",
       })
       .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
+      .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
 
     dividerCount: zu.coerce
       .number({
@@ -43,11 +42,11 @@ export const ActionSchema = zu
         message: "Veuillez entrer un nombre valide",
       })
       .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
+      .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
 
-    size: zu.nativeEnum(StandSize.Enum, {
-      required_error: "Veuillez choisir une taille de stand",
-    }),
+    sizeId: zu
+      .string({ required_error: "Veuillez choisir une taille de stand" })
+      .uuid(),
 
     status: zu.nativeEnum(ExhibitorStatus.Enum),
 

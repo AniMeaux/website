@@ -24,6 +24,8 @@ export async function loaderShow() {
       },
     }),
 
-    standSizeBooking: db.show.exhibitor.getStandSizeBooking(),
+    standSizes: db.show.standSize.findManyWithAvailability({
+      select: { id: true, label: true },
+    }),
   });
 }
