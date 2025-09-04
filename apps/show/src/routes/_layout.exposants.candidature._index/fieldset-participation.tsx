@@ -1,7 +1,7 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
 import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
-import { FieldStandSize } from "#exhibitors/stand-size/field";
+import { FieldStandSize } from "#stand-size/field.js";
 import { ensureArray } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
 import { useLoaderData } from "@remix-run/react";

@@ -2,7 +2,7 @@ import { FieldStepper } from "#core/form-elements/field-stepper";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
-import { FieldStandSize } from "#exhibitors/stand-size/field";
+import { FieldStandSize } from "#stand-size/field.js";
 import type { Prisma } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";
