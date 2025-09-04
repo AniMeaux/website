@@ -41,10 +41,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
         isVisible: true,
         logoPath: true,
         name: true,
-
-        application: {
-          select: { status: true },
-        },
       },
     }),
 
