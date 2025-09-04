@@ -11,10 +11,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.SHOW_ORGANIZER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
