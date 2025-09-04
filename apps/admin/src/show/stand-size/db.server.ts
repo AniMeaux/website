@@ -1,4 +1,5 @@
 import { prisma } from "#core/prisma.server";
+import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
 import type { Prisma } from "@prisma/client";
 import type { Simplify } from "type-fest";
 
@@ -33,25 +34,19 @@ export class ShowStandSizeDbDelegate {
       select: { ...params.select, ...internalSelect },
     })) as Internal[];
 
-    type Availability = {
-      isAvailable: boolean;
-      bookedCount: number;
-      ratio: number;
-    };
+    const standSizesWithAvailability = standSizes.map<
+      Internal & ShowStandSizeBooking
+    >((standSize) => {
+      const bookedCount = standSize._count.exhibitors;
 
-    const standSizesWithAvailability = standSizes.map<Internal & Availability>(
-      (standSize) => {
-        const bookedCount = standSize._count.exhibitors;
+      const ratio =
+        standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount;
 
-        const ratio =
-          standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount;
+      return { ...standSize, bookedCount, ratio };
+    });
 
-        const isAvailable = bookedCount < standSize.maxCount;
-
-        return { ...standSize, bookedCount, isAvailable, ratio };
-      },
-    );
-
-    return standSizesWithAvailability as Simplify<Selected & Availability>[];
+    return standSizesWithAvailability as Simplify<
+      Selected & ShowStandSizeBooking
+    >[];
   }
 }

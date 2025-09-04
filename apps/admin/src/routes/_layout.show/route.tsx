@@ -35,6 +35,10 @@ export default function Route() {
         <PageLayout.Tab isNavLink to={Routes.show.sponsors.toString()}>
           Sponsors
         </PageLayout.Tab>
+
+        <PageLayout.Tab isNavLink to={Routes.show.standSizes.toString()}>
+          Tailles de stand
+        </PageLayout.Tab>
       </PageLayout.Tabs>
 
       <Outlet />

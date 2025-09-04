@@ -22,7 +22,7 @@ export const PageLayout = {
     return (
       <nav
         {...props}
-        className="grid grid-flow-col justify-start gap-0.5 overflow-auto bg-white py-0.5 scrollbars-none md:sticky md:top-6 md:z-20 md:gap-1 md:border-l md:border-gray-50 md:py-1"
+        className="grid auto-cols-max grid-flow-col justify-start gap-0.5 overflow-auto bg-white py-0.5 scrollbars-none md:sticky md:top-6 md:z-20 md:gap-1 md:border-l md:border-gray-50 md:py-1"
       />
     );
   },
