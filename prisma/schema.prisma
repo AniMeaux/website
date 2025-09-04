@@ -469,9 +469,11 @@ model ShowExhibitor {
   size   ShowStandSize @relation(fields: [sizeId], references: [id], onDelete: Restrict)
   sizeId String        @db.Uuid
 
+  dividerType   ShowDividerType? @relation(fields: [dividerTypeId], references: [id], onDelete: Restrict)
+  dividerTypeId String?          @db.Uuid
+
   chairCount              Int                  @default(1)
   dividerCount            Int                  @default(0)
-  dividerType             ShowDividerType?
   hasElectricalConnection Boolean              @default(false)
   hasTablecloths          Boolean              @default(true)
   installationDay         ShowInstallationDay?
@@ -506,17 +508,22 @@ model ShowStandSize {
   exhibitors   ShowExhibitor[]
 }
 
+model ShowDividerType {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label    String @unique @db.VarChar(128)
+  maxCount Int
+
+  exhibitors ShowExhibitor[]
+}
+
 enum ShowExhibitorStatus {
   TO_BE_FILLED
   AWAITING_VALIDATION
   TO_MODIFY
   VALIDATED
-}
-
-enum ShowDividerType {
-  GRID
-  FABRIC_PANEL
-  WOOD_PANEL
 }
 
 enum ShowInstallationDay {

@@ -47,6 +47,7 @@ const seeds = {
   fosterFamilies: Promise.resolve().then(seedFosterFamilies),
   pressArticles: Promise.resolve().then(seedPressArticle),
   showAnimations: Promise.resolve().then(seedShowAnimations),
+  showDividerTypes: Promise.resolve().then(seedShowDividerTypes),
   showExhibitorApplications: Promise.resolve().then(
     seedShowExhibitorApplications,
   ),
@@ -652,6 +653,28 @@ async function seedShowStandSizes() {
   console.log(`- 👍 ${count} show stand sizes`);
 }
 
+async function seedShowDividerTypes() {
+  await prisma.showDividerType.createMany({
+    data: [
+      {
+        label: "Panneau plein en tissus noir",
+        maxCount: 50,
+      },
+      {
+        label: "Grille",
+        maxCount: 50,
+      },
+      {
+        label: "Panneau plein en bois",
+        maxCount: 50,
+      },
+    ],
+  });
+
+  const count = await prisma.showDividerType.count();
+  console.log(`- 👍 ${count} show divider types`);
+}
+
 async function seedShowExhibitorApplications() {
   const valuesSmallSizedStands: ShowActivityField[] = [
     ShowActivityField.ALTERNATIVE_MEDICINE,
@@ -770,24 +793,28 @@ async function seedShowExhibitorApplications() {
 }
 
 async function seedShowExhibitors() {
-  await seeds.showExhibitorApplications;
+  await Promise.all([seeds.showExhibitorApplications, seeds.showDividerTypes]);
 
-  const applications = await prisma.showExhibitorApplication.findMany({
-    where: { status: ShowExhibitorApplicationStatus.VALIDATED },
-    select: {
-      id: true,
-      structureName: true,
-      structureUrl: true,
-      structureActivityTargets: true,
-      structureActivityFields: true,
-      structureLogoPath: true,
-      structureAddress: true,
-      structureCity: true,
-      structureCountry: true,
-      structureZipCode: true,
-      desiredStandSize: { select: { id: true } },
-    },
-  });
+  const [applications, dividerTypes] = await Promise.all([
+    prisma.showExhibitorApplication.findMany({
+      where: { status: ShowExhibitorApplicationStatus.VALIDATED },
+      select: {
+        id: true,
+        structureName: true,
+        structureUrl: true,
+        structureActivityTargets: true,
+        structureActivityFields: true,
+        structureLogoPath: true,
+        structureAddress: true,
+        structureCity: true,
+        structureCountry: true,
+        structureZipCode: true,
+        desiredStandSize: { select: { id: true } },
+      },
+    }),
+
+    prisma.showDividerType.findMany({ select: { id: true } }),
+  ]);
 
   await Promise.all(
     applications.map((application) => {
@@ -901,6 +928,11 @@ async function seedShowExhibitors() {
 
           sizeId: application.desiredStandSize.id,
           tableCount: faker.number.int({ min: 0, max: 3 }),
+
+          dividerTypeId: faker.helpers.maybe(
+            () => faker.helpers.arrayElement(dividerTypes).id,
+            { probability: 1 / 2 },
+          ),
         },
       });
     }),
