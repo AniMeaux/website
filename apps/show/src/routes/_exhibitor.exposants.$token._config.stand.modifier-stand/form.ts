@@ -33,7 +33,6 @@ export function useFormRoot() {
       placementComment: exhibitor.placementComment,
       standSize: exhibitor.size.id,
       tableCount: exhibitor.tableCount,
-      zone: exhibitor.zone,
     },
 
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),

@@ -7,7 +7,6 @@ import type { Prisma } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
-import { FieldStandZone } from "./field-stand-zone";
 import { useForm } from "./form";
 import type { loader } from "./loader.server";
 
@@ -91,8 +90,6 @@ export function FieldsetStand() {
         label="Jour d’installation"
         field={fields.installationDay}
       />
-
-      <FieldStandZone label="Emplacement" field={fields.zone} />
 
       <FieldTextarea
         label="Commentaire sur votre choix d’emplacement"

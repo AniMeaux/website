@@ -9,7 +9,6 @@ import type { ServiceApplication } from "#exhibitors/application/service.server.
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
-import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
@@ -137,16 +136,6 @@ export class ServiceExhibitorStandConfigurationEmail {
               <EmailHtml.Output.Value>
                 {exhibitor.installationDay != null
                   ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
-                  : "-"}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {exhibitor.zone != null
-                  ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                   : "-"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -346,16 +335,6 @@ export class ServiceExhibitorStandConfigurationEmail {
                   <EmailHtml.Output.Value>
                     {exhibitor.installationDay != null
                       ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
-                      : "-"}
-                  </EmailHtml.Output.Value>
-                </EmailHtml.Output.Row>
-
-                <EmailHtml.Output.Row>
-                  <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
-
-                  <EmailHtml.Output.Value>
-                    {exhibitor.zone != null
-                      ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                       : "-"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>

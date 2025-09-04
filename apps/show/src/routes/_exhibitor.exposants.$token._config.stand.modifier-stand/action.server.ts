@@ -48,7 +48,6 @@ export async function action({ request, params }: ActionFunctionArgs) {
     placementComment: submission.value.placementComment || null,
     sizeId: submission.value.standSize.id,
     tableCount: submission.value.tableCount,
-    zone: submission.value.zone,
   });
 
   services.exhibitorEmail.standConfiguration.submitted(routeParams.token);

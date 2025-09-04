@@ -26,7 +26,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
       standConfigurationStatus: true,
       tableCount: true,
       updatedAt: true,
-      zone: true,
     },
   });
 
