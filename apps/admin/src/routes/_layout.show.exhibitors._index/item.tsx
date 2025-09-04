@@ -2,8 +2,7 @@ import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
 import { Visibility, VisibilityIcon } from "#show/visibility";
-import { ImageUrl, cn } from "@animeaux/core";
-import { ShowExhibitorApplicationStatus } from "@prisma/client";
+import { ImageUrl } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import type { loader } from "./route";
 
@@ -26,23 +25,7 @@ export function ExhibitorItem({
         className="h-4 rounded-0.5 border border-gray-200 bg-white"
       />
 
-      <span
-        className={cn(
-          "text-body-emphasis",
-          exhibitor.application.status !==
-            ShowExhibitorApplicationStatus.VALIDATED
-            ? "line-through"
-            : undefined,
-        )}
-        title={
-          exhibitor.application.status !==
-          ShowExhibitorApplicationStatus.VALIDATED
-            ? "Sa candidature n’est plus validée"
-            : undefined
-        }
-      >
-        {exhibitor.name}
-      </span>
+      <span className="text-body-emphasis">{exhibitor.name}</span>
 
       <VisibilityIcon
         visibility={Visibility.fromBoolean(exhibitor.isVisible)}

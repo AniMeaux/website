@@ -473,6 +473,20 @@ export class ShowExhibitorDbDelegate {
       data.standConfigurationStatusMessage = null;
     }
   }
+
+  async delete(id: string) {
+    try {
+      await prisma.showExhibitor.delete({ where: { id } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+  }
 }
 
 const FIND_ORDER_BY_SORT: Record<
