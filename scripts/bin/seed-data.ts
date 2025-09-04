@@ -961,7 +961,7 @@ async function seedShowInvoices() {
             .startOf("day")
             .toJSDate(),
           amount: faker.number.int({ min: 50, max: 300 }),
-          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4 })}`,
+          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4, useGrouping: false })}`,
           url: faker.internet.url(),
           exhibitorId: exhibitor.id,
           status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),
