@@ -41,7 +41,6 @@ export function useFormRoot() {
       status: exhbitor.standConfigurationStatus,
       statusMessage: exhbitor.standConfigurationStatusMessage ?? "",
       tableCount: exhbitor.tableCount,
-      zone: exhbitor.zone,
     },
 
     onValidate: ({ formData }) =>

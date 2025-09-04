@@ -5,7 +5,6 @@ import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { useForm } from "./form";
@@ -41,19 +40,10 @@ export function FieldsetConfiguration() {
             options={standSizes.map((standSize) => standSize.id)}
           />
 
-          <Form.Row>
-            <FieldRadios
-              label="Emplacement"
-              field={fields.zone}
-              getLabel={(zone) => StandZone.translation[zone]}
-              options={StandZone.values}
-            />
-
-            <FieldOnOff
-              label="Raccordement électrique"
-              field={fields.hasElectricalConnection}
-            />
-          </Form.Row>
+          <FieldOnOff
+            label="Raccordement électrique"
+            field={fields.hasElectricalConnection}
+          />
 
           <Form.Row>
             <FieldRadios

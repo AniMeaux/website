@@ -1,7 +1,6 @@
 import { OnOff } from "#core/form-elements/field-on-off";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { zu } from "@animeaux/zod-utils";
 
@@ -58,8 +57,6 @@ export const ActionSchema = zu
       })
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre positif"),
-
-    zone: zu.nativeEnum(StandZone.Enum).optional(),
   })
   .refine(
     (value) =>
@@ -86,13 +83,5 @@ export const ActionSchema = zu
     {
       message: "Veuillez entrer un message",
       path: ["statusMessage"],
-    },
-  )
-  .refine(
-    (value) =>
-      value.status !== ExhibitorStatus.Enum.VALIDATED || value.zone != null,
-    {
-      message: "Veuillez choisir un emplacement",
-      path: ["zone"],
     },
   );

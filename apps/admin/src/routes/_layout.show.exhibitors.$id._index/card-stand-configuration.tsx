@@ -11,7 +11,6 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -152,15 +151,6 @@ function ItemStandInfo() {
           {exhibitor.size.label}
         </BaseLink>
       </ProseInlineAction>
-      {exhibitor.zone != null ? (
-        <>
-          <br />
-          En{" "}
-          <strong className="text-body-emphasis">
-            {StandZone.translation[exhibitor.zone]}
-          </strong>
-        </>
-      ) : null}
       <br />
       <strong className="text-body-emphasis">
         {exhibitor.hasElectricalConnection ? "Avec" : "Sans"}

@@ -79,7 +79,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,
         tableCount: true,
-        zone: true,
 
         animations: {
           orderBy: { startTime: "asc" },
