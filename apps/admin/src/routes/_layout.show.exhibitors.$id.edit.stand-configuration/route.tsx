@@ -32,18 +32,18 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { exhbitor, standSizes } = await promiseHash({
-    exhbitor: db.show.exhibitor.findUnique(routeParams.id, {
+  const { exhibitor, standSizes, dividerTypes } = await promiseHash({
+    exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
         name: true,
         chairCount: true,
         dividerCount: true,
-        dividerType: true,
+        dividerType: { select: { id: true } },
         hasElectricalConnection: true,
         hasTablecloths: true,
         installationDay: true,
         peopleCount: true,
-        size: true,
+        size: { select: { id: true } },
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,
         tableCount: true,
@@ -53,9 +53,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     standSizes: db.show.standSize.findManyWithAvailability({
       select: { id: true, label: true },
     }),
+
+    dividerTypes: db.show.dividerType.findManyWithAvailability({
+      select: { id: true, label: true },
+    }),
   });
 
-  return json({ exhbitor, standSizes });
+  return json({ exhibitor, standSizes, dividerTypes });
 }
 
 const RouteParamsSchema = zu.object({
@@ -66,8 +70,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.exhbitor.name != null
-          ? [`Modifier ${data.exhbitor.name}`, "Configuration de stand"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Configuration de stand"]
           : getErrorTitle(404),
       ),
     },
@@ -105,7 +109,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   await db.show.exhibitor.updateStand(routeParams.id, {
     chairCount: submission.value.chairCount,
     dividerCount: submission.value.dividerCount,
-    dividerType: submission.value.dividerType,
+    dividerTypeId: submission.value.dividerType ?? null,
     hasElectricalConnection: submission.value.hasElectricalConnection,
     hasTablecloths: submission.value.hasTablecloths,
     installationDay: submission.value.installationDay,

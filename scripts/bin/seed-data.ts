@@ -47,6 +47,7 @@ const seeds = {
   fosterFamilies: Promise.resolve().then(seedFosterFamilies),
   pressArticles: Promise.resolve().then(seedPressArticle),
   showAnimations: Promise.resolve().then(seedShowAnimations),
+  showDividerTypes: Promise.resolve().then(seedShowDividerTypes),
   showExhibitorApplications: Promise.resolve().then(
     seedShowExhibitorApplications,
   ),
@@ -652,6 +653,28 @@ async function seedShowStandSizes() {
   console.log(`- 👍 ${count} show stand sizes`);
 }
 
+async function seedShowDividerTypes() {
+  await prisma.showDividerType.createMany({
+    data: [
+      {
+        label: "Panneau plein en tissus noir",
+        maxCount: 50,
+      },
+      {
+        label: "Grille",
+        maxCount: 50,
+      },
+      {
+        label: "Panneau plein en bois",
+        maxCount: 50,
+      },
+    ],
+  });
+
+  const count = await prisma.showDividerType.count();
+  console.log(`- 👍 ${count} show divider types`);
+}
+
 async function seedShowExhibitorApplications() {
   const valuesSmallSizedStands: ShowActivityField[] = [
     ShowActivityField.ALTERNATIVE_MEDICINE,
@@ -674,6 +697,8 @@ async function seedShowExhibitorApplications() {
   const limitedStandSizes = standSizes.filter(
     (size) => !size.isRestrictedByActivityField,
   );
+
+  const now = DateTime.now();
 
   await prisma.showExhibitorApplication.createMany({
     data: repeate({ min: 100, max: 120 }, () => {
@@ -699,6 +724,11 @@ async function seedShowExhibitorApplications() {
       );
 
       return {
+        createdAt: faker.date.between({
+          from: now.minus({ year: 1 }).toJSDate(),
+          to: now.toJSDate(),
+        }),
+
         status,
         refusalMessage:
           status === ShowExhibitorApplicationStatus.REFUSED

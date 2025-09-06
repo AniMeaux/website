@@ -82,6 +82,14 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.dividerTypesId.size > 0) {
+      where.push({
+        dividerType: {
+          id: { in: Array.from(params.searchParams.dividerTypesId) },
+        },
+      });
+    }
+
     if (params.searchParams.documentsStatuses.size > 0) {
       statusesWhere.push({
         documentStatus: {
@@ -472,6 +480,10 @@ export class ShowExhibitorDbDelegate {
     if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
       data.standConfigurationStatusMessage = null;
     }
+
+    if (data.dividerTypeId == null) {
+      data.dividerCount = 0;
+    }
   }
 
   async delete(id: string) {
@@ -493,6 +505,10 @@ const FIND_ORDER_BY_SORT: Record<
   ExhibitorSearchParamsN.Sort,
   Prisma.ShowExhibitorFindManyArgs["orderBy"]
 > = {
+  [ExhibitorSearchParamsN.Sort.DIVIDER_COUNT]: [
+    { dividerCount: "desc" },
+    { name: "asc" },
+  ],
   [ExhibitorSearchParamsN.Sort.NAME]: { name: "asc" },
   [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
 };
@@ -539,7 +555,7 @@ type ShowExhibitorStandConfigurationData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
-  | "dividerType"
+  | "dividerTypeId"
   | "hasElectricalConnection"
   | "hasTablecloths"
   | "installationDay"

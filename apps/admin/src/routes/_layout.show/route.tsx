@@ -1,11 +1,12 @@
 import { db } from "#core/db.server";
 import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
-import { ok } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { hasGroups } from "#users/groups.js";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -17,10 +18,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
     UserGroup.SHOW_ORGANIZER,
   ]);
 
-  return ok();
+  return json({ currentUser });
 }
 
 export default function Route() {
+  const { currentUser } = useLoaderData<typeof loader>();
+
+  const isAdmin = hasGroups(currentUser, [UserGroup.ADMIN]);
+
   return (
     <PageLayout.Root>
       <PageLayout.Tabs>
@@ -36,9 +41,17 @@ export default function Route() {
           Sponsors
         </PageLayout.Tab>
 
-        <PageLayout.Tab isNavLink to={Routes.show.standSizes.toString()}>
-          Tailles de stand
-        </PageLayout.Tab>
+        {isAdmin ? (
+          <>
+            <PageLayout.Tab isNavLink to={Routes.show.standSizes.toString()}>
+              Tailles de stand
+            </PageLayout.Tab>
+
+            <PageLayout.Tab isNavLink to={Routes.show.dividerTypes.toString()}>
+              Cloisons
+            </PageLayout.Tab>
+          </>
+        ) : null}
       </PageLayout.Tabs>
 
       <Outlet />

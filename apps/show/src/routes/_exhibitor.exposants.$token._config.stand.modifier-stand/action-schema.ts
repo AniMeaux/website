@@ -1,13 +1,24 @@
+import type { DividerTypeAvailability } from "#divider-type/availability.js";
 import { zu } from "@animeaux/zod-utils";
-import type { ShowStandSize } from "@prisma/client";
-import { ShowDividerType, ShowInstallationDay } from "@prisma/client";
+import type { ShowDividerType, ShowStandSize } from "@prisma/client";
+import { ShowInstallationDay } from "@prisma/client";
+import invariant from "tiny-invariant";
 
-export function createActionSchema(
+export const DividerType = {
+  none: "none",
+} as const;
+
+export function createActionSchema({
+  availableDividerTypes,
+  availableStandSizes,
+}: {
+  availableDividerTypes: (Pick<ShowDividerType, "id"> &
+    DividerTypeAvailability)[];
   availableStandSizes: Pick<
     ShowStandSize,
     "id" | "maxDividerCount" | "maxPeopleCount" | "maxTableCount"
-  >[],
-) {
+  >[];
+}) {
   return (
     zu
       .object({
@@ -18,14 +29,32 @@ export function createActionSchema(
           .int({ message: "Veuillez entrer un nombre entier" })
           .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
         dividerCount: zu.coerce
-          .number({
-            message: "Veuillez entrer un nombre valide",
-          })
+          .number({ message: "Veuillez entrer un nombre valide" })
           .int({ message: "Veuillez entrer un nombre entier" })
-          .min(0, "Veuillez entrer un nombre positif"),
-        dividerType: zu.nativeEnum(ShowDividerType, {
-          required_error: "Veuillez choisir un type de cloisons",
-        }),
+          .min(1, "Veuillez entrer un nombre supérieur ou égal à 1")
+          .optional(),
+        dividerType: zu.union([
+          zu.literal(DividerType.none).transform(() => null),
+          zu
+            .string()
+            .uuid()
+            .transform((value, context) => {
+              const dividerType = availableDividerTypes.find(
+                (dividerType) => dividerType.id === value,
+              );
+
+              if (dividerType == null) {
+                context.addIssue({
+                  code: zu.ZodIssueCode.custom,
+                  message: "Veuillez choisir un type de cloisons",
+                });
+
+                return zu.NEVER;
+              }
+
+              return dividerType;
+            }),
+        ]),
         hasElectricalConnection: zu
           .enum(["on", "off"], {
             required_error: "Veuillez choisir une option",
@@ -77,11 +106,35 @@ export function createActionSchema(
           .min(0, "Veuillez entrer un nombre positif"),
       })
       .refine(
-        (value) => value.dividerCount <= value.standSize.maxDividerCount,
-        (value) => ({
-          message: `Veuillez entrer un nombre inférieur à ${value.standSize.maxDividerCount}`,
+        (value) => value.dividerType == null || value.dividerCount != null,
+        () => ({
+          message: "Veuillez entrer un nombre de cloisons",
           path: ["dividerCount"],
         }),
+      )
+      .refine(
+        (value) =>
+          value.dividerType == null ||
+          value.dividerCount == null ||
+          value.dividerCount <=
+            Math.min(
+              value.dividerType.availableCount,
+              value.standSize.maxDividerCount,
+            ),
+        (value) => {
+          invariant(
+            value.dividerType != null,
+            "`dividerType` should be defined",
+          );
+
+          return {
+            message: `Veuillez entrer un nombre inférieur à ${Math.min(
+              value.dividerType.availableCount,
+              value.standSize.maxDividerCount,
+            )}`,
+            path: ["dividerCount"],
+          };
+        },
       )
       .refine(
         (value) => value.peopleCount <= value.standSize.maxPeopleCount,
@@ -97,8 +150,8 @@ export function createActionSchema(
           path: ["tableCount"],
         }),
       )
-      // Use `Math.min(value.peopleCount, value.standSize.maxPeopleCount)` to
-      // ensure that `chairCount` is never greater than a valid `peopleCount`.
+      // Use `Math.min(...)` to ensure that `chairCount` is never greater than
+      // a valid `peopleCount`.
       .refine(
         (value) =>
           value.chairCount <=

@@ -6,9 +6,7 @@ import { ImageUrl } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import type { loader } from "./loader.server";
 
-type Exhibitor = SerializeFrom<
-  typeof loader
->["standSize"]["exhibitors"][number];
+type Exhibitor = SerializeFrom<typeof loader>["exhibitors"][number];
 
 export function ExhibitorItem({ exhibitor }: { exhibitor: Exhibitor }) {
   return (

@@ -47,6 +47,7 @@ const DOWNLOADERS: Record<TableName, () => Promise<object[]>> = {
   password: () => prisma.password.findMany(),
   pressArticle: () => prisma.pressArticle.findMany(),
   showAnimation: () => prisma.showAnimation.findMany(),
+  showDividerType: () => prisma.showDividerType.findMany(),
   showExhibitor: () => prisma.showExhibitor.findMany(),
   showExhibitorApplication: () => prisma.showExhibitorApplication.findMany(),
   showExhibitorDog: () => prisma.showExhibitorDog.findMany(),

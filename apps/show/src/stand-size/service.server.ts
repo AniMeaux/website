@@ -39,8 +39,6 @@ export class ServiceStandSize {
       }),
     );
 
-    return standSizesWithAvailability as Simplify<
-      Selected & Internal & Availability
-    >[];
+    return standSizesWithAvailability as Simplify<Selected & Availability>[];
   }
 }

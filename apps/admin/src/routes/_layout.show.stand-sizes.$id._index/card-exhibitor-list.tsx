@@ -1,25 +1,49 @@
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation.js";
+import {
+  ExhibitorSearchParams,
+  ExhibitorSearchParamsN,
+} from "#show/exhibitors/search-params.js";
 import { useLoaderData } from "@remix-run/react";
 import { ExhibitorItem } from "./exhibitor-item";
 import type { loader } from "./loader.server";
 
 export function CardExhibitorList() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize, exhibitorTotalCount, exhibitors } =
+    useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {standSize.exhibitors.length}{" "}
-          {standSize.exhibitors.length > 1 ? "exposants" : "exposant"}
+          {exhibitorTotalCount}{" "}
+          {exhibitorTotalCount > 1 ? "exposants" : "exposant"}
         </Card.Title>
+
+        {exhibitorTotalCount > 0 ? (
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: Routes.show.exhibitors.toString(),
+                search: ExhibitorSearchParams.format({
+                  sort: ExhibitorSearchParamsN.Sort.NAME,
+                  standSizesId: new Set([standSize.id]),
+                }),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
+        ) : null}
       </Card.Header>
 
       <Card.Content hasListItems>
-        {standSize.exhibitors.length > 0 ? (
+        {exhibitors.length > 0 ? (
           <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2">
-            {standSize.exhibitors.map((exhibitor) => (
+            {exhibitors.map((exhibitor) => (
               <ExhibitorItem key={exhibitor.id} exhibitor={exhibitor} />
             ))}
           </div>
@@ -28,8 +52,8 @@ export function CardExhibitorList() {
             isCompact
             icon="🛍️"
             iconAlt="Sacs de course"
-            title="Aucun exposant trouvé"
-            message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
+            title="Aucun exposant"
+            message="Pour l’instant ;)"
             titleElementType="h3"
           />
         )}

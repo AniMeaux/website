@@ -25,6 +25,7 @@ const TABLES_NAME = [
   "ShowExhibitor",
   "ShowExhibitorApplication",
   "ShowStandSize",
+  "ShowDividerType",
   "User",
 ];
 

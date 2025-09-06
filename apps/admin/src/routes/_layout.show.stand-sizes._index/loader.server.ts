@@ -9,10 +9,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     select: { groups: true },
   });
 
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.SHOW_ORGANIZER,
-  ]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
 
   const standSizes = await db.show.standSize.findManyWithAvailability({
     select: {

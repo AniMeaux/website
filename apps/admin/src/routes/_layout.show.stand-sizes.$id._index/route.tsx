@@ -3,6 +3,7 @@ import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
+import { CardApplicationList } from "./card-application-list";
 import { CardDetails } from "./card-details";
 import { CardExhibitorList } from "./card-exhibitor-list";
 import { CardSituation } from "./card-situation";
@@ -33,7 +34,10 @@ export default function Route() {
           <CardDetails />
         </div>
 
-        <CardExhibitorList />
+        <div className="grid grid-cols-1 gap-1 md:gap-2">
+          <CardExhibitorList />
+          <CardApplicationList />
+        </div>
       </PageLayout.Content>
     </>
   );

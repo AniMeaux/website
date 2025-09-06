@@ -31,11 +31,13 @@ import {
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { ShowStandSize } from "@prisma/client";
+import type { ShowDividerType, ShowStandSize } from "@prisma/client";
 
 export function ExhibitorFilters({
+  dividerTypes,
   standSizes,
 }: {
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
   standSizes: Pick<ShowStandSize, "id" | "label">[];
 }) {
   return (
@@ -58,6 +60,7 @@ export function ExhibitorFilters({
         <FilterSponsorship />
         <FilterStandSize standSizes={standSizes} />
         <FilterAnimations />
+        <FilterDividerType dividerTypes={dividerTypes} />
       </Filters.Content>
     </Filters>
   );
@@ -185,6 +188,49 @@ function FilterAnimations() {
               />
             }
             checked={exhibitorSearchParams.animations.has(animation)}
+            onChange={() => {}}
+          />
+        ))}
+      </ToggleInputList>
+    </Filters.Filter>
+  );
+}
+
+function FilterDividerType({
+  dividerTypes,
+}: {
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
+}) {
+  const [searchParams] = useOptimisticSearchParams();
+  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={ExhibitorSearchParams.keys.dividerTypesId}
+      label="Type de cloison"
+      count={exhibitorSearchParams.dividerTypesId.size}
+      hiddenContent={Array.from(exhibitorSearchParams.dividerTypesId).map(
+        (dividerTypeId) => (
+          <input
+            key={dividerTypeId}
+            type="hidden"
+            name={ExhibitorSearchParams.keys.dividerTypesId}
+            value={dividerTypeId}
+          />
+        ),
+      )}
+    >
+      <ToggleInputList>
+        {dividerTypes.map((dividerType) => (
+          <ToggleInput
+            key={dividerType.id}
+            type="checkbox"
+            label={dividerType.label}
+            name={ExhibitorSearchParams.keys.dividerTypesId}
+            value={dividerType.id}
+            icon={<Icon href="icon-fence-light" />}
+            iconChecked={<Icon href="icon-fence-solid" />}
+            checked={exhibitorSearchParams.dividerTypesId.has(dividerType.id)}
             onChange={() => {}}
           />
         ))}

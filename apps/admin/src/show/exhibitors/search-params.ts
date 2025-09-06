@@ -16,6 +16,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     animations: "an",
     applicationStatuses: "as",
     descriptionStatuses: "ds",
+    dividerTypesId: "dt",
     documentsStatuses: "dos",
     dogsConfigurationStatuses: "dcs",
     fields: "fi",
@@ -41,6 +42,10 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       descriptionStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.descriptionStatuses,
+      ),
+      dividerTypesId: SearchParamsIO.getValues(
+        searchParams,
+        keys.dividerTypesId,
       ),
       documentsStatuses: SearchParamsIO.getValues(
         searchParams,
@@ -91,6 +96,13 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.descriptionStatuses,
       data.descriptionStatuses,
     );
+
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.dividerTypesId,
+      data.dividerTypesId,
+    );
+
     SearchParamsIO.setValues(
       searchParams,
       keys.documentsStatuses,
@@ -140,6 +152,7 @@ export namespace ExhibitorSearchParamsN {
   export const Sort = {
     NAME: "N",
     UPDATED_AT: "U",
+    DIVIDER_COUNT: "D",
   } as const;
 
   export type Sort = (typeof Sort)[keyof typeof Sort];
@@ -147,14 +160,23 @@ export namespace ExhibitorSearchParamsN {
   export const SORT_DEFAULT_VALUE = Sort.UPDATED_AT;
 
   export const SORT_TRANSLATIONS: Record<Sort, string> = {
+    [Sort.DIVIDER_COUNT]: "Nombre de cloisons",
     [Sort.NAME]: "Alphabétique",
     [Sort.UPDATED_AT]: "Mise à jour",
   };
 
-  export const SORT_VALUES: Sort[] = [Sort.UPDATED_AT, Sort.NAME];
+  export const SORT_VALUES: Sort[] = [
+    Sort.UPDATED_AT,
+    Sort.NAME,
+    Sort.DIVIDER_COUNT,
+  ];
 
   export const SORT_ICONS: Record<Sort, { light: IconName; solid: IconName }> =
     {
+      [Sort.DIVIDER_COUNT]: {
+        light: "icon-fence-light",
+        solid: "icon-fence-solid",
+      },
       [Sort.NAME]: {
         light: "icon-clock-light",
         solid: "icon-clock-solid",
@@ -213,6 +235,11 @@ const SearchParamsSchema = zu.object({
   ),
   descriptionStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
+  ),
+  dividerTypesId: zu.searchParams.set(
+    zu.searchParams
+      .string()
+      .pipe(zu.string().uuid().optional().catch(undefined)),
   ),
   documentsStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),

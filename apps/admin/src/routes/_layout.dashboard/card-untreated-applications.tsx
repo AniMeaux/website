@@ -6,7 +6,10 @@ import { toRoundedRelative } from "#core/dates.js";
 import { Card } from "#core/layout/card.js";
 import { Routes } from "#core/navigation.js";
 import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon.js";
-import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params.js";
+import {
+  ApplicationSearchParams,
+  ApplicationSearchParamsN,
+} from "#show/exhibitors/applications/search-params.js";
 import { ImageUrl } from "@animeaux/core";
 import { ShowExhibitorApplicationStatus } from "@prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
@@ -38,6 +41,7 @@ export function CardUntreatedApplications() {
               to={{
                 pathname: Routes.show.applications.toString(),
                 search: ApplicationSearchParams.format({
+                  sort: ApplicationSearchParamsN.Sort.CREATED_AT,
                   statuses: new Set([ShowExhibitorApplicationStatus.UNTREATED]),
                 }),
               }}

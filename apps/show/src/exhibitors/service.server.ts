@@ -260,6 +260,8 @@ export class ServiceExhibitor {
   }
 
   async updateStand(token: string, data: ExhibitorStandConfigurationData) {
+    this.#normalizeStand(data);
+
     await this.prisma.showExhibitor.update({
       where: { token },
       data: {
@@ -270,6 +272,12 @@ export class ServiceExhibitor {
     });
 
     return true;
+  }
+
+  #normalizeStand(data: ExhibitorStandConfigurationData) {
+    if (data.dividerTypeId == null) {
+      data.dividerCount = 0;
+    }
   }
 }
 
@@ -302,7 +310,7 @@ type ExhibitorStandConfigurationData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
-  | "dividerType"
+  | "dividerTypeId"
   | "hasElectricalConnection"
   | "hasTablecloths"
   | "installationDay"

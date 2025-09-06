@@ -8,7 +8,7 @@ import { ActionSchema } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
-  const { exhbitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -28,9 +28,9 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      isVisible: Visibility.fromBoolean(exhbitor.isVisible),
-      locationNumber: exhbitor.locationNumber,
-      standNumber: exhbitor.standNumber,
+      isVisible: Visibility.fromBoolean(exhibitor.isVisible),
+      locationNumber: exhibitor.locationNumber,
+      standNumber: exhibitor.standNumber,
     },
 
     onValidate: ({ formData }) =>

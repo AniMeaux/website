@@ -88,6 +88,14 @@ export class ShowExhibitorApplicationDbDelegate {
       });
     }
 
+    if (params.searchParams.standSizesId.size > 0) {
+      where.push({
+        desiredStandSize: {
+          id: { in: Array.from(params.searchParams.standSizesId) },
+        },
+      });
+    }
+
     if (params.searchParams.statuses.size > 0) {
       where.push({ status: { in: Array.from(params.searchParams.statuses) } });
     }
