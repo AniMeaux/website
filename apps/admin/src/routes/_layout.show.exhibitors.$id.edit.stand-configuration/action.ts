@@ -35,7 +35,7 @@ export const ActionSchema = zu
       })
       .transform(OnOff.toBoolean),
 
-    hasTablecloths: zu
+    hasTableCloths: zu
       .nativeEnum(OnOff.Enum, {
         required_error: "Veuillez choisir une option",
       })

@@ -34,7 +34,7 @@ export function useFormRoot() {
       hasElectricalConnection: OnOff.fromBoolean(
         exhibitor.hasElectricalConnection,
       ),
-      hasTablecloths: OnOff.fromBoolean(exhibitor.hasTablecloths),
+      hasTableCloths: OnOff.fromBoolean(exhibitor.hasTableCloths),
       installationDay: exhibitor.installationDay,
       peopleCount: exhibitor.peopleCount,
       sizeId: exhibitor.size.id,
