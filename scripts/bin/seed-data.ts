@@ -22,6 +22,7 @@ import {
   ShowExhibitorApplicationDiscoverySource,
   ShowExhibitorApplicationLegalStatus,
   ShowExhibitorApplicationStatus,
+  ShowExhibitorCategory,
   ShowExhibitorStatus,
   ShowInvoiceStatus,
   ShowSponsorshipCategory,
@@ -590,6 +591,9 @@ async function seedShowStandSizes() {
         maxDividerCount: 2,
         maxPeopleCount: 2,
         maxTableCount: 2,
+        priceForAssociations: 0,
+        priceForServices: 45,
+        priceForShops: 65,
       },
       {
         label: "9 m² (3x3)",
@@ -598,6 +602,9 @@ async function seedShowStandSizes() {
         maxDividerCount: 2,
         maxPeopleCount: 2,
         maxTableCount: 3,
+        priceForAssociations: 0,
+        priceForServices: 60,
+        priceForShops: 95,
       },
       {
         label: "12 m² (4x3)",
@@ -606,7 +613,7 @@ async function seedShowStandSizes() {
         maxDividerCount: 4,
         maxPeopleCount: 4,
         maxTableCount: 3,
-        isRestrictedByActivityField: true,
+        priceForShops: 135,
       },
       {
         label: "12 m² (6x2)",
@@ -615,8 +622,8 @@ async function seedShowStandSizes() {
         maxDividerCount: 4,
         maxPeopleCount: 4,
         maxTableCount: 3,
-        isRestrictedByActivityField: true,
         isVisible: false,
+        priceForShops: 135,
       },
       {
         label: "18 m² (6x3)",
@@ -625,7 +632,7 @@ async function seedShowStandSizes() {
         maxDividerCount: 4,
         maxPeopleCount: 4,
         maxTableCount: 6,
-        isRestrictedByActivityField: true,
+        priceForShops: 200,
       },
       {
         label: "36 m² (6x6)",
@@ -634,7 +641,7 @@ async function seedShowStandSizes() {
         maxDividerCount: 6,
         maxPeopleCount: 6,
         maxTableCount: 12,
-        isRestrictedByActivityField: true,
+        priceForShops: 400,
       },
       {
         label: "72 m² (12x6)",
@@ -643,8 +650,8 @@ async function seedShowStandSizes() {
         maxDividerCount: 10,
         maxPeopleCount: 10,
         maxTableCount: 24,
-        isRestrictedByActivityField: true,
         isVisible: false,
+        priceForShops: 500,
       },
     ],
   });
@@ -676,27 +683,29 @@ async function seedShowDividerTypes() {
 }
 
 async function seedShowExhibitorApplications() {
-  const valuesSmallSizedStands: ShowActivityField[] = [
-    ShowActivityField.ALTERNATIVE_MEDICINE,
-    ShowActivityField.ASSOCIATION,
-    ShowActivityField.BEHAVIOR,
-    ShowActivityField.CITY,
-    ShowActivityField.EDUCATION,
-    ShowActivityField.SENSITIZATION,
-    ShowActivityField.SERVICES,
-    ShowActivityField.TRAINING,
-  ];
-
   await seeds.seedShowStandSizes;
 
   const standSizes = await prisma.showStandSize.findMany({
     where: { isVisible: true },
-    select: { id: true, isRestrictedByActivityField: true },
+    select: {
+      id: true,
+      priceForAssociations: true,
+      priceForServices: true,
+      priceForShops: true,
+    },
   });
 
-  const limitedStandSizes = standSizes.filter(
-    (size) => !size.isRestrictedByActivityField,
-  );
+  const categoryStandSizes: Record<ShowExhibitorCategory, typeof standSizes> = {
+    [ShowExhibitorCategory.ASSOCIATION]: standSizes.filter(
+      (standSize) => standSize.priceForAssociations != null,
+    ),
+    [ShowExhibitorCategory.SERVICE]: standSizes.filter(
+      (standSize) => standSize.priceForServices != null,
+    ),
+    [ShowExhibitorCategory.SHOP]: standSizes.filter(
+      (standSize) => standSize.priceForShops != null,
+    ),
+  };
 
   const now = DateTime.now();
 
@@ -719,9 +728,7 @@ async function seedShowExhibitorApplications() {
         { min: 1, max: 3 },
       );
 
-      const hasLimitedStandSize = activityFields.some((activityField) =>
-        valuesSmallSizedStands.includes(activityField),
-      );
+      const category = getExhibitorCategory({ legalStatus, activityFields });
 
       return {
         createdAt: faker.date.between({
@@ -763,7 +770,7 @@ async function seedShowExhibitorApplications() {
         structureLogoPath: faker.string.uuid(),
 
         desiredStandSizeId: faker.helpers.arrayElement(
-          hasLimitedStandSize ? limitedStandSizes : standSizes,
+          categoryStandSizes[category],
         ).id,
 
         proposalForOnStageEntertainment: faker.helpers.maybe(
@@ -810,6 +817,7 @@ async function seedShowExhibitors() {
       structureUrl: true,
       structureActivityTargets: true,
       structureActivityFields: true,
+      structureLegalStatus: true,
       structureLogoPath: true,
       structureAddress: true,
       structureCity: true,
@@ -860,6 +868,11 @@ async function seedShowExhibitors() {
           // -- Profile --------------------------------------------------------
 
           name: application.structureName,
+
+          category: getExhibitorCategory({
+            legalStatus: application.structureLegalStatus,
+            activityFields: application.structureActivityFields,
+          }),
 
           publicProfileStatus,
           publicProfileStatusMessage:
@@ -938,6 +951,41 @@ async function seedShowExhibitors() {
 
   const count = await prisma.showExhibitor.count();
   console.log(`- 👍 ${count} show exhibitors`);
+}
+
+function getExhibitorCategory({
+  legalStatus,
+  activityFields,
+}: {
+  legalStatus: ShowExhibitorApplicationLegalStatus;
+  activityFields: ShowActivityField[];
+}) {
+  if (
+    legalStatus === ShowExhibitorApplicationLegalStatus.ASSOCIATION ||
+    activityFields.includes(ShowActivityField.ASSOCIATION)
+  ) {
+    return ShowExhibitorCategory.ASSOCIATION;
+  }
+
+  const serviceActivityFields: ShowActivityField[] = [
+    ShowActivityField.ALTERNATIVE_MEDICINE,
+    ShowActivityField.BEHAVIOR,
+    ShowActivityField.CITY,
+    ShowActivityField.EDUCATION,
+    ShowActivityField.SENSITIZATION,
+    ShowActivityField.SERVICES,
+    ShowActivityField.TRAINING,
+  ];
+
+  const hasServiceActivityField = activityFields.some((activityField) =>
+    serviceActivityFields.includes(activityField),
+  );
+
+  if (hasServiceActivityField) {
+    return ShowExhibitorCategory.SERVICE;
+  }
+
+  return ShowExhibitorCategory.SHOP;
 }
 
 async function seedShowExhibitorsDogs() {
