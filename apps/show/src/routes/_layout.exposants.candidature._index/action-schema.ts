@@ -260,12 +260,9 @@ export function createActionSchema(
     })
     .refine(
       (value) => {
-        const hasLimitedStandSize = value.structure.activityFields.some(
-          (activityField) =>
-            ActivityField.valuesWithLimitedStandSizes.includes(activityField),
-        );
-
-        if (!hasLimitedStandSize) {
+        if (
+          !ActivityField.hasLimitedStandSizes(value.structure.activityFields)
+        ) {
           return true;
         }
 

@@ -32,10 +32,16 @@ export namespace ActivityField {
   );
 
   /**
-   * Exhibitors with at least one of the follwing activity fields are limited to
+   * Exhibitors with at least one of the following activity fields are limited to
    * some stand sizes.
    */
-  export const valuesWithLimitedStandSizes = [
+  export function hasLimitedStandSizes(activityFields: Enum[]) {
+    return activityFields.some((activityField) =>
+      valuesWithLimitedStandSizes.includes(activityField),
+    );
+  }
+
+  const valuesWithLimitedStandSizes = [
     ActivityField.Enum.ALTERNATIVE_MEDICINE,
     ActivityField.Enum.ASSOCIATION,
     ActivityField.Enum.BEHAVIOR,

@@ -18,11 +18,7 @@ export async function getStandSizesData(
     },
   });
 
-  const hasLimitedStandSize = exhibitor.activityFields.some((activityField) =>
-    ActivityField.valuesWithLimitedStandSizes.includes(activityField),
-  );
-
-  let standSizes = hasLimitedStandSize
+  let standSizes = ActivityField.hasLimitedStandSizes(exhibitor.activityFields)
     ? allStandSizes.filter(
         (standSize) => !standSize.isRestrictedByActivityField,
       )
