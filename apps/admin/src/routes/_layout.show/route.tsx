@@ -42,9 +42,15 @@ export default function Route() {
         </PageLayout.Tab>
 
         {isAdmin ? (
-          <PageLayout.Tab isNavLink to={Routes.show.standSizes.toString()}>
-            Tailles de stand
-          </PageLayout.Tab>
+          <>
+            <PageLayout.Tab isNavLink to={Routes.show.standSizes.toString()}>
+              Tailles de stand
+            </PageLayout.Tab>
+
+            <PageLayout.Tab isNavLink to={Routes.show.dividerTypes.toString()}>
+              Cloisons
+            </PageLayout.Tab>
+          </>
         ) : null}
       </PageLayout.Tabs>
 
