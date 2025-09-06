@@ -6,7 +6,12 @@ export namespace Receipt {
   }
 
   export function Items({ ...props }: React.PropsWithChildren) {
-    return <div {...props} className="grid grid-cols-1" />;
+    return (
+      <div
+        {...props}
+        className="grid grid-flow-col grid-cols-fr-2-auto gap-x-1"
+      />
+    );
   }
 
   export function Item({
@@ -16,7 +21,7 @@ export namespace Receipt {
     return (
       <div
         {...props}
-        className={cn("grid grid-cols-2-auto justify-between gap-2", className)}
+        className={cn("col-span-full grid grid-cols-subgrid", className)}
       />
     );
   }
@@ -25,12 +30,24 @@ export namespace Receipt {
     return <p {...props} />;
   }
 
+  export function ItemCount({ count }: { count?: number }) {
+    if (count == null) {
+      return <p />;
+    }
+
+    return <p className="text-right">{count} ×</p>;
+  }
+
   export function ItemPrice({ ...props }: React.PropsWithChildren) {
-    return <p {...props} />;
+    return <p {...props} className="text-right" />;
   }
 
   export function Total({ ...props }: React.PropsWithChildren) {
-    return <Item {...props} className="text-body-lowercase-emphasis" />;
+    return (
+      <Items>
+        <Item {...props} className="text-body-lowercase-emphasis" />
+      </Items>
+    );
   }
 
   export const TotalName = ItemName;
