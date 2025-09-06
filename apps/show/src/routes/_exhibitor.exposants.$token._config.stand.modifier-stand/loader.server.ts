@@ -5,6 +5,8 @@ import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import { promiseHash } from "remix-utils/promise";
+import { getDividerTypesData } from "./divider-types.server";
 import { getStandSizesData } from "./stand-sizes.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -16,7 +18,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       activityFields: true,
       chairCount: true,
       dividerCount: true,
-      dividerType: true,
+      dividerType: { select: { id: true } },
       hasElectricalConnection: true,
       hasTablecloths: true,
       installationDay: true,
@@ -33,7 +35,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
     throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
   }
 
-  const standSizesData = await getStandSizesData(exhibitor);
+  const { standSizesData, dividerTypesData } = await promiseHash({
+    standSizesData: getStandSizesData(exhibitor),
+    dividerTypesData: getDividerTypesData(exhibitor),
+  });
 
-  return { exhibitor, ...standSizesData };
+  return { exhibitor, ...standSizesData, ...dividerTypesData };
 }

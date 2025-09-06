@@ -11,11 +11,15 @@ import { useForm } from "./form";
 import type { loader } from "./loader.server";
 
 export function FieldsetStand() {
-  const { standSizes } = useLoaderData<typeof loader>();
+  const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
   const { fields } = useForm();
 
   const selectedStandSize = standSizes.find(
     (standSize) => standSize.id === fields.standSize.value,
+  );
+
+  const selectedDividerType = dividerTypes.find(
+    (dividerType) => dividerType.id === fields.dividerType.value,
   );
 
   return (
@@ -34,19 +38,29 @@ export function FieldsetStand() {
       />
 
       <FormLayout.Row>
-        <FieldDividerType label="Type de cloisons" field={fields.dividerType} />
-
-        <FieldStepper
-          label="Nombre de cloisons"
-          field={fields.dividerCount}
-          maxValue={
-            selectedStandSize?.maxDividerCount ??
-            getMaxValue(standSizes, "maxDividerCount")
-          }
-          helper={
-            <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
-          }
+        <FieldDividerType
+          label="Type de cloisons"
+          field={fields.dividerType}
+          dividerTypes={dividerTypes}
         />
+
+        {selectedDividerType != null ? (
+          <FieldStepper
+            label="Nombre de cloisons"
+            field={fields.dividerCount}
+            minValue={1}
+            maxValue={Math.min(
+              selectedDividerType.availableCount,
+              selectedStandSize?.maxDividerCount ??
+                getMaxValue(standSizes, "maxDividerCount"),
+            )}
+            helper={
+              <FormLayout.Helper>
+                Sous réserve de disponibilité
+              </FormLayout.Helper>
+            }
+          />
+        ) : null}
       </FormLayout.Row>
 
       <FieldStepper

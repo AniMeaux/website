@@ -6,7 +6,6 @@ import {
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
-import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -59,17 +58,17 @@ export function SectionStandConfiguration() {
           <FormLayout.Label>Type de cloisons</FormLayout.Label>
 
           <FormLayout.Output>
-            {exhibitor.dividerType != null
-              ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
-              : "-"}
+            {exhibitor.dividerType?.label ?? "Aucune cloison"}
           </FormLayout.Output>
         </FormLayout.Field>
 
-        <FormLayout.Field>
-          <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
+        {exhibitor.dividerType != null ? (
+          <FormLayout.Field>
+            <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
 
-          <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
-        </FormLayout.Field>
+            <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
+          </FormLayout.Field>
+        ) : null}
       </FormLayout.Row>
 
       <FormLayout.Row>

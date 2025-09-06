@@ -8,6 +8,7 @@ import { ServiceImageCloudinary } from "#core/image/service.cloudinary.server.js
 import { ServiceImageMock } from "#core/image/service.mock.server.js";
 import type { ServiceImage } from "#core/image/service.server.js";
 import { ServicePrisma } from "#core/prisma.service.server.js";
+import { ServiceDividerType } from "#divider-type/service.server.js";
 import { ServiceApplicationEmail } from "#exhibitors/application/email.service.server.js";
 import { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { ModuleExhibitorEmail } from "#exhibitors/email.module.server.js";
@@ -66,6 +67,8 @@ class ServicesRootModule {
           },
         })
       : new ServiceEmailConsole();
+
+  dividerType = new ServiceDividerType(this.prisma);
 
   standSize = new ServiceStandSize(this.prisma);
 

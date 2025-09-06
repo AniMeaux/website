@@ -1,19 +1,23 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
-import {
-  DIVIDER_TYPE_TRANSLATION,
-  SORTED_DIVIDER_TYPES,
-} from "#exhibitors/stand-configuration/divider-type";
+import type { DividerTypeAvailability } from "#divider-type/availability.js";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowDividerType } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import type { Simplify } from "type-fest";
+import { DividerType } from "./action-schema";
 
 export function FieldDividerType({
   field,
   label,
+  dividerTypes,
 }: {
-  field: FieldMetadata<null | ShowDividerType>;
+  field: FieldMetadata<string>;
   label: React.ReactNode;
+  dividerTypes: Simplify<
+    Prisma.ShowDividerTypeGetPayload<{ select: { id: true; label: true } }> &
+      DividerTypeAvailability
+  >[];
 }) {
   return (
     <FormLayout.Field>
@@ -22,22 +26,41 @@ export function FieldDividerType({
       <FormLayout.Selectors columnMinWidth="100%">
         {getCollectionProps(field, {
           type: "radio",
-          options: SORTED_DIVIDER_TYPES,
-        }).map((props) => (
-          <FormLayout.Selector.Root key={props.key}>
-            <FormLayout.Selector.Input {...props} key={props.key} />
+          options: [
+            DividerType.none,
+            ...dividerTypes.map((dividerType) => dividerType.id),
+          ],
+        }).map((props) => {
+          const dividerType = dividerTypes.find(
+            (dividerType) => dividerType.id === props.value,
+          );
 
-            <FormLayout.Selector.Label>
-              {DIVIDER_TYPE_TRANSLATION[props.value as ShowDividerType]}
-            </FormLayout.Selector.Label>
+          return (
+            <FormLayout.Selector.Root key={props.key}>
+              <FormLayout.Selector.Input
+                {...props}
+                key={props.key}
+                disabled={dividerType?.availableCount === 0}
+              />
 
-            <FormLayout.Selector.RadioIcon />
-          </FormLayout.Selector.Root>
-        ))}
+              <FormLayout.Selector.Label>
+                {dividerType?.label ?? "Aucune cloison"}
+              </FormLayout.Selector.Label>
+
+              <FormLayout.Selector.RadioIcon />
+            </FormLayout.Selector.Root>
+          );
+        })}
       </FormLayout.Selectors>
 
       {field.errors != null ? (
         <FieldErrorHelper field={field} />
+      ) : dividerTypes.every(
+          (dividerType) => dividerType.availableCount === 0,
+        ) ? (
+        <FormLayout.Helper>
+          Aucune cloison disponible pour le moment
+        </FormLayout.Helper>
       ) : (
         <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
       )}
