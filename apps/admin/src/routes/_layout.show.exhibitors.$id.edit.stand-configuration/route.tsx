@@ -32,8 +32,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const { exhbitor, standSizes } = await promiseHash({
-    exhbitor: db.show.exhibitor.findUnique(routeParams.id, {
+  const { exhibitor, standSizes } = await promiseHash({
+    exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
         name: true,
         chairCount: true,
@@ -55,7 +55,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }),
   });
 
-  return json({ exhbitor, standSizes });
+  return json({ exhibitor, standSizes });
 }
 
 const RouteParamsSchema = zu.object({
@@ -66,8 +66,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.exhbitor.name != null
-          ? [`Modifier ${data.exhbitor.name}`, "Configuration de stand"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Configuration de stand"]
           : getErrorTitle(404),
       ),
     },

@@ -16,7 +16,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     {
       title: getPageTitle(
         data != null
-          ? [`Modifier ${data.exhbitor.name}`, `Facture ${data.invoice.number}`]
+          ? [
+              `Modifier ${data.exhibitor.name}`,
+              `Facture ${data.invoice.number}`,
+            ]
           : getErrorTitle(404),
       ),
     },

@@ -30,7 +30,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
-  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
+  const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: {
       name: true,
       isVisible: true,
@@ -39,7 +39,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   });
 
-  return json({ exhbitor });
+  return json({ exhibitor });
 }
 
 const RouteParamsSchema = zu.object({
@@ -50,8 +50,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
       title: getPageTitle(
-        data?.exhbitor.name != null
-          ? [`Modifier ${data.exhbitor.name}`, "Situation"]
+        data?.exhibitor.name != null
+          ? [`Modifier ${data.exhibitor.name}`, "Situation"]
           : getErrorTitle(404),
       ),
     },

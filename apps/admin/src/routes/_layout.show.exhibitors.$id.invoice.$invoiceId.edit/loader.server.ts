@@ -19,7 +19,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(routeParamsSchema, params);
 
-  const { invoices, ...exhbitor } = await db.show.exhibitor.findUnique(
+  const { invoices, ...exhibitor } = await db.show.exhibitor.findUnique(
     routeParams.id,
     {
       select: {
@@ -45,5 +45,5 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  return json({ exhbitor, invoice });
+  return json({ exhibitor, invoice });
 }
