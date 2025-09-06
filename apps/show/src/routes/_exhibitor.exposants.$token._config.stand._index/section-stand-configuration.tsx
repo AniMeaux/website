@@ -184,7 +184,7 @@ function FieldTableCloths() {
       <FormLayout.Label>Nappage des tables</FormLayout.Label>
 
       <FormLayout.Output>
-        {exhibitor.hasTablecloths ? "Oui" : "Non"}
+        {exhibitor.hasTableCloths ? "Oui" : "Non"}
       </FormLayout.Output>
     </FormLayout.Field>
   );

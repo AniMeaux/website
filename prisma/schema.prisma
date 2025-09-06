@@ -476,7 +476,7 @@ model ShowExhibitor {
   chairCount              Int                  @default(1)
   dividerCount            Int                  @default(0)
   hasElectricalConnection Boolean              @default(false)
-  hasTablecloths          Boolean              @default(true)
+  hasTableCloths          Boolean              @default(false)
   installationDay         ShowInstallationDay?
   locationNumber          String?              @db.VarChar(16)
   peopleCount             Int                  @default(1)

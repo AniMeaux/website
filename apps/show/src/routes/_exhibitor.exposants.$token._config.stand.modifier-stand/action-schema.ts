@@ -60,7 +60,7 @@ export function createActionSchema({
             required_error: "Veuillez choisir une option",
           })
           .transform((value) => value === "on"),
-        hasTablecloths: zu
+        hasTableCloths: zu
           .enum(["on", "off"], {
             required_error: "Veuillez choisir une option",
           })

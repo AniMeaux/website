@@ -558,7 +558,7 @@ type ShowExhibitorStandConfigurationData = Pick<
   | "dividerCount"
   | "dividerTypeId"
   | "hasElectricalConnection"
-  | "hasTablecloths"
+  | "hasTableCloths"
   | "installationDay"
   | "peopleCount"
   | "sizeId"

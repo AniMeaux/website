@@ -218,7 +218,7 @@ function ItemTable() {
       table{exhibitor.tableCount > 1 ? "s" : null}
       <br />
       <strong className="text-body-emphasis">
-        {exhibitor.hasTablecloths ? "Avec" : "Sans"}
+        {exhibitor.hasTableCloths ? "Avec" : "Sans"}
       </strong>{" "}
       nappage
     </SimpleItem>

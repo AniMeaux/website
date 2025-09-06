@@ -79,7 +79,7 @@ export function FieldsetConfiguration() {
 
             <FieldOnOff
               label="Nappage des tables"
-              field={fields.hasTablecloths}
+              field={fields.hasTableCloths}
             />
           </Form.Row>
 

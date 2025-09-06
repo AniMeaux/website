@@ -28,7 +28,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           dividerCount: true,
           dividerType: { select: { label: true } },
           hasElectricalConnection: true,
-          hasTablecloths: true,
+          hasTableCloths: true,
           installationDay: true,
           peopleCount: true,
           placementComment: true,
@@ -105,7 +105,7 @@ export class ServiceExhibitorStandConfigurationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {exhibitor.hasTablecloths ? "Oui" : "Non"}
+                {exhibitor.hasTableCloths ? "Oui" : "Non"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -209,7 +209,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           dividerCount: true,
           dividerType: { select: { label: true } },
           hasElectricalConnection: true,
-          hasTablecloths: true,
+          hasTableCloths: true,
           installationDay: true,
           peopleCount: true,
           placementComment: true,
@@ -302,7 +302,7 @@ export class ServiceExhibitorStandConfigurationEmail {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {exhibitor.hasTablecloths ? "Oui" : "Non"}
+                    {exhibitor.hasTableCloths ? "Oui" : "Non"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 

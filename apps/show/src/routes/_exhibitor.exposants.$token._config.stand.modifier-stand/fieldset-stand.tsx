@@ -76,7 +76,7 @@ export function FieldsetStand() {
         }
       />
 
-      <FieldYesNo label="Nappage des tables" field={fields.hasTablecloths} />
+      <FieldYesNo label="Nappage des tables" field={fields.hasTableCloths} />
 
       <FormLayout.Row>
         <FieldStepper
