@@ -1,5 +1,6 @@
 import { Action, ProseInlineAction } from "#core/actions";
 import { BaseLink } from "#core/base-link";
+import { InlineHelper } from "#core/data-display/helper.js";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import {
   ARTICLE_COMPONENTS,
@@ -19,6 +20,19 @@ import type { loader } from "./loader.server";
 export function CardStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
+  const hasTooManyDividers =
+    exhibitor.dividerCount > exhibitor.size.maxDividerCount;
+
+  const hasTooManyTables = exhibitor.tableCount > exhibitor.size.maxTableCount;
+
+  const hasTooManyPeople =
+    exhibitor.peopleCount > exhibitor.size.maxPeopleCount;
+
+  const hasTooManyChairsOnStand =
+    exhibitor.chairCount > exhibitor.size.maxPeopleCount;
+
+  const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount;
+
   return (
     <Card>
       <Card.Header>
@@ -36,6 +50,41 @@ export function CardStandConfiguration() {
       </Card.Header>
 
       <Card.Content>
+        {hasTooManyDividers ? (
+          <InlineHelper variant="warning">
+            Le nombre de cloisons dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxDividerCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyTables ? (
+          <InlineHelper variant="warning">
+            Le nombre de tables dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxTableCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyPeople ? (
+          <InlineHelper variant="warning">
+            Le nombre de personnes dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxPeopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyChairsOnStand && hasTooManyPeople ? (
+          <InlineHelper variant="warning">
+            Le nombre de chaises dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxPeopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasUnusedChairs && (!hasTooManyChairsOnStand || !hasTooManyPeople) ? (
+          <InlineHelper variant="warning">
+            Le nombre de chaises est supérieur au nombre de personnes sur le
+            stand ({exhibitor.peopleCount} personnes).
+          </InlineHelper>
+        ) : null}
+
         <StandConfigurationStatusHelper />
 
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">

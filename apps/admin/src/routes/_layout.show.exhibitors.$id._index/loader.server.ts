@@ -74,7 +74,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         locationNumber: true,
         peopleCount: true,
         placementComment: true,
-        size: { select: { id: true, label: true } },
+        size: {
+          select: {
+            id: true,
+            label: true,
+            maxDividerCount: true,
+            maxPeopleCount: true,
+            maxTableCount: true,
+          },
+        },
         standNumber: true,
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,
