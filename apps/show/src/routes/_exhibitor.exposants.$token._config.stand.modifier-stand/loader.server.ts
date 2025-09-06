@@ -14,6 +14,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
+      application: { select: { structureLegalStatus: true } },
       name: true,
       activityFields: true,
       chairCount: true,

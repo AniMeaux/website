@@ -1,0 +1,59 @@
+import { Receipt } from "#core/data-display/receipt.js";
+import { HelperCard } from "#core/layout/helper-card.js";
+import {
+  formatPrice,
+  getStandSizePrice,
+} from "#exhibitors/stand-configuration/price.js";
+import { useLoaderData } from "@remix-run/react";
+import { useForm } from "./form";
+import type { loader } from "./loader.server";
+
+export function HelperPriceDetails() {
+  const { exhibitor, standSizes } = useLoaderData<typeof loader>();
+
+  const { fields } = useForm();
+
+  const selectedStandSize = standSizes.find(
+    (standSize) => standSize.id === fields.standSize.value,
+  );
+
+  const priceStandSize =
+    selectedStandSize != null
+      ? getStandSizePrice({
+          exhibitor,
+          standSize: selectedStandSize,
+          application: exhibitor.application,
+        })
+      : null;
+
+  const totalPrice = [priceStandSize]
+    .filter(Boolean)
+    .reduce((sum, price) => sum + price, 0);
+
+  return (
+    <HelperCard.Root color="alabaster">
+      <HelperCard.Title>Prix estimé du stand</HelperCard.Title>
+
+      <Receipt.Root>
+        <Receipt.Items>
+          {selectedStandSize != null && priceStandSize != null ? (
+            <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
+              <Receipt.ItemName>
+                Stand de {selectedStandSize.label}
+              </Receipt.ItemName>
+
+              <Receipt.ItemPrice>
+                {formatPrice(priceStandSize)}
+              </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
+        </Receipt.Items>
+
+        <Receipt.Total>
+          <Receipt.TotalName>Total</Receipt.TotalName>
+          <Receipt.TotalPrice>{formatPrice(totalPrice)}</Receipt.TotalPrice>
+        </Receipt.Total>
+      </Receipt.Root>
+    </HelperCard.Root>
+  );
+}

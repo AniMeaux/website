@@ -15,6 +15,9 @@ export async function getStandSizesData(
       maxDividerCount: true,
       maxPeopleCount: true,
       maxTableCount: true,
+      priceForAssociations: true,
+      priceForServices: true,
+      priceForShops: true,
     },
   });
 
