@@ -590,6 +590,9 @@ async function seedShowStandSizes() {
         maxDividerCount: 2,
         maxPeopleCount: 2,
         maxTableCount: 2,
+        priceForAssociations: 0,
+        priceForServices: 45,
+        priceForShops: 65,
       },
       {
         label: "9 m² (3x3)",
@@ -598,6 +601,9 @@ async function seedShowStandSizes() {
         maxDividerCount: 2,
         maxPeopleCount: 2,
         maxTableCount: 3,
+        priceForAssociations: 0,
+        priceForServices: 60,
+        priceForShops: 95,
       },
       {
         label: "12 m² (4x3)",
@@ -607,6 +613,7 @@ async function seedShowStandSizes() {
         maxPeopleCount: 4,
         maxTableCount: 3,
         isRestrictedByActivityField: true,
+        priceForShops: 135,
       },
       {
         label: "12 m² (6x2)",
@@ -617,6 +624,7 @@ async function seedShowStandSizes() {
         maxTableCount: 3,
         isRestrictedByActivityField: true,
         isVisible: false,
+        priceForShops: 135,
       },
       {
         label: "18 m² (6x3)",
@@ -626,6 +634,7 @@ async function seedShowStandSizes() {
         maxPeopleCount: 4,
         maxTableCount: 6,
         isRestrictedByActivityField: true,
+        priceForShops: 200,
       },
       {
         label: "36 m² (6x6)",
@@ -635,6 +644,7 @@ async function seedShowStandSizes() {
         maxPeopleCount: 6,
         maxTableCount: 12,
         isRestrictedByActivityField: true,
+        priceForShops: 400,
       },
       {
         label: "72 m² (12x6)",
@@ -645,6 +655,7 @@ async function seedShowStandSizes() {
         maxTableCount: 24,
         isRestrictedByActivityField: true,
         isVisible: false,
+        priceForShops: 500,
       },
     ],
   });
