@@ -20,12 +20,9 @@ export function FieldsetParticipation() {
       | ActivityField.Enum[],
   );
 
-  const hasLimitedStandSize = selectedActivityFields.some(
-    (selectedActivityField) =>
-      ActivityField.valuesWithLimitedStandSizes.includes(selectedActivityField),
-  );
-
-  const standSizesOptions = hasLimitedStandSize
+  const standSizesOptions = ActivityField.hasLimitedStandSizes(
+    selectedActivityFields,
+  )
     ? standSizes.filter((standSize) => !standSize.isRestrictedByActivityField)
     : standSizes;
 
