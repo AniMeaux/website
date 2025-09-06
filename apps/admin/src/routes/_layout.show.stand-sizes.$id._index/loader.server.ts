@@ -30,6 +30,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         maxTableCount: true,
 
         exhibitors: {
+          orderBy: { name: "asc" },
           select: {
             id: true,
             isVisible: true,

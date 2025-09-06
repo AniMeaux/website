@@ -28,8 +28,8 @@ export function CardExhibitorList() {
             isCompact
             icon="🛍️"
             iconAlt="Sacs de course"
-            title="Aucun exposant trouvé"
-            message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
+            title="Aucun exposant"
+            message="Pour l’instant ;)"
             titleElementType="h3"
           />
         )}
