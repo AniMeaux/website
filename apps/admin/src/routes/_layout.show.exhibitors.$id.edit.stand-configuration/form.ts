@@ -4,7 +4,7 @@ import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { ActionSchema } from "./action";
+import { ActionSchema, DividerType } from "./action";
 import type { action, loader } from "./route";
 
 export function useFormRoot() {
@@ -30,7 +30,7 @@ export function useFormRoot() {
     defaultValue: {
       chairCount: exhibitor.chairCount,
       dividerCount: exhibitor.dividerCount,
-      dividerType: exhibitor.dividerType,
+      dividerType: exhibitor.dividerType?.id ?? DividerType.none,
       hasElectricalConnection: OnOff.fromBoolean(
         exhibitor.hasElectricalConnection,
       ),

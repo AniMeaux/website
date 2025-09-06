@@ -3,16 +3,20 @@ import { FieldOnOff } from "#core/form-elements/field-on-off";
 import { FieldRadios } from "#core/form-elements/field-radios";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
-import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { DividerType } from "./action";
 import { useForm } from "./form";
 import type { loader } from "./route";
 
 export function FieldsetConfiguration() {
-  const { standSizes } = useLoaderData<typeof loader>();
+  const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
   const { fields } = useForm();
+
+  const selectedDividerType = dividerTypes.find(
+    (dividerType) => dividerType.id === fields.dividerType.value,
+  );
 
   return (
     <Card>
@@ -49,14 +53,25 @@ export function FieldsetConfiguration() {
             <FieldRadios
               label="Type de cloisons"
               field={fields.dividerType}
-              getLabel={(dividerType) => DividerType.translation[dividerType]}
-              options={DividerType.values}
+              getLabel={(dividerTypeId) => {
+                const dividerType = dividerTypes.find(
+                  (dividerType) => dividerType.id === dividerTypeId,
+                );
+
+                return dividerType?.label ?? "Aucune cloison";
+              }}
+              options={[
+                DividerType.none,
+                ...dividerTypes.map((dividerType) => dividerType.id),
+              ]}
             />
 
-            <FieldNumeric
-              label="Nombre de cloisons"
-              field={fields.dividerCount}
-            />
+            {selectedDividerType != null ? (
+              <FieldNumeric
+                label="Nombre de cloisons"
+                field={fields.dividerCount}
+              />
+            ) : null}
           </Form.Row>
 
           <Form.Row>

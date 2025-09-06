@@ -9,7 +9,6 @@ import {
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
@@ -124,18 +123,20 @@ function ItemDivider() {
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
-      <strong className="text-body-emphasis">{exhibitor.dividerCount}</strong>{" "}
-      cloison
-      {exhibitor.dividerCount > 1 ? "s" : null}
-      {exhibitor.dividerType != null ? (
+      {exhibitor.dividerType == null ? (
+        <strong className="text-body-emphasis">Aucune cloison</strong>
+      ) : (
         <>
-          <br />
-          En{" "}
           <strong className="text-body-emphasis">
-            {DividerType.translation[exhibitor.dividerType]}
+            {exhibitor.dividerCount}
+          </strong>{" "}
+          cloison
+          {exhibitor.dividerCount > 1 ? "s" : null} type{" "}
+          <strong className="text-body-emphasis">
+            {exhibitor.dividerType.label}
           </strong>
         </>
-      ) : null}
+      )}
     </SimpleItem>
   );
 }

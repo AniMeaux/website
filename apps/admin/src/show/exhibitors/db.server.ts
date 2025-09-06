@@ -472,6 +472,10 @@ export class ShowExhibitorDbDelegate {
     if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
       data.standConfigurationStatusMessage = null;
     }
+
+    if (data.dividerTypeId == null) {
+      data.dividerCount = 0;
+    }
   }
 
   async delete(id: string) {
@@ -539,7 +543,7 @@ type ShowExhibitorStandConfigurationData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
-  | "dividerType"
+  | "dividerTypeId"
   | "hasElectricalConnection"
   | "hasTablecloths"
   | "installationDay"

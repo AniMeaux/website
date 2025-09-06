@@ -1,8 +1,11 @@
 import { OnOff } from "#core/form-elements/field-on-off";
-import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { zu } from "@animeaux/zod-utils";
+
+export const DividerType = {
+  none: "none",
+} as const;
 
 export const ActionSchema = zu
   .object({
@@ -18,9 +21,13 @@ export const ActionSchema = zu
         message: "Veuillez entrer un nombre valide",
       })
       .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
+      .min(1, "Veuillez entrer un nombre supérieur ou égal à 1")
+      .optional(),
 
-    dividerType: zu.nativeEnum(DividerType.Enum).optional(),
+    dividerType: zu.union([
+      zu.literal(DividerType.none).transform(() => null),
+      zu.string().uuid(),
+    ]),
 
     hasElectricalConnection: zu
       .nativeEnum(OnOff.Enum, {
@@ -58,15 +65,6 @@ export const ActionSchema = zu
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre positif"),
   })
-  .refine(
-    (value) =>
-      value.status !== ExhibitorStatus.Enum.VALIDATED ||
-      value.dividerType != null,
-    {
-      message: "Veuillez choisir un type de cloisons",
-      path: ["dividerType"],
-    },
-  )
   .refine(
     (value) =>
       value.status !== ExhibitorStatus.Enum.VALIDATED ||

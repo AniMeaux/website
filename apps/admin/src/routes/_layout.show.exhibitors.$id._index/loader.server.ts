@@ -56,7 +56,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         publicProfileStatusMessage: true,
         chairCount: true,
         dividerCount: true,
-        dividerType: true,
+        dividerType: { select: { label: true } },
         hasElectricalConnection: true,
         hasTablecloths: true,
         installationDay: true,
