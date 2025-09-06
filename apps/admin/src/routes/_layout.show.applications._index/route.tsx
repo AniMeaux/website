@@ -28,10 +28,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const searchParams = new URL(request.url).searchParams;
 
   const {
-    exhibitors: { applications, totalCount },
+    applications: { applications, totalCount },
     standSizes,
   } = await promiseHash({
-    exhibitors: db.show.exhibitor.application.findMany({
+    applications: db.show.exhibitor.application.findMany({
       page: PageSearchParams.parse(searchParams).page,
       countPerPage: APPLICATION_COUNT_PER_PAGE,
       searchParams: ApplicationSearchParams.parse(searchParams),

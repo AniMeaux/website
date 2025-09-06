@@ -4,31 +4,31 @@ import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation.js";
 import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#show/exhibitors/search-params.js";
+  ApplicationSearchParams,
+  ApplicationSearchParamsN,
+} from "#show/exhibitors/applications/search-params.js";
 import { useLoaderData } from "@remix-run/react";
-import { ExhibitorItem } from "./exhibitor-item";
+import { ApplicationItem } from "./application-item";
 import type { loader } from "./loader.server";
 
-export function CardExhibitorList() {
-  const { standSize, exhibitorTotalCount, exhibitors } =
+export function CardApplicationList() {
+  const { standSize, applicationTotalCount, applications } =
     useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
         <Card.Title>
-          {exhibitorTotalCount}{" "}
-          {exhibitorTotalCount > 1 ? "exposants" : "exposant"}
+          {applicationTotalCount}{" "}
+          {applicationTotalCount > 1 ? "candidatures" : "candidature"}
         </Card.Title>
 
         <Action asChild variant="text">
           <BaseLink
             to={{
-              pathname: Routes.show.exhibitors.toString(),
-              search: ExhibitorSearchParams.format({
-                sort: ExhibitorSearchParamsN.Sort.NAME,
+              pathname: Routes.show.applications.toString(),
+              search: ApplicationSearchParams.format({
+                sort: ApplicationSearchParamsN.Sort.CREATED_AT,
                 standSizesId: new Set([standSize.id]),
               }),
             }}
@@ -39,20 +39,20 @@ export function CardExhibitorList() {
       </Card.Header>
 
       <Card.Content hasListItems>
-        {exhibitors.length > 0 ? (
+        {applications.length > 0 ? (
           <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2">
-            {exhibitors.map((exhibitor) => (
-              <ExhibitorItem key={exhibitor.id} exhibitor={exhibitor} />
+            {applications.map((application) => (
+              <ApplicationItem key={application.id} application={application} />
             ))}
           </div>
         ) : (
           <SimpleEmpty
             isCompact
-            icon="🛍️"
-            iconAlt="Sacs de course"
-            title="Aucun exposant"
-            message="Pour l’instant ;)"
+            icon="📝"
+            iconAlt="Memo"
+            title="Aucune candidature"
             titleElementType="h3"
+            message="Pour l’instant ;)"
           />
         )}
       </Card.Content>
