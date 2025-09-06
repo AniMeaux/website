@@ -23,6 +23,8 @@ export function FieldsetStand() {
     (dividerType) => dividerType.id === fields.dividerType.value,
   );
 
+  const selectedTableCount = Number(fields.tableCount.value);
+
   return (
     <FormLayout.Section>
       <FormLayout.Title>Configuration de stand</FormLayout.Title>
@@ -76,7 +78,13 @@ export function FieldsetStand() {
         }
       />
 
-      <FieldYesNo label="Nappage des tables" field={fields.hasTableCloths} />
+      {selectedTableCount > 0 ? (
+        <FieldYesNo
+          label="Nappage des tables"
+          field={fields.hasTableCloths}
+          helper={<FormLayout.Helper>1 € par table</FormLayout.Helper>}
+        />
+      ) : null}
 
       <FormLayout.Row>
         <FieldStepper

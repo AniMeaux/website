@@ -255,6 +255,7 @@ const theme: Config = {
         "auto-fr": "auto minmax(0, 1fr)",
         "auto-fr-auto": "auto minmax(0, 1fr) auto",
         "fr-auto": "minmax(0, 1fr) auto",
+        "fr-2-auto": "minmax(0, 1fr) auto auto",
         "fr-auto-fr": "minmax(0, 1fr) auto minmax(0, 1fr)",
       },
 

@@ -26,13 +26,20 @@ export function HelperPriceDetails() {
         })
       : null;
 
-  const totalPrice = [priceStandSize]
+  const tableCount = Number(fields.tableCount.value);
+  const hasTableCloths = fields.hasTableCloths.value === "on";
+  const priceTableCloths =
+    tableCount > 0 && hasTableCloths
+      ? tableCount * Number(CLIENT_ENV.PRICE_TABLE_CLOTHS)
+      : null;
+
+  const totalPrice = [priceStandSize, priceTableCloths]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
   return (
     <HelperCard.Root color="alabaster">
-      <HelperCard.Title>Prix estimé du stand</HelperCard.Title>
+      <HelperCard.Title>Prix du stand</HelperCard.Title>
 
       <Receipt.Root>
         <Receipt.Items>
@@ -42,8 +49,22 @@ export function HelperPriceDetails() {
                 Stand de {selectedStandSize.label}
               </Receipt.ItemName>
 
+              <Receipt.ItemCount count={1} />
+
               <Receipt.ItemPrice>
                 {formatPrice(priceStandSize)}
+              </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
+
+          {tableCount > 0 && hasTableCloths ? (
+            <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
+              <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+              <Receipt.ItemCount count={tableCount} />
+
+              <Receipt.ItemPrice>
+                {formatPrice(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
               </Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
@@ -51,6 +72,7 @@ export function HelperPriceDetails() {
 
         <Receipt.Total>
           <Receipt.TotalName>Total</Receipt.TotalName>
+          <Receipt.ItemCount />
           <Receipt.TotalPrice>{formatPrice(totalPrice)}</Receipt.TotalPrice>
         </Receipt.Total>
       </Receipt.Root>

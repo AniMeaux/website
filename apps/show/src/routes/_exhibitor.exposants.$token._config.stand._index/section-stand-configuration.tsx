@@ -224,7 +224,14 @@ function SectionPriceDetails() {
     standSize: exhibitor.size,
   });
 
-  const totalPrice = [priceStandSize].reduce((sum, price) => sum + price, 0);
+  const priceTableCloths =
+    exhibitor.tableCount > 0 && exhibitor.hasTableCloths
+      ? exhibitor.tableCount * Number(CLIENT_ENV.PRICE_TABLE_CLOTHS)
+      : null;
+
+  const totalPrice = [priceStandSize, priceTableCloths]
+    .filter(Boolean)
+    .reduce((sum, price) => sum + price, 0);
 
   return (
     <HelperCard.Root color="alabaster">
@@ -234,12 +241,26 @@ function SectionPriceDetails() {
         <Receipt.Items>
           <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
             <Receipt.ItemName>Stand de {exhibitor.size.label}</Receipt.ItemName>
+            <Receipt.ItemCount count={1} />
             <Receipt.ItemPrice>{formatPrice(priceStandSize)}</Receipt.ItemPrice>
           </Receipt.Item>
+
+          {exhibitor.tableCount > 0 && exhibitor.hasTableCloths ? (
+            <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
+              <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+              <Receipt.ItemCount count={exhibitor.tableCount} />
+
+              <Receipt.ItemPrice>
+                {formatPrice(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
+              </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
         </Receipt.Items>
 
         <Receipt.Total>
           <Receipt.TotalName>Total</Receipt.TotalName>
+          <Receipt.ItemCount />
           <Receipt.TotalPrice>{formatPrice(totalPrice)}</Receipt.TotalPrice>
         </Receipt.Total>
       </Receipt.Root>
