@@ -504,6 +504,12 @@ model ShowStandSize {
   maxPeopleCount  Int
   maxDividerCount Int
 
+  priceForShops Int
+
+  // If `isRestrictedByActivityField` is false, these fields are mandatory.
+  priceForAssociations Int?
+  priceForServices     Int?
+
   applications ShowExhibitorApplication[]
   exhibitors   ShowExhibitor[]
 }
