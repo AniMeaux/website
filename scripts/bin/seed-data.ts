@@ -698,6 +698,8 @@ async function seedShowExhibitorApplications() {
     (size) => !size.isRestrictedByActivityField,
   );
 
+  const now = DateTime.now();
+
   await prisma.showExhibitorApplication.createMany({
     data: repeate({ min: 100, max: 120 }, () => {
       const status = faker.helpers.arrayElement(
@@ -722,6 +724,11 @@ async function seedShowExhibitorApplications() {
       );
 
       return {
+        createdAt: faker.date.between({
+          from: now.minus({ year: 1 }).toJSDate(),
+          to: now.toJSDate(),
+        }),
+
         status,
         refusalMessage:
           status === ShowExhibitorApplicationStatus.REFUSED
