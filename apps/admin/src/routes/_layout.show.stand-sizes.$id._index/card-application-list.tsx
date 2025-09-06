@@ -23,19 +23,21 @@ export function CardApplicationList() {
           {applicationTotalCount > 1 ? "candidatures" : "candidature"}
         </Card.Title>
 
-        <Action asChild variant="text">
-          <BaseLink
-            to={{
-              pathname: Routes.show.applications.toString(),
-              search: ApplicationSearchParams.format({
-                sort: ApplicationSearchParamsN.Sort.CREATED_AT,
-                standSizesId: new Set([standSize.id]),
-              }),
-            }}
-          >
-            Tout voir
-          </BaseLink>
-        </Action>
+        {applicationTotalCount > 0 ? (
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: Routes.show.applications.toString(),
+                search: ApplicationSearchParams.format({
+                  sort: ApplicationSearchParamsN.Sort.CREATED_AT,
+                  standSizesId: new Set([standSize.id]),
+                }),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
+        ) : null}
       </Card.Header>
 
       <Card.Content hasListItems>

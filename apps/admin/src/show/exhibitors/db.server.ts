@@ -505,6 +505,10 @@ const FIND_ORDER_BY_SORT: Record<
   ExhibitorSearchParamsN.Sort,
   Prisma.ShowExhibitorFindManyArgs["orderBy"]
 > = {
+  [ExhibitorSearchParamsN.Sort.DIVIDER_COUNT]: [
+    { dividerCount: "desc" },
+    { name: "asc" },
+  ],
   [ExhibitorSearchParamsN.Sort.NAME]: { name: "asc" },
   [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
 };

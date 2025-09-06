@@ -23,19 +23,21 @@ export function CardExhibitorList() {
           {exhibitorTotalCount > 1 ? "exposants" : "exposant"}
         </Card.Title>
 
-        <Action asChild variant="text">
-          <BaseLink
-            to={{
-              pathname: Routes.show.exhibitors.toString(),
-              search: ExhibitorSearchParams.format({
-                sort: ExhibitorSearchParamsN.Sort.NAME,
-                standSizesId: new Set([standSize.id]),
-              }),
-            }}
-          >
-            Tout voir
-          </BaseLink>
-        </Action>
+        {exhibitorTotalCount > 0 ? (
+          <Action asChild variant="text">
+            <BaseLink
+              to={{
+                pathname: Routes.show.exhibitors.toString(),
+                search: ExhibitorSearchParams.format({
+                  sort: ExhibitorSearchParamsN.Sort.NAME,
+                  standSizesId: new Set([standSize.id]),
+                }),
+              }}
+            >
+              Tout voir
+            </BaseLink>
+          </Action>
+        ) : null}
       </Card.Header>
 
       <Card.Content hasListItems>
