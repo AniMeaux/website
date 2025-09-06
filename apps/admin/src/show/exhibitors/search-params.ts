@@ -16,6 +16,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     animations: "an",
     applicationStatuses: "as",
     descriptionStatuses: "ds",
+    dividerTypesId: "dt",
     documentsStatuses: "dos",
     dogsConfigurationStatuses: "dcs",
     fields: "fi",
@@ -41,6 +42,10 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       descriptionStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.descriptionStatuses,
+      ),
+      dividerTypesId: SearchParamsIO.getValues(
+        searchParams,
+        keys.dividerTypesId,
       ),
       documentsStatuses: SearchParamsIO.getValues(
         searchParams,
@@ -91,6 +96,13 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.descriptionStatuses,
       data.descriptionStatuses,
     );
+
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.dividerTypesId,
+      data.dividerTypesId,
+    );
+
     SearchParamsIO.setValues(
       searchParams,
       keys.documentsStatuses,
@@ -213,6 +225,11 @@ const SearchParamsSchema = zu.object({
   ),
   descriptionStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
+  ),
+  dividerTypesId: zu.searchParams.set(
+    zu.searchParams
+      .string()
+      .pipe(zu.string().uuid().optional().catch(undefined)),
   ),
   documentsStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),

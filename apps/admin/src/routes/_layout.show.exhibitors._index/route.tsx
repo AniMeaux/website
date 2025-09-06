@@ -29,6 +29,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const {
     exhibitors: { exhibitors, totalCount },
+    dividerTypes,
     standSizes,
   } = await promiseHash({
     exhibitors: db.show.exhibitor.findMany({
@@ -44,6 +45,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
     }),
 
+    dividerTypes: db.show.dividerType.findMany({
+      select: { id: true, label: true },
+    }),
+
     standSizes: db.show.standSize.findMany({
       select: { id: true, label: true },
     }),
@@ -51,7 +56,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
 
-  return json({ totalCount, pageCount, exhibitors, standSizes });
+  return json({ totalCount, pageCount, exhibitors, dividerTypes, standSizes });
 }
 
 const EXHIBITOR_COUNT_PER_PAGE = 20;
@@ -61,7 +66,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount, standSizes } = useLoaderData<typeof loader>();
+  const { totalCount, dividerTypes, standSizes } =
+    useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -77,14 +83,17 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <ExhibitorFilters standSizes={standSizes} />
+              <ExhibitorFilters
+                dividerTypes={dividerTypes}
+                standSizes={standSizes}
+              />
             </Card.Content>
           </Card>
         </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <ExhibitorFilters standSizes={standSizes} />
+        <ExhibitorFilters dividerTypes={dividerTypes} standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
   );

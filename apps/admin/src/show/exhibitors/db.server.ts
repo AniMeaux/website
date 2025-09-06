@@ -82,6 +82,14 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.dividerTypesId.size > 0) {
+      where.push({
+        dividerType: {
+          id: { in: Array.from(params.searchParams.dividerTypesId) },
+        },
+      });
+    }
+
     if (params.searchParams.documentsStatuses.size > 0) {
       statusesWhere.push({
         documentStatus: {
