@@ -10,10 +10,11 @@ export async function loaderShow() {
         fields: new Set(),
         sort: ApplicationSearchParamsN.DEFAULT_SORT,
         sponsorshipCategories: new Set(),
-        targets: new Set(),
+        standSizesId: new Set(),
         statuses: new Set([ShowExhibitorApplicationStatus.UNTREATED]),
+        targets: new Set(),
       },
-      countPerPage: 3,
+      countPerPage: 6,
       page: 0,
       select: {
         id: true,
