@@ -31,9 +31,15 @@ import {
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { StandSize } from "./stand-configuration/stand-size";
+import type { ShowDividerType, ShowStandSize } from "@prisma/client";
 
-export function ExhibitorFilters() {
+export function ExhibitorFilters({
+  dividerTypes,
+  standSizes,
+}: {
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
+  standSizes: Pick<ShowStandSize, "id" | "label">[];
+}) {
   return (
     <Filters>
       <Filters.Actions>
@@ -52,8 +58,9 @@ export function ExhibitorFilters() {
         <FilterInvoiceStatuses />
         <FilterActivity />
         <FilterSponsorship />
-        <FilterStandSize />
+        <FilterStandSize standSizes={standSizes} />
         <FilterAnimations />
+        <FilterDividerType dividerTypes={dividerTypes} />
       </Filters.Content>
     </Filters>
   );
@@ -181,6 +188,49 @@ function FilterAnimations() {
               />
             }
             checked={exhibitorSearchParams.animations.has(animation)}
+            onChange={() => {}}
+          />
+        ))}
+      </ToggleInputList>
+    </Filters.Filter>
+  );
+}
+
+function FilterDividerType({
+  dividerTypes,
+}: {
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
+}) {
+  const [searchParams] = useOptimisticSearchParams();
+  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={ExhibitorSearchParams.keys.dividerTypesId}
+      label="Type de cloison"
+      count={exhibitorSearchParams.dividerTypesId.size}
+      hiddenContent={Array.from(exhibitorSearchParams.dividerTypesId).map(
+        (dividerTypeId) => (
+          <input
+            key={dividerTypeId}
+            type="hidden"
+            name={ExhibitorSearchParams.keys.dividerTypesId}
+            value={dividerTypeId}
+          />
+        ),
+      )}
+    >
+      <ToggleInputList>
+        {dividerTypes.map((dividerType) => (
+          <ToggleInput
+            key={dividerType.id}
+            type="checkbox"
+            label={dividerType.label}
+            name={ExhibitorSearchParams.keys.dividerTypesId}
+            value={dividerType.id}
+            icon={<Icon href="icon-fence-light" />}
+            iconChecked={<Icon href="icon-fence-solid" />}
+            checked={exhibitorSearchParams.dividerTypesId.has(dividerType.id)}
             onChange={() => {}}
           />
         ))}
@@ -361,37 +411,41 @@ function FilterSort() {
   );
 }
 
-function FilterStandSize() {
+function FilterStandSize({
+  standSizes,
+}: {
+  standSizes: Pick<ShowStandSize, "id" | "label">[];
+}) {
   const [searchParams] = useOptimisticSearchParams();
   const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.standSize}
+      value={ExhibitorSearchParams.keys.standSizesId}
       label="Taille du stand"
-      count={exhibitorSearchParams.standSize.size}
-      hiddenContent={Array.from(exhibitorSearchParams.standSize).map(
-        (standSize) => (
+      count={exhibitorSearchParams.standSizesId.size}
+      hiddenContent={Array.from(exhibitorSearchParams.standSizesId).map(
+        (standSizeId) => (
           <input
-            key={standSize}
+            key={standSizeId}
             type="hidden"
-            name={ExhibitorSearchParams.keys.standSize}
-            value={standSize}
+            name={ExhibitorSearchParams.keys.standSizesId}
+            value={standSizeId}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {StandSize.values.map((standSize) => (
+        {standSizes.map((standSize) => (
           <ToggleInput
-            key={standSize}
+            key={standSize.id}
             type="checkbox"
-            label={StandSize.translation[standSize]}
-            name={ExhibitorSearchParams.keys.standSize}
-            value={standSize}
+            label={standSize.label}
+            name={ExhibitorSearchParams.keys.standSizesId}
+            value={standSize.id}
             icon={<Icon href="icon-expand-light" />}
             iconChecked={<Icon href="icon-expand-solid" />}
-            checked={exhibitorSearchParams.standSize.has(standSize)}
+            checked={exhibitorSearchParams.standSizesId.has(standSize.id)}
             onChange={() => {}}
           />
         ))}

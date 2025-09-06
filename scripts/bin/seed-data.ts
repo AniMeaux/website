@@ -25,7 +25,6 @@ import {
   ShowExhibitorStatus,
   ShowInvoiceStatus,
   ShowSponsorshipCategory,
-  ShowStandSize,
   ShowStandZone,
   Species,
   Status,
@@ -48,12 +47,14 @@ const seeds = {
   fosterFamilies: Promise.resolve().then(seedFosterFamilies),
   pressArticles: Promise.resolve().then(seedPressArticle),
   showAnimations: Promise.resolve().then(seedShowAnimations),
+  showDividerTypes: Promise.resolve().then(seedShowDividerTypes),
   showExhibitorApplications: Promise.resolve().then(
     seedShowExhibitorApplications,
   ),
   showExhibitors: Promise.resolve().then(seedShowExhibitors),
   showExhibitorsDogs: Promise.resolve().then(seedShowExhibitorsDogs),
   seedShowExhibitorsInvoices: Promise.resolve().then(seedShowInvoices),
+  seedShowStandSizes: Promise.resolve().then(seedShowStandSizes),
   showSponsors: Promise.resolve().then(seedShowSponsors),
   showProviders: Promise.resolve().then(seedShowProviders),
   users: Promise.resolve().then(seedUsers),
@@ -579,7 +580,126 @@ async function seedShowProviders() {
   console.log(`- 👍 ${count} show providers`);
 }
 
+async function seedShowStandSizes() {
+  await prisma.showStandSize.createMany({
+    data: [
+      {
+        label: "6 m² (3x2)",
+        area: 6,
+        maxCount: 54,
+        maxDividerCount: 2,
+        maxPeopleCount: 2,
+        maxTableCount: 2,
+      },
+      {
+        label: "9 m² (3x3)",
+        area: 9,
+        maxCount: 13,
+        maxDividerCount: 2,
+        maxPeopleCount: 2,
+        maxTableCount: 3,
+      },
+      {
+        label: "12 m² (4x3)",
+        area: 12,
+        maxCount: 2,
+        maxDividerCount: 4,
+        maxPeopleCount: 4,
+        maxTableCount: 3,
+        isRestrictedByActivityField: true,
+      },
+      {
+        label: "12 m² (6x2)",
+        area: 12,
+        maxCount: 2,
+        maxDividerCount: 4,
+        maxPeopleCount: 4,
+        maxTableCount: 3,
+        isRestrictedByActivityField: true,
+        isVisible: false,
+      },
+      {
+        label: "18 m² (6x3)",
+        area: 18,
+        maxCount: 5,
+        maxDividerCount: 4,
+        maxPeopleCount: 4,
+        maxTableCount: 6,
+        isRestrictedByActivityField: true,
+      },
+      {
+        label: "36 m² (6x6)",
+        area: 36,
+        maxCount: 3,
+        maxDividerCount: 6,
+        maxPeopleCount: 6,
+        maxTableCount: 12,
+        isRestrictedByActivityField: true,
+      },
+      {
+        label: "72 m² (12x6)",
+        area: 72,
+        maxCount: 1,
+        maxDividerCount: 10,
+        maxPeopleCount: 10,
+        maxTableCount: 24,
+        isRestrictedByActivityField: true,
+        isVisible: false,
+      },
+    ],
+  });
+
+  const count = await prisma.showStandSize.count();
+  console.log(`- 👍 ${count} show stand sizes`);
+}
+
+async function seedShowDividerTypes() {
+  await prisma.showDividerType.createMany({
+    data: [
+      {
+        label: "Panneau plein en tissus noir",
+        maxCount: 50,
+      },
+      {
+        label: "Grille",
+        maxCount: 50,
+      },
+      {
+        label: "Panneau plein en bois",
+        maxCount: 50,
+      },
+    ],
+  });
+
+  const count = await prisma.showDividerType.count();
+  console.log(`- 👍 ${count} show divider types`);
+}
+
 async function seedShowExhibitorApplications() {
+  const valuesSmallSizedStands: ShowActivityField[] = [
+    ShowActivityField.ALTERNATIVE_MEDICINE,
+    ShowActivityField.ASSOCIATION,
+    ShowActivityField.BEHAVIOR,
+    ShowActivityField.CITY,
+    ShowActivityField.EDUCATION,
+    ShowActivityField.SENSITIZATION,
+    ShowActivityField.SERVICES,
+    ShowActivityField.TRAINING,
+  ];
+
+  await seeds.seedShowStandSizes;
+
+  const standSizes = await prisma.showStandSize.findMany({
+    where: { isVisible: true },
+    select: { id: true, isRestrictedByActivityField: true },
+  });
+
+  const limitedStandSizes = standSizes.filter(
+    (size) => !size.isRestrictedByActivityField,
+  );
+
+  const now = DateTime.now();
+
   await prisma.showExhibitorApplication.createMany({
     data: repeate({ min: 100, max: 120 }, () => {
       const status = faker.helpers.arrayElement(
@@ -594,7 +714,21 @@ async function seedShowExhibitorApplications() {
         Object.values(ShowExhibitorApplicationDiscoverySource),
       );
 
+      const activityFields = faker.helpers.arrayElements(
+        Object.values(ShowActivityField),
+        { min: 1, max: 3 },
+      );
+
+      const hasLimitedStandSize = activityFields.some((activityField) =>
+        valuesSmallSizedStands.includes(activityField),
+      );
+
       return {
+        createdAt: faker.date.between({
+          from: now.minus({ year: 1 }).toJSDate(),
+          to: now.toJSDate(),
+        }),
+
         status,
         refusalMessage:
           status === ShowExhibitorApplicationStatus.REFUSED
@@ -621,19 +755,16 @@ async function seedShowExhibitorApplications() {
           Object.values(ShowActivityTarget),
           { min: 1, max: 3 },
         ),
-        structureActivityFields: faker.helpers.arrayElements(
-          Object.values(ShowActivityField),
-          { min: 1, max: 4 },
-        ),
+        structureActivityFields: activityFields,
         structureAddress: faker.location.streetAddress(),
         structureZipCode: faker.location.zipCode(),
         structureCity: faker.location.city(),
         structureCountry: faker.location.country(),
         structureLogoPath: faker.string.uuid(),
 
-        desiredStandSize: faker.helpers.arrayElement(
-          Object.values(ShowStandSize),
-        ),
+        desiredStandSizeId: faker.helpers.arrayElement(
+          hasLimitedStandSize ? limitedStandSizes : standSizes,
+        ).id,
 
         proposalForOnStageEntertainment: faker.helpers.maybe(
           () => faker.lorem.paragraph().substring(0, 500),
@@ -684,7 +815,7 @@ async function seedShowExhibitors() {
       structureCity: true,
       structureCountry: true,
       structureZipCode: true,
-      desiredStandSize: true,
+      desiredStandSize: { select: { id: true } },
     },
   });
 
@@ -798,7 +929,7 @@ async function seedShowExhibitors() {
               ? faker.lorem.paragraph()
               : undefined,
 
-          size: application.desiredStandSize,
+          sizeId: application.desiredStandSize.id,
           tableCount: faker.number.int({ min: 0, max: 3 }),
         },
       });
@@ -860,7 +991,7 @@ async function seedShowInvoices() {
             .startOf("day")
             .toJSDate(),
           amount: faker.number.int({ min: 50, max: 300 }),
-          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4 })}`,
+          number: `F-${new Date().getFullYear()}-${Number(invoiceNumber++).toLocaleString("fr-FR", { minimumIntegerDigits: 4, useGrouping: false })}`,
           url: faker.internet.url(),
           exhibitorId: exhibitor.id,
           status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),

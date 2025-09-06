@@ -4,11 +4,16 @@ import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
-import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
+import type { ShowStandSize } from "@prisma/client";
 import { ShowActivityTarget } from "@prisma/client";
 
-export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
+export function createActionSchema(
+  availableStandSizes: Pick<
+    ShowStandSize,
+    "id" | "isRestrictedByActivityField"
+  >[],
+) {
   return zu
     .object({
       documents: zu.object({
@@ -159,13 +164,16 @@ export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
         ),
 
       participation: zu.object({
-        desiredStandSize: zu
-          .nativeEnum(StandSize.Enum, {
-            required_error: "Veuillez choisir une taille de stand",
-          })
-          .refine((size) => availableStandSizes.includes(size), {
-            message: "Veuillez choisir une taille de stand",
-          }),
+        desiredStandSizeId: zu
+          .string({ required_error: "Veuillez choisir une taille de stand" })
+          .uuid()
+          .refine(
+            (standSizeId) =>
+              availableStandSizes.some(
+                (availableStandSize) => availableStandSize.id === standSizeId,
+              ),
+            { message: "Veuillez choisir une taille de stand" },
+          ),
 
         proposalForOnStageEntertainment: zu.preprocess(
           normalizeLineBreaks,
@@ -254,19 +262,26 @@ export function createActionSchema(availableStandSizes: StandSize.Enum[]) {
       (value) => {
         const hasLimitedStandSize = value.structure.activityFields.some(
           (activityField) =>
-            ActivityField.valuesSmallSizedStands.includes(activityField),
+            ActivityField.valuesWithLimitedStandSizes.includes(activityField),
         );
 
-        return (
-          !hasLimitedStandSize ||
-          StandSize.valuesSmallSize.includes(
-            value.participation.desiredStandSize,
-          )
+        if (!hasLimitedStandSize) {
+          return true;
+        }
+
+        const limitedAvailableStandSizes = availableStandSizes.filter(
+          (availableStandSize) =>
+            !availableStandSize.isRestrictedByActivityField,
+        );
+
+        return limitedAvailableStandSizes.some(
+          (availableStandSize) =>
+            availableStandSize.id === value.participation.desiredStandSizeId,
         );
       },
       {
         message: "Veuillez choisir une taille de stand",
-        path: ["participation", "desiredStandSize"],
+        path: ["participation", "desiredStandSizeId"],
       },
     );
 }

@@ -56,7 +56,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         publicProfileStatusMessage: true,
         chairCount: true,
         dividerCount: true,
-        dividerType: true,
+        dividerType: { select: { label: true } },
         hasElectricalConnection: true,
         hasTablecloths: true,
         installationDay: true,
@@ -74,12 +74,36 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         locationNumber: true,
         peopleCount: true,
         placementComment: true,
-        size: true,
+        size: {
+          select: {
+            id: true,
+            label: true,
+            maxDividerCount: true,
+            maxPeopleCount: true,
+            maxTableCount: true,
+          },
+        },
         standNumber: true,
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,
         tableCount: true,
-        zone: true,
+
+        animations: {
+          orderBy: { startTime: "asc" },
+          select: {
+            animators: {
+              orderBy: { name: "asc" },
+              select: { id: true, name: true },
+            },
+            description: true,
+            endTime: true,
+            id: true,
+            registrationUrl: true,
+            startTime: true,
+            targets: true,
+            zone: true,
+          },
+        },
       },
     }),
 
@@ -88,6 +112,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       {
         select: {
           id: true,
+          contactEmail: true,
+          contactFirstname: true,
+          contactLastname: true,
+          contactPhone: true,
           status: true,
           structureAddress: true,
           structureCity: true,

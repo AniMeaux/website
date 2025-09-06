@@ -1,94 +1,165 @@
-import { MAX_DIVIDER_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/divider-count";
-import { MAX_PEOPLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/people-count";
-import { StandSize } from "#exhibitors/stand-size/stand-size.js";
-import { MAX_TABLE_COUNT_BY_STAND_SIZE } from "#exhibitors/stand-size/table-count";
+import type { DividerTypeAvailability } from "#divider-type/availability.js";
 import { zu } from "@animeaux/zod-utils";
-import {
-  ShowDividerType,
-  ShowInstallationDay,
-  ShowStandZone,
-} from "@prisma/client";
+import type { ShowDividerType, ShowStandSize } from "@prisma/client";
+import { ShowInstallationDay } from "@prisma/client";
+import invariant from "tiny-invariant";
 
-export const ActionSchema = zu
-  .object({
-    chairCount: zu.coerce
-      .number({
-        message: "Veuillez entrer un nombre valide",
+export const DividerType = {
+  none: "none",
+} as const;
+
+export function createActionSchema({
+  availableDividerTypes,
+  availableStandSizes,
+}: {
+  availableDividerTypes: (Pick<ShowDividerType, "id"> &
+    DividerTypeAvailability)[];
+  availableStandSizes: Pick<
+    ShowStandSize,
+    "id" | "maxDividerCount" | "maxPeopleCount" | "maxTableCount"
+  >[];
+}) {
+  return (
+    zu
+      .object({
+        chairCount: zu.coerce
+          .number({
+            message: "Veuillez entrer un nombre valide",
+          })
+          .int({ message: "Veuillez entrer un nombre entier" })
+          .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
+        dividerCount: zu.coerce
+          .number({ message: "Veuillez entrer un nombre valide" })
+          .int({ message: "Veuillez entrer un nombre entier" })
+          .min(1, "Veuillez entrer un nombre supérieur ou égal à 1")
+          .optional(),
+        dividerType: zu.union([
+          zu.literal(DividerType.none).transform(() => null),
+          zu
+            .string()
+            .uuid()
+            .transform((value, context) => {
+              const dividerType = availableDividerTypes.find(
+                (dividerType) => dividerType.id === value,
+              );
+
+              if (dividerType == null) {
+                context.addIssue({
+                  code: zu.ZodIssueCode.custom,
+                  message: "Veuillez choisir un type de cloisons",
+                });
+
+                return zu.NEVER;
+              }
+
+              return dividerType;
+            }),
+        ]),
+        hasElectricalConnection: zu
+          .enum(["on", "off"], {
+            required_error: "Veuillez choisir une option",
+          })
+          .transform((value) => value === "on"),
+        hasTablecloths: zu
+          .enum(["on", "off"], {
+            required_error: "Veuillez choisir une option",
+          })
+          .transform((value) => value === "on"),
+        installationDay: zu.nativeEnum(ShowInstallationDay, {
+          required_error: "Veuillez choisir un jour d’installation",
+        }),
+        peopleCount: zu.coerce
+          .number({
+            message: "Veuillez entrer un nombre valide",
+          })
+          .int({ message: "Veuillez entrer un nombre entier" })
+          .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
+        placementComment: zu
+          .string()
+          .trim()
+          .max(256, "Veuillez entrer un commentaire plus court")
+          .optional(),
+        standSize: zu
+          .string({ required_error: "Veuillez choisir une taille de stand" })
+          .uuid()
+          .transform((value, context) => {
+            const standSize = availableStandSizes.find(
+              (standSize) => standSize.id === value,
+            );
+
+            if (standSize == null) {
+              context.addIssue({
+                code: zu.ZodIssueCode.custom,
+                message: "Veuillez choisir une taille de stand",
+              });
+
+              return zu.NEVER;
+            }
+
+            return standSize;
+          }),
+        tableCount: zu.coerce
+          .number({
+            message: "Veuillez entrer un nombre valide",
+          })
+          .int({ message: "Veuillez entrer un nombre entier" })
+          .min(0, "Veuillez entrer un nombre positif"),
       })
-      .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
-    dividerCount: zu.coerce
-      .number({
-        message: "Veuillez entrer un nombre valide",
-      })
-      .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
-    dividerType: zu.nativeEnum(ShowDividerType, {
-      required_error: "Veuillez choisir un type de cloisons",
-    }),
-    hasElectricalConnection: zu
-      .enum(["on", "off"], {
-        required_error: "Veuillez choisir une option",
-      })
-      .transform((value) => value === "on"),
-    hasTablecloths: zu
-      .enum(["on", "off"], {
-        required_error: "Veuillez choisir une option",
-      })
-      .transform((value) => value === "on"),
-    installationDay: zu.nativeEnum(ShowInstallationDay, {
-      required_error: "Veuillez choisir un jour d’installation",
-    }),
-    peopleCount: zu.coerce
-      .number({
-        message: "Veuillez entrer un nombre valide",
-      })
-      .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
-    placementComment: zu
-      .string()
-      .trim()
-      .max(256, "Veuillez entrer un commentaire plus court")
-      .optional(),
-    size: zu.nativeEnum(StandSize.Enum, {
-      required_error: "Veuillez choisir une taille de stand",
-    }),
-    tableCount: zu.coerce
-      .number({
-        message: "Veuillez entrer un nombre valide",
-      })
-      .int({ message: "Veuillez entrer un nombre entier" })
-      .min(0, "Veuillez entrer un nombre positif"),
-    zone: zu.nativeEnum(ShowStandZone, {
-      required_error: "Veuillez choisir un emplacement",
-    }),
-  })
-  .refine(
-    (value) => value.chairCount <= value.peopleCount,
-    (value) => ({
-      message: `Veuillez entrer un nombre inférieur à ${value.peopleCount}`,
-      path: ["chairCount"],
-    }),
-  )
-  .refine(
-    (value) =>
-      value.dividerCount <= MAX_DIVIDER_COUNT_BY_STAND_SIZE[value.size],
-    (value) => ({
-      message: `Veuillez entrer un nombre inférieur à ${MAX_DIVIDER_COUNT_BY_STAND_SIZE[value.size]}`,
-      path: ["dividerCount"],
-    }),
-  )
-  .refine(
-    (value) => value.peopleCount <= MAX_PEOPLE_COUNT_BY_STAND_SIZE[value.size],
-    (value) => ({
-      message: `Veuillez entrer un nombre inférieur à ${MAX_PEOPLE_COUNT_BY_STAND_SIZE[value.size]}`,
-      path: ["peopleCount"],
-    }),
-  )
-  .refine(
-    (value) => value.tableCount <= MAX_TABLE_COUNT_BY_STAND_SIZE[value.size],
-    (value) => ({
-      message: `Veuillez entrer un nombre inférieur à ${MAX_TABLE_COUNT_BY_STAND_SIZE[value.size]}`,
-      path: ["tableCount"],
-    }),
+      .refine(
+        (value) => value.dividerType == null || value.dividerCount != null,
+        () => ({
+          message: "Veuillez entrer un nombre de cloisons",
+          path: ["dividerCount"],
+        }),
+      )
+      .refine(
+        (value) =>
+          value.dividerType == null ||
+          value.dividerCount == null ||
+          value.dividerCount <=
+            Math.min(
+              value.dividerType.availableCount,
+              value.standSize.maxDividerCount,
+            ),
+        (value) => {
+          invariant(
+            value.dividerType != null,
+            "`dividerType` should be defined",
+          );
+
+          return {
+            message: `Veuillez entrer un nombre inférieur à ${Math.min(
+              value.dividerType.availableCount,
+              value.standSize.maxDividerCount,
+            )}`,
+            path: ["dividerCount"],
+          };
+        },
+      )
+      .refine(
+        (value) => value.peopleCount <= value.standSize.maxPeopleCount,
+        (value) => ({
+          message: `Veuillez entrer un nombre inférieur à ${value.standSize.maxPeopleCount}`,
+          path: ["peopleCount"],
+        }),
+      )
+      .refine(
+        (value) => value.tableCount <= value.standSize.maxTableCount,
+        (value) => ({
+          message: `Veuillez entrer un nombre inférieur à ${value.standSize.maxTableCount}`,
+          path: ["tableCount"],
+        }),
+      )
+      // Use `Math.min(...)` to ensure that `chairCount` is never greater than
+      // a valid `peopleCount`.
+      .refine(
+        (value) =>
+          value.chairCount <=
+          Math.min(value.peopleCount, value.standSize.maxPeopleCount),
+        (value) => ({
+          message: `Veuillez entrer un nombre inférieur à ${Math.min(value.peopleCount, value.standSize.maxPeopleCount)}`,
+          path: ["chairCount"],
+        }),
+      )
   );
+}

@@ -18,9 +18,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const routeParams = safeParseRouteParam(routeParamsSchema, params);
 
-  const exhbitor = await db.show.exhibitor.findUnique(routeParams.id, {
+  const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: { name: true },
   });
 
-  return json({ exhbitor });
+  return json({ exhibitor });
 }

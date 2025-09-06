@@ -33,9 +33,9 @@ export namespace ActivityField {
 
   /**
    * Exhibitors with at least one of the follwing activity fields are limited to
-   * small sized stands.
+   * some stand sizes.
    */
-  export const valuesSmallSizedStands = [
+  export const valuesWithLimitedStandSizes = [
     ActivityField.Enum.ALTERNATIVE_MEDICINE,
     ActivityField.Enum.ASSOCIATION,
     ActivityField.Enum.BEHAVIOR,

@@ -1,5 +1,4 @@
 import type { IconName } from "#generated/icon";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
@@ -17,6 +16,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     animations: "an",
     applicationStatuses: "as",
     descriptionStatuses: "ds",
+    dividerTypesId: "dt",
     documentsStatuses: "dos",
     dogsConfigurationStatuses: "dcs",
     fields: "fi",
@@ -27,7 +27,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
     sort: "sort",
     sponsorshipCategories: "pc",
     standConfigurationStatuses: "scs",
-    standSize: "size",
+    standSizesId: "size",
     targets: "ta",
     visibility: "vi",
   },
@@ -42,6 +42,10 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       descriptionStatuses: SearchParamsIO.getValues(
         searchParams,
         keys.descriptionStatuses,
+      ),
+      dividerTypesId: SearchParamsIO.getValues(
+        searchParams,
+        keys.dividerTypesId,
       ),
       documentsStatuses: SearchParamsIO.getValues(
         searchParams,
@@ -74,7 +78,7 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
         searchParams,
         keys.standConfigurationStatuses,
       ),
-      standSize: SearchParamsIO.getValues(searchParams, keys.standSize),
+      standSizesId: SearchParamsIO.getValues(searchParams, keys.standSizesId),
       targets: SearchParamsIO.getValues(searchParams, keys.targets),
       visibility: SearchParamsIO.getValues(searchParams, keys.visibility),
     });
@@ -92,6 +96,13 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.descriptionStatuses,
       data.descriptionStatuses,
     );
+
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.dividerTypesId,
+      data.dividerTypesId,
+    );
+
     SearchParamsIO.setValues(
       searchParams,
       keys.documentsStatuses,
@@ -125,7 +136,11 @@ export const ExhibitorSearchParams = SearchParamsIO.create({
       keys.standConfigurationStatuses,
       data.standConfigurationStatuses,
     );
-    SearchParamsIO.setValues(searchParams, keys.standSize, data.standSize);
+    SearchParamsIO.setValues(
+      searchParams,
+      keys.standSizesId,
+      data.standSizesId,
+    );
     SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
     SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility);
   },
@@ -137,6 +152,7 @@ export namespace ExhibitorSearchParamsN {
   export const Sort = {
     NAME: "N",
     UPDATED_AT: "U",
+    DIVIDER_COUNT: "D",
   } as const;
 
   export type Sort = (typeof Sort)[keyof typeof Sort];
@@ -144,14 +160,23 @@ export namespace ExhibitorSearchParamsN {
   export const SORT_DEFAULT_VALUE = Sort.UPDATED_AT;
 
   export const SORT_TRANSLATIONS: Record<Sort, string> = {
+    [Sort.DIVIDER_COUNT]: "Nombre de cloisons",
     [Sort.NAME]: "Alphabétique",
     [Sort.UPDATED_AT]: "Mise à jour",
   };
 
-  export const SORT_VALUES: Sort[] = [Sort.UPDATED_AT, Sort.NAME];
+  export const SORT_VALUES: Sort[] = [
+    Sort.UPDATED_AT,
+    Sort.NAME,
+    Sort.DIVIDER_COUNT,
+  ];
 
   export const SORT_ICONS: Record<Sort, { light: IconName; solid: IconName }> =
     {
+      [Sort.DIVIDER_COUNT]: {
+        light: "icon-fence-light",
+        solid: "icon-fence-solid",
+      },
       [Sort.NAME]: {
         light: "icon-clock-light",
         solid: "icon-clock-solid",
@@ -211,6 +236,11 @@ const SearchParamsSchema = zu.object({
   descriptionStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
+  dividerTypesId: zu.searchParams.set(
+    zu.searchParams
+      .string()
+      .pipe(zu.string().uuid().optional().catch(undefined)),
+  ),
   documentsStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
@@ -237,7 +267,11 @@ const SearchParamsSchema = zu.object({
   standConfigurationStatuses: zu.searchParams.set(
     zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
   ),
-  standSize: zu.searchParams.set(zu.searchParams.nativeEnum(StandSize.Enum)),
+  standSizesId: zu.searchParams.set(
+    zu.searchParams
+      .string()
+      .pipe(zu.string().uuid().optional().catch(undefined)),
+  ),
   targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
 });

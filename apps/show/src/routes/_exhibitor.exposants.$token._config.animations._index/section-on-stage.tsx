@@ -4,6 +4,7 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
+import { joinReactNodes } from "@animeaux/core";
 import type { ShowActivityTarget } from "@prisma/client";
 import { ShowStandZone } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -120,13 +121,16 @@ function AnimationItem({
         <p>
           <span className="text-caption-lowercase-default">Avec :{" "}</span>
 
-          {otherAnimators.map((animator) => (
-            <ProseInlineAction key={animator.id} variant="subtle" asChild>
-              <Link to={animator.url} className="uppercase">
-                {animator.name}
-              </Link>
-            </ProseInlineAction>
-          ))}
+          {joinReactNodes(
+            otherAnimators.map((animator) => (
+              <ProseInlineAction key={animator.id} variant="subtle" asChild>
+                <Link to={animator.url} className="uppercase">
+                  {animator.name}
+                </Link>
+              </ProseInlineAction>
+            )),
+            ", ",
+          )}
         </p>
       ) : null}
 

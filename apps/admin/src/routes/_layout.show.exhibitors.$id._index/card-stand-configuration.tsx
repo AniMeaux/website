@@ -1,5 +1,6 @@
-import { Action } from "#core/actions";
+import { Action, ProseInlineAction } from "#core/actions";
 import { BaseLink } from "#core/base-link";
+import { InlineHelper } from "#core/data-display/helper.js";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import {
   ARTICLE_COMPONENTS,
@@ -9,10 +10,7 @@ import {
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { DividerType } from "#show/exhibitors/stand-configuration/divider";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
-import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -21,6 +19,19 @@ import type { loader } from "./loader.server";
 
 export function CardStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();
+
+  const hasTooManyDividers =
+    exhibitor.dividerCount > exhibitor.size.maxDividerCount;
+
+  const hasTooManyTables = exhibitor.tableCount > exhibitor.size.maxTableCount;
+
+  const hasTooManyPeople =
+    exhibitor.peopleCount > exhibitor.size.maxPeopleCount;
+
+  const hasTooManyChairsOnStand =
+    exhibitor.chairCount > exhibitor.size.maxPeopleCount;
+
+  const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount;
 
   return (
     <Card>
@@ -39,6 +50,41 @@ export function CardStandConfiguration() {
       </Card.Header>
 
       <Card.Content>
+        {hasTooManyDividers ? (
+          <InlineHelper variant="warning">
+            Le nombre de cloisons dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxDividerCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyTables ? (
+          <InlineHelper variant="warning">
+            Le nombre de tables dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxTableCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyPeople ? (
+          <InlineHelper variant="warning">
+            Le nombre de personnes dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxPeopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyChairsOnStand && hasTooManyPeople ? (
+          <InlineHelper variant="warning">
+            Le nombre de chaises dépasse la limite autorisée pour ce stand (
+            {exhibitor.size.maxPeopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasUnusedChairs && (!hasTooManyChairsOnStand || !hasTooManyPeople) ? (
+          <InlineHelper variant="warning">
+            Le nombre de chaises est supérieur au nombre de personnes sur le
+            stand ({exhibitor.peopleCount} personnes).
+          </InlineHelper>
+        ) : null}
+
         <StandConfigurationStatusHelper />
 
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
@@ -126,18 +172,20 @@ function ItemDivider() {
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
-      <strong className="text-body-emphasis">{exhibitor.dividerCount}</strong>{" "}
-      cloison
-      {exhibitor.dividerCount > 1 ? "s" : null}
-      {exhibitor.dividerType != null ? (
+      {exhibitor.dividerType == null ? (
+        <strong className="text-body-emphasis">Aucune cloison</strong>
+      ) : (
         <>
-          <br />
-          En{" "}
           <strong className="text-body-emphasis">
-            {DividerType.translation[exhibitor.dividerType]}
+            {exhibitor.dividerCount}
+          </strong>{" "}
+          cloison
+          {exhibitor.dividerCount > 1 ? "s" : null} type{" "}
+          <strong className="text-body-emphasis">
+            {exhibitor.dividerType.label}
           </strong>
         </>
-      ) : null}
+      )}
     </SimpleItem>
   );
 }
@@ -148,18 +196,11 @@ function ItemStandInfo() {
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
       Stand de{" "}
-      <strong className="text-body-emphasis">
-        {StandSize.translation[exhibitor.size]}
-      </strong>
-      {exhibitor.zone != null ? (
-        <>
-          <br />
-          En{" "}
-          <strong className="text-body-emphasis">
-            {StandZone.translation[exhibitor.zone]}
-          </strong>
-        </>
-      ) : null}
+      <ProseInlineAction asChild>
+        <BaseLink to={Routes.show.standSizes.id(exhibitor.size.id).toString()}>
+          {exhibitor.size.label}
+        </BaseLink>
+      </ProseInlineAction>
       <br />
       <strong className="text-body-emphasis">
         {exhibitor.hasElectricalConnection ? "Avec" : "Sans"}

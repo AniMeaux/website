@@ -2,41 +2,25 @@ import { FieldStepper } from "#core/form-elements/field-stepper";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
-import {
-  MAX_DIVIDER_COUNT,
-  MAX_DIVIDER_COUNT_BY_STAND_SIZE,
-} from "#exhibitors/stand-size/divider-count";
-import { FieldStandSize } from "#exhibitors/stand-size/field";
-import {
-  MAX_PEOPLE_COUNT,
-  MAX_PEOPLE_COUNT_BY_STAND_SIZE,
-} from "#exhibitors/stand-size/people-count";
-import type { StandSize } from "#exhibitors/stand-size/stand-size.js";
-import {
-  MAX_TABLE_COUNT,
-  MAX_TABLE_COUNT_BY_STAND_SIZE,
-} from "#exhibitors/stand-size/table-count";
+import { FieldStandSize } from "#stand-size/field.js";
+import type { Prisma } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
-import { useMemo } from "react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
-import { FieldStandZone } from "./field-stand-zone";
 import { useForm } from "./form";
 import type { loader } from "./loader.server";
 
 export function FieldsetStand() {
-  const { exhibitor, availableStandSizes } = useLoaderData<typeof loader>();
+  const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
   const { fields } = useForm();
 
-  // Ensure the exhibitor's current stand size is available to let the user
-  // select it back after a change.
-  const ownAvailableStandSizes = useMemo(() => {
-    if (availableStandSizes.includes(exhibitor.size)) {
-      return availableStandSizes;
-    }
+  const selectedStandSize = standSizes.find(
+    (standSize) => standSize.id === fields.standSize.value,
+  );
 
-    return availableStandSizes.concat([exhibitor.size]);
-  }, [availableStandSizes, exhibitor.size]);
+  const selectedDividerType = dividerTypes.find(
+    (dividerType) => dividerType.id === fields.dividerType.value,
+  );
 
   return (
     <FormLayout.Section>
@@ -44,9 +28,8 @@ export function FieldsetStand() {
 
       <FieldStandSize
         label="Taille du stand"
-        field={fields.size}
-        availableStandSizes={ownAvailableStandSizes}
-        selectedActivityFields={exhibitor.activityFields}
+        field={fields.standSize}
+        standSizes={standSizes}
       />
 
       <FieldYesNo
@@ -55,31 +38,37 @@ export function FieldsetStand() {
       />
 
       <FormLayout.Row>
-        <FieldDividerType label="Type de cloisons" field={fields.dividerType} />
-
-        <FieldStepper
-          label="Nombre de cloisons"
-          field={fields.dividerCount}
-          maxValue={
-            fields.size.value == null
-              ? MAX_DIVIDER_COUNT
-              : MAX_DIVIDER_COUNT_BY_STAND_SIZE[
-                  fields.size.value as StandSize.Enum
-                ]
-          }
-          helper={
-            <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
-          }
+        <FieldDividerType
+          label="Type de cloisons"
+          field={fields.dividerType}
+          dividerTypes={dividerTypes}
         />
+
+        {selectedDividerType != null ? (
+          <FieldStepper
+            label="Nombre de cloisons"
+            field={fields.dividerCount}
+            minValue={1}
+            maxValue={Math.min(
+              selectedDividerType.availableCount,
+              selectedStandSize?.maxDividerCount ??
+                getMaxValue(standSizes, "maxDividerCount"),
+            )}
+            helper={
+              <FormLayout.Helper>
+                Sous réserve de disponibilité
+              </FormLayout.Helper>
+            }
+          />
+        ) : null}
       </FormLayout.Row>
 
       <FieldStepper
         label="Nombre de tables"
         field={fields.tableCount}
         maxValue={
-          fields.size.value == null
-            ? MAX_TABLE_COUNT
-            : MAX_TABLE_COUNT_BY_STAND_SIZE[fields.size.value as StandSize.Enum]
+          selectedStandSize?.maxTableCount ??
+          getMaxValue(standSizes, "maxTableCount")
         }
         helper={
           <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
@@ -92,18 +81,17 @@ export function FieldsetStand() {
         <FieldStepper
           label="Nombre de personnes sur le stand"
           field={fields.peopleCount}
+          minValue={1}
           maxValue={
-            fields.size.value == null
-              ? MAX_PEOPLE_COUNT
-              : MAX_PEOPLE_COUNT_BY_STAND_SIZE[
-                  fields.size.value as StandSize.Enum
-                ]
+            selectedStandSize?.maxPeopleCount ??
+            getMaxValue(standSizes, "maxPeopleCount")
           }
         />
 
         <FieldStepper
           label="Nombre de chaises"
           field={fields.chairCount}
+          minValue={1}
           maxValue={
             isNaN(Number(fields.peopleCount.value))
               ? undefined
@@ -117,8 +105,6 @@ export function FieldsetStand() {
         field={fields.installationDay}
       />
 
-      <FieldStandZone label="Emplacement" field={fields.zone} />
-
       <FieldTextarea
         label="Commentaire sur votre choix d’emplacement"
         field={fields.placementComment}
@@ -126,4 +112,17 @@ export function FieldsetStand() {
       />
     </FormLayout.Section>
   );
+}
+
+function getMaxValue(
+  standSizes: Prisma.ShowStandSizeGetPayload<{
+    select: {
+      maxDividerCount: true;
+      maxPeopleCount: true;
+      maxTableCount: true;
+    };
+  }>[],
+  property: keyof (typeof standSizes)[number],
+): number {
+  return Math.max(...standSizes.map((standSize) => standSize[property]));
 }

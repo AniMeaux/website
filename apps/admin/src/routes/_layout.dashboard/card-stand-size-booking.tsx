@@ -1,8 +1,10 @@
-import { Chip } from "#core/data-display/chip.js";
-import { Item, ItemList } from "#core/data-display/item.js";
+import { BaseLink } from "#core/base-link.js";
+import { SimpleEmpty } from "#core/data-display/empty.js";
 import { Card } from "#core/layout/card.js";
-import { Icon } from "#generated/icon.js";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size.js";
+import { Routes } from "#core/navigation.js";
+import { StandSizeBookingChip } from "#show/stand-size/booking-chip.js";
+import { StandSizeBookingIcon } from "#show/stand-size/booking-icon.js";
+import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -19,56 +21,47 @@ export function CardStandSizeBooking() {
         <Card.Title>Remplissage des stands</Card.Title>
       </Card.Header>
 
-      <Card.Content>
-        <ItemList>
-          {show.standSizeBooking.map((booking) => (
-            <Item.Root key={booking.size}>
-              <Item.Icon>
-                {booking.ratio === 0 ? (
-                  <Icon href="icon-circle-light" className="text-gray-600" />
-                ) : booking.ratio < 0.33 ? (
-                  <Icon
-                    href="icon-circle-progress-1-solid"
-                    className="text-blue-500"
-                  />
-                ) : booking.ratio < 0.66 ? (
-                  <Icon
-                    href="icon-circle-progress-2-solid"
-                    className="text-cyan-500"
-                  />
-                ) : booking.ratio < 1 ? (
-                  <Icon
-                    href="icon-circle-progress-3-solid"
-                    className="text-emerald-500"
-                  />
-                ) : booking.ratio === 1 ? (
-                  <Icon
-                    href="icon-circle-check-solid"
-                    className="text-green-600"
-                  />
-                ) : (
-                  <Icon
-                    href="icon-circle-exclamation-solid"
-                    className="text-red-500"
-                  />
-                )}
-              </Item.Icon>
-
-              <Item.Content className="grid grid-cols-fr-auto items-center gap-1">
-                <span>{StandSize.translation[booking.size]}</span>
-
-                <Chip
-                  variant={booking.ratio > 1 ? "primary" : "secondary"}
-                  color={booking.ratio > 1 ? "red" : "black"}
-                >
-                  {booking.bookedCount}
-                  {booking.maxCount != null ? ` / ${booking.maxCount}` : null}
-                </Chip>
-              </Item.Content>
-            </Item.Root>
-          ))}
-        </ItemList>
+      <Card.Content hasListItems>
+        {show.standSizes.length === 0 ? (
+          <SimpleEmpty
+            isCompact
+            icon="📐"
+            iconAlt="Équerre"
+            title="Aucune taille de stand"
+            titleElementType="h3"
+            message="Pour l’instant ;)"
+          />
+        ) : (
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2">
+            {show.standSizes.map((standSize) => (
+              <StandSizeItem key={standSize.id} standSize={standSize} />
+            ))}
+          </div>
+        )}
       </Card.Content>
     </Card>
+  );
+}
+
+function StandSizeItem({
+  standSize,
+}: {
+  standSize: NonNullable<
+    SerializeFrom<typeof loader>["show"]
+  >["standSizes"][number];
+}) {
+  return (
+    <BaseLink
+      to={Routes.show.standSizes.id(standSize.id).toString()}
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+    >
+      <StandSizeBookingIcon standSize={standSize} className="icon-20" />
+
+      <div>{standSize.label}</div>
+
+      <div className="grid auto-cols-auto grid-flow-col items-center justify-end gap-1">
+        <StandSizeBookingChip standSize={standSize} />
+      </div>
+    </BaseLink>
   );
 }

@@ -7,10 +7,7 @@ import type { ServiceEmail } from "#core/email/service.server.js";
 import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
-import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone.js";
-import { StandSize } from "#exhibitors/stand-size/stand-size.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
@@ -29,13 +26,13 @@ export class ServiceExhibitorStandConfigurationEmail {
         select: {
           chairCount: true,
           dividerCount: true,
-          dividerType: true,
+          dividerType: { select: { label: true } },
           hasElectricalConnection: true,
           hasTablecloths: true,
           installationDay: true,
           peopleCount: true,
           placementComment: true,
-          size: true,
+          size: { select: { label: true } },
           tableCount: true,
           zone: true,
         },
@@ -60,7 +57,7 @@ export class ServiceExhibitorStandConfigurationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {StandSize.translation[exhibitor.size]}
+                {exhibitor.size.label}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -78,21 +75,21 @@ export class ServiceExhibitorStandConfigurationEmail {
               <EmailHtml.Output.Label>Type de cloisons</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                {exhibitor.dividerType != null
-                  ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
-                  : "-"}
+                {exhibitor.dividerType?.label ?? "Aucune cloison"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>
-                Nombre de cloisons
-              </EmailHtml.Output.Label>
+            {exhibitor.dividerType != null ? (
+              <EmailHtml.Output.Row>
+                <EmailHtml.Output.Label>
+                  Nombre de cloisons
+                </EmailHtml.Output.Label>
 
-              <EmailHtml.Output.Value>
-                {exhibitor.dividerCount}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
+                <EmailHtml.Output.Value>
+                  {exhibitor.dividerCount}
+                </EmailHtml.Output.Value>
+              </EmailHtml.Output.Row>
+            ) : null}
 
             <EmailHtml.Output.Row>
               <EmailHtml.Output.Label>Nombre de tables</EmailHtml.Output.Label>
@@ -138,16 +135,6 @@ export class ServiceExhibitorStandConfigurationEmail {
               <EmailHtml.Output.Value>
                 {exhibitor.installationDay != null
                   ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
-                  : "-"}
-              </EmailHtml.Output.Value>
-            </EmailHtml.Output.Row>
-
-            <EmailHtml.Output.Row>
-              <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
-
-              <EmailHtml.Output.Value>
-                {exhibitor.zone != null
-                  ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                   : "-"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -220,13 +207,13 @@ export class ServiceExhibitorStandConfigurationEmail {
           token: true,
           chairCount: true,
           dividerCount: true,
-          dividerType: true,
+          dividerType: { select: { label: true } },
           hasElectricalConnection: true,
           hasTablecloths: true,
           installationDay: true,
           peopleCount: true,
           placementComment: true,
-          size: true,
+          size: { select: { label: true } },
           standConfigurationStatus: true,
           standConfigurationStatusMessage: true,
           tableCount: true,
@@ -263,7 +250,7 @@ export class ServiceExhibitorStandConfigurationEmail {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {StandSize.translation[exhibitor.size]}
+                    {exhibitor.size.label}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
@@ -283,21 +270,21 @@ export class ServiceExhibitorStandConfigurationEmail {
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    {exhibitor.dividerType != null
-                      ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
-                      : "-"}
+                    {exhibitor.dividerType?.label ?? "Aucune cloison"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 
-                <EmailHtml.Output.Row>
-                  <EmailHtml.Output.Label>
-                    Nombre de cloisons
-                  </EmailHtml.Output.Label>
+                {exhibitor.dividerType != null ? (
+                  <EmailHtml.Output.Row>
+                    <EmailHtml.Output.Label>
+                      Nombre de cloisons
+                    </EmailHtml.Output.Label>
 
-                  <EmailHtml.Output.Value>
-                    {exhibitor.dividerCount}
-                  </EmailHtml.Output.Value>
-                </EmailHtml.Output.Row>
+                    <EmailHtml.Output.Value>
+                      {exhibitor.dividerCount}
+                    </EmailHtml.Output.Value>
+                  </EmailHtml.Output.Row>
+                ) : null}
 
                 <EmailHtml.Output.Row>
                   <EmailHtml.Output.Label>
@@ -347,16 +334,6 @@ export class ServiceExhibitorStandConfigurationEmail {
                   <EmailHtml.Output.Value>
                     {exhibitor.installationDay != null
                       ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
-                      : "-"}
-                  </EmailHtml.Output.Value>
-                </EmailHtml.Output.Row>
-
-                <EmailHtml.Output.Row>
-                  <EmailHtml.Output.Label>Emplacement</EmailHtml.Output.Label>
-
-                  <EmailHtml.Output.Value>
-                    {exhibitor.zone != null
-                      ? STAND_ZONE_TRANSLATION[exhibitor.zone]
                       : "-"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>

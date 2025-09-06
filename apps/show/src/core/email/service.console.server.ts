@@ -9,7 +9,7 @@ export class ServiceEmailConsole implements ServiceEmail {
       return;
     }
 
-    const textBody = render(template.body, { plainText: true });
+    const textBody = await render(template.body, { plainText: true });
 
     console.log(
       [

@@ -5,7 +5,6 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
 import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
-import { StandSize } from "#show/exhibitors/stand-configuration/stand-size";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
@@ -79,6 +78,14 @@ export class ShowExhibitorDbDelegate {
       statusesWhere.push({
         descriptionStatus: {
           in: Array.from(params.searchParams.descriptionStatuses),
+        },
+      });
+    }
+
+    if (params.searchParams.dividerTypesId.size > 0) {
+      where.push({
+        dividerType: {
+          id: { in: Array.from(params.searchParams.dividerTypesId) },
         },
       });
     }
@@ -188,8 +195,10 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
-    if (params.searchParams.standSize.size > 0) {
-      where.push({ size: { in: Array.from(params.searchParams.standSize) } });
+    if (params.searchParams.standSizesId.size > 0) {
+      where.push({
+        size: { id: { in: Array.from(params.searchParams.standSizesId) } },
+      });
     }
 
     if (params.searchParams.targets.size > 0) {
@@ -471,33 +480,24 @@ export class ShowExhibitorDbDelegate {
     if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
       data.standConfigurationStatusMessage = null;
     }
+
+    if (data.dividerTypeId == null) {
+      data.dividerCount = 0;
+    }
   }
 
-  async getStandSizeBooking() {
-    const { limits, groups } = await promiseHash({
-      limits: prisma.showStandSizeLimit.findMany(),
+  async delete(id: string) {
+    try {
+      await prisma.showExhibitor.delete({ where: { id } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
 
-      groups: prisma.showExhibitor.groupBy({
-        by: "size",
-        _count: { size: true },
-      }),
-    });
-
-    return StandSize.values.map((standSize) => {
-      const bookedCount =
-        groups.find((group) => group.size === standSize)?._count.size ?? 0;
-
-      const maxCount = limits.find(
-        (limit) => limit.size === standSize,
-      )?.maxCount;
-
-      return {
-        size: standSize,
-        bookedCount,
-        maxCount,
-        ratio: maxCount == null ? 0 : bookedCount / maxCount,
-      };
-    });
+      throw error;
+    }
   }
 }
 
@@ -505,6 +505,10 @@ const FIND_ORDER_BY_SORT: Record<
   ExhibitorSearchParamsN.Sort,
   Prisma.ShowExhibitorFindManyArgs["orderBy"]
 > = {
+  [ExhibitorSearchParamsN.Sort.DIVIDER_COUNT]: [
+    { dividerCount: "desc" },
+    { name: "asc" },
+  ],
   [ExhibitorSearchParamsN.Sort.NAME]: { name: "asc" },
   [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
 };
@@ -548,17 +552,16 @@ type ShowExhibitorOnStandAnimationsData = Pick<
 >;
 
 type ShowExhibitorStandConfigurationData = Pick<
-  Prisma.ShowExhibitorUpdateInput,
+  Prisma.ShowExhibitorUncheckedUpdateInput,
   | "chairCount"
   | "dividerCount"
-  | "dividerType"
+  | "dividerTypeId"
   | "hasElectricalConnection"
   | "hasTablecloths"
   | "installationDay"
   | "peopleCount"
-  | "size"
+  | "sizeId"
   | "standConfigurationStatus"
   | "standConfigurationStatusMessage"
   | "tableCount"
-  | "zone"
 >;

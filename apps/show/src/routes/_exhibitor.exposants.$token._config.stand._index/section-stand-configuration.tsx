@@ -6,10 +6,7 @@ import {
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
-import { DIVIDER_TYPE_TRANSLATION } from "#exhibitors/stand-configuration/divider-type";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
-import { STAND_ZONE_TRANSLATION } from "#exhibitors/stand-configuration/stand-zone";
-import { StandSize } from "#exhibitors/stand-size/stand-size";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -44,9 +41,7 @@ export function SectionStandConfiguration() {
         <FormLayout.Field>
           <FormLayout.Label>Taille du stand</FormLayout.Label>
 
-          <FormLayout.Output>
-            {StandSize.translation[exhibitor.size]}
-          </FormLayout.Output>
+          <FormLayout.Output>{exhibitor.size.label}</FormLayout.Output>
         </FormLayout.Field>
 
         <FormLayout.Field>
@@ -63,17 +58,17 @@ export function SectionStandConfiguration() {
           <FormLayout.Label>Type de cloisons</FormLayout.Label>
 
           <FormLayout.Output>
-            {exhibitor.dividerType != null
-              ? DIVIDER_TYPE_TRANSLATION[exhibitor.dividerType]
-              : "-"}
+            {exhibitor.dividerType?.label ?? "Aucune cloison"}
           </FormLayout.Output>
         </FormLayout.Field>
 
-        <FormLayout.Field>
-          <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
+        {exhibitor.dividerType != null ? (
+          <FormLayout.Field>
+            <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
 
-          <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
-        </FormLayout.Field>
+            <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
+          </FormLayout.Field>
+        ) : null}
       </FormLayout.Row>
 
       <FormLayout.Row>
@@ -113,16 +108,6 @@ export function SectionStandConfiguration() {
           {exhibitor.installationDay != null
             ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
             : "-"}
-        </FormLayout.Output>
-      </FormLayout.Field>
-
-      <FormLayout.Field>
-        <FormLayout.Label>Emplacement</FormLayout.Label>
-
-        <FormLayout.Output>
-          {exhibitor.zone == null
-            ? "-"
-            : STAND_ZONE_TRANSLATION[exhibitor.zone]}
         </FormLayout.Output>
       </FormLayout.Field>
 

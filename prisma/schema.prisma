@@ -360,8 +360,10 @@ model ShowExhibitorApplication {
   structureCountry             String                              @db.VarChar(64)
   structureLogoPath            String                              @db.VarChar(128)
 
-  desiredStandSize                ShowStandSize
-  proposalForOnStageEntertainment String?       @db.VarChar(500)
+  desiredStandSize   ShowStandSize @relation(fields: [desiredStandSizeId], references: [id], onDelete: Restrict)
+  desiredStandSizeId String        @db.Uuid
+
+  proposalForOnStageEntertainment String? @db.VarChar(500)
 
   sponsorshipCategory ShowSponsorshipCategory?
 
@@ -464,24 +466,57 @@ model ShowExhibitor {
   standConfigurationStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
   standConfigurationStatusMessage String?
 
+  size   ShowStandSize @relation(fields: [sizeId], references: [id], onDelete: Restrict)
+  sizeId String        @db.Uuid
+
+  dividerType   ShowDividerType? @relation(fields: [dividerTypeId], references: [id], onDelete: Restrict)
+  dividerTypeId String?          @db.Uuid
+
   chairCount              Int                  @default(1)
   dividerCount            Int                  @default(0)
-  dividerType             ShowDividerType?
   hasElectricalConnection Boolean              @default(false)
   hasTablecloths          Boolean              @default(true)
   installationDay         ShowInstallationDay?
   locationNumber          String?              @db.VarChar(16)
   peopleCount             Int                  @default(1)
   placementComment        String?              @db.VarChar(256)
-  size                    ShowStandSize
   standNumber             String?              @db.VarChar(16)
   tableCount              Int
   zone                    ShowStandZone?
 }
 
-model ShowStandSizeLimit {
-  size     ShowStandSize @unique
+model ShowStandSize {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label String @unique @db.VarChar(128)
+  area  Int
+
+  isVisible Boolean @default(true)
+
+  // When `true`, this stand size can only be selected by exhibitors with some
+  // specific activity fields.
+  isRestrictedByActivityField Boolean @default(false)
+
+  maxCount        Int
+  maxTableCount   Int
+  maxPeopleCount  Int
+  maxDividerCount Int
+
+  applications ShowExhibitorApplication[]
+  exhibitors   ShowExhibitor[]
+}
+
+model ShowDividerType {
+  id        String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  label    String @unique @db.VarChar(128)
   maxCount Int
+
+  exhibitors ShowExhibitor[]
 }
 
 enum ShowExhibitorStatus {
@@ -489,12 +524,6 @@ enum ShowExhibitorStatus {
   AWAITING_VALIDATION
   TO_MODIFY
   VALIDATED
-}
-
-enum ShowDividerType {
-  GRID
-  FABRIC_PANEL
-  WOOD_PANEL
 }
 
 enum ShowInstallationDay {
@@ -619,12 +648,4 @@ enum ShowActivityTarget {
   NACS
   RABBITS
   WILDLIFE
-}
-
-enum ShowStandSize {
-  S_6
-  S_9
-  S_12
-  S_18
-  S_36
 }

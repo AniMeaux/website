@@ -1,3 +1,4 @@
+import { ProseInlineAction } from "#core/actions.js";
 import { DynamicImage } from "#core/data-display/image";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
@@ -64,7 +65,15 @@ export function CardStructure() {
             </SimpleItem>
 
             <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
-              {application.structureUrl}
+              <ProseInlineAction variant="subtle" asChild>
+                <a
+                  href={application.structureUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {application.structureUrl}
+                </a>
+              </ProseInlineAction>
             </SimpleItem>
 
             <SimpleItem

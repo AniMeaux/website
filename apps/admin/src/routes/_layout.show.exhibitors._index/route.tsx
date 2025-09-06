@@ -12,6 +12,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
 import { CardList } from "./card-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -26,26 +27,36 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const searchParams = new URL(request.url).searchParams;
 
-  const { exhibitors, totalCount } = await db.show.exhibitor.findMany({
-    page: PageSearchParams.parse(searchParams).page,
-    countPerPage: EXHIBITOR_COUNT_PER_PAGE,
-    searchParams: ExhibitorSearchParams.parse(searchParams),
-    select: {
-      createdAt: true,
-      id: true,
-      isVisible: true,
-      logoPath: true,
-      name: true,
-
-      application: {
-        select: { status: true },
+  const {
+    exhibitors: { exhibitors, totalCount },
+    dividerTypes,
+    standSizes,
+  } = await promiseHash({
+    exhibitors: db.show.exhibitor.findMany({
+      page: PageSearchParams.parse(searchParams).page,
+      countPerPage: EXHIBITOR_COUNT_PER_PAGE,
+      searchParams: ExhibitorSearchParams.parse(searchParams),
+      select: {
+        createdAt: true,
+        id: true,
+        isVisible: true,
+        logoPath: true,
+        name: true,
       },
-    },
+    }),
+
+    dividerTypes: db.show.dividerType.findMany({
+      select: { id: true, label: true },
+    }),
+
+    standSizes: db.show.standSize.findMany({
+      select: { id: true, label: true },
+    }),
   });
 
   const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
 
-  return json({ totalCount, pageCount, exhibitors });
+  return json({ totalCount, pageCount, exhibitors, dividerTypes, standSizes });
 }
 
 const EXHIBITOR_COUNT_PER_PAGE = 20;
@@ -55,7 +66,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount } = useLoaderData<typeof loader>();
+  const { totalCount, dividerTypes, standSizes } =
+    useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -71,14 +83,17 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <ExhibitorFilters />
+              <ExhibitorFilters
+                dividerTypes={dividerTypes}
+                standSizes={standSizes}
+              />
             </Card.Content>
           </Card>
         </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <ExhibitorFilters />
+        <ExhibitorFilters dividerTypes={dividerTypes} standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
   );

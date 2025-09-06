@@ -15,6 +15,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+import { ActionIntent } from "./action";
 import type { action } from "./action.server";
 import type { loader } from "./loader.server";
 
@@ -148,11 +149,15 @@ function InvoiceListItem({
                   <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
                   <fetcher.Form method="DELETE" className="flex">
-                    <Dialog.ConfirmAction
-                      type="submit"
-                      name="invoiceId"
-                      value={invoice.id}
-                    >
+                    <input
+                      type="hidden"
+                      name="intent"
+                      value={ActionIntent.deleteInvoice}
+                    />
+
+                    <input type="hidden" name="invoiceId" value={invoice.id} />
+
+                    <Dialog.ConfirmAction type="submit">
                       Oui, supprimer
                       <Action.Loader isLoading={fetcher.state !== "idle"} />
                     </Dialog.ConfirmAction>

@@ -7,22 +7,41 @@ import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { ActionSchema } from "./action-schema";
+import { promiseHash } from "remix-utils/promise";
+import { createActionSchema } from "./action-schema";
+import { getDividerTypesData } from "./divider-types.server";
+import { getStandSizesData } from "./stand-sizes.server";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
-    select: { standConfigurationStatus: true },
+    select: {
+      activityFields: true,
+      dividerType: { select: { id: true } },
+      dividerCount: true,
+      standConfigurationStatus: true,
+      size: { select: { id: true } },
+    },
   });
 
   if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw badRequest();
   }
 
+  const {
+    standSizesData: { availableStandSizes },
+    dividerTypesData: { availableDividerTypes },
+  } = await promiseHash({
+    standSizesData: getStandSizesData(exhibitor),
+    dividerTypesData: getDividerTypesData(exhibitor),
+  });
+
   const formData = await request.formData();
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, {
+    schema: createActionSchema({ availableStandSizes, availableDividerTypes }),
+  });
 
   if (submission.status !== "success") {
     return json(submission.reply(), { status: 400 });
@@ -31,15 +50,14 @@ export async function action({ request, params }: ActionFunctionArgs) {
   await services.exhibitor.updateStand(routeParams.token, {
     chairCount: submission.value.chairCount,
     dividerCount: submission.value.dividerCount,
-    dividerType: submission.value.dividerType,
+    dividerTypeId: submission.value.dividerType?.id ?? null,
     hasElectricalConnection: submission.value.hasElectricalConnection,
     hasTablecloths: submission.value.hasTablecloths,
     installationDay: submission.value.installationDay,
     peopleCount: submission.value.peopleCount,
     placementComment: submission.value.placementComment || null,
-    size: submission.value.size,
+    sizeId: submission.value.standSize.id,
     tableCount: submission.value.tableCount,
-    zone: submission.value.zone,
   });
 
   services.exhibitorEmail.standConfiguration.submitted(routeParams.token);

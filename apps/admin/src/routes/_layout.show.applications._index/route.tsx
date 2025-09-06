@@ -12,6 +12,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
 import { CardList } from "./card-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -26,8 +27,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const searchParams = new URL(request.url).searchParams;
 
-  const { applications, totalCount } =
-    await db.show.exhibitor.application.findMany({
+  const {
+    applications: { applications, totalCount },
+    standSizes,
+  } = await promiseHash({
+    applications: db.show.exhibitor.application.findMany({
       page: PageSearchParams.parse(searchParams).page,
       countPerPage: APPLICATION_COUNT_PER_PAGE,
       searchParams: ApplicationSearchParams.parse(searchParams),
@@ -41,7 +45,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
         structureLegalStatusOther: true,
         structureName: true,
       },
-    });
+    }),
+
+    standSizes: db.show.standSize.findMany({
+      select: { id: true, label: true },
+    }),
+  });
 
   const pageCount = Math.ceil(totalCount / APPLICATION_COUNT_PER_PAGE);
 
@@ -49,6 +58,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     totalCount,
     pageCount,
     applications,
+    standSizes,
   });
 }
 
@@ -59,7 +69,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const { totalCount } = useLoaderData<typeof loader>();
+  const { totalCount, standSizes } = useLoaderData<typeof loader>();
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -75,14 +85,14 @@ export default function Route() {
             </Card.Header>
 
             <Card.Content hasVerticalScroll>
-              <ApplicationFilters />
+              <ApplicationFilters standSizes={standSizes} />
             </Card.Content>
           </Card>
         </aside>
       </section>
 
       <SortAndFiltersFloatingAction totalCount={totalCount}>
-        <ApplicationFilters />
+        <ApplicationFilters standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
   );

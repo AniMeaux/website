@@ -12,7 +12,13 @@ import { v4 as uuid } from "uuid";
 import { createActionSchema } from "./action-schema";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const availableStandSizes = await services.standSize.getAvailable();
+  const standSizes = await services.standSize.getManyVisible({
+    select: { id: true, isRestrictedByActivityField: true },
+  });
+
+  const availableStandSizes = standSizes.filter(
+    (standSize) => standSize.isAvailable,
+  );
 
   const reversibleUpload = services.image.createReversibleUpload();
 
@@ -82,7 +88,7 @@ export async function action({ request }: ActionFunctionArgs) {
       structureActivityFields: submission.value.structure.activityFields,
       structureLogoPath: submission.value.structure.logo.name,
 
-      desiredStandSize: submission.value.participation.desiredStandSize,
+      desiredStandSizeId: submission.value.participation.desiredStandSizeId,
       proposalForOnStageEntertainment:
         submission.value.participation.proposalForOnStageEntertainment,
 
