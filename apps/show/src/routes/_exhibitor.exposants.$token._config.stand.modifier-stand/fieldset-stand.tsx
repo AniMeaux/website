@@ -2,6 +2,7 @@ import { FieldStepper } from "#core/form-elements/field-stepper";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
+import { Price } from "#price/price.js";
 import { FieldStandSize } from "#stand-size/field.js";
 import type { Prisma } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
@@ -22,6 +23,8 @@ export function FieldsetStand() {
   const selectedDividerType = dividerTypes.find(
     (dividerType) => dividerType.id === fields.dividerType.value,
   );
+
+  const selectedTableCount = Number(fields.tableCount.value);
 
   return (
     <FormLayout.Section>
@@ -76,7 +79,18 @@ export function FieldsetStand() {
         }
       />
 
-      <FieldYesNo label="Nappage des tables" field={fields.hasTableCloths} />
+      {selectedTableCount > 0 ? (
+        <FieldYesNo
+          label="Nappage des tables"
+          field={fields.hasTableCloths}
+          helper={
+            <FormLayout.Helper>
+              Option à {Price.format(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))} par
+              table
+            </FormLayout.Helper>
+          }
+        />
+      ) : null}
 
       <FormLayout.Row>
         <FieldStepper
