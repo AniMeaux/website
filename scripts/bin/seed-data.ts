@@ -944,6 +944,7 @@ async function seedShowExhibitors() {
 
           sizeId: application.desiredStandSize.id,
           tableCount: faker.number.int({ min: 0, max: 3 }),
+          hasCorner: faker.datatype.boolean({ probability: 1 / 10 }),
         },
       });
     }),
