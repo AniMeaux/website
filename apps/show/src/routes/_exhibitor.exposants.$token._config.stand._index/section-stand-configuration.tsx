@@ -15,7 +15,7 @@ import {
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function SectionStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();
