@@ -60,8 +60,8 @@ export function Footer() {
           />
 
           <ul className="flex flex-col">
-            <ContactItem icon="phone" to="tel:+33612194392">
-              06 12 19 43 92
+            <ContactItem icon="phone" to="tel:+33171252698">
+              01 71 25 26 98
             </ContactItem>
 
             <ContactItem icon="envelope" to="mailto:contact@animeaux.org">
