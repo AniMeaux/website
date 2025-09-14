@@ -8,10 +8,7 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
-import {
-  formatPrice,
-  getStandSizePrice,
-} from "#exhibitors/stand-configuration/price.js";
+import { StandPrice } from "#exhibitors/stand-configuration/price.js";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -236,7 +233,7 @@ function FieldStandSize() {
 function SectionPriceDetails() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
-  const priceStandSize = getStandSizePrice({
+  const priceStandSize = StandPrice.getPrice({
     exhibitor,
     application: exhibitor.application,
     standSize: exhibitor.size,
@@ -262,7 +259,9 @@ function SectionPriceDetails() {
           <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
             <Receipt.ItemName>Stand de {exhibitor.size.label}</Receipt.ItemName>
             <Receipt.ItemCount count={1} />
-            <Receipt.ItemPrice>{formatPrice(priceStandSize)}</Receipt.ItemPrice>
+            <Receipt.ItemPrice>
+              {StandPrice.format(priceStandSize)}
+            </Receipt.ItemPrice>
           </Receipt.Item>
 
           {exhibitor.tableCount > 0 && exhibitor.hasTableCloths ? (
@@ -272,7 +271,7 @@ function SectionPriceDetails() {
               <Receipt.ItemCount count={exhibitor.tableCount} />
 
               <Receipt.ItemPrice>
-                {formatPrice(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
+                {StandPrice.format(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
               </Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
@@ -285,7 +284,7 @@ function SectionPriceDetails() {
 
               <Receipt.ItemCount count={1} />
 
-              <Receipt.ItemPrice>{formatPrice(25)}</Receipt.ItemPrice>
+              <Receipt.ItemPrice>{StandPrice.format(25)}</Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
         </Receipt.Items>
@@ -293,7 +292,9 @@ function SectionPriceDetails() {
         <Receipt.Total>
           <Receipt.TotalName>Total</Receipt.TotalName>
           <Receipt.ItemCount />
-          <Receipt.TotalPrice>{formatPrice(totalPrice)}</Receipt.TotalPrice>
+          <Receipt.TotalPrice>
+            {StandPrice.format(totalPrice)}
+          </Receipt.TotalPrice>
         </Receipt.Total>
       </Receipt.Root>
     </HelperCard.Root>

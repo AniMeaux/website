@@ -1,9 +1,6 @@
 import { Receipt } from "#core/data-display/receipt.js";
 import { HelperCard } from "#core/layout/helper-card.js";
-import {
-  formatPrice,
-  getStandSizePrice,
-} from "#exhibitors/stand-configuration/price.js";
+import { StandPrice } from "#exhibitors/stand-configuration/price.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
 import type { loader } from "./loader.server";
@@ -19,7 +16,7 @@ export function HelperPriceDetails() {
 
   const priceStandSize =
     selectedStandSize != null
-      ? getStandSizePrice({
+      ? StandPrice.getPrice({
           exhibitor,
           standSize: selectedStandSize,
           application: exhibitor.application,
@@ -54,7 +51,7 @@ export function HelperPriceDetails() {
               <Receipt.ItemCount count={1} />
 
               <Receipt.ItemPrice>
-                {formatPrice(priceStandSize)}
+                {StandPrice.format(priceStandSize)}
               </Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
@@ -66,7 +63,7 @@ export function HelperPriceDetails() {
               <Receipt.ItemCount count={tableCount} />
 
               <Receipt.ItemPrice>
-                {formatPrice(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
+                {StandPrice.format(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
               </Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
@@ -79,7 +76,7 @@ export function HelperPriceDetails() {
 
               <Receipt.ItemCount count={1} />
 
-              <Receipt.ItemPrice>{formatPrice(25)}</Receipt.ItemPrice>
+              <Receipt.ItemPrice>{StandPrice.format(25)}</Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
         </Receipt.Items>
@@ -87,7 +84,9 @@ export function HelperPriceDetails() {
         <Receipt.Total>
           <Receipt.TotalName>Total</Receipt.TotalName>
           <Receipt.ItemCount />
-          <Receipt.TotalPrice>{formatPrice(totalPrice)}</Receipt.TotalPrice>
+          <Receipt.TotalPrice>
+            {StandPrice.format(totalPrice)}
+          </Receipt.TotalPrice>
         </Receipt.Total>
       </Receipt.Root>
     </HelperCard.Root>
