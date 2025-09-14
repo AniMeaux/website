@@ -100,8 +100,8 @@ export const Footer = {
         </div>
 
         <ul className="grid grid-cols-1">
-          <ContactItem icon="phone-light" to="tel:+33612194392">
-            06 12 19 43 92
+          <ContactItem icon="phone-light" to="tel:+33171252698">
+            01 71 25 26 98
           </ContactItem>
 
           <ContactItem icon="envelope-light" to="mailto:salon@animeaux.org">
