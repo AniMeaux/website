@@ -33,7 +33,9 @@ export function HelperPriceDetails() {
       ? tableCount * Number(CLIENT_ENV.PRICE_TABLE_CLOTHS)
       : null;
 
-  const totalPrice = [priceStandSize, priceTableCloths]
+  const hasCorner = fields.hasCorner.value === "on";
+
+  const totalPrice = [priceStandSize, priceTableCloths, hasCorner ? 25 : null]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -66,6 +68,18 @@ export function HelperPriceDetails() {
               <Receipt.ItemPrice>
                 {formatPrice(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
               </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
+
+          {hasCorner ? (
+            <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
+              <Receipt.ItemName>
+                Placement privilégié (stand en angle)
+              </Receipt.ItemName>
+
+              <Receipt.ItemCount count={1} />
+
+              <Receipt.ItemPrice>{formatPrice(25)}</Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}
         </Receipt.Items>

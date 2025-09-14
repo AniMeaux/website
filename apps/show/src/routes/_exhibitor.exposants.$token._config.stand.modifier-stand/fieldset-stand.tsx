@@ -40,6 +40,12 @@ export function FieldsetStand() {
         field={fields.hasElectricalConnection}
       />
 
+      <FieldYesNo
+        label="Placement privilégié (stand en angle)"
+        field={fields.hasCorner}
+        helper={<FormLayout.Helper>Option à 25 €</FormLayout.Helper>}
+      />
+
       <FormLayout.Row>
         <FieldDividerType
           label="Type de cloisons"
@@ -82,7 +88,7 @@ export function FieldsetStand() {
         <FieldYesNo
           label="Nappage des tables"
           field={fields.hasTableCloths}
-          helper={<FormLayout.Helper>1 € par table</FormLayout.Helper>}
+          helper={<FormLayout.Helper>Option à 1 € par table</FormLayout.Helper>}
         />
       ) : null}
 

@@ -20,6 +20,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       chairCount: true,
       dividerCount: true,
       dividerType: { select: { id: true } },
+      hasCorner: true,
       hasElectricalConnection: true,
       hasTableCloths: true,
       installationDay: true,
