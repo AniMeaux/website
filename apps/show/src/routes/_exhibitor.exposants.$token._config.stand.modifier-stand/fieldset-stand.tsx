@@ -2,6 +2,7 @@ import { FieldStepper } from "#core/form-elements/field-stepper";
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
+import { StandPrice } from "#exhibitors/stand-configuration/price.js";
 import { FieldStandSize } from "#stand-size/field.js";
 import type { Prisma } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
@@ -43,7 +44,11 @@ export function FieldsetStand() {
       <FieldYesNo
         label="Placement privilégié (stand en angle)"
         field={fields.hasCorner}
-        helper={<FormLayout.Helper>Option à 25 €</FormLayout.Helper>}
+        helper={
+          <FormLayout.Helper>
+            Option à {StandPrice.format(Number(CLIENT_ENV.PRICE_CORNER_STAND))}
+          </FormLayout.Helper>
+        }
       />
 
       <FormLayout.Row>
