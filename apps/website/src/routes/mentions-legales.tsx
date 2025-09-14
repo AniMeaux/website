@@ -39,7 +39,7 @@ La connexion et la navigation sur le Site par l’Utilisateur implique acceptati
 
 ## Article 1 - L’Editeur
 
-L’édition et la direction de la publication du Site est assurée par Relet Simon, domiciliée 30 Rue Pierre Brasseur, 77100 Meaux, dont le numéro de téléphone est 0612194392, et l’adresse e-mail website@animeaux.org.
+L’édition et la direction de la publication du Site est assurée par Relet Simon, domiciliée 30 Rue Pierre Brasseur, 77100 Meaux, dont le numéro de téléphone est 01 71 25 26 98, et l’adresse e-mail website@animeaux.org.
 
 Ci-après l’**"Editeur"**.
 
