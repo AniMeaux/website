@@ -106,7 +106,7 @@ const ProcessEnvSchema = zu
     PRESS_RELEASE_URL: zu.string().optional(),
     PRICE_TABLE_CLOTHS: zu.coerce
       .number()
-      .min(1)
+      .min(0)
       // Because we access the raw value and not the parsed one, we need to be
       // sure the type remains string and not number.
       .transform((value) => String(value)),

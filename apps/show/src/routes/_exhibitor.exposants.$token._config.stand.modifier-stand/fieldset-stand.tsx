@@ -88,7 +88,13 @@ export function FieldsetStand() {
         <FieldYesNo
           label="Nappage des tables"
           field={fields.hasTableCloths}
-          helper={<FormLayout.Helper>Option à 1 € par table</FormLayout.Helper>}
+          helper={
+            <FormLayout.Helper>
+              Option à{" "}
+              {StandPrice.format(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))} par
+              table
+            </FormLayout.Helper>
+          }
         />
       ) : null}
 
