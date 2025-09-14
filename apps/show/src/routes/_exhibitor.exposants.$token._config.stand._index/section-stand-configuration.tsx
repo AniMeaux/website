@@ -43,7 +43,11 @@ export function SectionStandConfiguration() {
 
       <FormLayout.Row>
         <FieldStandSize />
+      </FormLayout.Row>
+
+      <FormLayout.Row>
         <FieldElectricalConnection />
+        <FieldCorner />
       </FormLayout.Row>
 
       <FormLayout.Row>
@@ -75,6 +79,20 @@ function FieldChairCount() {
       <FormLayout.Label>Nombre de chaises</FormLayout.Label>
 
       <FormLayout.Output>{exhibitor.chairCount}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldCorner() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Placement privilégié (stand en angle)</FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.hasCorner ? "Oui" : "Non"}
+      </FormLayout.Output>
     </FormLayout.Field>
   );
 }
@@ -226,7 +244,10 @@ function SectionPriceDetails() {
       ? exhibitor.tableCount * Number(CLIENT_ENV.PRICE_TABLE_CLOTHS)
       : null;
 
-  const totalPrice = [priceStandSize, priceTableCloths]
+  const hasCorner = exhibitor.hasCorner;
+  const cornerPrice = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
+
+  const totalPrice = [priceStandSize, priceTableCloths, cornerPrice]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -254,6 +275,20 @@ function SectionPriceDetails() {
 
               <Receipt.ItemPrice>
                 {StandPrice.format(Number(CLIENT_ENV.PRICE_TABLE_CLOTHS))}
+              </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
+
+          {cornerPrice != null ? (
+            <Receipt.Item className="grid grid-cols-2-auto justify-between gap-2">
+              <Receipt.ItemName>
+                Placement privilégié (stand en angle)
+              </Receipt.ItemName>
+
+              <Receipt.ItemCount />
+
+              <Receipt.ItemPrice>
+                {StandPrice.format(cornerPrice)}
               </Receipt.ItemPrice>
             </Receipt.Item>
           ) : null}

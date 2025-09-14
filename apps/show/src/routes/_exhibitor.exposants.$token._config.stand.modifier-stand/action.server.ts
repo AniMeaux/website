@@ -51,6 +51,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     chairCount: submission.value.chairCount,
     dividerCount: submission.value.dividerCount,
     dividerTypeId: submission.value.dividerType?.id ?? null,
+    hasCorner: submission.value.hasCorner,
     hasElectricalConnection: submission.value.hasElectricalConnection,
     hasTableCloths: submission.value.hasTableCloths,
     installationDay: submission.value.installationDay,
