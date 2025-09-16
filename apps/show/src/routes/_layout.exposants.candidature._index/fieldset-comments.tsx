@@ -16,7 +16,7 @@ export function FieldsetComments() {
       <FormLayout.Title>Commentaires</FormLayout.Title>
 
       <FieldTextarea
-        label="Pourquoi souhaitez-vous exposer au Salon des Ani’Meaux ?"
+        label="Quelles sont vos motivations pour exposer spécifiquement au Salon des Ani’Meaux ?"
         field={fieldset.motivation as FieldMetadata<string>}
         rows={3}
         hideCaracterCount
