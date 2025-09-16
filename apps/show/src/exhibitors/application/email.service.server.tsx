@@ -277,7 +277,8 @@ export class ServiceApplicationEmail {
           <EmailHtml.Output.Table>
             <EmailHtml.Output.Row>
               <EmailHtml.Output.Label>
-                Pourquoi souhaitez-vous exposer au Salon des Ani’Meaux ?
+                Quelles sont vos motivations pour exposer spécifiquement au
+                Salon des Ani’Meaux ?
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
