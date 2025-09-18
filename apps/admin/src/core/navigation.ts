@@ -191,6 +191,11 @@ export const Routes = {
         toString: () => `/downloads/picture/${id}` as const,
       }),
     },
+    show: {
+      applications: {
+        toString: () => "/downloads/show/applications" as const,
+      },
+    },
   },
   login: { toString: () => "/login" as const },
   logout: { toString: () => "/logout" as const },
