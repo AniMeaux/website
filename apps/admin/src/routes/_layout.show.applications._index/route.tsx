@@ -32,8 +32,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
     standSizes,
   } = await promiseHash({
     applications: db.show.exhibitor.application.findMany({
-      page: PageSearchParams.parse(searchParams).page,
-      countPerPage: APPLICATION_COUNT_PER_PAGE,
+      pagination: {
+        page: PageSearchParams.parse(searchParams).page,
+        countPerPage: APPLICATION_COUNT_PER_PAGE,
+      },
       searchParams: ApplicationSearchParams.parse(searchParams),
       select: {
         createdAt: true,
