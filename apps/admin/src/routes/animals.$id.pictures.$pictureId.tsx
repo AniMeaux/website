@@ -94,17 +94,18 @@ export default function Route() {
   return (
     <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
       <header className="flex min-h-[50px] items-center justify-end pb-0.5 pt-safe-0.5 px-safe-1 md:min-h-[60px] md:pb-1 md:pt-safe-1 md:px-safe-2">
-        <Action asChild variant="text">
-          <DownloadPictureLink
-            pictureId={visiblePictureId}
-            fileName={`${getAnimalDisplayName(animal)} (${
-              visiblePictureIndex + 1
-            })`}
-          >
+        <DownloadPictureLink
+          pictureId={visiblePictureId}
+          fileName={`${getAnimalDisplayName(animal)} (${
+            visiblePictureIndex + 1
+          })`}
+          asChild
+        >
+          <Action variant="text">
             <Action.Icon href="icon-download-solid" />
             Télécharger
-          </DownloadPictureLink>
-        </Action>
+          </Action>
+        </DownloadPictureLink>
       </header>
 
       <div className="flex flex-col items-center justify-center">

@@ -15,8 +15,7 @@ export async function loaderShow() {
           statuses: new Set([ShowExhibitorApplicationStatus.UNTREATED]),
         }),
       ),
-      countPerPage: 6,
-      page: 0,
+      pagination: { countPerPage: 6, page: 0 },
       select: {
         id: true,
         structureName: true,
