@@ -3,6 +3,7 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
+import { DownloadApplicationsTrigger } from "#routes/downloads.show.applications/trigger.js";
 import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
@@ -10,7 +11,7 @@ import { ApplicationItem } from "./item";
 import type { loader } from "./route";
 
 export function CardList() {
-  const { totalCount, pageCount, applications } =
+  const { totalCount, pageCount, applications, canExport } =
     useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
@@ -20,6 +21,15 @@ export function CardList() {
         <Card.Title>
           {totalCount} {totalCount > 1 ? "candidatures" : "candidature"}
         </Card.Title>
+
+        {canExport ? (
+          <DownloadApplicationsTrigger asChild>
+            <Action variant="text" color="gray">
+              <Action.Icon href="icon-download-solid" />
+              Exporter
+            </Action>
+          </DownloadApplicationsTrigger>
+        ) : null}
       </Card.Header>
 
       <Card.Content hasListItems>

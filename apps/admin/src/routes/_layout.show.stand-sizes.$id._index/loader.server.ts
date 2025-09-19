@@ -67,8 +67,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           standSizesId: new Set([routeParams.id]),
         }),
       ),
-      page: 0,
-      countPerPage: 6,
+      pagination: { page: 0, countPerPage: 6 },
       select: {
         createdAt: true,
         id: true,

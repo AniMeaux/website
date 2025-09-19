@@ -46,8 +46,7 @@ export class ShowExhibitorApplicationDbDelegate {
 
   async findMany<T extends Prisma.ShowExhibitorApplicationSelect>(params: {
     searchParams: ApplicationSearchParamsN.Value;
-    page: number;
-    countPerPage: number;
+    pagination?: { page: number; countPerPage: number };
     select: T;
   }) {
     const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
@@ -123,10 +122,15 @@ export class ShowExhibitorApplicationDbDelegate {
 
       applications: prisma.showExhibitorApplication.findMany({
         where: { AND: where },
-        skip: params.page * params.countPerPage,
-        take: params.countPerPage,
         orderBy: FIND_ORDER_BY_SORT[params.searchParams.sort],
         select: params.select,
+
+        ...(params.pagination != null
+          ? {
+              skip: params.pagination.page * params.pagination.countPerPage,
+              take: params.pagination.countPerPage,
+            }
+          : null),
       }),
     });
 
