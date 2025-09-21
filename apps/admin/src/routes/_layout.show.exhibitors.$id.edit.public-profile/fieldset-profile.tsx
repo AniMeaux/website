@@ -1,20 +1,35 @@
 import { DynamicImage } from "#core/data-display/image";
 import { FieldCheckboxes } from "#core/form-elements/field-checkboxes";
 import { FieldList } from "#core/form-elements/field-list";
+import { FieldRadios } from "#core/form-elements/field-radios.js";
 import { Form } from "#core/form-elements/form";
 import { Input } from "#core/form-elements/input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Card } from "#core/layout/card";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
-import { ImageUrl, withoutKey } from "@animeaux/core";
+import { ExhibitorCategory } from "#show/exhibitors/category.js";
+import { ImageUrl, ensureArray, withoutKey } from "@animeaux/core";
 import { getInputProps } from "@conform-to/react";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
 import type { loader } from "./route";
 
 export function FieldsetProfile() {
+  const { exhibitor } = useLoaderData<typeof loader>();
   const { form, fields } = useForm();
+
+  const selectedActivityFields = ensureArray(
+    fields.activityFields.value as
+      | undefined
+      | ActivityField.Enum
+      | ActivityField.Enum[],
+  );
+
+  const inferredCategory = ExhibitorCategory.get({
+    legalStatus: exhibitor.application.structureLegalStatus,
+    activityFields: selectedActivityFields,
+  });
 
   return (
     <Card>
@@ -41,6 +56,30 @@ export function FieldsetProfile() {
             options={ActivityField.values}
             getLabel={(activityField) =>
               ActivityField.translation[activityField]
+            }
+          />
+
+          <FieldRadios
+            label="Catégorie"
+            field={fields.category}
+            options={ExhibitorCategory.values}
+            getLabel={(category) => ExhibitorCategory.translation[category]}
+            helper={
+              <Form.HelperMessage>
+                Permet de restreindre les tailles de stand disponibles et
+                d’appliquer les prix correspondants.
+                {inferredCategory !== fields.category.value ? (
+                  <>
+                    <br />
+                    Selon les domaines d’activité et le statut juridique, la
+                    catégorie proposée est :{" "}
+                    <strong className="text-caption-emphasis">
+                      {ExhibitorCategory.translation[inferredCategory]}
+                    </strong>
+                    .
+                  </>
+                ) : null}
+              </Form.HelperMessage>
             }
           />
 

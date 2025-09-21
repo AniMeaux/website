@@ -28,6 +28,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         },
       },
       name: true,
+      category: true,
       chairCount: true,
       dividerCount: true,
       dividerType: { select: { label: true } },
@@ -36,7 +37,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
       installationDay: true,
       peopleCount: true,
       placementComment: true,
-      size: { select: { label: true } },
+      size: {
+        select: {
+          label: true,
+          priceForAssociations: true,
+          priceForServices: true,
+          priceForShops: true,
+        },
+      },
       standConfigurationStatus: true,
       standConfigurationStatusMessage: true,
       tableCount: true,

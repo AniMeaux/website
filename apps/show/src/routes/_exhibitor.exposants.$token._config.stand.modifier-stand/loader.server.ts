@@ -16,6 +16,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     select: {
       name: true,
       activityFields: true,
+      category: true,
       chairCount: true,
       dividerCount: true,
       dividerType: { select: { id: true } },

@@ -17,7 +17,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
-      activityFields: true,
+      category: true,
       dividerType: { select: { id: true } },
       dividerCount: true,
       standConfigurationStatus: true,

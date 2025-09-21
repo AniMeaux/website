@@ -427,7 +427,8 @@ model ShowExhibitor {
 
   // -- Profile ----------------------------------------------------------------
 
-  name String @db.VarChar(64)
+  name     String                @db.VarChar(64)
+  category ShowExhibitorCategory
 
   publicProfileStatus        ShowExhibitorStatus  @default(TO_BE_FILLED)
   publicProfileStatusMessage String?
@@ -485,6 +486,12 @@ model ShowExhibitor {
   zone                    ShowStandZone?
 }
 
+enum ShowExhibitorCategory {
+  ASSOCIATION
+  SERVICE
+  SHOP
+}
+
 model ShowStandSize {
   id        String   @id @default(uuid()) @db.Uuid
   createdAt DateTime @default(now())
@@ -495,14 +502,14 @@ model ShowStandSize {
 
   isVisible Boolean @default(true)
 
-  // When `true`, this stand size can only be selected by exhibitors with some
-  // specific activity fields.
-  isRestrictedByActivityField Boolean @default(false)
-
   maxCount        Int
   maxTableCount   Int
   maxPeopleCount  Int
   maxDividerCount Int
+
+  priceForAssociations Int?
+  priceForServices     Int?
+  priceForShops        Int?
 
   applications ShowExhibitorApplication[]
   exhibitors   ShowExhibitor[]

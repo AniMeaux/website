@@ -29,6 +29,7 @@ export function useFormRoot() {
     defaultValue: {
       activityFields: exhibitor.activityFields,
       activityTargets: exhibitor.activityTargets,
+      category: exhibitor.category,
       links: exhibitor.links,
       status: exhibitor.publicProfileStatus,
       statusMessage: exhibitor.publicProfileStatusMessage ?? "",
