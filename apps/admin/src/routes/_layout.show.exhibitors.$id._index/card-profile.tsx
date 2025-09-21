@@ -47,36 +47,36 @@ export function CardProfile() {
         />
 
         <ItemList>
-          <SimpleItem
-            isLightIcon
-            icon={<Icon href="icon-bullseye-arrow-light" />}
-          >
-            {exhibitor.activityTargets
-              .map((target) => ActivityTarget.translation[target])
-              .join(", ")}
-          </SimpleItem>
-
-          <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
-            {exhibitor.activityFields
-              .map((field) => ActivityField.translation[field])
-              .join(", ")}
-          </SimpleItem>
-
-          <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
-            {joinReactNodes(
-              exhibitor.links.map((link) => (
-                <ProseInlineAction key={link} variant="subtle" asChild>
-                  <a href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
-                </ProseInlineAction>
-              )),
-              <br />,
-            )}
-          </SimpleItem>
+          <ItemActivityTargets />
+          <ItemActivityFields />
+          <ItemLinks />
         </ItemList>
       </Card.Content>
     </Card>
+  );
+}
+
+function ItemActivityFields() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
+      {exhibitor.activityFields
+        .map((field) => ActivityField.translation[field])
+        .join(", ")}
+    </SimpleItem>
+  );
+}
+
+function ItemActivityTargets() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem isLightIcon icon={<Icon href="icon-bullseye-arrow-light" />}>
+      {exhibitor.activityTargets
+        .map((target) => ActivityTarget.translation[target])
+        .join(", ")}
+    </SimpleItem>
   );
 }
 
@@ -103,5 +103,24 @@ function PublicProfileStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
+  );
+}
+
+function ItemLinks() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
+      {joinReactNodes(
+        exhibitor.links.map((link) => (
+          <ProseInlineAction key={link} variant="subtle" asChild>
+            <a href={link} target="_blank" rel="noreferrer">
+              {link}
+            </a>
+          </ProseInlineAction>
+        )),
+        <br />,
+      )}
+    </SimpleItem>
   );
 }
