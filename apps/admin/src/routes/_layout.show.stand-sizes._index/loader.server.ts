@@ -15,7 +15,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
     select: {
       id: true,
       label: true,
-      isRestrictedByActivityField: true,
       isVisible: true,
     },
   });

@@ -6,6 +6,7 @@ import { useLoaderData } from "@remix-run/react";
 import { CardApplicationList } from "./card-application-list";
 import { CardDetails } from "./card-details";
 import { CardExhibitorList } from "./card-exhibitor-list";
+import { CardPrices } from "./card-prices";
 import { CardSituation } from "./card-situation";
 import type { loader } from "./loader.server";
 
@@ -32,6 +33,7 @@ export default function Route() {
         <div className="grid grid-cols-1 gap-1 md:col-start-2 md:row-start-1 md:gap-2">
           <CardSituation />
           <CardDetails />
+          <CardPrices />
         </div>
 
         <div className="grid grid-cols-1 gap-1 md:gap-2">
