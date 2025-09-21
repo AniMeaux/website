@@ -37,6 +37,10 @@ export function CardStandConfiguration() {
 
   const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount;
 
+  const hasNotAllowedStandSize = !exhibitor.size.allowedCategories.includes(
+    exhibitor.category,
+  );
+
   return (
     <Card>
       <Card.Header>
@@ -54,6 +58,13 @@ export function CardStandConfiguration() {
       </Card.Header>
 
       <Card.Content>
+        {hasNotAllowedStandSize ? (
+          <InlineHelper variant="warning">
+            Le stand sélectionné n’est pas compatible avec la catégorie de
+            l’exposant ({ExhibitorCategory.translation[exhibitor.category]}).
+          </InlineHelper>
+        ) : null}
+
         {hasTooManyDividers ? (
           <InlineHelper variant="warning">
             Le nombre de cloisons dépasse la limite autorisée pour ce stand (
