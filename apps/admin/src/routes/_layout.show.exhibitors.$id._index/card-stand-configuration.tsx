@@ -7,13 +7,17 @@ import {
   Markdown,
   SENTENCE_COMPONENTS,
 } from "#core/data-display/markdown";
+import { Receipt } from "#core/data-display/receipt.js";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
+import { ExhibitorCategory } from "#show/exhibitors/category.js";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
+import { Price } from "#show/price.js";
+import { StandSizePrice } from "#show/stand-size/price.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -87,6 +91,8 @@ export function CardStandConfiguration() {
 
         <StandConfigurationStatusHelper />
 
+        <SectionPrice />
+
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
           <ItemList>
             <ItemStandInfo />
@@ -102,6 +108,47 @@ export function CardStandConfiguration() {
         </div>
       </Card.Content>
     </Card>
+  );
+}
+
+function SectionPrice() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  const priceStandSize = StandSizePrice.getPrice({
+    standSize: exhibitor.size,
+    category: exhibitor.category,
+  });
+
+  const totalPrice = [priceStandSize]
+    .filter(Boolean)
+    .reduce((sum, price) => sum + price, 0);
+
+  return (
+    <Receipt.Root className="rounded-0.5 bg-gray-100 p-1">
+      <Receipt.Items>
+        <Receipt.Item>
+          <Receipt.ItemName>
+            Stand de {exhibitor.size.label}
+            {" • "}
+            {ExhibitorCategory.translation[exhibitor.category]}
+          </Receipt.ItemName>
+
+          <Receipt.ItemCount />
+
+          <Receipt.ItemPrice>
+            {priceStandSize == null ? "N/A" : Price.format(priceStandSize)}
+          </Receipt.ItemPrice>
+        </Receipt.Item>
+      </Receipt.Items>
+
+      <Receipt.Total>
+        <Receipt.TotalName>Total</Receipt.TotalName>
+
+        <Receipt.ItemCount />
+
+        <Receipt.TotalPrice>{Price.format(totalPrice)}</Receipt.TotalPrice>
+      </Receipt.Total>
+    </Receipt.Root>
   );
 }
 

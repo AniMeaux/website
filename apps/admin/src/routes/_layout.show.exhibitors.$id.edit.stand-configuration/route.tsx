@@ -17,6 +17,7 @@ import { promiseHash } from "remix-utils/promise";
 import type { MergeExclusive } from "type-fest";
 import { ActionSchema } from "./action";
 import { FieldsetConfiguration } from "./fieldset-configuration";
+import { FieldsetPriceDetails } from "./fieldset-price-details";
 import { FieldsetStatus } from "./fieldset-status";
 import { FormProvider, useFormRoot } from "./form";
 
@@ -36,6 +37,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
         name: true,
+        category: true,
         chairCount: true,
         dividerCount: true,
         dividerType: { select: { id: true } },
@@ -51,7 +53,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }),
 
     standSizes: db.show.standSize.findManyWithAvailability({
-      select: { id: true, label: true },
+      select: {
+        id: true,
+        label: true,
+        priceForAssociations: true,
+        priceForServices: true,
+        priceForShops: true,
+      },
     }),
 
     dividerTypes: db.show.dividerType.findManyWithAvailability({
@@ -146,6 +154,7 @@ export default function Route() {
         >
           <FieldsetStatus />
           <FieldsetConfiguration />
+          <FieldsetPriceDetails />
 
           <Action type="submit" className="mx-1.5 md:mx-0 md:justify-self-end">
             Enregistrer

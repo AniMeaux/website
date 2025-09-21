@@ -95,6 +95,7 @@ const theme: Config = {
       gridTemplateColumns: {
         "2-auto": "repeat(2, auto)",
         "fr-auto": "minmax(0, 1fr) auto",
+        "fr-2-auto": "minmax(0, 1fr) auto auto",
         "auto-fr": "auto minmax(0, 1fr)",
       },
 
