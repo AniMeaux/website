@@ -6,7 +6,9 @@ export namespace ExhibitorCategory {
   export type Enum = ShowExhibitorCategory;
   export const Enum = ShowExhibitorCategory;
 
-  export const translations: Record<Enum, string> = {
+  export const values = [Enum.ASSOCIATION, Enum.SERVICE, Enum.SHOP];
+
+  export const translation: Record<Enum, string> = {
     [Enum.ASSOCIATION]: "Association",
     [Enum.SERVICE]: "Prestataire de service",
     [Enum.SHOP]: "Boutique",

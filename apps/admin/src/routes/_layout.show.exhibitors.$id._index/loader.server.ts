@@ -49,6 +49,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         links: true,
         logoPath: true,
         name: true,
+        category: true,
         onStandAnimations: true,
         onStandAnimationsStatus: true,
         onStandAnimationsStatusMessage: true,

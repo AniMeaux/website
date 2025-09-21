@@ -1,5 +1,6 @@
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
+import { ExhibitorCategory } from "#show/exhibitors/category.js";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
 
@@ -20,6 +21,8 @@ export const ActionSchema = zu
           `Veuillez choisir au plus ${ActivityField.MAX_COUNT} domaines d’activité`,
         ),
     ),
+
+    category: zu.nativeEnum(ExhibitorCategory.Enum),
 
     links: zu.repeatable(
       zu

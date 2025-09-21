@@ -8,6 +8,7 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
+import { ExhibitorCategory } from "#show/exhibitors/category.js";
 import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -48,6 +49,7 @@ export function CardProfile() {
 
         <ItemList>
           <ItemActivityTargets />
+          <ItemCategory />
           <ItemActivityFields />
           <ItemLinks />
         </ItemList>
@@ -76,6 +78,16 @@ function ItemActivityTargets() {
       {exhibitor.activityTargets
         .map((target) => ActivityTarget.translation[target])
         .join(", ")}
+    </SimpleItem>
+  );
+}
+
+function ItemCategory() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem isLightIcon icon={<Icon href="icon-tag-light" />}>
+      {ExhibitorCategory.translation[exhibitor.category]}
     </SimpleItem>
   );
 }

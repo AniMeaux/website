@@ -35,11 +35,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     select: {
       activityFields: true,
       activityTargets: true,
+      category: true,
       links: true,
       logoPath: true,
       name: true,
       publicProfileStatus: true,
       publicProfileStatusMessage: true,
+
+      application: { select: { structureLegalStatus: true } },
     },
   });
 
@@ -93,6 +96,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   await db.show.exhibitor.updatePublicProfile(routeParams.id, {
     activityFields: submission.value.activityFields,
     activityTargets: submission.value.activityTargets,
+    category: submission.value.category,
     links: submission.value.links,
     publicProfileStatus: submission.value.status,
     publicProfileStatusMessage: submission.value.statusMessage || null,
