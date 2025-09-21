@@ -1,32 +1,34 @@
 import { services } from "#core/services.server.js";
-import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import { withAllowedCategories } from "#stand-size/allowed-categories.js";
 import type { Prisma } from "@prisma/client";
 
 export async function getStandSizesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{
-    select: { activityFields: true; size: { select: { id: true } } };
+    select: {
+      activityFields: true;
+      category: true;
+      size: { select: { id: true } };
+    };
   }>,
 ) {
   const allStandSizes = await services.standSize.getManyVisible({
     select: {
       id: true,
-      isRestrictedByActivityField: true,
       label: true,
       maxDividerCount: true,
       maxPeopleCount: true,
       maxTableCount: true,
+      priceForAssociations: true,
+      priceForServices: true,
+      priceForShops: true,
     },
   });
 
-  const hasLimitedStandSize = exhibitor.activityFields.some((activityField) =>
-    ActivityField.valuesWithLimitedStandSizes.includes(activityField),
-  );
-
-  let standSizes = hasLimitedStandSize
-    ? allStandSizes.filter(
-        (standSize) => !standSize.isRestrictedByActivityField,
-      )
-    : allStandSizes;
+  let standSizes = allStandSizes
+    .map(withAllowedCategories)
+    .filter((standSize) =>
+      standSize.allowedCategories.includes(exhibitor.category),
+    );
 
   // Ensure the exhibitor's current stand size is available to let the user
   // select it back after a change.

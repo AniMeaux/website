@@ -10,11 +10,10 @@ import { json, redirect } from "@remix-run/node";
 import { captureException } from "@sentry/remix";
 import { v4 as uuid } from "uuid";
 import { createActionSchema } from "./action-schema";
+import { getStandSizesData } from "./stand-sizes.server";
 
 export async function action({ request }: ActionFunctionArgs) {
-  const standSizes = await services.standSize.getManyVisible({
-    select: { id: true, isRestrictedByActivityField: true },
-  });
+  const standSizes = await getStandSizesData();
 
   const availableStandSizes = standSizes.filter(
     (standSize) => standSize.isAvailable,

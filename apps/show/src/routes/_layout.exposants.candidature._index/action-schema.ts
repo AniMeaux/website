@@ -3,16 +3,17 @@ import { ImageLimits } from "#core/image/limits.js";
 import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { DiscoverySource } from "#exhibitors/application/discovery-source";
 import { LegalStatus } from "#exhibitors/application/legal-status";
+import { ExhibitorCategory } from "#exhibitors/category.js";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
+import type { StandSizeAllowedCategories } from "#stand-size/allowed-categories.js";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
 import type { ShowStandSize } from "@prisma/client";
 import { ShowActivityTarget } from "@prisma/client";
+import invariant from "tiny-invariant";
 
 export function createActionSchema(
-  availableStandSizes: Pick<
-    ShowStandSize,
-    "id" | "isRestrictedByActivityField"
-  >[],
+  availableStandSizes: (Pick<ShowStandSize, "id"> &
+    StandSizeAllowedCategories)[],
 ) {
   return zu
     .object({
@@ -260,24 +261,19 @@ export function createActionSchema(
     })
     .refine(
       (value) => {
-        const hasLimitedStandSize = value.structure.activityFields.some(
-          (activityField) =>
-            ActivityField.valuesWithLimitedStandSizes.includes(activityField),
-        );
-
-        if (!hasLimitedStandSize) {
-          return true;
-        }
-
-        const limitedAvailableStandSizes = availableStandSizes.filter(
-          (availableStandSize) =>
-            !availableStandSize.isRestrictedByActivityField,
-        );
-
-        return limitedAvailableStandSizes.some(
+        const standSize = availableStandSizes.find(
           (availableStandSize) =>
             availableStandSize.id === value.participation.desiredStandSizeId,
         );
+
+        invariant(standSize != null, "`standSize` should be defined");
+
+        const category = ExhibitorCategory.get({
+          legalStatus: value.structure.legalStatus,
+          activityFields: value.structure.activityFields,
+        });
+
+        return standSize.allowedCategories.includes(category);
       },
       {
         message: "Veuillez choisir une taille de stand",
