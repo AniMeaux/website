@@ -8,6 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";
 import { useForm } from "./form";
+import { HelperPriceDetails } from "./helper-price-details";
 import type { loader } from "./loader.server";
 
 export function FieldsetStand() {
@@ -110,6 +111,8 @@ export function FieldsetStand() {
         field={fields.placementComment}
         rows={3}
       />
+
+      <HelperPriceDetails />
     </FormLayout.Section>
   );
 }

@@ -3,11 +3,15 @@ import {
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
 } from "#core/data-display/markdown";
+import { Receipt } from "#core/data-display/receipt.js";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
+import { ExhibitorCategory } from "#exhibitors/category.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day";
 import { Icon } from "#generated/icon";
+import { Price } from "#price/price.js";
+import { StandSizePrice } from "#stand-size/price.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
@@ -37,97 +41,221 @@ export function SectionStandConfiguration() {
 
       <SectionStatus />
 
+      <SectionPriceDetails />
+
       <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Taille du stand</FormLayout.Label>
-
-          <FormLayout.Output>{exhibitor.size.label}</FormLayout.Output>
-        </FormLayout.Field>
-
-        <FormLayout.Field>
-          <FormLayout.Label>Raccordement électrique</FormLayout.Label>
-
-          <FormLayout.Output>
-            {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
-          </FormLayout.Output>
-        </FormLayout.Field>
+        <FieldStandSize />
+        <FieldElectricalConnection />
       </FormLayout.Row>
 
       <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Type de cloisons</FormLayout.Label>
-
-          <FormLayout.Output>
-            {exhibitor.dividerType?.label ?? "Aucune cloison"}
-          </FormLayout.Output>
-        </FormLayout.Field>
-
-        {exhibitor.dividerType != null ? (
-          <FormLayout.Field>
-            <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
-
-            <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
-          </FormLayout.Field>
-        ) : null}
+        <FieldDividerType />
+        <FieldDividerCount />
       </FormLayout.Row>
 
       <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Nombre de tables</FormLayout.Label>
-
-          <FormLayout.Output>{exhibitor.tableCount}</FormLayout.Output>
-        </FormLayout.Field>
-
-        <FormLayout.Field>
-          <FormLayout.Label>Nappage des tables</FormLayout.Label>
-
-          <FormLayout.Output>
-            {exhibitor.hasTablecloths ? "Oui" : "Non"}
-          </FormLayout.Output>
-        </FormLayout.Field>
+        <FieldTableCount />
+        <FieldTableCloths />
       </FormLayout.Row>
 
       <FormLayout.Row>
-        <FormLayout.Field>
-          <FormLayout.Label>Nombre de personnes sur le stand</FormLayout.Label>
-
-          <FormLayout.Output>{exhibitor.peopleCount}</FormLayout.Output>
-        </FormLayout.Field>
-
-        <FormLayout.Field>
-          <FormLayout.Label>Nombre de chaises</FormLayout.Label>
-
-          <FormLayout.Output>{exhibitor.chairCount}</FormLayout.Output>
-        </FormLayout.Field>
+        <FieldPeopleCount />
+        <FieldChairCount />
       </FormLayout.Row>
 
-      <FormLayout.Field>
-        <FormLayout.Label>Jour d’installation</FormLayout.Label>
-
-        <FormLayout.Output>
-          {exhibitor.installationDay != null
-            ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
-            : "-"}
-        </FormLayout.Output>
-      </FormLayout.Field>
-
-      <FormLayout.Field>
-        <FormLayout.Label>
-          Commentaire sur votre choix d’emplacement
-        </FormLayout.Label>
-
-        <FormLayout.Output>
-          {exhibitor.placementComment != null ? (
-            <Markdown
-              content={exhibitor.placementComment}
-              components={SENTENCE_COMPONENTS}
-            />
-          ) : (
-            "-"
-          )}
-        </FormLayout.Output>
-      </FormLayout.Field>
+      <FieldInstallationDay />
+      <FieldPlacementComment />
     </FormLayout.Section>
+  );
+}
+
+function FieldChairCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Nombre de chaises</FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.chairCount}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldDividerCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  if (exhibitor.dividerCount == null) {
+    return null;
+  }
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Nombre de cloisons</FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldDividerType() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Type de cloisons</FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.dividerType?.label ?? "Aucune cloison"}
+      </FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldElectricalConnection() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Raccordement électrique</FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
+      </FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldInstallationDay() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Jour d’installation</FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.installationDay != null
+          ? INSTALLATION_DAY_TRANSLATION[exhibitor.installationDay]
+          : "-"}
+      </FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldPeopleCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Nombre de personnes sur le stand</FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.peopleCount}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldPlacementComment() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>
+        Commentaire sur votre choix d’emplacement
+      </FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.placementComment != null ? (
+          <Markdown
+            content={exhibitor.placementComment}
+            components={SENTENCE_COMPONENTS}
+          />
+        ) : (
+          "-"
+        )}
+      </FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldTableCloths() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Nappage des tables</FormLayout.Label>
+
+      <FormLayout.Output>
+        {exhibitor.hasTablecloths ? "Oui" : "Non"}
+      </FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldTableCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Nombre de tables</FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.tableCount}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function FieldStandSize() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>Taille du stand</FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.size.label}</FormLayout.Output>
+    </FormLayout.Field>
+  );
+}
+
+function SectionPriceDetails() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  const priceStandSize = StandSizePrice.getPrice({
+    standSize: exhibitor.size,
+    category: exhibitor.category,
+  });
+
+  const totalPrice = [priceStandSize]
+    .filter(Boolean)
+    .reduce((sum, price) => sum + price, 0);
+
+  return (
+    <HelperCard.Root color="alabaster">
+      <HelperCard.Title>Prix du stand</HelperCard.Title>
+
+      <Receipt.Root>
+        <Receipt.Items>
+          <Receipt.Item>
+            <Receipt.ItemName>
+              Stand de {exhibitor.size.label}
+              {" • "}
+              {ExhibitorCategory.translation[exhibitor.category]}
+            </Receipt.ItemName>
+
+            <Receipt.ItemCount />
+
+            <Receipt.ItemPrice>
+              {priceStandSize == null ? "N/A" : Price.format(priceStandSize)}
+            </Receipt.ItemPrice>
+          </Receipt.Item>
+        </Receipt.Items>
+
+        <Receipt.Total>
+          <Receipt.TotalName>Total</Receipt.TotalName>
+
+          <Receipt.ItemCount />
+
+          <Receipt.TotalPrice>{Price.format(totalPrice)}</Receipt.TotalPrice>
+        </Receipt.Total>
+      </Receipt.Root>
+    </HelperCard.Root>
   );
 }
 

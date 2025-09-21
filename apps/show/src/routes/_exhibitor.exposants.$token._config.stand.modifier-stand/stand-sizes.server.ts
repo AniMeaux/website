@@ -5,7 +5,6 @@ import type { Prisma } from "@prisma/client";
 export async function getStandSizesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{
     select: {
-      activityFields: true;
       category: true;
       size: { select: { id: true } };
     };
