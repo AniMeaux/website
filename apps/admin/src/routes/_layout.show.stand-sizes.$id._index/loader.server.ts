@@ -33,13 +33,15 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       select: {
         area: true,
         id: true,
-        isRestrictedByActivityField: true,
         isVisible: true,
         label: true,
         maxCount: true,
         maxDividerCount: true,
         maxPeopleCount: true,
         maxTableCount: true,
+        priceForAssociations: true,
+        priceForServices: true,
+        priceForShops: true,
       },
     }),
 

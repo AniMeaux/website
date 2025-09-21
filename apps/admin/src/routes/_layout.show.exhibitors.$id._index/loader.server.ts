@@ -1,6 +1,7 @@
 import { db } from "#core/db.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { InvoiceStatus } from "#show/invoice/status.js";
+import { withAllowedCategories } from "#show/stand-size/allowed-categories.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -49,6 +50,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         links: true,
         logoPath: true,
         name: true,
+        category: true,
         onStandAnimations: true,
         onStandAnimationsStatus: true,
         onStandAnimationsStatusMessage: true,
@@ -81,6 +83,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             maxDividerCount: true,
             maxPeopleCount: true,
             maxTableCount: true,
+            priceForAssociations: true,
+            priceForServices: true,
+            priceForShops: true,
           },
         },
         standNumber: true,
@@ -142,6 +147,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitor: {
       ...exhibitor,
       ...files,
+
+      size: withAllowedCategories(exhibitor.size),
 
       invoiceStatus:
         exhibitor.invoices.length === 0

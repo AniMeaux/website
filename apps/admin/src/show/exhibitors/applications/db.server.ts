@@ -4,7 +4,8 @@ import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
-import { SponsorshipOptionalCategory } from "#show/sponsors/category";
+import { ExhibitorCategory } from "#show/exhibitors/category";
+import { SponsorshipOptionalCategory } from "#show/sponsors/category.js";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
@@ -195,13 +196,17 @@ export class ShowExhibitorApplicationDbDelegate {
             application: { connect: { id } },
             size: { connect: { id: application.desiredStandSize.id } },
 
+            activityFields: application.structureActivityFields,
+            activityTargets: application.structureActivityTargets,
             billingAddress: application.structureAddress,
             billingCity: application.structureCity,
-            billingZipCode: application.structureZipCode,
             billingCountry: application.structureCountry,
+            billingZipCode: application.structureZipCode,
+            category: ExhibitorCategory.get({
+              legalStatus: application.structureLegalStatus,
+              activityFields: application.structureActivityFields,
+            }),
             folderId: folder.id,
-            activityTargets: application.structureActivityTargets,
-            activityFields: application.structureActivityFields,
             links: [application.structureUrl],
             logoPath: application.structureLogoPath,
             name: application.structureName,

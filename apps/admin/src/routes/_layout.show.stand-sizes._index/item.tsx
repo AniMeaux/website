@@ -25,14 +25,6 @@ export function StandSizeItem({ standSize }: { standSize: StandSize }) {
           </Chip>
         ) : null}
 
-        {standSize.isRestrictedByActivityField ? (
-          <Chip variant="secondary" color="yellow" icon="icon-tags-light">
-            <span className="hidden @lg/card-content:inline">
-              Domaines d’activité restreints
-            </span>
-          </Chip>
-        ) : null}
-
         <StandSizeBookingChip standSize={standSize} />
       </div>
     </BaseLink>

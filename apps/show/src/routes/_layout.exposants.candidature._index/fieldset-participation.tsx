@@ -1,6 +1,8 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
-import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import type { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import type { LegalStatus } from "#exhibitors/application/legal-status.js";
+import { ExhibitorCategory } from "#exhibitors/category.js";
 import { FieldStandSize } from "#stand-size/field.js";
 import { ensureArray } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
@@ -11,23 +13,32 @@ import type { loader } from "./loader.server";
 export function FieldsetParticipation() {
   const { standSizes } = useLoaderData<typeof loader>();
   const { fieldsets } = useFieldsets();
+
   const fieldset = fieldsets.participation.getFieldset();
+  const fieldsetStructure = fieldsets.structure.getFieldset();
+
+  const selectedLegalStatus = fieldsetStructure.legalStatus.value as
+    | undefined
+    | LegalStatus.Enum;
 
   const selectedActivityFields = ensureArray(
-    fieldsets.structure.getFieldset().activityFields.value as
+    fieldsetStructure.activityFields.value as
       | undefined
       | ActivityField.Enum
       | ActivityField.Enum[],
   );
 
-  const hasLimitedStandSize = selectedActivityFields.some(
-    (selectedActivityField) =>
-      ActivityField.valuesWithLimitedStandSizes.includes(selectedActivityField),
-  );
+  const category =
+    selectedLegalStatus == null
+      ? ExhibitorCategory.Enum.SHOP
+      : ExhibitorCategory.get({
+          legalStatus: selectedLegalStatus,
+          activityFields: selectedActivityFields,
+        });
 
-  const standSizesOptions = hasLimitedStandSize
-    ? standSizes.filter((standSize) => !standSize.isRestrictedByActivityField)
-    : standSizes;
+  const standSizesOptions = standSizes.filter((standSize) =>
+    standSize.allowedCategories.includes(category),
+  );
 
   return (
     <FormLayout.Section id={FieldsetId.PARTICIPATION}>

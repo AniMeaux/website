@@ -532,6 +532,7 @@ type ShowExhibitorPublicProfileData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   | "activityFields"
   | "activityTargets"
+  | "category"
   | "links"
   | "publicProfileStatus"
   | "publicProfileStatusMessage"

@@ -1,6 +1,5 @@
 import { ItemList, SimpleItem } from "#core/data-display/item.js";
 import { Card } from "#core/layout/card.js";
-import { Icon } from "#generated/icon.js";
 import { StandSizeBookingIcon } from "#show/stand-size/booking-icon.js";
 import { formatBooking } from "#show/stand-size/booking.js";
 import { Visibility, VisibilityIcon } from "#show/visibility.js";
@@ -18,7 +17,6 @@ export function CardSituation() {
         <ItemList>
           <ItemBooking />
           <ItemVisibility />
-          <ItemRestriction />
         </ItemList>
       </Card.Content>
     </Card>
@@ -35,21 +33,6 @@ function ItemBooking() {
     >
       Remplissage :{" "}
       <strong className="text-body-emphasis">{formatBooking(standSize)}</strong>
-    </SimpleItem>
-  );
-}
-
-function ItemRestriction() {
-  const { standSize } = useLoaderData<typeof loader>();
-
-  if (!standSize.isRestrictedByActivityField) {
-    return null;
-  }
-
-  return (
-    <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
-      Domaines d’activité{" "}
-      <strong className="text-body-emphasis">restreints</strong>
     </SimpleItem>
   );
 }
