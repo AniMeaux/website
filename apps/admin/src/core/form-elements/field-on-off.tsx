@@ -24,7 +24,7 @@ export namespace OnOff {
     return value ? Enum.ON : Enum.OFF;
   }
 
-  export function toBoolean(value: Enum) {
+  export function toBoolean(value?: Enum) {
     return value === Enum.ON;
   }
 }
