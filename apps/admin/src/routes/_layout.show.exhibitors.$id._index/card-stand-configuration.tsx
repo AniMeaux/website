@@ -130,7 +130,13 @@ function SectionPrice() {
     category: exhibitor.category,
   });
 
-  const totalPrice = [priceStandSize]
+  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS);
+  const totalPriceTableCloths =
+    exhibitor.tableCount > 0 && exhibitor.hasTableCloths
+      ? exhibitor.tableCount * priceTableCloths
+      : null;
+
+  const totalPrice = [priceStandSize, totalPriceTableCloths]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -150,6 +156,18 @@ function SectionPrice() {
             {priceStandSize == null ? "N/A" : Price.format(priceStandSize)}
           </Receipt.ItemPrice>
         </Receipt.Item>
+
+        {exhibitor.tableCount > 0 && exhibitor.hasTableCloths ? (
+          <Receipt.Item>
+            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+            <Receipt.ItemCount count={exhibitor.tableCount} />
+
+            <Receipt.ItemPrice>
+              {Price.format(priceTableCloths)}
+            </Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
       </Receipt.Items>
 
       <Receipt.Total>
@@ -218,7 +236,7 @@ function ItemTable() {
       table{exhibitor.tableCount > 1 ? "s" : null}
       <br />
       <strong className="text-body-emphasis">
-        {exhibitor.hasTablecloths ? "Avec" : "Sans"}
+        {exhibitor.hasTableCloths ? "Avec" : "Sans"}
       </strong>{" "}
       nappage
     </SimpleItem>

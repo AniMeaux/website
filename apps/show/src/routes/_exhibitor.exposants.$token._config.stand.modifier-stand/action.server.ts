@@ -52,7 +52,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     dividerCount: submission.value.dividerCount,
     dividerTypeId: submission.value.dividerType?.id ?? null,
     hasElectricalConnection: submission.value.hasElectricalConnection,
-    hasTablecloths: submission.value.hasTablecloths,
+    hasTableCloths: submission.value.hasTableCloths,
     installationDay: submission.value.installationDay,
     peopleCount: submission.value.peopleCount,
     placementComment: submission.value.placementComment || null,

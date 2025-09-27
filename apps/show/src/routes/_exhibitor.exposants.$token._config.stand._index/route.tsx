@@ -33,7 +33,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       dividerCount: true,
       dividerType: { select: { label: true } },
       hasElectricalConnection: true,
-      hasTablecloths: true,
+      hasTableCloths: true,
       installationDay: true,
       peopleCount: true,
       placementComment: true,
