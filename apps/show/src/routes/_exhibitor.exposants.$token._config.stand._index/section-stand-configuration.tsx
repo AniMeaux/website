@@ -184,7 +184,7 @@ function FieldTableCloths() {
       <FormLayout.Label>Nappage des tables</FormLayout.Label>
 
       <FormLayout.Output>
-        {exhibitor.hasTablecloths ? "Oui" : "Non"}
+        {exhibitor.hasTableCloths ? "Oui" : "Non"}
       </FormLayout.Output>
     </FormLayout.Field>
   );
@@ -222,7 +222,14 @@ function SectionPriceDetails() {
     category: exhibitor.category,
   });
 
-  const totalPrice = [priceStandSize]
+  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS);
+
+  const totalPriceTableCloths =
+    exhibitor.tableCount > 0 && exhibitor.hasTableCloths
+      ? exhibitor.tableCount * priceTableCloths
+      : null;
+
+  const totalPrice = [priceStandSize, totalPriceTableCloths]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -245,6 +252,18 @@ function SectionPriceDetails() {
               {priceStandSize == null ? "N/A" : Price.format(priceStandSize)}
             </Receipt.ItemPrice>
           </Receipt.Item>
+
+          {exhibitor.tableCount > 0 && exhibitor.hasTableCloths ? (
+            <Receipt.Item>
+              <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+              <Receipt.ItemCount count={exhibitor.tableCount} />
+
+              <Receipt.ItemPrice>
+                {Price.format(priceTableCloths)}
+              </Receipt.ItemPrice>
+            </Receipt.Item>
+          ) : null}
         </Receipt.Items>
 
         <Receipt.Total>

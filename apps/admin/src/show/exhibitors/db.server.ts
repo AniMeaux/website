@@ -484,6 +484,10 @@ export class ShowExhibitorDbDelegate {
     if (data.dividerTypeId == null) {
       data.dividerCount = 0;
     }
+
+    if (data.tableCount === 0) {
+      data.hasTableCloths = false;
+    }
   }
 
   async delete(id: string) {
@@ -558,7 +562,7 @@ type ShowExhibitorStandConfigurationData = Pick<
   | "dividerCount"
   | "dividerTypeId"
   | "hasElectricalConnection"
-  | "hasTablecloths"
+  | "hasTableCloths"
   | "installationDay"
   | "peopleCount"
   | "sizeId"

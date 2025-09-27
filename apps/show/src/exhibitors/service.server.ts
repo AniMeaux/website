@@ -278,6 +278,10 @@ export class ServiceExhibitor {
     if (data.dividerTypeId == null) {
       data.dividerCount = 0;
     }
+
+    if (data.tableCount === 0) {
+      data.hasTableCloths = false;
+    }
   }
 }
 
@@ -312,7 +316,7 @@ type ExhibitorStandConfigurationData = Pick<
   | "dividerCount"
   | "dividerTypeId"
   | "hasElectricalConnection"
-  | "hasTablecloths"
+  | "hasTableCloths"
   | "installationDay"
   | "peopleCount"
   | "placementComment"

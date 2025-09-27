@@ -60,7 +60,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         dividerCount: true,
         dividerType: { select: { label: true } },
         hasElectricalConnection: true,
-        hasTablecloths: true,
+        hasTableCloths: true,
         installationDay: true,
         invoices: {
           orderBy: { createdAt: "desc" },

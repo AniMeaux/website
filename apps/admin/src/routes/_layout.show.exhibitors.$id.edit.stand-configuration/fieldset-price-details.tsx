@@ -1,4 +1,5 @@
 import { Receipt } from "#core/data-display/receipt.js";
+import { OnOff } from "#core/form-elements/field-on-off.js";
 import { Card } from "#core/layout/card.js";
 import { ExhibitorCategory } from "#show/exhibitors/category.js";
 import { Price } from "#show/price.js";
@@ -24,7 +25,15 @@ export function FieldsetPriceDetails() {
         })
       : null;
 
-  const totalPrice = [priceStandSize]
+  const tableCount = Number(fields.tableCount.value);
+  const hasTableCloths = OnOff.toBoolean(
+    fields.hasTableCloths.value as OnOff.Enum,
+  );
+  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS);
+  const totalPriceTableCloths =
+    tableCount > 0 && hasTableCloths ? tableCount * priceTableCloths : null;
+
+  const totalPrice = [priceStandSize, totalPriceTableCloths]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -51,6 +60,18 @@ export function FieldsetPriceDetails() {
                   {priceStandSize == null
                     ? "N/A"
                     : Price.format(priceStandSize)}
+                </Receipt.ItemPrice>
+              </Receipt.Item>
+            ) : null}
+
+            {tableCount > 0 && hasTableCloths ? (
+              <Receipt.Item>
+                <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+                <Receipt.ItemCount count={tableCount} />
+
+                <Receipt.ItemPrice>
+                  {Price.format(priceTableCloths)}
                 </Receipt.ItemPrice>
               </Receipt.Item>
             ) : null}

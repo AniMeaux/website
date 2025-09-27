@@ -31,21 +31,6 @@ export namespace ActivityField {
     (field) => translation[field],
   );
 
-  /**
-   * Exhibitors with at least one of the follwing activity fields are limited to
-   * some stand sizes.
-   */
-  export const valuesWithLimitedStandSizes = [
-    ActivityField.Enum.ALTERNATIVE_MEDICINE,
-    ActivityField.Enum.ASSOCIATION,
-    ActivityField.Enum.BEHAVIOR,
-    ActivityField.Enum.CITY,
-    ActivityField.Enum.EDUCATION,
-    ActivityField.Enum.SENSITIZATION,
-    ActivityField.Enum.SERVICES,
-    ActivityField.Enum.TRAINING,
-  ];
-
   export const icon: Record<Enum, { solid: IconName; light: IconName }> = {
     [Enum.ACCESSORIES]: {
       light: "teddy-bear-light",

@@ -25,6 +25,7 @@ export function checkEnv() {
  */
 export function getClientEnv() {
   return {
+    PRICE_TABLE_CLOTHS: process.env.PRICE_TABLE_CLOTHS,
     RUNTIME_ENV: process.env.RUNTIME_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
@@ -53,6 +54,12 @@ const processEnvSchema = zu
     GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
     GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
     NODE_ENV: zu.enum(["development", "production", "test"]),
+    PRICE_TABLE_CLOTHS: zu.coerce
+      .number()
+      .min(0)
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not number.
+      .transform((value) => String(value)),
     RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
     SENTRY_DSN: zu.string().optional(),
     SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),

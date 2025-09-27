@@ -18,6 +18,8 @@ export function FieldsetConfiguration() {
     (dividerType) => dividerType.id === fields.dividerType.value,
   );
 
+  const selectedTableCount = Number(fields.tableCount.value);
+
   return (
     <Card>
       <Card.Header>
@@ -77,10 +79,12 @@ export function FieldsetConfiguration() {
           <Form.Row>
             <FieldNumeric label="Nombre de tables" field={fields.tableCount} />
 
-            <FieldOnOff
-              label="Nappage des tables"
-              field={fields.hasTablecloths}
-            />
+            {selectedTableCount > 0 ? (
+              <FieldOnOff
+                label="Nappage des tables"
+                field={fields.hasTableCloths}
+              />
+            ) : null}
           </Form.Row>
 
           <Form.Row>

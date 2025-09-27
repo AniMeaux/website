@@ -60,11 +60,10 @@ export function createActionSchema({
             required_error: "Veuillez choisir une option",
           })
           .transform((value) => value === "on"),
-        hasTablecloths: zu
-          .enum(["on", "off"], {
-            required_error: "Veuillez choisir une option",
-          })
-          .transform((value) => value === "on"),
+        hasTableCloths: zu
+          .enum(["on", "off"])
+          .transform((value) => value === "on")
+          .optional(),
         installationDay: zu.nativeEnum(ShowInstallationDay, {
           required_error: "Veuillez choisir un jour d’installation",
         }),
