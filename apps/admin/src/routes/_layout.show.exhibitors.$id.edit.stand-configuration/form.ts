@@ -4,9 +4,9 @@ import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { ActionSchema, DividerType } from "./action";
+import { ActionSchema, DividerType } from "./action.js";
+import type { action } from "./action.server.js";
 import type { loader } from "./loader.server.js";
-import type { action } from "./route";
 
 export function useFormRoot() {
   const { exhibitor } = useLoaderData<typeof loader>();

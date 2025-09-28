@@ -5,7 +5,7 @@ import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";
-import { RouteParamsSchema } from "./route";
+import { RouteParamsSchema } from "./route-params.js";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
