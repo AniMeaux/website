@@ -18,6 +18,8 @@ export function SectionPrice() {
         hasCorner={exhibitor.hasCorner}
         tableCount={exhibitor.tableCount}
         hasTableCloths={exhibitor.hasTableCloths}
+        breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
+        breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
       />
     </FormLayout.Section>
   );

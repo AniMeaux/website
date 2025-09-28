@@ -78,6 +78,11 @@ export const Routes = {
           toString: () =>
             `/exposants/${exhibitorToken}/stand/modifier-chiens` as const,
         },
+
+        editPerks: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/stand/modifier-avantages` as const,
+        },
       },
     }),
   },

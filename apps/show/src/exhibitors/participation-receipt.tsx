@@ -10,6 +10,8 @@ export function ParticipationReceipt({
   hasCorner,
   tableCount,
   hasTableCloths,
+  breakfastPeopleCountSaturday,
+  breakfastPeopleCountSunday,
 }: {
   standSize?: Prisma.ShowStandSizeGetPayload<{
     select: {
@@ -23,6 +25,8 @@ export function ParticipationReceipt({
   hasCorner: boolean;
   tableCount: number;
   hasTableCloths: boolean;
+  breakfastPeopleCountSaturday: number;
+  breakfastPeopleCountSunday: number;
 }) {
   const priceStandSize =
     standSize != null
@@ -38,7 +42,17 @@ export function ParticipationReceipt({
 
   const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
 
-  const totalPrice = [priceStandSize, totalPriceTableCloths, priceCorner]
+  const priceBreakfast = Number(CLIENT_ENV.PRICE_BREAKFAST_PER_PERSON_PER_DAY);
+  const breakfastPeopleCount =
+    breakfastPeopleCountSaturday + breakfastPeopleCountSunday;
+  const totalPriceBreakfast = breakfastPeopleCount * priceBreakfast;
+
+  const totalPrice = [
+    priceStandSize,
+    totalPriceTableCloths,
+    priceCorner,
+    totalPriceBreakfast,
+  ]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -82,6 +96,18 @@ export function ParticipationReceipt({
             <Receipt.ItemCount />
 
             <Receipt.ItemPrice>{Price.format(priceCorner)}</Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {breakfastPeopleCount > 0 ? (
+          <Receipt.Item>
+            <Receipt.ItemName>Petit-déjeuner</Receipt.ItemName>
+
+            <Receipt.ItemCount count={breakfastPeopleCount} />
+
+            <Receipt.ItemPrice>
+              {Price.format(priceBreakfast)}
+            </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}
       </Receipt.Items>

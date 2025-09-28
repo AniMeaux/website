@@ -28,6 +28,8 @@ export function HelperPriceDetails() {
         hasCorner={hasCorner}
         tableCount={tableCount}
         hasTableCloths={hasTableCloths}
+        breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
+        breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
       />
     </HelperCard.Root>
   );

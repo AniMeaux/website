@@ -283,6 +283,19 @@ export class ServiceExhibitor {
       data.hasTableCloths = false;
     }
   }
+
+  async updatePerks(token: string, data: ExhibitorPerksData) {
+    await this.prisma.showExhibitor.update({
+      where: { token },
+      data: {
+        ...data,
+
+        perksStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
+      },
+    });
+
+    return true;
+  }
 }
 
 type DocumentsData = Pick<
@@ -324,4 +337,9 @@ type ExhibitorStandConfigurationData = Pick<
   | "sizeId"
   | "tableCount"
   | "zone"
+>;
+
+type ExhibitorPerksData = Pick<
+  Prisma.ShowExhibitorUncheckedUpdateInput,
+  "breakfastPeopleCountSaturday" | "breakfastPeopleCountSunday"
 >;

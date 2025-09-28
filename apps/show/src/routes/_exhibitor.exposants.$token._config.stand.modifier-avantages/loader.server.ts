@@ -5,43 +5,35 @@ import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
-import { getDividerTypesData } from "./divider-types.server";
-import { getStandSizesData } from "./stand-sizes.server";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
-      name: true,
-      activityFields: true,
       breakfastPeopleCountSaturday: true,
       breakfastPeopleCountSunday: true,
       category: true,
-      chairCount: true,
-      dividerCount: true,
-      dividerType: { select: { id: true } },
       hasCorner: true,
-      hasElectricalConnection: true,
       hasTableCloths: true,
-      installationDay: true,
+      name: true,
       peopleCount: true,
-      placementComment: true,
-      size: { select: { id: true } },
-      standConfigurationStatus: true,
+      perksStatus: true,
+      size: {
+        select: {
+          label: true,
+          priceForAssociations: true,
+          priceForServices: true,
+          priceForShops: true,
+        },
+      },
       tableCount: true,
     },
   });
 
-  if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
+  if (exhibitor.perksStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
   }
 
-  const { standSizesData, dividerTypesData } = await promiseHash({
-    standSizesData: getStandSizesData(exhibitor),
-    dividerTypesData: getDividerTypesData(exhibitor),
-  });
-
-  return { exhibitor, ...standSizesData, ...dividerTypesData };
+  return { exhibitor };
 }
