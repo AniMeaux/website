@@ -8,7 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { DividerType } from "./action";
 import { useForm } from "./form";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function FieldsetConfiguration() {
   const { standSizes, dividerTypes } = useLoaderData<typeof loader>();

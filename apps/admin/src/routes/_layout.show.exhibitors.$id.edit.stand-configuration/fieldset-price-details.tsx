@@ -6,7 +6,7 @@ import { Price } from "#show/price.js";
 import { StandSizePrice } from "#show/stand-size/price.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function FieldsetPriceDetails() {
   const { exhibitor, standSizes } = useLoaderData<typeof loader>();
