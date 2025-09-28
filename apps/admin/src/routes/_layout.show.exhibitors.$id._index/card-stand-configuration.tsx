@@ -7,7 +7,6 @@ import {
   Markdown,
   SENTENCE_COMPONENTS,
 } from "#core/data-display/markdown";
-import { Receipt } from "#core/data-display/receipt.js";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
@@ -16,8 +15,6 @@ import { InstallationDay } from "#show/exhibitors/stand-configuration/installati
 import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
-import { Price } from "#show/price.js";
-import { StandSizePrice } from "#show/stand-size/price.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -102,8 +99,6 @@ export function CardStandConfiguration() {
 
         <StandConfigurationStatusHelper />
 
-        <SectionPrice />
-
         <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
           <ItemList>
             <ItemStandInfo />
@@ -119,80 +114,6 @@ export function CardStandConfiguration() {
         </div>
       </Card.Content>
     </Card>
-  );
-}
-
-function SectionPrice() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-
-  const priceStandSize = StandSizePrice.getPrice({
-    standSize: exhibitor.size,
-    category: exhibitor.category,
-  });
-
-  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS);
-  const totalPriceTableCloths =
-    exhibitor.tableCount > 0 && exhibitor.hasTableCloths
-      ? exhibitor.tableCount * priceTableCloths
-      : null;
-
-  const hasCorner = exhibitor.hasCorner;
-  const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
-
-  const totalPrice = [priceStandSize, totalPriceTableCloths, priceCorner]
-    .filter(Boolean)
-    .reduce((sum, price) => sum + price, 0);
-
-  return (
-    <Receipt.Root className="rounded-0.5 bg-gray-100 p-1">
-      <Receipt.Items>
-        <Receipt.Item>
-          <Receipt.ItemName>
-            Stand de {exhibitor.size.label}
-            {" • "}
-            {ExhibitorCategory.translation[exhibitor.category]}
-          </Receipt.ItemName>
-
-          <Receipt.ItemCount />
-
-          <Receipt.ItemPrice>
-            {priceStandSize == null ? "N/A" : Price.format(priceStandSize)}
-          </Receipt.ItemPrice>
-        </Receipt.Item>
-
-        {exhibitor.tableCount > 0 && exhibitor.hasTableCloths ? (
-          <Receipt.Item>
-            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
-
-            <Receipt.ItemCount count={exhibitor.tableCount} />
-
-            <Receipt.ItemPrice>
-              {Price.format(priceTableCloths)}
-            </Receipt.ItemPrice>
-          </Receipt.Item>
-        ) : null}
-
-        {priceCorner != null ? (
-          <Receipt.Item>
-            <Receipt.ItemName>
-              Placement privilégié (stand en angle)
-            </Receipt.ItemName>
-
-            <Receipt.ItemCount />
-
-            <Receipt.ItemPrice>{Price.format(priceCorner)}</Receipt.ItemPrice>
-          </Receipt.Item>
-        ) : null}
-      </Receipt.Items>
-
-      <Receipt.Total>
-        <Receipt.TotalName>Total</Receipt.TotalName>
-
-        <Receipt.ItemCount />
-
-        <Receipt.TotalPrice>{Price.format(totalPrice)}</Receipt.TotalPrice>
-      </Receipt.Total>
-    </Receipt.Root>
   );
 }
 
