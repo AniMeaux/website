@@ -46,10 +46,17 @@ export function FieldsetConfiguration() {
             options={standSizes.map((standSize) => standSize.id)}
           />
 
-          <FieldOnOff
-            label="Raccordement électrique"
-            field={fields.hasElectricalConnection}
-          />
+          <Form.Row>
+            <FieldOnOff
+              label="Raccordement électrique"
+              field={fields.hasElectricalConnection}
+            />
+
+            <FieldOnOff
+              label="Placement privilégié (stand en angle)"
+              field={fields.hasCorner}
+            />
+          </Form.Row>
 
           <Form.Row>
             <FieldRadios

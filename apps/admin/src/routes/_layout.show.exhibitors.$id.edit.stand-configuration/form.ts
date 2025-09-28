@@ -32,6 +32,7 @@ export function useFormRoot() {
       chairCount: exhibitor.chairCount,
       dividerCount: exhibitor.dividerCount,
       dividerType: exhibitor.dividerType?.id ?? DividerType.none,
+      hasCorner: OnOff.fromBoolean(exhibitor.hasCorner),
       hasElectricalConnection: OnOff.fromBoolean(
         exhibitor.hasElectricalConnection,
       ),
