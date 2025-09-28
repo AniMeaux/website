@@ -8,7 +8,7 @@ import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { DividerType } from "./action";
 import { useForm } from "./form";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function FieldsetConfiguration() {
   const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
@@ -46,10 +46,17 @@ export function FieldsetConfiguration() {
             options={standSizes.map((standSize) => standSize.id)}
           />
 
-          <FieldOnOff
-            label="Raccordement électrique"
-            field={fields.hasElectricalConnection}
-          />
+          <Form.Row>
+            <FieldOnOff
+              label="Raccordement électrique"
+              field={fields.hasElectricalConnection}
+            />
+
+            <FieldOnOff
+              label="Placement privilégié (stand en angle)"
+              field={fields.hasCorner}
+            />
+          </Form.Row>
 
           <Form.Row>
             <FieldRadios

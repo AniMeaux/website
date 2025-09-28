@@ -41,6 +41,16 @@ export function FieldsetStand() {
         field={fields.hasElectricalConnection}
       />
 
+      <FieldYesNo
+        label="Placement privilégié (stand en angle)"
+        field={fields.hasCorner}
+        helper={
+          <FormLayout.Helper>
+            Option à {Price.format(Number(CLIENT_ENV.PRICE_CORNER_STAND))}
+          </FormLayout.Helper>
+        }
+      />
+
       <FormLayout.Row>
         <FieldDividerType
           label="Type de cloisons"

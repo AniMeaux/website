@@ -9,7 +9,7 @@ import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function SectionDogs() {
   const { exhibitor } = useLoaderData<typeof loader>();
