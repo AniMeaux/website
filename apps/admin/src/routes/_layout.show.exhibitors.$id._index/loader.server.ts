@@ -88,6 +88,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             priceForShops: true,
           },
         },
+        hasCorner: true,
         standNumber: true,
         standConfigurationStatus: true,
         standConfigurationStatusMessage: true,

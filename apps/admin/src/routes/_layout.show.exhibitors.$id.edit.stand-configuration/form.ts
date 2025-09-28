@@ -4,8 +4,9 @@ import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { ActionSchema, DividerType } from "./action";
-import type { action, loader } from "./route";
+import { ActionSchema, DividerType } from "./action.js";
+import type { action } from "./action.server.js";
+import type { loader } from "./loader.server.js";
 
 export function useFormRoot() {
   const { exhibitor } = useLoaderData<typeof loader>();
@@ -31,6 +32,7 @@ export function useFormRoot() {
       chairCount: exhibitor.chairCount,
       dividerCount: exhibitor.dividerCount,
       dividerType: exhibitor.dividerType?.id ?? DividerType.none,
+      hasCorner: OnOff.fromBoolean(exhibitor.hasCorner),
       hasElectricalConnection: OnOff.fromBoolean(
         exhibitor.hasElectricalConnection,
       ),

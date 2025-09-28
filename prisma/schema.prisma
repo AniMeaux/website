@@ -475,6 +475,7 @@ model ShowExhibitor {
 
   chairCount              Int                  @default(1)
   dividerCount            Int                  @default(0)
+  hasCorner               Boolean              @default(false)
   hasElectricalConnection Boolean              @default(false)
   hasTableCloths          Boolean              @default(false)
   installationDay         ShowInstallationDay?

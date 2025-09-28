@@ -6,7 +6,7 @@ import { Price } from "#show/price.js";
 import { StandSizePrice } from "#show/stand-size/price.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
-import type { loader } from "./route";
+import type { loader } from "./loader.server.js";
 
 export function FieldsetPriceDetails() {
   const { exhibitor, standSizes } = useLoaderData<typeof loader>();
@@ -33,7 +33,10 @@ export function FieldsetPriceDetails() {
   const totalPriceTableCloths =
     tableCount > 0 && hasTableCloths ? tableCount * priceTableCloths : null;
 
-  const totalPrice = [priceStandSize, totalPriceTableCloths]
+  const hasCorner = OnOff.toBoolean(fields.hasCorner.value as OnOff.Enum);
+  const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
+
+  const totalPrice = [priceStandSize, totalPriceTableCloths, priceCorner]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -72,6 +75,20 @@ export function FieldsetPriceDetails() {
 
                 <Receipt.ItemPrice>
                   {Price.format(priceTableCloths)}
+                </Receipt.ItemPrice>
+              </Receipt.Item>
+            ) : null}
+
+            {priceCorner != null ? (
+              <Receipt.Item>
+                <Receipt.ItemName>
+                  Placement privilégié (stand en angle)
+                </Receipt.ItemName>
+
+                <Receipt.ItemCount />
+
+                <Receipt.ItemPrice>
+                  {Price.format(priceCorner)}
                 </Receipt.ItemPrice>
               </Receipt.Item>
             ) : null}

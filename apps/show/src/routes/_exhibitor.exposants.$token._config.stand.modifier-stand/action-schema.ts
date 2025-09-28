@@ -55,6 +55,11 @@ export function createActionSchema({
               return dividerType;
             }),
         ]),
+        hasCorner: zu
+          .enum(["on", "off"], {
+            required_error: "Veuillez choisir une option",
+          })
+          .transform((value) => value === "on"),
         hasElectricalConnection: zu
           .enum(["on", "off"], {
             required_error: "Veuillez choisir une option",

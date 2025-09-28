@@ -136,7 +136,10 @@ function SectionPrice() {
       ? exhibitor.tableCount * priceTableCloths
       : null;
 
-  const totalPrice = [priceStandSize, totalPriceTableCloths]
+  const hasCorner = exhibitor.hasCorner;
+  const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
+
+  const totalPrice = [priceStandSize, totalPriceTableCloths, priceCorner]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
 
@@ -166,6 +169,18 @@ function SectionPrice() {
             <Receipt.ItemPrice>
               {Price.format(priceTableCloths)}
             </Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {priceCorner != null ? (
+          <Receipt.Item>
+            <Receipt.ItemName>
+              Placement privilégié (stand en angle)
+            </Receipt.ItemName>
+
+            <Receipt.ItemCount />
+
+            <Receipt.ItemPrice>{Price.format(priceCorner)}</Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}
       </Receipt.Items>
@@ -282,6 +297,11 @@ function ItemStandInfo() {
         {exhibitor.hasElectricalConnection ? "Avec" : "Sans"}
       </strong>{" "}
       raccordement électrique
+      <br />
+      <strong className="text-body-emphasis">
+        {exhibitor.hasCorner ? "Avec" : "Sans"}
+      </strong>{" "}
+      placement privilégié (stand en angle)
     </SimpleItem>
   );
 }

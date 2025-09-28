@@ -27,6 +27,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           chairCount: true,
           dividerCount: true,
           dividerType: { select: { label: true } },
+          hasCorner: true,
           hasElectricalConnection: true,
           hasTableCloths: true,
           installationDay: true,
@@ -68,6 +69,16 @@ export class ServiceExhibitorStandConfigurationEmail {
 
               <EmailHtml.Output.Value>
                 {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Placement privilégié (stand en angle)
+              </EmailHtml.Output.Label>
+
+              <EmailHtml.Output.Value>
+                {exhibitor.hasCorner ? "Oui" : "Non"}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
 
@@ -208,6 +219,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           chairCount: true,
           dividerCount: true,
           dividerType: { select: { label: true } },
+          hasCorner: true,
           hasElectricalConnection: true,
           hasTableCloths: true,
           installationDay: true,
@@ -261,6 +273,16 @@ export class ServiceExhibitorStandConfigurationEmail {
 
                   <EmailHtml.Output.Value>
                     {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
+
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>
+                    Placement privilégié (stand en angle)
+                  </EmailHtml.Output.Label>
+
+                  <EmailHtml.Output.Value>
+                    {exhibitor.hasCorner ? "Oui" : "Non"}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
 

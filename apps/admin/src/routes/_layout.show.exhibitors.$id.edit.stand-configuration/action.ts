@@ -29,6 +29,12 @@ export const ActionSchema = zu
       zu.string().uuid(),
     ]),
 
+    hasCorner: zu
+      .nativeEnum(OnOff.Enum, {
+        required_error: "Veuillez choisir une option",
+      })
+      .transform(OnOff.toBoolean),
+
     hasElectricalConnection: zu
       .nativeEnum(OnOff.Enum, {
         required_error: "Veuillez choisir une option",
