@@ -2,57 +2,13 @@ import { getErrorTitle } from "#core/data-display/error-page";
 import { FormLayout } from "#core/layout/form-layout";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
+import type { loader } from "./loader.server.js";
 import { SectionDogs } from "./section-dogs";
 import { SectionHelper } from "./section-helper";
 import { SectionStandConfiguration } from "./section-stand-configuration";
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
-
-  const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
-    select: {
-      token: true,
-      dogsConfigurationStatus: true,
-      dogsConfigurationStatusMessage: true,
-      dogs: {
-        select: {
-          gender: true,
-          idNumber: true,
-          isCategorized: true,
-          isSterilized: true,
-        },
-      },
-      name: true,
-      category: true,
-      chairCount: true,
-      dividerCount: true,
-      dividerType: { select: { label: true } },
-      hasElectricalConnection: true,
-      hasTableCloths: true,
-      installationDay: true,
-      peopleCount: true,
-      placementComment: true,
-      size: {
-        select: {
-          label: true,
-          priceForAssociations: true,
-          priceForServices: true,
-          priceForShops: true,
-        },
-      },
-      standConfigurationStatus: true,
-      standConfigurationStatusMessage: true,
-      tableCount: true,
-    },
-  });
-
-  return { exhibitor };
-}
+export { loader } from "./loader.server.js";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
