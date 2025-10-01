@@ -8,9 +8,9 @@ import { Card } from "#core/layout/card.js";
 import { Separator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon.js";
-import { DogsConfigurationStatusIcon } from "#show/exhibitors/dogs-configuration/status.js";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper.js";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
@@ -62,9 +62,7 @@ function DogsConfigurationStatusHelper() {
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <DogsConfigurationStatusIcon
-            status={exhibitor.dogsConfigurationStatus}
-          />
+          <ExhibitorStatusIcon status={exhibitor.dogsConfigurationStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>

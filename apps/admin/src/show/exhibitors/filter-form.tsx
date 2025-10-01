@@ -14,15 +14,12 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
-import { DocumentsStatusIcon } from "#show/exhibitors/documents/status";
-import { DogsConfigurationStatusIcon } from "#show/exhibitors/dogs-configuration/status";
-import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import {
   ExhibitorSearchParams,
   ExhibitorSearchParamsN,
 } from "#show/exhibitors/search-params";
-import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { InvoiceIcon } from "#show/invoice/icon.js";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import {
@@ -562,7 +559,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.publicProfileStatuses}
                 value={status}
-                icon={<ProfileStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.publicProfileStatuses.has(
                   status,
                 )}
@@ -583,7 +580,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.descriptionStatuses}
                 value={status}
-                icon={<ProfileStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.descriptionStatuses.has(status)}
                 onChange={() => {}}
               />
@@ -602,7 +599,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.onStandAnimationsStatuses}
                 value={status}
-                icon={<ProfileStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.onStandAnimationsStatuses.has(
                   status,
                 )}
@@ -623,7 +620,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.documentsStatuses}
                 value={status}
-                icon={<DocumentsStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.documentsStatuses.has(status)}
                 onChange={() => {}}
               />
@@ -642,7 +639,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.standConfigurationStatuses}
                 value={status}
-                icon={<StandConfigurationStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.standConfigurationStatuses.has(
                   status,
                 )}
@@ -663,7 +660,7 @@ function FilterStatuses() {
                 label={ExhibitorStatus.translation[status]}
                 name={ExhibitorSearchParams.keys.dogsConfigurationStatuses}
                 value={status}
-                icon={<DogsConfigurationStatusIcon status={status} />}
+                icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.dogsConfigurationStatuses.has(
                   status,
                 )}

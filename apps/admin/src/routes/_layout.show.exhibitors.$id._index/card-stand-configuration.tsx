@@ -12,9 +12,9 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { ExhibitorCategory } from "#show/exhibitors/category.js";
 import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { StandConfigurationStatusIcon } from "#show/exhibitors/stand-configuration/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -124,9 +124,7 @@ function StandConfigurationStatusHelper() {
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <StandConfigurationStatusIcon
-            status={exhibitor.standConfigurationStatus}
-          />
+          <ExhibitorStatusIcon status={exhibitor.standConfigurationStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>
