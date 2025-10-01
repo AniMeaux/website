@@ -54,6 +54,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         onStandAnimationsStatus: true,
         onStandAnimationsStatusMessage: true,
         peopleCount: true,
+        perksStatus: true,
+        perksStatusMessage: true,
         placementComment: true,
         publicProfileStatus: true,
         publicProfileStatusMessage: true,

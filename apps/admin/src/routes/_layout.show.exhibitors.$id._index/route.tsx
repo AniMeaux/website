@@ -19,6 +19,7 @@ import { CardDogsConfiguration } from "./card-dogs-configuration";
 import { CardInvoices } from "./card-invoices";
 import { CardOnStageAnimations } from "./card-on-stage-animations";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
+import { CardPerks } from "./card-perks";
 import { CardPrice } from "./card-price";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
@@ -60,6 +61,7 @@ export default function Route() {
           <CardDescription />
           <CardStandConfiguration />
           <CardDogsConfiguration />
+          <CardPerks />
           <CardDocuments />
           <CardOnStageAnimations />
           <CardOnStandAnimations />
