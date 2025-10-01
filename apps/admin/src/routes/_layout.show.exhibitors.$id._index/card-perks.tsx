@@ -1,6 +1,10 @@
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
+import { InlineHelper } from "#core/data-display/helper.js";
 import { ItemList, SimpleItem } from "#core/data-display/item";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation.js";
 import { Icon } from "#generated/icon";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
@@ -9,13 +13,43 @@ import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
 export function CardPerks() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  const hasTooManyPeopleSaturday =
+    exhibitor.breakfastPeopleCountSaturday > exhibitor.peopleCount;
+
+  const hasTooManyPeopleSunday =
+    exhibitor.breakfastPeopleCountSunday > exhibitor.peopleCount;
+
   return (
     <Card>
       <Card.Header>
         <Card.Title>Avantages</Card.Title>
+
+        <Action variant="text" asChild>
+          <BaseLink
+            to={Routes.show.exhibitors.id(exhibitor.id).edit.perks.toString()}
+          >
+            Modifier
+          </BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content>
+        {hasTooManyPeopleSaturday ? (
+          <InlineHelper variant="warning">
+            Le nombre de personnes pour le petit-déjeuner de samedi dépasse le
+            nombre de personne sur le stand ({exhibitor.peopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
+        {hasTooManyPeopleSunday ? (
+          <InlineHelper variant="warning">
+            Le nombre de personnes pour le petit-déjeuner de dimanche dépasse le
+            nombre de personne sur le stand ({exhibitor.peopleCount} maximum).
+          </InlineHelper>
+        ) : null}
+
         <PerksStatusHelper />
 
         <ItemList>

@@ -18,6 +18,7 @@ type ShowNotification =
   | { type: "invoice-paid"; exhibitorId: string; invoiceId: string }
   | { type: "new-invoice"; exhibitorId: string }
   | { type: "on-stand-animations-treated"; exhibitorId: string }
+  | { type: "perks-treated"; exhibitorId: string }
   | { type: "public-profile-treated"; exhibitorId: string }
   | { type: "stand-configuration-treated"; exhibitorId: string };
 
