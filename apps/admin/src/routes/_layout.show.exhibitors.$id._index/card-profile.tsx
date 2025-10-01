@@ -9,9 +9,9 @@ import { Icon } from "#generated/icon";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
 import { ExhibitorCategory } from "#show/exhibitors/category.js";
-import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
@@ -99,7 +99,7 @@ function PublicProfileStatusHelper() {
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <ProfileStatusIcon status={exhibitor.publicProfileStatus} />
+          <ExhibitorStatusIcon status={exhibitor.publicProfileStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>

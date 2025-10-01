@@ -14,8 +14,8 @@ export function SectionHelper() {
       </p>
 
       <p>
-        Une fois la configuration de votre stand validée par notre équipe, vous
-        recevrez par e-mail les informations de paiement.
+        Une fois la configuration de votre stand et vos avantages validés par
+        notre équipe, vous recevrez par e-mail les informations de paiement.
       </p>
 
       <p>

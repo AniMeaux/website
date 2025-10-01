@@ -4,9 +4,9 @@ import { Empty } from "#core/data-display/empty";
 import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation.js";
-import { ProfileStatusIcon } from "#show/exhibitors/profile/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -57,7 +57,7 @@ function DescriptionStatusHelper() {
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <ProfileStatusIcon status={exhibitor.descriptionStatus} />
+          <ExhibitorStatusIcon status={exhibitor.descriptionStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>

@@ -485,6 +485,14 @@ model ShowExhibitor {
   standNumber             String?              @db.VarChar(16)
   tableCount              Int
   zone                    ShowStandZone?
+
+  // -- Perks ------------------------------------------------------------------
+
+  perksStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
+  perksStatusMessage String?
+
+  breakfastPeopleCountSaturday Int @default(0)
+  breakfastPeopleCountSunday   Int @default(0)
 }
 
 enum ShowExhibitorCategory {

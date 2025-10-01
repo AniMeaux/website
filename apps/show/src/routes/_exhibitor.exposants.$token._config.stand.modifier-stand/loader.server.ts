@@ -16,6 +16,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
     select: {
       name: true,
       activityFields: true,
+      breakfastPeopleCountSaturday: true,
+      breakfastPeopleCountSunday: true,
       category: true,
       chairCount: true,
       dividerCount: true,
@@ -29,7 +31,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
       size: { select: { id: true } },
       standConfigurationStatus: true,
       tableCount: true,
-      updatedAt: true,
     },
   });
 

@@ -5,9 +5,9 @@ import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
 import { Form } from "#core/form-elements/form";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation";
-import { DocumentsStatusIcon } from "#show/exhibitors/documents/status";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
@@ -87,7 +87,7 @@ function DocumentsStatusHelper() {
     <StatusHelper.Root>
       <StatusHelper.Header>
         <StatusHelper.Icon asChild>
-          <DocumentsStatusIcon status={exhibitor.documentStatus} />
+          <ExhibitorStatusIcon status={exhibitor.documentStatus} />
         </StatusHelper.Icon>
 
         <StatusHelper.Title>

@@ -8,6 +8,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
+      breakfastPeopleCountSaturday: true,
+      breakfastPeopleCountSunday: true,
       token: true,
       dogsConfigurationStatus: true,
       dogsConfigurationStatusMessage: true,
@@ -29,6 +31,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
       hasTableCloths: true,
       installationDay: true,
       peopleCount: true,
+      perksStatus: true,
+      perksStatusMessage: true,
       placementComment: true,
       size: {
         select: {

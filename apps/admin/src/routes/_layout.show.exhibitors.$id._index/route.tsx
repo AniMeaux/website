@@ -19,6 +19,8 @@ import { CardDogsConfiguration } from "./card-dogs-configuration";
 import { CardInvoices } from "./card-invoices";
 import { CardOnStageAnimations } from "./card-on-stage-animations";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
+import { CardPerks } from "./card-perks";
+import { CardPrice } from "./card-price";
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
 import { CardStandConfiguration } from "./card-stand-configuration";
@@ -54,11 +56,13 @@ export default function Route() {
         </div>
 
         <div className="grid grid-cols-1 gap-1 md:gap-2">
+          <CardPrice />
+          <CardInvoices />
           <CardDescription />
           <CardStandConfiguration />
           <CardDogsConfiguration />
+          <CardPerks />
           <CardDocuments />
-          <CardInvoices />
           <CardOnStageAnimations />
           <CardOnStandAnimations />
         </div>

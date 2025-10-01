@@ -2,6 +2,7 @@ import type { ServiceEmail } from "#core/email/service.server.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { ServiceExhibitorDocumentEmail } from "#exhibitors/documents/email.service.server.js";
 import { ServiceExhibitorDogConfigurationEmail } from "#exhibitors/dogs-configuration/email.service.server.js";
+import { ServiceExhibitorPerksEmail } from "#exhibitors/perks/email.service.server";
 import {
   ServiceExhibitorDescriptionEmail,
   ServiceExhibitorOnStandAnimationEmail,
@@ -17,6 +18,7 @@ export class ModuleExhibitorEmail {
   publicProfile: ServiceExhibitorPublicProfileEmail;
   description: ServiceExhibitorDescriptionEmail;
   onStandAnimation: ServiceExhibitorOnStandAnimationEmail;
+  perks: ServiceExhibitorPerksEmail;
   standConfiguration: ServiceExhibitorStandConfigurationEmail;
   visibility: ServiceExhibitorVisibilityEmail;
 
@@ -54,6 +56,8 @@ export class ModuleExhibitorEmail {
       exhibitor,
       application,
     );
+
+    this.perks = new ServiceExhibitorPerksEmail(email, exhibitor, application);
 
     this.standConfiguration = new ServiceExhibitorStandConfigurationEmail(
       email,
