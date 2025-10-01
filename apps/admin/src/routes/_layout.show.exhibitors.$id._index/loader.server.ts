@@ -26,6 +26,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       select: {
         activityFields: true,
         activityTargets: true,
+        breakfastPeopleCountSaturday: true,
+        breakfastPeopleCountSunday: true,
         category: true,
         chairCount: true,
         description: true,

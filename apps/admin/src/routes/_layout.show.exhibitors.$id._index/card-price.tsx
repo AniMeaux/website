@@ -19,6 +19,8 @@ export function CardPrice() {
           hasCorner={exhibitor.hasCorner}
           tableCount={exhibitor.tableCount}
           hasTableCloths={exhibitor.hasTableCloths}
+          breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
+          breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
         />
       </Card.Content>
     </Card>

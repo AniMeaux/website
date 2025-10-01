@@ -22,6 +22,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const { exhibitor, standSizes, dividerTypes } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
       select: {
+        breakfastPeopleCountSaturday: true,
+        breakfastPeopleCountSunday: true,
         category: true,
         chairCount: true,
         dividerCount: true,
