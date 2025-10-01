@@ -3,7 +3,7 @@ import { Icon } from "#generated/icon";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { cn } from "@animeaux/core";
 
-export function ProfileStatusIcon({
+export function ExhibitorStatusIcon({
   status,
   className,
 }: {

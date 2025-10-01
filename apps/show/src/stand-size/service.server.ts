@@ -6,8 +6,9 @@ export class ServiceStandSize {
   // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
-  async getManyVisible<T extends Prisma.ShowStandSizeSelect>(params: {
+  async getMany<T extends Prisma.ShowStandSizeSelect>(params: {
     select: T;
+    where?: Prisma.ShowStandSizeWhereInput;
   }) {
     type Selected = Prisma.ShowStandSizeGetPayload<{
       select: typeof params.select;
@@ -24,7 +25,7 @@ export class ServiceStandSize {
     }>;
 
     const standSizes = (await this.prisma.showStandSize.findMany({
-      where: { isVisible: true },
+      where: params.where,
       select: { ...params.select, ...internalSelect },
       orderBy: [{ area: "asc" }, { label: "asc" }],
     })) as Internal[];
@@ -40,5 +41,11 @@ export class ServiceStandSize {
     );
 
     return standSizesWithAvailability as Simplify<Selected & Availability>[];
+  }
+
+  async getManyVisible<T extends Prisma.ShowStandSizeSelect>(params: {
+    select: T;
+  }) {
+    return await this.getMany({ ...params, where: { isVisible: true } });
   }
 }

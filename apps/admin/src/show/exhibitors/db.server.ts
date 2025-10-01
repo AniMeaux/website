@@ -490,6 +490,33 @@ export class ShowExhibitorDbDelegate {
     }
   }
 
+  async updatePerks(id: string, data: ShowExhibitorPerksData) {
+    this.#normalizePerks(data);
+
+    try {
+      await prisma.showExhibitor.update({ where: { id }, data });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw notFound();
+        }
+      }
+
+      throw error;
+    }
+
+    await notifyShowApp({
+      type: "perks-treated",
+      exhibitorId: id,
+    });
+  }
+
+  #normalizePerks(data: ShowExhibitorPerksData) {
+    if (data.perksStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
+      data.perksStatusMessage = null;
+    }
+  }
+
   async delete(id: string) {
     try {
       await prisma.showExhibitor.delete({ where: { id } });
@@ -554,6 +581,14 @@ type ShowExhibitorOnStandAnimationsData = Pick<
   | "onStandAnimations"
   | "onStandAnimationsStatus"
   | "onStandAnimationsStatusMessage"
+>;
+
+type ShowExhibitorPerksData = Pick<
+  Prisma.ShowExhibitorUncheckedUpdateInput,
+  | "breakfastPeopleCountSaturday"
+  | "breakfastPeopleCountSunday"
+  | "perksStatus"
+  | "perksStatusMessage"
 >;
 
 type ShowExhibitorStandConfigurationData = Pick<

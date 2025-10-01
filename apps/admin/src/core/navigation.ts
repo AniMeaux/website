@@ -109,6 +109,10 @@ export const Routes = {
               `/show/exhibitors/${id}/edit/on-stand-animations` as const,
           },
 
+          perks: {
+            toString: () => `/show/exhibitors/${id}/edit/perks` as const,
+          },
+
           publicProfile: {
             toString: () =>
               `/show/exhibitors/${id}/edit/public-profile` as const,

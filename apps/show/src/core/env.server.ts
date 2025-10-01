@@ -44,6 +44,8 @@ export function getClientEnv() {
     GOOGLE_TAG_MANAGER_ID: process.env.GOOGLE_TAG_MANAGER_ID,
     INSTAGRAM_URL: process.env.INSTAGRAM_URL,
     PRESS_RELEASE_URL: process.env.PRESS_RELEASE_URL,
+    PRICE_BREAKFAST_PER_PERSON_PER_DAY:
+      process.env.PRICE_BREAKFAST_PER_PERSON_PER_DAY,
     PRICE_CORNER_STAND: process.env.PRICE_CORNER_STAND,
     PRICE_TABLE_CLOTHS: process.env.PRICE_TABLE_CLOTHS,
     PUBLIC_HOST: process.env.PUBLIC_HOST,
@@ -105,6 +107,12 @@ const ProcessEnvSchema = zu
     NODE_ENV: zu.enum(["development", "production", "test"]),
     ORGANIZER_EXHIBITOR_ID: zu.string().optional(),
     PRESS_RELEASE_URL: zu.string().optional(),
+    PRICE_BREAKFAST_PER_PERSON_PER_DAY: zu.coerce
+      .number()
+      .min(0)
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not number.
+      .transform((value) => String(value)),
     PRICE_CORNER_STAND: zu.coerce
       .number()
       .min(0)

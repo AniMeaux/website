@@ -853,6 +853,10 @@ async function seedShowExhibitors() {
         Object.values(ShowExhibitorStatus),
       );
 
+      const perksStatus = faker.helpers.arrayElement(
+        Object.values(ShowExhibitorStatus),
+      );
+
       return prisma.showExhibitor.create({
         data: {
           isVisible: faker.datatype.boolean({ probability: 9 / 10 }),
@@ -945,6 +949,14 @@ async function seedShowExhibitors() {
           sizeId: application.desiredStandSize.id,
           tableCount: faker.number.int({ min: 0, max: 3 }),
           hasCorner: faker.datatype.boolean({ probability: 1 / 10 }),
+
+          // -- Perks ----------------------------------------------------------
+
+          perksStatus,
+          perksStatusMessage:
+            perksStatus === ShowExhibitorStatus.TO_MODIFY
+              ? faker.lorem.paragraph()
+              : undefined,
         },
       });
     }),

@@ -19,6 +19,7 @@ export async function action({ request }: ActionFunctionArgs) {
       ActionSchemaPublicProfileTreated,
       ActionSchemaDescriptionTreated,
       ActionSchemaStandConfigurationTreated,
+      ActionSchemaPerksTreated,
     ])
     .safeParse(await request.json());
 
@@ -92,6 +93,12 @@ export async function action({ request }: ActionFunctionArgs) {
       return json({ ok: true });
     }
 
+    case ActionSchemaPerksTreated.shape.type.value: {
+      services.exhibitorEmail.perks.treated(action.data.exhibitorId);
+
+      return json({ ok: true });
+    }
+
     default: {
       return action.data satisfies never;
     }
@@ -146,6 +153,11 @@ const ActionSchemaDescriptionTreated = zu.object({
 
 const ActionSchemaStandConfigurationTreated = zu.object({
   type: zu.literal("stand-configuration-treated"),
+  exhibitorId: zu.string().uuid(),
+});
+
+const ActionSchemaPerksTreated = zu.object({
+  type: zu.literal("perks-treated"),
   exhibitorId: zu.string().uuid(),
 });
 
