@@ -2,6 +2,7 @@ import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
+import { PerksHelper } from "#exhibitors/perks/helper.js";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -30,6 +31,8 @@ export function SectionPerks() {
       </FormLayout.Header>
 
       <SectionStatus />
+
+      <PerksHelper />
 
       <FormLayout.Row>
         <FieldBreakfastPeopleCountSaturday />

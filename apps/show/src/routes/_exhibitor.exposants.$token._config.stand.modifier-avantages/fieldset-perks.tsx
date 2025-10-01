@@ -1,5 +1,6 @@
 import { FieldStepper } from "#core/form-elements/field-stepper";
 import { FormLayout } from "#core/layout/form-layout";
+import { PerksHelper } from "#exhibitors/perks/helper.js";
 import { Price } from "#price/price.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
@@ -13,6 +14,8 @@ export function FieldsetPerks() {
   return (
     <FormLayout.Section>
       <FormLayout.Title>Avantages</FormLayout.Title>
+
+      <PerksHelper />
 
       <FieldStepper
         label="Nombre de personnes pour le petit-déjeuner du samedi"
