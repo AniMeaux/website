@@ -16,7 +16,7 @@ export function createActionSchema({
     DividerTypeAvailability)[];
   availableStandSizes: Pick<
     ShowStandSize,
-    "id" | "maxDividerCount" | "maxPeopleCount" | "maxTableCount"
+    "id" | "maxBraceletCount" | "maxDividerCount" | "maxTableCount"
   >[];
 }) {
   return (
@@ -141,9 +141,9 @@ export function createActionSchema({
         },
       )
       .refine(
-        (value) => value.peopleCount <= value.standSize.maxPeopleCount,
+        (value) => value.peopleCount <= value.standSize.maxBraceletCount,
         (value) => ({
-          message: `Veuillez entrer un nombre inférieur à ${value.standSize.maxPeopleCount}`,
+          message: `Veuillez entrer un nombre inférieur à ${value.standSize.maxBraceletCount}`,
           path: ["peopleCount"],
         }),
       )
@@ -159,9 +159,9 @@ export function createActionSchema({
       .refine(
         (value) =>
           value.chairCount <=
-          Math.min(value.peopleCount, value.standSize.maxPeopleCount),
+          Math.min(value.peopleCount, value.standSize.maxBraceletCount),
         (value) => ({
-          message: `Veuillez entrer un nombre inférieur à ${Math.min(value.peopleCount, value.standSize.maxPeopleCount)}`,
+          message: `Veuillez entrer un nombre inférieur à ${Math.min(value.peopleCount, value.standSize.maxBraceletCount)}`,
           path: ["chairCount"],
         }),
       )

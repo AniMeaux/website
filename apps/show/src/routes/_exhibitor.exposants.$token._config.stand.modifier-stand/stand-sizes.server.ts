@@ -15,6 +15,7 @@ export async function getStandSizesData(
       id: true,
       isVisible: true,
       label: true,
+      maxBraceletCount: true,
       maxDividerCount: true,
       maxPeopleCount: true,
       maxTableCount: true,

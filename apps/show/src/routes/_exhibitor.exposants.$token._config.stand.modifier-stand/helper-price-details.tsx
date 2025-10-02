@@ -18,6 +18,8 @@ export function HelperPriceDetails() {
   const tableCount = Number(fields.tableCount.value);
   const hasTableCloths = fields.hasTableCloths.value === "on";
 
+  const peopleCount = Number(fields.peopleCount.value);
+
   return (
     <HelperCard.Root color="alabaster">
       <HelperCard.Title>Prix estimé de la participation</HelperCard.Title>
@@ -30,6 +32,7 @@ export function HelperPriceDetails() {
         hasTableCloths={hasTableCloths}
         breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
         breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
+        peopleCount={peopleCount}
       />
     </HelperCard.Root>
   );

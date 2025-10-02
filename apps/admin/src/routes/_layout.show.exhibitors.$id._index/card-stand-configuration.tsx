@@ -27,10 +27,10 @@ export function CardStandConfiguration() {
   const hasTooManyTables = exhibitor.tableCount > exhibitor.size.maxTableCount;
 
   const hasTooManyPeople =
-    exhibitor.peopleCount > exhibitor.size.maxPeopleCount;
+    exhibitor.peopleCount > exhibitor.size.maxBraceletCount;
 
   const hasTooManyChairsOnStand =
-    exhibitor.chairCount > exhibitor.size.maxPeopleCount;
+    exhibitor.chairCount > exhibitor.size.maxBraceletCount;
 
   const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount;
 
@@ -79,14 +79,14 @@ export function CardStandConfiguration() {
         {hasTooManyPeople ? (
           <InlineHelper variant="warning">
             Le nombre de personnes dépasse la limite autorisée pour ce stand (
-            {exhibitor.size.maxPeopleCount} maximum).
+            {exhibitor.size.maxBraceletCount} maximum).
           </InlineHelper>
         ) : null}
 
         {hasTooManyChairsOnStand && hasTooManyPeople ? (
           <InlineHelper variant="warning">
             Le nombre de chaises dépasse la limite autorisée pour ce stand (
-            {exhibitor.size.maxPeopleCount} maximum).
+            {exhibitor.size.maxBraceletCount} maximum).
           </InlineHelper>
         ) : null}
 

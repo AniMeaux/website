@@ -45,6 +45,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       select: {
         id: true,
         label: true,
+        maxPeopleCount: true,
         priceForAssociations: true,
         priceForServices: true,
         priceForShops: true,

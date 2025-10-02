@@ -37,6 +37,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       size: {
         select: {
           label: true,
+          maxPeopleCount: true,
           priceForAssociations: true,
           priceForServices: true,
           priceForShops: true,

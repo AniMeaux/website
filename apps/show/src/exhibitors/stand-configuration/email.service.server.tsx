@@ -122,7 +122,7 @@ export class ServiceExhibitorStandConfigurationEmail {
 
             <EmailHtml.Output.Row>
               <EmailHtml.Output.Label>
-                Nombre de personnes sur le stand
+                Nombre total de personnes samedi et dimanche
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
@@ -330,7 +330,7 @@ export class ServiceExhibitorStandConfigurationEmail {
 
                 <EmailHtml.Output.Row>
                   <EmailHtml.Output.Label>
-                    Nombre de personnes sur le stand
+                    Nombre total de personnes samedi et dimanche
                   </EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
