@@ -21,6 +21,8 @@ export function FieldsetPriceDetails() {
 
   const hasCorner = OnOff.toBoolean(fields.hasCorner.value as OnOff.Enum);
 
+  const peopleCount = Number(fields.peopleCount.value);
+
   return (
     <Card>
       <Card.Header>
@@ -36,6 +38,7 @@ export function FieldsetPriceDetails() {
           hasTableCloths={hasTableCloths}
           breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
           breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
+          peopleCount={peopleCount}
         />
       </Card.Content>
     </Card>

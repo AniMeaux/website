@@ -25,6 +25,7 @@ export function checkEnv() {
  */
 export function getClientEnv() {
   return {
+    PRICE_ADDITIONAL_BRACELET: process.env.PRICE_ADDITIONAL_BRACELET,
     PRICE_BREAKFAST_PER_PERSON_PER_DAY:
       process.env.PRICE_BREAKFAST_PER_PERSON_PER_DAY,
     PRICE_CORNER_STAND: process.env.PRICE_CORNER_STAND,
@@ -57,6 +58,12 @@ const processEnvSchema = zu
     GOOGLE_API_PRIVATE_KEY: zu.string().optional(),
     GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
     NODE_ENV: zu.enum(["development", "production", "test"]),
+    PRICE_ADDITIONAL_BRACELET: zu.coerce
+      .number()
+      .min(0)
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not number.
+      .transform((value) => String(value)),
     PRICE_BREAKFAST_PER_PERSON_PER_DAY: zu.coerce
       .number()
       .min(0)
