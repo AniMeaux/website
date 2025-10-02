@@ -33,11 +33,11 @@ export default function Route() {
 
           <FormLayout.SectionSeparator />
 
-          <SectionDogs />
+          <SectionPerks />
 
           <FormLayout.SectionSeparator />
 
-          <SectionPerks />
+          <SectionDogs />
         </div>
       </FormLayout.Form>
 
