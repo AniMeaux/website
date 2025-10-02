@@ -158,7 +158,9 @@ function FieldPeopleCount() {
 
   return (
     <FormLayout.Field>
-      <FormLayout.Label>Nombre de personnes sur le stand</FormLayout.Label>
+      <FormLayout.Label>
+        Nombre total de personnes samedi et dimanche
+      </FormLayout.Label>
 
       <FormLayout.Output>{exhibitor.peopleCount}</FormLayout.Output>
     </FormLayout.Field>

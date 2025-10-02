@@ -97,6 +97,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           select: {
             id: true,
             label: true,
+            maxBraceletCount: true,
             maxDividerCount: true,
             maxPeopleCount: true,
             maxTableCount: true,

@@ -20,6 +20,7 @@ export function SectionPrice() {
         hasTableCloths={exhibitor.hasTableCloths}
         breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
         breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
+        peopleCount={exhibitor.peopleCount}
       />
     </FormLayout.Section>
   );

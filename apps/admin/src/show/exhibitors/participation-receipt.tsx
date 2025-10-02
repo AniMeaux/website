@@ -12,10 +12,12 @@ export function ParticipationReceipt({
   hasTableCloths,
   breakfastPeopleCountSaturday,
   breakfastPeopleCountSunday,
+  peopleCount,
 }: {
   standSize?: Prisma.ShowStandSizeGetPayload<{
     select: {
       label: true;
+      maxPeopleCount: true;
       priceForAssociations: true;
       priceForServices: true;
       priceForShops: true;
@@ -27,6 +29,7 @@ export function ParticipationReceipt({
   hasTableCloths: boolean;
   breakfastPeopleCountSaturday: number;
   breakfastPeopleCountSunday: number;
+  peopleCount: number;
 }) {
   const priceStandSize =
     standSize != null
@@ -47,11 +50,18 @@ export function ParticipationReceipt({
     breakfastPeopleCountSaturday + breakfastPeopleCountSunday;
   const totalPriceBreakfast = breakfastPeopleCount * priceBreakfast;
 
+  const priceAdditionalBracelet = Number(CLIENT_ENV.PRICE_ADDITIONAL_BRACELET);
+  const additionalPeopleCount =
+    standSize != null ? Math.max(0, peopleCount - standSize.maxPeopleCount) : 0;
+  const totalPriceAdditionalBracelet =
+    additionalPeopleCount * priceAdditionalBracelet;
+
   const totalPrice = [
     priceStandSize,
     totalPriceTableCloths,
     priceCorner,
     totalPriceBreakfast,
+    totalPriceAdditionalBracelet,
   ]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
@@ -107,6 +117,21 @@ export function ParticipationReceipt({
 
             <Receipt.ItemPrice>
               {Price.format(priceBreakfast)}
+            </Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {additionalPeopleCount > 0 ? (
+          <Receipt.Item>
+            <Receipt.ItemName>
+              Bracelet{additionalPeopleCount > 1 ? "s" : ""} supplémentaire
+              {additionalPeopleCount > 1 ? "s" : ""}
+            </Receipt.ItemName>
+
+            <Receipt.ItemCount count={additionalPeopleCount} />
+
+            <Receipt.ItemPrice>
+              {Price.format(priceAdditionalBracelet)}
             </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}

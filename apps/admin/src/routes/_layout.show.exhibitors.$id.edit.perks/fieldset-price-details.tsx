@@ -31,6 +31,7 @@ export function FieldsetPriceDetails() {
           hasTableCloths={exhibitor.hasTableCloths}
           breakfastPeopleCountSaturday={breakfastPeopleCountSaturday}
           breakfastPeopleCountSunday={breakfastPeopleCountSunday}
+          peopleCount={exhibitor.peopleCount}
         />
       </Card.Content>
     </Card>

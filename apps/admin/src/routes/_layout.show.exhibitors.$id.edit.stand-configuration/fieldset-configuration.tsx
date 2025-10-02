@@ -96,7 +96,7 @@ export function FieldsetConfiguration() {
 
           <Form.Row>
             <FieldNumeric
-              label="Nombre de personnes sur le stand"
+              label="Nombre total de personnes samedi et dimanche"
               field={fields.peopleCount}
             />
 

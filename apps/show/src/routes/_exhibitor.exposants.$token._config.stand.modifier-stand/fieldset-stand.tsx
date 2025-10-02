@@ -26,6 +26,8 @@ export function FieldsetStand() {
 
   const selectedTableCount = Number(fields.tableCount.value);
 
+  const peopleCount = Number(fields.peopleCount.value);
+
   return (
     <FormLayout.Section>
       <FormLayout.Title>Configuration de stand</FormLayout.Title>
@@ -104,12 +106,21 @@ export function FieldsetStand() {
 
       <FormLayout.Row>
         <FieldStepper
-          label="Nombre de personnes sur le stand"
+          label="Nombre total de personnes samedi et dimanche"
           field={fields.peopleCount}
           minValue={1}
           maxValue={
-            selectedStandSize?.maxPeopleCount ??
-            getMaxValue(standSizes, "maxPeopleCount")
+            selectedStandSize?.maxBraceletCount ??
+            getMaxValue(standSizes, "maxBraceletCount")
+          }
+          helper={
+            selectedStandSize != null &&
+            peopleCount > selectedStandSize.maxPeopleCount ? (
+              <FormLayout.Helper>
+                {Price.format(Number(CLIENT_ENV.PRICE_ADDITIONAL_BRACELET))} par
+                bracelet supplémentaire valable pour le week-end
+              </FormLayout.Helper>
+            ) : null
           }
         />
 
@@ -117,11 +128,7 @@ export function FieldsetStand() {
           label="Nombre de chaises"
           field={fields.chairCount}
           minValue={1}
-          maxValue={
-            isNaN(Number(fields.peopleCount.value))
-              ? undefined
-              : Number(fields.peopleCount.value)
-          }
+          maxValue={peopleCount}
         />
       </FormLayout.Row>
 
@@ -145,7 +152,7 @@ function getMaxValue(
   standSizes: Prisma.ShowStandSizeGetPayload<{
     select: {
       maxDividerCount: true;
-      maxPeopleCount: true;
+      maxBraceletCount: true;
       maxTableCount: true;
     };
   }>[],

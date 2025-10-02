@@ -29,6 +29,7 @@ export function HelperPriceDetails() {
         hasTableCloths={exhibitor.hasTableCloths}
         breakfastPeopleCountSaturday={breakfastPeopleCountSaturday}
         breakfastPeopleCountSunday={breakfastPeopleCountSunday}
+        peopleCount={exhibitor.peopleCount}
       />
     </HelperCard.Root>
   );
