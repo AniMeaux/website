@@ -511,10 +511,11 @@ model ShowStandSize {
 
   isVisible Boolean @default(true)
 
-  maxCount        Int
-  maxTableCount   Int
-  maxPeopleCount  Int
-  maxDividerCount Int
+  maxBraceletCount Int @default(4)
+  maxCount         Int
+  maxTableCount    Int
+  maxPeopleCount   Int
+  maxDividerCount  Int
 
   priceForAssociations Int?
   priceForServices     Int?

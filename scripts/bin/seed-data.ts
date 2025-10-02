@@ -587,6 +587,7 @@ async function seedShowStandSizes() {
       {
         label: "6 m² (3x2)",
         area: 6,
+        maxBraceletCount: 4,
         maxCount: 54,
         maxDividerCount: 2,
         maxPeopleCount: 2,
@@ -598,6 +599,7 @@ async function seedShowStandSizes() {
       {
         label: "9 m² (3x3)",
         area: 9,
+        maxBraceletCount: 4,
         maxCount: 13,
         maxDividerCount: 2,
         maxPeopleCount: 2,
@@ -609,6 +611,7 @@ async function seedShowStandSizes() {
       {
         label: "12 m² (4x3)",
         area: 12,
+        maxBraceletCount: 6,
         maxCount: 2,
         maxDividerCount: 4,
         maxPeopleCount: 4,
@@ -618,6 +621,7 @@ async function seedShowStandSizes() {
       {
         label: "12 m² (6x2)",
         area: 12,
+        maxBraceletCount: 6,
         maxCount: 2,
         maxDividerCount: 4,
         maxPeopleCount: 4,
@@ -628,6 +632,7 @@ async function seedShowStandSizes() {
       {
         label: "18 m² (6x3)",
         area: 18,
+        maxBraceletCount: 6,
         maxCount: 5,
         maxDividerCount: 4,
         maxPeopleCount: 4,
@@ -637,6 +642,7 @@ async function seedShowStandSizes() {
       {
         label: "36 m² (6x6)",
         area: 36,
+        maxBraceletCount: 8,
         maxCount: 3,
         maxDividerCount: 6,
         maxPeopleCount: 6,
@@ -646,6 +652,7 @@ async function seedShowStandSizes() {
       {
         label: "72 m² (12x6)",
         area: 72,
+        maxBraceletCount: 15,
         maxCount: 1,
         maxDividerCount: 10,
         maxPeopleCount: 10,
