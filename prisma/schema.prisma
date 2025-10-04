@@ -511,7 +511,7 @@ model ShowStandSize {
 
   isVisible Boolean @default(true)
 
-  maxBraceletCount Int @default(4)
+  maxBraceletCount Int
   maxCount         Int
   maxTableCount    Int
   maxPeopleCount   Int
