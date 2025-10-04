@@ -28,6 +28,7 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
+      appetizerPeopleCount: exhibitor.appetizerPeopleCount,
       breakfastPeopleCountSaturday: exhibitor.breakfastPeopleCountSaturday,
       breakfastPeopleCountSunday: exhibitor.breakfastPeopleCountSunday,
       status: exhibitor.perksStatus,
