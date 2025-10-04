@@ -41,6 +41,9 @@ export function FieldsetStand() {
       <FieldYesNo
         label="Raccordement électrique"
         field={fields.hasElectricalConnection}
+        helper={
+          <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
+        }
       />
 
       <FieldYesNo
@@ -48,7 +51,8 @@ export function FieldsetStand() {
         field={fields.hasCorner}
         helper={
           <FormLayout.Helper>
-            Option à {Price.format(Number(CLIENT_ENV.PRICE_CORNER_STAND))}
+            Option à {Price.format(Number(CLIENT_ENV.PRICE_CORNER_STAND))} •
+            Sous réserve de disponibilité
           </FormLayout.Helper>
         }
       />
@@ -129,6 +133,9 @@ export function FieldsetStand() {
           field={fields.chairCount}
           minValue={1}
           maxValue={peopleCount}
+          helper={
+            <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
+          }
         />
       </FormLayout.Row>
 
