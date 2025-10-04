@@ -22,6 +22,7 @@ export class ServiceExhibitorPerksEmail {
     const { exhibitor, application } = await promiseHash({
       exhibitor: this.exhibitor.getByToken(token, {
         select: {
+          appetizerPeopleCount: true,
           breakfastPeopleCountSaturday: true,
           breakfastPeopleCountSunday: true,
         },
@@ -55,6 +56,16 @@ export class ServiceExhibitorPerksEmail {
 
               <EmailHtml.Output.Value>
                 {exhibitor.breakfastPeopleCountSunday}
+              </EmailHtml.Output.Value>
+            </EmailHtml.Output.Row>
+
+            <EmailHtml.Output.Row>
+              <EmailHtml.Output.Label>
+                Nombre de personnes pour le verre de l’amitié du samedi soir
+              </EmailHtml.Output.Label>
+
+              <EmailHtml.Output.Value>
+                {exhibitor.appetizerPeopleCount}
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
@@ -106,6 +117,7 @@ export class ServiceExhibitorPerksEmail {
     const { exhibitor, application } = await promiseHash({
       exhibitor: this.exhibitor.get(exhibitorId, {
         select: {
+          appetizerPeopleCount: true,
           breakfastPeopleCountSaturday: true,
           breakfastPeopleCountSunday: true,
           perksStatus: true,
@@ -151,6 +163,16 @@ export class ServiceExhibitorPerksEmail {
 
                   <EmailHtml.Output.Value>
                     {exhibitor.breakfastPeopleCountSunday}
+                  </EmailHtml.Output.Value>
+                </EmailHtml.Output.Row>
+
+                <EmailHtml.Output.Row>
+                  <EmailHtml.Output.Label>
+                    Nombre de personnes pour le verre de l’amitié du samedi soir
+                  </EmailHtml.Output.Label>
+
+                  <EmailHtml.Output.Value>
+                    {exhibitor.appetizerPeopleCount}
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
               </EmailHtml.Output.Table>

@@ -38,7 +38,23 @@ export function SectionPerks() {
         <FieldBreakfastPeopleCountSaturday />
         <FieldBreakfastPeopleCountSunday />
       </FormLayout.Row>
+
+      <FieldAppetizerPeopleCount />
     </FormLayout.Section>
+  );
+}
+
+function FieldAppetizerPeopleCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <FormLayout.Field>
+      <FormLayout.Label>
+        Nombre de personnes pour le verre de l’amitié du samedi soir
+      </FormLayout.Label>
+
+      <FormLayout.Output>{exhibitor.appetizerPeopleCount}</FormLayout.Output>
+    </FormLayout.Field>
   );
 }
 

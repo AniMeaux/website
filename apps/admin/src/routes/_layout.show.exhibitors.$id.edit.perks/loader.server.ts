@@ -20,6 +20,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: {
+      appetizerPeopleCount: true,
       breakfastPeopleCountSaturday: true,
       breakfastPeopleCountSunday: true,
       category: true,

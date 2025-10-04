@@ -341,5 +341,7 @@ type ExhibitorStandConfigurationData = Pick<
 
 type ExhibitorPerksData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
-  "breakfastPeopleCountSaturday" | "breakfastPeopleCountSunday"
+  | "appetizerPeopleCount"
+  | "breakfastPeopleCountSaturday"
+  | "breakfastPeopleCountSunday"
 >;

@@ -23,6 +23,7 @@ export function useFormRoot() {
     lastResult: actionData,
 
     defaultValue: {
+      appetizerPeopleCount: exhibitor.appetizerPeopleCount,
       breakfastPeopleCountSaturday: exhibitor.breakfastPeopleCountSaturday,
       breakfastPeopleCountSunday: exhibitor.breakfastPeopleCountSunday,
     },

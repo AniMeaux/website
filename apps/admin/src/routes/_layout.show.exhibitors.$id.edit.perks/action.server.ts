@@ -40,6 +40,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   await db.show.exhibitor.updatePerks(routeParams.id, {
+    appetizerPeopleCount: submission.value.appetizerPeopleCount,
     breakfastPeopleCountSaturday: submission.value.breakfastPeopleCountSaturday,
     breakfastPeopleCountSunday: submission.value.breakfastPeopleCountSunday,
     perksStatus: submission.value.status,

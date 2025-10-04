@@ -49,6 +49,14 @@ export function FieldsetPerks() {
         }
       />
 
+      <FieldStepper
+        label="Nombre de personnes pour le verre de l’amitié du samedi soir"
+        field={fields.appetizerPeopleCount}
+        minValue={0}
+        maxValue={exhibitor.peopleCount}
+        helper={<FormLayout.Helper>Gratuit • Dès 18h30</FormLayout.Helper>}
+      />
+
       <HelperPriceDetails />
     </FormLayout.Section>
   );
