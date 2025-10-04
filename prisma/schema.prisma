@@ -491,6 +491,7 @@ model ShowExhibitor {
   perksStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
   perksStatusMessage String?
 
+  appetizerPeopleCount         Int @default(0)
   breakfastPeopleCountSaturday Int @default(0)
   breakfastPeopleCountSunday   Int @default(0)
 }
