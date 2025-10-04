@@ -6,6 +6,7 @@ import type { ServiceEmail } from "#core/email/service.server.js";
 import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
@@ -89,7 +90,7 @@ export class ServiceExhibitorPerksEmail {
 
             <EmailHtml.Paragraph>
               <EmailHtml.Button
-                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).stand.toString()}`}
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).stand.toString(SectionId.PERKS)}`}
               >
                 Accédez à vos avantages
               </EmailHtml.Button>
@@ -196,7 +197,7 @@ export class ServiceExhibitorPerksEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString(SectionId.PERKS)}`}
                   >
                     Accédez à vos avantages
                   </EmailHtml.Button>
@@ -243,7 +244,7 @@ export class ServiceExhibitorPerksEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString(SectionId.PERKS)}`}
                   >
                     Accédez à vos avantages
                   </EmailHtml.Button>

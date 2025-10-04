@@ -1,6 +1,8 @@
 import type { ShowDay } from "#core/show-day";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
+import type { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
 import type { Path } from "@remix-run/react";
+import { createPath } from "@remix-run/react";
 
 export type To = string | Partial<Path>;
 
@@ -67,7 +69,11 @@ export const Routes = {
       },
 
       stand: {
-        toString: () => `/exposants/${exhibitorToken}/stand` as const,
+        toString: (section?: SectionId) =>
+          createPath({
+            pathname: `/exposants/${exhibitorToken}/stand`,
+            hash: section ? `#${section}` : undefined,
+          }),
 
         editStand: {
           toString: () =>

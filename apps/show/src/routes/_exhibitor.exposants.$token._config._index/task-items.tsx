@@ -2,6 +2,7 @@ import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
 import { TaskItem } from "#core/data-display/task-item";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
 import type { Extends } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
@@ -62,7 +63,9 @@ export function TaskItemStand({ status }: { status: ShowExhibitorStatus }) {
 
   return (
     <TaskItem.Root
-      to={Routes.exhibitors.token(exhibitor.token).stand.toString()}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .stand.toString(SectionId.STAND)}
     >
       <TaskItem.Icon asChild>
         <Icon id="store-light" />
@@ -143,10 +146,9 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
 
   return (
     <TaskItem.Root
-      to={{
-        pathname: Routes.exhibitors.token(exhibitor.token).stand.toString(),
-        hash: "dogs",
-      }}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .stand.toString(SectionId.DOGS)}
     >
       <TaskItem.Icon asChild>
         <Icon id="dog-light" />

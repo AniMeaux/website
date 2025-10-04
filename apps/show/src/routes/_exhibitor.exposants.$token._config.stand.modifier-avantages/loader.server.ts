@@ -1,6 +1,7 @@
 import { Routes } from "#core/navigation";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -34,7 +35,11 @@ export async function loader({ params }: LoaderFunctionArgs) {
   });
 
   if (exhibitor.perksStatus === ShowExhibitorStatus.VALIDATED) {
-    throw redirect(Routes.exhibitors.token(routeParams.token).stand.toString());
+    throw redirect(
+      Routes.exhibitors
+        .token(routeParams.token)
+        .stand.toString(SectionId.PERKS),
+    );
   }
 
   return { exhibitor };

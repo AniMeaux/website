@@ -10,12 +10,13 @@ import { joinReactNodes } from "@animeaux/core";
 import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
+import { SectionId } from "./section-id.js";
 
 export function SectionDogs() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section id="dogs">
+    <FormLayout.Section id={SectionId.DOGS}>
       <FormLayout.Header>
         <FormLayout.Title>Chiens sur stand</FormLayout.Title>
 

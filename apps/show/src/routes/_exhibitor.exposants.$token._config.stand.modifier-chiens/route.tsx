@@ -6,6 +6,7 @@ import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -40,7 +41,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       createPath({
-        pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
+        pathname: Routes.exhibitors
+          .token(routeParams.token)
+          .stand.toString(SectionId.DOGS),
         hash: "dogs",
       }),
     );
@@ -83,10 +86,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   services.exhibitorEmail.dogConfiguration.submitted(routeParams.token);
 
   throw redirect(
-    createPath({
-      pathname: Routes.exhibitors.token(routeParams.token).stand.toString(),
-      hash: "dogs",
-    }),
+    Routes.exhibitors.token(routeParams.token).stand.toString(SectionId.DOGS),
   );
 }
 

@@ -11,12 +11,13 @@ import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
+import { SectionId } from "./section-id.js";
 
 export function SectionStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section>
+    <FormLayout.Section id={SectionId.STAND}>
       <FormLayout.Header>
         <FormLayout.Title>Configuration de stand</FormLayout.Title>
 
