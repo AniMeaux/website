@@ -6,7 +6,7 @@ import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
-import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -43,7 +43,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
       createPath({
         pathname: Routes.exhibitors
           .token(routeParams.token)
-          .stand.toString(SectionId.DOGS),
+          .participation.toString(SectionId.DOGS),
         hash: "dogs",
       }),
     );
@@ -86,7 +86,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
   services.exhibitorEmail.dogConfiguration.submitted(routeParams.token);
 
   throw redirect(
-    Routes.exhibitors.token(routeParams.token).stand.toString(SectionId.DOGS),
+    Routes.exhibitors
+      .token(routeParams.token)
+      .participation.toString(SectionId.DOGS),
   );
 }
 

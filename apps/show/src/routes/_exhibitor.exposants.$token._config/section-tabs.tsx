@@ -29,7 +29,7 @@ export function SectionTabs() {
 
         <Tab to={routes.documents.toString()}>Documents et Structure</Tab>
 
-        <Tab to={routes.stand.toString()}>Stand</Tab>
+        <Tab to={routes.participation.toString()}>Participation</Tab>
 
         <Tab to={routes.animations.toString()}>Animations</Tab>
 

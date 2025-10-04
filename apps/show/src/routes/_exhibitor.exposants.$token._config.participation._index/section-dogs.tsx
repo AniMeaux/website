@@ -25,7 +25,7 @@ export function SectionDogs() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .stand.editDogs.toString()}
+                .participation.editDogs.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />

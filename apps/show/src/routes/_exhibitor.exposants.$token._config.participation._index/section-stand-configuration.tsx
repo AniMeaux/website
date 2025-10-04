@@ -27,7 +27,7 @@ export function SectionStandConfiguration() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .stand.editStand.toString()}
+                .participation.editStand.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />

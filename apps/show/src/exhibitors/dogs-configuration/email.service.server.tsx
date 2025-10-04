@@ -8,7 +8,7 @@ import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender, ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
@@ -133,7 +133,7 @@ export class ServiceExhibitorDogConfigurationEmail {
 
             <EmailHtml.Paragraph>
               <EmailHtml.Button
-                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).stand.toString(SectionId.DOGS)}`}
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).participation.toString(SectionId.DOGS)}`}
               >
                 Accédez à votre stand
               </EmailHtml.Button>
@@ -284,7 +284,7 @@ export class ServiceExhibitorDogConfigurationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString(SectionId.DOGS)}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.DOGS)}`}
                   >
                     Accédez à votre stand
                   </EmailHtml.Button>
@@ -331,7 +331,7 @@ export class ServiceExhibitorDogConfigurationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString(SectionId.DOGS)}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.DOGS)}`}
                   >
                     Accédez à votre stand
                   </EmailHtml.Button>

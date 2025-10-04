@@ -1,6 +1,6 @@
 import type { ShowDay } from "#core/show-day";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
-import type { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
+import type { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import type { Path } from "@remix-run/react";
 import { createPath } from "@remix-run/react";
 
@@ -68,26 +68,26 @@ export const Routes = {
         },
       },
 
-      stand: {
+      participation: {
         toString: (section?: SectionId) =>
           createPath({
-            pathname: `/exposants/${exhibitorToken}/stand`,
+            pathname: `/exposants/${exhibitorToken}/participation`,
             hash: section ? `#${section}` : undefined,
           }),
 
         editStand: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-stand` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-stand` as const,
         },
 
         editDogs: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-chiens` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-chiens` as const,
         },
 
         editPerks: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-avantages` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-avantages` as const,
         },
       },
     }),

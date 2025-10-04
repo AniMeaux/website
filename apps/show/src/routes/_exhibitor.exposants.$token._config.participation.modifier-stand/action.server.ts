@@ -2,7 +2,7 @@ import { Routes } from "#core/navigation";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
-import { SectionId } from "#routes/_exhibitor.exposants.$token._config.stand._index/section-id.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -65,6 +65,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
   services.exhibitorEmail.standConfiguration.submitted(routeParams.token);
 
   throw redirect(
-    Routes.exhibitors.token(routeParams.token).stand.toString(SectionId.STAND),
+    Routes.exhibitors
+      .token(routeParams.token)
+      .participation.toString(SectionId.STAND),
   );
 }

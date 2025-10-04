@@ -22,7 +22,7 @@ export function SectionPerks() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .stand.editPerks.toString()}
+                .participation.editPerks.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />
