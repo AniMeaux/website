@@ -6,6 +6,8 @@ import type { MetaFunction } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
 import { SectionDogs } from "./section-dogs";
 import { SectionHelper } from "./section-helper";
+import { SectionOnStageAnimations } from "./section-on-stage-animations.js";
+import { SectionOnStandAnimations } from "./section-on-stand-animations.js";
 import { SectionPerks } from "./section-perks.js";
 import { SectionPrice } from "./section-price.js";
 import { SectionStandConfiguration } from "./section-stand-configuration";
@@ -38,6 +40,14 @@ export default function Route() {
           <FormLayout.SectionSeparator />
 
           <SectionDogs />
+
+          <FormLayout.SectionSeparator />
+
+          <SectionOnStageAnimations />
+
+          <FormLayout.SectionSeparator />
+
+          <SectionOnStandAnimations />
         </div>
       </FormLayout.Form>
 

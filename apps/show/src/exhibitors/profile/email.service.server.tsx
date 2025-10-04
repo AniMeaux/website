@@ -11,6 +11,7 @@ import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
 import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { joinReactNodes } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Img } from "@react-email/components";
@@ -579,7 +580,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
 
             <EmailHtml.Paragraph>
               <EmailHtml.Button
-                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).animations.toString()}`}
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).participation.toString(SectionId.ON_STAND_ANIMATIONS)}`}
               >
                 Accédez à vos animations
               </EmailHtml.Button>
@@ -663,7 +664,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).animations.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.ON_STAND_ANIMATIONS)}`}
                   >
                     Accédez à vos animations
                   </EmailHtml.Button>
@@ -727,7 +728,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).animations.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.ON_STAND_ANIMATIONS)}`}
                   >
                     Accédez à vos animations
                   </EmailHtml.Button>

@@ -265,12 +265,9 @@ export function TaskItemOnStandAnimations({
 
   return (
     <TaskItem.Root
-      to={{
-        pathname: Routes.exhibitors
-          .token(exhibitor.token)
-          .animations.toString(),
-        hash: "on-stand-animations",
-      }}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .participation.toString(SectionId.ON_STAND_ANIMATIONS)}
     >
       <TaskItem.Icon asChild>
         <Icon id="comments-light" />

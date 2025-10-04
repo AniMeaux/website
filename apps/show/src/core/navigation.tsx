@@ -23,15 +23,6 @@ export const Routes = {
     token: (exhibitorToken: string) => ({
       toString: () => `/exposants/${exhibitorToken}` as const,
 
-      animations: {
-        toString: () => `/exposants/${exhibitorToken}/animations` as const,
-
-        edit: {
-          toString: () =>
-            `/exposants/${exhibitorToken}/animations/modifier` as const,
-        },
-      },
-
       documents: {
         toString: () => `/exposants/${exhibitorToken}/documents` as const,
 
@@ -75,14 +66,19 @@ export const Routes = {
             hash: section ? `#${section}` : undefined,
           }),
 
-        editStand: {
+        editAnimations: {
           toString: () =>
-            `/exposants/${exhibitorToken}/participation/modifier-stand` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-animations` as const,
         },
 
         editDogs: {
           toString: () =>
             `/exposants/${exhibitorToken}/participation/modifier-chiens` as const,
+        },
+
+        editStand: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/participation/modifier-stand` as const,
         },
 
         editPerks: {

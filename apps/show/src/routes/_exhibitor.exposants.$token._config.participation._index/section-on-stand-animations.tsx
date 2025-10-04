@@ -8,12 +8,13 @@ import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
+import { SectionId } from "./section-id";
 
-export function SectionOnStand() {
+export function SectionOnStandAnimations() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section id="on-stand-animations">
+    <FormLayout.Section id={SectionId.ON_STAND_ANIMATIONS}>
       <FormLayout.Header>
         <FormLayout.Title>Animations sur stand</FormLayout.Title>
 
@@ -22,7 +23,7 @@ export function SectionOnStand() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .animations.edit.toString()}
+                .participation.editAnimations.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />

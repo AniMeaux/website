@@ -10,12 +10,13 @@ import { ShowStandZone } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./route";
+import { SectionId } from "./section-id";
 
-export function SectionOnStage() {
+export function SectionOnStageAnimations() {
   const { exhibitor, animations } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section>
+    <FormLayout.Section id={SectionId.ON_STAGE_ANIMATIONS}>
       <FormLayout.Title>Animations sur scène</FormLayout.Title>
 
       <HelperCard.Root color="alabaster">
