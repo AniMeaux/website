@@ -5,7 +5,7 @@ import { ImageData } from "#core/image/data.js";
 import type { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
-import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
+import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
 import {
   ExhibitorSearchParamsN,
   useExhibitorSearchParams,
