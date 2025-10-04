@@ -7,6 +7,7 @@ import {
   TaskItemDocument,
   TaskItemDogs,
   TaskItemOnStandAnimations,
+  TaskItemPerks,
   TaskItemPublicProfile,
   TaskItemStand,
 } from "./task-items";
@@ -71,6 +72,14 @@ export function SectionToComplete() {
         status={exhibitor.onStandAnimationsStatus}
       />,
     );
+  }
+
+  if (
+    [ShowExhibitorStatus.TO_BE_FILLED, ShowExhibitorStatus.TO_MODIFY].includes(
+      exhibitor.perksStatus,
+    )
+  ) {
+    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />);
   }
 
   if (items.length === 0) {

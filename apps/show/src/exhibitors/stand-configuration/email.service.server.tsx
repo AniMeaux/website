@@ -8,6 +8,7 @@ import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
@@ -187,7 +188,7 @@ export class ServiceExhibitorStandConfigurationEmail {
 
             <EmailHtml.Paragraph>
               <EmailHtml.Button
-                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).stand.toString()}`}
+                href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(token).participation.toString(SectionId.STAND)}`}
               >
                 Accédez à votre stand
               </EmailHtml.Button>
@@ -397,7 +398,7 @@ export class ServiceExhibitorStandConfigurationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.STAND)}`}
                   >
                     Accédez à votre stand
                   </EmailHtml.Button>
@@ -444,7 +445,7 @@ export class ServiceExhibitorStandConfigurationEmail {
 
                 <EmailHtml.Paragraph>
                   <EmailHtml.Button
-                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).stand.toString()}`}
+                    href={`${process.env.PUBLIC_HOST}${Routes.exhibitors.token(exhibitor.token).participation.toString(SectionId.STAND)}`}
                   >
                     Accédez à votre stand
                   </EmailHtml.Button>

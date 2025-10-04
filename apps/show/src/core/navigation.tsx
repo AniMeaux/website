@@ -1,6 +1,8 @@
 import type { ShowDay } from "#core/show-day";
 import type { PreviousEdition } from "#previous-editions/previous-edition";
+import type { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import type { Path } from "@remix-run/react";
+import { createPath } from "@remix-run/react";
 
 export type To = string | Partial<Path>;
 
@@ -20,15 +22,6 @@ export const Routes = {
 
     token: (exhibitorToken: string) => ({
       toString: () => `/exposants/${exhibitorToken}` as const,
-
-      animations: {
-        toString: () => `/exposants/${exhibitorToken}/animations` as const,
-
-        edit: {
-          toString: () =>
-            `/exposants/${exhibitorToken}/animations/modifier` as const,
-        },
-      },
 
       documents: {
         toString: () => `/exposants/${exhibitorToken}/documents` as const,
@@ -66,22 +59,31 @@ export const Routes = {
         },
       },
 
-      stand: {
-        toString: () => `/exposants/${exhibitorToken}/stand` as const,
+      participation: {
+        toString: (section?: SectionId) =>
+          createPath({
+            pathname: `/exposants/${exhibitorToken}/participation`,
+            hash: section ? `#${section}` : undefined,
+          }),
 
-        editStand: {
+        editAnimations: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-stand` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-animations` as const,
         },
 
         editDogs: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-chiens` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-chiens` as const,
+        },
+
+        editStand: {
+          toString: () =>
+            `/exposants/${exhibitorToken}/participation/modifier-stand` as const,
         },
 
         editPerks: {
           toString: () =>
-            `/exposants/${exhibitorToken}/stand/modifier-avantages` as const,
+            `/exposants/${exhibitorToken}/participation/modifier-avantages` as const,
         },
       },
     }),

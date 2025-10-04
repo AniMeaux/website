@@ -6,13 +6,13 @@ import { getPageTitle } from "#core/page-title";
 import { badRequest } from "#core/response.server";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import { ShowExhibitorStatus } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -30,12 +30,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
-      createPath({
-        pathname: Routes.exhibitors
-          .token(routeParams.token)
-          .animations.toString(),
-        hash: "on-stand-animations",
-      }),
+      Routes.exhibitors
+        .token(routeParams.token)
+        .participation.toString(SectionId.ON_STAND_ANIMATIONS),
     );
   }
 
@@ -78,12 +75,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
   services.exhibitorEmail.onStandAnimation.submitted(routeParams.token);
 
   throw redirect(
-    createPath({
-      pathname: Routes.exhibitors
-        .token(routeParams.token)
-        .animations.toString(),
-      hash: "on-stand-animations",
-    }),
+    Routes.exhibitors
+      .token(routeParams.token)
+      .participation.toString(SectionId.ON_STAND_ANIMATIONS),
   );
 }
 
