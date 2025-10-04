@@ -10,18 +10,20 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const { exhibitor, files } = await promiseHash({
     exhibitor: services.exhibitor.getByToken(routeParams.token, {
       select: {
-        token: true,
-        sponsorship: { select: { category: true } },
+        descriptionStatus: true,
         documentStatus: true,
         documentStatusMessage: true,
         dogsConfigurationStatus: true,
         name: true,
-        publicProfileStatus: true,
-        descriptionStatus: true,
         onStandAnimationsStatus: true,
-        standNumber: true,
+        publicProfileStatus: true,
         standConfigurationStatus: true,
+        standNumber: true,
+        token: true,
+
         invoices: { select: { status: true } },
+
+        sponsorship: { select: { category: true } },
       },
     }),
 
