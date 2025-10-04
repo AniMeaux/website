@@ -16,6 +16,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         dogsConfigurationStatus: true,
         name: true,
         onStandAnimationsStatus: true,
+        perksStatus: true,
         publicProfileStatus: true,
         standConfigurationStatus: true,
         standNumber: true,

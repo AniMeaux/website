@@ -167,6 +167,42 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
   );
 }
 
+export function TaskItemPerks({ status }: { status: ShowExhibitorStatus }) {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  const description = (
+    {
+      [ShowExhibitorStatus.TO_BE_FILLED]: "Vos avantages sont à compléter.",
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
+        "Vos avantages sont en cours de traitement par notre équipe.",
+      [ShowExhibitorStatus.TO_MODIFY]: "Vos avantages sont à modifier.",
+      [ShowExhibitorStatus.VALIDATED]: "Vos avantages ont été validés.",
+    } satisfies Record<ShowExhibitorStatus, string>
+  )[status];
+
+  return (
+    <TaskItem.Root
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .stand.toString(SectionId.PERKS)}
+    >
+      <TaskItem.Icon asChild>
+        <Icon id="sparkles-light" />
+      </TaskItem.Icon>
+
+      <TaskItem.Content>
+        <TaskItem.Title>Avantages</TaskItem.Title>
+
+        <TaskItem.Description>
+          <Markdown content={description} components={PARAGRAPH_COMPONENTS} />
+        </TaskItem.Description>
+      </TaskItem.Content>
+
+      <TaskItem.ChevronIcon />
+    </TaskItem.Root>
+  );
+}
+
 type TaskItemPublicProfileStatus = Extends<
   ShowExhibitorStatus,
   "TO_MODIFY" | "AWAITING_VALIDATION" | "VALIDATED"
