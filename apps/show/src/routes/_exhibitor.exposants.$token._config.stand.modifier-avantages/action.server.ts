@@ -34,6 +34,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   await services.exhibitor.updatePerks(routeParams.token, {
+    appetizerPeopleCount: submission.value.appetizerPeopleCount,
     breakfastPeopleCountSaturday: submission.value.breakfastPeopleCountSaturday,
     breakfastPeopleCountSunday: submission.value.breakfastPeopleCountSunday,
   });

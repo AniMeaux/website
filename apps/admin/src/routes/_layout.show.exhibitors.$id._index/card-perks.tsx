@@ -15,11 +15,14 @@ import type { loader } from "./loader.server";
 export function CardPerks() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
-  const hasTooManyPeopleSaturday =
+  const hasTooManyPeopleForBreakfastSaturday =
     exhibitor.breakfastPeopleCountSaturday > exhibitor.peopleCount;
 
-  const hasTooManyPeopleSunday =
+  const hasTooManyPeopleForBreakfastSunday =
     exhibitor.breakfastPeopleCountSunday > exhibitor.peopleCount;
+
+  const hasTooManyPeopleForAppetizer =
+    exhibitor.appetizerPeopleCount > exhibitor.peopleCount;
 
   return (
     <Card>
@@ -36,25 +39,39 @@ export function CardPerks() {
       </Card.Header>
 
       <Card.Content>
-        {hasTooManyPeopleSaturday ? (
+        {hasTooManyPeopleForBreakfastSaturday ? (
           <InlineHelper variant="warning">
             Le nombre de personnes pour le petit-déjeuner de samedi dépasse le
             nombre de personne sur le stand ({exhibitor.peopleCount} maximum).
           </InlineHelper>
         ) : null}
 
-        {hasTooManyPeopleSunday ? (
+        {hasTooManyPeopleForBreakfastSunday ? (
           <InlineHelper variant="warning">
             Le nombre de personnes pour le petit-déjeuner de dimanche dépasse le
             nombre de personne sur le stand ({exhibitor.peopleCount} maximum).
           </InlineHelper>
         ) : null}
 
+        {hasTooManyPeopleForAppetizer ? (
+          <InlineHelper variant="warning">
+            Le nombre de personnes pour le verre de l’amitié du samedi soir
+            dépasse le nombre de personne sur le stand ({exhibitor.peopleCount}{" "}
+            maximum).
+          </InlineHelper>
+        ) : null}
+
         <PerksStatusHelper />
 
-        <ItemList>
-          <ItemBreakfastPeopleCount />
-        </ItemList>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
+          <ItemList>
+            <ItemBreakfastPeopleCount />
+          </ItemList>
+
+          <ItemList>
+            <ItemAppetizerPeopleCount />
+          </ItemList>
+        </div>
       </Card.Content>
     </Card>
   );
@@ -83,6 +100,21 @@ function PerksStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
+  );
+}
+
+function ItemAppetizerPeopleCount() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem isLightIcon icon={<Icon href="icon-champagne-glasses-light" />}>
+      <strong className="text-body-emphasis">
+        {exhibitor.appetizerPeopleCount}
+      </strong>{" "}
+      personne
+      {exhibitor.appetizerPeopleCount > 1 ? "s" : null} pour le verre de
+      l’amitié
+    </SimpleItem>
   );
 }
 

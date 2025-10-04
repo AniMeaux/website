@@ -23,6 +23,11 @@ export function FieldsetPerks() {
             label="Nombre de personnes pour le petit-déjeuner du dimanche"
             field={fields.breakfastPeopleCountSunday}
           />
+
+          <FieldNumeric
+            label="Nombre de personnes pour le verre de l’amitié du samedi soir"
+            field={fields.appetizerPeopleCount}
+          />
         </Form.Fields>
       </Card.Content>
     </Card>
