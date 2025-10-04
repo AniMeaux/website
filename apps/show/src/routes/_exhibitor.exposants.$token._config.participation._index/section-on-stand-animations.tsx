@@ -3,17 +3,18 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Routes } from "#core/navigation";
-import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
+import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
 import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
+import { SectionId } from "./section-id";
 
-export function SectionOnStand() {
+export function SectionOnStandAnimations() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section id="on-stand-animations">
+    <FormLayout.Section id={SectionId.ON_STAND_ANIMATIONS}>
       <FormLayout.Header>
         <FormLayout.Title>Animations sur stand</FormLayout.Title>
 
@@ -22,7 +23,7 @@ export function SectionOnStand() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .animations.edit.toString()}
+                .participation.editAnimations.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />

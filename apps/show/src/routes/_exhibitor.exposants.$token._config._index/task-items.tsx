@@ -2,6 +2,7 @@ import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
 import { TaskItem } from "#core/data-display/task-item";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
+import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import type { Extends } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { useLoaderData } from "@remix-run/react";
@@ -62,7 +63,9 @@ export function TaskItemStand({ status }: { status: ShowExhibitorStatus }) {
 
   return (
     <TaskItem.Root
-      to={Routes.exhibitors.token(exhibitor.token).stand.toString()}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .participation.toString(SectionId.STAND)}
     >
       <TaskItem.Icon asChild>
         <Icon id="store-light" />
@@ -143,10 +146,9 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
 
   return (
     <TaskItem.Root
-      to={{
-        pathname: Routes.exhibitors.token(exhibitor.token).stand.toString(),
-        hash: "dogs",
-      }}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .participation.toString(SectionId.DOGS)}
     >
       <TaskItem.Icon asChild>
         <Icon id="dog-light" />
@@ -154,6 +156,42 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
 
       <TaskItem.Content>
         <TaskItem.Title>Chiens sur stand</TaskItem.Title>
+
+        <TaskItem.Description>
+          <Markdown content={description} components={PARAGRAPH_COMPONENTS} />
+        </TaskItem.Description>
+      </TaskItem.Content>
+
+      <TaskItem.ChevronIcon />
+    </TaskItem.Root>
+  );
+}
+
+export function TaskItemPerks({ status }: { status: ShowExhibitorStatus }) {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  const description = (
+    {
+      [ShowExhibitorStatus.TO_BE_FILLED]: "Vos avantages sont à compléter.",
+      [ShowExhibitorStatus.AWAITING_VALIDATION]:
+        "Vos avantages sont en cours de traitement par notre équipe.",
+      [ShowExhibitorStatus.TO_MODIFY]: "Vos avantages sont à modifier.",
+      [ShowExhibitorStatus.VALIDATED]: "Vos avantages ont été validés.",
+    } satisfies Record<ShowExhibitorStatus, string>
+  )[status];
+
+  return (
+    <TaskItem.Root
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .participation.toString(SectionId.PERKS)}
+    >
+      <TaskItem.Icon asChild>
+        <Icon id="sparkles-light" />
+      </TaskItem.Icon>
+
+      <TaskItem.Content>
+        <TaskItem.Title>Avantages</TaskItem.Title>
 
         <TaskItem.Description>
           <Markdown content={description} components={PARAGRAPH_COMPONENTS} />
@@ -227,12 +265,9 @@ export function TaskItemOnStandAnimations({
 
   return (
     <TaskItem.Root
-      to={{
-        pathname: Routes.exhibitors
-          .token(exhibitor.token)
-          .animations.toString(),
-        hash: "on-stand-animations",
-      }}
+      to={Routes.exhibitors
+        .token(exhibitor.token)
+        .participation.toString(SectionId.ON_STAND_ANIMATIONS)}
     >
       <TaskItem.Icon asChild>
         <Icon id="comments-light" />

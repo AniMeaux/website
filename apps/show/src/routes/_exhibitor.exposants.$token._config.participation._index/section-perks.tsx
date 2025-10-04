@@ -7,12 +7,13 @@ import { Icon } from "#generated/icon";
 import { ShowExhibitorStatus } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
+import { SectionId } from "./section-id.js";
 
 export function SectionPerks() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
-    <FormLayout.Section>
+    <FormLayout.Section id={SectionId.PERKS}>
       <FormLayout.Header>
         <FormLayout.Title>Avantages</FormLayout.Title>
 
@@ -21,7 +22,7 @@ export function SectionPerks() {
             <Link
               to={Routes.exhibitors
                 .token(exhibitor.token)
-                .stand.editPerks.toString()}
+                .participation.editPerks.toString()}
               title="Modifier"
             >
               <Icon id="pen-light" />

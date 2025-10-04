@@ -1,7 +1,7 @@
 import { FieldTextarea } from "#core/form-elements/field-textarea";
 import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
-import { CardAnimationsOnStand } from "#exhibitors/profile/card-animations-on-stand";
+import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
 import type { FieldMetadata } from "@conform-to/react";
 import { getFormProps, useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";

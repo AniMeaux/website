@@ -441,9 +441,12 @@ model ShowExhibitor {
   descriptionStatusMessage String?
   description              String?             @db.VarChar(512)
 
+  // -- Animations -------------------------------------------------------------
+
   onStandAnimationsStatus        ShowExhibitorStatus @default(TO_BE_FILLED)
   onStandAnimationsStatusMessage String?
-  onStandAnimations              String?             @db.VarChar(256)
+
+  onStandAnimations String? @db.VarChar(256)
 
   // -- Documents --------------------------------------------------------------
 

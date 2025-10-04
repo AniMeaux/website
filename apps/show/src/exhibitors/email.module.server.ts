@@ -1,11 +1,11 @@
 import type { ServiceEmail } from "#core/email/service.server.js";
+import { ServiceExhibitorOnStandAnimationEmail } from "#exhibitors/animations/email.service.server";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import { ServiceExhibitorDocumentEmail } from "#exhibitors/documents/email.service.server.js";
 import { ServiceExhibitorDogConfigurationEmail } from "#exhibitors/dogs-configuration/email.service.server.js";
 import { ServiceExhibitorPerksEmail } from "#exhibitors/perks/email.service.server";
 import {
   ServiceExhibitorDescriptionEmail,
-  ServiceExhibitorOnStandAnimationEmail,
   ServiceExhibitorPublicProfileEmail,
 } from "#exhibitors/profile/email.service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
