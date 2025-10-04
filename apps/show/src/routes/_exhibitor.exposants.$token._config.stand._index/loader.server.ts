@@ -8,6 +8,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
+      appetizerPeopleCount: true,
       breakfastPeopleCountSaturday: true,
       breakfastPeopleCountSunday: true,
       token: true,
