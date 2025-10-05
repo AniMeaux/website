@@ -405,8 +405,9 @@ export class ServiceApplicationEmail {
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>
-                  Nous vous invitons à accéder à votre espace exposant pour
-                  compléter toutes les informations utiles pour la suite !
+                  Nous vous invitons à consulter votre espace exposant (lien
+                  ci-dessous) afin d’y retrouver toutes les informations utiles
+                  pour la préparation de votre venue.
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>
@@ -424,22 +425,24 @@ export class ServiceApplicationEmail {
                 <EmailHtml.UnorderedList>
                   <li>
                     <EmailHtml.Strong>
-                      Compléter vos informations
+                      Compléter vos informations pratiques
                     </EmailHtml.Strong>{" "}
-                    pour votre stand.
+                    concernant votre stand ;
                   </li>
 
                   <li>
                     <EmailHtml.Strong>
-                      Télécharger les documents nécessaires
+                      Télécharger les documents
                     </EmailHtml.Strong>{" "}
-                    pour votre installation.
+                    relatifs à votre participation (plaquette, règlement,
+                    modalités de paiement, etc.) ;
                   </li>
 
                   <li>
                     <EmailHtml.Strong>
-                      Préparer vos visuels et supports de communication.
-                    </EmailHtml.Strong>
+                      Préparer vos supports de communication
+                    </EmailHtml.Strong>{" "}
+                    pour l’événement (flyers, visuels, bannières, etc.).
                   </li>
                 </EmailHtml.UnorderedList>
 
@@ -450,11 +453,14 @@ export class ServiceApplicationEmail {
                   <EmailHtml.Strong>
                     réception de votre dossier complet
                   </EmailHtml.Strong>{" "}
-                  ainsi que du{" "}
+                  et du{" "}
                   <EmailHtml.Strong>
                     règlement des frais liés à votre participation
                   </EmailHtml.Strong>
-                  .
+                  .<br />
+                  Sans retour complet dans un délai de 2 semaines, votre place
+                  sera automatiquement réattribuée à un autre exposant en liste
+                  d’attente.
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>
@@ -463,8 +469,8 @@ export class ServiceApplicationEmail {
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>
-                  Nous avons hâte de vous accueillir et de partager cette belle
-                  aventure avec vous !
+                  Nous avons hâte de vous accueillir et de partager ensemble
+                  cette nouvelle édition du Salon des Ani’Meaux !
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>À très bientôt,</EmailHtml.Paragraph>
