@@ -104,7 +104,7 @@ export function ParticipationReceipt({
           </Receipt.Item>
         ) : null}
 
-        {dividerCount != null ? (
+        {dividerCount != null && dividerCount > 0 ? (
           <Receipt.Item>
             <Receipt.ItemName>
               Cloison{dividerCount > 1 ? "s" : ""}
