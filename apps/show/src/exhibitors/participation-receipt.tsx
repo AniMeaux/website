@@ -85,18 +85,6 @@ export function ParticipationReceipt({
           </Receipt.Item>
         ) : null}
 
-        {tableCount > 0 && hasTableCloths ? (
-          <Receipt.Item>
-            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
-
-            <Receipt.ItemCount count={tableCount} />
-
-            <Receipt.ItemPrice>
-              {Price.format(priceTableCloths)}
-            </Receipt.ItemPrice>
-          </Receipt.Item>
-        ) : null}
-
         {priceCorner != null ? (
           <Receipt.Item>
             <Receipt.ItemName>
@@ -109,14 +97,14 @@ export function ParticipationReceipt({
           </Receipt.Item>
         ) : null}
 
-        {breakfastPeopleCount > 0 ? (
+        {tableCount > 0 && hasTableCloths ? (
           <Receipt.Item>
-            <Receipt.ItemName>Petit-déjeuner</Receipt.ItemName>
+            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
 
-            <Receipt.ItemCount count={breakfastPeopleCount} />
+            <Receipt.ItemCount count={tableCount} />
 
             <Receipt.ItemPrice>
-              {Price.format(priceBreakfast)}
+              {Price.format(priceTableCloths)}
             </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}
@@ -132,6 +120,18 @@ export function ParticipationReceipt({
 
             <Receipt.ItemPrice>
               {Price.format(priceAdditionalBracelet)}
+            </Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {breakfastPeopleCount > 0 ? (
+          <Receipt.Item>
+            <Receipt.ItemName>Petit-déjeuner</Receipt.ItemName>
+
+            <Receipt.ItemCount count={breakfastPeopleCount} />
+
+            <Receipt.ItemPrice>
+              {Price.format(priceBreakfast)}
             </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}
