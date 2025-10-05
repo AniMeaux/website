@@ -22,6 +22,7 @@ export function SectionPrice() {
         breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
         breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
         peopleCount={exhibitor.peopleCount}
+        dividerCount={exhibitor.dividerCount}
       />
     </FormLayout.Section>
   );

@@ -13,6 +13,7 @@ export function ParticipationReceipt({
   breakfastPeopleCountSaturday,
   breakfastPeopleCountSunday,
   peopleCount,
+  dividerCount,
 }: {
   standSize?: Prisma.ShowStandSizeGetPayload<{
     select: {
@@ -30,6 +31,7 @@ export function ParticipationReceipt({
   breakfastPeopleCountSaturday: number;
   breakfastPeopleCountSunday: number;
   peopleCount: number;
+  dividerCount?: number;
 }) {
   const priceStandSize =
     standSize != null
@@ -56,12 +58,17 @@ export function ParticipationReceipt({
   const totalPriceAdditionalBracelet =
     additionalPeopleCount * priceAdditionalBracelet;
 
+  const priceDivider = Number(CLIENT_ENV.PRICE_DIVIDER);
+  const totalPriceDivider =
+    dividerCount != null ? dividerCount * priceDivider : null;
+
   const totalPrice = [
     priceStandSize,
     totalPriceTableCloths,
     priceCorner,
     totalPriceBreakfast,
     totalPriceAdditionalBracelet,
+    totalPriceDivider,
   ]
     .filter(Boolean)
     .reduce((sum, price) => sum + price, 0);
@@ -85,18 +92,6 @@ export function ParticipationReceipt({
           </Receipt.Item>
         ) : null}
 
-        {tableCount > 0 && hasTableCloths ? (
-          <Receipt.Item>
-            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
-
-            <Receipt.ItemCount count={tableCount} />
-
-            <Receipt.ItemPrice>
-              {Price.format(priceTableCloths)}
-            </Receipt.ItemPrice>
-          </Receipt.Item>
-        ) : null}
-
         {priceCorner != null ? (
           <Receipt.Item>
             <Receipt.ItemName>
@@ -109,14 +104,26 @@ export function ParticipationReceipt({
           </Receipt.Item>
         ) : null}
 
-        {breakfastPeopleCount > 0 ? (
+        {dividerCount != null ? (
           <Receipt.Item>
-            <Receipt.ItemName>Petit-déjeuner</Receipt.ItemName>
+            <Receipt.ItemName>
+              Cloison{dividerCount > 1 ? "s" : ""}
+            </Receipt.ItemName>
 
-            <Receipt.ItemCount count={breakfastPeopleCount} />
+            <Receipt.ItemCount count={dividerCount} />
+
+            <Receipt.ItemPrice>{Price.format(priceDivider)}</Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {tableCount > 0 && hasTableCloths ? (
+          <Receipt.Item>
+            <Receipt.ItemName>Nappage des tables</Receipt.ItemName>
+
+            <Receipt.ItemCount count={tableCount} />
 
             <Receipt.ItemPrice>
-              {Price.format(priceBreakfast)}
+              {Price.format(priceTableCloths)}
             </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}
@@ -132,6 +139,18 @@ export function ParticipationReceipt({
 
             <Receipt.ItemPrice>
               {Price.format(priceAdditionalBracelet)}
+            </Receipt.ItemPrice>
+          </Receipt.Item>
+        ) : null}
+
+        {breakfastPeopleCount > 0 ? (
+          <Receipt.Item>
+            <Receipt.ItemName>Petit-déjeuner</Receipt.ItemName>
+
+            <Receipt.ItemCount count={breakfastPeopleCount} />
+
+            <Receipt.ItemPrice>
+              {Price.format(priceBreakfast)}
             </Receipt.ItemPrice>
           </Receipt.Item>
         ) : null}

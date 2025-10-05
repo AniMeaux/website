@@ -22,6 +22,7 @@ export function CardPrice() {
           breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
           breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
           peopleCount={exhibitor.peopleCount}
+          dividerCount={exhibitor.dividerCount}
         />
       </Card.Content>
     </Card>

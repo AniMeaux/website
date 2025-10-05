@@ -48,6 +48,7 @@ export function getClientEnv() {
     PRICE_BREAKFAST_PER_PERSON_PER_DAY:
       process.env.PRICE_BREAKFAST_PER_PERSON_PER_DAY,
     PRICE_CORNER_STAND: process.env.PRICE_CORNER_STAND,
+    PRICE_DIVIDER: process.env.PRICE_DIVIDER,
     PRICE_TABLE_CLOTHS: process.env.PRICE_TABLE_CLOTHS,
     PUBLIC_HOST: process.env.PUBLIC_HOST,
     RUNTIME_ENV: process.env.RUNTIME_ENV,
@@ -121,6 +122,12 @@ const ProcessEnvSchema = zu
       // sure the type remains string and not number.
       .transform((value) => String(value)),
     PRICE_CORNER_STAND: zu.coerce
+      .number()
+      .min(0)
+      // Because we access the raw value and not the parsed one, we need to be
+      // sure the type remains string and not number.
+      .transform((value) => String(value)),
+    PRICE_DIVIDER: zu.coerce
       .number()
       .min(0)
       // Because we access the raw value and not the parsed one, we need to be
