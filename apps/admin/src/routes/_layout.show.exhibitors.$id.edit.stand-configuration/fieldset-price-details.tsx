@@ -23,6 +23,11 @@ export function FieldsetPriceDetails() {
 
   const peopleCount = Number(fields.peopleCount.value);
 
+  const dividerCount =
+    fields.dividerCount.value == null
+      ? undefined
+      : Number(fields.dividerCount.value);
+
   return (
     <Card>
       <Card.Header>
@@ -39,6 +44,7 @@ export function FieldsetPriceDetails() {
           breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
           breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
           peopleCount={peopleCount}
+          dividerCount={dividerCount}
         />
       </Card.Content>
     </Card>
