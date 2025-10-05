@@ -1,6 +1,7 @@
 import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import type { DividerTypeAvailability } from "#divider-type/availability.js";
+import { Price } from "#price/price.js";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 import type { Prisma } from "@prisma/client";
@@ -62,7 +63,10 @@ export function FieldDividerType({
           Aucune cloison disponible pour le moment
         </FormLayout.Helper>
       ) : (
-        <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
+        <FormLayout.Helper>
+          Option à {Price.format(Number(CLIENT_ENV.PRICE_DIVIDER))} par cloison
+          • Sous réserve de disponibilité
+        </FormLayout.Helper>
       )}
     </FormLayout.Field>
   );

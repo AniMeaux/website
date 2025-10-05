@@ -20,6 +20,11 @@ export function HelperPriceDetails() {
 
   const peopleCount = Number(fields.peopleCount.value);
 
+  const dividerCount =
+    fields.dividerCount.value == null
+      ? undefined
+      : Number(fields.dividerCount.value);
+
   return (
     <HelperCard.Root color="alabaster">
       <HelperCard.Title>Prix estimé de la participation</HelperCard.Title>
@@ -33,6 +38,7 @@ export function HelperPriceDetails() {
         breakfastPeopleCountSaturday={exhibitor.breakfastPeopleCountSaturday}
         breakfastPeopleCountSunday={exhibitor.breakfastPeopleCountSunday}
         peopleCount={peopleCount}
+        dividerCount={dividerCount}
       />
     </HelperCard.Root>
   );
