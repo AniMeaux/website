@@ -24,9 +24,9 @@ Vous pouvez joindre l’équipe à salon@animeaux.org.
   {
     question: "Quand puis-je installer mon stand ?",
     answer: `
-- **Vendredi 5 juin** : De 15h à 19h.
+- **Vendredi 5 juin** : De 16h à 19h.
 - **Samedi 6 juin** : À partir de 8h00.
-- **Dimanche 7 juin** : À partir de 8h30.
+- **Dimanche 7 juin** : À partir de 8h00.
 `.trim(),
   },
   {
