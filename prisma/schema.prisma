@@ -574,7 +574,7 @@ model ShowInvoice {
   exhibitor   ShowExhibitor @relation(fields: [exhibitorId], references: [id], onDelete: Cascade)
   exhibitorId String        @db.Uuid
 
-  amount  Int
+  amount  Float
   dueDate DateTime
   number  String            @unique @db.VarChar(256)
   status  ShowInvoiceStatus @default(TO_PAY)

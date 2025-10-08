@@ -5,6 +5,7 @@ import { zfd } from "zod-form-data";
 export {
   NEVER,
   ZodIssueCode,
+  ZodNumber,
   ZodObject,
   ZodType,
   array,
