@@ -1,10 +1,13 @@
 import { InvoiceStatus } from "#show/invoice/status.js";
-import { zu } from "@animeaux/zod-utils";
+import { normalizeNumber, zu } from "@animeaux/zod-utils";
 
 export const actionSchema = zu.object({
-  amount: zu.coerce
-    .number({ message: "Veuillez entrer un montant valide" })
-    .min(0, "Veuillez entrer un montant positif"),
+  amount: zu.preprocess(
+    normalizeNumber,
+    zu.coerce
+      .number({ message: "Veuillez entrer un montant valide" })
+      .min(0, "Veuillez entrer un montant positif"),
+  ) as unknown as zu.ZodNumber,
 
   dueDate: zu.coerce.date({
     required_error: "Veuillez entrer une date d’échéance",
