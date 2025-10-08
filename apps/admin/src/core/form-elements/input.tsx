@@ -111,8 +111,12 @@ function getTypeFallbackPattern({
     case "text": {
       if (inputMode != null) {
         switch (inputMode) {
+          case "decimal": {
+            return "-?\\d*[\\.,]?\\d+";
+          }
+
           case "numeric": {
-            return "\\d+";
+            return "-?\\d+";
           }
 
           default: {

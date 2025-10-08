@@ -1,5 +1,5 @@
 import { FieldDate } from "#core/form-elements/field-date.js";
-import { FieldNumeric } from "#core/form-elements/field-numeric.js";
+import { FieldDecimal } from "#core/form-elements/field-decimal.js";
 import { FieldRadios } from "#core/form-elements/field-radios";
 import { FieldText } from "#core/form-elements/field-text";
 import { FieldUrl } from "#core/form-elements/field-url.js";
@@ -54,7 +54,7 @@ export function FieldsetInvoice({
           </Form.Row>
 
           <Form.Row>
-            <FieldNumeric
+            <FieldDecimal
               label="Montant"
               field={fields.amount}
               leftAdornment={
