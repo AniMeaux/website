@@ -35,6 +35,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         id: true,
         isVisible: true,
         label: true,
+        maxBraceletCount: true,
         maxCount: true,
         maxDividerCount: true,
         maxPeopleCount: true,
