@@ -1,6 +1,5 @@
 import { useBackIfPossible } from "#core/navigation";
 import { InvoiceStatus } from "#show/invoice/status.js";
-import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher } from "@remix-run/react";
@@ -36,11 +35,3 @@ export function useFormRoot() {
 
   return [form, fields, fetcher] as const;
 }
-
-type Form = ReturnType<typeof useFormRoot>[0];
-type Fields = ReturnType<typeof useFormRoot>[1];
-
-export const [FormProvider, useForm] = createStrictContext<{
-  form: Form;
-  fields: Fields;
-}>();
