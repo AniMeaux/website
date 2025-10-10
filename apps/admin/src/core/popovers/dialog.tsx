@@ -7,7 +7,7 @@ import { cn } from "@animeaux/core";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";
 
-type DialogVariant = "alert" | "warning";
+type DialogVariant = "alert" | "info" | "warning";
 
 type DialogContextValue = { variant: DialogVariant };
 const DialogContext = createContext<DialogContextValue>({ variant: "alert" });
@@ -77,12 +77,14 @@ Dialog.Header = function DialogHeader({
 
 const VARIANT_ICON: Record<DialogVariant, IconName> = {
   alert: "icon-circle-exclamation-solid",
+  info: "icon-circle-info-solid",
   warning: "icon-triangle-exclamation-solid",
 };
 
 const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {
-  alert: "text-red-400",
-  warning: "text-orange-400",
+  alert: cn("text-red-400"),
+  info: cn("text-blue-500"),
+  warning: cn("text-orange-400"),
 };
 
 Dialog.Message = function DialogMessage({
@@ -140,5 +142,6 @@ Dialog.ConfirmAction = function DialogConfirmAction(
 
 const VARIANT_CONFIRM_ACTION_COLOR: Record<DialogVariant, ActionColor> = {
   alert: "red",
+  info: "blue",
   warning: "orange",
 };

@@ -65,13 +65,20 @@ function ItemMaxTableCount() {
 function ItemMaxPeopleCount() {
   const { standSize } = useLoaderData<typeof loader>();
 
+  const additionalPeopleCount =
+    standSize.maxBraceletCount - standSize.maxPeopleCount;
+
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-people-group-light" />}>
       <strong className="text-body-emphasis">
-        {standSize.maxPeopleCount} personne
-        {standSize.maxPeopleCount > 1 ? "s" : null} sur stand
+        {standSize.maxBraceletCount} personne
+        {standSize.maxBraceletCount > 1 ? "s" : null} sur stand
       </strong>{" "}
-      maximum
+      maximum (dont{" "}
+      <strong className="text-body-emphasis">
+        {additionalPeopleCount} en option payante
+      </strong>
+      )
     </SimpleItem>
   );
 }
