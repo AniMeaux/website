@@ -3,12 +3,10 @@ import { actionSchema } from "#show/stand-size/action-schema";
 import { Visibility } from "#show/visibility.js";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import type { action } from "./action.server.js";
-import type { loader } from "./loader.server.js";
 
 export function useFormRoot() {
-  const { standSize } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -28,18 +26,7 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      area: standSize.area,
-      isVisible: Visibility.fromBoolean(standSize.isVisible),
-      label: standSize.label,
-      maxCount: standSize.maxCount,
-      maxDividerCount: standSize.maxDividerCount,
-      maxPeopleCountAdditional:
-        standSize.maxBraceletCount - standSize.maxPeopleCount,
-      maxPeopleCountIncluded: standSize.maxPeopleCount,
-      maxTableCount: standSize.maxTableCount,
-      priceForAssociations: standSize.priceForAssociations,
-      priceForServices: standSize.priceForServices,
-      priceForShops: standSize.priceForShops,
+      isVisible: Visibility.Enum.HIDDEN,
     },
 
     onValidate: ({ formData }) =>

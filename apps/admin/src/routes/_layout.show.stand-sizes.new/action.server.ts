@@ -1,25 +1,22 @@
 import { db } from "#core/db.server.js";
-import { NotFoundError } from "#core/errors.server.js";
+import { AlreadyExistError } from "#core/errors.server.js";
 import { Routes } from "#core/navigation.js";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
 import { actionSchema } from "#show/stand-size/action-schema";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
+import { catchError } from "@animeaux/core";
 import type { SubmissionResult } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MergeExclusive } from "type-fest";
-import { routeParamsSchema } from "./route-params";
 
-export async function action({ request, params }: ActionFunctionArgs) {
+export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
   });
 
   assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
-
-  const routeParams = safeParseRouteParam(routeParamsSchema, params);
 
   const formData = await request.formData();
 
@@ -32,8 +29,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
     );
   }
 
-  try {
-    await db.show.standSize.update(routeParams.id, {
+  const [error, standSizeId] = await catchError(() =>
+    db.show.standSize.create({
       area: submission.value.area,
       isVisible: submission.value.isVisible,
       label: submission.value.label,
@@ -47,16 +44,18 @@ export async function action({ request, params }: ActionFunctionArgs) {
       priceForAssociations: submission.value.priceForAssociations ?? null,
       priceForServices: submission.value.priceForServices ?? null,
       priceForShops: submission.value.priceForShops ?? null,
-    });
-  } catch (error) {
-    if (error instanceof NotFoundError) {
+    }),
+  );
+
+  if (error != null) {
+    if (error instanceof AlreadyExistError) {
       return json<ActionData>(
         {
           submissionResult: submission.reply({
-            formErrors: ["La taille de stand est introuvable."],
+            fieldErrors: { label: ["La taille de stand existe déjà"] },
           }),
         },
-        { status: 404 },
+        { status: 400 },
       );
     }
 
@@ -64,7 +63,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   return json<ActionData>({
-    redirectTo: Routes.show.standSizes.id(routeParams.id).toString(),
+    redirectTo: Routes.show.standSizes.id(standSizeId).toString(),
   });
 }
 

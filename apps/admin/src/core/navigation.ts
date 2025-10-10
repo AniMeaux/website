@@ -163,6 +163,8 @@ export const Routes = {
 
         edit: { toString: () => `/show/stand-sizes/${id}/edit` as const },
       }),
+
+      new: { toString: () => "/show/stand-sizes/new" as const },
     },
 
     dividerTypes: {

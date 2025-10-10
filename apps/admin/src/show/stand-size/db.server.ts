@@ -1,4 +1,8 @@
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.js";
+import {
+  AlreadyExistError,
+  NotFoundError,
+  PrismaErrorCodes,
+} from "#core/errors.server.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
 import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
@@ -108,6 +112,27 @@ export class ShowStandSizeDbDelegate {
     >[];
   }
 
+  async create(data: ShowStandSizeCreateData) {
+    const [error, standSize] = await catchError(() =>
+      prisma.showStandSize.create({
+        data,
+        select: { id: true },
+      }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new AlreadyExistError();
+        }
+      }
+
+      throw error;
+    }
+
+    return standSize.id;
+  }
+
   async update(standSizeId: string, data: ShowStandSizeUpdateData) {
     const [error] = await catchError(() =>
       prisma.showStandSize.update({
@@ -128,6 +153,21 @@ export class ShowStandSizeDbDelegate {
     }
   }
 }
+
+type ShowStandSizeCreateData = Pick<
+  Prisma.ShowStandSizeCreateInput,
+  | "area"
+  | "isVisible"
+  | "label"
+  | "maxBraceletCount"
+  | "maxCount"
+  | "maxDividerCount"
+  | "maxPeopleCount"
+  | "maxTableCount"
+  | "priceForAssociations"
+  | "priceForServices"
+  | "priceForShops"
+>;
 
 type ShowStandSizeUpdateData = Pick<
   Prisma.ShowStandSizeUpdateInput,

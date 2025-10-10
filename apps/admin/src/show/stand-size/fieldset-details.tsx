@@ -9,7 +9,7 @@ export function FieldsetDetails({
   bookedCount,
   fields,
 }: {
-  bookedCount: number;
+  bookedCount?: number;
   fields: {
     area: FieldMetadata<number>;
     maxCount: FieldMetadata<number>;
@@ -42,9 +42,11 @@ export function FieldsetDetails({
             label="Nombre maximum de stands"
             field={fields.maxCount}
             helper={
-              <Form.HelperMessage>
-                Il y en a actuellement {bookedCount}
-              </Form.HelperMessage>
+              bookedCount != null ? (
+                <Form.HelperMessage>
+                  Il y en a actuellement {bookedCount}
+                </Form.HelperMessage>
+              ) : null
             }
             leftAdornment={
               <Input.Adornment>
