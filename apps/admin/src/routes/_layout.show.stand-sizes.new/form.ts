@@ -1,10 +1,10 @@
 import { useBackIfPossible } from "#core/navigation";
-import { InvoiceStatus } from "#show/invoice/status.js";
+import { actionSchema } from "#show/stand-size/action-schema";
+import { Visibility } from "#show/visibility.js";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher } from "@remix-run/react";
-import { actionSchema } from "./action";
-import type { action } from "./route";
+import type { action } from "./action.server.js";
 
 export function useFormRoot() {
   const fetcher = useFetcher<typeof action>();
@@ -17,7 +17,7 @@ export function useFormRoot() {
   });
 
   const [form, fields] = useFormBase({
-    id: "exhibitor-new-invoice",
+    id: "stand-size-edit",
     constraint: getZodConstraint(actionSchema),
     shouldValidate: "onBlur",
     lastResult:
@@ -26,7 +26,7 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      status: InvoiceStatus.Enum.TO_PAY,
+      isVisible: Visibility.Enum.HIDDEN,
     },
 
     onValidate: ({ formData }) =>

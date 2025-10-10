@@ -1,7 +1,14 @@
+import {
+  AlreadyExistError,
+  NotFoundError,
+  PrismaErrorCodes,
+  ReferencedError,
+} from "#core/errors.server.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
 import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
-import type { Prisma } from "@prisma/client";
+import { catchError } from "@animeaux/core";
+import { Prisma } from "@prisma/client";
 import merge from "lodash.merge";
 import type { Simplify } from "type-fest";
 
@@ -105,4 +112,97 @@ export class ShowStandSizeDbDelegate {
       Selected & ShowStandSizeBooking
     >[];
   }
+
+  async create(data: ShowStandSizeCreateData) {
+    const [error, standSize] = await catchError(() =>
+      prisma.showStandSize.create({
+        data,
+        select: { id: true },
+      }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
+          throw new AlreadyExistError();
+        }
+      }
+
+      throw error;
+    }
+
+    return standSize.id;
+  }
+
+  async update(standSizeId: string, data: ShowStandSizeUpdateData) {
+    const [error] = await catchError(() =>
+      prisma.showStandSize.update({
+        where: { id: standSizeId },
+        data,
+        select: { id: true },
+      }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
+        }
+      }
+
+      throw error;
+    }
+  }
+
+  async delete(standSizeId: string) {
+    const [error] = await catchError(() =>
+      prisma.showStandSize.delete({ where: { id: standSizeId } }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case PrismaErrorCodes.NOT_FOUND: {
+            throw new NotFoundError();
+          }
+
+          case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
+            throw new ReferencedError();
+          }
+        }
+      }
+
+      throw error;
+    }
+  }
 }
+
+type ShowStandSizeCreateData = Pick<
+  Prisma.ShowStandSizeCreateInput,
+  | "area"
+  | "isVisible"
+  | "label"
+  | "maxBraceletCount"
+  | "maxCount"
+  | "maxDividerCount"
+  | "maxPeopleCount"
+  | "maxTableCount"
+  | "priceForAssociations"
+  | "priceForServices"
+  | "priceForShops"
+>;
+
+type ShowStandSizeUpdateData = Pick<
+  Prisma.ShowStandSizeUpdateInput,
+  | "area"
+  | "isVisible"
+  | "label"
+  | "maxBraceletCount"
+  | "maxCount"
+  | "maxDividerCount"
+  | "maxPeopleCount"
+  | "maxTableCount"
+  | "priceForAssociations"
+  | "priceForServices"
+  | "priceForShops"
+>;

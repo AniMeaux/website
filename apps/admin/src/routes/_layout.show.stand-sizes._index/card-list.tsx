@@ -1,5 +1,8 @@
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
+import { Routes } from "#core/navigation.js";
 import { useLoaderData } from "@remix-run/react";
 import { StandSizeItem } from "./item";
 import type { loader } from "./loader.server";
@@ -14,6 +17,10 @@ export function CardList() {
           {standSizes.length}{" "}
           {standSizes.length > 1 ? "tailles de stand" : "taille de stand"}
         </Card.Title>
+
+        <Action asChild variant="text">
+          <BaseLink to={Routes.show.standSizes.new.toString()}>Créer</BaseLink>
+        </Action>
       </Card.Header>
 
       <Card.Content hasListItems>

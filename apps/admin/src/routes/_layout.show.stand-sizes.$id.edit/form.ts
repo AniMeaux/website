@@ -1,14 +1,14 @@
-import { toIsoDateValue } from "#core/dates.js";
 import { useBackIfPossible } from "#core/navigation";
+import { actionSchema } from "#show/stand-size/action-schema";
+import { Visibility } from "#show/visibility.js";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { actionSchema } from "./action";
 import type { action } from "./action.server.js";
 import type { loader } from "./loader.server.js";
 
 export function useFormRoot() {
-  const { invoice } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>();
   const fetcher = useFetcher<typeof action>();
 
   useBackIfPossible({
@@ -19,7 +19,7 @@ export function useFormRoot() {
   });
 
   const [form, fields] = useFormBase({
-    id: "exhibitor-invoice",
+    id: "stand-size-edit",
     constraint: getZodConstraint(actionSchema),
     shouldValidate: "onBlur",
     lastResult:
@@ -28,11 +28,18 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
-      amount: invoice.amount,
-      dueDate: toIsoDateValue(invoice.dueDate),
-      number: invoice.number,
-      status: invoice.status,
-      url: invoice.url,
+      area: standSize.area,
+      isVisible: Visibility.fromBoolean(standSize.isVisible),
+      label: standSize.label,
+      maxCount: standSize.maxCount,
+      maxDividerCount: standSize.maxDividerCount,
+      maxPeopleCountAdditional:
+        standSize.maxBraceletCount - standSize.maxPeopleCount,
+      maxPeopleCountIncluded: standSize.maxPeopleCount,
+      maxTableCount: standSize.maxTableCount,
+      priceForAssociations: standSize.priceForAssociations,
+      priceForServices: standSize.priceForServices,
+      priceForShops: standSize.priceForShops,
     },
 
     onValidate: ({ formData }) =>
