@@ -2,6 +2,7 @@ import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
+  ReferencedError,
 } from "#core/errors.server.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
@@ -146,6 +147,28 @@ export class ShowStandSizeDbDelegate {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
           throw new NotFoundError();
+        }
+      }
+
+      throw error;
+    }
+  }
+
+  async delete(standSizeId: string) {
+    const [error] = await catchError(() =>
+      prisma.showStandSize.delete({ where: { id: standSizeId } }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        switch (error.code) {
+          case PrismaErrorCodes.NOT_FOUND: {
+            throw new NotFoundError();
+          }
+
+          case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
+            throw new ReferencedError();
+          }
         }
       }
 
