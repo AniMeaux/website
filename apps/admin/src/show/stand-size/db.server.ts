@@ -1,7 +1,9 @@
+import { NotFoundError, PrismaErrorCodes } from "#core/errors.server.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
 import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
-import type { Prisma } from "@prisma/client";
+import { catchError } from "@animeaux/core";
+import { Prisma } from "@prisma/client";
 import merge from "lodash.merge";
 import type { Simplify } from "type-fest";
 
@@ -105,4 +107,39 @@ export class ShowStandSizeDbDelegate {
       Selected & ShowStandSizeBooking
     >[];
   }
+
+  async update(standSizeId: string, data: ShowStandSizeUpdateData) {
+    const [error] = await catchError(() =>
+      prisma.showStandSize.update({
+        where: { id: standSizeId },
+        data,
+        select: { id: true },
+      }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
+        }
+      }
+
+      throw error;
+    }
+  }
 }
+
+type ShowStandSizeUpdateData = Pick<
+  Prisma.ShowStandSizeUpdateInput,
+  | "area"
+  | "isVisible"
+  | "label"
+  | "maxBraceletCount"
+  | "maxCount"
+  | "maxDividerCount"
+  | "maxPeopleCount"
+  | "maxTableCount"
+  | "priceForAssociations"
+  | "priceForServices"
+  | "priceForShops"
+>;

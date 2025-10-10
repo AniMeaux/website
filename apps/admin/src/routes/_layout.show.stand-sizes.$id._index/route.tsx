@@ -1,5 +1,8 @@
+import { Action } from "#core/actions.js";
+import { BaseLink } from "#core/base-link.js";
 import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { PageLayout } from "#core/layout/page";
+import { Routes } from "#core/navigation.js";
 import { getPageTitle } from "#core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
@@ -49,8 +52,14 @@ export function Header() {
   const { standSize } = useLoaderData<typeof loader>();
 
   return (
-    <PageLayout.Header.Root>
+    <PageLayout.Header.Root className="grid grid-cols-2-auto justify-between gap-2 md:gap-4">
       <PageLayout.Header.Title>{standSize.label}</PageLayout.Header.Title>
+
+      <Action variant="text" asChild>
+        <BaseLink to={Routes.show.standSizes.id(standSize.id).edit.toString()}>
+          Modifier
+        </BaseLink>
+      </Action>
     </PageLayout.Header.Root>
   );
 }
