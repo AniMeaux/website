@@ -336,7 +336,6 @@ type ExhibitorStandConfigurationData = Pick<
   | "placementComment"
   | "sizeId"
   | "tableCount"
-  | "zone"
 >;
 
 type ExhibitorPerksData = Pick<

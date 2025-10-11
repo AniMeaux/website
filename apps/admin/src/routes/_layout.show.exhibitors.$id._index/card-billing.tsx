@@ -2,6 +2,7 @@ import { Action, ProseInlineAction } from "#core/actions.js";
 import { BaseLink } from "#core/base-link.js";
 import { Empty } from "#core/data-display/empty.js";
 import { ItemList, SimpleItem } from "#core/data-display/item.js";
+import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
 import { Card } from "#core/layout/card";
 import { Separator } from "#core/layout/separator.js";
 import { Routes } from "#core/navigation.js";
@@ -10,7 +11,7 @@ import { Icon } from "#generated/icon.js";
 import { theme } from "#generated/theme.js";
 import { InvoiceIcon } from "#show/invoice/icon.js";
 import { InvoiceStatus } from "#show/invoice/status.js";
-import { joinReactNodes } from "@animeaux/core";
+import { getCompleteLocation, joinReactNodes } from "@animeaux/core";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
@@ -19,24 +20,30 @@ import { ActionIntent } from "./action";
 import type { action } from "./action.server";
 import type { loader } from "./loader.server";
 
-export function CardInvoices() {
+export function CardBilling() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Factures</Card.Title>
+        <Card.Title>Facturation</Card.Title>
 
         <Action variant="text" asChild>
           <BaseLink
             to={Routes.show.exhibitors.id(exhibitor.id).invoice.new.toString()}
           >
-            Créer
+            Créer une facture
           </BaseLink>
         </Action>
       </Card.Header>
 
       <Card.Content>
+        <ItemList>
+          <ItemAddress />
+        </ItemList>
+
+        <Separator />
+
         {exhibitor.invoices.length > 0 ? (
           joinReactNodes(
             exhibitor.invoices.map((invoice) => (
@@ -57,6 +64,26 @@ export function CardInvoices() {
         )}
       </Card.Content>
     </Card>
+  );
+}
+
+function ItemAddress() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  return (
+    <SimpleItem
+      isLightIcon
+      icon={<Icon href="icon-envelope-open-dollar-light" />}
+    >
+      <Markdown components={SENTENCE_COMPONENTS}>
+        {getCompleteLocation({
+          address: exhibitor.billingAddress,
+          zipCode: exhibitor.billingZipCode,
+          city: exhibitor.billingCity,
+          country: exhibitor.billingCountry,
+        })}
+      </Markdown>
+    </SimpleItem>
   );
 }
 
