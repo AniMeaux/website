@@ -487,7 +487,6 @@ model ShowExhibitor {
   placementComment        String?              @db.VarChar(256)
   standNumber             String?              @db.VarChar(16)
   tableCount              Int
-  zone                    ShowStandZone?
 
   // -- Perks ------------------------------------------------------------------
 
