@@ -1,7 +1,7 @@
 import { Visibility } from "#show/visibility";
 import { zu } from "@animeaux/zod-utils";
 
-export const ActionSchema = zu.object({
+export const actionSchema = zu.object({
   isVisible: zu
     .nativeEnum(Visibility.Enum, {
       required_error: "Veuillez choisir une option",
