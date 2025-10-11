@@ -1,7 +1,14 @@
+import { OnOff } from "#core/form-elements/field-on-off.js";
 import { Visibility } from "#show/visibility";
 import { zu } from "@animeaux/zod-utils";
 
-export const ActionSchema = zu.object({
+export const actionSchema = zu.object({
+  isOrganizer: zu
+    .nativeEnum(OnOff.Enum, {
+      required_error: "Veuillez choisir une option",
+    })
+    .transform(OnOff.toBoolean),
+
   isVisible: zu
     .nativeEnum(Visibility.Enum, {
       required_error: "Veuillez choisir une option",

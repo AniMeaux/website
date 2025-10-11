@@ -42,6 +42,7 @@ export function CardSituation() {
           <ItemInvoiceStatus />
           <ItemLocationNumber />
           <ItemApplication />
+          <ItemOrganizer />
           <ItemSponsorship />
           <ItemExhibitorSpace />
         </ItemList>
@@ -120,6 +121,20 @@ function ItemLocationNumber() {
         ].filter(Boolean),
         <br />,
       )}
+    </SimpleItem>
+  );
+}
+
+function ItemOrganizer() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  if (!exhibitor.isOrganizer) {
+    return null;
+  }
+
+  return (
+    <SimpleItem icon={<Icon href="icon-show-solid" />}>
+      <strong className="text-body-emphasis">Est organisateur</strong>
     </SimpleItem>
   );
 }

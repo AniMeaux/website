@@ -50,6 +50,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         hasTableCloths: true,
         id: true,
         installationDay: true,
+        isOrganizer: true,
         isVisible: true,
         links: true,
         locationNumber: true,
