@@ -6,6 +6,7 @@ import { notFound } from "#core/response.server";
 import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
 import { ExhibitorCategory } from "#show/exhibitors/category";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category.js";
+import { catchError } from "@animeaux/core";
 import type { ShowExhibitorApplication } from "@prisma/client";
 import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
 import { promiseHash } from "remix-utils/promise";
@@ -234,6 +235,22 @@ export class ShowExhibitorApplicationDbDelegate {
   normalize(data: ShowExhibitorApplicationData) {
     if (data.status !== ShowExhibitorApplicationStatus.REFUSED) {
       data.refusalMessage = null;
+    }
+  }
+
+  async delete(id: string) {
+    const [error] = await catchError(() =>
+      prisma.showExhibitorApplication.delete({ where: { id } }),
+    );
+
+    if (error != null) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === PrismaErrorCodes.NOT_FOUND) {
+          throw new NotFoundError();
+        }
+      }
+
+      throw error;
     }
   }
 }
