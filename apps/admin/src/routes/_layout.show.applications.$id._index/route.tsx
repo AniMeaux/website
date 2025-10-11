@@ -18,7 +18,7 @@ import type { loader } from "./loader.server";
 export { loader } from "./loader.server";
 
 export const RouteParamsSchema = zu.object({
-  applicationId: zu.string().uuid(),
+  id: zu.string().uuid(),
 });
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {

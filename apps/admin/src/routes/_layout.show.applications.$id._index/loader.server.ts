@@ -20,7 +20,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const application = await db.show.exhibitor.application.findUnique(
-    routeParams.applicationId,
+    routeParams.id,
     {
       select: {
         comments: true,

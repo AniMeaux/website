@@ -41,7 +41,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
   const application = await db.show.exhibitor.application.findUnique(
-    routeParams.applicationId,
+    routeParams.id,
     {
       select: {
         status: true,
@@ -57,7 +57,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 const RouteParamsSchema = zu.object({
-  applicationId: zu.string().uuid(),
+  id: zu.string().uuid(),
 });
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -109,7 +109,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   try {
-    await db.show.exhibitor.application.update(routeParams.data.applicationId, {
+    await db.show.exhibitor.application.update(routeParams.data.id, {
       status: formData.data.status,
       refusalMessage: formData.data.refusalMessage || null,
     });
@@ -144,9 +144,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   return json<ActionData>({
-    redirectTo: Routes.show.applications
-      .id(routeParams.data.applicationId)
-      .toString(),
+    redirectTo: Routes.show.applications.id(routeParams.data.id).toString(),
   });
 }
 
