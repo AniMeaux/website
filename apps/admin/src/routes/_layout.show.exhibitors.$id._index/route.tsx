@@ -12,11 +12,11 @@ import type { MetaFunction } from "@remix-run/react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { ActionIntent } from "./action";
 import type { action } from "./action.server";
+import { CardBilling } from "./card-billing";
 import { CardContact } from "./card-contact";
 import { CardDescription } from "./card-description";
 import { CardDocuments } from "./card-documents";
 import { CardDogsConfiguration } from "./card-dogs-configuration";
-import { CardInvoices } from "./card-invoices";
 import { CardOnStageAnimations } from "./card-on-stage-animations";
 import { CardOnStandAnimations } from "./card-on-stand-animations";
 import { CardPerks } from "./card-perks";
@@ -57,7 +57,7 @@ export default function Route() {
 
         <div className="grid grid-cols-1 gap-1 md:gap-2">
           <CardPrice />
-          <CardInvoices />
+          <CardBilling />
           <CardDescription />
           <CardStandConfiguration />
           <CardDogsConfiguration />

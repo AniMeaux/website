@@ -19,13 +19,13 @@ import { ActionIntent } from "./action";
 import type { action } from "./action.server";
 import type { loader } from "./loader.server";
 
-export function CardInvoices() {
+export function CardBilling() {
   const { exhibitor } = useLoaderData<typeof loader>();
 
   return (
     <Card>
       <Card.Header>
-        <Card.Title>Factures</Card.Title>
+        <Card.Title>Facturation</Card.Title>
 
         <Action variant="text" asChild>
           <BaseLink
