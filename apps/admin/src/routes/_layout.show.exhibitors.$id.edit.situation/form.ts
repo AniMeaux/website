@@ -1,3 +1,4 @@
+import { OnOff } from "#core/form-elements/field-on-off.js";
 import { useBackIfPossible } from "#core/navigation";
 import { Visibility } from "#show/visibility";
 import { createStrictContext } from "@animeaux/core";
@@ -29,6 +30,7 @@ export function useFormRoot() {
         : undefined,
 
     defaultValue: {
+      isOrganizer: OnOff.fromBoolean(exhibitor.isOrganizer),
       isVisible: Visibility.fromBoolean(exhibitor.isVisible),
       locationNumber: exhibitor.locationNumber,
       standNumber: exhibitor.standNumber,

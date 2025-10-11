@@ -1,3 +1,4 @@
+import { FieldOnOff } from "#core/form-elements/field-on-off.js";
 import { FieldRadios } from "#core/form-elements/field-radios";
 import { FieldText } from "#core/form-elements/field-text";
 import { Form } from "#core/form-elements/form";
@@ -25,6 +26,8 @@ export function FieldsetSituation() {
             getLabel={(visibility) => Visibility.translation[visibility]}
             options={Visibility.values}
           />
+
+          <FieldOnOff label="Organisateur" field={fields.isOrganizer} />
 
           <Separator />
 

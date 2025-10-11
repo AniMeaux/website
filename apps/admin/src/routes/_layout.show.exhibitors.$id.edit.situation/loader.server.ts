@@ -20,9 +20,10 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: {
-      name: true,
+      isOrganizer: true,
       isVisible: true,
       locationNumber: true,
+      name: true,
       standNumber: true,
     },
   });

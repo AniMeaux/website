@@ -35,6 +35,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   await db.show.exhibitor.update(routeParams.id, {
+    isOrganizer: submission.value.isOrganizer,
     isVisible: submission.value.isVisible,
     locationNumber: submission.value.locationNumber || null,
     standNumber: submission.value.standNumber || null,
