@@ -1,11 +1,12 @@
 import { db } from "#core/db.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
+import { hasGroups } from "#users/groups.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { RouteParamsSchema } from "./route";
+import { RouteParamsSchema } from "./route-params";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -16,6 +17,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
   ]);
+
+  const canDelete = hasGroups(currentUser, [UserGroup.ADMIN]);
 
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);
 
@@ -56,6 +59,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           select: {
             id: true,
             name: true,
+
+            animations: { select: { id: true } },
+
+            sponsorship: {
+              select: { category: true },
+            },
           },
         },
       },
@@ -63,6 +72,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   );
 
   return json({
+    canDelete,
+
     application: {
       ...application,
 
