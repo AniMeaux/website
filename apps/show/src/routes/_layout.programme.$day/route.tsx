@@ -39,9 +39,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
           orderBy: { name: "asc" },
           select: {
             id: true,
+            isOrganizer: true,
             links: true,
-            name: true,
             logoPath: true,
+            name: true,
 
             sponsorship: { select: { isVisible: true } },
           },
@@ -67,7 +68,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
             ...animator,
 
             url,
-            isOrganizer: animator.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
             isSponsor:
               process.env.FEATURE_FLAG_SHOW_SPONSORS === "true" &&

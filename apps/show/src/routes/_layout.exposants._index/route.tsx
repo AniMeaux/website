@@ -35,6 +35,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       onStandAnimationsStatus: true,
       onStandAnimations:
         process.env.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true",
+      isOrganizer: true,
 
       sponsorship: { select: { isVisible: true } },
 
@@ -61,8 +62,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
         return {
           ...exhibitor,
           url,
-
-          isOrganizer: exhibitor.id === process.env.ORGANIZER_EXHIBITOR_ID,
 
           isSponsor:
             process.env.FEATURE_FLAG_SHOW_SPONSORS === "true" &&

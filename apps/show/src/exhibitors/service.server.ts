@@ -72,16 +72,9 @@ export class ServiceExhibitor {
     }
 
     if (params.searchParams.isSponsor) {
-      if (process.env.ORGANIZER_EXHIBITOR_ID == null) {
-        where.push({ sponsorship: { isVisible: true } });
-      } else {
-        where.push({
-          OR: [
-            { sponsorship: { isVisible: true } },
-            { id: process.env.ORGANIZER_EXHIBITOR_ID },
-          ],
-        });
-      }
+      where.push({
+        OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
+      });
     }
 
     if (

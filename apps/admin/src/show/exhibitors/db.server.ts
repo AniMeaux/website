@@ -252,11 +252,7 @@ export class ShowExhibitorDbDelegate {
 
         const exhibitor = await prisma.showExhibitor.update({
           where: { id: exhibitorId },
-          data: {
-            isVisible: data.isVisible,
-            locationNumber: data.locationNumber,
-            standNumber: data.standNumber,
-          },
+          data,
           select: { isVisible: true },
         });
 
@@ -546,7 +542,7 @@ const FIND_ORDER_BY_SORT: Record<
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
-  "isVisible" | "locationNumber" | "standNumber"
+  "isOrganizer" | "isVisible" | "locationNumber" | "standNumber"
 >;
 
 type ShowExhibitorDocumentsData = Pick<

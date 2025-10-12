@@ -107,7 +107,6 @@ const ProcessEnvSchema = zu
     GOOGLE_TAG_MANAGER_ID: zu.string().optional(),
     INSTAGRAM_URL: zu.string(),
     NODE_ENV: zu.enum(["development", "production", "test"]),
-    ORGANIZER_EXHIBITOR_ID: zu.string().optional(),
     PRESS_RELEASE_URL: zu.string().optional(),
     PRICE_ADDITIONAL_BRACELET: zu.coerce
       .number()
