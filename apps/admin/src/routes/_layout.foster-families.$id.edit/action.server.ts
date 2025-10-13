@@ -1,86 +1,18 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { db } from "#core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "#core/errors.server";
-import { assertIsDefined } from "#core/is-defined.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
+import { Routes } from "#core/navigation";
 import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
 } from "#foster-families/db.server";
-import { ActionFormData, FosterFamilyForm } from "#foster-families/form";
-import { zu } from "@animeaux/zod-utils";
+import { ActionFormData } from "#foster-families/form";
+import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-
-const ParamsSchema = zu.object({
-  id: zu.string().uuid(),
-});
-
-export async function loader({ request, params }: LoaderFunctionArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.ANIMAL_MANAGER,
-  ]);
-
-  const paramsResult = ParamsSchema.safeParse(params);
-  if (!paramsResult.success) {
-    throw notFound();
-  }
-
-  const fosterFamily = await prisma.fosterFamily.findUnique({
-    where: { id: paramsResult.data.id },
-    select: {
-      address: true,
-      availability: true,
-      availabilityExpirationDate: true,
-      city: true,
-      comments: true,
-      displayName: true,
-      email: true,
-      garden: true,
-      housing: true,
-      isBanned: true,
-      phone: true,
-      speciesAlreadyPresent: true,
-      speciesToHost: true,
-      zipCode: true,
-    },
-  });
-
-  assertIsDefined(fosterFamily);
-
-  return json({ fosterFamily });
-}
-
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const fosterFamily = data?.fosterFamily;
-  if (fosterFamily == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
-  }
-
-  return [{ title: getPageTitle(`Modifier ${fosterFamily.displayName}`) }];
-};
-
-type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+import { routeParamsSchema } from "./route-params";
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -92,7 +24,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     UserGroup.ANIMAL_MANAGER,
   ]);
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = routeParamsSchema.safeParse(params);
   if (!paramsResult.success) {
     throw notFound();
   }
@@ -188,31 +120,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   });
 }
 
-export function ErrorBoundary() {
-  return <ErrorPage />;
-}
-
-export default function Route() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
-
-  return (
-    <PageLayout.Root>
-      <PageLayout.Content className="flex flex-col items-center">
-        <Card className="w-full md:max-w-[600px]">
-          <Card.Header>
-            <Card.Title>Modifier {fosterFamily.displayName}</Card.Title>
-          </Card.Header>
-
-          <Card.Content>
-            <FosterFamilyForm
-              defaultFosterFamily={fosterFamily}
-              fetcher={fetcher}
-            />
-          </Card.Content>
-        </Card>
-      </PageLayout.Content>
-    </PageLayout.Root>
-  );
-}
+type ActionData = {
+  redirectTo?: string;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
+};
