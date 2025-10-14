@@ -12,7 +12,7 @@ export const Radio = forwardRef<
       ref={ref}
       type="radio"
       className={cn(
-        "relative inline-flex h-[14px] w-[14px] cursor-pointer appearance-none rounded-full bg-blue-500 focus-visible:focus-spaced-blue-400",
+        "relative inline-flex h-[14px] w-[14px] appearance-none rounded-full bg-blue-500 enabled:cursor-pointer focus-visible:focus-spaced-blue-400",
 
         // Border.
         "border border-gray-200 checked:border-blue-500",
