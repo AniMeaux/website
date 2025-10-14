@@ -96,45 +96,6 @@ export class FosterFamilyDbDelegate {
     }
   }
 
-  async setIsBanned(
-    fosterFamilyId: FosterFamily["id"],
-    isBanned: boolean,
-    currentUser: { id: string },
-  ) {
-    await prisma.$transaction(async (prisma) => {
-      const currentFosterFamily = await prisma.fosterFamily.findUnique({
-        where: { id: fosterFamilyId },
-      });
-
-      if (currentFosterFamily == null) {
-        throw new NotFoundError();
-      }
-
-      const newFosterFamily = await prisma.fosterFamily.update({
-        where: { id: fosterFamilyId },
-        data: {
-          isBanned,
-
-          ...(isBanned
-            ? {
-                availability: FosterFamilyAvailability.UNAVAILABLE,
-                availabilityExpirationDate: null,
-              }
-            : undefined),
-        },
-      });
-
-      await Activity.create({
-        currentUser,
-        action: ActivityAction.Enum.UPDATE,
-        resource: ActivityResource.Enum.FOSTER_FAMILY,
-        resourceId: fosterFamilyId,
-        before: currentFosterFamily,
-        after: newFosterFamily,
-      });
-    });
-  }
-
   async update(
     id: FosterFamily["id"],
     data: DataUpdate,
@@ -183,9 +144,17 @@ export class FosterFamilyDbDelegate {
     currentData: Prisma.FosterFamilyGetPayload<{
       select: {
         availability: true;
+        isBanned: true;
       };
     }>,
   ) {
+    const isBanned = data.isBanned ?? currentData.isBanned;
+
+    if (isBanned) {
+      data.availability = FosterFamilyAvailability.UNAVAILABLE;
+      data.availabilityExpirationDate = null;
+    }
+
     const availability = data.availability ?? currentData.availability;
 
     if (availability === FosterFamilyAvailability.UNKNOWN) {
@@ -393,6 +362,7 @@ type DataUpdate = {
   email?: string;
   garden?: FosterFamilyGarden;
   housing?: FosterFamilyHousing;
+  isBanned?: boolean;
   phone?: string;
   speciesAlreadyPresent?: Species[];
   speciesToHost?: Species[];
