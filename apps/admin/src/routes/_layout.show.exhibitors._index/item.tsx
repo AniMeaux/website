@@ -4,7 +4,7 @@ import { Routes } from "#core/navigation";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { ImageUrl } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function ExhibitorItem({
   exhibitor,

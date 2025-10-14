@@ -1,65 +1,14 @@
 import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
-import { db } from "#core/db.server";
 import { Card } from "#core/layout/card";
 import { PageLayout } from "#core/layout/page";
 import { getPageTitle } from "#core/page-title";
-import { PageSearchParams } from "#core/search-params";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ExhibitorFilters } from "#show/exhibitors/filter-form";
-import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
-import { UserGroup } from "@prisma/client";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 import { CardList } from "./card-list";
+import type { loader } from "./loader.server.js";
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const currentUser = await db.currentUser.get(request, {
-    select: { groups: true },
-  });
-
-  assertCurrentUserHasGroups(currentUser, [
-    UserGroup.ADMIN,
-    UserGroup.SHOW_ORGANIZER,
-  ]);
-
-  const searchParams = new URL(request.url).searchParams;
-
-  const {
-    exhibitors: { exhibitors, totalCount },
-    dividerTypes,
-    standSizes,
-  } = await promiseHash({
-    exhibitors: db.show.exhibitor.findMany({
-      page: PageSearchParams.parse(searchParams).page,
-      countPerPage: EXHIBITOR_COUNT_PER_PAGE,
-      searchParams: ExhibitorSearchParams.parse(searchParams),
-      select: {
-        createdAt: true,
-        id: true,
-        isVisible: true,
-        logoPath: true,
-        name: true,
-      },
-    }),
-
-    dividerTypes: db.show.dividerType.findMany({
-      select: { id: true, label: true },
-    }),
-
-    standSizes: db.show.standSize.findMany({
-      select: { id: true, label: true },
-    }),
-  });
-
-  const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
-
-  return json({ totalCount, pageCount, exhibitors, dividerTypes, standSizes });
-}
-
-const EXHIBITOR_COUNT_PER_PAGE = 20;
+export { loader } from "./loader.server.js";
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Candidatures") }];
