@@ -2,6 +2,7 @@ import { db } from "#core/db.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
+import { hasGroups } from "#users/groups.js";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -52,5 +53,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
 
-  return json({ totalCount, pageCount, exhibitors, dividerTypes, standSizes });
+  const canExport = hasGroups(currentUser, [UserGroup.ADMIN]);
+
+  return json({
+    totalCount,
+    pageCount,
+    exhibitors,
+    dividerTypes,
+    standSizes,
+    canExport,
+  });
 }

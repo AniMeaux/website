@@ -203,6 +203,9 @@ export const Routes = {
       applications: {
         toString: () => "/downloads/show/applications" as const,
       },
+      exhibitors: {
+        toString: () => "/downloads/show/exhibitors" as const,
+      },
     },
   },
   login: { toString: () => "/login" as const },
