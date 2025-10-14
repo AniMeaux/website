@@ -118,6 +118,10 @@ const theme: Config = {
         },
       },
 
+      opacity: {
+        disabled: "0.5",
+      },
+
       ringWidth: {
         5: "5px",
       },
