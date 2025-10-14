@@ -11,7 +11,12 @@ import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
 import type { FosterFamilySearchParams } from "#foster-families/search-params";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
-import type { FosterFamily } from "@prisma/client";
+import type {
+  FosterFamily,
+  FosterFamilyGarden,
+  FosterFamilyHousing,
+  Species,
+} from "@prisma/client";
 import { FosterFamilyAvailability, Prisma } from "@prisma/client";
 import { DateTime } from "luxon";
 
@@ -173,9 +178,9 @@ export class FosterFamilyDbDelegate {
     });
   }
 
-  async create(data: FosterFamilyData, currentUser: { id: string }) {
-    this.validate(data);
-    this.normalize(data);
+  async create(data: DataCreate, currentUser: { id: string }) {
+    this.#normalizeCreate(data);
+    this.#validateCreate(data);
 
     try {
       const fosterFamily = await prisma.fosterFamily.create({ data });
@@ -197,6 +202,27 @@ export class FosterFamilyDbDelegate {
       }
 
       throw error;
+    }
+  }
+
+  #validateCreate(data: DataCreate) {
+    if (data.speciesToHost.length === 0) {
+      throw new MissingSpeciesToHostError();
+    }
+
+    if (data.availabilityExpirationDate != null) {
+      if (
+        DateTime.fromJSDate(data.availabilityExpirationDate) <
+        DateTime.now().startOf("day")
+      ) {
+        throw new InvalidAvailabilityDateError();
+      }
+    }
+  }
+
+  #normalizeCreate(data: DataCreate) {
+    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
+      data.availabilityExpirationDate = null;
     }
   }
 
@@ -330,6 +356,22 @@ export class FosterFamilyDbDelegate {
     }
   }
 }
+
+type DataCreate = {
+  address: string;
+  availability: FosterFamilyAvailability;
+  availabilityExpirationDate: Date | null;
+  city: string;
+  comments: string | null;
+  displayName: string;
+  email: string;
+  garden: FosterFamilyGarden;
+  housing: FosterFamilyHousing;
+  phone: string;
+  speciesAlreadyPresent: Species[];
+  speciesToHost: Species[];
+  zipCode: string;
+};
 
 type FosterFamilyData = Pick<
   FosterFamily,
