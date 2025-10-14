@@ -7,7 +7,7 @@ import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ExhibitorItem } from "./item";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardList() {
   const { totalCount, pageCount, exhibitors } = useLoaderData<typeof loader>();
