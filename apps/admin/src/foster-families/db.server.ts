@@ -137,7 +137,7 @@ export class FosterFamilyDbDelegate {
 
   async update(
     id: FosterFamily["id"],
-    data: FosterFamilyData,
+    data: DataUpdate,
     currentUser: { id: string },
   ) {
     await prisma.$transaction(async (prisma) => {
@@ -149,8 +149,8 @@ export class FosterFamilyDbDelegate {
         throw new NotFoundError();
       }
 
-      this.validate(data, currentFosterFamily);
-      this.normalize(data);
+      this.#normalizeUpdate(data, currentFosterFamily);
+      this.#validateUpdate(data, currentFosterFamily);
 
       try {
         const newFosterFamily = await prisma.fosterFamily.update({
@@ -176,6 +176,47 @@ export class FosterFamilyDbDelegate {
         throw error;
       }
     });
+  }
+
+  #normalizeUpdate(
+    data: DataUpdate,
+    currentData: Prisma.FosterFamilyGetPayload<{
+      select: {
+        availability: true;
+      };
+    }>,
+  ) {
+    const availability = data.availability ?? currentData.availability;
+
+    if (availability === FosterFamilyAvailability.UNKNOWN) {
+      data.availabilityExpirationDate = null;
+    }
+  }
+
+  #validateUpdate(
+    newData: DataUpdate,
+    currentData: Prisma.FosterFamilyGetPayload<{
+      select: {
+        speciesToHost: true;
+      };
+    }>,
+  ) {
+    if (newData.speciesToHost != null && newData.speciesToHost.length === 0) {
+      // Allow old foster families (without species to host) to be updated
+      // without setting them. But we can't unset them.
+      if (currentData.speciesToHost.length > 0) {
+        throw new MissingSpeciesToHostError();
+      }
+    }
+
+    if (newData.availabilityExpirationDate != null) {
+      if (
+        DateTime.fromJSDate(newData.availabilityExpirationDate) <
+        DateTime.now().startOf("day")
+      ) {
+        throw new InvalidAvailabilityDateError();
+      }
+    }
   }
 
   async create(data: DataCreate, currentUser: { id: string }) {
@@ -205,6 +246,12 @@ export class FosterFamilyDbDelegate {
     }
   }
 
+  #normalizeCreate(data: DataCreate) {
+    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
+      data.availabilityExpirationDate = null;
+    }
+  }
+
   #validateCreate(data: DataCreate) {
     if (data.speciesToHost.length === 0) {
       throw new MissingSpeciesToHostError();
@@ -217,12 +264,6 @@ export class FosterFamilyDbDelegate {
       ) {
         throw new InvalidAvailabilityDateError();
       }
-    }
-  }
-
-  #normalizeCreate(data: DataCreate) {
-    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
-      data.availabilityExpirationDate = null;
     }
   }
 
@@ -324,37 +365,6 @@ export class FosterFamilyDbDelegate {
         "matchRank" ASC
     `;
   }
-
-  private validate(
-    newData: FosterFamilyData,
-    currentData?: null | Pick<FosterFamily, "speciesToHost">,
-  ) {
-    if (newData.speciesToHost.length === 0) {
-      // Allow old foster family (without species to host) to be updated without
-      // setting them. But we can't unset them.
-      if (currentData == null || currentData.speciesToHost.length > 0) {
-        throw new MissingSpeciesToHostError();
-      }
-    }
-
-    if (
-      newData.availability !== FosterFamilyAvailability.UNKNOWN &&
-      newData.availabilityExpirationDate != null
-    ) {
-      if (
-        DateTime.fromJSDate(newData.availabilityExpirationDate) <
-        DateTime.now().startOf("day")
-      ) {
-        throw new InvalidAvailabilityDateError();
-      }
-    }
-  }
-
-  private normalize(data: FosterFamilyData) {
-    if (data.availability === FosterFamilyAvailability.UNKNOWN) {
-      data.availabilityExpirationDate = null;
-    }
-  }
 }
 
 type DataCreate = {
@@ -373,19 +383,18 @@ type DataCreate = {
   zipCode: string;
 };
 
-type FosterFamilyData = Pick<
-  FosterFamily,
-  | "address"
-  | "availability"
-  | "availabilityExpirationDate"
-  | "city"
-  | "comments"
-  | "displayName"
-  | "garden"
-  | "housing"
-  | "email"
-  | "phone"
-  | "speciesAlreadyPresent"
-  | "speciesToHost"
-  | "zipCode"
->;
+type DataUpdate = {
+  address?: string;
+  availability?: FosterFamilyAvailability;
+  availabilityExpirationDate?: Date | null;
+  city?: string;
+  comments?: string | null;
+  displayName?: string;
+  email?: string;
+  garden?: FosterFamilyGarden;
+  housing?: FosterFamilyHousing;
+  phone?: string;
+  speciesAlreadyPresent?: Species[];
+  speciesToHost?: Species[];
+  zipCode?: string;
+};
