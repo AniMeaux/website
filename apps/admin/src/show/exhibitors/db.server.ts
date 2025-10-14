@@ -34,8 +34,7 @@ export class ShowExhibitorDbDelegate {
 
   async findMany<T extends Prisma.ShowExhibitorSelect>(params: {
     searchParams: ExhibitorSearchParamsN.Value;
-    page: number;
-    countPerPage: number;
+    pagination?: { page: number; countPerPage: number };
     select: T;
   }) {
     const where: Prisma.ShowExhibitorWhereInput[] = [];
@@ -228,10 +227,15 @@ export class ShowExhibitorDbDelegate {
 
       exhibitors: prisma.showExhibitor.findMany({
         where: { AND: where },
-        skip: params.page * params.countPerPage,
-        take: params.countPerPage,
         orderBy: FIND_ORDER_BY_SORT[params.searchParams.sort],
         select: params.select,
+
+        ...(params.pagination != null
+          ? {
+              skip: params.pagination.page * params.pagination.countPerPage,
+              take: params.pagination.countPerPage,
+            }
+          : null),
       }),
     });
 

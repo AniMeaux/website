@@ -42,8 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           dividerTypesId: new Set([routeParams.id]),
         }),
       ),
-      page: 0,
-      countPerPage: 6,
+      pagination: { page: 0, countPerPage: 6 },
       select: {
         id: true,
         isVisible: true,
