@@ -7,7 +7,7 @@ import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
 } from "#foster-families/db.server";
-import { ActionFormData } from "#foster-families/form";
+import { ActionFormDataForUpdate } from "#foster-families/form";
 import type { zu } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
@@ -30,7 +30,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   }
 
   const rawFormData = await request.formData();
-  const formData = ActionFormData.safeParse(rawFormData);
+  const formData = ActionFormDataForUpdate.safeParse(rawFormData);
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
@@ -122,5 +122,5 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
 type ActionData = {
   redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
+  errors?: zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>;
 };
