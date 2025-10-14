@@ -35,7 +35,7 @@ export const InputChoice = {
         ref={ref}
         className={cn(
           className,
-          "grid cursor-pointer grid-cols-[auto_minmax(min-content,1fr)] items-center gap-0.5",
+          "grid grid-cols-[auto_minmax(min-content,1fr)] items-center gap-0.5 has-[input:enabled]:cursor-pointer has-[input:disabled]:opacity-disabled",
         )}
       />
     );

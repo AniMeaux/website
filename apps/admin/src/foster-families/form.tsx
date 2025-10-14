@@ -38,31 +38,37 @@ import { useLocation } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { useEffect, useRef, useState } from "react";
 
-export const ActionFormData = FormDataDelegate.create(
-  zu.object({
-    address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
-    availability: zu.nativeEnum(FosterFamilyAvailability),
-    availabilityExpirationDate: zu.text(
-      zu.coerce
-        .date({ invalid_type_error: "Veuillez entrer une date valide" })
-        .optional(),
-    ),
-    city: zu.string().trim().min(1, "Veuillez choisir une ville"),
-    comments: zu.string().trim(),
-    displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
-    email: zu.string().email("Veuillez entrer un email valide"),
-    garden: zu.nativeEnum(FosterFamilyGarden),
-    housing: zu.nativeEnum(FosterFamilyHousing),
-    phone: zu
-      .string()
-      .trim()
-      .regex(/^\+?[\s\d]+$/, "Veuillez entrer un numéro de téléphone valide"),
-    speciesAlreadyPresent: zu.repeatable(zu.nativeEnum(Species).array()),
-    speciesToHost: zu.repeatable(zu.nativeEnum(Species).array()),
-    zipCode: zu
-      .string()
-      .trim()
-      .regex(/^\d{5}$/, "Veuillez entrer un code postal valide"),
+const actionSchema = zu.object({
+  address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
+  availability: zu.nativeEnum(FosterFamilyAvailability),
+  availabilityExpirationDate: zu.text(
+    zu.coerce
+      .date({ invalid_type_error: "Veuillez entrer une date valide" })
+      .optional(),
+  ),
+  city: zu.string().trim().min(1, "Veuillez choisir une ville"),
+  comments: zu.string().trim(),
+  displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
+  email: zu.string().email("Veuillez entrer un email valide"),
+  garden: zu.nativeEnum(FosterFamilyGarden),
+  housing: zu.nativeEnum(FosterFamilyHousing),
+  phone: zu
+    .string()
+    .trim()
+    .regex(/^\+?[\s\d]+$/, "Veuillez entrer un numéro de téléphone valide"),
+  speciesAlreadyPresent: zu.repeatable(zu.nativeEnum(Species).array()),
+  speciesToHost: zu.repeatable(zu.nativeEnum(Species).array()),
+  zipCode: zu
+    .string()
+    .trim()
+    .regex(/^\d{5}$/, "Veuillez entrer un code postal valide"),
+});
+
+export const ActionFormData = FormDataDelegate.create(actionSchema);
+
+export const ActionFormDataForUpdate = FormDataDelegate.create(
+  actionSchema.omit({ availability: true }).extend({
+    availability: actionSchema.shape.availability.optional(),
   }),
 );
 
@@ -92,7 +98,9 @@ export function FosterFamilyForm({
 }: {
   defaultFosterFamily?: DefaultFosterFamily;
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
+    errors?:
+      | zu.inferFlattenedErrors<typeof ActionFormData.schema>
+      | zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>;
   }>;
 }) {
   const isCreate = defaultFosterFamily == null;
@@ -331,105 +339,104 @@ export function FosterFamilyForm({
 
           <Separator />
 
-          {!defaultFosterFamily?.isBanned ? (
-            <>
-              <Form.Row>
-                <Form.Field>
-                  <Form.Label>
-                    Disponibilité <RequiredStar />
-                  </Form.Label>
+          <Form.Row>
+            <Form.Field>
+              <Form.Label>
+                Disponibilité <RequiredStar />
+              </Form.Label>
 
-                  <RadioInputList>
-                    {SORTED_AVAILABILITIES.map((availability) => (
-                      <RadioInput
-                        key={availability}
-                        label={AVAILABILITY_TRANSLATION[availability]}
-                        name={ActionFormData.keys.availability}
-                        value={availability}
-                        checked={availability === availabilityState}
-                        onChange={() => setAvailabilityState(availability)}
-                      />
-                    ))}
-                  </RadioInputList>
-                </Form.Field>
+              <RadioInputList>
+                {SORTED_AVAILABILITIES.map((availability) => (
+                  <RadioInput
+                    key={availability}
+                    label={AVAILABILITY_TRANSLATION[availability]}
+                    name={ActionFormData.keys.availability}
+                    value={availability}
+                    checked={availability === availabilityState}
+                    onChange={() => setAvailabilityState(availability)}
+                    disabled={defaultFosterFamily?.isBanned}
+                  />
+                ))}
+              </RadioInputList>
 
-                {availabilityState !== FosterFamilyAvailability.UNKNOWN ? (
-                  <Form.Field>
-                    <Form.Label
-                      htmlFor={ActionFormData.keys.availabilityExpirationDate}
-                    >
-                      Jusqu’au
-                    </Form.Label>
+              {defaultFosterFamily?.isBanned ? (
+                <Form.HelperMessage>
+                  La disponibilité d’une famille d’accueil bannie ne peut pas
+                  être modifiée
+                </Form.HelperMessage>
+              ) : null}
+            </Form.Field>
 
-                    <Input
-                      ref={availabilityDateRef}
-                      id={ActionFormData.keys.availabilityExpirationDate}
-                      type="date"
-                      min={toIsoDateValue(DateTime.now().toJSDate())}
-                      name={ActionFormData.keys.availabilityExpirationDate}
-                      value={availabilityExpirationDateState}
-                      onChange={(event) =>
-                        setAvailabilityExpirationDateState(event.target.value)
-                      }
-                      hasError={
-                        fetcher.data?.errors?.fieldErrors
-                          .availabilityExpirationDate != null
-                      }
-                      aria-describedby={
-                        fetcher.data?.errors?.fieldErrors
-                          .availabilityExpirationDate != null
-                          ? "availabilityExpirationDate-error"
-                          : "availabilityExpirationDate-helper"
-                      }
-                      leftAdornment={
-                        <Input.Adornment>
-                          <Icon href="icon-calendar-days-solid" />
-                        </Input.Adornment>
-                      }
-                      rightAdornment={
-                        availabilityExpirationDateState !== "" ? (
-                          <Input.ActionAdornment
-                            onClick={() =>
-                              setAvailabilityExpirationDateState("")
-                            }
-                          >
-                            <Icon href="icon-x-mark-solid" />
-                          </Input.ActionAdornment>
-                        ) : null
-                      }
-                    />
+            {availabilityState !== FosterFamilyAvailability.UNKNOWN &&
+            !defaultFosterFamily?.isBanned ? (
+              <Form.Field>
+                <Form.Label
+                  htmlFor={ActionFormData.keys.availabilityExpirationDate}
+                >
+                  Jusqu’au
+                </Form.Label>
 
-                    {fetcher.data?.errors?.fieldErrors
-                      .availabilityExpirationDate != null ? (
-                      <Form.ErrorMessage id="availabilityExpirationDate-error">
-                        {
-                          fetcher.data.errors.fieldErrors
-                            .availabilityExpirationDate
-                        }
-                      </Form.ErrorMessage>
-                    ) : null}
+                <Input
+                  ref={availabilityDateRef}
+                  id={ActionFormData.keys.availabilityExpirationDate}
+                  type="date"
+                  min={toIsoDateValue(DateTime.now().toJSDate())}
+                  name={ActionFormData.keys.availabilityExpirationDate}
+                  value={availabilityExpirationDateState}
+                  onChange={(event) =>
+                    setAvailabilityExpirationDateState(event.target.value)
+                  }
+                  hasError={
+                    fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null
+                  }
+                  aria-describedby={
+                    fetcher.data?.errors?.fieldErrors
+                      .availabilityExpirationDate != null
+                      ? "availabilityExpirationDate-error"
+                      : "availabilityExpirationDate-helper"
+                  }
+                  leftAdornment={
+                    <Input.Adornment>
+                      <Icon href="icon-calendar-days-solid" />
+                    </Input.Adornment>
+                  }
+                  rightAdornment={
+                    availabilityExpirationDateState !== "" ? (
+                      <Input.ActionAdornment
+                        onClick={() => setAvailabilityExpirationDateState("")}
+                      >
+                        <Icon href="icon-x-mark-solid" />
+                      </Input.ActionAdornment>
+                    ) : null
+                  }
+                />
 
-                    <Form.HelperMessage id="availabilityExpirationDate-helper">
-                      Une fois la date passée, la famille d’accueil sera{" "}
-                      <strong className="text-caption-emphasis">
-                        {
-                          AVAILABILITY_TRANSLATION[
-                            availabilityState ===
-                            FosterFamilyAvailability.AVAILABLE
-                              ? FosterFamilyAvailability.UNAVAILABLE
-                              : FosterFamilyAvailability.AVAILABLE
-                          ]
-                        }
-                      </strong>
-                      .
-                    </Form.HelperMessage>
-                  </Form.Field>
+                {fetcher.data?.errors?.fieldErrors.availabilityExpirationDate !=
+                null ? (
+                  <Form.ErrorMessage id="availabilityExpirationDate-error">
+                    {fetcher.data.errors.fieldErrors.availabilityExpirationDate}
+                  </Form.ErrorMessage>
                 ) : null}
-              </Form.Row>
 
-              <Separator />
-            </>
-          ) : null}
+                <Form.HelperMessage id="availabilityExpirationDate-helper">
+                  Une fois la date passée, la famille d’accueil sera{" "}
+                  <strong className="text-caption-emphasis">
+                    {
+                      AVAILABILITY_TRANSLATION[
+                        availabilityState === FosterFamilyAvailability.AVAILABLE
+                          ? FosterFamilyAvailability.UNAVAILABLE
+                          : FosterFamilyAvailability.AVAILABLE
+                      ]
+                    }
+                  </strong>
+                  .
+                </Form.HelperMessage>
+              </Form.Field>
+            ) : null}
+          </Form.Row>
+
+          <Separator />
 
           <Form.Field>
             <Form.Label>

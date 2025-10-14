@@ -209,9 +209,9 @@ async function actionBan({
   }
 
   try {
-    await db.fosterFamily.setIsBanned(
+    await db.fosterFamily.update(
       fosterFamilyId,
-      formData.data.isBanned,
+      { isBanned: formData.data.isBanned },
       currentUser,
     );
   } catch (error) {
