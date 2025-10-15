@@ -1,6 +1,8 @@
 import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
+import { Icon } from "#generated/icon.js";
+import { SponsorshipCategory } from "#show/sponsors/category.js";
 import { Visibility, VisibilityIcon } from "#show/visibility";
 import { ImageUrl, cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
@@ -17,7 +19,7 @@ export const Rows = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2",
+        "grid grid-cols-[auto_1fr_auto_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto_auto] md:gap-x-2",
         className,
       )}
     />
@@ -43,7 +45,29 @@ export function Row({
         className="h-4 rounded-0.5 border border-gray-200 bg-white"
       />
 
-      <span className="text-body-emphasis">{exhibitor.name}</span>
+      <div className="grid grid-cols-1">
+        <span className="text-body-emphasis">{exhibitor.name}</span>
+
+        {exhibitor.sponsorship != null ? (
+          <span className="@lg/card-content:hidden">
+            {SponsorshipCategory.translation[exhibitor.sponsorship.category]}
+          </span>
+        ) : null}
+      </div>
+
+      <span className="hidden @lg/card-content:inline">
+        {exhibitor.sponsorship != null
+          ? SponsorshipCategory.translation[exhibitor.sponsorship.category]
+          : null}
+      </span>
+
+      <span>
+        {exhibitor.isOrganizersFavorite ? (
+          <span title="Lauréat Coup de cœur" className="icon-20">
+            <Icon href="icon-heart-light" />
+          </span>
+        ) : null}
+      </span>
 
       <VisibilityIcon
         visibility={Visibility.fromBoolean(exhibitor.isVisible)}

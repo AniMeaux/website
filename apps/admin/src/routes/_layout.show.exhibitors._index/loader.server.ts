@@ -35,9 +35,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
       select: {
         createdAt: true,
         id: true,
+        isOrganizersFavorite: true,
         isVisible: true,
         logoPath: true,
         name: true,
+
+        sponsorship: { select: { category: true } },
       },
     }),
 
