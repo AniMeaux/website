@@ -2,11 +2,29 @@ import { BaseLink } from "#core/base-link";
 import { DynamicImage } from "#core/data-display/image";
 import { Routes } from "#core/navigation";
 import { Visibility, VisibilityIcon } from "#show/visibility";
-import { ImageUrl } from "@animeaux/core";
+import { ImageUrl, cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
 import type { SerializeFrom } from "@remix-run/node";
+import { forwardRef } from "react";
 import type { loader } from "./loader.server";
 
-export function ExhibitorItem({
+export const Rows = forwardRef<
+  React.ComponentRef<typeof Primitive.div>,
+  React.ComponentPropsWithoutRef<typeof Primitive.div>
+>(function List({ className, ...props }, ref) {
+  return (
+    <Primitive.div
+      {...props}
+      ref={ref}
+      className={cn(
+        "grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2",
+        className,
+      )}
+    />
+  );
+});
+
+export function Row({
   exhibitor,
 }: {
   exhibitor: SerializeFrom<typeof loader>["exhibitors"][number];
