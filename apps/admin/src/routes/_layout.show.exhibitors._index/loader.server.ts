@@ -31,7 +31,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         page: PageSearchParams.parse(searchParams).page,
         countPerPage: EXHIBITOR_COUNT_PER_PAGE,
       },
-      searchParams: ExhibitorSearchParams.parse(searchParams),
+      searchParams: ExhibitorSearchParams.io.parse(searchParams),
       select: {
         createdAt: true,
         id: true,

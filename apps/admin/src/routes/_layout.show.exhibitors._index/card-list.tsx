@@ -37,7 +37,7 @@ export function CardList() {
             message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
             titleElementType="h3"
             action={
-              !ExhibitorSearchParams.isEmpty(searchParams) ? (
+              !ExhibitorSearchParams.io.isEmpty(searchParams) ? (
                 <Action asChild>
                   <BaseLink to={{ search: "" }}>Effacer les filtres</BaseLink>
                 </Action>

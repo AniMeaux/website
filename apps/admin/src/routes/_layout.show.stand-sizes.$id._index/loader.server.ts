@@ -4,10 +4,7 @@ import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params.js";
-import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#show/exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -47,9 +44,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }),
 
     exhibitors: db.show.exhibitor.findMany({
-      searchParams: ExhibitorSearchParams.parse(
-        ExhibitorSearchParams.create({
-          sort: ExhibitorSearchParamsN.Sort.NAME,
+      searchParams: ExhibitorSearchParams.io.parse(
+        ExhibitorSearchParams.io.create({
+          sort: ExhibitorSearchParams.Sort.Enum.NAME,
           standSizesId: new Set([routeParams.id]),
         }),
       ),

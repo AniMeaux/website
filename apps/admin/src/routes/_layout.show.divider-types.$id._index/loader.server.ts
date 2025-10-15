@@ -1,9 +1,6 @@
 import { db } from "#core/db.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#show/exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -36,9 +33,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     ),
 
     exhibitors: db.show.exhibitor.findMany({
-      searchParams: ExhibitorSearchParams.parse(
-        ExhibitorSearchParams.create({
-          sort: ExhibitorSearchParamsN.Sort.DIVIDER_COUNT,
+      searchParams: ExhibitorSearchParams.io.parse(
+        ExhibitorSearchParams.io.create({
+          sort: ExhibitorSearchParams.Sort.Enum.DIVIDER_COUNT,
           dividerTypesId: new Set([routeParams.id]),
         }),
       ),
