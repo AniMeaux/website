@@ -132,6 +132,10 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.organizersFavorite) {
+      where.push({ isOrganizersFavorite: true });
+    }
+
     if (params.searchParams.sponsorshipCategories.size > 0) {
       const sponsorshipCategoryWhere: Prisma.ShowExhibitorWhereInput[] = [];
 

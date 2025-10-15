@@ -52,6 +52,7 @@ export function ExhibitorFilters({
         <FilterInvoiceStatuses />
         <FilterActivity />
         <FilterSponsorship />
+        <FilterLaureates />
         <FilterStandSize standSizes={standSizes} />
         <FilterAnimations />
         <FilterDividerType dividerTypes={dividerTypes} />
@@ -275,6 +276,40 @@ function FilterName() {
           ) : null
         }
       />
+    </Filters.Filter>
+  );
+}
+
+function FilterLaureates() {
+  const [searchParams] = useOptimisticSearchParams();
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={ExhibitorSearchParams.io.keys.organizersFavorite}
+      label="Lauréats"
+      count={exhibitorSearchParams.organizersFavorite ? 1 : 0}
+      hiddenContent={
+        exhibitorSearchParams.organizersFavorite ? (
+          <input
+            type="hidden"
+            name={ExhibitorSearchParams.io.keys.organizersFavorite}
+            value="on"
+          />
+        ) : null
+      }
+    >
+      <ToggleInputList>
+        <ToggleInput
+          type="checkbox"
+          label="Coup de cœur"
+          name={ExhibitorSearchParams.io.keys.organizersFavorite}
+          icon={<Icon href="icon-heart-light" />}
+          iconChecked={<Icon href="icon-heart-solid" />}
+          checked={exhibitorSearchParams.organizersFavorite}
+          onChange={() => {}}
+        />
+      </ToggleInputList>
     </Filters.Filter>
   );
 }

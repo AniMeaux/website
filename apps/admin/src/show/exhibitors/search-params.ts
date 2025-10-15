@@ -99,6 +99,7 @@ export namespace ExhibitorSearchParams {
       fields: "fi",
       name: "q",
       onStandAnimationsStatuses: "osas",
+      organizersFavorite: "of",
       invoiceStatuses: "is",
       publicProfileStatuses: "ps",
       sort: "sort",
@@ -145,6 +146,11 @@ export namespace ExhibitorSearchParams {
         onStandAnimationsStatuses: SearchParamsIO.getValues(
           searchParams,
           keys.onStandAnimationsStatuses,
+        ),
+
+        organizersFavorite: SearchParamsIO.getValue(
+          searchParams,
+          keys.organizersFavorite,
         ),
 
         invoiceStatuses: SearchParamsIO.getValues(
@@ -216,6 +222,18 @@ export namespace ExhibitorSearchParams {
 
       SearchParamsIO.setValues(
         searchParams,
+        keys.onStandAnimationsStatuses,
+        data.onStandAnimationsStatuses,
+      );
+
+      SearchParamsIO.setValue(
+        searchParams,
+        keys.organizersFavorite,
+        data.organizersFavorite ? "on" : undefined,
+      );
+
+      SearchParamsIO.setValues(
+        searchParams,
         keys.sponsorshipCategories,
         data.sponsorshipCategories,
       );
@@ -284,6 +302,8 @@ export namespace ExhibitorSearchParams {
     onStandAnimationsStatuses: zu.searchParams.set(
       zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
     ),
+
+    organizersFavorite: zu.searchParams.boolean(),
 
     sponsorshipCategories: zu.searchParams.set(
       zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
