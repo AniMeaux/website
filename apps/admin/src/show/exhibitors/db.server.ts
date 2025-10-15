@@ -548,7 +548,11 @@ const FIND_ORDER_BY_SORT: Record<
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
-  "isOrganizer" | "isVisible" | "locationNumber" | "standNumber"
+  | "isOrganizer"
+  | "isOrganizersFavorite"
+  | "isVisible"
+  | "locationNumber"
+  | "standNumber"
 >;
 
 type ShowExhibitorDocumentsData = Pick<

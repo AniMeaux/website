@@ -9,6 +9,12 @@ export const actionSchema = zu.object({
     })
     .transform(OnOff.toBoolean),
 
+  isOrganizersFavorite: zu
+    .nativeEnum(OnOff.Enum, {
+      required_error: "Veuillez choisir une option",
+    })
+    .transform(OnOff.toBoolean),
+
   isVisible: zu
     .nativeEnum(Visibility.Enum, {
       required_error: "Veuillez choisir une option",
