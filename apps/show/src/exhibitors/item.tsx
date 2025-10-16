@@ -27,6 +27,7 @@ export function ExhibitorItem({
     hasOnStageAnimation: boolean;
     isSponsor: boolean;
     isOrganizer: boolean;
+    isOrganizersFavorite: boolean;
     logoPath: string;
     name: string;
     onStandAnimations?: string;
@@ -79,6 +80,13 @@ export function ExhibitorItem({
                   id="award-solid"
                   title="Sponsor du Salon des Ani’Meaux"
                 />
+              </>
+            ) : null}
+
+            {exhibitor.isOrganizersFavorite ? (
+              <>
+                &nbsp;
+                <IconInline id="heart-solid" title="Coup de cœur" />
               </>
             ) : null}
           </p>

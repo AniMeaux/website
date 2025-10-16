@@ -52,6 +52,7 @@ export function SectionList() {
                 hasOnStageAnimation: exhibitor.hasOnStageAnimation,
                 isSponsor: exhibitor.isSponsor,
                 isOrganizer: exhibitor.isOrganizer,
+                isOrganizersFavorite: exhibitor.isOrganizersFavorite,
                 logoPath: exhibitor.logoPath,
                 name: exhibitor.name,
                 url: exhibitor.url,

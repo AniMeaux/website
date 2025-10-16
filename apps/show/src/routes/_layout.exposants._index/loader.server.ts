@@ -24,6 +24,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       activityTargets: true,
       id: true,
       isOrganizer: true,
+      isOrganizersFavorite: true,
       links: true,
       logoPath: true,
       name: true,
