@@ -24,7 +24,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { forwardRef, useEffect, useState } from "react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function SectionEventList() {
   const { animations } = useLoaderData<typeof loader>();
