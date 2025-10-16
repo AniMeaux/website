@@ -33,6 +33,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
           select: {
             id: true,
             isOrganizer: true,
+            isOrganizersFavorite: true,
             links: true,
             logoPath: true,
             name: true,

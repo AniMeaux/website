@@ -243,6 +243,7 @@ function AnimationItem({
     animators: {
       id: string;
       isOrganizer: boolean;
+      isOrganizersFavorite: boolean;
       isSponsor: boolean;
       logoPath: string;
       name: string;
@@ -428,6 +429,13 @@ function AnimationItem({
                           id="award-solid"
                           title="Sponsor du Salon des Ani’Meaux"
                         />
+                      </>
+                    ) : null}
+
+                    {animator.isOrganizersFavorite ? (
+                      <>
+                        &nbsp;
+                        <IconInline id="heart-solid" title="Coup de cœur" />
                       </>
                     ) : null}
                   </span>
