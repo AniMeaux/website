@@ -8,7 +8,6 @@ import {
 } from "#exhibitors/activity-target/activity-target";
 import {
   ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
@@ -138,14 +137,14 @@ function useScrollState<TELement extends HTMLElement>() {
 function FieldAnimations() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  let values: ExhibitorSearchParamsN.EventType.Enum[] = [];
+  let values: ExhibitorSearchParams.EventType.Enum[] = [];
 
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_PROGRAM === "true") {
-    values.push(ExhibitorSearchParamsN.EventType.Enum.ON_STAGE);
+    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAGE);
   }
 
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true") {
-    values.push(ExhibitorSearchParamsN.EventType.Enum.ON_STAND);
+    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAND);
   }
 
   if (values.length === 0) {
@@ -160,7 +159,7 @@ function FieldAnimations() {
         {values.map((eventType) => (
           <FormLayout.Selector.Root key={eventType}>
             <FormLayout.Selector.Input
-              name={ExhibitorSearchParams.keys.eventTypes}
+              name={ExhibitorSearchParams.io.keys.eventTypes}
               type="checkbox"
               value={eventType}
               checked={exhibitorSearchParams.eventTypes.has(eventType)}
@@ -169,18 +168,18 @@ function FieldAnimations() {
 
             <FormLayout.Selector.CheckedIcon asChild>
               <Icon
-                id={ExhibitorSearchParamsN.EventType.icon[eventType].solid}
+                id={ExhibitorSearchParams.EventType.icon[eventType].solid}
               />
             </FormLayout.Selector.CheckedIcon>
 
             <FormLayout.Selector.UncheckedIcon asChild>
               <Icon
-                id={ExhibitorSearchParamsN.EventType.icon[eventType].light}
+                id={ExhibitorSearchParams.EventType.icon[eventType].light}
               />
             </FormLayout.Selector.UncheckedIcon>
 
             <FormLayout.Selector.Label>
-              {ExhibitorSearchParamsN.EventType.translation[eventType]}
+              {ExhibitorSearchParams.EventType.translation[eventType]}
             </FormLayout.Selector.Label>
 
             <FormLayout.Selector.CheckboxIcon />
@@ -202,7 +201,7 @@ function FieldFields() {
         {ActivityField.values.map((activityField) => (
           <FormLayout.Selector.Root key={activityField}>
             <FormLayout.Selector.Input
-              name={ExhibitorSearchParams.keys.fields}
+              name={ExhibitorSearchParams.io.keys.fields}
               type="checkbox"
               value={activityField}
               checked={exhibitorSearchParams.fields.has(activityField)}
@@ -241,7 +240,7 @@ function FieldSponsorship() {
       <FormLayout.Selectors columnMinWidth="250px" repeatCount="auto-fill">
         <FormLayout.Selector.Root>
           <FormLayout.Selector.Input
-            name={ExhibitorSearchParams.keys.isSponsor}
+            name={ExhibitorSearchParams.io.keys.isSponsor}
             type="checkbox"
             value="on"
             checked={exhibitorSearchParams.isSponsor}
@@ -276,7 +275,7 @@ function FieldTargets() {
         {SORTED_ACTIVITY_TARGETS.map((activityTarget) => (
           <FormLayout.Selector.Root key={activityTarget}>
             <FormLayout.Selector.Input
-              name={ExhibitorSearchParams.keys.targets}
+              name={ExhibitorSearchParams.io.keys.targets}
               type="checkbox"
               value={activityTarget}
               checked={exhibitorSearchParams.targets.has(activityTarget)}

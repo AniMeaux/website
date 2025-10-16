@@ -11,7 +11,6 @@ import {
 import { ExhibitorItem } from "#exhibitors/item";
 import {
   ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
@@ -104,16 +103,16 @@ function ActiveFilterAnimations() {
   return Array.from(exhibitorSearchParams.eventTypes).map((eventType) => (
     <InputActiveFilter.Root key={eventType}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.eventTypes}
+        name={ExhibitorSearchParams.io.keys.eventTypes}
         value={eventType}
       />
 
       <InputActiveFilter.Icon asChild>
-        <Icon id={ExhibitorSearchParamsN.EventType.icon[eventType].solid} />
+        <Icon id={ExhibitorSearchParams.EventType.icon[eventType].solid} />
       </InputActiveFilter.Icon>
 
       <InputActiveFilter.Label>
-        {ExhibitorSearchParamsN.EventType.translationLong[eventType]}
+        {ExhibitorSearchParams.EventType.translationLong[eventType]}
       </InputActiveFilter.Label>
 
       <InputActiveFilter.RemoveIcon />
@@ -127,7 +126,7 @@ function ActiveFilterFields() {
   return Array.from(exhibitorSearchParams.fields).map((activityField) => (
     <InputActiveFilter.Root key={activityField}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.fields}
+        name={ExhibitorSearchParams.io.keys.fields}
         value={activityField}
       />
 
@@ -154,7 +153,7 @@ function ActiveFilterSponsorship() {
   return (
     <InputActiveFilter.Root>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.isSponsor}
+        name={ExhibitorSearchParams.io.keys.isSponsor}
         value="on"
       />
 
@@ -175,7 +174,7 @@ function ActiveFilterTargets() {
   return Array.from(exhibitorSearchParams.targets).map((activityTarget) => (
     <InputActiveFilter.Root key={activityTarget}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.targets}
+        name={ExhibitorSearchParams.io.keys.targets}
         value={activityTarget}
       />
 

@@ -15,7 +15,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   }
 
   const exhibitors = await services.exhibitor.findManyVisible({
-    searchParams: ExhibitorSearchParams.parse(
+    searchParams: ExhibitorSearchParams.io.parse(
       new URL(request.url).searchParams,
     ),
 

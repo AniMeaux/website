@@ -9,41 +9,11 @@ import { zu } from "@animeaux/zod-utils";
 import { ShowActivityTarget } from "@prisma/client";
 import { useMemo } from "react";
 
-export const ExhibitorSearchParams = SearchParamsIO.create({
-  keys: {
-    targets: "target",
-    fields: "field",
-    eventTypes: "event",
-    isSponsor: "sponsor",
-  },
+export type ExhibitorSearchParams = SearchParamsReader.Infer<
+  typeof ExhibitorSearchParams.io
+>;
 
-  parseFunction: (searchParams, keys) => {
-    return Schema.parse({
-      targets: SearchParamsReader.getValues(searchParams, keys.targets),
-      fields: SearchParamsReader.getValues(searchParams, keys.fields),
-      eventTypes: SearchParamsReader.getValues(searchParams, keys.eventTypes),
-      isSponsor: SearchParamsReader.getValue(searchParams, keys.isSponsor),
-    });
-  },
-
-  setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
-
-    SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
-
-    SearchParamsIO.setValues(searchParams, keys.eventTypes, data.eventTypes);
-
-    SearchParamsIO.setValue(
-      searchParams,
-      keys.isSponsor,
-      data.isSponsor ? "on" : undefined,
-    );
-  },
-});
-
-export namespace ExhibitorSearchParamsN {
-  export type Value = SearchParamsReader.Infer<typeof ExhibitorSearchParams>;
-
+export namespace ExhibitorSearchParams {
   export namespace EventType {
     export const Enum = {
       ON_STAGE: "ON_STAGE",
@@ -74,39 +44,74 @@ export namespace ExhibitorSearchParamsN {
       },
     };
   }
-}
 
-const Schema = zu.object({
-  targets: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityTarget)),
-  fields: zu.searchParams.set(zu.searchParams.nativeEnum(ActivityField.Enum)),
+  export const io = SearchParamsIO.create({
+    keys: {
+      eventTypes: "event",
+      fields: "field",
+      isSponsor: "sponsor",
+      targets: "target",
+    },
 
-  eventTypes: zu.searchParams
-    .set(zu.searchParams.nativeEnum(ExhibitorSearchParamsN.EventType.Enum))
-    .transform((eventTypes) => {
-      if (CLIENT_ENV.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS !== "true") {
-        eventTypes.delete(ExhibitorSearchParamsN.EventType.Enum.ON_STAND);
-      }
+    parseFunction: (searchParams, keys) => {
+      return schema.parse({
+        eventTypes: SearchParamsReader.getValues(searchParams, keys.eventTypes),
+        fields: SearchParamsReader.getValues(searchParams, keys.fields),
+        isSponsor: SearchParamsReader.getValue(searchParams, keys.isSponsor),
+        targets: SearchParamsReader.getValues(searchParams, keys.targets),
+      });
+    },
 
-      if (CLIENT_ENV.FEATURE_FLAG_SHOW_PROGRAM !== "true") {
-        eventTypes.delete(ExhibitorSearchParamsN.EventType.Enum.ON_STAGE);
-      }
+    setFunction: (searchParams, data, keys) => {
+      SearchParamsIO.setValues(searchParams, keys.eventTypes, data.eventTypes);
 
-      return eventTypes;
-    }),
+      SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
 
-  isSponsor: zu.searchParams
-    .boolean()
-    .transform(
-      (isSponsor) =>
-        isSponsor && CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS === "true",
+      SearchParamsIO.setValue(
+        searchParams,
+        keys.isSponsor,
+        data.isSponsor ? "on" : undefined,
+      );
+
+      SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
+    },
+  });
+
+  const schema = zu.object({
+    eventTypes: zu.searchParams
+      .set(zu.searchParams.nativeEnum(ExhibitorSearchParams.EventType.Enum))
+      .transform((eventTypes) => {
+        if (CLIENT_ENV.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS !== "true") {
+          eventTypes.delete(ExhibitorSearchParams.EventType.Enum.ON_STAND);
+        }
+
+        if (CLIENT_ENV.FEATURE_FLAG_SHOW_PROGRAM !== "true") {
+          eventTypes.delete(ExhibitorSearchParams.EventType.Enum.ON_STAGE);
+        }
+
+        return eventTypes;
+      }),
+
+    fields: zu.searchParams.set(zu.searchParams.nativeEnum(ActivityField.Enum)),
+
+    isSponsor: zu.searchParams
+      .boolean()
+      .transform(
+        (isSponsor) =>
+          isSponsor && CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS === "true",
+      ),
+
+    targets: zu.searchParams.set(
+      zu.searchParams.nativeEnum(ShowActivityTarget),
     ),
-});
+  });
+}
 
 export function useExhibitorSearchParams() {
   const [searchParams] = useOptimisticSearchParams();
 
   const exhibitorSearchParams = useMemo(
-    () => ExhibitorSearchParams.parse(searchParams),
+    () => ExhibitorSearchParams.io.parse(searchParams),
     [searchParams],
   );
 

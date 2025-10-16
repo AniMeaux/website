@@ -2,7 +2,7 @@ import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
 import { ImageData } from "#core/image/data.js";
 import type { ServicePrisma } from "#core/prisma.service.server.js";
 import { notFound } from "#core/response.server.js";
-import { ExhibitorSearchParamsN } from "#exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import type { Prisma, ShowExhibitor } from "@prisma/client";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -54,7 +54,7 @@ export class ServiceExhibitor {
   }
 
   async findManyVisible<T extends Prisma.ShowExhibitorSelect>(params: {
-    searchParams: ExhibitorSearchParamsN.Value;
+    searchParams: ExhibitorSearchParams;
     select: T;
   }) {
     const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }];
@@ -79,7 +79,7 @@ export class ServiceExhibitor {
 
     if (
       params.searchParams.eventTypes.has(
-        ExhibitorSearchParamsN.EventType.Enum.ON_STAGE,
+        ExhibitorSearchParams.EventType.Enum.ON_STAGE,
       )
     ) {
       where.push({ animations: { some: { isVisible: true } } });
@@ -87,7 +87,7 @@ export class ServiceExhibitor {
 
     if (
       params.searchParams.eventTypes.has(
-        ExhibitorSearchParamsN.EventType.Enum.ON_STAND,
+        ExhibitorSearchParams.EventType.Enum.ON_STAND,
       )
     ) {
       where.push({
