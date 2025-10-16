@@ -33,7 +33,7 @@ export function SectionList() {
             </Action>
           </ModalFilters.Trigger>
 
-          <ActiveFilterSponsorship />
+          <ActiveFilterSponsorshipAndLaureats />
           <ActiveFilterAnimations />
           <ActiveFilterFields />
           <ActiveFilterTargets />
@@ -143,29 +143,50 @@ function ActiveFilterFields() {
   ));
 }
 
-function ActiveFilterSponsorship() {
+function ActiveFilterSponsorshipAndLaureats() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  if (!exhibitorSearchParams.isSponsor) {
-    return null;
+  const filtersNodes: React.ReactNode[] = [];
+
+  if (exhibitorSearchParams.isSponsor) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="sponsor">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isSponsor}
+          value="on"
+        />
+
+        <InputActiveFilter.Icon asChild>
+          <Icon id="award-solid" />
+        </InputActiveFilter.Icon>
+
+        <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
+
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
   }
 
-  return (
-    <InputActiveFilter.Root>
-      <InputActiveFilter.Input
-        name={ExhibitorSearchParams.io.keys.isSponsor}
-        value="on"
-      />
+  if (exhibitorSearchParams.isOrganizersFavorite) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="organizers-favorite">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isOrganizersFavorite}
+          value="on"
+        />
 
-      <InputActiveFilter.Icon asChild>
-        <Icon id="award-solid" />
-      </InputActiveFilter.Icon>
+        <InputActiveFilter.Icon asChild>
+          <Icon id="heart-solid" />
+        </InputActiveFilter.Icon>
 
-      <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
+        <InputActiveFilter.Label>Coup de cœur</InputActiveFilter.Label>
 
-      <InputActiveFilter.RemoveIcon />
-    </InputActiveFilter.Root>
-  );
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
+  }
+
+  return filtersNodes;
 }
 
 function ActiveFilterTargets() {

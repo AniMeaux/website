@@ -75,7 +75,7 @@ export const ModalFilters = {
                   asChild
                 >
                   <SearchParamsForm>
-                    <FieldSponsorship />
+                    <FieldSponsorshipAndLaureats />
                     <FieldAnimations />
                     <FieldTargets />
                     <FieldFields />
@@ -228,34 +228,54 @@ function FieldFields() {
   );
 }
 
-function FieldSponsorship() {
+function FieldSponsorshipAndLaureats() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
-
-  if (CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS !== "true") {
-    return null;
-  }
 
   return (
     <FormLayout.Field>
       <FormLayout.Selectors columnMinWidth="250px" repeatCount="auto-fill">
+        {CLIENT_ENV.FEATURE_FLAG_SHOW_SPONSORS === "true" ? (
+          <FormLayout.Selector.Root>
+            <FormLayout.Selector.Input
+              name={ExhibitorSearchParams.io.keys.isSponsor}
+              type="checkbox"
+              value="on"
+              checked={exhibitorSearchParams.isSponsor}
+              onChange={() => {}}
+            />
+
+            <FormLayout.Selector.CheckedIcon asChild>
+              <Icon id="award-solid" />
+            </FormLayout.Selector.CheckedIcon>
+
+            <FormLayout.Selector.UncheckedIcon asChild>
+              <Icon id="award-light" />
+            </FormLayout.Selector.UncheckedIcon>
+
+            <FormLayout.Selector.Label>Sponsor</FormLayout.Selector.Label>
+
+            <FormLayout.Selector.CheckboxIcon />
+          </FormLayout.Selector.Root>
+        ) : null}
+
         <FormLayout.Selector.Root>
           <FormLayout.Selector.Input
-            name={ExhibitorSearchParams.io.keys.isSponsor}
+            name={ExhibitorSearchParams.io.keys.isOrganizersFavorite}
             type="checkbox"
             value="on"
-            checked={exhibitorSearchParams.isSponsor}
+            checked={exhibitorSearchParams.isOrganizersFavorite}
             onChange={() => {}}
           />
 
           <FormLayout.Selector.CheckedIcon asChild>
-            <Icon id="award-solid" />
+            <Icon id="heart-solid" />
           </FormLayout.Selector.CheckedIcon>
 
           <FormLayout.Selector.UncheckedIcon asChild>
-            <Icon id="award-light" />
+            <Icon id="heart-light" />
           </FormLayout.Selector.UncheckedIcon>
 
-          <FormLayout.Selector.Label>Sponsor</FormLayout.Selector.Label>
+          <FormLayout.Selector.Label>Coup de cœur</FormLayout.Selector.Label>
 
           <FormLayout.Selector.CheckboxIcon />
         </FormLayout.Selector.Root>

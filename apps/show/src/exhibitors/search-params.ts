@@ -49,6 +49,7 @@ export namespace ExhibitorSearchParams {
     keys: {
       eventTypes: "event",
       fields: "field",
+      isOrganizersFavorite: "fav",
       isSponsor: "sponsor",
       targets: "target",
     },
@@ -57,6 +58,10 @@ export namespace ExhibitorSearchParams {
       return schema.parse({
         eventTypes: SearchParamsReader.getValues(searchParams, keys.eventTypes),
         fields: SearchParamsReader.getValues(searchParams, keys.fields),
+        isOrganizersFavorite: SearchParamsReader.getValue(
+          searchParams,
+          keys.isOrganizersFavorite,
+        ),
         isSponsor: SearchParamsReader.getValue(searchParams, keys.isSponsor),
         targets: SearchParamsReader.getValues(searchParams, keys.targets),
       });
@@ -66,6 +71,12 @@ export namespace ExhibitorSearchParams {
       SearchParamsIO.setValues(searchParams, keys.eventTypes, data.eventTypes);
 
       SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
+
+      SearchParamsIO.setValue(
+        searchParams,
+        keys.isOrganizersFavorite,
+        data.isOrganizersFavorite ? "on" : undefined,
+      );
 
       SearchParamsIO.setValue(
         searchParams,
@@ -93,6 +104,8 @@ export namespace ExhibitorSearchParams {
       }),
 
     fields: zu.searchParams.set(zu.searchParams.nativeEnum(ActivityField.Enum)),
+
+    isOrganizersFavorite: zu.searchParams.boolean(),
 
     isSponsor: zu.searchParams
       .boolean()

@@ -59,24 +59,6 @@ export class ServiceExhibitor {
   }) {
     const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }];
 
-    if (params.searchParams.targets.size > 0) {
-      where.push({
-        activityTargets: { hasSome: Array.from(params.searchParams.targets) },
-      });
-    }
-
-    if (params.searchParams.fields.size > 0) {
-      where.push({
-        activityFields: { hasSome: Array.from(params.searchParams.fields) },
-      });
-    }
-
-    if (params.searchParams.isSponsor) {
-      where.push({
-        OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
-      });
-    }
-
     if (
       params.searchParams.eventTypes.has(
         ExhibitorSearchParams.EventType.Enum.ON_STAGE,
@@ -93,6 +75,28 @@ export class ServiceExhibitor {
       where.push({
         onStandAnimationsStatus: ShowExhibitorStatus.VALIDATED,
         onStandAnimations: { not: null },
+      });
+    }
+
+    if (params.searchParams.fields.size > 0) {
+      where.push({
+        activityFields: { hasSome: Array.from(params.searchParams.fields) },
+      });
+    }
+
+    if (params.searchParams.isOrganizersFavorite) {
+      where.push({ isOrganizersFavorite: true });
+    }
+
+    if (params.searchParams.isSponsor) {
+      where.push({
+        OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
+      });
+    }
+
+    if (params.searchParams.targets.size > 0) {
+      where.push({
+        activityTargets: { hasSome: Array.from(params.searchParams.targets) },
       });
     }
 
