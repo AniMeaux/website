@@ -36,7 +36,6 @@ export class ServiceExhibitorStandConfigurationEmail {
           placementComment: true,
           size: { select: { label: true } },
           tableCount: true,
-          zone: true,
         },
       }),
 
@@ -230,7 +229,6 @@ export class ServiceExhibitorStandConfigurationEmail {
           standConfigurationStatus: true,
           standConfigurationStatusMessage: true,
           tableCount: true,
-          zone: true,
         },
       }),
 
