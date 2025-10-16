@@ -17,8 +17,8 @@ import {
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
 import { Link, useLoaderData } from "@remix-run/react";
+import type { loader } from "./loader.server";
 import { ModalFilters } from "./modal-filters";
-import type { loader } from "./route";
 import { SearchParamsForm } from "./search-params-form";
 
 export function SectionList() {

@@ -17,7 +17,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useLoaderData } from "@remix-run/react";
 import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 import { SearchParamsForm } from "./search-params-form";
 
 export const ModalFilters = {
