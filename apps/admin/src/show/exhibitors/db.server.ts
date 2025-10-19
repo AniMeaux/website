@@ -137,6 +137,39 @@ export class ShowExhibitorDbDelegate {
       where.push({ OR: invoicesWhere });
     }
 
+    if (params.searchParams.laureats.size > 0) {
+      const laureatWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.ORGANIZERS_FAVORITE,
+        )
+      ) {
+        laureatWhere.push({ isOrganizersFavorite: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.RISING_STAR,
+        )
+      ) {
+        laureatWhere.push({ isRisingStar: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.NONE,
+        )
+      ) {
+        laureatWhere.push({
+          isOrganizersFavorite: false,
+          isRisingStar: false,
+        });
+      }
+
+      where.push({ OR: laureatWhere });
+    }
+
     if (params.searchParams.name != null) {
       where.push({
         name: {
@@ -152,10 +185,6 @@ export class ShowExhibitorDbDelegate {
           in: Array.from(params.searchParams.onStandAnimationsStatuses),
         },
       });
-    }
-
-    if (params.searchParams.organizersFavorite) {
-      where.push({ isOrganizersFavorite: true });
     }
 
     if (params.searchParams.publicProfileStatuses.size > 0) {
