@@ -61,10 +61,16 @@ export function Row({
           : null}
       </span>
 
-      <span>
+      <span className="grid grid-flow-col justify-end gap-0.5">
         {exhibitor.isOrganizersFavorite ? (
           <span title="Lauréat Coup de cœur" className="icon-20">
             <Icon href="icon-heart-light" />
+          </span>
+        ) : null}
+
+        {exhibitor.isRisingStar ? (
+          <span title="Lauréat Espoir" className="icon-20">
+            <Icon href="icon-seedling-light" />
           </span>
         ) : null}
       </span>

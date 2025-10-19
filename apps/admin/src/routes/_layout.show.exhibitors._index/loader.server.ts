@@ -36,6 +36,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         createdAt: true,
         id: true,
         isOrganizersFavorite: true,
+        isRisingStar: true,
         isVisible: true,
         logoPath: true,
         name: true,
