@@ -11,14 +11,13 @@ import {
 import { ExhibitorItem } from "#exhibitors/item";
 import {
   ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
 import { Pictogram } from "#generated/pictogram";
 import { Link, useLoaderData } from "@remix-run/react";
+import type { loader } from "./loader.server";
 import { ModalFilters } from "./modal-filters";
-import type { loader } from "./route";
 import { SearchParamsForm } from "./search-params-form";
 
 export function SectionList() {
@@ -34,7 +33,7 @@ export function SectionList() {
             </Action>
           </ModalFilters.Trigger>
 
-          <ActiveFilterSponsorship />
+          <ActiveFilterSponsorshipAndLaureats />
           <ActiveFilterAnimations />
           <ActiveFilterFields />
           <ActiveFilterTargets />
@@ -52,6 +51,7 @@ export function SectionList() {
                 hasOnStageAnimation: exhibitor.hasOnStageAnimation,
                 isSponsor: exhibitor.isSponsor,
                 isOrganizer: exhibitor.isOrganizer,
+                isOrganizersFavorite: exhibitor.isOrganizersFavorite,
                 logoPath: exhibitor.logoPath,
                 name: exhibitor.name,
                 url: exhibitor.url,
@@ -103,16 +103,16 @@ function ActiveFilterAnimations() {
   return Array.from(exhibitorSearchParams.eventTypes).map((eventType) => (
     <InputActiveFilter.Root key={eventType}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.eventTypes}
+        name={ExhibitorSearchParams.io.keys.eventTypes}
         value={eventType}
       />
 
       <InputActiveFilter.Icon asChild>
-        <Icon id={ExhibitorSearchParamsN.EventType.icon[eventType].solid} />
+        <Icon id={ExhibitorSearchParams.EventType.icon[eventType].solid} />
       </InputActiveFilter.Icon>
 
       <InputActiveFilter.Label>
-        {ExhibitorSearchParamsN.EventType.translationLong[eventType]}
+        {ExhibitorSearchParams.EventType.translationLong[eventType]}
       </InputActiveFilter.Label>
 
       <InputActiveFilter.RemoveIcon />
@@ -126,7 +126,7 @@ function ActiveFilterFields() {
   return Array.from(exhibitorSearchParams.fields).map((activityField) => (
     <InputActiveFilter.Root key={activityField}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.fields}
+        name={ExhibitorSearchParams.io.keys.fields}
         value={activityField}
       />
 
@@ -143,29 +143,50 @@ function ActiveFilterFields() {
   ));
 }
 
-function ActiveFilterSponsorship() {
+function ActiveFilterSponsorshipAndLaureats() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  if (!exhibitorSearchParams.isSponsor) {
-    return null;
+  const filtersNodes: React.ReactNode[] = [];
+
+  if (exhibitorSearchParams.isSponsor) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="sponsor">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isSponsor}
+          value="on"
+        />
+
+        <InputActiveFilter.Icon asChild>
+          <Icon id="award-solid" />
+        </InputActiveFilter.Icon>
+
+        <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
+
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
   }
 
-  return (
-    <InputActiveFilter.Root>
-      <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.isSponsor}
-        value="on"
-      />
+  if (exhibitorSearchParams.isOrganizersFavorite) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="organizers-favorite">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isOrganizersFavorite}
+          value="on"
+        />
 
-      <InputActiveFilter.Icon asChild>
-        <Icon id="award-solid" />
-      </InputActiveFilter.Icon>
+        <InputActiveFilter.Icon asChild>
+          <Icon id="heart-solid" />
+        </InputActiveFilter.Icon>
 
-      <InputActiveFilter.Label>Sponsor</InputActiveFilter.Label>
+        <InputActiveFilter.Label>Coup de cœur</InputActiveFilter.Label>
 
-      <InputActiveFilter.RemoveIcon />
-    </InputActiveFilter.Root>
-  );
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
+  }
+
+  return filtersNodes;
 }
 
 function ActiveFilterTargets() {
@@ -174,7 +195,7 @@ function ActiveFilterTargets() {
   return Array.from(exhibitorSearchParams.targets).map((activityTarget) => (
     <InputActiveFilter.Root key={activityTarget}>
       <InputActiveFilter.Input
-        name={ExhibitorSearchParams.keys.targets}
+        name={ExhibitorSearchParams.io.keys.targets}
         value={activityTarget}
       />
 

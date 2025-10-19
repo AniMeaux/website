@@ -21,6 +21,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const exhibitor = await db.show.exhibitor.findUnique(routeParams.id, {
     select: {
       isOrganizer: true,
+      isOrganizersFavorite: true,
       isVisible: true,
       locationNumber: true,
       name: true,

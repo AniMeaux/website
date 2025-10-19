@@ -2,10 +2,7 @@ import { Action } from "#core/actions/action.js";
 import { LightBoardCard } from "#core/layout/light-board-card.js";
 import { Section } from "#core/layout/section.js";
 import { Routes } from "#core/navigation.js";
-import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
 import { Link } from "@remix-run/react";
 
 export function SectionOnStandEvents() {
@@ -31,9 +28,9 @@ export function SectionOnStandEvents() {
               <Link
                 to={{
                   pathname: Routes.exhibitors.toString(),
-                  search: ExhibitorSearchParams.format({
+                  search: ExhibitorSearchParams.io.format({
                     eventTypes: new Set([
-                      ExhibitorSearchParamsN.EventType.Enum.ON_STAND,
+                      ExhibitorSearchParams.EventType.Enum.ON_STAND,
                     ]),
                   }),
                 }}

@@ -6,8 +6,8 @@ import { Card } from "#core/layout/card";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
-import { ExhibitorItem } from "./item";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
+import { Row, Rows } from "./rows";
 
 export function CardList() {
   const { totalCount, pageCount, exhibitors } = useLoaderData<typeof loader>();
@@ -23,11 +23,11 @@ export function CardList() {
 
       <Card.Content hasListItems>
         {exhibitors.length > 0 ? (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2">
+          <Rows>
             {exhibitors.map((exhibitor) => (
-              <ExhibitorItem key={exhibitor.id} exhibitor={exhibitor} />
+              <Row key={exhibitor.id} exhibitor={exhibitor} />
             ))}
-          </div>
+          </Rows>
         ) : (
           <SimpleEmpty
             isCompact
@@ -37,7 +37,7 @@ export function CardList() {
             message="Nous n’avons pas trouvé ce que vous cherchiez. Essayez à nouveau de rechercher."
             titleElementType="h3"
             action={
-              !ExhibitorSearchParams.isEmpty(searchParams) ? (
+              !ExhibitorSearchParams.io.isEmpty(searchParams) ? (
                 <Action asChild>
                   <BaseLink to={{ search: "" }}>Effacer les filtres</BaseLink>
                 </Action>

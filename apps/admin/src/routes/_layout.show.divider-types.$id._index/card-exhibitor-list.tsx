@@ -3,10 +3,7 @@ import { BaseLink } from "#core/base-link.js";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
 import { Routes } from "#core/navigation.js";
-import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#show/exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { useLoaderData } from "@remix-run/react";
 import { ExhibitorItem } from "./exhibitor-item";
 import type { loader } from "./loader.server";
@@ -28,8 +25,8 @@ export function CardExhibitorList() {
             <BaseLink
               to={{
                 pathname: Routes.show.exhibitors.toString(),
-                search: ExhibitorSearchParams.format({
-                  sort: ExhibitorSearchParamsN.Sort.DIVIDER_COUNT,
+                search: ExhibitorSearchParams.io.format({
+                  sort: ExhibitorSearchParams.Sort.Enum.DIVIDER_COUNT,
                   dividerTypesId: new Set([dividerType.id]),
                 }),
               }}
