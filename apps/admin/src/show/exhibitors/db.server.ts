@@ -171,12 +171,9 @@ export class ShowExhibitorDbDelegate {
     }
 
     if (params.searchParams.name != null) {
-      where.push({
-        name: {
-          contains: params.searchParams.name,
-          mode: "insensitive",
-        },
-      });
+      const hits = await this.#getHits(params.searchParams.name);
+
+      where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
 
     if (params.searchParams.onStandAnimationsStatuses.size > 0) {
@@ -275,6 +272,27 @@ export class ShowExhibitorDbDelegate {
     });
 
     return { exhibitors, totalCount };
+  }
+
+  async #getHits(name: string): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_exhibitors AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY["name"], ${name}) AS "matchRank"
+          FROM
+            "ShowExhibitor"
+        )
+      SELECT
+        *
+      FROM
+        ranked_exhibitors
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 
   async update(exhibitorId: string, data: ShowExhibitorData) {
