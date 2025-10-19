@@ -4,11 +4,8 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import {
-  Entity,
-  GlobalSearchParams,
-  getPossibleEntitiesForCurrentUser,
-} from "./shared";
+import { Entity } from "./entity";
+import { GlobalSearchParams } from "./search-params";
 
 const MAX_HIT_COUNT = 6;
 
@@ -30,7 +27,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     new URL(request.url).searchParams,
   );
 
-  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
+  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser);
   const entity = searchParams.entity ?? possibleEntities[0];
 
   if (entity == null || !possibleEntities.includes(entity)) {
@@ -41,7 +38,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return json({ items: [] });
   }
 
-  if (entity === Entity.ANIMAL) {
+  if (entity === Entity.Enum.ANIMAL) {
     const animals = await db.animal.fuzzySearch(searchParams.text, {
       select: {
         alias: true,
@@ -58,7 +55,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
 
     const items = animals.map((animal) => ({
-      type: Entity.ANIMAL as const,
+      type: Entity.Enum.ANIMAL,
       ...animal,
     }));
 
@@ -76,7 +73,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   });
 
   const items = fosterFamilies.map((fosterFamily) => ({
-    type: Entity.FOSTER_FAMILY as const,
+    type: Entity.Enum.FOSTER_FAMILY,
     ...fosterFamily,
   }));
 

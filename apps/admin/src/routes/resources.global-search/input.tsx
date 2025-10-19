@@ -27,13 +27,9 @@ import type {
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
+import { Entity } from "./entity";
 import type { loader } from "./route";
-import {
-  ENTITY_TRANSLATION,
-  Entity,
-  GlobalSearchParams,
-  getPossibleEntitiesForCurrentUser,
-} from "./shared";
+import { GlobalSearchParams } from "./search-params";
 
 export function GlobalSearch({
   currentUser,
@@ -42,7 +38,7 @@ export function GlobalSearch({
 }) {
   const [isOpened, setIsOpened] = useState(false);
 
-  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
+  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser);
 
   const suggestedEntity = useRouteHandles()
     .map((handle) => handle.globalSearchEntity)
@@ -160,14 +156,14 @@ export function GlobalSearch({
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
-                if (item.type === Entity.ANIMAL) {
+                if (item.type === Entity.Enum.ANIMAL) {
                   navigate(Routes.animals.id(item.id).toString());
                 } else {
                   navigate(Routes.fosterFamilies.id(item.id).toString());
                 }
               }}
               onSelectSearch={(search) => {
-                if (entity === Entity.ANIMAL) {
+                if (entity === Entity.Enum.ANIMAL) {
                   navigate(
                     createPath({
                       pathname: Routes.animals.toString(),
@@ -219,10 +215,10 @@ function Combobox({
   onSelectSearch,
   onClose,
 }: {
-  entity: Entity;
-  setEntity: React.Dispatch<Entity>;
+  entity: Entity.Enum;
+  setEntity: React.Dispatch<Entity.Enum>;
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
-  possibleEntities: Entity[];
+  possibleEntities: Entity.Enum[];
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["items"][number]
   >;
@@ -256,7 +252,7 @@ function Combobox({
         return item;
       }
 
-      if (item.type === Entity.ANIMAL) {
+      if (item.type === Entity.Enum.ANIMAL) {
         return getAnimalDisplayName(item);
       }
 
@@ -358,7 +354,7 @@ function Combobox({
               );
             }
 
-            if (item.type === Entity.ANIMAL) {
+            if (item.type === Entity.Enum.ANIMAL) {
               return (
                 <AnimalSuggestionItem
                   key={item.id}
@@ -387,9 +383,9 @@ function EntityInput({
   setEntity,
   possibleEntities,
 }: {
-  entity: Entity;
-  setEntity: React.Dispatch<Entity>;
-  possibleEntities: Entity[];
+  entity: Entity.Enum;
+  setEntity: React.Dispatch<Entity.Enum>;
+  possibleEntities: Entity.Enum[];
 }) {
   if (possibleEntities.length < 2) {
     return null;
@@ -411,7 +407,7 @@ function EntityInput({
               onChange={() => setEntity(possibleEntity)}
             />
 
-            <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
+            <TabLabel>{Entity.translations[possibleEntity]}</TabLabel>
           </Tab>
         </span>
       ))}
