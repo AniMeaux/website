@@ -45,6 +45,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
       paramsResult.data.id,
       {
         address: formData.data.address,
+        emergencies:
+          formData.data.emergencies ===
+          ActionFormDataForUpdate.schema.shape.emergencies.Enum.YES,
         availability: formData.data.availability,
         availabilityExpirationDate:
           formData.data.availabilityExpirationDate ?? null,
