@@ -1,6 +1,7 @@
 import { PrismaErrorCodes } from "#core/errors.server";
 import { fileStorage } from "#core/file-storage.server";
 import { notifyShowApp } from "#core/notification.server";
+import { orderByRank } from "#core/order-by-rank.js";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
@@ -171,12 +172,9 @@ export class ShowExhibitorDbDelegate {
     }
 
     if (params.searchParams.name != null) {
-      where.push({
-        name: {
-          contains: params.searchParams.name,
-          mode: "insensitive",
-        },
-      });
+      const hits = await this.#getHits(params.searchParams.name);
+
+      where.push({ id: { in: hits.map((hit) => hit.id) } });
     }
 
     if (params.searchParams.onStandAnimationsStatuses.size > 0) {
@@ -275,6 +273,66 @@ export class ShowExhibitorDbDelegate {
     });
 
     return { exhibitors, totalCount };
+  }
+
+  async fuzzySearch<T extends Prisma.ShowExhibitorSelect>(
+    name: undefined | string,
+    {
+      select,
+      where,
+      take,
+    }: {
+      select: T;
+      where?: Prisma.ShowExhibitorWhereInput;
+      take?: number;
+    },
+  ) {
+    // Ensure we only use our selected properties.
+    const internalSelect = { id: true } satisfies Prisma.ShowExhibitorSelect;
+
+    // When there are no text search, return hits ordered by name.
+    if (name == null) {
+      return await prisma.showExhibitor.findMany({
+        where,
+        select: { ...select, ...internalSelect },
+        orderBy: { name: "asc" },
+        take,
+      });
+    }
+
+    const hits = await this.#getHits(name);
+
+    const exhibitors = (await prisma.showExhibitor.findMany({
+      where: { ...where, id: { in: hits.map((hit) => hit.id) } },
+      select: { ...select, ...internalSelect },
+    })) as Prisma.ShowExhibitorGetPayload<{ select: typeof internalSelect }>[];
+
+    return orderByRank(exhibitors, hits, {
+      take,
+    }) as Prisma.ShowExhibitorGetPayload<{
+      select: typeof select & typeof internalSelect;
+    }>[];
+  }
+
+  async #getHits(name: string): Promise<{ id: string; matchRank: number }[]> {
+    return await prisma.$queryRaw`
+      WITH
+        ranked_exhibitors AS (
+          SELECT
+            id,
+            match_sorter_rank (ARRAY["name"], ${name}) AS "matchRank"
+          FROM
+            "ShowExhibitor"
+        )
+      SELECT
+        *
+      FROM
+        ranked_exhibitors
+      WHERE
+        "matchRank" < 6.7
+      ORDER BY
+        "matchRank" ASC
+    `;
   }
 
   async update(exhibitorId: string, data: ShowExhibitorData) {

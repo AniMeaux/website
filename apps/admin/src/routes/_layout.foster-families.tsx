@@ -1,9 +1,9 @@
 import type { RouteHandle } from "#core/handles";
-import { Entity } from "#routes/resources.global-search/shared";
+import { Entity } from "#routes/resources.global-search/entity.js";
 import { Outlet } from "@remix-run/react";
 
 export const handle: RouteHandle = {
-  globalSearchEntity: Entity.FOSTER_FAMILY,
+  globalSearchEntity: Entity.Enum.FOSTER_FAMILY,
 };
 
 export default function Route() {
