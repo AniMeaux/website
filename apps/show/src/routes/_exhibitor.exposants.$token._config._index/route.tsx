@@ -7,6 +7,7 @@ import type { loader } from "./loader.server";
 import { SectionAwaitingValidation } from "./section-awaiting-validation";
 import { SectionDocuments } from "./section-documents";
 import { SectionHelper } from "./section-helper";
+import { SectionLaureat } from "./section-laureat";
 import { SectionPayment } from "./section-payment";
 import { SectionSponsorship } from "./section-sponsorship";
 import { SectionStandNumber } from "./section-stand-number";
@@ -38,6 +39,8 @@ export default function Route() {
           <SectionValidated />
 
           <SectionSponsorship />
+
+          <SectionLaureat />
 
           <SectionDocuments />
         </div>
