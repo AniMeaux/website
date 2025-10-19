@@ -5,6 +5,7 @@ import orderBy from "lodash.orderby";
 export namespace Entity {
   export const Enum = {
     ANIMAL: "ANIMAL",
+    EXHIBITOR: "EXHIBITOR",
     FOSTER_FAMILY: "FOSTER_FAMILY",
   } as const;
 
@@ -12,6 +13,7 @@ export namespace Entity {
 
   export const translations: Record<Enum, string> = {
     [Enum.ANIMAL]: "Animaux",
+    [Enum.EXHIBITOR]: "Exposants",
     [Enum.FOSTER_FAMILY]: "FA",
   };
 
@@ -31,11 +33,15 @@ export namespace Entity {
   }
 
   const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Enum>> = {
-    [UserGroup.ADMIN]: new Set([Enum.ANIMAL, Enum.FOSTER_FAMILY]),
+    [UserGroup.ADMIN]: new Set([
+      Enum.ANIMAL,
+      Enum.EXHIBITOR,
+      Enum.FOSTER_FAMILY,
+    ]),
     [UserGroup.ANIMAL_MANAGER]: new Set([Enum.ANIMAL, Enum.FOSTER_FAMILY]),
     [UserGroup.BLOGGER]: new Set(),
     [UserGroup.HEAD_OF_PARTNERSHIPS]: new Set(),
-    [UserGroup.SHOW_ORGANIZER]: new Set(),
+    [UserGroup.SHOW_ORGANIZER]: new Set([Enum.EXHIBITOR]),
     [UserGroup.VETERINARIAN]: new Set([Enum.ANIMAL]),
     [UserGroup.VOLUNTEER]: new Set([Enum.ANIMAL]),
   };

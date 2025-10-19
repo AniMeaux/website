@@ -19,6 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
+    UserGroup.SHOW_ORGANIZER,
     UserGroup.VETERINARIAN,
     UserGroup.VOLUNTEER,
   ]);
@@ -58,6 +59,31 @@ export async function loader({ request }: LoaderFunctionArgs) {
       const items = animals.map((animal) => ({
         type: Entity.Enum.ANIMAL,
         ...animal,
+      }));
+
+      return json({ items });
+    }
+
+    case Entity.Enum.EXHIBITOR: {
+      const exhibitors = await db.show.exhibitor.fuzzySearch(
+        searchParams.text,
+        {
+          select: {
+            id: true,
+            isOrganizersFavorite: true,
+            isRisingStar: true,
+            logoPath: true,
+            name: true,
+
+            sponsorship: { select: { category: true } },
+          },
+          take: MAX_HIT_COUNT,
+        },
+      );
+
+      const items = exhibitors.map((exhibitor) => ({
+        type: Entity.Enum.EXHIBITOR,
+        ...exhibitor,
       }));
 
       return json({ items });

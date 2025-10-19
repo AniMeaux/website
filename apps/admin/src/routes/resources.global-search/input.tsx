@@ -13,6 +13,7 @@ import { Overlay } from "#core/popovers/overlay";
 import { FosterFamilySuggestionItem } from "#foster-families/item";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { cn } from "@animeaux/core";
 import type { User } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -28,6 +29,7 @@ import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
 import { Entity } from "./entity";
+import { ItemExhibitor } from "./item-exhibitor";
 import type { loader } from "./route";
 import { GlobalSearchParams } from "./search-params";
 
@@ -161,6 +163,12 @@ export function GlobalSearch({
                     return navigate(Routes.animals.id(item.id).toString());
                   }
 
+                  case Entity.Enum.EXHIBITOR: {
+                    return navigate(
+                      Routes.show.exhibitors.id(item.id).toString(),
+                    );
+                  }
+
                   case Entity.Enum.FOSTER_FAMILY: {
                     return navigate(
                       Routes.fosterFamilies.id(item.id).toString(),
@@ -180,6 +188,17 @@ export function GlobalSearch({
                         pathname: Routes.animals.toString(),
                         search: AnimalSearchParams.format({
                           nameOrAlias: search,
+                        }),
+                      }),
+                    );
+                  }
+
+                  case Entity.Enum.EXHIBITOR: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.show.exhibitors.toString(),
+                        search: ExhibitorSearchParams.io.format({
+                          name: search,
                         }),
                       }),
                     );
@@ -273,6 +292,10 @@ function Combobox({
       switch (item.type) {
         case Entity.Enum.ANIMAL: {
           return getAnimalDisplayName(item);
+        }
+
+        case Entity.Enum.EXHIBITOR: {
+          return item.name;
         }
 
         case Entity.Enum.FOSTER_FAMILY: {
@@ -387,6 +410,16 @@ function Combobox({
                     key={item.id}
                     {...combobox.getItemProps({ item, index })}
                     animal={item}
+                  />
+                );
+              }
+
+              case Entity.Enum.EXHIBITOR: {
+                return (
+                  <ItemExhibitor
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    exhibitor={item}
                   />
                 );
               }
