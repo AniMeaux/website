@@ -18,6 +18,11 @@ import {
   SORTED_AVAILABILITIES,
 } from "#i/foster-families/availability";
 import {
+  EMERGENCIES_TRANSLATION,
+  EmergenciesIcon,
+  SORTED_EMERGENCIES,
+} from "#i/foster-families/emergencies";
+import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
   ICON_BY_GARDEN,
@@ -114,6 +119,37 @@ export function FosterFamilyFilters({
                 checked={fosterFamilySearchParams.availability.has(
                   availability,
                 )}
+                onChange={() => {}}
+              />
+            ))}
+          </ToggleInputList>
+        </Filters.Filter>
+
+        <Filters.Filter
+          value={FosterFamilySearchParams.keys.emergencies}
+          label="Accueil court terme et urgence"
+          count={fosterFamilySearchParams.emergencies.size}
+          hiddenContent={Array.from(fosterFamilySearchParams.emergencies).map(
+            (emergencies) => (
+              <input
+                key={emergencies}
+                type="hidden"
+                name={FosterFamilySearchParams.keys.emergencies}
+                value={emergencies}
+              />
+            ),
+          )}
+        >
+          <ToggleInputList>
+            {SORTED_EMERGENCIES.map((emergencies) => (
+              <ToggleInput
+                key={emergencies}
+                type="checkbox"
+                label={EMERGENCIES_TRANSLATION[emergencies]}
+                name={FosterFamilySearchParams.keys.emergencies}
+                value={emergencies}
+                icon={<EmergenciesIcon emergencies={emergencies} />}
+                checked={fosterFamilySearchParams.emergencies.has(emergencies)}
                 onChange={() => {}}
               />
             ))}

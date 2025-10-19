@@ -12,6 +12,7 @@ import { prisma } from "#i/core/prisma.server";
 import type { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import type {
   FosterFamily,
+  FosterFamilyEmergencies,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -266,6 +267,12 @@ export class FosterFamilyDbDelegate {
       });
     }
 
+    if (searchParams.emergencies.size > 0) {
+      where.push({
+        emergencies: { in: Array.from(searchParams.emergencies) },
+      });
+    }
+
     if (searchParams.garden.size > 0) {
       where.push({ garden: { in: Array.from(searchParams.garden) } });
     }
@@ -338,6 +345,7 @@ export class FosterFamilyDbDelegate {
 
 type DataCreate = {
   address: string;
+  emergencies?: FosterFamilyEmergencies;
   availability: FosterFamilyAvailability;
   availabilityExpirationDate: Date | null;
   city: string;
@@ -354,6 +362,7 @@ type DataCreate = {
 
 type DataUpdate = {
   address?: string;
+  emergencies?: FosterFamilyEmergencies;
   availability?: FosterFamilyAvailability;
   availabilityExpirationDate?: Date | null;
   city?: string;

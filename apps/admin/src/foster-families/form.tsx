@@ -17,6 +17,10 @@ import {
   SORTED_AVAILABILITIES,
 } from "#i/foster-families/availability";
 import {
+  EMERGENCIES_TRANSLATION,
+  SORTED_EMERGENCIES,
+} from "#i/foster-families/emergencies";
+import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
   SORTED_GARDEN,
@@ -27,6 +31,7 @@ import { FormDataDelegate } from "@animeaux/form-data";
 import type { FosterFamily } from "@animeaux/prisma";
 import {
   FosterFamilyAvailability,
+  FosterFamilyEmergencies,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -50,6 +55,7 @@ const actionSchema = zu.object({
   comments: zu.string().trim(),
   displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
   email: zu.string().email("Veuillez entrer un email valide"),
+  emergencies: zu.nativeEnum(FosterFamilyEmergencies),
   garden: zu.nativeEnum(FosterFamilyGarden),
   housing: zu.nativeEnum(FosterFamilyHousing),
   phone: zu
@@ -76,6 +82,7 @@ type DefaultFosterFamily = null | SerializeFrom<
   Pick<
     FosterFamily,
     | "address"
+    | "emergencies"
     | "availability"
     | "availabilityExpirationDate"
     | "city"
@@ -489,6 +496,10 @@ export function FosterFamilyForm({
 
           <Separator />
 
+          <Emergencies defaultFosterFamily={defaultFosterFamily} />
+
+          <Separator />
+
           <Form.Field>
             <Form.Label htmlFor={ActionFormData.keys.comments}>
               Commentaires privés
@@ -562,6 +573,36 @@ function GardenField({
             defaultChecked={
               garden ===
               (defaultFosterFamily?.garden ?? FosterFamilyGarden.UNKNOWN)
+            }
+          />
+        ))}
+      </RadioInputList>
+    </Form.Field>
+  );
+}
+
+function Emergencies({
+  defaultFosterFamily,
+}: {
+  defaultFosterFamily?: DefaultFosterFamily;
+}) {
+  return (
+    <Form.Field>
+      <Form.Label>
+        Accepte les accueils court terme et d'urgence <RequiredStar />
+      </Form.Label>
+
+      <RadioInputList>
+        {SORTED_EMERGENCIES.map((emergencies) => (
+          <RadioInput
+            key={emergencies}
+            label={EMERGENCIES_TRANSLATION[emergencies]}
+            name={ActionFormData.keys.emergencies}
+            value={emergencies}
+            defaultChecked={
+              emergencies ===
+              (defaultFosterFamily?.emergencies ??
+                FosterFamilyEmergencies.UNKNOWN)
             }
           />
         ))}
