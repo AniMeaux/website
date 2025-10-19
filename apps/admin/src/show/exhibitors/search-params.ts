@@ -16,6 +16,76 @@ export type ExhibitorSearchParams = SearchParamsIO.Infer<
 >;
 
 export namespace ExhibitorSearchParams {
+  export namespace Animation {
+    export const Enum = {
+      NONE: "NONE",
+      ON_STAGE: "ON_STAGE",
+      ON_STAND: "ON_STAND",
+    } as const;
+
+    export type Enum = (typeof Enum)[keyof typeof Enum];
+
+    export const translations: Record<Enum, string> = {
+      [Enum.NONE]: "Aucune",
+      [Enum.ON_STAGE]: "Sur scène",
+      [Enum.ON_STAND]: "Sur stand",
+    };
+
+    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND];
+
+    export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
+      [Enum.NONE]: {
+        light: "icon-circle-x-light",
+        solid: "icon-circle-x-solid",
+      },
+      [Enum.ON_STAGE]: {
+        light: "icon-microphone-stand-light",
+        solid: "icon-microphone-stand-solid",
+      },
+      [Enum.ON_STAND]: {
+        light: "icon-calendar-day-light",
+        solid: "icon-calendar-day-solid",
+      },
+    };
+  }
+
+  export namespace Laureat {
+    export const Enum = {
+      ORGANIZERS_FAVORITE: "OF",
+      RISING_STAR: "RS",
+      NONE: "NONE",
+    } as const;
+
+    export type Enum = (typeof Enum)[keyof typeof Enum];
+
+    export const values: Enum[] = [
+      Enum.ORGANIZERS_FAVORITE,
+      Enum.RISING_STAR,
+      Enum.NONE,
+    ];
+
+    export const translations: Record<Enum, string> = {
+      [Enum.ORGANIZERS_FAVORITE]: "Coup de cœur",
+      [Enum.RISING_STAR]: "Espoir",
+      [Enum.NONE]: "Aucun",
+    };
+
+    export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
+      [Enum.ORGANIZERS_FAVORITE]: {
+        light: "icon-heart-light",
+        solid: "icon-heart-solid",
+      },
+      [Enum.RISING_STAR]: {
+        light: "icon-seedling-light",
+        solid: "icon-seedling-solid",
+      },
+      [Enum.NONE]: {
+        light: "icon-empty-set-light",
+        solid: "icon-empty-set-solid",
+      },
+    };
+  }
+
   export namespace Sort {
     export const Enum = {
       NAME: "N",
@@ -55,39 +125,6 @@ export namespace ExhibitorSearchParams {
     };
   }
 
-  export namespace Animation {
-    export const Enum = {
-      NONE: "NONE",
-      ON_STAGE: "ON_STAGE",
-      ON_STAND: "ON_STAND",
-    } as const;
-
-    export type Enum = (typeof Enum)[keyof typeof Enum];
-
-    export const translations: Record<Enum, string> = {
-      [Enum.NONE]: "Aucune",
-      [Enum.ON_STAGE]: "Sur scène",
-      [Enum.ON_STAND]: "Sur stand",
-    };
-
-    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND];
-
-    export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
-      [Enum.NONE]: {
-        light: "icon-circle-x-light",
-        solid: "icon-circle-x-solid",
-      },
-      [Enum.ON_STAGE]: {
-        light: "icon-microphone-stand-light",
-        solid: "icon-microphone-stand-solid",
-      },
-      [Enum.ON_STAND]: {
-        light: "icon-calendar-day-light",
-        solid: "icon-calendar-day-solid",
-      },
-    };
-  }
-
   export const io = SearchParamsIO.create({
     keys: {
       animations: "an",
@@ -97,10 +134,10 @@ export namespace ExhibitorSearchParams {
       documentsStatuses: "dos",
       dogsConfigurationStatuses: "dcs",
       fields: "fi",
+      invoiceStatuses: "is",
+      laureats: "l",
       name: "q",
       onStandAnimationsStatuses: "osas",
-      organizersFavorite: "of",
-      invoiceStatuses: "is",
       publicProfileStatuses: "ps",
       sort: "sort",
       sponsorshipCategories: "pc",
@@ -141,21 +178,18 @@ export namespace ExhibitorSearchParams {
 
         fields: SearchParamsIO.getValues(searchParams, keys.fields),
 
+        invoiceStatuses: SearchParamsIO.getValues(
+          searchParams,
+          keys.invoiceStatuses,
+        ),
+
+        laureats: SearchParamsIO.getValues(searchParams, keys.laureats),
+
         name: SearchParamsIO.getValue(searchParams, keys.name),
 
         onStandAnimationsStatuses: SearchParamsIO.getValues(
           searchParams,
           keys.onStandAnimationsStatuses,
-        ),
-
-        organizersFavorite: SearchParamsIO.getValue(
-          searchParams,
-          keys.organizersFavorite,
-        ),
-
-        invoiceStatuses: SearchParamsIO.getValues(
-          searchParams,
-          keys.invoiceStatuses,
         ),
 
         publicProfileStatuses: SearchParamsIO.getValues(
@@ -218,30 +252,20 @@ export namespace ExhibitorSearchParams {
 
       SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
 
+      SearchParamsIO.setValues(
+        searchParams,
+        keys.invoiceStatuses,
+        data.invoiceStatuses,
+      );
+
+      SearchParamsIO.setValues(searchParams, keys.laureats, data.laureats);
+
       SearchParamsIO.setValue(searchParams, keys.name, data.name);
 
       SearchParamsIO.setValues(
         searchParams,
         keys.onStandAnimationsStatuses,
         data.onStandAnimationsStatuses,
-      );
-
-      SearchParamsIO.setValue(
-        searchParams,
-        keys.organizersFavorite,
-        data.organizersFavorite ? "on" : undefined,
-      );
-
-      SearchParamsIO.setValues(
-        searchParams,
-        keys.sponsorshipCategories,
-        data.sponsorshipCategories,
-      );
-
-      SearchParamsIO.setValues(
-        searchParams,
-        keys.invoiceStatuses,
-        data.invoiceStatuses,
       );
 
       SearchParamsIO.setValues(
@@ -251,6 +275,12 @@ export namespace ExhibitorSearchParams {
       );
 
       SearchParamsIO.setValue(searchParams, keys.sort, data.sort);
+
+      SearchParamsIO.setValues(
+        searchParams,
+        keys.sponsorshipCategories,
+        data.sponsorshipCategories,
+      );
 
       SearchParamsIO.setValues(
         searchParams,
@@ -297,20 +327,16 @@ export namespace ExhibitorSearchParams {
 
     fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
 
+    invoiceStatuses: zu.searchParams.set(
+      zu.searchParams.nativeEnum(InvoiceStatus.Enum),
+    ),
+
+    laureats: zu.searchParams.set(zu.searchParams.nativeEnum(Laureat.Enum)),
+
     name: zu.searchParams.string(),
 
     onStandAnimationsStatuses: zu.searchParams.set(
       zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
-    ),
-
-    organizersFavorite: zu.searchParams.boolean(),
-
-    sponsorshipCategories: zu.searchParams.set(
-      zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
-    ),
-
-    invoiceStatuses: zu.searchParams.set(
-      zu.searchParams.nativeEnum(InvoiceStatus.Enum),
     ),
 
     publicProfileStatuses: zu.searchParams.set(
@@ -318,6 +344,10 @@ export namespace ExhibitorSearchParams {
     ),
 
     sort: zu.searchParams.nativeEnum(Sort.Enum).default(Sort.defaultValue),
+
+    sponsorshipCategories: zu.searchParams.set(
+      zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
+    ),
 
     standConfigurationStatuses: zu.searchParams.set(
       zu.searchParams.nativeEnum(ExhibitorStatus.Enum),

@@ -52,6 +52,7 @@ export function SectionList() {
                 isSponsor: exhibitor.isSponsor,
                 isOrganizer: exhibitor.isOrganizer,
                 isOrganizersFavorite: exhibitor.isOrganizersFavorite,
+                isRisingStar: exhibitor.isRisingStar,
                 logoPath: exhibitor.logoPath,
                 name: exhibitor.name,
                 url: exhibitor.url,
@@ -180,6 +181,25 @@ function ActiveFilterSponsorshipAndLaureats() {
         </InputActiveFilter.Icon>
 
         <InputActiveFilter.Label>Coup de cœur</InputActiveFilter.Label>
+
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
+  }
+
+  if (exhibitorSearchParams.isRisingStar) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="rising-star">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isRisingStar}
+          value="on"
+        />
+
+        <InputActiveFilter.Icon asChild>
+          <Icon id="seedling-solid" />
+        </InputActiveFilter.Icon>
+
+        <InputActiveFilter.Label>Espoir</InputActiveFilter.Label>
 
         <InputActiveFilter.RemoveIcon />
       </InputActiveFilter.Root>,

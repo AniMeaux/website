@@ -286,29 +286,38 @@ function FilterLaureates() {
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.io.keys.organizersFavorite}
+      value={ExhibitorSearchParams.io.keys.laureats}
       label="Lauréats"
-      count={exhibitorSearchParams.organizersFavorite ? 1 : 0}
-      hiddenContent={
-        exhibitorSearchParams.organizersFavorite ? (
+      count={exhibitorSearchParams.laureats.size}
+      hiddenContent={Array.from(exhibitorSearchParams.laureats).map(
+        (laureat) => (
           <input
+            key={laureat}
             type="hidden"
-            name={ExhibitorSearchParams.io.keys.organizersFavorite}
-            value="on"
+            name={ExhibitorSearchParams.io.keys.laureats}
+            value={laureat}
           />
-        ) : null
-      }
+        ),
+      )}
     >
       <ToggleInputList>
-        <ToggleInput
-          type="checkbox"
-          label="Coup de cœur"
-          name={ExhibitorSearchParams.io.keys.organizersFavorite}
-          icon={<Icon href="icon-heart-light" />}
-          iconChecked={<Icon href="icon-heart-solid" />}
-          checked={exhibitorSearchParams.organizersFavorite}
-          onChange={() => {}}
-        />
+        {ExhibitorSearchParams.Laureat.values.map((laureat) => (
+          <ToggleInput
+            key={laureat}
+            type="checkbox"
+            label={ExhibitorSearchParams.Laureat.translations[laureat]}
+            name={ExhibitorSearchParams.io.keys.laureats}
+            value={laureat}
+            icon={
+              <Icon href={ExhibitorSearchParams.Laureat.icons[laureat].light} />
+            }
+            iconChecked={
+              <Icon href={ExhibitorSearchParams.Laureat.icons[laureat].solid} />
+            }
+            checked={exhibitorSearchParams.laureats.has(laureat)}
+            onChange={() => {}}
+          />
+        ))}
       </ToggleInputList>
     </Filters.Filter>
   );

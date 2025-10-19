@@ -22,6 +22,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     select: {
       isOrganizer: true,
       isOrganizersFavorite: true,
+      isRisingStar: true,
       isVisible: true,
       locationNumber: true,
       name: true,

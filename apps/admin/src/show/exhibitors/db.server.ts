@@ -115,6 +115,61 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.invoiceStatuses.size > 0) {
+      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
+        invoicesWhere.push({
+          invoices: {
+            every: { status: InvoiceStatus.Enum.PAID },
+            // Ensure at least 1 invoice exist.
+            some: {},
+          },
+        });
+      }
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
+        invoicesWhere.push({
+          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
+        });
+      }
+
+      where.push({ OR: invoicesWhere });
+    }
+
+    if (params.searchParams.laureats.size > 0) {
+      const laureatWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.ORGANIZERS_FAVORITE,
+        )
+      ) {
+        laureatWhere.push({ isOrganizersFavorite: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.RISING_STAR,
+        )
+      ) {
+        laureatWhere.push({ isRisingStar: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.NONE,
+        )
+      ) {
+        laureatWhere.push({
+          isOrganizersFavorite: false,
+          isRisingStar: false,
+        });
+      }
+
+      where.push({ OR: laureatWhere });
+    }
+
     if (params.searchParams.name != null) {
       where.push({
         name: {
@@ -132,8 +187,12 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
-    if (params.searchParams.organizersFavorite) {
-      where.push({ isOrganizersFavorite: true });
+    if (params.searchParams.publicProfileStatuses.size > 0) {
+      statusesWhere.push({
+        publicProfileStatus: {
+          in: Array.from(params.searchParams.publicProfileStatuses),
+        },
+      });
     }
 
     if (params.searchParams.sponsorshipCategories.size > 0) {
@@ -160,36 +219,6 @@ export class ShowExhibitorDbDelegate {
       }
 
       where.push({ OR: sponsorshipCategoryWhere });
-    }
-
-    if (params.searchParams.invoiceStatuses.size > 0) {
-      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
-        invoicesWhere.push({
-          invoices: {
-            every: { status: InvoiceStatus.Enum.PAID },
-            // Ensure at least 1 invoice exist.
-            some: {},
-          },
-        });
-      }
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
-        invoicesWhere.push({
-          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
-        });
-      }
-
-      where.push({ OR: invoicesWhere });
-    }
-
-    if (params.searchParams.publicProfileStatuses.size > 0) {
-      statusesWhere.push({
-        publicProfileStatus: {
-          in: Array.from(params.searchParams.publicProfileStatuses),
-        },
-      });
     }
 
     if (params.searchParams.standConfigurationStatuses.size > 0) {
@@ -554,6 +583,7 @@ type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   | "isOrganizer"
   | "isOrganizersFavorite"
+  | "isRisingStar"
   | "isVisible"
   | "locationNumber"
   | "standNumber"

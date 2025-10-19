@@ -244,6 +244,7 @@ function AnimationItem({
       id: string;
       isOrganizer: boolean;
       isOrganizersFavorite: boolean;
+      isRisingStar: boolean;
       isSponsor: boolean;
       logoPath: string;
       name: string;
@@ -436,6 +437,13 @@ function AnimationItem({
                       <>
                         &nbsp;
                         <IconInline id="heart-solid" title="Coup de cœur" />
+                      </>
+                    ) : null}
+
+                    {animator.isRisingStar ? (
+                      <>
+                        &nbsp;
+                        <IconInline id="seedling-solid" title="Espoir" />
                       </>
                     ) : null}
                   </span>

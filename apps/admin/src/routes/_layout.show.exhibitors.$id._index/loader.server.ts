@@ -52,6 +52,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         installationDay: true,
         isOrganizer: true,
         isOrganizersFavorite: true,
+        isRisingStar: true,
         isVisible: true,
         links: true,
         locationNumber: true,

@@ -417,6 +417,7 @@ model ShowExhibitor {
 
   isOrganizer          Boolean @default(false)
   isOrganizersFavorite Boolean @default(false)
+  isRisingStar         Boolean @default(false)
   isVisible            Boolean @default(false)
 
   // -- Billing ----------------------------------------------------------------

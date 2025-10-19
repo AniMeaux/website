@@ -37,6 +37,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
   await db.show.exhibitor.update(routeParams.id, {
     isOrganizer: submission.value.isOrganizer,
     isOrganizersFavorite: submission.value.isOrganizersFavorite,
+    isRisingStar: submission.value.isRisingStar,
     isVisible: submission.value.isVisible,
     locationNumber: submission.value.locationNumber || null,
     standNumber: submission.value.standNumber || null,

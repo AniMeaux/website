@@ -88,6 +88,10 @@ export class ServiceExhibitor {
       where.push({ isOrganizersFavorite: true });
     }
 
+    if (params.searchParams.isRisingStar) {
+      where.push({ isRisingStar: true });
+    }
+
     if (params.searchParams.isSponsor) {
       where.push({
         OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
