@@ -1,10 +1,10 @@
-import type { Entity } from "#routes/resources.global-search/shared";
+import type { Entity } from "#routes/resources.global-search/entity.js";
 import { useMatches } from "@remix-run/react";
 
 export type RouteHandle = {
   htmlBackgroundColor?: string;
   isFullHeight?: boolean;
-  globalSearchEntity?: Entity;
+  globalSearchEntity?: Entity.Enum;
 };
 
 export function useRouteHandles() {

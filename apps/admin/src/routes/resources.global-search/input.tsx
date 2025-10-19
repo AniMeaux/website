@@ -13,6 +13,7 @@ import { Overlay } from "#core/popovers/overlay";
 import { FosterFamilySuggestionItem } from "#foster-families/item";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { cn } from "@animeaux/core";
 import type { User } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -27,13 +28,10 @@ import type {
 import { useCombobox } from "downshift";
 import { createPath } from "history";
 import { useEffect, useState } from "react";
+import { Entity } from "./entity";
+import { ItemExhibitor } from "./item-exhibitor";
 import type { loader } from "./route";
-import {
-  ENTITY_TRANSLATION,
-  Entity,
-  GlobalSearchParams,
-  getPossibleEntitiesForCurrentUser,
-} from "./shared";
+import { GlobalSearchParams } from "./search-params";
 
 export function GlobalSearch({
   currentUser,
@@ -42,7 +40,7 @@ export function GlobalSearch({
 }) {
   const [isOpened, setIsOpened] = useState(false);
 
-  const possibleEntities = getPossibleEntitiesForCurrentUser(currentUser);
+  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser);
 
   const suggestedEntity = useRouteHandles()
     .map((handle) => handle.globalSearchEntity)
@@ -160,31 +158,66 @@ export function GlobalSearch({
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
-                if (item.type === Entity.ANIMAL) {
-                  navigate(Routes.animals.id(item.id).toString());
-                } else {
-                  navigate(Routes.fosterFamilies.id(item.id).toString());
+                switch (entity) {
+                  case Entity.Enum.ANIMAL: {
+                    return navigate(Routes.animals.id(item.id).toString());
+                  }
+
+                  case Entity.Enum.EXHIBITOR: {
+                    return navigate(
+                      Routes.show.exhibitors.id(item.id).toString(),
+                    );
+                  }
+
+                  case Entity.Enum.FOSTER_FAMILY: {
+                    return navigate(
+                      Routes.fosterFamilies.id(item.id).toString(),
+                    );
+                  }
+
+                  default: {
+                    return entity satisfies never;
+                  }
                 }
               }}
               onSelectSearch={(search) => {
-                if (entity === Entity.ANIMAL) {
-                  navigate(
-                    createPath({
-                      pathname: Routes.animals.toString(),
-                      search: AnimalSearchParams.format({
-                        nameOrAlias: search,
+                switch (entity) {
+                  case Entity.Enum.ANIMAL: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.animals.toString(),
+                        search: AnimalSearchParams.format({
+                          nameOrAlias: search,
+                        }),
                       }),
-                    }),
-                  );
-                } else {
-                  navigate(
-                    createPath({
-                      pathname: Routes.fosterFamilies.toString(),
-                      search: FosterFamilySearchParams.format({
-                        displayName: search,
+                    );
+                  }
+
+                  case Entity.Enum.EXHIBITOR: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.show.exhibitors.toString(),
+                        search: ExhibitorSearchParams.io.format({
+                          name: search,
+                        }),
                       }),
-                    }),
-                  );
+                    );
+                  }
+
+                  case Entity.Enum.FOSTER_FAMILY: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.fosterFamilies.toString(),
+                        search: FosterFamilySearchParams.format({
+                          displayName: search,
+                        }),
+                      }),
+                    );
+                  }
+
+                  default: {
+                    return entity satisfies never;
+                  }
                 }
               }}
             />
@@ -219,10 +252,10 @@ function Combobox({
   onSelectSearch,
   onClose,
 }: {
-  entity: Entity;
-  setEntity: React.Dispatch<Entity>;
+  entity: Entity.Enum;
+  setEntity: React.Dispatch<Entity.Enum>;
   fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
-  possibleEntities: Entity[];
+  possibleEntities: Entity.Enum[];
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["items"][number]
   >;
@@ -256,11 +289,23 @@ function Combobox({
         return item;
       }
 
-      if (item.type === Entity.ANIMAL) {
-        return getAnimalDisplayName(item);
-      }
+      switch (item.type) {
+        case Entity.Enum.ANIMAL: {
+          return getAnimalDisplayName(item);
+        }
 
-      return item.displayName;
+        case Entity.Enum.EXHIBITOR: {
+          return item.name;
+        }
+
+        case Entity.Enum.FOSTER_FAMILY: {
+          return item.displayName;
+        }
+
+        default: {
+          return item satisfies never;
+        }
+      }
     },
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem != null) {
@@ -358,23 +403,41 @@ function Combobox({
               );
             }
 
-            if (item.type === Entity.ANIMAL) {
-              return (
-                <AnimalSuggestionItem
-                  key={item.id}
-                  {...combobox.getItemProps({ item, index })}
-                  animal={item}
-                />
-              );
-            }
+            switch (item.type) {
+              case Entity.Enum.ANIMAL: {
+                return (
+                  <AnimalSuggestionItem
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    animal={item}
+                  />
+                );
+              }
 
-            return (
-              <FosterFamilySuggestionItem
-                key={item.id}
-                {...combobox.getItemProps({ item, index })}
-                fosterFamily={item}
-              />
-            );
+              case Entity.Enum.EXHIBITOR: {
+                return (
+                  <ItemExhibitor
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    exhibitor={item}
+                  />
+                );
+              }
+
+              case Entity.Enum.FOSTER_FAMILY: {
+                return (
+                  <FosterFamilySuggestionItem
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    fosterFamily={item}
+                  />
+                );
+              }
+
+              default: {
+                return item satisfies never;
+              }
+            }
           })}
         </SuggestionList>
       </section>
@@ -387,9 +450,9 @@ function EntityInput({
   setEntity,
   possibleEntities,
 }: {
-  entity: Entity;
-  setEntity: React.Dispatch<Entity>;
-  possibleEntities: Entity[];
+  entity: Entity.Enum;
+  setEntity: React.Dispatch<Entity.Enum>;
+  possibleEntities: Entity.Enum[];
 }) {
   if (possibleEntities.length < 2) {
     return null;
@@ -411,7 +474,7 @@ function EntityInput({
               onChange={() => setEntity(possibleEntity)}
             />
 
-            <TabLabel>{ENTITY_TRANSLATION[possibleEntity]}</TabLabel>
+            <TabLabel>{Entity.translations[possibleEntity]}</TabLabel>
           </Tab>
         </span>
       ))}
