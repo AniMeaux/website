@@ -554,6 +554,7 @@ type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   | "isOrganizer"
   | "isOrganizersFavorite"
+  | "isRisingStar"
   | "isVisible"
   | "locationNumber"
   | "standNumber"
