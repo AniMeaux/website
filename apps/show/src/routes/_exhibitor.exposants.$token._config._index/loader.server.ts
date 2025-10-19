@@ -14,6 +14,8 @@ export async function loader({ params }: LoaderFunctionArgs) {
         documentStatus: true,
         documentStatusMessage: true,
         dogsConfigurationStatus: true,
+        isOrganizersFavorite: true,
+        isRisingStar: true,
         name: true,
         onStandAnimationsStatus: true,
         perksStatus: true,

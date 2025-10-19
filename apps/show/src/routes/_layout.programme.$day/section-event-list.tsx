@@ -24,7 +24,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { Link, useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import { forwardRef, useEffect, useState } from "react";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function SectionEventList() {
   const { animations } = useLoaderData<typeof loader>();
@@ -243,6 +243,8 @@ function AnimationItem({
     animators: {
       id: string;
       isOrganizer: boolean;
+      isOrganizersFavorite: boolean;
+      isRisingStar: boolean;
       isSponsor: boolean;
       logoPath: string;
       name: string;
@@ -428,6 +430,20 @@ function AnimationItem({
                           id="award-solid"
                           title="Sponsor du Salon des Ani’Meaux"
                         />
+                      </>
+                    ) : null}
+
+                    {animator.isOrganizersFavorite ? (
+                      <>
+                        &nbsp;
+                        <IconInline id="heart-solid" title="Coup de cœur" />
+                      </>
+                    ) : null}
+
+                    {animator.isRisingStar ? (
+                      <>
+                        &nbsp;
+                        <IconInline id="seedling-solid" title="Espoir" />
                       </>
                     ) : null}
                   </span>

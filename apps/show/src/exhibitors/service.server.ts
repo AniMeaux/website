@@ -2,7 +2,7 @@ import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
 import { ImageData } from "#core/image/data.js";
 import type { ServicePrisma } from "#core/prisma.service.server.js";
 import { notFound } from "#core/response.server.js";
-import { ExhibitorSearchParamsN } from "#exhibitors/search-params.js";
+import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import type { Prisma, ShowExhibitor } from "@prisma/client";
 import { ShowExhibitorStatus } from "@prisma/client";
@@ -54,14 +54,27 @@ export class ServiceExhibitor {
   }
 
   async findManyVisible<T extends Prisma.ShowExhibitorSelect>(params: {
-    searchParams: ExhibitorSearchParamsN.Value;
+    searchParams: ExhibitorSearchParams;
     select: T;
   }) {
     const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }];
 
-    if (params.searchParams.targets.size > 0) {
+    if (
+      params.searchParams.eventTypes.has(
+        ExhibitorSearchParams.EventType.Enum.ON_STAGE,
+      )
+    ) {
+      where.push({ animations: { some: { isVisible: true } } });
+    }
+
+    if (
+      params.searchParams.eventTypes.has(
+        ExhibitorSearchParams.EventType.Enum.ON_STAND,
+      )
+    ) {
       where.push({
-        activityTargets: { hasSome: Array.from(params.searchParams.targets) },
+        onStandAnimationsStatus: ShowExhibitorStatus.VALIDATED,
+        onStandAnimations: { not: null },
       });
     }
 
@@ -71,28 +84,23 @@ export class ServiceExhibitor {
       });
     }
 
+    if (params.searchParams.isOrganizersFavorite) {
+      where.push({ isOrganizersFavorite: true });
+    }
+
+    if (params.searchParams.isRisingStar) {
+      where.push({ isRisingStar: true });
+    }
+
     if (params.searchParams.isSponsor) {
       where.push({
         OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
       });
     }
 
-    if (
-      params.searchParams.eventTypes.has(
-        ExhibitorSearchParamsN.EventType.Enum.ON_STAGE,
-      )
-    ) {
-      where.push({ animations: { some: { isVisible: true } } });
-    }
-
-    if (
-      params.searchParams.eventTypes.has(
-        ExhibitorSearchParamsN.EventType.Enum.ON_STAND,
-      )
-    ) {
+    if (params.searchParams.targets.size > 0) {
       where.push({
-        onStandAnimationsStatus: ShowExhibitorStatus.VALIDATED,
-        onStandAnimations: { not: null },
+        activityTargets: { hasSome: Array.from(params.searchParams.targets) },
       });
     }
 

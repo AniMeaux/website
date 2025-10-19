@@ -14,10 +14,7 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#show/exhibitors/applications/status";
-import {
-  ExhibitorSearchParams,
-  ExhibitorSearchParamsN,
-} from "#show/exhibitors/search-params";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { InvoiceIcon } from "#show/invoice/icon.js";
@@ -55,6 +52,7 @@ export function ExhibitorFilters({
         <FilterInvoiceStatuses />
         <FilterActivity />
         <FilterSponsorship />
+        <FilterLaureates />
         <FilterStandSize standSizes={standSizes} />
         <FilterAnimations />
         <FilterDividerType dividerTypes={dividerTypes} />
@@ -65,18 +63,18 @@ export function ExhibitorFilters({
 
 function FilterActivity() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.targets}
+      value={ExhibitorSearchParams.io.keys.targets}
       label="Activité"
       count={exhibitorSearchParams.targets.size}
       hiddenContent={Array.from(exhibitorSearchParams.targets).map((target) => (
         <input
           key={target}
           type="hidden"
-          name={ExhibitorSearchParams.keys.targets}
+          name={ExhibitorSearchParams.io.keys.targets}
           value={target}
         />
       ))}
@@ -91,7 +89,7 @@ function FilterActivity() {
                 key={activityTarget}
                 type="checkbox"
                 label={ActivityTarget.translation[activityTarget]}
-                name={ExhibitorSearchParams.keys.targets}
+                name={ExhibitorSearchParams.io.keys.targets}
                 value={activityTarget}
                 icon={
                   <ActivityTargetIcon
@@ -121,7 +119,7 @@ function FilterActivity() {
                 key={activityField}
                 type="checkbox"
                 label={ActivityField.translation[activityField]}
-                name={ExhibitorSearchParams.keys.fields}
+                name={ExhibitorSearchParams.io.keys.fields}
                 value={activityField}
                 icon={
                   <ActivityFieldIcon
@@ -148,11 +146,11 @@ function FilterActivity() {
 
 function FilterAnimations() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.animations}
+      value={ExhibitorSearchParams.io.keys.animations}
       label="Animations"
       count={exhibitorSearchParams.animations.size}
       hiddenContent={Array.from(exhibitorSearchParams.animations).map(
@@ -160,28 +158,28 @@ function FilterAnimations() {
           <input
             key={animation}
             type="hidden"
-            name={ExhibitorSearchParams.keys.animations}
+            name={ExhibitorSearchParams.io.keys.animations}
             value={animation}
           />
         ),
       )}
     >
       <ToggleInputList>
-        {ExhibitorSearchParamsN.ANIMATION_VALUES.map((animation) => (
+        {ExhibitorSearchParams.Animation.values.map((animation) => (
           <ToggleInput
             key={animation}
             type="checkbox"
-            label={ExhibitorSearchParamsN.ANIMATION_TRANSLATIONS[animation]}
-            name={ExhibitorSearchParams.keys.animations}
+            label={ExhibitorSearchParams.Animation.translations[animation]}
+            name={ExhibitorSearchParams.io.keys.animations}
             value={animation}
             icon={
               <Icon
-                href={ExhibitorSearchParamsN.ANIMATION_ICONS[animation].light}
+                href={ExhibitorSearchParams.Animation.icons[animation].light}
               />
             }
             iconChecked={
               <Icon
-                href={ExhibitorSearchParamsN.ANIMATION_ICONS[animation].solid}
+                href={ExhibitorSearchParams.Animation.icons[animation].solid}
               />
             }
             checked={exhibitorSearchParams.animations.has(animation)}
@@ -199,11 +197,11 @@ function FilterDividerType({
   dividerTypes: Pick<ShowDividerType, "id" | "label">[];
 }) {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.dividerTypesId}
+      value={ExhibitorSearchParams.io.keys.dividerTypesId}
       label="Type de cloison"
       count={exhibitorSearchParams.dividerTypesId.size}
       hiddenContent={Array.from(exhibitorSearchParams.dividerTypesId).map(
@@ -211,7 +209,7 @@ function FilterDividerType({
           <input
             key={dividerTypeId}
             type="hidden"
-            name={ExhibitorSearchParams.keys.dividerTypesId}
+            name={ExhibitorSearchParams.io.keys.dividerTypesId}
             value={dividerTypeId}
           />
         ),
@@ -223,7 +221,7 @@ function FilterDividerType({
             key={dividerType.id}
             type="checkbox"
             label={dividerType.label}
-            name={ExhibitorSearchParams.keys.dividerTypesId}
+            name={ExhibitorSearchParams.io.keys.dividerTypesId}
             value={dividerType.id}
             icon={<Icon href="icon-fence-light" />}
             iconChecked={<Icon href="icon-fence-solid" />}
@@ -238,32 +236,32 @@ function FilterDividerType({
 
 function FilterName() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.name}
+      value={ExhibitorSearchParams.io.keys.name}
       label="Nom"
       count={exhibitorSearchParams.name == null ? 0 : 1}
       hiddenContent={
         exhibitorSearchParams.name != null ? (
           <input
             type="hidden"
-            name={ExhibitorSearchParams.keys.name}
+            name={ExhibitorSearchParams.io.keys.name}
             value={exhibitorSearchParams.name}
           />
         ) : null
       }
     >
       <ControlledInput
-        name={ExhibitorSearchParams.keys.name}
+        name={ExhibitorSearchParams.io.keys.name}
         value={exhibitorSearchParams.name ?? ""}
         rightAdornment={
           exhibitorSearchParams.name != null ? (
             <ControlledInput.ActionAdornment
               onClick={() =>
                 setSearchParams((searchParams) => {
-                  return ExhibitorSearchParams.set(
+                  return ExhibitorSearchParams.io.set(
                     searchParams,
                     (exhibitorSearchParams) => ({
                       ...exhibitorSearchParams,
@@ -282,13 +280,56 @@ function FilterName() {
   );
 }
 
-function FilterSponsorship() {
+function FilterLaureates() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.sponsorshipCategories}
+      value={ExhibitorSearchParams.io.keys.laureats}
+      label="Lauréats"
+      count={exhibitorSearchParams.laureats.size}
+      hiddenContent={Array.from(exhibitorSearchParams.laureats).map(
+        (laureat) => (
+          <input
+            key={laureat}
+            type="hidden"
+            name={ExhibitorSearchParams.io.keys.laureats}
+            value={laureat}
+          />
+        ),
+      )}
+    >
+      <ToggleInputList>
+        {ExhibitorSearchParams.Laureat.values.map((laureat) => (
+          <ToggleInput
+            key={laureat}
+            type="checkbox"
+            label={ExhibitorSearchParams.Laureat.translations[laureat]}
+            name={ExhibitorSearchParams.io.keys.laureats}
+            value={laureat}
+            icon={
+              <Icon href={ExhibitorSearchParams.Laureat.icons[laureat].light} />
+            }
+            iconChecked={
+              <Icon href={ExhibitorSearchParams.Laureat.icons[laureat].solid} />
+            }
+            checked={exhibitorSearchParams.laureats.has(laureat)}
+            onChange={() => {}}
+          />
+        ))}
+      </ToggleInputList>
+    </Filters.Filter>
+  );
+}
+
+function FilterSponsorship() {
+  const [searchParams] = useOptimisticSearchParams();
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+
+  return (
+    <Filters.Filter
+      value={ExhibitorSearchParams.io.keys.sponsorshipCategories}
       label="Catégorie de sponsor"
       count={exhibitorSearchParams.sponsorshipCategories.size}
       hiddenContent={Array.from(
@@ -297,7 +338,7 @@ function FilterSponsorship() {
         <input
           key={category}
           type="hidden"
-          name={ExhibitorSearchParams.keys.sponsorshipCategories}
+          name={ExhibitorSearchParams.io.keys.sponsorshipCategories}
           value={category}
         />
       ))}
@@ -308,7 +349,7 @@ function FilterSponsorship() {
             key={category}
             type="checkbox"
             label={SponsorshipOptionalCategory.translation[category]}
-            name={ExhibitorSearchParams.keys.sponsorshipCategories}
+            name={ExhibitorSearchParams.io.keys.sponsorshipCategories}
             value={category}
             icon={
               <SponsorshipCategoryIcon category={category} variant="light" />
@@ -327,11 +368,11 @@ function FilterSponsorship() {
 
 function FilterInvoiceStatuses() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.invoiceStatuses}
+      value={ExhibitorSearchParams.io.keys.invoiceStatuses}
       label="Factures"
       count={exhibitorSearchParams.invoiceStatuses.size}
       hiddenContent={Array.from(exhibitorSearchParams.invoiceStatuses).map(
@@ -339,7 +380,7 @@ function FilterInvoiceStatuses() {
           <input
             key={status}
             type="hidden"
-            name={ExhibitorSearchParams.keys.invoiceStatuses}
+            name={ExhibitorSearchParams.io.keys.invoiceStatuses}
             value={status}
           />
         ),
@@ -351,7 +392,7 @@ function FilterInvoiceStatuses() {
             key={status}
             type="checkbox"
             label={InvoiceStatus.translation[status]}
-            name={ExhibitorSearchParams.keys.invoiceStatuses}
+            name={ExhibitorSearchParams.io.keys.invoiceStatuses}
             value={status}
             icon={<InvoiceIcon status={status} />}
             checked={exhibitorSearchParams.invoiceStatuses.has(status)}
@@ -365,39 +406,39 @@ function FilterInvoiceStatuses() {
 
 function FilterSort() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.sort}
+      value={ExhibitorSearchParams.io.keys.sort}
       label="Trier"
       count={
-        exhibitorSearchParams.sort === ExhibitorSearchParamsN.SORT_DEFAULT_VALUE
+        exhibitorSearchParams.sort === ExhibitorSearchParams.Sort.defaultValue
           ? 0
           : 1
       }
       hiddenContent={
         exhibitorSearchParams.sort !==
-        ExhibitorSearchParamsN.SORT_DEFAULT_VALUE ? (
+        ExhibitorSearchParams.Sort.defaultValue ? (
           <input
             type="hidden"
-            name={ExhibitorSearchParams.keys.sort}
+            name={ExhibitorSearchParams.io.keys.sort}
             value={exhibitorSearchParams.sort}
           />
         ) : null
       }
     >
       <ToggleInputList>
-        {ExhibitorSearchParamsN.SORT_VALUES.map((sort) => (
+        {ExhibitorSearchParams.Sort.values.map((sort) => (
           <ToggleInput
             key={sort}
             type="radio"
-            label={ExhibitorSearchParamsN.SORT_TRANSLATIONS[sort]}
-            name={ExhibitorSearchParams.keys.sort}
+            label={ExhibitorSearchParams.Sort.translations[sort]}
+            name={ExhibitorSearchParams.io.keys.sort}
             value={sort}
-            icon={<Icon href={ExhibitorSearchParamsN.SORT_ICONS[sort].light} />}
+            icon={<Icon href={ExhibitorSearchParams.Sort.icons[sort].light} />}
             iconChecked={
-              <Icon href={ExhibitorSearchParamsN.SORT_ICONS[sort].solid} />
+              <Icon href={ExhibitorSearchParams.Sort.icons[sort].solid} />
             }
             checked={sort === exhibitorSearchParams.sort}
             onChange={() => {}}
@@ -414,11 +455,11 @@ function FilterStandSize({
   standSizes: Pick<ShowStandSize, "id" | "label">[];
 }) {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.standSizesId}
+      value={ExhibitorSearchParams.io.keys.standSizesId}
       label="Taille du stand"
       count={exhibitorSearchParams.standSizesId.size}
       hiddenContent={Array.from(exhibitorSearchParams.standSizesId).map(
@@ -426,7 +467,7 @@ function FilterStandSize({
           <input
             key={standSizeId}
             type="hidden"
-            name={ExhibitorSearchParams.keys.standSizesId}
+            name={ExhibitorSearchParams.io.keys.standSizesId}
             value={standSizeId}
           />
         ),
@@ -438,7 +479,7 @@ function FilterStandSize({
             key={standSize.id}
             type="checkbox"
             label={standSize.label}
-            name={ExhibitorSearchParams.keys.standSizesId}
+            name={ExhibitorSearchParams.io.keys.standSizesId}
             value={standSize.id}
             icon={<Icon href="icon-expand-light" />}
             iconChecked={<Icon href="icon-expand-solid" />}
@@ -453,11 +494,11 @@ function FilterStandSize({
 
 function FilterStatuses() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.applicationStatuses}
+      value={ExhibitorSearchParams.io.keys.applicationStatuses}
       label="Statut"
       count={
         exhibitorSearchParams.applicationStatuses.size +
@@ -475,7 +516,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.applicationStatuses}
+                name={ExhibitorSearchParams.io.keys.applicationStatuses}
                 value={status}
               />
             ),
@@ -486,7 +527,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.descriptionStatuses}
+                name={ExhibitorSearchParams.io.keys.descriptionStatuses}
                 value={status}
               />
             ),
@@ -496,7 +537,7 @@ function FilterStatuses() {
             <input
               key={status}
               type="hidden"
-              name={ExhibitorSearchParams.keys.documentsStatuses}
+              name={ExhibitorSearchParams.io.keys.documentsStatuses}
               value={status}
             />
           ))}
@@ -506,7 +547,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.dogsConfigurationStatuses}
+                name={ExhibitorSearchParams.io.keys.dogsConfigurationStatuses}
                 value={status}
               />
             ),
@@ -517,7 +558,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.onStandAnimationsStatuses}
+                name={ExhibitorSearchParams.io.keys.onStandAnimationsStatuses}
                 value={status}
               />
             ),
@@ -528,7 +569,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.publicProfileStatuses}
+                name={ExhibitorSearchParams.io.keys.publicProfileStatuses}
                 value={status}
               />
             ),
@@ -539,7 +580,7 @@ function FilterStatuses() {
               <input
                 key={status}
                 type="hidden"
-                name={ExhibitorSearchParams.keys.standConfigurationStatuses}
+                name={ExhibitorSearchParams.io.keys.standConfigurationStatuses}
                 value={status}
               />
             ),
@@ -557,7 +598,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.publicProfileStatuses}
+                name={ExhibitorSearchParams.io.keys.publicProfileStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.publicProfileStatuses.has(
@@ -578,7 +619,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.descriptionStatuses}
+                name={ExhibitorSearchParams.io.keys.descriptionStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.descriptionStatuses.has(status)}
@@ -597,7 +638,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.onStandAnimationsStatuses}
+                name={ExhibitorSearchParams.io.keys.onStandAnimationsStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.onStandAnimationsStatuses.has(
@@ -618,7 +659,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.documentsStatuses}
+                name={ExhibitorSearchParams.io.keys.documentsStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.documentsStatuses.has(status)}
@@ -637,7 +678,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.standConfigurationStatuses}
+                name={ExhibitorSearchParams.io.keys.standConfigurationStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.standConfigurationStatuses.has(
@@ -658,7 +699,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={ExhibitorStatus.translation[status]}
-                name={ExhibitorSearchParams.keys.dogsConfigurationStatuses}
+                name={ExhibitorSearchParams.io.keys.dogsConfigurationStatuses}
                 value={status}
                 icon={<ExhibitorStatusIcon status={status} />}
                 checked={exhibitorSearchParams.dogsConfigurationStatuses.has(
@@ -679,7 +720,7 @@ function FilterStatuses() {
                 key={status}
                 type="checkbox"
                 label={TRANSLATION_BY_APPLICATION_STATUS[status]}
-                name={ExhibitorSearchParams.keys.applicationStatuses}
+                name={ExhibitorSearchParams.io.keys.applicationStatuses}
                 value={status}
                 icon={<ApplicationStatusIcon status={status} />}
                 checked={exhibitorSearchParams.applicationStatuses.has(status)}
@@ -695,11 +736,11 @@ function FilterStatuses() {
 
 function FilterVisibility() {
   const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.parse(searchParams);
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
 
   return (
     <Filters.Filter
-      value={ExhibitorSearchParams.keys.visibility}
+      value={ExhibitorSearchParams.io.keys.visibility}
       label="Visibilité"
       count={exhibitorSearchParams.visibility.size}
       hiddenContent={Array.from(exhibitorSearchParams.visibility).map(
@@ -707,7 +748,7 @@ function FilterVisibility() {
           <input
             key={visibility}
             type="hidden"
-            name={ExhibitorSearchParams.keys.visibility}
+            name={ExhibitorSearchParams.io.keys.visibility}
             value={visibility}
           />
         ),
@@ -719,7 +760,7 @@ function FilterVisibility() {
             key={visibility}
             type="checkbox"
             label={Visibility.translation[visibility]}
-            name={ExhibitorSearchParams.keys.visibility}
+            name={ExhibitorSearchParams.io.keys.visibility}
             value={visibility}
             icon={<VisibilityIcon variant="light" visibility={visibility} />}
             iconChecked={

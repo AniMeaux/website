@@ -7,7 +7,7 @@ import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
 import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
 import {
-  ExhibitorSearchParamsN,
+  ExhibitorSearchParams,
   useExhibitorSearchParams,
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
@@ -27,6 +27,8 @@ export function ExhibitorItem({
     hasOnStageAnimation: boolean;
     isSponsor: boolean;
     isOrganizer: boolean;
+    isOrganizersFavorite: boolean;
+    isRisingStar: boolean;
     logoPath: string;
     name: string;
     onStandAnimations?: string;
@@ -81,21 +83,35 @@ export function ExhibitorItem({
                 />
               </>
             ) : null}
+
+            {exhibitor.isOrganizersFavorite ? (
+              <>
+                &nbsp;
+                <IconInline id="heart-solid" title="Coup de cœur" />
+              </>
+            ) : null}
+
+            {exhibitor.isRisingStar ? (
+              <>
+                &nbsp;
+                <IconInline id="seedling-solid" title="Espoir" />
+              </>
+            ) : null}
           </p>
 
           <ul className="flex flex-wrap gap-0.5">
             {exhibitor.hasOnStageAnimation ? (
               <Chip.Root
                 isHighlighted={exhibitorSearchParams.eventTypes.has(
-                  ExhibitorSearchParamsN.EventType.Enum.ON_STAGE,
+                  ExhibitorSearchParams.EventType.Enum.ON_STAGE,
                 )}
                 className="flex-none"
               >
                 <Chip.Icon asChild>
                   <Icon
                     id={
-                      ExhibitorSearchParamsN.EventType.icon[
-                        ExhibitorSearchParamsN.EventType.Enum.ON_STAGE
+                      ExhibitorSearchParams.EventType.icon[
+                        ExhibitorSearchParams.EventType.Enum.ON_STAGE
                       ].light
                     }
                   />
@@ -104,8 +120,8 @@ export function ExhibitorItem({
                 <Chip.IconHighlighted asChild>
                   <Icon
                     id={
-                      ExhibitorSearchParamsN.EventType.icon[
-                        ExhibitorSearchParamsN.EventType.Enum.ON_STAGE
+                      ExhibitorSearchParams.EventType.icon[
+                        ExhibitorSearchParams.EventType.Enum.ON_STAGE
                       ].solid
                     }
                   />
@@ -113,8 +129,8 @@ export function ExhibitorItem({
 
                 <Chip.Label>
                   {
-                    ExhibitorSearchParamsN.EventType.translationLong[
-                      ExhibitorSearchParamsN.EventType.Enum.ON_STAGE
+                    ExhibitorSearchParams.EventType.translationLong[
+                      ExhibitorSearchParams.EventType.Enum.ON_STAGE
                     ]
                   }
                 </Chip.Label>

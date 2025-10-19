@@ -29,6 +29,15 @@ export function FieldsetSituation() {
 
           <FieldOnOff label="Organisateur" field={fields.isOrganizer} />
 
+          <Form.Row>
+            <FieldOnOff
+              label="Lauréat Coup de cœur"
+              field={fields.isOrganizersFavorite}
+            />
+
+            <FieldOnOff label="Lauréat Espoir" field={fields.isRisingStar} />
+          </Form.Row>
+
           <Separator />
 
           <Form.Row>

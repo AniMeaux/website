@@ -415,8 +415,10 @@ model ShowExhibitor {
   sponsorship ShowSponsor?
   animations  ShowAnimation[]
 
-  isOrganizer Boolean @default(false)
-  isVisible   Boolean @default(false)
+  isOrganizer          Boolean @default(false)
+  isOrganizersFavorite Boolean @default(false)
+  isRisingStar         Boolean @default(false)
+  isVisible            Boolean @default(false)
 
   // -- Billing ----------------------------------------------------------------
 

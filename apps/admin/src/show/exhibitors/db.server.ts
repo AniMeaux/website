@@ -4,7 +4,7 @@ import { notifyShowApp } from "#core/notification.server";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { ShowExhibitorApplicationDbDelegate } from "#show/exhibitors/applications/db.server";
-import { ExhibitorSearchParamsN } from "#show/exhibitors/search-params";
+import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { ExhibitorStatus } from "#show/exhibitors/status";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
@@ -33,16 +33,17 @@ export class ShowExhibitorDbDelegate {
   }
 
   async findMany<T extends Prisma.ShowExhibitorSelect>(params: {
-    searchParams: ExhibitorSearchParamsN.Value;
-    page: number;
-    countPerPage: number;
+    searchParams: ExhibitorSearchParams;
+    pagination?: { page: number; countPerPage: number };
     select: T;
   }) {
     const where: Prisma.ShowExhibitorWhereInput[] = [];
     const statusesWhere: Prisma.ShowExhibitorWhereInput[] = [];
 
     if (
-      params.searchParams.animations.has(ExhibitorSearchParamsN.Animation.NONE)
+      params.searchParams.animations.has(
+        ExhibitorSearchParams.Animation.Enum.NONE,
+      )
     ) {
       where.push({
         animations: { none: {} },
@@ -52,7 +53,7 @@ export class ShowExhibitorDbDelegate {
 
     if (
       params.searchParams.animations.has(
-        ExhibitorSearchParamsN.Animation.ON_STAGE,
+        ExhibitorSearchParams.Animation.Enum.ON_STAGE,
       )
     ) {
       where.push({ animations: { some: {} } });
@@ -60,7 +61,7 @@ export class ShowExhibitorDbDelegate {
 
     if (
       params.searchParams.animations.has(
-        ExhibitorSearchParamsN.Animation.ON_STAND,
+        ExhibitorSearchParams.Animation.Enum.ON_STAND,
       )
     ) {
       where.push({ onStandAnimations: { not: null } });
@@ -114,6 +115,61 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.invoiceStatuses.size > 0) {
+      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
+        invoicesWhere.push({
+          invoices: {
+            every: { status: InvoiceStatus.Enum.PAID },
+            // Ensure at least 1 invoice exist.
+            some: {},
+          },
+        });
+      }
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
+        invoicesWhere.push({
+          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
+        });
+      }
+
+      where.push({ OR: invoicesWhere });
+    }
+
+    if (params.searchParams.laureats.size > 0) {
+      const laureatWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.ORGANIZERS_FAVORITE,
+        )
+      ) {
+        laureatWhere.push({ isOrganizersFavorite: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.RISING_STAR,
+        )
+      ) {
+        laureatWhere.push({ isRisingStar: true });
+      }
+
+      if (
+        params.searchParams.laureats.has(
+          ExhibitorSearchParams.Laureat.Enum.NONE,
+        )
+      ) {
+        laureatWhere.push({
+          isOrganizersFavorite: false,
+          isRisingStar: false,
+        });
+      }
+
+      where.push({ OR: laureatWhere });
+    }
+
     if (params.searchParams.name != null) {
       where.push({
         name: {
@@ -127,6 +183,14 @@ export class ShowExhibitorDbDelegate {
       statusesWhere.push({
         onStandAnimationsStatus: {
           in: Array.from(params.searchParams.onStandAnimationsStatuses),
+        },
+      });
+    }
+
+    if (params.searchParams.publicProfileStatuses.size > 0) {
+      statusesWhere.push({
+        publicProfileStatus: {
+          in: Array.from(params.searchParams.publicProfileStatuses),
         },
       });
     }
@@ -155,36 +219,6 @@ export class ShowExhibitorDbDelegate {
       }
 
       where.push({ OR: sponsorshipCategoryWhere });
-    }
-
-    if (params.searchParams.invoiceStatuses.size > 0) {
-      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
-        invoicesWhere.push({
-          invoices: {
-            every: { status: InvoiceStatus.Enum.PAID },
-            // Ensure at least 1 invoice exist.
-            some: {},
-          },
-        });
-      }
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
-        invoicesWhere.push({
-          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
-        });
-      }
-
-      where.push({ OR: invoicesWhere });
-    }
-
-    if (params.searchParams.publicProfileStatuses.size > 0) {
-      statusesWhere.push({
-        publicProfileStatus: {
-          in: Array.from(params.searchParams.publicProfileStatuses),
-        },
-      });
     }
 
     if (params.searchParams.standConfigurationStatuses.size > 0) {
@@ -228,10 +262,15 @@ export class ShowExhibitorDbDelegate {
 
       exhibitors: prisma.showExhibitor.findMany({
         where: { AND: where },
-        skip: params.page * params.countPerPage,
-        take: params.countPerPage,
         orderBy: FIND_ORDER_BY_SORT[params.searchParams.sort],
         select: params.select,
+
+        ...(params.pagination != null
+          ? {
+              skip: params.pagination.page * params.pagination.countPerPage,
+              take: params.pagination.countPerPage,
+            }
+          : null),
       }),
     });
 
@@ -529,20 +568,25 @@ export class ShowExhibitorDbDelegate {
 }
 
 const FIND_ORDER_BY_SORT: Record<
-  ExhibitorSearchParamsN.Sort,
+  ExhibitorSearchParams.Sort.Enum,
   Prisma.ShowExhibitorFindManyArgs["orderBy"]
 > = {
-  [ExhibitorSearchParamsN.Sort.DIVIDER_COUNT]: [
+  [ExhibitorSearchParams.Sort.Enum.DIVIDER_COUNT]: [
     { dividerCount: "desc" },
     { name: "asc" },
   ],
-  [ExhibitorSearchParamsN.Sort.NAME]: { name: "asc" },
-  [ExhibitorSearchParamsN.Sort.UPDATED_AT]: { updatedAt: "desc" },
+  [ExhibitorSearchParams.Sort.Enum.NAME]: { name: "asc" },
+  [ExhibitorSearchParams.Sort.Enum.UPDATED_AT]: { updatedAt: "desc" },
 };
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
-  "isOrganizer" | "isVisible" | "locationNumber" | "standNumber"
+  | "isOrganizer"
+  | "isOrganizersFavorite"
+  | "isRisingStar"
+  | "isVisible"
+  | "locationNumber"
+  | "standNumber"
 >;
 
 type ShowExhibitorDocumentsData = Pick<

@@ -44,6 +44,8 @@ export function CardSituation() {
           <ItemApplication />
           <ItemOrganizer />
           <ItemSponsorship />
+          <ItemOrganizersFavorite />
+          <ItemRisingStar />
           <ItemExhibitorSpace />
         </ItemList>
       </Card.Content>
@@ -134,7 +136,35 @@ function ItemOrganizer() {
 
   return (
     <SimpleItem icon={<Icon href="icon-show-solid" />}>
-      <strong className="text-body-emphasis">Est organisateur</strong>
+      Est organisateur
+    </SimpleItem>
+  );
+}
+
+function ItemOrganizersFavorite() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  if (!exhibitor.isOrganizersFavorite) {
+    return null;
+  }
+
+  return (
+    <SimpleItem icon={<Icon href="icon-heart-light" />}>
+      Est <strong className="text-body-emphasis">Coup de cœur</strong>
+    </SimpleItem>
+  );
+}
+
+function ItemRisingStar() {
+  const { exhibitor } = useLoaderData<typeof loader>();
+
+  if (!exhibitor.isRisingStar) {
+    return null;
+  }
+
+  return (
+    <SimpleItem icon={<Icon href="icon-seedling-light" />}>
+      Est <strong className="text-body-emphasis">Espoir</strong>
     </SimpleItem>
   );
 }
@@ -170,9 +200,7 @@ function ItemInvoiceStatus() {
       isLightIcon
       icon={<InvoiceIcon status={exhibitor.invoiceStatus} />}
     >
-      <strong className="text-body-emphasis">
-        {InvoiceStatus.translation[exhibitor.invoiceStatus]}
-      </strong>
+      {InvoiceStatus.translation[exhibitor.invoiceStatus]}
     </SimpleItem>
   );
 }

@@ -31,6 +31,8 @@ export function useFormRoot() {
 
     defaultValue: {
       isOrganizer: OnOff.fromBoolean(exhibitor.isOrganizer),
+      isOrganizersFavorite: OnOff.fromBoolean(exhibitor.isOrganizersFavorite),
+      isRisingStar: OnOff.fromBoolean(exhibitor.isRisingStar),
       isVisible: Visibility.fromBoolean(exhibitor.isVisible),
       locationNumber: exhibitor.locationNumber,
       standNumber: exhibitor.standNumber,
