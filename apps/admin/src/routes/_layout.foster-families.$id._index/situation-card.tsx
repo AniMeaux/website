@@ -14,6 +14,7 @@ import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
 import {
   FosterFamilyAvailability,
+  FosterFamilyEmergencies,
   FosterFamilyGarden,
   FosterFamilyHousing,
 } from "@prisma/client";
@@ -112,6 +113,14 @@ export function SituationCard() {
                 TEXT_BY_GARDEN[fosterFamily.garden],
               ].join("")}
             </Markdown>
+          </SimpleItem>
+
+          <SimpleItem icon={<Icon href="icon-hand-holding-heart-solid" />}>
+            {fosterFamily.acceptsEmergencies === FosterFamilyEmergencies.YES ? (
+              <><strong>Accepte</strong> les accueils d'urgence</>
+            ) : (
+              <><strong>N'accepte pas</strong> les accueils d'urgence</>
+            )}
           </SimpleItem>
         </ItemList>
       </Card.Content>

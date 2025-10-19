@@ -13,6 +13,7 @@ import type { FosterFamilySearchParams } from "#foster-families/search-params";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type {
   FosterFamily,
+  FosterFamilyEmergencies,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
@@ -338,6 +339,7 @@ export class FosterFamilyDbDelegate {
 
 type DataCreate = {
   address: string;
+  acceptsEmergencies?: FosterFamilyEmergencies;
   availability: FosterFamilyAvailability;
   availabilityExpirationDate: Date | null;
   city: string;
@@ -354,6 +356,7 @@ type DataCreate = {
 
 type DataUpdate = {
   address?: string;
+  acceptsEmergencies?: FosterFamilyEmergencies;
   availability?: FosterFamilyAvailability;
   availabilityExpirationDate?: Date | null;
   city?: string;

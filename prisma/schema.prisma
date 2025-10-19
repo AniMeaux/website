@@ -80,6 +80,7 @@ model FosterFamily {
   updatedAt  DateTime   @updatedAt
   activities Activity[]
 
+  acceptsEmergencies         FosterFamilyEmergencies  @default(NO)
   availability               FosterFamilyAvailability @default(UNKNOWN)
   availabilityExpirationDate DateTime?
   comments                   String?
@@ -104,6 +105,11 @@ enum FosterFamilyAvailability {
   AVAILABLE
   UNAVAILABLE
   UNKNOWN
+}
+
+enum FosterFamilyEmergencies {
+  NO
+  YES
 }
 
 enum FosterFamilyHousing {
