@@ -156,31 +156,49 @@ export function GlobalSearch({
               fetcher={fetcher}
               onClose={() => setIsOpened(false)}
               onSelectedItemChange={(item) => {
-                if (item.type === Entity.Enum.ANIMAL) {
-                  navigate(Routes.animals.id(item.id).toString());
-                } else {
-                  navigate(Routes.fosterFamilies.id(item.id).toString());
+                switch (entity) {
+                  case Entity.Enum.ANIMAL: {
+                    return navigate(Routes.animals.id(item.id).toString());
+                  }
+
+                  case Entity.Enum.FOSTER_FAMILY: {
+                    return navigate(
+                      Routes.fosterFamilies.id(item.id).toString(),
+                    );
+                  }
+
+                  default: {
+                    return entity satisfies never;
+                  }
                 }
               }}
               onSelectSearch={(search) => {
-                if (entity === Entity.Enum.ANIMAL) {
-                  navigate(
-                    createPath({
-                      pathname: Routes.animals.toString(),
-                      search: AnimalSearchParams.format({
-                        nameOrAlias: search,
+                switch (entity) {
+                  case Entity.Enum.ANIMAL: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.animals.toString(),
+                        search: AnimalSearchParams.format({
+                          nameOrAlias: search,
+                        }),
                       }),
-                    }),
-                  );
-                } else {
-                  navigate(
-                    createPath({
-                      pathname: Routes.fosterFamilies.toString(),
-                      search: FosterFamilySearchParams.format({
-                        displayName: search,
+                    );
+                  }
+
+                  case Entity.Enum.FOSTER_FAMILY: {
+                    return navigate(
+                      createPath({
+                        pathname: Routes.fosterFamilies.toString(),
+                        search: FosterFamilySearchParams.format({
+                          displayName: search,
+                        }),
                       }),
-                    }),
-                  );
+                    );
+                  }
+
+                  default: {
+                    return entity satisfies never;
+                  }
                 }
               }}
             />
@@ -252,11 +270,19 @@ function Combobox({
         return item;
       }
 
-      if (item.type === Entity.Enum.ANIMAL) {
-        return getAnimalDisplayName(item);
-      }
+      switch (item.type) {
+        case Entity.Enum.ANIMAL: {
+          return getAnimalDisplayName(item);
+        }
 
-      return item.displayName;
+        case Entity.Enum.FOSTER_FAMILY: {
+          return item.displayName;
+        }
+
+        default: {
+          return item satisfies never;
+        }
+      }
     },
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem != null) {
@@ -354,23 +380,31 @@ function Combobox({
               );
             }
 
-            if (item.type === Entity.Enum.ANIMAL) {
-              return (
-                <AnimalSuggestionItem
-                  key={item.id}
-                  {...combobox.getItemProps({ item, index })}
-                  animal={item}
-                />
-              );
-            }
+            switch (item.type) {
+              case Entity.Enum.ANIMAL: {
+                return (
+                  <AnimalSuggestionItem
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    animal={item}
+                  />
+                );
+              }
 
-            return (
-              <FosterFamilySuggestionItem
-                key={item.id}
-                {...combobox.getItemProps({ item, index })}
-                fosterFamily={item}
-              />
-            );
+              case Entity.Enum.FOSTER_FAMILY: {
+                return (
+                  <FosterFamilySuggestionItem
+                    key={item.id}
+                    {...combobox.getItemProps({ item, index })}
+                    fosterFamily={item}
+                  />
+                );
+              }
+
+              default: {
+                return item satisfies never;
+              }
+            }
           })}
         </SuggestionList>
       </section>

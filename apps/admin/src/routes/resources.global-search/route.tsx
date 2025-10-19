@@ -38,44 +38,55 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return json({ items: [] });
   }
 
-  if (entity === Entity.Enum.ANIMAL) {
-    const animals = await db.animal.fuzzySearch(searchParams.text, {
-      select: {
-        alias: true,
-        avatar: true,
-        breed: { select: { name: true } },
-        color: { select: { name: true } },
-        name: true,
-        pickUpDate: true,
-        pickUpLocation: true,
-        species: true,
-        status: true,
-      },
-      take: MAX_HIT_COUNT,
-    });
+  switch (entity) {
+    case Entity.Enum.ANIMAL: {
+      const animals = await db.animal.fuzzySearch(searchParams.text, {
+        select: {
+          alias: true,
+          avatar: true,
+          breed: { select: { name: true } },
+          color: { select: { name: true } },
+          name: true,
+          pickUpDate: true,
+          pickUpLocation: true,
+          species: true,
+          status: true,
+        },
+        take: MAX_HIT_COUNT,
+      });
 
-    const items = animals.map((animal) => ({
-      type: Entity.Enum.ANIMAL,
-      ...animal,
-    }));
+      const items = animals.map((animal) => ({
+        type: Entity.Enum.ANIMAL,
+        ...animal,
+      }));
 
-    return json({ items });
+      return json({ items });
+    }
+
+    case Entity.Enum.FOSTER_FAMILY: {
+      const fosterFamilies = await db.fosterFamily.fuzzySearch(
+        searchParams.text,
+        {
+          select: {
+            availability: true,
+            city: true,
+            displayName: true,
+            zipCode: true,
+          },
+          take: MAX_HIT_COUNT,
+        },
+      );
+
+      const items = fosterFamilies.map((fosterFamily) => ({
+        type: Entity.Enum.FOSTER_FAMILY,
+        ...fosterFamily,
+      }));
+
+      return json({ items });
+    }
+
+    default: {
+      return entity satisfies never;
+    }
   }
-
-  const fosterFamilies = await db.fosterFamily.fuzzySearch(searchParams.text, {
-    select: {
-      availability: true,
-      city: true,
-      displayName: true,
-      zipCode: true,
-    },
-    take: MAX_HIT_COUNT,
-  });
-
-  const items = fosterFamilies.map((fosterFamily) => ({
-    type: Entity.Enum.FOSTER_FAMILY,
-    ...fosterFamily,
-  }));
-
-  return json({ items });
 }
