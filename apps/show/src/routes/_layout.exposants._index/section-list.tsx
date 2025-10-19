@@ -187,6 +187,25 @@ function ActiveFilterSponsorshipAndLaureats() {
     );
   }
 
+  if (exhibitorSearchParams.isRisingStar) {
+    filtersNodes.push(
+      <InputActiveFilter.Root key="rising-star">
+        <InputActiveFilter.Input
+          name={ExhibitorSearchParams.io.keys.isRisingStar}
+          value="on"
+        />
+
+        <InputActiveFilter.Icon asChild>
+          <Icon id="seedling-solid" />
+        </InputActiveFilter.Icon>
+
+        <InputActiveFilter.Label>Espoir</InputActiveFilter.Label>
+
+        <InputActiveFilter.RemoveIcon />
+      </InputActiveFilter.Root>,
+    );
+  }
+
   return filtersNodes;
 }
 

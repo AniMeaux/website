@@ -279,6 +279,28 @@ function FieldSponsorshipAndLaureats() {
 
           <FormLayout.Selector.CheckboxIcon />
         </FormLayout.Selector.Root>
+
+        <FormLayout.Selector.Root>
+          <FormLayout.Selector.Input
+            name={ExhibitorSearchParams.io.keys.isRisingStar}
+            type="checkbox"
+            value="on"
+            checked={exhibitorSearchParams.isRisingStar}
+            onChange={() => {}}
+          />
+
+          <FormLayout.Selector.CheckedIcon asChild>
+            <Icon id="seedling-solid" />
+          </FormLayout.Selector.CheckedIcon>
+
+          <FormLayout.Selector.UncheckedIcon asChild>
+            <Icon id="seedling-light" />
+          </FormLayout.Selector.UncheckedIcon>
+
+          <FormLayout.Selector.Label>Espoir</FormLayout.Selector.Label>
+
+          <FormLayout.Selector.CheckboxIcon />
+        </FormLayout.Selector.Root>
       </FormLayout.Selectors>
     </FormLayout.Field>
   );
