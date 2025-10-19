@@ -3,14 +3,16 @@ import { BaseLink } from "#core/base-link";
 import { Paginator } from "#core/controllers/paginator";
 import { SimpleEmpty } from "#core/data-display/empty";
 import { Card } from "#core/layout/card";
+import { DownloadExhibitorsTrigger } from "#routes/downloads.show.exhibitors/trigger.js";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ExhibitorItem } from "./item";
-import type { loader } from "./route";
+import type { loader } from "./loader.server";
 
 export function CardList() {
-  const { totalCount, pageCount, exhibitors } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, exhibitors, canExport } =
+    useLoaderData<typeof loader>();
   const [searchParams] = useOptimisticSearchParams();
 
   return (
@@ -19,6 +21,15 @@ export function CardList() {
         <Card.Title>
           {totalCount} {totalCount > 1 ? "exposants" : "exposant"}
         </Card.Title>
+
+        {canExport ? (
+          <DownloadExhibitorsTrigger asChild>
+            <Action variant="text" color="gray">
+              <Action.Icon href="icon-download-solid" />
+              Exporter
+            </Action>
+          </DownloadExhibitorsTrigger>
+        ) : null}
       </Card.Header>
 
       <Card.Content hasListItems>
