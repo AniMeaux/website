@@ -16,6 +16,39 @@ export type ExhibitorSearchParams = SearchParamsIO.Infer<
 >;
 
 export namespace ExhibitorSearchParams {
+  export namespace Animation {
+    export const Enum = {
+      NONE: "NONE",
+      ON_STAGE: "ON_STAGE",
+      ON_STAND: "ON_STAND",
+    } as const;
+
+    export type Enum = (typeof Enum)[keyof typeof Enum];
+
+    export const translations: Record<Enum, string> = {
+      [Enum.NONE]: "Aucune",
+      [Enum.ON_STAGE]: "Sur scène",
+      [Enum.ON_STAND]: "Sur stand",
+    };
+
+    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND];
+
+    export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
+      [Enum.NONE]: {
+        light: "icon-circle-x-light",
+        solid: "icon-circle-x-solid",
+      },
+      [Enum.ON_STAGE]: {
+        light: "icon-microphone-stand-light",
+        solid: "icon-microphone-stand-solid",
+      },
+      [Enum.ON_STAND]: {
+        light: "icon-calendar-day-light",
+        solid: "icon-calendar-day-solid",
+      },
+    };
+  }
+
   export namespace Sort {
     export const Enum = {
       NAME: "N",
@@ -55,39 +88,6 @@ export namespace ExhibitorSearchParams {
     };
   }
 
-  export namespace Animation {
-    export const Enum = {
-      NONE: "NONE",
-      ON_STAGE: "ON_STAGE",
-      ON_STAND: "ON_STAND",
-    } as const;
-
-    export type Enum = (typeof Enum)[keyof typeof Enum];
-
-    export const translations: Record<Enum, string> = {
-      [Enum.NONE]: "Aucune",
-      [Enum.ON_STAGE]: "Sur scène",
-      [Enum.ON_STAND]: "Sur stand",
-    };
-
-    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND];
-
-    export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
-      [Enum.NONE]: {
-        light: "icon-circle-x-light",
-        solid: "icon-circle-x-solid",
-      },
-      [Enum.ON_STAGE]: {
-        light: "icon-microphone-stand-light",
-        solid: "icon-microphone-stand-solid",
-      },
-      [Enum.ON_STAND]: {
-        light: "icon-calendar-day-light",
-        solid: "icon-calendar-day-solid",
-      },
-    };
-  }
-
   export const io = SearchParamsIO.create({
     keys: {
       animations: "an",
@@ -97,10 +97,10 @@ export namespace ExhibitorSearchParams {
       documentsStatuses: "dos",
       dogsConfigurationStatuses: "dcs",
       fields: "fi",
+      invoiceStatuses: "is",
       name: "q",
       onStandAnimationsStatuses: "osas",
       organizersFavorite: "of",
-      invoiceStatuses: "is",
       publicProfileStatuses: "ps",
       sort: "sort",
       sponsorshipCategories: "pc",
@@ -141,6 +141,11 @@ export namespace ExhibitorSearchParams {
 
         fields: SearchParamsIO.getValues(searchParams, keys.fields),
 
+        invoiceStatuses: SearchParamsIO.getValues(
+          searchParams,
+          keys.invoiceStatuses,
+        ),
+
         name: SearchParamsIO.getValue(searchParams, keys.name),
 
         onStandAnimationsStatuses: SearchParamsIO.getValues(
@@ -151,11 +156,6 @@ export namespace ExhibitorSearchParams {
         organizersFavorite: SearchParamsIO.getValue(
           searchParams,
           keys.organizersFavorite,
-        ),
-
-        invoiceStatuses: SearchParamsIO.getValues(
-          searchParams,
-          keys.invoiceStatuses,
         ),
 
         publicProfileStatuses: SearchParamsIO.getValues(
@@ -218,6 +218,12 @@ export namespace ExhibitorSearchParams {
 
       SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
 
+      SearchParamsIO.setValues(
+        searchParams,
+        keys.invoiceStatuses,
+        data.invoiceStatuses,
+      );
+
       SearchParamsIO.setValue(searchParams, keys.name, data.name);
 
       SearchParamsIO.setValues(
@@ -234,23 +240,17 @@ export namespace ExhibitorSearchParams {
 
       SearchParamsIO.setValues(
         searchParams,
-        keys.sponsorshipCategories,
-        data.sponsorshipCategories,
-      );
-
-      SearchParamsIO.setValues(
-        searchParams,
-        keys.invoiceStatuses,
-        data.invoiceStatuses,
-      );
-
-      SearchParamsIO.setValues(
-        searchParams,
         keys.publicProfileStatuses,
         data.publicProfileStatuses,
       );
 
       SearchParamsIO.setValue(searchParams, keys.sort, data.sort);
+
+      SearchParamsIO.setValues(
+        searchParams,
+        keys.sponsorshipCategories,
+        data.sponsorshipCategories,
+      );
 
       SearchParamsIO.setValues(
         searchParams,
@@ -297,6 +297,10 @@ export namespace ExhibitorSearchParams {
 
     fields: zu.searchParams.set(zu.searchParams.nativeEnum(ShowActivityField)),
 
+    invoiceStatuses: zu.searchParams.set(
+      zu.searchParams.nativeEnum(InvoiceStatus.Enum),
+    ),
+
     name: zu.searchParams.string(),
 
     onStandAnimationsStatuses: zu.searchParams.set(
@@ -305,19 +309,15 @@ export namespace ExhibitorSearchParams {
 
     organizersFavorite: zu.searchParams.boolean(),
 
-    sponsorshipCategories: zu.searchParams.set(
-      zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
-    ),
-
-    invoiceStatuses: zu.searchParams.set(
-      zu.searchParams.nativeEnum(InvoiceStatus.Enum),
-    ),
-
     publicProfileStatuses: zu.searchParams.set(
       zu.searchParams.nativeEnum(ExhibitorStatus.Enum),
     ),
 
     sort: zu.searchParams.nativeEnum(Sort.Enum).default(Sort.defaultValue),
+
+    sponsorshipCategories: zu.searchParams.set(
+      zu.searchParams.nativeEnum(SponsorshipOptionalCategory.Enum),
+    ),
 
     standConfigurationStatuses: zu.searchParams.set(
       zu.searchParams.nativeEnum(ExhibitorStatus.Enum),

@@ -115,6 +115,28 @@ export class ShowExhibitorDbDelegate {
       });
     }
 
+    if (params.searchParams.invoiceStatuses.size > 0) {
+      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
+        invoicesWhere.push({
+          invoices: {
+            every: { status: InvoiceStatus.Enum.PAID },
+            // Ensure at least 1 invoice exist.
+            some: {},
+          },
+        });
+      }
+
+      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
+        invoicesWhere.push({
+          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
+        });
+      }
+
+      where.push({ OR: invoicesWhere });
+    }
+
     if (params.searchParams.name != null) {
       where.push({
         name: {
@@ -134,6 +156,14 @@ export class ShowExhibitorDbDelegate {
 
     if (params.searchParams.organizersFavorite) {
       where.push({ isOrganizersFavorite: true });
+    }
+
+    if (params.searchParams.publicProfileStatuses.size > 0) {
+      statusesWhere.push({
+        publicProfileStatus: {
+          in: Array.from(params.searchParams.publicProfileStatuses),
+        },
+      });
     }
 
     if (params.searchParams.sponsorshipCategories.size > 0) {
@@ -160,36 +190,6 @@ export class ShowExhibitorDbDelegate {
       }
 
       where.push({ OR: sponsorshipCategoryWhere });
-    }
-
-    if (params.searchParams.invoiceStatuses.size > 0) {
-      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
-        invoicesWhere.push({
-          invoices: {
-            every: { status: InvoiceStatus.Enum.PAID },
-            // Ensure at least 1 invoice exist.
-            some: {},
-          },
-        });
-      }
-
-      if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
-        invoicesWhere.push({
-          invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
-        });
-      }
-
-      where.push({ OR: invoicesWhere });
-    }
-
-    if (params.searchParams.publicProfileStatuses.size > 0) {
-      statusesWhere.push({
-        publicProfileStatus: {
-          in: Array.from(params.searchParams.publicProfileStatuses),
-        },
-      });
     }
 
     if (params.searchParams.standConfigurationStatuses.size > 0) {
