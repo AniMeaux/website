@@ -52,6 +52,7 @@ export function SectionList() {
                 isSponsor: exhibitor.isSponsor,
                 isOrganizer: exhibitor.isOrganizer,
                 isOrganizersFavorite: exhibitor.isOrganizersFavorite,
+                isRisingStar: exhibitor.isRisingStar,
                 logoPath: exhibitor.logoPath,
                 name: exhibitor.name,
                 url: exhibitor.url,

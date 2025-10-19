@@ -28,6 +28,7 @@ export function ExhibitorItem({
     isSponsor: boolean;
     isOrganizer: boolean;
     isOrganizersFavorite: boolean;
+    isRisingStar: boolean;
     logoPath: string;
     name: string;
     onStandAnimations?: string;
@@ -87,6 +88,13 @@ export function ExhibitorItem({
               <>
                 &nbsp;
                 <IconInline id="heart-solid" title="Coup de cœur" />
+              </>
+            ) : null}
+
+            {exhibitor.isRisingStar ? (
+              <>
+                &nbsp;
+                <IconInline id="seedling-solid" title="Espoir" />
               </>
             ) : null}
           </p>
