@@ -27,6 +27,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     where: { id: paramsResult.data.id },
     select: {
       address: true,
+      acceptsEmergencies: true,
       availability: true,
       availabilityExpirationDate: true,
       city: true,

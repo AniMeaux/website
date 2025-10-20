@@ -43,6 +43,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
       paramsResult.data.id,
       {
         address: formData.data.address,
+        acceptsEmergencies: formData.data.acceptsEmergencies,
         availability: formData.data.availability,
         availabilityExpirationDate:
           formData.data.availabilityExpirationDate ?? null,

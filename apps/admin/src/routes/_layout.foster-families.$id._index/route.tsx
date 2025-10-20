@@ -66,6 +66,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     fosterFamily: prisma.fosterFamily.findUnique({
       where: { id: paramsResult.data.id },
       select: {
+        acceptsEmergencies: true,
         address: true,
         availability: true,
         availabilityExpirationDate: true,
