@@ -25,6 +25,7 @@ RUN yarn --frozen-lockfile --production=false
 # Setup production node_modules
 FROM base as production-deps
 COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
@@ -40,12 +41,12 @@ RUN yarn --frozen-lockfile
 # Build
 FROM base as build
 COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 
-ADD ./package.json ./tsconfig.base.json ./
-ADD ./prisma ./prisma
+ADD ./tsconfig.base.json ./
 ADD ./libs/prisma ./libs/prisma
-RUN yarn generate:prisma
+RUN yarn --cwd ./libs/prisma generate
 
 ADD ./libs/core ./libs/core
 ADD ./libs/file-storage ./libs/file-storage
@@ -59,10 +60,11 @@ RUN yarn --cwd ./apps/show build
 # Finally, build the production image with minimal footprint
 FROM base
 COPY --from=production-deps /workspace/node_modules ./node_modules
+COPY --from=production-deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=production-deps /workspace/apps/show/node_modules ./apps/show/node_modules
 COPY --from=build /workspace/apps/show/build ./apps/show/build
 COPY --from=build /workspace/apps/show/server.js ./apps/show/
-ADD ./prisma ./prisma
+ADD ./libs/prisma ./libs/prisma
 ADD ./apps/show ./apps/show
 
 CMD ["yarn", "--cwd", "apps/show", "start"]

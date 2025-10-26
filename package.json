@@ -12,16 +12,12 @@
   },
   "type": "module",
   "scripts": {
-    "db:migrate": "yarn prisma-env migrate dev",
-    "db:reset": "yarn prisma-env migrate reset -f",
-    "db:studio": "yarn prisma-env studio",
     "down": "run-s down:ecosystem down:docker",
     "down:docker": "docker compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
-    "generate": "run-s generate:prisma generate:workspaces",
-    "generate:prisma": "prisma generate",
+    "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:workspaces": "yarn workspaces run generate",
-    "lint": "run-p --aggregate-output --continue-on-error lint:*",
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:ts": "yarn workspaces run tsc --noEmit",
@@ -30,17 +26,10 @@
     "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
     "ls": "yarn pm2 ls",
     "log": "yarn pm2 log",
-    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
     "up": "run-s up:docker up:ecosystem",
     "up:docker": "docker compose up -d",
     "up:ecosystem": "pm2 start ./ecosystem.config.cjs"
-  },
-  "prisma": {
-    "seed": "yarn seed-data"
-  },
-  "dependencies": {
-    "prisma": "^6.18.0"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "~2.9.2",

@@ -1,6 +1,7 @@
 generator client {
   provider     = "prisma-client"
-  output       = "../libs/prisma/src/generated"
+  engineType   = "client"
+  output       = "./src/generated"
   moduleFormat = "esm"
 }
 

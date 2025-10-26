@@ -1,5 +1,3 @@
-#!/usr/bin/env tsx
-
 import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
 import { generatePasswordHash } from "@animeaux/password";
 import type { Prisma } from "@animeaux/prisma/client";

@@ -1840,6 +1840,15 @@
   dependencies:
     debug "^4.3.1"
 
+"@prisma/adapter-pg@^6.18.0":
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/@prisma/adapter-pg/-/adapter-pg-6.18.0.tgz#1a8f16d2d6c972e501c981a23aff01c2fb7f0121"
+  integrity sha512-eBtBOL1z2Sh0Rc2hwa4dmwoNeFs5T69tsA62AkhBvnzNfTcr/YfLeJae/wjNmvRttYDPmdiuhqZCRPNY1+8fOA==
+  dependencies:
+    "@prisma/driver-adapter-utils" "6.18.0"
+    pg "^8.11.3"
+    postgres-array "3.0.4"
+
 "@prisma/client@^6.18.0":
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-6.18.0.tgz#95f0efe03b5827d9bf5c80b6b7298e46094b5fbf"
@@ -1859,6 +1868,13 @@
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-6.18.0.tgz#e0137fa407b6d10b00ba5ff6e37733341c505d9c"
   integrity sha512-PMVPMmxPj0ps1VY75DIrT430MoOyQx9hmm174k6cmLZpcI95rAPXOQ+pp8ANQkJtNyLVDxnxVJ0QLbrm/ViBcg==
+
+"@prisma/driver-adapter-utils@6.18.0":
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-6.18.0.tgz#0f9d069da2f525e87fd95f98ad1bacf9d34c78ef"
+  integrity sha512-9wgSriEKs4j1ePxlv1/RNfJV9Gu5rzG37Neshg+DfrCcUY3amroERvTjyR04w5J1THdGdOTgGL9VdJcVaKRMmQ==
+  dependencies:
+    "@prisma/debug" "6.18.0"
 
 "@prisma/engines-version@6.18.0-8.34b5a692b7bd79939a9a2c3ef97d816e749cda2f":
   version "6.18.0-8.34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
@@ -9743,6 +9759,11 @@ postcss@^8.4.23, postcss@^8.4.38:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
     source-map-js "^1.2.0"
+
+postgres-array@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/postgres-array/-/postgres-array-3.0.4.tgz#4efcaf4d2c688d8bcaa8620ed13f35f299f7528c"
+  integrity sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ==
 
 postgres-array@~2.0.0:
   version "2.0.0"
