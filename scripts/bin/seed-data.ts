@@ -2,8 +2,7 @@
 
 import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
 import { generatePasswordHash } from "@animeaux/password";
-import { fakerFR as faker } from "@faker-js/faker";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/client";
 import {
   ActivityAction,
   ActivityActorType,
@@ -15,7 +14,6 @@ import {
   FosterFamilyHousing,
   Gender,
   PickUpReason,
-  PrismaClient,
   ScreeningResult,
   ShowActivityField,
   ShowActivityTarget,
@@ -30,7 +28,9 @@ import {
   Species,
   Status,
   UserGroup,
-} from "@prisma/client";
+} from "@animeaux/prisma/client";
+import { PrismaClient } from "@animeaux/prisma/server";
+import { fakerFR as faker } from "@faker-js/faker";
 import { DateTime } from "luxon";
 
 const DEFAULT_PASSWORD = "NotASword1!";

@@ -1,7 +1,7 @@
 import { endOfDay } from "#core/dates";
+import { UserGroup } from "@animeaux/prisma/client";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
 
 export enum UserSort {

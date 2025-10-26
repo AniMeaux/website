@@ -3,8 +3,8 @@ import { Activity } from "#activity/db.server.js";
 import { ActivityResource } from "#activity/resource.js";
 import type { CronDefinition } from "#core/crons/shared.server";
 import { prisma } from "#core/prisma.server";
-import type { Prisma, PrismaClient } from "@prisma/client";
-import { FosterFamilyAvailability } from "@prisma/client";
+import type { Prisma, PrismaClient } from "@animeaux/prisma/server";
+import { FosterFamilyAvailability } from "@animeaux/prisma/server";
 import { DateTime } from "luxon";
 
 export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {

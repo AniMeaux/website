@@ -8,8 +8,8 @@ import {
 } from "#core/translations";
 import { Icon } from "#generated/icon";
 import { cn, formatAge } from "@animeaux/core";
-import type { Species } from "@prisma/client";
-import { Gender } from "@prisma/client";
+import type { Species } from "@animeaux/prisma/client";
+import { Gender } from "@animeaux/prisma/client";
 
 export function AnimalItem({
   isDisabled = false,

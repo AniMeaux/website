@@ -1,4 +1,4 @@
-import { ShowExhibitorStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma/client";
 
 export namespace ExhibitorStatus {
   export const Enum = ShowExhibitorStatus;

@@ -1,5 +1,5 @@
-import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { User } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import orderBy from "lodash.orderby";
 
 export namespace Entity {

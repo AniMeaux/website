@@ -15,6 +15,7 @@ ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/files-io/package.json ./libs/files-io/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
@@ -29,6 +30,7 @@ ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/files-io/package.json ./libs/files-io/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/zod-utils/package.json ./libs/zod-utils/
@@ -42,6 +44,7 @@ COPY --from=deps /workspace/apps/show/node_modules ./apps/show/node_modules
 
 ADD ./package.json ./tsconfig.base.json ./
 ADD ./prisma ./prisma
+ADD ./libs/prisma ./libs/prisma
 RUN yarn generate:prisma
 
 ADD ./libs/core ./libs/core
@@ -57,7 +60,6 @@ RUN yarn --cwd ./apps/show build
 FROM base
 COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/show/node_modules ./apps/show/node_modules
-COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/show/build ./apps/show/build
 COPY --from=build /workspace/apps/show/server.js ./apps/show/
 ADD ./prisma ./prisma

@@ -3,7 +3,7 @@ import { DynamicImage } from "#core/data-display/image";
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn, formatDateRange } from "@animeaux/core";
-import type { Event } from "@prisma/client";
+import type { Event } from "@animeaux/prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 
 export function EventItem({

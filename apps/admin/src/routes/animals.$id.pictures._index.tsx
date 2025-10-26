@@ -4,8 +4,8 @@ import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 

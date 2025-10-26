@@ -4,7 +4,7 @@ import { ActivityResource } from "#activity/resource";
 import type { ActivitySearchParams } from "#activity/search-params";
 import { prisma } from "#core/prisma.server.js";
 import { notFound } from "#core/response.server.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 import { captureException } from "@sentry/remix";
 import isEqual from "lodash.isequal";
 import pick from "lodash.pick";

@@ -2,7 +2,7 @@ import { db } from "#core/db.server";
 import { scrapUrl } from "#core/metascraper.server";
 import { badRequest } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { UserGroup } from "@prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { DateTime } from "luxon";

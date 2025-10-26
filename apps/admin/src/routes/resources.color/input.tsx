@@ -11,7 +11,7 @@ import {
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { toBooleanAttribute } from "@animeaux/core";
-import type { Color } from "@prisma/client";
+import type { Color } from "@animeaux/prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";

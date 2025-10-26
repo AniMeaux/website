@@ -1,5 +1,5 @@
+import { Gender } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import { Gender } from "@prisma/client";
 
 export const ActionSchema = zu.object({
   dogs: zu.array(

@@ -30,7 +30,7 @@ import {
   ScreeningResult,
   Species,
   Status,
-} from "@prisma/client";
+} from "@animeaux/prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./route";

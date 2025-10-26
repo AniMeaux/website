@@ -1,6 +1,6 @@
 import type { ServicePrisma } from "#core/prisma.service.server.js";
 import type { DividerTypeAvailability } from "#divider-type/availability.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 import type { Simplify } from "type-fest";
 
 export class ServiceDividerType {

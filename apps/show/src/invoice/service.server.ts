@@ -1,6 +1,6 @@
 import type { ServicePrisma } from "#core/prisma.service.server.js";
 import { notFound } from "#core/response.server.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 
 export class ServiceInvoice {
   // eslint-disable-next-line no-useless-constructor

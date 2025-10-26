@@ -1,10 +1,10 @@
 import { db } from "#core/db.server";
 import { Routes } from "#core/navigation";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MergeExclusive } from "type-fest";

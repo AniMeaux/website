@@ -8,8 +8,8 @@ import { PageLayout } from "#core/layout/page";
 import { Routes } from "#core/navigation";
 import { getPageTitle } from "#core/page-title";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

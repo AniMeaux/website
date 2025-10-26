@@ -8,7 +8,7 @@ import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import { ShowExhibitorStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 

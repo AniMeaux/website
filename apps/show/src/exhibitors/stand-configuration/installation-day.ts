@@ -1,4 +1,4 @@
-import { ShowInstallationDay } from "@prisma/client";
+import { ShowInstallationDay } from "@animeaux/prisma/client";
 
 export const INSTALLATION_DAY_TRANSLATION: Record<ShowInstallationDay, string> =
   {

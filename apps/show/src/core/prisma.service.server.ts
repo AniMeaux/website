@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@animeaux/prisma/server";
 
 export class ServicePrisma extends PrismaClient {
   constructor() {

@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../libs/prisma/src/generated"
+  moduleFormat = "esm"
 }
 
 datasource db {

@@ -20,9 +20,9 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
+import { UserGroup } from "@animeaux/prisma/client";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

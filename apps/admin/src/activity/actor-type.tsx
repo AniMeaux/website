@@ -1,4 +1,4 @@
-import { ActivityActorType as PrismaActivityActorType } from "@prisma/client";
+import { ActivityActorType as PrismaActivityActorType } from "@animeaux/prisma/client";
 
 export namespace ActivityActorType {
   export const Enum = PrismaActivityActorType;

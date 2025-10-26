@@ -15,7 +15,7 @@ import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
 import { cn } from "@animeaux/core";
-import type { User } from "@prisma/client";
+import type { User } from "@animeaux/prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";

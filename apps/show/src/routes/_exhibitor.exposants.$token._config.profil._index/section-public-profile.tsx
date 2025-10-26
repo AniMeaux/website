@@ -10,7 +10,7 @@ import { ChipActivityField } from "#exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
 import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

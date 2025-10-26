@@ -4,7 +4,7 @@ import { prisma } from "#core/db.server";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { cn } from "@animeaux/core";
-import type { PressArticle } from "@prisma/client";
+import type { PressArticle } from "@animeaux/prisma/client";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

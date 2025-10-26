@@ -25,9 +25,9 @@ import {
 } from "#foster-families/avatar";
 import { ActionFormData } from "#foster-families/form";
 import { FormDataDelegate } from "@animeaux/form-data";
+import type { FosterFamily } from "@animeaux/prisma/client";
+import { FosterFamilyAvailability, UserGroup } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import type { FosterFamily } from "@prisma/client";
-import { FosterFamilyAvailability, UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

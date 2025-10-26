@@ -12,7 +12,7 @@ import {
 } from "#exhibitors/search-params";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import type { ShowActivityTarget } from "@prisma/client";
+import type { ShowActivityTarget } from "@animeaux/prisma/client";
 import { Link } from "@remix-run/react";
 
 export function ExhibitorItem({

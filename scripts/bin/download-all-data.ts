@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import "#env";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@animeaux/prisma/server";
 import { csvFormat } from "d3-dsv";
 import { DateTime, Settings } from "luxon";
 import { mkdir, writeFile } from "node:fs/promises";

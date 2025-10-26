@@ -12,8 +12,8 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { LockMyselfError } from "#users/db.server";
 import { ActionFormData, UserForm } from "#users/form";
 import { GROUP_TRANSLATION } from "#users/groups";
+import { UserGroup } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

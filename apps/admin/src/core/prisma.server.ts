@@ -1,5 +1,5 @@
 import { singleton } from "@animeaux/core";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@animeaux/prisma/server";
 import invariant from "tiny-invariant";
 
 invariant(

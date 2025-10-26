@@ -1,4 +1,4 @@
-import { ShowActivityField } from "@prisma/client";
+import { ShowActivityField } from "@animeaux/prisma/client";
 import orderBy from "lodash.orderby";
 
 export namespace ActivityField {

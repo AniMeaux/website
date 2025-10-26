@@ -5,8 +5,8 @@ import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { NotFoundError } from "#core/errors.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
-import type { Animal, AnimalDraft, Prisma } from "@prisma/client";
-import { Status, UserGroup } from "@prisma/client";
+import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
+import { Status, UserGroup } from "@animeaux/prisma/server";
 import { redirect } from "@remix-run/node";
 
 type SituationKeys =

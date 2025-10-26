@@ -1,6 +1,6 @@
 import { forbidden } from "#core/response.server";
 import { hasGroups } from "#users/groups";
-import type { User, UserGroup } from "@prisma/client";
+import type { User, UserGroup } from "@animeaux/prisma/server";
 
 export function assertCurrentUserHasGroups(
   user: Pick<User, "groups">,

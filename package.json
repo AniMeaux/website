@@ -40,7 +40,7 @@
     "seed": "yarn seed-data"
   },
   "dependencies": {
-    "prisma": "^6.7.0"
+    "prisma": "^6.18.0"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "~2.9.2",

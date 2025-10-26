@@ -1,7 +1,7 @@
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
 import type { ShowDividerTypeAvailability } from "#show/divider-type/availability.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 import merge from "lodash.merge";
 import type { Simplify } from "type-fest";
 

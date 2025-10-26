@@ -24,8 +24,8 @@ import {
   SponsorshipOptionalCategory,
 } from "#show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#show/visibility";
+import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma/client";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { ShowDividerType, ShowStandSize } from "@prisma/client";
 
 export function ExhibitorFilters({
   dividerTypes,

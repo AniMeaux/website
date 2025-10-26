@@ -1,0 +1,17 @@
+{
+  "name": "@animeaux/prisma",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./server": "./src/index.server.ts",
+    "./client": "./src/generated/browser.ts"
+  },
+  "scripts": {
+    "generate": "# Nothing to generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.18.0"
+  }
+}

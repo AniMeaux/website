@@ -9,9 +9,9 @@ import { prisma } from "#core/prisma.server";
 import type { UserSearchParams } from "#users/search-params";
 import { UserSort } from "#users/search-params";
 import { generatePasswordHash } from "@animeaux/password";
+import type { User } from "@animeaux/prisma/server";
+import { Prisma, UserGroup } from "@animeaux/prisma/server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
-import type { User } from "@prisma/client";
-import { Prisma, UserGroup } from "@prisma/client";
 import { DateTime } from "luxon";
 
 export class DisableMyselfError extends Error {}

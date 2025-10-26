@@ -16,8 +16,9 @@ import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
-import { cn, fromPrismaPromise } from "@animeaux/core";
-import { Gender, UserGroup } from "@prisma/client";
+import { cn } from "@animeaux/core";
+import { Gender, UserGroup } from "@animeaux/prisma/client";
+import { fromPrismaPromise } from "@animeaux/prisma/server";
 import type {
   LoaderFunctionArgs,
   MetaFunction,

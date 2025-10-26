@@ -11,7 +11,7 @@ import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
 import { catchError } from "@animeaux/core";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@animeaux/prisma/server";
 import { promiseHash } from "remix-utils/promise";
 
 export class ShowExhibitorDbDelegate {

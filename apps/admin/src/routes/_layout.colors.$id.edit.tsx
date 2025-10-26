@@ -10,8 +10,8 @@ import { getPageTitle } from "#core/page-title";
 import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

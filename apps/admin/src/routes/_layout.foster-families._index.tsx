@@ -18,8 +18,8 @@ import { FosterFamilyAvatar } from "#foster-families/avatar";
 import { FosterFamilyFilters } from "#foster-families/filter-form";
 import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { cn, getShortLocation } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma/client";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { UserGroup } from "@prisma/client";
 import type {
   LoaderFunctionArgs,
   MetaFunction,

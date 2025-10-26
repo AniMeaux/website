@@ -1,4 +1,4 @@
-import { ShowStandZone } from "@prisma/client";
+import { ShowStandZone } from "@animeaux/prisma/client";
 
 export namespace StandZone {
   export const Enum = ShowStandZone;

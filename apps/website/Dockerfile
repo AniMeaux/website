@@ -13,6 +13,7 @@ WORKDIR /workspace
 FROM base as deps
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile --production=false
@@ -23,6 +24,7 @@ COPY --from=deps /workspace/node_modules ./node_modules
 COPY --from=deps /workspace/apps/website/node_modules ./apps/website/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./apps/website/package.json ./apps/website/
 RUN yarn --frozen-lockfile
@@ -34,6 +36,7 @@ COPY --from=deps /workspace/apps/website/node_modules ./apps/website/node_module
 
 ADD ./package.json ./tsconfig.base.json ./
 ADD ./prisma ./prisma
+ADD ./libs/prisma ./libs/prisma
 RUN yarn generate:prisma
 
 ADD ./libs/core ./libs/core
@@ -45,7 +48,6 @@ RUN yarn --cwd ./apps/website build
 FROM base
 COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/website/node_modules ./apps/website/node_modules
-COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/website/build ./apps/website/build
 ADD ./prisma ./prisma
 ADD ./apps/website ./apps/website

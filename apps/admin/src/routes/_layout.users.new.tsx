@@ -8,8 +8,8 @@ import { getPageTitle } from "#core/page-title";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { MissingPasswordError } from "#users/db.server";
 import { ActionFormData, UserForm } from "#users/form";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

@@ -1,4 +1,4 @@
-import { ShowInstallationDay } from "@prisma/client";
+import { ShowInstallationDay } from "@animeaux/prisma/client";
 
 export namespace InstallationDay {
   export const Enum = ShowInstallationDay;

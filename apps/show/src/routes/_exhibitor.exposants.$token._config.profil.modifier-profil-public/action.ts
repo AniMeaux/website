@@ -1,7 +1,7 @@
 import { ImageLimits } from "#core/image/limits.js";
 import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import { ShowActivityTarget } from "@animeaux/prisma/client";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
-import { ShowActivityTarget } from "@prisma/client";
 
 export const ActionSchema = zu.object({
   logo: zu

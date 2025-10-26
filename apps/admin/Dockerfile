@@ -16,6 +16,7 @@ ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
@@ -32,6 +33,7 @@ ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
@@ -46,6 +48,7 @@ COPY --from=deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
 
 ADD ./package.json ./tsconfig.base.json ./
 ADD ./prisma ./prisma
+ADD ./libs/prisma ./libs/prisma
 RUN yarn generate:prisma
 
 ADD ./libs/core ./libs/core
@@ -63,7 +66,6 @@ RUN yarn --cwd ./apps/admin build
 FROM base
 COPY --from=production-deps /workspace/node_modules ./node_modules
 COPY --from=production-deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
-COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/admin/build ./apps/admin/build
 ADD ./prisma ./prisma
 ADD ./apps/admin ./apps/admin
