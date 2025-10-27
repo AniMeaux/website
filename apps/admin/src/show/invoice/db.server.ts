@@ -4,7 +4,7 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server";
 import { InvoiceStatus } from "#show/invoice/status";
 import { catchError } from "@animeaux/core";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@animeaux/prisma/server";
 
 export class ShowInvoiceDbDelegate {
   async create(data: CreateData) {

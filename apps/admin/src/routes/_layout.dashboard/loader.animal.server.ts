@@ -6,8 +6,8 @@ import {
 import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
 import { prisma } from "#core/prisma.server";
 import { hasGroups } from "#users/groups";
-import type { Prisma, User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { Prisma, User } from "@animeaux/prisma/server";
+import { UserGroup } from "@animeaux/prisma/server";
 import { DateTime } from "luxon";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";

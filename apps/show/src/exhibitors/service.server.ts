@@ -4,8 +4,8 @@ import type { ServicePrisma } from "#core/prisma.service.server.js";
 import { notFound } from "#core/response.server.js";
 import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
-import type { Prisma, ShowExhibitor } from "@prisma/client";
-import { ShowExhibitorStatus } from "@prisma/client";
+import type { Prisma, ShowExhibitor } from "@animeaux/prisma/server";
+import { ShowExhibitorStatus } from "@animeaux/prisma/server";
 import { captureException } from "@sentry/remix";
 import { promiseHash } from "remix-utils/promise";
 

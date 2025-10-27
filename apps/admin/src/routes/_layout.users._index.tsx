@@ -19,8 +19,8 @@ import { UserFilterForm } from "#users/filter-form";
 import { GROUP_ICON } from "#users/groups";
 import { UserSearchParams } from "#users/search-params";
 import { cn } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma/client";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { UserGroup } from "@prisma/client";
 import type {
   LoaderFunctionArgs,
   MetaFunction,

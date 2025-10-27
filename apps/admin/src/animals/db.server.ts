@@ -19,9 +19,9 @@ import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
 import { ANIMAL_AGE_RANGE_BY_SPECIES } from "@animeaux/core";
+import type { Animal, AnimalDraft } from "@animeaux/prisma/server";
+import { Prisma, Species, Status } from "@animeaux/prisma/server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
-import type { Animal, AnimalDraft } from "@prisma/client";
-import { Prisma, Species, Status } from "@prisma/client";
 import { DateTime } from "luxon";
 import invariant from "tiny-invariant";
 

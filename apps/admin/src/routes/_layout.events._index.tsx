@@ -14,8 +14,8 @@ import { prisma } from "#core/prisma.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { cn, formatDateRange } from "@animeaux/core";
-import type { Prisma } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import type {
   LoaderFunctionArgs,
   MetaFunction,

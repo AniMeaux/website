@@ -6,7 +6,7 @@ import {
 import type { SubNavComponent } from "#core/layout/navigation/shared";
 import { SubNavItem } from "#core/layout/navigation/shared";
 import { cn } from "@animeaux/core";
-import { Species } from "@prisma/client";
+import { Species } from "@animeaux/prisma/client";
 
 export const SubNavAdopt: SubNavComponent = () => {
   return (

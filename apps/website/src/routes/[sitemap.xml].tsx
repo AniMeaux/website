@@ -1,6 +1,6 @@
 import { createConfig } from "#core/config.server";
 import { SPECIES_TO_PATH } from "#core/controllers/searchForm";
-import { Species } from "@prisma/client";
+import { Species } from "@animeaux/prisma/client";
 import { renderToStaticMarkup } from "react-dom/server";
 
 type SitemapAttribute = {

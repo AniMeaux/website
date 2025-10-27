@@ -4,7 +4,7 @@ import { HelperCard } from "#core/layout/helper-card";
 import { LightBoardCard } from "#core/layout/light-board-card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

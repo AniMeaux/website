@@ -1,5 +1,3 @@
-#!/usr/bin/env tsx
-
 import pg from "pg";
 import { from, to } from "pg-copy-streams";
 import invariant from "tiny-invariant";

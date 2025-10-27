@@ -6,9 +6,9 @@ import {
   SORTED_ACTIVITY_TARGETS,
 } from "#exhibitors/activity-target/activity-target";
 import { Icon } from "#generated/icon";
+import type { ShowActivityTarget } from "@animeaux/prisma/client";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowActivityTarget } from "@prisma/client";
 
 export function FieldActivityTarget({
   field,

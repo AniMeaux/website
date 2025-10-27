@@ -1,11 +1,11 @@
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
 import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
-} from "@prisma/client";
+} from "@animeaux/prisma/client";
+import { SearchParamsIO } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
 
 export const FosterFamilySearchParams = SearchParamsIO.create({
   keys: {

@@ -17,8 +17,8 @@ import { GlobalSearch } from "#routes/resources.global-search/input";
 import { usePreferencesFetcher } from "#routes/resources.preferences/fetcher";
 import { UserAvatar } from "#users/avatar";
 import { hasGroups } from "#users/groups";
-import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { User } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {

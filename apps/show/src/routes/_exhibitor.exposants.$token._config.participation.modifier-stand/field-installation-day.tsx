@@ -4,9 +4,9 @@ import {
   INSTALLATION_DAY_TRANSLATION,
   SORTED_INSTALLATION_DAYS,
 } from "#exhibitors/stand-configuration/installation-day";
+import type { ShowInstallationDay } from "@animeaux/prisma/client";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { ShowInstallationDay } from "@prisma/client";
 
 export function FieldInstallationDay({
   field,

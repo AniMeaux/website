@@ -1,7 +1,4 @@
-#!/usr/bin/env tsx
-
-import "#env";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@animeaux/prisma/server";
 import { csvFormat } from "d3-dsv";
 import { DateTime, Settings } from "luxon";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -21,7 +18,7 @@ declare module "luxon" {
 const FILENAME = fileURLToPath(import.meta.url);
 const DIRNAME = dirname(FILENAME);
 const DEST_FOLDER_NAME = DateTime.now().toISO();
-const DEST_FOLDER_PATH = resolve(DIRNAME, "../../dumps/", DEST_FOLDER_NAME);
+const DEST_FOLDER_PATH = resolve(DIRNAME, "../dumps/", DEST_FOLDER_NAME);
 const RELATIVE_FOLDER_PATH = relative(process.cwd(), DEST_FOLDER_PATH);
 
 console.log(`💾 Data will be downloaded in folder: ${RELATIVE_FOLDER_PATH}`);

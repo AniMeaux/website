@@ -8,8 +8,8 @@ import {
   MissingSpeciesToHostError,
 } from "#foster-families/db.server";
 import { ActionFormDataForUpdate } from "#foster-families/form";
+import { UserGroup } from "@animeaux/prisma/server";
 import type { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { routeParamsSchema } from "./route-params";

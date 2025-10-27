@@ -1,6 +1,4 @@
 import { vitePlugin as remix } from "@remix-run/dev";
-import { createRequire } from "node:module";
-import type { Plugin } from "vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -21,30 +19,5 @@ export default defineConfig({
 
     // Leverages the `paths` option in tsconfig.json.
     tsconfigPaths(),
-
-    prismaClient(),
   ],
 });
-
-/**
- * Fixes build error:
- * > Uncaught TypeError: Error resolving module specifier “.prisma/client/index-browser”.
- *
- * Relative module specifiers must start with “./”, “../” or “/”.
- *
- * @see https://github.com/prisma/prisma/issues/12504#issuecomment-1285883083
- */
-function prismaClient(): Plugin {
-  const require = createRequire(import.meta.url);
-  const path = require.resolve(".prisma/client/index-browser.js");
-
-  return {
-    name: "prisma-vite-plugin",
-
-    config: () => ({
-      resolve: {
-        alias: { ".prisma/client/index-browser": path },
-      },
-    }),
-  };
-}

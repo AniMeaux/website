@@ -4,7 +4,7 @@ import { ActivityResource } from "#activity/resource.js";
 import { NotFoundError } from "#core/errors.server";
 import { Routes } from "#core/navigation";
 import { prisma } from "#core/prisma.server";
-import type { Animal, AnimalDraft, Prisma } from "@prisma/client";
+import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
 import { redirect } from "@remix-run/node";
 
 type ProfileKeys =

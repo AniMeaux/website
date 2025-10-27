@@ -1,7 +1,7 @@
 import { isDefined } from "#core/is-defined";
 import type { IconName } from "#generated/icon";
-import type { Animal, Breed, Color } from "@prisma/client";
-import { Species } from "@prisma/client";
+import type { Animal, Breed, Color } from "@animeaux/prisma/client";
+import { Species } from "@animeaux/prisma/client";
 import orderBy from "lodash.orderby";
 
 export const SPECIES_TRANSLATION: Record<Species, string> = {

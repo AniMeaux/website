@@ -1,6 +1,6 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
-import { ShowSponsorshipCategory } from "@prisma/client";
+import { ShowSponsorshipCategory } from "@animeaux/prisma/client";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 

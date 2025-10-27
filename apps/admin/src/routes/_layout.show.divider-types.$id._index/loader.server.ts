@@ -1,8 +1,8 @@
 import { db } from "#core/db.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
+import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";
