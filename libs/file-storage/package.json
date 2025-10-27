@@ -20,13 +20,12 @@
     }
   },
   "scripts": {
-    "generate": "# Nothing to generate",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@animeaux/core": "*",
-    "@animeaux/zod-utils": "*",
+    "@animeaux/core": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
     "@mjackson/lazy-file": "^3.2.0",
     "@sentry/remix": "^8.37.1",
     "googleapis": "^144.0.0",

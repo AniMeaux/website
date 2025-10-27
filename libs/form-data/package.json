@@ -10,12 +10,11 @@
   },
   "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@animeaux/zod-utils": "*"
+    "@animeaux/zod-utils": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~5.4.5"

@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - yarn.lock
+      - pnpm-lock.yaml
       - .dockerignore
       - prisma/**
       - libs/**

@@ -1,32 +1,29 @@
 {
+  "name": "@animeaux/root",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "libs/*",
-    "scripts"
-  ],
   "license": "MIT",
   "engines": {
     "node": "^22.11.0",
-    "yarn": "^1.22.0"
+    "pnpm": "^10.20.0"
   },
+  "packageManager": "pnpm@10.20.0",
   "type": "module",
   "scripts": {
     "dev-down": "run-s dev-down:ecosystem dev-down:docker",
     "dev-down:docker": "docker compose down",
     "dev-down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
-    "dev-ls": "yarn pm2 ls",
-    "dev-log": "yarn pm2 log",
+    "dev-ls": "pnpm pm2 ls",
+    "dev-log": "pnpm pm2 log",
     "dev-restart:ecosystem": "run-s dev-down:ecosystem dev-up:ecosystem",
     "dev-up": "run-s dev-up:docker dev-up:ecosystem",
     "dev-up:docker": "docker compose up -d",
     "dev-up:ecosystem": "pm2 start ./ecosystem.config.cjs",
     "generate": "run-p --continue-on-error --print-label generate:*",
-    "generate:workspaces": "yarn workspaces run generate",
+    "generate:workspace": "pnpm -r generate",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:workspaces": "yarn workspaces run lint",
+    "lint:workspace": "pnpm -r lint",
     "lint-fix": "run-s lint-fix:js lint-fix:format",
     "lint-fix:format": "prettier --write .",
     "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
