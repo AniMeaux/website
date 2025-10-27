@@ -8,11 +8,15 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
+  "types": "./src/index.ts",
   "peerDependencies": {
     "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5"
   }
 }

@@ -1,31 +1,26 @@
 {
+  "name": "@animeaux/root",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "libs/*",
-    "scripts"
-  ],
   "license": "MIT",
   "engines": {
     "node": "^22.11.0",
-    "yarn": "^1.22.0"
+    "pnpm": "^10.20.0"
   },
+  "packageManager": "pnpm@10.20.0",
   "type": "module",
   "scripts": {
     "down": "run-s down:ecosystem down:docker",
     "down:docker": "docker compose down",
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
-    "generate": "run-p --continue-on-error --print-label generate:*",
-    "generate:workspaces": "yarn workspaces run generate",
     "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "yarn workspaces run tsc --noEmit",
+    "lint:workspace": "pnpm -r lint",
     "lint-fix": "run-s lint-fix:js lint-fix:format",
     "lint-fix:format": "prettier --write .",
     "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
-    "ls": "yarn pm2 ls",
-    "log": "yarn pm2 log",
+    "ls": "pnpm pm2 ls",
+    "log": "pnpm pm2 log",
     "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
     "up": "run-s up:docker up:ecosystem",
     "up:docker": "docker compose up -d",
@@ -39,7 +34,6 @@
     "pm2": "^5.3.0",
     "prettier": "^3.2.4",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "prettier-plugin-tailwindcss": "^0.6.1",
-    "typescript": "~5.4.5"
+    "prettier-plugin-tailwindcss": "^0.6.1"
   }
 }
