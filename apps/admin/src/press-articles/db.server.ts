@@ -1,7 +1,7 @@
 import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
 import { prisma } from "#core/prisma.server";
-import type { PressArticle } from "@prisma/client";
-import { Prisma } from "@prisma/client";
+import type { PressArticle } from "@animeaux/prisma/server";
+import { Prisma } from "@animeaux/prisma/server";
 import { DateTime } from "luxon";
 
 export class UrlAlreadyUsedError extends Error {}

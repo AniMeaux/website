@@ -7,8 +7,11 @@ import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-p
 import { ExhibitorCategory } from "#show/exhibitors/category";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category.js";
 import { catchError } from "@animeaux/core";
-import type { ShowExhibitorApplication } from "@prisma/client";
-import { Prisma, ShowExhibitorApplicationStatus } from "@prisma/client";
+import type { ShowExhibitorApplication } from "@animeaux/prisma/server";
+import {
+  Prisma,
+  ShowExhibitorApplicationStatus,
+} from "@animeaux/prisma/server";
 import { promiseHash } from "remix-utils/promise";
 
 export class MissingRefusalMessageError extends Error {}

@@ -1,6 +1,6 @@
 import type { IconName } from "#generated/icon";
-import type { User } from "@prisma/client";
-import { UserGroup } from "@prisma/client";
+import type { User } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import intersection from "lodash.intersection";
 import orderBy from "lodash.orderby";
 

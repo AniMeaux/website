@@ -1,5 +1,5 @@
 import { services } from "#core/services.server.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 
 export async function getDividerTypesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{

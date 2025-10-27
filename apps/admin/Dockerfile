@@ -16,6 +16,7 @@ ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
@@ -26,12 +27,14 @@ RUN yarn --frozen-lockfile --production=false
 # Setup production node_modules
 FROM base as production-deps
 COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
 ADD ./package.json ./yarn.lock ./
 ADD ./libs/core/package.json ./libs/core/
 ADD ./libs/file-storage/package.json ./libs/file-storage/
 ADD ./libs/form-data/package.json ./libs/form-data/
 ADD ./libs/password/package.json ./libs/password/
+ADD ./libs/prisma/package.json ./libs/prisma/
 ADD ./libs/react-primitives/package.json ./libs/react-primitives/
 ADD ./libs/search-params-io/package.json ./libs/search-params-io/
 ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
@@ -42,11 +45,12 @@ RUN yarn --frozen-lockfile
 # Build
 FROM base as build
 COPY --from=deps /workspace/node_modules ./node_modules
+COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
 
-ADD ./package.json ./tsconfig.base.json ./
-ADD ./prisma ./prisma
-RUN yarn generate:prisma
+ADD ./tsconfig.base.json ./
+ADD ./libs/prisma ./libs/prisma
+RUN yarn --cwd ./libs/prisma generate
 
 ADD ./libs/core ./libs/core
 ADD ./libs/file-storage ./libs/file-storage
@@ -62,10 +66,10 @@ RUN yarn --cwd ./apps/admin build
 # Finally, build the production image with minimal footprint
 FROM base
 COPY --from=production-deps /workspace/node_modules ./node_modules
+COPY --from=production-deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
 COPY --from=production-deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
-COPY --from=build /workspace/node_modules/.prisma ./node_modules/.prisma
 COPY --from=build /workspace/apps/admin/build ./apps/admin/build
-ADD ./prisma ./prisma
+ADD ./libs/prisma ./libs/prisma
 ADD ./apps/admin ./apps/admin
 
 CMD ["yarn", "--cwd", "apps/admin", "start"]

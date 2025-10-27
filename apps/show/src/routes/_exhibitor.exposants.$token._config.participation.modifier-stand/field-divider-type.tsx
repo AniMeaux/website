@@ -2,9 +2,9 @@ import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
 import { FormLayout } from "#core/layout/form-layout";
 import type { DividerTypeAvailability } from "#divider-type/availability.js";
 import { Price } from "#price/price.js";
+import type { Prisma } from "@animeaux/prisma/client";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
-import type { Prisma } from "@prisma/client";
 import type { Simplify } from "type-fest";
 import { DividerType } from "./action-schema";
 

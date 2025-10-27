@@ -1,6 +1,6 @@
+import { Species } from "@animeaux/prisma/client";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import { Species } from "@prisma/client";
 
 export enum BreedSort {
   NAME = "N",

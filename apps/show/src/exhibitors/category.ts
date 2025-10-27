@@ -1,6 +1,6 @@
 import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import { LegalStatus } from "#exhibitors/application/legal-status";
-import { ShowExhibitorCategory } from "@prisma/client";
+import { ShowExhibitorCategory } from "@animeaux/prisma/client";
 
 export namespace ExhibitorCategory {
   export type Enum = ShowExhibitorCategory;

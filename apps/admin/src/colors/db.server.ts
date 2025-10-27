@@ -8,9 +8,9 @@ import {
 } from "#core/errors.server";
 import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
+import type { Color } from "@animeaux/prisma/server";
+import { Prisma } from "@animeaux/prisma/server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";
-import type { Color } from "@prisma/client";
-import { Prisma } from "@prisma/client";
 
 export class ColorDbDelegate {
   async create(data: ColorData) {

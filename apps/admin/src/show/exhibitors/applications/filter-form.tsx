@@ -22,8 +22,8 @@ import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
 } from "#show/sponsors/category";
+import type { ShowStandSize } from "@animeaux/prisma/client";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { ShowStandSize } from "@prisma/client";
 
 export function ApplicationFilters({
   standSizes,

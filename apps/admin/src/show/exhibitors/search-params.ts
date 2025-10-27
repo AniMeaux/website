@@ -3,13 +3,13 @@ import { ExhibitorStatus } from "#show/exhibitors/status";
 import { InvoiceStatus } from "#show/invoice/status.js";
 import { SponsorshipOptionalCategory } from "#show/sponsors/category";
 import { Visibility } from "#show/visibility";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
 import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationStatus,
-} from "@prisma/client";
+} from "@animeaux/prisma/client";
+import { SearchParamsIO } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
 
 export type ExhibitorSearchParams = SearchParamsIO.Infer<
   typeof ExhibitorSearchParams.io

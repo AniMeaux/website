@@ -19,8 +19,8 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { EventAvatar } from "#events/avatar";
 import { Icon } from "#generated/icon";
 import { formatDateRange } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma/client";
 import { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

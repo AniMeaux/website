@@ -1,4 +1,4 @@
-import { Gender } from "@prisma/client";
+import { Gender } from "@animeaux/prisma/client";
 
 export type AnimalName = {
   label: string;

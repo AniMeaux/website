@@ -31,7 +31,7 @@ import { adoptImages } from "#images/adopt";
 import { questionsImages } from "#images/questions";
 import { socialImages } from "#images/social";
 import { cn } from "@animeaux/core";
-import { Species } from "@prisma/client";
+import { Species } from "@animeaux/prisma/client";
 import type { MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 

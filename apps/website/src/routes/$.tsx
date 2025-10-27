@@ -3,7 +3,7 @@ import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
 import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { AnimalAge } from "@animeaux/core";
-import { Species } from "@prisma/client";
+import { Species } from "@animeaux/prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 

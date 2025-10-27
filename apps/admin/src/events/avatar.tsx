@@ -1,6 +1,6 @@
 import { Avatar } from "#core/data-display/avatar";
 import { cn } from "@animeaux/core";
-import type { Event } from "@prisma/client";
+import type { Event } from "@animeaux/prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
 

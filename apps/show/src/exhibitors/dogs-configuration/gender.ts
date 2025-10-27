@@ -1,4 +1,4 @@
-import { Gender } from "@prisma/client";
+import { Gender } from "@animeaux/prisma/client";
 import orderBy from "lodash.orderby";
 
 export const GENDER_TRANSLATION: Record<Gender, string> = {

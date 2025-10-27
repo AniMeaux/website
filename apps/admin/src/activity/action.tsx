@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon.js";
-import { ActivityAction as PrismaActivityAction } from "@prisma/client";
+import { ActivityAction as PrismaActivityAction } from "@animeaux/prisma/client";
 
 export namespace ActivityAction {
   export const Enum = PrismaActivityAction;

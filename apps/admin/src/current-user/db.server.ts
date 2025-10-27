@@ -9,8 +9,8 @@ import {
 } from "#current-user/session.server";
 import { hasGroups } from "#users/groups";
 import { generatePasswordHash, isSamePassword } from "@animeaux/password";
-import type { User } from "@prisma/client";
-import { Prisma, UserGroup } from "@prisma/client";
+import type { User } from "@animeaux/prisma/server";
+import { Prisma, UserGroup } from "@animeaux/prisma/server";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
 

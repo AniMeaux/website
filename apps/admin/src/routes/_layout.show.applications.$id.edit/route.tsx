@@ -20,8 +20,11 @@ import {
 } from "#show/exhibitors/applications/status";
 import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
+import {
+  ShowExhibitorApplicationStatus,
+  UserGroup,
+} from "@animeaux/prisma/client";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import { ShowExhibitorApplicationStatus, UserGroup } from "@prisma/client";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";

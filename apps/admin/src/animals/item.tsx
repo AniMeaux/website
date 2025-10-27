@@ -16,8 +16,8 @@ import { SuggestionItem } from "#core/form-elements/resource-input";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import type { Animal, Species, User } from "@prisma/client";
-import { Gender } from "@prisma/client";
+import type { Animal, Species, User } from "@animeaux/prisma/client";
+import { Gender } from "@animeaux/prisma/client";
 import type { SerializeFrom } from "@remix-run/node";
 import { forwardRef } from "react";
 

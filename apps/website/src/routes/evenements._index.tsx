@@ -10,25 +10,23 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { EventItem } from "#events/item";
 import { cn } from "@animeaux/core";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/client";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { promiseHash } from "remix-utils/promise";
 
-const eventSelect = Prisma.validator<Prisma.EventFindManyArgs>()({
-  select: {
-    id: true,
-    image: true,
-    title: true,
-    url: true,
-    description: true,
-    startDate: true,
-    endDate: true,
-    isFullDay: true,
-    location: true,
-  },
-});
+const eventSelect = {
+  id: true,
+  image: true,
+  title: true,
+  url: true,
+  description: true,
+  startDate: true,
+  endDate: true,
+  isFullDay: true,
+  location: true,
+} satisfies Prisma.EventSelect;
 
 const PAST_EVENT_COUNT = 3;
 
@@ -42,13 +40,13 @@ export async function loader() {
         // earliest first.
         { endDate: "asc" },
       ],
-      select: eventSelect.select,
+      select: eventSelect,
     }),
     pastEvents: prisma.event.findMany({
       where: { isVisible: true, endDate: { lt: new Date() } },
       take: PAST_EVENT_COUNT,
       orderBy: { endDate: "desc" },
-      select: eventSelect.select,
+      select: eventSelect,
     }),
   });
 

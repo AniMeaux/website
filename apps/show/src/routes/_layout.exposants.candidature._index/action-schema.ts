@@ -6,9 +6,9 @@ import { LegalStatus } from "#exhibitors/application/legal-status";
 import { ExhibitorCategory } from "#exhibitors/category.js";
 import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
 import type { StandSizeAllowedCategories } from "#stand-size/allowed-categories.js";
+import type { ShowStandSize } from "@animeaux/prisma/client";
+import { ShowActivityTarget } from "@animeaux/prisma/client";
 import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
-import type { ShowStandSize } from "@prisma/client";
-import { ShowActivityTarget } from "@prisma/client";
 import invariant from "tiny-invariant";
 
 export function createActionSchema(

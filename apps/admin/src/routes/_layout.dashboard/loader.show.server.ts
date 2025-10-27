@@ -3,7 +3,7 @@ import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params.js";
-import { ShowExhibitorApplicationStatus } from "@prisma/client";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/server";
 import { promiseHash } from "remix-utils/promise";
 
 export async function loaderShow() {

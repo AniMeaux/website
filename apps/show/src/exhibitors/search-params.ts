@@ -1,12 +1,12 @@
 import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import type { IconName } from "#generated/icon";
+import { ShowActivityTarget } from "@animeaux/prisma/client";
 import {
   SearchParamsIO,
   SearchParamsReader,
   useOptimisticSearchParams,
 } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
-import { ShowActivityTarget } from "@prisma/client";
 import { useMemo } from "react";
 
 export type ExhibitorSearchParams = SearchParamsReader.Infer<

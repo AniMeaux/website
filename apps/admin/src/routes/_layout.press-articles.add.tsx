@@ -10,8 +10,8 @@ import {
   UrlAlreadyUsedError,
 } from "#press-articles/db.server";
 import { ActionFormData, PressArticleForm } from "#press-articles/form";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { zu } from "@animeaux/zod-utils";
-import { UserGroup } from "@prisma/client";
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,

@@ -2,7 +2,7 @@ import { db } from "#core/db.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
-import { UserGroup } from "@prisma/client";
+import { UserGroup } from "@animeaux/prisma/server";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";

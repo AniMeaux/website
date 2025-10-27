@@ -1,4 +1,4 @@
-import { ShowSponsorshipCategory } from "@prisma/client";
+import { ShowSponsorshipCategory } from "@animeaux/prisma/client";
 
 export namespace SponsorshipCategory {
   export const Enum = {

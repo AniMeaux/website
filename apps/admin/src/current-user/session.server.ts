@@ -1,5 +1,5 @@
+import type { User } from "@animeaux/prisma/server";
 import { zu } from "@animeaux/zod-utils";
-import type { User } from "@prisma/client";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
 import { createTypedSessionStorage } from "remix-utils/typed-session";
 import invariant from "tiny-invariant";

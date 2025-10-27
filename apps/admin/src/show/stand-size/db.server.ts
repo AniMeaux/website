@@ -8,7 +8,7 @@ import { prisma } from "#core/prisma.server";
 import { notFound } from "#core/response.server.js";
 import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
 import { catchError } from "@animeaux/core";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@animeaux/prisma/server";
 import merge from "lodash.merge";
 import type { Simplify } from "type-fest";
 

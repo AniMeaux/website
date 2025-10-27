@@ -1,4 +1,4 @@
-import type { User } from "@prisma/client";
+import type { User } from "@animeaux/prisma/server";
 import { init, setUser } from "@sentry/remix";
 
 export function initMonitoring() {

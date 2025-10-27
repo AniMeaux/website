@@ -9,7 +9,7 @@ kill_timeout = "5s"
   auto_rollback = true
 
 [deploy]
-  release_command = "npx prisma migrate deploy"
+  release_command = "yarn --cwd ./libs/prisma prisma migrate deploy"
 
 [env]
   PORT = "8080"

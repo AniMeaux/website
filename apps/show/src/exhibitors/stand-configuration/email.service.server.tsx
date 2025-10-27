@@ -9,7 +9,7 @@ import type { ServiceApplication } from "#exhibitors/application/service.server.
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { INSTALLATION_DAY_TRANSLATION } from "#exhibitors/stand-configuration/installation-day.js";
 import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import { ShowExhibitorStatus } from "@prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma/client";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 

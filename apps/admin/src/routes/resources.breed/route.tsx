@@ -1,7 +1,7 @@
 import { BreedSearchParams } from "#breeds/search-params";
 import { db } from "#core/db.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { UserGroup } from "@prisma/client";
+import { UserGroup } from "@animeaux/prisma/client";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 

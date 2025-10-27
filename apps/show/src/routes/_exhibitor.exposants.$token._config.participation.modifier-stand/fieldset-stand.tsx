@@ -4,7 +4,7 @@ import { FieldYesNo } from "#core/form-elements/field-yes-no";
 import { FormLayout } from "#core/layout/form-layout";
 import { Price } from "#price/price.js";
 import { FieldStandSize } from "#stand-size/field.js";
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "@animeaux/prisma/client";
 import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";
 import { FieldInstallationDay } from "./field-installation-day";

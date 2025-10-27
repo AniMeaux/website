@@ -22,7 +22,7 @@ import {
 } from "#core/translations";
 import type { AnimalAge } from "@animeaux/core";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
-import type { Prisma, Species } from "@prisma/client";
+import type { Prisma, Species } from "@animeaux/prisma/client";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, useParams } from "@remix-run/react";

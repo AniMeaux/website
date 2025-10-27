@@ -10,14 +10,14 @@ import {
 import { orderByRank } from "#core/order-by-rank";
 import { prisma } from "#core/prisma.server";
 import type { FosterFamilySearchParams } from "#foster-families/search-params";
-import type { SearchParamsIO } from "@animeaux/search-params-io";
 import type {
   FosterFamily,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
-} from "@prisma/client";
-import { FosterFamilyAvailability, Prisma } from "@prisma/client";
+} from "@animeaux/prisma/server";
+import { FosterFamilyAvailability, Prisma } from "@animeaux/prisma/server";
+import type { SearchParamsIO } from "@animeaux/search-params-io";
 import { DateTime } from "luxon";
 
 export class MissingSpeciesToHostError extends Error {}

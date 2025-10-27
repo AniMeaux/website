@@ -1,7 +1,5 @@
 import { endOfDay } from "#core/dates";
 import { AnimalAge } from "@animeaux/core";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
 import {
   AdoptionOption,
   Diagnosis,
@@ -10,7 +8,9 @@ import {
   ScreeningResult,
   Species,
   Status,
-} from "@prisma/client";
+} from "@animeaux/prisma/client";
+import { SearchParamsIO } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
 import { DateTime } from "luxon";
 
 export enum AnimalSort {
