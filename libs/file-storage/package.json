@@ -20,11 +20,12 @@
     }
   },
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@animeaux/core": "*",
-    "@animeaux/zod-utils": "*",
+    "@animeaux/core": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
     "@mjackson/lazy-file": "^3.2.0",
     "@sentry/remix": "^8.37.1",
     "googleapis": "^144.0.0",
@@ -34,6 +35,8 @@
     "@mjackson/form-data-parser": "^0.4.0",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/node": "^22.8.7",
-    "type-fest": "^4.3.1"
+    "@types/uuid": "^9.0.2",
+    "type-fest": "^4.3.1",
+    "typescript": "~5.4.5"
   }
 }

@@ -3,28 +3,28 @@ module.exports = {
     createApp({
       name: "prisma",
       cwd: "./libs/prisma",
-      script: "yarn generate",
+      script: "pnpm generate",
       watch: ["./schema.prisma"],
     }),
 
     createApp({
       name: "admin",
       cwd: "./apps/admin",
-      script: "yarn dev",
+      script: "pnpm dev",
       watch: ["./tsconfig.json", "./.env*"],
     }),
 
     createApp({
       name: "website",
       cwd: "./apps/website",
-      script: "yarn dev",
+      script: "pnpm dev",
       watch: ["./tsconfig.json", "./.env*"],
     }),
 
     createApp({
       name: "show",
       cwd: "./apps/show",
-      script: "yarn dev",
+      script: "pnpm dev",
       watch: ["./tsconfig.json", "./.env*"],
     }),
   ],

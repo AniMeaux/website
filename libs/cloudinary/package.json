@@ -19,7 +19,8 @@
     }
   },
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
     "@mjackson/form-data-parser": "^0.4.0",
@@ -28,6 +29,7 @@
     "cloudinary": "^2.2.0"
   },
   "devDependencies": {
-    "@total-typescript/ts-reset": "^0.5.1"
+    "@total-typescript/ts-reset": "^0.5.1",
+    "typescript": "~5.4.5"
   }
 }

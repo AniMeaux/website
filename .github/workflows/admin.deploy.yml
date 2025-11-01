@@ -6,7 +6,7 @@ on:
       - main
       - dev
     paths:
-      - yarn.lock
+      - pnpm-lock.yaml
       - .dockerignore
       - prisma/**
       - libs/**
@@ -23,28 +23,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: 🟧 Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 22.11
+          cache: "pnpm"
 
       - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+        run: pnpm install
 
       - name: 📦 Generate code
-        run: yarn generate
+        run: pnpm -r generate
 
       - name: 🔬 Lint
-        run: yarn lint
+        run: pnpm lint
 
   build:
     name: 📦 Build
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
@@ -101,7 +107,7 @@ jobs:
       - build
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
