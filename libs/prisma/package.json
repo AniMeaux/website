@@ -21,9 +21,9 @@
   "prisma": {
     "seed": "tsx -r dotenv-flow/config ./scripts/seed-data.ts"
   },
-  "dependencies": {
-    "@prisma/client": "^6.18.0",
+  "peerDependencies": {
     "@prisma/adapter-pg": "^6.18.0",
+    "@prisma/client": "^6.18.0",
     "prisma": "^6.18.0"
   },
   "devDependencies": {

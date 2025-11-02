@@ -34,6 +34,7 @@
     "@mjackson/form-data-parser": "^0.4.0",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/node": "^22.8.7",
+    "@types/uuid": "^9.0.2",
     "type-fest": "^4.3.1"
   }
 }

@@ -1,4 +1,3 @@
-import { ACTIVE_ANIMAL_STATUS, NON_ACTIVE_ANIMAL_STATUS } from "@animeaux/core";
 import { generatePasswordHash } from "@animeaux/password";
 import type { Prisma } from "@animeaux/prisma/client";
 import {
@@ -382,6 +381,18 @@ function createEventInput({
     isVisible: faker.datatype.boolean(),
   };
 }
+
+const ACTIVE_ANIMAL_STATUS: Status[] = [
+  Status.OPEN_TO_ADOPTION,
+  Status.OPEN_TO_RESERVATION,
+  Status.RESERVED,
+  Status.RETIRED,
+  Status.UNAVAILABLE,
+];
+
+const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
+  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
+);
 
 async function seedAnimals() {
   await Promise.all([
