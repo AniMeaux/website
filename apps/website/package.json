@@ -17,7 +17,7 @@
     "predev": "yarn generate",
     "dev": "run-p --continue-on-error --print-label dev:*",
     "dev:icons": "yarn generate:icons --watch",
-    "dev:remix": "node -r dotenv-flow/config ./node_modules/.bin/remix vite:dev --host",
+    "dev:remix": "NODE_OPTIONS=\"-r dotenv-flow/config\" remix vite:dev --host",
     "dev:theme": "tsx watch --clear-screen=false ./scripts/generate-theme.ts",
     "build": "run-s build:icons build:theme build:remix",
     "build:icons": "yarn generate:icons --minify",
