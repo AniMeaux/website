@@ -13,7 +13,7 @@
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:prisma": "prisma generate",
-    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit",
     "migrate": "yarn prisma-env migrate dev",
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",

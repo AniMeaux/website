@@ -17,7 +17,7 @@
     "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:workspaces": "yarn workspaces run generate",
-    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:workspaces": "yarn workspaces run lint",

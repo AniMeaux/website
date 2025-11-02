@@ -23,7 +23,7 @@
     "build:icons": "yarn generate:icons --minify",
     "build:remix": "remix vite:build",
     "build:theme": "yarn generate:theme",
-    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit",
     "start": "remix-serve ./build/server/index.js"
   },

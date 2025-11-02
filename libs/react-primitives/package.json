@@ -11,7 +11,7 @@
   "types": "./src/index.tsx",
   "scripts": {
     "generate": "# Nothing to generate",
-    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
