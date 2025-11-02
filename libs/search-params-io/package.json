@@ -10,7 +10,9 @@
   },
   "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate"
+    "generate": "# Nothing to generate",
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
     "@remix-run/react": "~2.9.2",
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.6",
-    "@types/react": "^18.2.21"
+    "@types/react": "^18.2.21",
+    "typescript": "~5.4.5"
   }
 }

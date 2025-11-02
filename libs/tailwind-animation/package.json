@@ -10,9 +10,14 @@
   },
   "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate"
+    "generate": "# Nothing to generate",
+    "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
     "tailwindcss": "^3.3.3"
+  },
+  "devDependencies": {
+    "typescript": "~5.4.5"
   }
 }

@@ -20,7 +20,7 @@
     "lint": "run-p --aggregate-output --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "lint:ts": "yarn workspaces run tsc --noEmit",
+    "lint:workspaces": "yarn workspaces run lint",
     "lint-fix": "run-s lint-fix:js lint-fix:format",
     "lint-fix:format": "prettier --write .",
     "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
@@ -39,7 +39,6 @@
     "pm2": "^5.3.0",
     "prettier": "^3.2.4",
     "prettier-plugin-organize-imports": "^3.2.4",
-    "prettier-plugin-tailwindcss": "^0.6.1",
-    "typescript": "~5.4.5"
+    "prettier-plugin-tailwindcss": "^0.6.1"
   }
 }
