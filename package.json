@@ -12,9 +12,15 @@
   },
   "type": "module",
   "scripts": {
-    "down": "run-s down:ecosystem down:docker",
-    "down:docker": "docker compose down",
-    "down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
+    "dev-down": "run-s dev-down:ecosystem dev-down:docker",
+    "dev-down:docker": "docker compose down",
+    "dev-down:ecosystem": "pm2 delete ./ecosystem.config.cjs && rm -rf ./logs",
+    "dev-ls": "yarn pm2 ls",
+    "dev-log": "yarn pm2 log",
+    "dev-restart:ecosystem": "run-s dev-down:ecosystem dev-up:ecosystem",
+    "dev-up": "run-s dev-up:docker dev-up:ecosystem",
+    "dev-up:docker": "docker compose up -d",
+    "dev-up:ecosystem": "pm2 start ./ecosystem.config.cjs",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:workspaces": "yarn workspaces run generate",
     "lint": "run-p --continue-on-error --print-label lint:*",
@@ -23,13 +29,7 @@
     "lint:workspaces": "yarn workspaces run lint",
     "lint-fix": "run-s lint-fix:js lint-fix:format",
     "lint-fix:format": "prettier --write .",
-    "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
-    "ls": "yarn pm2 ls",
-    "log": "yarn pm2 log",
-    "restart:ecosystem": "run-s down:ecosystem up:ecosystem",
-    "up": "run-s up:docker up:ecosystem",
-    "up:docker": "docker compose up -d",
-    "up:ecosystem": "pm2 start ./ecosystem.config.cjs"
+    "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
   },
   "devDependencies": {
     "@remix-run/eslint-config": "~2.9.2",
