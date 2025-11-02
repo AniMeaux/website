@@ -17,6 +17,6 @@
     "@animeaux/zod-utils": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "~5.4.5"
+    "typescript": "catalog:"
   }
 }
