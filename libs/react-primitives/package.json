@@ -18,7 +18,9 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
+    "@radix-ui/react-slot": "catalog:",
     "@types/react": "catalog:",
+    "react": "catalog:",
     "typescript": "catalog:"
   }
 }

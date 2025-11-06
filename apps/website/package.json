@@ -44,7 +44,6 @@
     "lodash.isequal": "catalog:",
     "lodash.orderby": "catalog:",
     "luxon": "catalog:",
-    "prisma": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-markdown": "catalog:",

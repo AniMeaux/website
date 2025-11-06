@@ -20,8 +20,17 @@
     "zod-form-data": "^2.0.1"
   },
   "devDependencies": {
+    "@opentelemetry/api": "catalog:",
+    "@opentelemetry/core": "catalog:",
+    "@opentelemetry/instrumentation": "catalog:",
+    "@opentelemetry/sdk-trace-base": "catalog:",
+    "@opentelemetry/semantic-conventions": "catalog:",
+    "@sentry/remix": "catalog:",
     "@total-typescript/ts-reset": "catalog:",
     "@types/luxon": "catalog:",
-    "typescript": "catalog:"
+    "luxon": "catalog:",
+    "typescript": "catalog:",
+    "zod": "catalog:",
+    "zod-form-data": "catalog:"
   }
 }

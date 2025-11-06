@@ -1,3 +1,7 @@
+# Ensure all peer dependencies are explicitly installed.
+# See https://pnpm.io/settings#autoinstallpeers
+autoInstallPeers: false
+
 # Allows app to use workspace packages with their expected peer dependencies.
 # See https://pnpm.io/settings#injectworkspacepackages
 injectWorkspacePackages: true

@@ -25,12 +25,16 @@
   },
   "peerDependencies": {
     "@prisma/adapter-pg": "^6.18.0",
-    "@prisma/client": "^6.18.0",
-    "prisma": "^6.18.0"
+    "@prisma/client": "^6.18.0"
+  },
+  "dependencies": {
+    "prisma": "catalog:"
   },
   "devDependencies": {
     "@animeaux/password": "workspace:*",
     "@faker-js/faker": "catalog:",
+    "@prisma/adapter-pg": "catalog:",
+    "@prisma/client": "catalog:",
     "@types/d3-dsv": "catalog:",
     "@types/luxon": "catalog:",
     "@types/pg": "catalog:",

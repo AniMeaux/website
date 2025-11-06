@@ -19,8 +19,11 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
+    "@remix-run/react": "catalog:",
     "@types/lodash.isequal": "catalog:",
     "@types/react": "catalog:",
+    "lodash.isequal": "catalog:",
+    "react": "catalog:",
     "typescript": "catalog:"
   }
 }

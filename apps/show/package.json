@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "@animeaux/core": "workspace:*",
-    "@animeaux/files-io": "workspace:*",
     "@animeaux/file-storage": "workspace:*",
+    "@animeaux/files-io": "workspace:*",
     "@animeaux/prisma": "workspace:*",
     "@animeaux/react-primitives": "workspace:*",
     "@animeaux/search-params-io": "workspace:*",
@@ -82,7 +82,6 @@
     "lru-cache": "catalog:",
     "luxon": "catalog:",
     "morgan": "catalog:",
-    "prisma": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-markdown": "catalog:",

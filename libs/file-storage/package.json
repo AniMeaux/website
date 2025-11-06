@@ -32,11 +32,34 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@animeaux/core": "workspace:*",
+    "@animeaux/prisma": "workspace:*",
+    "@animeaux/search-params-io": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
     "@mjackson/form-data-parser": "catalog:",
+    "@mjackson/lazy-file": "catalog:",
+    "@opentelemetry/api": "catalog:",
+    "@opentelemetry/core": "catalog:",
+    "@opentelemetry/instrumentation": "catalog:",
+    "@opentelemetry/sdk-trace-base": "catalog:",
+    "@opentelemetry/semantic-conventions": "catalog:",
+    "@prisma/adapter-pg": "catalog:",
+    "@prisma/client": "catalog:",
+    "@remix-run/react": "catalog:",
+    "@sentry/remix": "catalog:",
     "@total-typescript/ts-reset": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "catalog:",
+    "googleapis": "catalog:",
+    "lodash.isequal": "catalog:",
+    "luxon": "catalog:",
+    "react": "catalog:",
+    "react-router": "catalog:",
+    "tiny-invariant": "catalog:",
     "type-fest": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "uuid": "catalog:",
+    "zod": "catalog:",
+    "zod-form-data": "catalog:"
   }
 }

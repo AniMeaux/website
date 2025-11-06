@@ -1,7 +1,7 @@
 lockfileVersion: '9.0'
 
 settings:
-  autoInstallPeers: true
+  autoInstallPeers: false
   excludeLinksFromLockfile: false
   injectWorkspacePackages: true
 
@@ -440,7 +440,7 @@ importers:
         version: link:../../libs/core
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(983ccb75b6e78f2c9bf4b66c8525e428)
+        version: link:../../libs/file-storage
       '@animeaux/form-data':
         specifier: workspace:*
         version: link:../../libs/form-data
@@ -594,9 +594,6 @@ importers:
       metascraper-title:
         specifier: 'catalog:'
         version: 5.45.9
-      prisma:
-        specifier: 'catalog:'
-        version: 6.18.0(typescript@5.4.5)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -744,7 +741,7 @@ importers:
         version: link:../../libs/core
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(983ccb75b6e78f2c9bf4b66c8525e428)
+        version: link:../../libs/file-storage
       '@animeaux/files-io':
         specifier: workspace:*
         version: link:../../libs/files-io
@@ -886,9 +883,6 @@ importers:
       morgan:
         specifier: 'catalog:'
         version: 1.10.0
-      prisma:
-        specifier: 'catalog:'
-        version: 6.18.0(typescript@5.4.5)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -1067,9 +1061,6 @@ importers:
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
-      prisma:
-        specifier: 'catalog:'
-        version: 6.18.0(typescript@5.4.5)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -1163,29 +1154,22 @@ importers:
         version: 4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
 
   libs/core:
-    dependencies:
+    devDependencies:
       '@animeaux/prisma':
         specifier: workspace:*
         version: link:../prisma
       '@animeaux/search-params-io':
         specifier: workspace:*
         version: link:../search-params-io
+      '@prisma/adapter-pg':
+        specifier: 'catalog:'
+        version: 6.18.0
+      '@prisma/client':
+        specifier: 'catalog:'
+        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@remix-run/react':
-        specifier: ~2.9.2
+        specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      luxon:
-        specifier: ^3.4.2
-        version: 3.4.4
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
-      react-router:
-        specifier: ^6.23.1
-        version: 6.23.1(react@18.3.1)
-      tiny-invariant:
-        specifier: ^1.3.1
-        version: 1.3.3
-    devDependencies:
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -1195,34 +1179,72 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      lodash.isequal:
+        specifier: 'catalog:'
+        version: 4.5.0
+      luxon:
+        specifier: 'catalog:'
+        version: 3.4.4
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-router:
+        specifier: 'catalog:'
+        version: 6.23.1(react@18.3.1)
+      tiny-invariant:
+        specifier: 'catalog:'
+        version: 1.3.3
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/file-storage:
-    dependencies:
+    devDependencies:
       '@animeaux/core':
         specifier: workspace:*
         version: link:../core
+      '@animeaux/prisma':
+        specifier: workspace:*
+        version: link:../prisma
+      '@animeaux/search-params-io':
+        specifier: workspace:*
+        version: link:../search-params-io
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: link:../zod-utils
-      '@mjackson/lazy-file':
-        specifier: ^3.2.0
-        version: 3.2.0
-      '@sentry/remix':
-        specifier: ^8.37.1
-        version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      googleapis:
-        specifier: ^144.0.0
-        version: 144.0.0(encoding@0.1.13)
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.1
-    devDependencies:
       '@mjackson/form-data-parser':
         specifier: 'catalog:'
         version: 0.4.0
+      '@mjackson/lazy-file':
+        specifier: 'catalog:'
+        version: 3.2.0
+      '@opentelemetry/api':
+        specifier: 'catalog:'
+        version: 1.9.0
+      '@opentelemetry/core':
+        specifier: 'catalog:'
+        version: 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation':
+        specifier: 'catalog:'
+        version: 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base':
+        specifier: 'catalog:'
+        version: 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions':
+        specifier: 'catalog:'
+        version: 1.27.0
+      '@prisma/adapter-pg':
+        specifier: 'catalog:'
+        version: 6.18.0
+      '@prisma/client':
+        specifier: 'catalog:'
+        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
+      '@remix-run/react':
+        specifier: 'catalog:'
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@sentry/remix':
+        specifier: 'catalog:'
+        version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
       '@total-typescript/ts-reset':
         specifier: 'catalog:'
         version: 0.5.1
@@ -1232,56 +1254,74 @@ importers:
       '@types/uuid':
         specifier: 'catalog:'
         version: 9.0.8
+      googleapis:
+        specifier: 'catalog:'
+        version: 144.0.0(encoding@0.1.13)
+      lodash.isequal:
+        specifier: 'catalog:'
+        version: 4.5.0
+      luxon:
+        specifier: 'catalog:'
+        version: 3.4.4
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-router:
+        specifier: 'catalog:'
+        version: 6.23.1(react@18.3.1)
+      tiny-invariant:
+        specifier: 'catalog:'
+        version: 1.3.3
       type-fest:
         specifier: 'catalog:'
         version: 4.18.3
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
+      uuid:
+        specifier: 'catalog:'
+        version: 9.0.1
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+      zod-form-data:
+        specifier: 'catalog:'
+        version: 2.0.2(zod@3.23.8)
 
   libs/files-io:
-    dependencies:
-      tiny-invariant:
-        specifier: ^1.3.1
-        version: 1.3.3
     devDependencies:
+      tiny-invariant:
+        specifier: 'catalog:'
+        version: 1.3.3
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/form-data:
-    dependencies:
+    devDependencies:
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: link:../zod-utils
-    devDependencies:
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/password:
-    dependencies:
-      tiny-invariant:
-        specifier: ^1.3.1
-        version: 1.3.3
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
+      tiny-invariant:
+        specifier: 'catalog:'
+        version: 1.3.3
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/prisma:
     dependencies:
-      '@prisma/adapter-pg':
-        specifier: ^6.18.0
-        version: 6.18.0
-      '@prisma/client':
-        specifier: ^6.18.0
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       prisma:
-        specifier: ^6.18.0
+        specifier: 'catalog:'
         version: 6.18.0(typescript@5.4.5)
     devDependencies:
       '@animeaux/password':
@@ -1290,6 +1330,12 @@ importers:
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
+      '@prisma/adapter-pg':
+        specifier: 'catalog:'
+        version: 6.18.0
+      '@prisma/client':
+        specifier: 'catalog:'
+        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@types/d3-dsv':
         specifier: 'catalog:'
         version: 3.0.7
@@ -1334,83 +1380,109 @@ importers:
         version: 5.4.5
 
   libs/react-primitives:
-    dependencies:
-      '@radix-ui/react-slot':
-        specifier: ^1.0.2
-        version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
     devDependencies:
+      '@radix-ui/react-slot':
+        specifier: 'catalog:'
+        version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/search-params-io:
-    dependencies:
-      '@remix-run/react':
-        specifier: ~2.9.2
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      lodash.isequal:
-        specifier: ^4.5.0
-        version: 4.5.0
-      react:
-        specifier: ^18.2.0
-        version: 18.3.1
     devDependencies:
+      '@remix-run/react':
+        specifier: 'catalog:'
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@types/lodash.isequal':
         specifier: 'catalog:'
         version: 4.5.8
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      lodash.isequal:
+        specifier: 'catalog:'
+        version: 4.5.0
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/tailwind-animation:
-    dependencies:
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.4.3
     devDependencies:
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 3.4.3
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/zod-utils:
-    dependencies:
-      '@sentry/remix':
-        specifier: ^8.37.1
-        version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      luxon:
-        specifier: ^3.4.2
-        version: 3.4.4
-      zod:
-        specifier: ^3.22.2
-        version: 3.23.8
-      zod-form-data:
-        specifier: ^2.0.1
-        version: 2.0.2(zod@3.23.8)
     devDependencies:
+      '@opentelemetry/api':
+        specifier: 'catalog:'
+        version: 1.9.0
+      '@opentelemetry/core':
+        specifier: 'catalog:'
+        version: 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation':
+        specifier: 'catalog:'
+        version: 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base':
+        specifier: 'catalog:'
+        version: 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions':
+        specifier: 'catalog:'
+        version: 1.27.0
+      '@sentry/remix':
+        specifier: 'catalog:'
+        version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
       '@total-typescript/ts-reset':
         specifier: 'catalog:'
         version: 0.5.1
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
+      luxon:
+        specifier: 'catalog:'
+        version: 3.4.4
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
+      zod:
+        specifier: 'catalog:'
+        version: 3.23.8
+      zod-form-data:
+        specifier: 'catalog:'
+        version: 2.0.2(zod@3.23.8)
 
   scripts:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
         version: link:../libs/core
+      '@animeaux/prisma':
+        specifier: workspace:*
+        version: link:../libs/prisma
+      '@animeaux/search-params-io':
+        specifier: workspace:*
+        version: link:../libs/search-params-io
+      '@prisma/adapter-pg':
+        specifier: 'catalog:'
+        version: 6.18.0
+      '@prisma/client':
+        specifier: 'catalog:'
+        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
+      '@remix-run/react':
+        specifier: 'catalog:'
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@unpic/pixels':
         specifier: 'catalog:'
         version: 1.2.2
@@ -1420,6 +1492,21 @@ importers:
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
+      lodash.isequal:
+        specifier: 'catalog:'
+        version: 4.5.0
+      luxon:
+        specifier: 'catalog:'
+        version: 3.4.4
+      prisma:
+        specifier: 'catalog:'
+        version: 6.18.0(typescript@5.4.5)
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      react-router:
+        specifier: 'catalog:'
+        version: 6.23.1(react@18.3.1)
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
@@ -1439,49 +1526,6 @@ packages:
   '@ampproject/remapping@2.2.0':
     resolution: {integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==}
     engines: {node: '>=6.0.0'}
-
-  '@animeaux/core@file:libs/core':
-    resolution: {directory: libs/core, type: directory}
-    peerDependencies:
-      '@animeaux/prisma': workspace:*
-      '@animeaux/search-params-io': workspace:*
-      '@remix-run/react': ~2.9.2
-      luxon: ^3.4.2
-      react: ^18.2.0
-      react-router: ^6.23.1
-      tiny-invariant: ^1.3.1
-
-  '@animeaux/file-storage@file:libs/file-storage':
-    resolution: {directory: libs/file-storage, type: directory}
-    peerDependencies:
-      '@animeaux/core': workspace:*
-      '@animeaux/zod-utils': workspace:*
-      '@mjackson/lazy-file': ^3.2.0
-      '@sentry/remix': ^8.37.1
-      googleapis: ^144.0.0
-      uuid: ^9.0.0
-
-  '@animeaux/prisma@file:libs/prisma':
-    resolution: {directory: libs/prisma, type: directory}
-    peerDependencies:
-      '@prisma/adapter-pg': ^6.18.0
-      '@prisma/client': ^6.18.0
-      prisma: ^6.18.0
-
-  '@animeaux/search-params-io@file:libs/search-params-io':
-    resolution: {directory: libs/search-params-io, type: directory}
-    peerDependencies:
-      '@remix-run/react': ~2.9.2
-      lodash.isequal: ^4.5.0
-      react: ^18.2.0
-
-  '@animeaux/zod-utils@file:libs/zod-utils':
-    resolution: {directory: libs/zod-utils, type: directory}
-    peerDependencies:
-      '@sentry/remix': ^8.37.1
-      luxon: ^3.4.2
-      zod: ^3.22.2
-      zod-form-data: ^2.0.1
 
   '@babel/code-frame@7.23.5':
     resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
@@ -8015,44 +8059,6 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.25
-
-  '@animeaux/core@file:libs/core(@animeaux/prisma@file:libs/prisma(@prisma/adapter-pg@6.18.0)(@prisma/client@6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5))(prisma@6.18.0(typescript@5.4.5)))(@animeaux/search-params-io@file:libs/search-params-io(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(lodash.isequal@4.5.0)(react@18.3.1))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(luxon@3.4.4)(react-router@6.23.1(react@18.3.1))(react@18.3.1)(tiny-invariant@1.3.3)':
-    dependencies:
-      '@animeaux/prisma': file:libs/prisma(@prisma/adapter-pg@6.18.0)(@prisma/client@6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5))(prisma@6.18.0(typescript@5.4.5))
-      '@animeaux/search-params-io': file:libs/search-params-io(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(lodash.isequal@4.5.0)(react@18.3.1)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      luxon: 3.4.4
-      react: 18.3.1
-      react-router: 6.23.1(react@18.3.1)
-      tiny-invariant: 1.3.3
-
-  '@animeaux/file-storage@file:libs/file-storage(983ccb75b6e78f2c9bf4b66c8525e428)':
-    dependencies:
-      '@animeaux/core': file:libs/core(@animeaux/prisma@file:libs/prisma(@prisma/adapter-pg@6.18.0)(@prisma/client@6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5))(prisma@6.18.0(typescript@5.4.5)))(@animeaux/search-params-io@file:libs/search-params-io(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(lodash.isequal@4.5.0)(react@18.3.1))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(luxon@3.4.4)(react-router@6.23.1(react@18.3.1))(react@18.3.1)(tiny-invariant@1.3.3)
-      '@animeaux/zod-utils': file:libs/zod-utils(@sentry/remix@8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1))(luxon@3.4.4)(zod-form-data@2.0.2(zod@3.23.8))(zod@3.23.8)
-      '@mjackson/lazy-file': 3.2.0
-      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      googleapis: 144.0.0(encoding@0.1.13)
-      uuid: 9.0.1
-
-  '@animeaux/prisma@file:libs/prisma(@prisma/adapter-pg@6.18.0)(@prisma/client@6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5))(prisma@6.18.0(typescript@5.4.5))':
-    dependencies:
-      '@prisma/adapter-pg': 6.18.0
-      '@prisma/client': 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
-      prisma: 6.18.0(typescript@5.4.5)
-
-  '@animeaux/search-params-io@file:libs/search-params-io(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(lodash.isequal@4.5.0)(react@18.3.1)':
-    dependencies:
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      lodash.isequal: 4.5.0
-      react: 18.3.1
-
-  '@animeaux/zod-utils@file:libs/zod-utils(@sentry/remix@8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1))(luxon@3.4.4)(zod-form-data@2.0.2(zod@3.23.8))(zod@3.23.8)':
-    dependencies:
-      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      luxon: 3.4.4
-      zod: 3.23.8
-      zod-form-data: 2.0.2(zod@3.23.8)
 
   '@babel/code-frame@7.23.5':
     dependencies:
