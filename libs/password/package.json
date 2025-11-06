@@ -10,9 +10,15 @@
   },
   "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
     "tiny-invariant": "^1.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "tiny-invariant": "catalog:",
+    "typescript": "catalog:"
   }
 }
