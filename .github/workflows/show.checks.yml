@@ -7,7 +7,6 @@ on:
     paths:
       - pnpm-lock.yaml
       - .dockerignore
-      - prisma/**
       - libs/**
       - apps/show/**
       - .github/workflows/show.checks.yml

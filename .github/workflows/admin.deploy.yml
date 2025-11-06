@@ -8,7 +8,6 @@ on:
     paths:
       - pnpm-lock.yaml
       - .dockerignore
-      - prisma/**
       - libs/**
       - apps/admin/**
       - .github/workflows/admin.deploy.yml
