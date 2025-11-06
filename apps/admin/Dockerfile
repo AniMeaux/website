@@ -1,75 +1,88 @@
-# base node image
-FROM node:22.11-bullseye-slim as base
+# Base stage for all subsequent stages.
+FROM node:22.11-bullseye-slim AS base
 
-# set for base and all layer that inherit from it
-ENV NODE_ENV production
-
-# Install openssl for Prisma
+# Needed for Prisma generation and runtime.
 RUN apt-get update && apt-get install -y openssl
+
+# The store dir will be `$PNPM_HOME/store`.
+# See https://pnpm.io/settings#storedir
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
+
+# There's an ongoing issue with corepack.
+# See https://github.com/nodejs/corepack/issues/612#issuecomment-2630469508
+RUN npm i -g corepack@latest
 
 WORKDIR /workspace
 
-# Install all node_modules, including dev dependencies
-FROM base as deps
-ADD ./package.json ./yarn.lock ./
-ADD ./libs/core/package.json ./libs/core/
-ADD ./libs/file-storage/package.json ./libs/file-storage/
-ADD ./libs/form-data/package.json ./libs/form-data/
-ADD ./libs/password/package.json ./libs/password/
-ADD ./libs/prisma/package.json ./libs/prisma/
-ADD ./libs/react-primitives/package.json ./libs/react-primitives/
-ADD ./libs/search-params-io/package.json ./libs/search-params-io/
-ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
-ADD ./libs/zod-utils/package.json ./libs/zod-utils/
-ADD ./apps/admin/package.json ./apps/admin/
-RUN yarn --frozen-lockfile --production=false
+# Populate pnpm store with all dependencies (prod and dev).
+# See https://pnpm.io/cli/fetch#usage-scenario
+FROM base AS pnpm-store
 
-# Setup production node_modules
-FROM base as production-deps
-COPY --from=deps /workspace/node_modules ./node_modules
-COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
-COPY --from=deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
-ADD ./package.json ./yarn.lock ./
-ADD ./libs/core/package.json ./libs/core/
-ADD ./libs/file-storage/package.json ./libs/file-storage/
-ADD ./libs/form-data/package.json ./libs/form-data/
-ADD ./libs/password/package.json ./libs/password/
-ADD ./libs/prisma/package.json ./libs/prisma/
-ADD ./libs/react-primitives/package.json ./libs/react-primitives/
-ADD ./libs/search-params-io/package.json ./libs/search-params-io/
-ADD ./libs/tailwind-animation/package.json ./libs/tailwind-animation/
-ADD ./libs/zod-utils/package.json ./libs/zod-utils/
-ADD ./apps/admin/package.json ./apps/admin/
-RUN yarn --frozen-lockfile
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Build
-FROM base as build
-COPY --from=deps /workspace/node_modules ./node_modules
-COPY --from=deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
-COPY --from=deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
+RUN pnpm fetch
 
-ADD ./tsconfig.base.json ./
-ADD ./libs/prisma ./libs/prisma
-RUN yarn --cwd ./libs/prisma generate
+# Remove the virtual store so we can copy the entire `/workspace` directory.
+RUN rm -rf node_modules
 
-ADD ./libs/core ./libs/core
-ADD ./libs/file-storage ./libs/file-storage
-ADD ./libs/form-data ./libs/form-data
-ADD ./libs/password ./libs/password
-ADD ./libs/react-primitives ./libs/react-primitives
-ADD ./libs/search-params-io ./libs/search-params-io
-ADD ./libs/tailwind-animation ./libs/tailwind-animation
-ADD ./libs/zod-utils ./libs/zod-utils
-ADD ./apps/admin ./apps/admin
-RUN yarn --cwd ./apps/admin build
+# App and its dependencies' `package.json` files.
+FROM base AS packages-json
 
-# Finally, build the production image with minimal footprint
-FROM base
-COPY --from=production-deps /workspace/node_modules ./node_modules
-COPY --from=production-deps /workspace/libs/prisma/node_modules ./libs/prisma/node_modules
-COPY --from=production-deps /workspace/apps/admin/node_modules ./apps/admin/node_modules
-COPY --from=build /workspace/apps/admin/build ./apps/admin/build
-ADD ./libs/prisma ./libs/prisma
-ADD ./apps/admin ./apps/admin
+COPY package.json ./
+COPY libs/core/package.json libs/core/
+COPY libs/file-storage/package.json libs/file-storage/
+COPY libs/form-data/package.json libs/form-data/
+COPY libs/password/package.json libs/password/
+COPY libs/prisma/package.json libs/prisma/
+COPY libs/react-primitives/package.json libs/react-primitives/
+COPY libs/search-params-io/package.json libs/search-params-io/
+COPY libs/tailwind-animation/package.json libs/tailwind-animation/
+COPY libs/zod-utils/package.json libs/zod-utils/
+COPY apps/admin/package.json apps/admin/
 
-CMD ["yarn", "--cwd", "apps/admin", "start"]
+# App production build.
+FROM base AS build
+
+COPY --from=pnpm-store ${PNPM_HOME}/store ${PNPM_HOME}/store
+COPY --from=pnpm-store /workspace ./
+COPY --from=packages-json /workspace ./
+
+RUN pnpm install --frozen-lockfile --offline
+
+COPY tsconfig.base.json ./
+COPY libs/core libs/core
+COPY libs/file-storage libs/file-storage
+COPY libs/form-data libs/form-data
+COPY libs/password libs/password
+COPY libs/prisma libs/prisma
+COPY libs/react-primitives libs/react-primitives
+COPY libs/search-params-io libs/search-params-io
+COPY libs/tailwind-animation libs/tailwind-animation
+COPY libs/zod-utils libs/zod-utils
+COPY apps/admin apps/admin
+
+# Generate code of app's dependencies.
+RUN pnpm --filter admin^... generate
+
+RUN pnpm --filter admin build
+
+# Production image with minimal footprint.
+FROM base AS app
+
+ENV NODE_ENV="production"
+
+COPY --from=pnpm-store ${PNPM_HOME}/store ${PNPM_HOME}/store
+COPY --from=pnpm-store /workspace ./
+COPY --from=packages-json /workspace ./
+
+RUN pnpm install --prod --frozen-lockfile --offline
+
+COPY --from=build /workspace/apps/admin/build apps/admin/build
+COPY --from=build /workspace/apps/admin/public apps/admin/public
+COPY libs/prisma/migrations libs/prisma/migrations
+COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
+
+CMD ["pnpm", "--filter", "admin", "start"]

@@ -10,7 +10,8 @@
   },
   "types": "./src/index.ts",
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
     "@remix-run/react": "~2.9.2",
@@ -18,7 +19,11 @@
     "react": "^18.2.0"
   },
   "devDependencies": {
-    "@types/lodash.isequal": "^4.5.6",
-    "@types/react": "^18.2.21"
+    "@remix-run/react": "catalog:",
+    "@types/lodash.isequal": "catalog:",
+    "@types/react": "catalog:",
+    "lodash.isequal": "catalog:",
+    "react": "catalog:",
+    "typescript": "catalog:"
   }
 }

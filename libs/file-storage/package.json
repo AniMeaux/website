@@ -20,20 +20,46 @@
     }
   },
   "scripts": {
-    "generate": "# Nothing to generate"
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:types": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@animeaux/core": "*",
-    "@animeaux/zod-utils": "*",
+    "@animeaux/core": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
     "@mjackson/lazy-file": "^3.2.0",
     "@sentry/remix": "^8.37.1",
     "googleapis": "^144.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@mjackson/form-data-parser": "^0.4.0",
-    "@total-typescript/ts-reset": "^0.5.1",
-    "@types/node": "^22.8.7",
-    "type-fest": "^4.3.1"
+    "@animeaux/core": "workspace:*",
+    "@animeaux/prisma": "workspace:*",
+    "@animeaux/search-params-io": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
+    "@mjackson/form-data-parser": "catalog:",
+    "@mjackson/lazy-file": "catalog:",
+    "@opentelemetry/api": "catalog:",
+    "@opentelemetry/core": "catalog:",
+    "@opentelemetry/instrumentation": "catalog:",
+    "@opentelemetry/sdk-trace-base": "catalog:",
+    "@opentelemetry/semantic-conventions": "catalog:",
+    "@prisma/adapter-pg": "catalog:",
+    "@prisma/client": "catalog:",
+    "@remix-run/react": "catalog:",
+    "@sentry/remix": "catalog:",
+    "@total-typescript/ts-reset": "catalog:",
+    "@types/node": "catalog:",
+    "@types/uuid": "catalog:",
+    "googleapis": "catalog:",
+    "lodash.isequal": "catalog:",
+    "luxon": "catalog:",
+    "react": "catalog:",
+    "react-router": "catalog:",
+    "tiny-invariant": "catalog:",
+    "type-fest": "catalog:",
+    "typescript": "catalog:",
+    "uuid": "catalog:",
+    "zod": "catalog:",
+    "zod-form-data": "catalog:"
   }
 }

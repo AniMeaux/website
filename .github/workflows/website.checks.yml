@@ -5,9 +5,8 @@ on:
     branches:
       - dev
     paths:
-      - yarn.lock
+      - pnpm-lock.yaml
       - .dockerignore
-      - prisma/**
       - libs/**
       - apps/website/**
       - .github/workflows/website.checks.yml
@@ -22,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 👀 Read app name
         uses: SebRollen/toml-action@v1.0.2
