@@ -4,7 +4,7 @@ import {
   ACTIVITY_TARGET_TRANSLATION,
 } from "#exhibitors/activity-target/activity-target";
 import { Icon } from "#generated/icon";
-import type { ShowActivityTarget } from "@animeaux/prisma/client";
+import type { ShowActivityTarget } from "@animeaux/prisma";
 
 export function ChipActivityTarget({
   activityTarget,

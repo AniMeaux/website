@@ -3,7 +3,7 @@ import { PageBackground } from "#core/layout/page-background";
 import { notFound } from "#core/response.server";
 import { services } from "#core/services.server.js";
 import { RouteParamsSchema } from "#exhibitors/route-params";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";

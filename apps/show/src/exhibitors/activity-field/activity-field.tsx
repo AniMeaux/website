@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon";
-import { ShowActivityField } from "@animeaux/prisma/client";
+import { ShowActivityField } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 
 export namespace ActivityField {

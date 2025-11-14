@@ -11,7 +11,7 @@ import { getPageTitle } from "#core/page-title";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { InvalidDateRangeError } from "#events/db.server";
 import { ActionFormData, EventForm } from "#events/form";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {
   ActionFunctionArgs,

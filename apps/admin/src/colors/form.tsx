@@ -4,7 +4,7 @@ import { Input } from "#core/form-elements/input";
 import { RequiredStar } from "#core/form-elements/required-star";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { Color } from "@animeaux/prisma/client";
+import type { Color } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";

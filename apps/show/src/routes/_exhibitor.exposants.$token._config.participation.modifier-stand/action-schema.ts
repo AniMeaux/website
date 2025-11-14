@@ -1,6 +1,6 @@
 import type { DividerTypeAvailability } from "#divider-type/availability.js";
-import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma/client";
-import { ShowInstallationDay } from "@animeaux/prisma/client";
+import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
+import { ShowInstallationDay } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import invariant from "tiny-invariant";
 

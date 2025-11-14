@@ -54,8 +54,8 @@ import { FosterFamilyAvatar } from "#foster-families/avatar";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
 import { hasGroups } from "#users/groups";
-import type { FosterFamily, User } from "@animeaux/prisma/client";
-import { Gender, UserGroup } from "@animeaux/prisma/client";
+import type { FosterFamily, User } from "@animeaux/prisma";
+import { Gender, UserGroup } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { SerializeFrom } from "@remix-run/node";
 

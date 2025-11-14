@@ -5,8 +5,8 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    "./server": "./src/index.server.ts",
-    "./client": "./src/generated/browser.ts"
+    ".": "./src/generated/browser.ts",
+    "./server": "./src/index.server.ts"
   },
   "scripts": {
     "copy-data": "tsx ./scripts/copy-data.ts",

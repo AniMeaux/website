@@ -7,7 +7,7 @@ import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationStatus,
-} from "@animeaux/prisma/client";
+} from "@animeaux/prisma";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 

@@ -4,7 +4,7 @@ import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
 import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import type { Extends } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

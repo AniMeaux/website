@@ -33,7 +33,7 @@ import { ManagerInput } from "#routes/resources.manager/input";
 import { PickUpLocationInput } from "#routes/resources.pick-up-location/input";
 import { hasGroups } from "#users/groups";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma/client";
+import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma";
 import {
   AdoptionOption,
   Diagnosis,
@@ -43,7 +43,7 @@ import {
   Species,
   Status,
   UserGroup,
-} from "@animeaux/prisma/client";
+} from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";

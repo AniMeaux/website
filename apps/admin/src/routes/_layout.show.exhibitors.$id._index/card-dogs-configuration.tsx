@@ -12,7 +12,7 @@ import { ExhibitorStatus } from "#show/exhibitors/status";
 import { StatusHelper } from "#show/exhibitors/status-helper.js";
 import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
 import { joinReactNodes } from "@animeaux/core";
-import { Gender } from "@animeaux/prisma/client";
+import { Gender } from "@animeaux/prisma";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

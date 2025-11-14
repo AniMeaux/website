@@ -2,7 +2,7 @@ import { Receipt } from "#core/data-display/receipt.js";
 import { ExhibitorCategory } from "#exhibitors/category.js";
 import { Price } from "#price/price.js";
 import { StandSizePrice } from "#stand-size/price.js";
-import type { Prisma } from "@animeaux/prisma/client";
+import type { Prisma } from "@animeaux/prisma";
 
 export function ParticipationReceipt({
   standSize,

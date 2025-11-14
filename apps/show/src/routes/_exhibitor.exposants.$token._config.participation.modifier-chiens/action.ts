@@ -1,4 +1,4 @@
-import { Gender } from "@animeaux/prisma/client";
+import { Gender } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu.object({

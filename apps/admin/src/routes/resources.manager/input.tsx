@@ -13,7 +13,7 @@ import type { loader } from "#routes/resources.manager/route";
 import { UserAvatar } from "#users/avatar";
 import { UserSearchParams } from "#users/search-params";
 import { toBooleanAttribute } from "@animeaux/core";
-import type { User } from "@animeaux/prisma/client";
+import type { User } from "@animeaux/prisma";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";

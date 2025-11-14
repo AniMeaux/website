@@ -2,7 +2,7 @@ import type { AvatarSize } from "#core/data-display/avatar";
 import { Avatar } from "#core/data-display/avatar";
 import type { DynamicImageProps } from "#core/data-display/image";
 import { DynamicImage } from "#core/data-display/image";
-import type { Animal } from "@animeaux/prisma/client";
+import type { Animal } from "@animeaux/prisma";
 import type { Except } from "type-fest";
 
 export function AnimalAvatar({

@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon";
-import { ShowActivityTarget } from "@animeaux/prisma/client";
+import { ShowActivityTarget } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 
 export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {

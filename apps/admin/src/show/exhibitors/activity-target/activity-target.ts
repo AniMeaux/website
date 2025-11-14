@@ -1,4 +1,4 @@
-import { ShowActivityTarget } from "@animeaux/prisma/client";
+import { ShowActivityTarget } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 
 export namespace ActivityTarget {
