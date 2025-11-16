@@ -25,10 +25,13 @@
     "@opentelemetry/instrumentation": "catalog:",
     "@opentelemetry/sdk-trace-base": "catalog:",
     "@opentelemetry/semantic-conventions": "catalog:",
+    "@remix-run/node": "catalog:",
+    "@remix-run/react": "catalog:",
     "@sentry/remix": "catalog:",
     "@total-typescript/ts-reset": "catalog:",
     "@types/luxon": "catalog:",
     "luxon": "catalog:",
+    "react": "catalog:",
     "typescript": "catalog:",
     "zod": "catalog:",
     "zod-form-data": "catalog:"
