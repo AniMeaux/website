@@ -1,1 +1,1 @@
-export * from "./tailwind-animation";
+export * from "./tailwind-animation.js";

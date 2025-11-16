@@ -1,1 +1,1 @@
-export * from "./react-primitives";
+export * from "./react-primitives.js";
