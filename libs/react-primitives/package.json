@@ -4,23 +4,29 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "main": "./src/index.tsx",
   "exports": {
-    ".": "./src/index.tsx"
+    ".": {
+      "types": "./build/src/index.d.ts",
+      "default": "./build/src/index.js"
+    }
   },
-  "types": "./src/index.tsx",
   "scripts": {
+    "prebuild": "pnpm clean",
+    "build": "run-s --print-label build:src",
+    "build:src": "tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./build",
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "@radix-ui/react-slot": "^1.0.2",
-    "react": "^18.2.0"
+  "dependencies": {
+    "@radix-ui/react-slot": "catalog:",
+    "react": "catalog:"
   },
   "devDependencies": {
-    "@radix-ui/react-slot": "catalog:",
     "@types/react": "catalog:",
-    "react": "catalog:",
+    "npm-run-all": "catalog:",
     "typescript": "catalog:"
   }
 }

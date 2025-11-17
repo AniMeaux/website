@@ -5,11 +5,24 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": "./src/generated/browser.ts",
-    "./server": "./src/index.server.ts"
+    ".": {
+      "types": "./build/src/index.d.ts",
+      "default": "./build/src/index.js"
+    },
+    "./server": {
+      "types": "./build/src/index.server.d.ts",
+      "default": "./build/src/index.server.js"
+    }
   },
   "scripts": {
+    "prebuild": "pnpm clean && pnpm generate",
+    "build": "run-s --print-label build:src",
+    "build:src": "tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./build ./src/generated",
     "copy-data": "tsx ./scripts/copy-data.ts",
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:prisma": "chokidar ./schema.prisma -c 'pnpm generate:prisma'",
+    "dev:src": "pnpm build:src --watch",
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:prisma": "prisma generate",
@@ -23,22 +36,19 @@
   "prisma": {
     "seed": "tsx -r dotenv-flow/config ./scripts/seed-data.ts"
   },
-  "peerDependencies": {
-    "@prisma/adapter-pg": "^6.18.0",
-    "@prisma/client": "^6.18.0"
-  },
   "dependencies": {
+    "@prisma/adapter-pg": "catalog:",
+    "@prisma/client": "catalog:",
     "prisma": "catalog:"
   },
   "devDependencies": {
     "@animeaux/password": "workspace:*",
     "@faker-js/faker": "catalog:",
-    "@prisma/adapter-pg": "catalog:",
-    "@prisma/client": "catalog:",
     "@types/d3-dsv": "catalog:",
     "@types/luxon": "catalog:",
     "@types/pg": "catalog:",
     "@types/pg-copy-streams": "catalog:",
+    "chokidar-cli": "catalog:",
     "d3-dsv": "catalog:",
     "dotenv-flow": "catalog:",
     "luxon": "catalog:",

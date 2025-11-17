@@ -5,11 +5,20 @@ on:
     branches:
       - dev
     paths:
-      - pnpm-lock.yaml
       - .dockerignore
-      - libs/**
-      - apps/show/**
+      - .eslintignore
+      - .eslintrc.json
       - .github/workflows/show.checks.yml
+      - .gitignore
+      - .prettierignore
+      - .prettierrc.json
+      - apps/show/**
+      - libs/**
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - tsconfig.base.json
+      - tsconfig.libs.json
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

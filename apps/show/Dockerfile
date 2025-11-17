@@ -50,7 +50,7 @@ COPY --from=packages-json /workspace ./
 
 RUN pnpm install --frozen-lockfile --offline
 
-COPY tsconfig.base.json ./
+COPY tsconfig.base.json tsconfig.libs.json ./
 COPY libs/core libs/core
 COPY libs/file-storage libs/file-storage
 COPY libs/files-io libs/files-io
@@ -60,10 +60,23 @@ COPY libs/search-params-io libs/search-params-io
 COPY libs/zod-utils libs/zod-utils
 COPY apps/show apps/show
 
-# Generate code of app's dependencies.
-RUN pnpm --filter show^... generate
+# Build libs and app.
+RUN pnpm --filter show... build
 
-RUN pnpm --filter show build
+# Remove everything in the workspace except `apps` and `libs`.
+RUN find . -mindepth 1 -maxdepth 1 \
+    ! -name apps ! -name libs \
+    -exec rm -rf {} +
+
+# Remove everything in `./apps/show` except `build`, `public` and `server.js`.
+RUN find ./apps/show -mindepth 1 -maxdepth 1 \
+    ! -name build ! -name public ! -name server.js \
+    -exec rm -rf {} +
+
+# Remove everything in `./libs/*` except `build`.
+RUN find ./libs -mindepth 2 -maxdepth 2 \
+    ! -name build \
+    -exec rm -rf {} +
 
 # Production image with minimal footprint.
 FROM base AS app
@@ -76,9 +89,7 @@ COPY --from=packages-json /workspace ./
 
 RUN pnpm install --prod --frozen-lockfile --offline
 
-COPY --from=build /workspace/apps/show/build apps/show/build
-COPY --from=build /workspace/apps/show/server.js apps/show/
-COPY --from=build /workspace/apps/show/public apps/show/public
+COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
 

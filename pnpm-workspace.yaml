@@ -62,9 +62,7 @@ catalog:
   "@types/lodash.isequal": ^4.5.6
   "@types/lodash.merge": ^4.6.9
   "@types/lodash.orderby": ^4.6.7
-  "@types/lodash.partition": ^4.6.9
   "@types/lodash.pick": ^4.4.9
-  "@types/lodash.zip": ^4.2.7
   "@types/luxon": ^3.3.1
   "@types/morgan": ^1.9.2
   "@types/node": ^22.8.7
@@ -83,6 +81,7 @@ catalog:
   body-scroll-lock: ^3.1.5
   bowser: ^2.11.0
   chokidar: ^3.5.3
+  chokidar-cli: ^3.0.0
   cloudinary: ^2.2.0
   compression: ^1.7.4
   cookie-signature: ^1.2.1
@@ -105,9 +104,7 @@ catalog:
   lodash.isequal: ^4.5.0
   lodash.merge: ^4.6.2
   lodash.orderby: ^4.6.0
-  lodash.partition: ^4.6.0
   lodash.pick: ^4.4.0
-  lodash.zip: ^4.2.0
   lru-cache: ^10.0.1
   luxon: ^3.4.2
   metascraper: ^5.36.0
