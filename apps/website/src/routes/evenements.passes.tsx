@@ -7,7 +7,7 @@ import { getPageTitle } from "#core/page-title";
 import { getPage } from "#core/search-params";
 import { EventItem } from "#events/item";
 import { cn } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma/client";
+import type { Prisma } from "@animeaux/prisma";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

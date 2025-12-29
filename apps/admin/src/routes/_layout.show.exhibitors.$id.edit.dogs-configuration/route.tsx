@@ -5,7 +5,7 @@ import { PageLayout } from "#core/layout/page.js";
 import { Routes } from "#core/navigation.js";
 import { getPageTitle } from "#core/page-title.js";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";
 import { getFormProps } from "@conform-to/react";

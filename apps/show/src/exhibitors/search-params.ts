@@ -1,6 +1,6 @@
 import { ActivityField } from "#exhibitors/activity-field/activity-field";
 import type { IconName } from "#generated/icon";
-import { ShowActivityTarget } from "@animeaux/prisma/client";
+import { ShowActivityTarget } from "@animeaux/prisma";
 import {
   SearchParamsIO,
   SearchParamsReader,

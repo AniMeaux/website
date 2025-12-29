@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon";
-import { AdoptionOption } from "@animeaux/prisma/client";
+import { AdoptionOption } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 
 export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {

@@ -1,4 +1,4 @@
-import { Diagnosis, Gender } from "@animeaux/prisma/client";
+import { Diagnosis, Gender } from "@animeaux/prisma";
 
 export const SORTED_DIAGNOSIS = [
   Diagnosis.UNKNOWN,

@@ -17,7 +17,7 @@ import { Separator } from "#core/layout/separator";
 import { Icon } from "#generated/icon";
 import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { Event } from "@animeaux/prisma/client";
+import type { Event } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";

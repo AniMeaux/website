@@ -17,7 +17,7 @@ import { prisma } from "#core/prisma.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma/client";
+import { Gender, UserGroup } from "@animeaux/prisma";
 import { fromPrismaPromise } from "@animeaux/prisma/server";
 import type {
   LoaderFunctionArgs,

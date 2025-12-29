@@ -3,7 +3,7 @@ import { createCloudinaryUrl } from "#core/data-display/image";
 import { db } from "#core/db.server";
 import { notFound } from "#core/response.server";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 

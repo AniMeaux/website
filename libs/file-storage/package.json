@@ -4,37 +4,28 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "main": "./src/index.ts",
   "exports": {
-    "./client": "./src.client/index.ts",
-    "./server": "./src.server/index.ts"
-  },
-  "typesVersions": {
-    "*": {
-      "./client": [
-        "./src.client/index.ts"
-      ],
-      "./server": [
-        "./src.server/index.ts"
-      ]
+    "./client": {
+      "types": "./build/src.client/index.d.ts",
+      "default": "./build/src.client/index.js"
+    },
+    "./server": {
+      "types": "./build/src.server/index.d.ts",
+      "default": "./build/src.server/index.js"
     }
   },
   "scripts": {
+    "prebuild": "pnpm clean",
+    "build": "run-s --print-label build:src",
+    "build:src": "tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./build",
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@animeaux/core": "workspace:*",
-    "@animeaux/zod-utils": "workspace:*",
-    "@mjackson/lazy-file": "^3.2.0",
-    "@sentry/remix": "^8.37.1",
-    "googleapis": "^144.0.0",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {
-    "@animeaux/core": "workspace:*",
-    "@animeaux/prisma": "workspace:*",
-    "@animeaux/search-params-io": "workspace:*",
     "@animeaux/zod-utils": "workspace:*",
     "@mjackson/form-data-parser": "catalog:",
     "@mjackson/lazy-file": "catalog:",
@@ -43,23 +34,18 @@
     "@opentelemetry/instrumentation": "catalog:",
     "@opentelemetry/sdk-trace-base": "catalog:",
     "@opentelemetry/semantic-conventions": "catalog:",
-    "@prisma/adapter-pg": "catalog:",
-    "@prisma/client": "catalog:",
+    "@remix-run/node": "catalog:",
     "@remix-run/react": "catalog:",
     "@sentry/remix": "catalog:",
+    "googleapis": "catalog:",
+    "uuid": "catalog:",
+    "react": "catalog:"
+  },
+  "devDependencies": {
     "@total-typescript/ts-reset": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "catalog:",
-    "googleapis": "catalog:",
-    "lodash.isequal": "catalog:",
-    "luxon": "catalog:",
-    "react": "catalog:",
-    "react-router": "catalog:",
-    "tiny-invariant": "catalog:",
-    "type-fest": "catalog:",
-    "typescript": "catalog:",
-    "uuid": "catalog:",
-    "zod": "catalog:",
-    "zod-form-data": "catalog:"
+    "npm-run-all": "catalog:",
+    "typescript": "catalog:"
   }
 }

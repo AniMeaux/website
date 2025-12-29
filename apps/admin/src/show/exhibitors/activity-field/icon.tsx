@@ -1,7 +1,7 @@
 import type { IconName } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
-import { ShowActivityField } from "@animeaux/prisma/client";
+import { ShowActivityField } from "@animeaux/prisma";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 

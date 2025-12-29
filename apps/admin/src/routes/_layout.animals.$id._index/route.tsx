@@ -29,7 +29,7 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Icon } from "#generated/icon";
 import { hasGroups } from "#users/groups";
 import { cn, formatAge } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma/client";
+import { Gender, UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type {
   ActionFunctionArgs,

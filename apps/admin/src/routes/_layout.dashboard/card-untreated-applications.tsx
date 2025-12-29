@@ -11,7 +11,7 @@ import {
   ApplicationSearchParamsN,
 } from "#show/exhibitors/applications/search-params.js";
 import { ImageUrl } from "@animeaux/core";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
 import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";

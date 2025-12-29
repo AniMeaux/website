@@ -139,15 +139,9 @@ catalogs:
     '@types/lodash.orderby':
       specifier: ^4.6.7
       version: 4.6.9
-    '@types/lodash.partition':
-      specifier: ^4.6.9
-      version: 4.6.9
     '@types/lodash.pick':
       specifier: ^4.4.9
       version: 4.4.9
-    '@types/lodash.zip':
-      specifier: ^4.2.7
-      version: 4.2.9
     '@types/luxon':
       specifier: ^3.3.1
       version: 3.4.2
@@ -202,6 +196,9 @@ catalogs:
     chokidar:
       specifier: ^3.5.3
       version: 3.6.0
+    chokidar-cli:
+      specifier: ^3.0.0
+      version: 3.0.0
     cloudinary:
       specifier: ^2.2.0
       version: 2.2.0
@@ -268,15 +265,9 @@ catalogs:
     lodash.orderby:
       specifier: ^4.6.0
       version: 4.6.0
-    lodash.partition:
-      specifier: ^4.6.0
-      version: 4.6.0
     lodash.pick:
       specifier: ^4.4.0
       version: 4.4.0
-    lodash.zip:
-      specifier: ^4.2.0
-      version: 4.2.0
     lru-cache:
       specifier: ^10.0.1
       version: 10.2.2
@@ -465,30 +456,6 @@ importers:
       '@conform-to/zod':
         specifier: 'catalog:'
         version: 1.2.2(zod@3.23.8)
-      '@mjackson/lazy-file':
-        specifier: 'catalog:'
-        version: 3.2.0
-      '@opentelemetry/api':
-        specifier: 'catalog:'
-        version: 1.9.0
-      '@opentelemetry/core':
-        specifier: 'catalog:'
-        version: 1.27.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation':
-        specifier: 'catalog:'
-        version: 0.54.2(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-base':
-        specifier: 'catalog:'
-        version: 1.27.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions':
-        specifier: 'catalog:'
-        version: 1.27.0
-      '@prisma/adapter-pg':
-        specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@radix-ui/react-dialog':
         specifier: 'catalog:'
         version: 1.0.5(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -498,9 +465,6 @@ importers:
       '@radix-ui/react-popover':
         specifier: 'catalog:'
         version: 1.0.7(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@radix-ui/react-slot':
-        specifier: 'catalog:'
-        version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
       '@radix-ui/react-visually-hidden':
         specifier: 'catalog:'
         version: 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -516,9 +480,6 @@ importers:
       '@sentry/remix':
         specifier: 'catalog:'
         version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      '@tailwindcss/container-queries':
-        specifier: 'catalog:'
-        version: 0.1.1(tailwindcss@3.4.3)
       autosize:
         specifier: 'catalog:'
         version: 6.0.1
@@ -540,9 +501,6 @@ importers:
       downshift:
         specifier: 'catalog:'
         version: 9.0.6(react@18.3.1)
-      googleapis:
-        specifier: 'catalog:'
-        version: 144.0.0(encoding@0.1.13)
       history:
         specifier: 'catalog:'
         version: 5.3.0
@@ -567,15 +525,9 @@ importers:
       lodash.orderby:
         specifier: 'catalog:'
         version: 4.6.0
-      lodash.partition:
-        specifier: 'catalog:'
-        version: 4.6.0
       lodash.pick:
         specifier: 'catalog:'
         version: 4.4.0
-      lodash.zip:
-        specifier: 'catalog:'
-        version: 4.2.0
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
@@ -630,12 +582,6 @@ importers:
       uuid:
         specifier: 'catalog:'
         version: 9.0.1
-      zod:
-        specifier: 'catalog:'
-        version: 3.23.8
-      zod-form-data:
-        specifier: 'catalog:'
-        version: 2.0.2(zod@3.23.8)
     devDependencies:
       '@animeaux/tailwind-animation':
         specifier: workspace:*
@@ -646,6 +592,9 @@ importers:
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+      '@tailwindcss/container-queries':
+        specifier: 'catalog:'
+        version: 0.1.1(tailwindcss@3.4.3)
       '@total-typescript/ts-reset':
         specifier: 'catalog:'
         version: 0.5.1
@@ -679,9 +628,6 @@ importers:
       '@types/lodash.pick':
         specifier: 'catalog:'
         version: 4.4.9
-      '@types/lodash.zip':
-        specifier: 'catalog:'
-        version: 4.2.9
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -772,27 +718,6 @@ importers:
       '@mjackson/lazy-file':
         specifier: 'catalog:'
         version: 3.2.0
-      '@opentelemetry/api':
-        specifier: 'catalog:'
-        version: 1.9.0
-      '@opentelemetry/core':
-        specifier: 'catalog:'
-        version: 1.27.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation':
-        specifier: 'catalog:'
-        version: 0.54.2(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-base':
-        specifier: 'catalog:'
-        version: 1.27.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions':
-        specifier: 'catalog:'
-        version: 1.27.0
-      '@prisma/adapter-pg':
-        specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@radix-ui/react-collapsible':
         specifier: 'catalog:'
         version: 1.0.3(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -805,9 +730,6 @@ importers:
       '@radix-ui/react-popover':
         specifier: 'catalog:'
         version: 1.0.7(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@radix-ui/react-slot':
-        specifier: 'catalog:'
-        version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
       '@react-email/components':
         specifier: 'catalog:'
         version: 0.0.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -835,9 +757,6 @@ importers:
       blurhash:
         specifier: 'catalog:'
         version: 2.0.5
-      chokidar:
-        specifier: 'catalog:'
-        version: 3.6.0
       cloudinary:
         specifier: 'catalog:'
         version: 2.2.0
@@ -850,28 +769,16 @@ importers:
       get-port:
         specifier: 'catalog:'
         version: 5.1.1
-      googleapis:
-        specifier: 'catalog:'
-        version: 144.0.0(encoding@0.1.13)
       isbot:
         specifier: 'catalog:'
         version: 5.1.8
       lodash.chunk:
         specifier: 'catalog:'
         version: 4.2.0
-      lodash.difference:
-        specifier: 'catalog:'
-        version: 4.5.0
       lodash.groupby:
         specifier: 'catalog:'
         version: 4.6.0
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
       lodash.orderby:
-        specifier: 'catalog:'
-        version: 4.6.0
-      lodash.partition:
         specifier: 'catalog:'
         version: 4.6.0
       lru-cache:
@@ -892,9 +799,6 @@ importers:
       react-markdown:
         specifier: 'catalog:'
         version: 9.0.1(@types/react@18.3.3)(react@18.3.1)
-      react-router:
-        specifier: 'catalog:'
-        version: 6.23.1(react@18.3.1)
       remark-breaks:
         specifier: 'catalog:'
         version: 4.0.0
@@ -922,12 +826,6 @@ importers:
       uuid:
         specifier: 'catalog:'
         version: 9.0.1
-      zod:
-        specifier: 'catalog:'
-        version: 3.23.8
-      zod-form-data:
-        specifier: 'catalog:'
-        version: 2.0.2(zod@3.23.8)
     devDependencies:
       '@remix-run/dev':
         specifier: 'catalog:'
@@ -944,19 +842,10 @@ importers:
       '@types/lodash.chunk':
         specifier: 'catalog:'
         version: 4.2.9
-      '@types/lodash.difference':
-        specifier: 'catalog:'
-        version: 4.5.9
       '@types/lodash.groupby':
         specifier: 'catalog:'
         version: 4.6.9
-      '@types/lodash.isequal':
-        specifier: 'catalog:'
-        version: 4.5.8
       '@types/lodash.orderby':
-        specifier: 'catalog:'
-        version: 4.6.9
-      '@types/lodash.partition':
         specifier: 'catalog:'
         version: 4.6.9
       '@types/luxon':
@@ -983,6 +872,9 @@ importers:
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.19(postcss@8.4.38)
+      chokidar:
+        specifier: 'catalog:'
+        version: 3.6.0
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
@@ -1019,15 +911,6 @@ importers:
       '@animeaux/prisma':
         specifier: workspace:*
         version: link:../../libs/prisma
-      '@animeaux/search-params-io':
-        specifier: workspace:*
-        version: link:../../libs/search-params-io
-      '@prisma/adapter-pg':
-        specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@remix-run/node':
         specifier: 'catalog:'
         version: 2.9.2(typescript@5.4.5)
@@ -1037,9 +920,6 @@ importers:
       '@remix-run/serve':
         specifier: 'catalog:'
         version: 2.9.2(typescript@5.4.5)
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       body-scroll-lock:
         specifier: 'catalog:'
         version: 3.1.5
@@ -1052,9 +932,6 @@ importers:
       isbot:
         specifier: 'catalog:'
         version: 5.1.8
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
       lodash.orderby:
         specifier: 'catalog:'
         version: 4.6.0
@@ -1070,9 +947,6 @@ importers:
       react-markdown:
         specifier: 'catalog:'
         version: 9.0.1(@types/react@18.3.3)(react@18.3.1)
-      react-router:
-        specifier: 'catalog:'
-        version: 6.23.1(react@18.3.1)
       react-transition-group:
         specifier: 'catalog:'
         version: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1095,12 +969,12 @@ importers:
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+      '@total-typescript/ts-reset':
+        specifier: 'catalog:'
+        version: 0.5.1
       '@types/body-scroll-lock':
         specifier: 'catalog:'
         version: 3.1.2
-      '@types/lodash.isequal':
-        specifier: 'catalog:'
-        version: 4.5.8
       '@types/lodash.orderby':
         specifier: 'catalog:'
         version: 4.6.9
@@ -1154,34 +1028,16 @@ importers:
         version: 4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
 
   libs/core:
-    devDependencies:
+    dependencies:
       '@animeaux/prisma':
         specifier: workspace:*
         version: link:../prisma
       '@animeaux/search-params-io':
         specifier: workspace:*
         version: link:../search-params-io
-      '@prisma/adapter-pg':
-        specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      '@types/luxon':
-        specifier: 'catalog:'
-        version: 3.4.2
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.8.7
-      '@types/react':
-        specifier: 'catalog:'
-        version: 18.3.3
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
@@ -1194,21 +1050,28 @@ importers:
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
+    devDependencies:
+      '@types/luxon':
+        specifier: 'catalog:'
+        version: 3.4.2
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.8.7
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.3
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/file-storage:
-    devDependencies:
+    dependencies:
       '@animeaux/core':
         specifier: workspace:*
         version: link:../core
-      '@animeaux/prisma':
-        specifier: workspace:*
-        version: link:../prisma
-      '@animeaux/search-params-io':
-        specifier: workspace:*
-        version: link:../search-params-io
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: link:../zod-utils
@@ -1233,18 +1096,25 @@ importers:
       '@opentelemetry/semantic-conventions':
         specifier: 'catalog:'
         version: 1.27.0
-      '@prisma/adapter-pg':
+      '@remix-run/node':
         specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
+        version: 2.9.2(typescript@5.4.5)
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@sentry/remix':
         specifier: 'catalog:'
         version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      googleapis:
+        specifier: 'catalog:'
+        version: 144.0.0(encoding@0.1.13)
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      uuid:
+        specifier: 'catalog:'
+        version: 9.0.1
+    devDependencies:
       '@total-typescript/ts-reset':
         specifier: 'catalog:'
         version: 0.5.1
@@ -1254,72 +1124,63 @@ importers:
       '@types/uuid':
         specifier: 'catalog:'
         version: 9.0.8
-      googleapis:
+      npm-run-all:
         specifier: 'catalog:'
-        version: 144.0.0(encoding@0.1.13)
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
-      luxon:
-        specifier: 'catalog:'
-        version: 3.4.4
-      react:
-        specifier: 'catalog:'
-        version: 18.3.1
-      react-router:
-        specifier: 'catalog:'
-        version: 6.23.1(react@18.3.1)
-      tiny-invariant:
-        specifier: 'catalog:'
-        version: 1.3.3
-      type-fest:
-        specifier: 'catalog:'
-        version: 4.18.3
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
-      uuid:
-        specifier: 'catalog:'
-        version: 9.0.1
-      zod:
-        specifier: 'catalog:'
-        version: 3.23.8
-      zod-form-data:
-        specifier: 'catalog:'
-        version: 2.0.2(zod@3.23.8)
 
   libs/files-io:
-    devDependencies:
+    dependencies:
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
+    devDependencies:
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/form-data:
-    devDependencies:
+    dependencies:
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: link:../zod-utils
+    devDependencies:
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/password:
+    dependencies:
+      tiny-invariant:
+        specifier: 'catalog:'
+        version: 1.3.3
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
-      tiny-invariant:
+      npm-run-all:
         specifier: 'catalog:'
-        version: 1.3.3
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/prisma:
     dependencies:
+      '@prisma/adapter-pg':
+        specifier: 'catalog:'
+        version: 6.18.0
+      '@prisma/client':
+        specifier: 'catalog:'
+        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       prisma:
         specifier: 'catalog:'
         version: 6.18.0(typescript@5.4.5)
@@ -1330,12 +1191,6 @@ importers:
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
-      '@prisma/adapter-pg':
-        specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
       '@types/d3-dsv':
         specifier: 'catalog:'
         version: 3.0.7
@@ -1348,6 +1203,9 @@ importers:
       '@types/pg-copy-streams':
         specifier: 'catalog:'
         version: 1.2.5
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       d3-dsv:
         specifier: 'catalog:'
         version: 3.0.1
@@ -1380,52 +1238,64 @@ importers:
         version: 5.4.5
 
   libs/react-primitives:
-    devDependencies:
+    dependencies:
       '@radix-ui/react-slot':
         specifier: 'catalog:'
         version: 1.0.2(@types/react@18.3.3)(react@18.3.1)
-      '@types/react':
-        specifier: 'catalog:'
-        version: 18.3.3
       react:
         specifier: 'catalog:'
         version: 18.3.1
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.3
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/search-params-io:
-    devDependencies:
+    dependencies:
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      '@types/lodash.isequal':
-        specifier: 'catalog:'
-        version: 4.5.8
-      '@types/react':
-        specifier: 'catalog:'
-        version: 18.3.3
       lodash.isequal:
         specifier: 'catalog:'
         version: 4.5.0
       react:
         specifier: 'catalog:'
         version: 18.3.1
+    devDependencies:
+      '@types/lodash.isequal':
+        specifier: 'catalog:'
+        version: 4.5.8
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.3
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/tailwind-animation:
-    devDependencies:
+    dependencies:
       tailwindcss:
         specifier: 'catalog:'
         version: 3.4.3
+    devDependencies:
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       typescript:
         specifier: 'catalog:'
         version: 5.4.5
 
   libs/zod-utils:
-    devDependencies:
+    dependencies:
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.0
@@ -1441,48 +1311,46 @@ importers:
       '@opentelemetry/semantic-conventions':
         specifier: 'catalog:'
         version: 1.27.0
+      '@remix-run/node':
+        specifier: 'catalog:'
+        version: 2.9.2(typescript@5.4.5)
+      '@remix-run/react':
+        specifier: 'catalog:'
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@sentry/remix':
         specifier: 'catalog:'
         version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
-      '@types/luxon':
-        specifier: 'catalog:'
-        version: 3.4.2
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
-      typescript:
+      react:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 18.3.1
       zod:
         specifier: 'catalog:'
         version: 3.23.8
       zod-form-data:
         specifier: 'catalog:'
         version: 2.0.2(zod@3.23.8)
+    devDependencies:
+      '@total-typescript/ts-reset':
+        specifier: 'catalog:'
+        version: 0.5.1
+      '@types/luxon':
+        specifier: 'catalog:'
+        version: 3.4.2
+      typescript:
+        specifier: 'catalog:'
+        version: 5.4.5
 
   scripts:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
         version: link:../libs/core
-      '@animeaux/prisma':
-        specifier: workspace:*
-        version: link:../libs/prisma
-      '@animeaux/search-params-io':
-        specifier: workspace:*
-        version: link:../libs/search-params-io
-      '@prisma/adapter-pg':
+      '@types/node':
         specifier: 'catalog:'
-        version: 6.18.0
-      '@prisma/client':
-        specifier: 'catalog:'
-        version: 6.18.0(prisma@6.18.0(typescript@5.4.5))(typescript@5.4.5)
-      '@remix-run/react':
-        specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 22.8.7
       '@unpic/pixels':
         specifier: 'catalog:'
         version: 1.2.2
@@ -1492,21 +1360,6 @@ importers:
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
-      luxon:
-        specifier: 'catalog:'
-        version: 3.4.4
-      prisma:
-        specifier: 'catalog:'
-        version: 6.18.0(typescript@5.4.5)
-      react:
-        specifier: 'catalog:'
-        version: 18.3.1
-      react-router:
-        specifier: 'catalog:'
-        version: 6.23.1(react@18.3.1)
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
@@ -3465,14 +3318,8 @@ packages:
   '@types/lodash.orderby@4.6.9':
     resolution: {integrity: sha512-T9o2wkIJOmxXwVTPTmwJ59W6eTi2FseiLR369fxszG649Po/xe9vqFNhf/MtnvT5jrbDiyWKxPFPZbpSVK0SVQ==}
 
-  '@types/lodash.partition@4.6.9':
-    resolution: {integrity: sha512-ANgnHyTw/C07oHr/8/jzoc1BlZZFRafAyDvc04Z8qR1IvWZpAGB8aHPUkd0UCgJWOauqoCsILhvPLXKsTc4rXQ==}
-
   '@types/lodash.pick@4.4.9':
     resolution: {integrity: sha512-hDpr96x9xHClwy1KX4/RXRejqjDFTEGbEMT3t6wYSYeFDzxmMnSKB/xHIbktRlPj8Nii2g8L5dtFDRaNFBEzUQ==}
-
-  '@types/lodash.zip@4.2.9':
-    resolution: {integrity: sha512-cJvqtEzLgHUPF6H6v7K6Q/yIc1DAYpsUkHD1Q7bUOAcCE0b7drzoUMi/Toj0MjQI3WeM6rI6v295mkenAQ+R7A==}
 
   '@types/lodash@4.17.4':
     resolution: {integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ==}
@@ -3720,6 +3567,10 @@ packages:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
     engines: {node: '>=8'}
 
+  ansi-regex@4.1.1:
+    resolution: {integrity: sha512-ILlv4k/3f6vfQ4OoP2AGvirOktlQ98ZEL1k9FaQjxa3L1abBgbuTDAdPOpvbGncC0BTVQrl+OM8xZGK6tWXt7g==}
+    engines: {node: '>=6'}
+
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -3960,6 +3811,10 @@ packages:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
     engines: {node: '>= 6'}
 
+  camelcase@5.3.1:
+    resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
+    engines: {node: '>=6'}
+
   caniuse-lite@1.0.30001680:
     resolution: {integrity: sha512-rPQy70G6AGUMnbwS1z6Xg+RkHYPAi18ihs47GH0jcxIG7wArmPgY3XbS2sRdBbxJljp3thdT8BIqv9ccCypiPA==}
 
@@ -3999,6 +3854,11 @@ packages:
   cheerio@1.0.0-rc.12:
     resolution: {integrity: sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==}
     engines: {node: '>= 6'}
+
+  chokidar-cli@3.0.0:
+    resolution: {integrity: sha512-xVW+Qeh7z15uZRxHOkP93Ux8A0xbPzwK4GaqD8dQOYc34TlkqUhVSS59fK36DOp5WdJlrRzlYSy02Ht99FjZqQ==}
+    engines: {node: '>= 8.10.0'}
+    hasBin: true
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -4048,6 +3908,9 @@ packages:
   cli-width@4.1.0:
     resolution: {integrity: sha512-ouuZd4/dm2Sw5Gmqy6bGyNNNe1qt9RpmxveLSO7KcgsTnU7RXfsw+/bukWGo1abgBiMAic068rclZsO4IWmmxQ==}
     engines: {node: '>= 12'}
+
+  cliui@5.0.0:
+    resolution: {integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==}
 
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
@@ -4253,6 +4116,10 @@ packages:
       supports-color:
         optional: true
 
+  decamelize@1.2.0:
+    resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
+    engines: {node: '>=0.10.0'}
+
   decimal.js@10.4.3:
     resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
 
@@ -4406,6 +4273,9 @@ packages:
 
   electron-to-chromium@1.4.788:
     resolution: {integrity: sha512-ubp5+Ev/VV8KuRoWnfP2QF2Bg+O2ZFdb49DiiNbz2VmgkIqrnyYaqIOqj8A6K/3p1xV0QcU5hBQ1+BmB6ot1OA==}
+
+  emoji-regex@7.0.3:
+    resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -4808,6 +4678,10 @@ packages:
   finalhandler@1.2.0:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
     engines: {node: '>= 0.8'}
+
+  find-up@3.0.0:
+    resolution: {integrity: sha512-1yD6RmLI1XBfxugvORwlck6f75tYL+iR0jqwsOrOxMZyGYqUuDhJ0l4AXdO1iX/FTs9cBAMEk1gWSEx1kSbylg==}
+    engines: {node: '>=6'}
 
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
@@ -5282,6 +5156,10 @@ packages:
     resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
     engines: {node: '>=0.10.0'}
 
+  is-fullwidth-code-point@2.0.0:
+    resolution: {integrity: sha512-VHskAKYM8RfSFXwee5t5cbN5PZeq1Wrh6qd5bkyiXIf6UQcN6w/A0eXM9r6t8d+GYOh+o6ZhiEnb88LN/Y8m2w==}
+    engines: {node: '>=4'}
+
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
@@ -5575,6 +5453,10 @@ packages:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
 
+  locate-path@3.0.0:
+    resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
+    engines: {node: '>=6'}
+
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -5607,15 +5489,12 @@ packages:
   lodash.orderby@4.6.0:
     resolution: {integrity: sha512-T0rZxKmghOOf5YPnn8EY5iLYeWCpZq8G41FfqoVHH5QDTAFaghJRmAdLiadEDq+ztgM2q5PjA+Z1fOwGrLgmtg==}
 
-  lodash.partition@4.6.0:
-    resolution: {integrity: sha512-35L3dSF3Q6V1w5j6V3NhNlQjzsRDC/pYKCTdYTmwqSib+Q8ponkAmt/PwEOq3EmI38DSCl+SkIVwLd+uSlVdrg==}
-
   lodash.pick@4.4.0:
     resolution: {integrity: sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==}
     deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
-  lodash.zip@4.2.0:
-    resolution: {integrity: sha512-C7IOaBBK/0gMORRBd8OETNx3kmOkgIWIPvyDpZSCTwUrpYmgZwJkjZeOD8ww4xbOUOs4/attY+pciKvadNfFbg==}
+  lodash.throttle@4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
 
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -6330,9 +6209,17 @@ packages:
   outvariant@1.4.2:
     resolution: {integrity: sha512-Ou3dJ6bA/UJ5GVHxah4LnqDwZRwAmWxrG3wtrHrbGnP4RnLCtA64A4F+ae7Y8ww660JaddSoArUR5HjipWSHAQ==}
 
+  p-limit@2.3.0:
+    resolution: {integrity: sha512-//88mFWSJx8lxCzwdAABTJL2MyWB12+eIY7MDL2SqLmAkeKU9qxRvWuSyTjm3FUmpBEMuFfckAIqEaVGUDxb6w==}
+    engines: {node: '>=6'}
+
   p-limit@3.1.0:
     resolution: {integrity: sha512-TYOanM3wGwNGsZN2cVTYPArw454xnXj5qmWF1bEoAc4+cU/ol7GVh7odevjp1FNHduHc3KZMcFduxU5Xc6uJRQ==}
     engines: {node: '>=10'}
+
+  p-locate@3.0.0:
+    resolution: {integrity: sha512-x+12w/To+4GFfgJhBEpiDcLozRJGegY+Ei7/z0tSLkMmxGZNybVMSfWj9aJn8Z5Fc7dBUNJOOVgPv2H7IwulSQ==}
+    engines: {node: '>=6'}
 
   p-locate@5.0.0:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
@@ -6341,6 +6228,10 @@ packages:
   p-map@4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
+
+  p-try@2.2.0:
+    resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
+    engines: {node: '>=6'}
 
   pac-proxy-agent@7.0.1:
     resolution: {integrity: sha512-ASV8yU4LLKBAjqIPMbrgtaKIvxQri/yh2OpI+S6hVa9JRkUI3Y3NPFbfngDtY7oFtSMD3w31Xns89mDa3Feo5A==}
@@ -6387,6 +6278,10 @@ packages:
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
+
+  path-exists@3.0.0:
+    resolution: {integrity: sha512-bpC7GYwiDYQ4wYLe+FA8lhRjhQCMcQGuSgGGqDkg/QerRWw9CmGRT0iSOVRSZJ29NMLZgIzqaljJ63oaL4NIJQ==}
+    engines: {node: '>=4'}
 
   path-exists@4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
@@ -7106,6 +7001,9 @@ packages:
   require-like@0.1.2:
     resolution: {integrity: sha512-oyrU88skkMtDdauHDuKVrgR+zuItqr6/c//FXzvmxRGMexSDc6hNvJInGW3LL46n+8b50RykrvwSUIIQH2LQ5A==}
 
+  require-main-filename@2.0.0:
+    resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
+
   requireindex@1.2.0:
     resolution: {integrity: sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==}
     engines: {node: '>=0.10.5'}
@@ -7235,6 +7133,9 @@ packages:
   serve-static@1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
     engines: {node: '>= 0.8.0'}
+
+  set-blocking@2.0.0:
+    resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
   set-cookie-parser@2.6.0:
     resolution: {integrity: sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==}
@@ -7379,6 +7280,10 @@ packages:
   string-hash@1.1.3:
     resolution: {integrity: sha512-kJUvRUFK49aub+a7T1nNE66EJbZBMnBgoC1UbCZ5n6bsZKBRga4KgBRTMn/pFkeCZSYtNeSyMxPDM0AXWELk2A==}
 
+  string-width@3.1.0:
+    resolution: {integrity: sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w==}
+    engines: {node: '>=6'}
+
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -7408,6 +7313,10 @@ packages:
 
   stringify-entities@4.0.3:
     resolution: {integrity: sha512-BP9nNHMhhfcMbiuQKCqMjhDP5yBCAxsPu4pHFFzJ6Alo9dZgY4VLDPutXqIjpRiMoKdp7Av85Gr73Q5uH9k7+g==}
+
+  strip-ansi@5.2.0:
+    resolution: {integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==}
+    engines: {node: '>=6'}
 
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
@@ -7920,6 +7829,9 @@ packages:
   which-collection@1.0.1:
     resolution: {integrity: sha512-W8xeTUwaln8i3K/cY1nGXzdnVZlidBcagyNFtBdD5kxnb4TvGKR7FfSIS3mYpwWS1QUCutfKz8IY8RjftB0+1A==}
 
+  which-module@2.0.1:
+    resolution: {integrity: sha512-iBdZ57RDvnOR9AGBhML2vFZf7h8vmBjhoaZqODJBFWHVtKkDmKuHai3cx5PgVMrX5YDNp27AofYbAwctSS+vhQ==}
+
   which-typed-array@1.1.15:
     resolution: {integrity: sha512-oV0jmFtUky6CXfkqehVvBP/LSWJ2sy4vWMioiENyJLePrBO/yKyV9OyJySfAKosh+RYkIl5zJCNZ8/4JncrpdA==}
     engines: {node: '>= 0.4'}
@@ -7950,6 +7862,10 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
+
+  wrap-ansi@5.1.0:
+    resolution: {integrity: sha512-QC1/iN/2/RPVJ5jYK8BGttj5z83LmSKmvbvrXPNCLZSEb32KKVDJDl/MOt2N01qU2H/FkzEa9PKto1BqDjtd7Q==}
+    engines: {node: '>=6'}
 
   wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
@@ -8013,6 +7929,9 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
+  y18n@4.0.3:
+    resolution: {integrity: sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==}
+
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
@@ -8028,9 +7947,15 @@ packages:
     engines: {node: '>= 14'}
     hasBin: true
 
+  yargs-parser@13.1.2:
+    resolution: {integrity: sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==}
+
   yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
+
+  yargs@13.3.2:
+    resolution: {integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==}
 
   yargs@17.7.2:
     resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
@@ -10243,15 +10168,7 @@ snapshots:
     dependencies:
       '@types/lodash': 4.17.4
 
-  '@types/lodash.partition@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
   '@types/lodash.pick@4.4.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.zip@4.2.9':
     dependencies:
       '@types/lodash': 4.17.4
 
@@ -10572,6 +10489,8 @@ snapshots:
     dependencies:
       type-fest: 0.21.3
 
+  ansi-regex@4.1.1: {}
+
   ansi-regex@5.0.1: {}
 
   ansi-regex@6.0.1: {}
@@ -10842,6 +10761,8 @@ snapshots:
 
   camelcase-css@2.0.1: {}
 
+  camelcase@5.3.1: {}
+
   caniuse-lite@1.0.30001680: {}
 
   ccount@2.0.1: {}
@@ -10891,6 +10812,13 @@ snapshots:
       parse5: 7.1.2
       parse5-htmlparser2-tree-adapter: 7.0.0
 
+  chokidar-cli@3.0.0:
+    dependencies:
+      chokidar: 3.6.0
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+      yargs: 13.3.2
+
   chokidar@3.6.0:
     dependencies:
       anymatch: 3.1.3
@@ -10938,6 +10866,12 @@ snapshots:
       chalk: 3.0.0
 
   cli-width@4.1.0: {}
+
+  cliui@5.0.0:
+    dependencies:
+      string-width: 3.1.0
+      strip-ansi: 5.2.0
+      wrap-ansi: 5.1.0
 
   cliui@8.0.1:
     dependencies:
@@ -11105,6 +11039,8 @@ snapshots:
   debug@4.3.7:
     dependencies:
       ms: 2.1.3
+
+  decamelize@1.2.0: {}
 
   decimal.js@10.4.3: {}
 
@@ -11279,6 +11215,8 @@ snapshots:
       fast-check: 3.23.2
 
   electron-to-chromium@1.4.788: {}
+
+  emoji-regex@7.0.3: {}
 
   emoji-regex@8.0.0: {}
 
@@ -11891,6 +11829,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  find-up@3.0.0:
+    dependencies:
+      locate-path: 3.0.0
+
   find-up@5.0.0:
     dependencies:
       locate-path: 6.0.0
@@ -12442,6 +12384,8 @@ snapshots:
 
   is-extglob@2.1.1: {}
 
+  is-fullwidth-code-point@2.0.0: {}
+
   is-fullwidth-code-point@3.0.0: {}
 
   is-generator-function@1.0.10:
@@ -12707,6 +12651,11 @@ snapshots:
 
   local-pkg@0.4.3: {}
 
+  locate-path@3.0.0:
+    dependencies:
+      p-locate: 3.0.0
+      path-exists: 3.0.0
+
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -12729,11 +12678,9 @@ snapshots:
 
   lodash.orderby@4.6.0: {}
 
-  lodash.partition@4.6.0: {}
-
   lodash.pick@4.4.0: {}
 
-  lodash.zip@4.2.0: {}
+  lodash.throttle@4.1.1: {}
 
   lodash@4.17.21: {}
 
@@ -13907,9 +13854,17 @@ snapshots:
 
   outvariant@1.4.2: {}
 
+  p-limit@2.3.0:
+    dependencies:
+      p-try: 2.2.0
+
   p-limit@3.1.0:
     dependencies:
       yocto-queue: 0.1.0
+
+  p-locate@3.0.0:
+    dependencies:
+      p-limit: 2.3.0
 
   p-locate@5.0.0:
     dependencies:
@@ -13918,6 +13873,8 @@ snapshots:
   p-map@4.0.0:
     dependencies:
       aggregate-error: 3.1.0
+
+  p-try@2.2.0: {}
 
   pac-proxy-agent@7.0.1:
     dependencies:
@@ -13980,6 +13937,8 @@ snapshots:
       peberminta: 0.9.0
 
   parseurl@1.3.3: {}
+
+  path-exists@3.0.0: {}
 
   path-exists@4.0.0: {}
 
@@ -14697,6 +14656,8 @@ snapshots:
 
   require-like@0.1.2: {}
 
+  require-main-filename@2.0.0: {}
+
   requireindex@1.2.0: {}
 
   requires-port@1.0.0: {}
@@ -14848,6 +14809,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  set-blocking@2.0.0: {}
+
   set-cookie-parser@2.6.0: {}
 
   set-function-length@1.2.2:
@@ -14981,6 +14944,12 @@ snapshots:
 
   string-hash@1.1.3: {}
 
+  string-width@3.1.0:
+    dependencies:
+      emoji-regex: 7.0.3
+      is-fullwidth-code-point: 2.0.0
+      strip-ansi: 5.2.0
+
   string-width@4.2.3:
     dependencies:
       emoji-regex: 8.0.0
@@ -15034,6 +15003,10 @@ snapshots:
     dependencies:
       character-entities-html4: 2.1.0
       character-entities-legacy: 3.0.0
+
+  strip-ansi@5.2.0:
+    dependencies:
+      ansi-regex: 4.1.1
 
   strip-ansi@6.0.1:
     dependencies:
@@ -15586,6 +15559,8 @@ snapshots:
       is-weakmap: 2.0.1
       is-weakset: 2.0.2
 
+  which-module@2.0.1: {}
+
   which-typed-array@1.1.15:
     dependencies:
       available-typed-arrays: 1.0.7
@@ -15616,6 +15591,12 @@ snapshots:
       mimic-fn: 3.1.0
 
   word-wrap@1.2.5: {}
+
+  wrap-ansi@5.1.0:
+    dependencies:
+      ansi-styles: 3.2.1
+      string-width: 3.1.0
+      strip-ansi: 5.2.0
 
   wrap-ansi@6.2.0:
     dependencies:
@@ -15649,6 +15630,8 @@ snapshots:
 
   xtend@4.0.2: {}
 
+  y18n@4.0.3: {}
+
   y18n@5.0.8: {}
 
   yallist@3.1.1: {}
@@ -15657,7 +15640,25 @@ snapshots:
 
   yaml@2.4.2: {}
 
+  yargs-parser@13.1.2:
+    dependencies:
+      camelcase: 5.3.1
+      decamelize: 1.2.0
+
   yargs-parser@21.1.1: {}
+
+  yargs@13.3.2:
+    dependencies:
+      cliui: 5.0.0
+      find-up: 3.0.0
+      get-caller-file: 2.0.5
+      require-directory: 2.1.1
+      require-main-filename: 2.0.0
+      set-blocking: 2.0.0
+      string-width: 3.1.0
+      which-module: 2.0.1
+      y18n: 4.0.3
+      yargs-parser: 13.1.2
 
   yargs@17.7.2:
     dependencies:

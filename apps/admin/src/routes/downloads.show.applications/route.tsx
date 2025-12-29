@@ -5,8 +5,8 @@ import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target
 import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params.js";
 import { SponsorshipCategory } from "#show/sponsors/category.js";
 import { getCompleteLocation } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma/client";
-import { UserGroup } from "@animeaux/prisma/client";
+import type { Prisma } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { csvFormatRows } from "d3-dsv";
 

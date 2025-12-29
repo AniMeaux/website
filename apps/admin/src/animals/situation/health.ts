@@ -1,6 +1,6 @@
 import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#animals/status";
-import type { Animal } from "@animeaux/prisma/client";
-import { Diagnosis, Species, Status } from "@animeaux/prisma/client";
+import type { Animal } from "@animeaux/prisma";
+import { Diagnosis, Species, Status } from "@animeaux/prisma";
 import type { SerializeFrom } from "@remix-run/node";
 import difference from "lodash.difference";
 import { DateTime } from "luxon";

@@ -5,7 +5,7 @@ import { Routes } from "#core/navigation";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { Entity } from "#routes/resources.global-search/entity.js";
 import { hasGroups } from "#users/groups.js";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";

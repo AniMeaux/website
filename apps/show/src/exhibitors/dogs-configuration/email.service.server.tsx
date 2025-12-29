@@ -10,7 +10,7 @@ import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 

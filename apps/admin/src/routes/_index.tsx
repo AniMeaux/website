@@ -1,6 +1,6 @@
 import { db } from "#core/db.server";
 import { Routes } from "#core/navigation";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 

@@ -17,16 +17,15 @@
     "dev-restart:ecosystem": "run-s dev-down:ecosystem dev-up:ecosystem",
     "dev-up": "run-s dev-up:docker dev-up:ecosystem",
     "dev-up:docker": "docker compose up -d",
-    "dev-up:ecosystem": "pm2 start ./ecosystem.config.cjs",
-    "generate": "run-p --continue-on-error --print-label generate:*",
-    "generate:workspace": "pnpm -r generate",
+    "dev-up:ecosystem": "pnpm --filter './libs/*...' build && pm2 start ./ecosystem.config.cjs",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:format": "prettier --list-different .",
     "lint:js": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:workspace": "pnpm -r lint",
-    "lint-fix": "run-s lint-fix:js lint-fix:format",
+    "lint-fix": "run-s lint-fix:js lint-fix:format lint-fix:workspace",
     "lint-fix:format": "prettier --write .",
-    "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
+    "lint-fix:js": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:workspace": "pnpm -r lint-fix"
   },
   "devDependencies": {
     "@remix-run/eslint-config": "catalog:",

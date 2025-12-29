@@ -31,8 +31,11 @@ jobs:
       - name: 📥 Download deps
         run: pnpm install
 
-      - name: 📦 Generate code
-        run: pnpm generate
+      - name: 📦 Build libs
+        run: pnpm --filter './libs/*...' build
+
+      - name: 📦 Generate apps code
+        run: pnpm --filter './apps/*' generate
 
       - name: 🔬 Lint
         run: pnpm lint

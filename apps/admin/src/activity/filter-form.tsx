@@ -10,7 +10,7 @@ import { Form } from "#core/form-elements/form";
 import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
 import { Icon } from "#generated/icon";
 import { UserAvatar } from "#users/avatar";
-import type { User } from "@animeaux/prisma/client";
+import type { User } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ActivityFilters({

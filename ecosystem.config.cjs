@@ -1,32 +1,24 @@
+const path = require("node:path");
+const fs = require("node:fs");
+
 module.exports = {
   apps: [
-    createApp({
-      name: "prisma",
-      cwd: "./libs/prisma",
-      script: "pnpm generate",
-      watch: ["./schema.prisma"],
-    }),
+    ...getPackagesNamesInDir("./apps").map((appName) =>
+      createApp({
+        name: appName,
+        cwd: `./apps/${appName}`,
+        script: "pnpm dev",
+        watch: ["./tsconfig.json", "./.env*"],
+      }),
+    ),
 
-    createApp({
-      name: "admin",
-      cwd: "./apps/admin",
-      script: "pnpm dev",
-      watch: ["./tsconfig.json", "./.env*"],
-    }),
-
-    createApp({
-      name: "website",
-      cwd: "./apps/website",
-      script: "pnpm dev",
-      watch: ["./tsconfig.json", "./.env*"],
-    }),
-
-    createApp({
-      name: "show",
-      cwd: "./apps/show",
-      script: "pnpm dev",
-      watch: ["./tsconfig.json", "./.env*"],
-    }),
+    ...getPackagesNamesInDir("./libs").map((libName) =>
+      createApp({
+        name: `libs/${libName}`,
+        cwd: `./libs/${libName}`,
+        script: "pnpm dev",
+      }),
+    ),
   ],
 };
 
@@ -46,4 +38,11 @@ function createApp(config) {
     // Allow dot files (env) to be watched.
     ignore_watch: ["node_modules/", ...(config.ignore_watch ?? [])],
   };
+}
+
+function getPackagesNamesInDir(dir) {
+  return fs
+    .readdirSync(path.resolve(__dirname, dir), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
 }

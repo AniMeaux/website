@@ -1,4 +1,4 @@
-import type { Animal } from "@animeaux/prisma/client";
+import type { Animal } from "@animeaux/prisma";
 
 export function getAllAnimalPictures(
   animal: Pick<Animal, "avatar" | "pictures">,

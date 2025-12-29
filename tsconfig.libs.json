@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+
+  "compilerOptions": {
+    // We are transpiling with TypeScript.
+    "declaration": true,
+    "noEmit": false,
+
+    // To improve logs when ran in `run-p`.
+    "preserveWatchOutput": true
+  }
+}

@@ -7,7 +7,7 @@ import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender";
 import { DogsHelper } from "#exhibitors/dogs-configuration/helper";
 import { Icon } from "#generated/icon";
 import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
 import { SectionId } from "./section-id.js";

@@ -4,20 +4,27 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./build/src/index.d.ts",
+      "default": "./build/src/index.js"
+    }
   },
-  "types": "./src/index.ts",
   "scripts": {
+    "prebuild": "pnpm clean",
+    "build": "run-s --print-label build:src",
+    "build:src": "tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./build",
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "tiny-invariant": "^1.3.1"
+  "dependencies": {
+    "tiny-invariant": "catalog:"
   },
   "devDependencies": {
-    "tiny-invariant": "catalog:",
+    "npm-run-all": "catalog:",
     "typescript": "catalog:"
   }
 }

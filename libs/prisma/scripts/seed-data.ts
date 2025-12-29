@@ -1,5 +1,5 @@
 import { generatePasswordHash } from "@animeaux/password";
-import type { Prisma } from "@animeaux/prisma/client";
+import type { Prisma } from "@animeaux/prisma/server";
 import {
   ActivityAction,
   ActivityActorType,
@@ -11,6 +11,7 @@ import {
   FosterFamilyHousing,
   Gender,
   PickUpReason,
+  PrismaClient,
   ScreeningResult,
   ShowActivityField,
   ShowActivityTarget,
@@ -25,8 +26,7 @@ import {
   Species,
   Status,
   UserGroup,
-} from "@animeaux/prisma/client";
-import { PrismaClient } from "@animeaux/prisma/server";
+} from "@animeaux/prisma/server";
 import { fakerFR as faker } from "@faker-js/faker";
 import { DateTime } from "luxon";
 

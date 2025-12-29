@@ -13,7 +13,7 @@ import { FosterFamilySearchParams } from "#foster-families/search-params";
 import { Icon } from "#generated/icon";
 import type { loader } from "#routes/resources.foster-family/route";
 import { toBooleanAttribute } from "@animeaux/core";
-import type { FosterFamily } from "@animeaux/prisma/client";
+import type { FosterFamily } from "@animeaux/prisma";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";
 import { useFetcher, useLocation } from "@remix-run/react";

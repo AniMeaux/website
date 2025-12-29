@@ -6,7 +6,7 @@ import type { drive_v3 } from "googleapis";
 import { google } from "googleapis";
 import { Readable } from "node:stream";
 import type { ReadableStream } from "node:stream/web";
-import { FileStorage } from "./file-storage";
+import { FileStorage } from "./file-storage.js";
 
 /**
  * @see https://developers.google.com/drive/api
