@@ -1,4 +1,4 @@
-import { Status } from "@animeaux/prisma/client";
+import { Status } from "@animeaux/prisma";
 
 export const ADOPTABLE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,

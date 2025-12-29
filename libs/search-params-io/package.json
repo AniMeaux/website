@@ -4,26 +4,31 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
-  "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./build/src/index.d.ts",
+      "default": "./build/src/index.js"
+    }
   },
-  "types": "./src/index.ts",
   "scripts": {
+    "prebuild": "pnpm clean",
+    "build": "run-s --print-label build:src",
+    "build:src": "tsc -p ./tsconfig.build.json",
+    "clean": "rm -rf ./build",
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "@remix-run/react": "~2.9.2",
-    "lodash.isequal": "^4.5.0",
-    "react": "^18.2.0"
+  "dependencies": {
+    "@remix-run/react": "catalog:",
+    "lodash.isequal": "catalog:",
+    "react": "catalog:"
   },
   "devDependencies": {
-    "@remix-run/react": "catalog:",
     "@types/lodash.isequal": "catalog:",
     "@types/react": "catalog:",
-    "lodash.isequal": "catalog:",
-    "react": "catalog:",
+    "npm-run-all": "catalog:",
     "typescript": "catalog:"
   }
 }

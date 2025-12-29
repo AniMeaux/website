@@ -1,4 +1,4 @@
-import { ShowExhibitorApplicationLegalStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorApplicationLegalStatus } from "@animeaux/prisma";
 import invariant from "tiny-invariant";
 
 export namespace LegalStatus {

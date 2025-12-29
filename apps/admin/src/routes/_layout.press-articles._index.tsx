@@ -16,7 +16,7 @@ import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { cn } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type {
   ActionFunctionArgs,

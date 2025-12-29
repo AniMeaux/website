@@ -19,7 +19,7 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { EventAvatar } from "#events/avatar";
 import { Icon } from "#generated/icon";
 import { formatDateRange } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type {
   ActionFunctionArgs,

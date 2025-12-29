@@ -22,7 +22,7 @@ import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
 } from "#show/sponsors/category";
-import type { ShowStandSize } from "@animeaux/prisma/client";
+import type { ShowStandSize } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters({

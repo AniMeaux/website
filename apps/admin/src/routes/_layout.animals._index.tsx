@@ -20,7 +20,7 @@ import { forbidden } from "#core/response.server";
 import { PageSearchParams } from "#core/search-params";
 import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { hasGroups } from "#users/groups";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";

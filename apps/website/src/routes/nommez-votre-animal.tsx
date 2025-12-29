@@ -6,7 +6,7 @@ import { createSocialMeta } from "#core/meta";
 import { getPageTitle } from "#core/page-title";
 import { Icon } from "#generated/icon";
 import { cn } from "@animeaux/core";
-import { Gender } from "@animeaux/prisma/client";
+import { Gender } from "@animeaux/prisma";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, useSearchParams } from "@remix-run/react";

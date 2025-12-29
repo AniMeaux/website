@@ -8,7 +8,7 @@ import { assertCurrentUserHasGroups } from "#current-user/groups.server";
 import { ApplicationFilters } from "#show/exhibitors/applications/filter-form";
 import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
 import { hasGroups } from "#users/groups.js";
-import { UserGroup } from "@animeaux/prisma/client";
+import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";

@@ -11,7 +11,7 @@ import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activit
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
 import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Img } from "@react-email/components";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";

@@ -24,13 +24,13 @@ import {
 } from "#foster-families/housing";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { FosterFamily } from "@animeaux/prisma/client";
+import type { FosterFamily } from "@animeaux/prisma";
 import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
-} from "@animeaux/prisma/client";
+} from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";

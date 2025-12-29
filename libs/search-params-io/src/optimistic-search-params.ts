@@ -1,7 +1,18 @@
 import { useLocation, useNavigation, useSearchParams } from "@remix-run/react";
 import { useCallback, useMemo } from "react";
 
-export function useOptimisticSearchParams() {
+// Not exported from @remix-run/react.
+type SetURLSearchParams = ReturnType<typeof useSearchParams>[1];
+
+// Add explicit return type to fix:
+// > The inferred type of 'useOptimisticSearchParams' cannot be named without a
+// > reference to '.pnpm/react-router-dom@6.23.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/react-router-dom'.
+// > This is likely not portable. A type annotation is necessary.
+// > ts(2742)
+export function useOptimisticSearchParams(): readonly [
+  URLSearchParams,
+  SetURLSearchParams,
+] {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigation = useNavigation();
@@ -22,7 +33,7 @@ export function useOptimisticSearchParams() {
 
   // When the set state function is called with a function, it needs to recieve
   // the optimistic search parameters.
-  const setOptimisticSearchParams = useCallback<typeof setSearchParams>(
+  const setOptimisticSearchParams = useCallback<SetURLSearchParams>(
     (nextInit, navigateOpts) => {
       setSearchParams(
         typeof nextInit === "function"
@@ -34,5 +45,5 @@ export function useOptimisticSearchParams() {
     [optimisticSearchParams, setSearchParams],
   );
 
-  return [optimisticSearchParams, setOptimisticSearchParams] as const;
+  return [optimisticSearchParams, setOptimisticSearchParams];
 }

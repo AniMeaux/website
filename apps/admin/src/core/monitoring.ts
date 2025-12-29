@@ -1,4 +1,4 @@
-import type { User } from "@animeaux/prisma/client";
+import type { User } from "@animeaux/prisma";
 import { setUser } from "@sentry/remix";
 
 export function useCurrentUserForMonitoring(

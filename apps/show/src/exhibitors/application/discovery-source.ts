@@ -1,4 +1,4 @@
-import { ShowExhibitorApplicationDiscoverySource } from "@animeaux/prisma/client";
+import { ShowExhibitorApplicationDiscoverySource } from "@animeaux/prisma";
 import invariant from "tiny-invariant";
 
 export namespace DiscoverySource {

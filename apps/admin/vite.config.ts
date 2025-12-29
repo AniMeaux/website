@@ -9,7 +9,12 @@ installGlobals();
 export default defineConfig({
   cacheDir: "./node_modules/.cache/vite",
   server: { port: 3002, strictPort: true },
-  ssr: { noExternal: /^@animeaux\// },
+
+  ssr: {
+    // Externalize linked dependency (workspace packages).
+    // See https://vite.dev/config/ssr-options.html#ssr-external
+    external: true,
+  },
 
   plugins: [
     remix({

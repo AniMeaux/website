@@ -4,7 +4,7 @@ import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { PerksHelper } from "#exhibitors/perks/helper.js";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
 import { SectionId } from "./section-id.js";

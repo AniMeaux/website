@@ -5,7 +5,7 @@ import { LightBoardCard } from "#core/layout/light-board-card";
 import { Routes } from "#core/navigation";
 import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 import { SectionId } from "./section-id";

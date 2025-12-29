@@ -30,8 +30,8 @@ import { UserAvatar } from "#users/avatar";
 import { DeleteMyselfError, DisableMyselfError } from "#users/db.server";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { Prisma, User } from "@animeaux/prisma/client";
-import { UserGroup } from "@animeaux/prisma/client";
+import type { Prisma, User } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type {
   ActionFunctionArgs,

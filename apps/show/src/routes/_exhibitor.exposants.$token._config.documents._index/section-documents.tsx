@@ -4,7 +4,7 @@ import { FormLayout } from "#core/layout/form-layout";
 import { HelperCard } from "#core/layout/helper-card";
 import { Routes } from "#core/navigation";
 import { Icon } from "#generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

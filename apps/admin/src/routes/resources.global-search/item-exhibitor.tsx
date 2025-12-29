@@ -4,7 +4,7 @@ import type { SuggestionItemProps } from "#core/form-elements/resource-input.js"
 import { SuggestionItem } from "#core/form-elements/resource-input.js";
 import { SponsorshipCategory } from "#show/sponsors/category.js";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma/client";
+import type { Prisma } from "@animeaux/prisma";
 import { forwardRef } from "react";
 
 export const ItemExhibitor = forwardRef<

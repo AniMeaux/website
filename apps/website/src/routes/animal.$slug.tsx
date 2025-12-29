@@ -22,7 +22,7 @@ import {
 import type { IconProps } from "#generated/icon";
 import { Icon } from "#generated/icon";
 import { cn, formatAge } from "@animeaux/core";
-import { Gender, ScreeningResult, Species } from "@animeaux/prisma/client";
+import { Gender, ScreeningResult, Species } from "@animeaux/prisma";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

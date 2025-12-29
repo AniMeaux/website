@@ -19,7 +19,7 @@ import { Form } from "#core/form-elements/form";
 import { ImageInput } from "#core/form-elements/image-input";
 import { Icon } from "#generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
-import type { Animal } from "@animeaux/prisma/client";
+import type { Animal } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";

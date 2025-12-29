@@ -5,7 +5,7 @@ import {
 } from "#core/translations";
 import { Icon } from "#generated/icon";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma/client";
+import { Species } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 import { useCallback, useEffect, useState } from "react";
 

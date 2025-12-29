@@ -16,7 +16,7 @@ import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
-} from "@animeaux/prisma/client";
+} from "@animeaux/prisma";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./route";

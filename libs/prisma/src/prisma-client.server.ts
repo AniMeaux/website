@@ -1,5 +1,5 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient as PrismaClientBase } from "./generated/client";
+import { PrismaClient as PrismaClientBase } from "./generated/client.js";
 
 /**
  * Abstract Prisma adapter for PostgreSQL.

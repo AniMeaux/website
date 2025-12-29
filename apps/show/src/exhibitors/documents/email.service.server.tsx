@@ -6,7 +6,7 @@ import type { ServiceEmail } from "#core/email/service.server.js";
 import { Routes } from "#core/navigation.js";
 import type { ServiceApplication } from "#exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { ShowExhibitorStatus } from "@animeaux/prisma/client";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";
 

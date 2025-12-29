@@ -1,5 +1,5 @@
 import type { IconName } from "#generated/icon";
-import { PickUpReason } from "@animeaux/prisma/client";
+import { PickUpReason } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
 
 export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {

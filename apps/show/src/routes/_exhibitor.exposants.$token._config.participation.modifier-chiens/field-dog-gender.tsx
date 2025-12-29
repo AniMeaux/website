@@ -4,7 +4,7 @@ import {
   GENDER_TRANSLATION,
   SORTED_GENDERS,
 } from "#exhibitors/dogs-configuration/gender";
-import type { Gender } from "@animeaux/prisma/client";
+import type { Gender } from "@animeaux/prisma";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 

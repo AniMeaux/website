@@ -1,4 +1,4 @@
-import { Species } from "@animeaux/prisma/client";
+import { Species } from "@animeaux/prisma";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 

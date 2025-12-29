@@ -1,4 +1,4 @@
-import { Species } from "@animeaux/prisma/client";
+import { Species } from "@animeaux/prisma";
 import { DateTime } from "luxon";
 
 export enum AnimalAge {
