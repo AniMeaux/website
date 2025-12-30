@@ -1,7 +1,7 @@
-import { FieldStepper } from "#core/form-elements/field-stepper";
-import { FormLayout } from "#core/layout/form-layout";
-import { PerksHelper } from "#exhibitors/perks/helper.js";
-import { Price } from "#price/price.js";
+import { FieldStepper } from "#i/core/form-elements/field-stepper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { PerksHelper } from "#i/exhibitors/perks/helper.js";
+import { Price } from "#i/price/price.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
 import { HelperPriceDetails } from "./helper-price-details";

@@ -1,7 +1,7 @@
-import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
-import { LazyElement } from "#core/layout/lazy-element";
-import type { Faq } from "#faq/faq";
-import { Icon } from "#generated/icon";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import type { Faq } from "#i/faq/faq";
+import { Icon } from "#i/generated/icon";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import chunk from "lodash.chunk";
 import { Children } from "react";

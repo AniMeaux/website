@@ -1,5 +1,5 @@
-import { services } from "#core/services.server.js";
-import { PreviousEdition } from "#previous-editions/previous-edition.js";
+import { services } from "#i/core/services.server.js";
+import { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
 

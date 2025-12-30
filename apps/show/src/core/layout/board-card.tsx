@@ -1,7 +1,7 @@
-import { useElementSize } from "#core/elements";
-import { BeeIllustration } from "#core/illustration/bee";
-import { useScreenSizeCondition } from "#core/screen-size";
-import { theme } from "#generated/theme";
+import { useElementSize } from "#i/core/elements";
+import { BeeIllustration } from "#i/core/illustration/bee";
+import { useScreenSizeCondition } from "#i/core/screen-size";
+import { theme } from "#i/generated/theme";
 import { cn } from "@animeaux/core";
 import { forwardRef } from "react";
 

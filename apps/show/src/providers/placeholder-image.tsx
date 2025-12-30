@@ -1,4 +1,4 @@
-import { DynamicImage } from "#core/data-display/image";
+import { DynamicImage } from "#i/core/data-display/image";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 

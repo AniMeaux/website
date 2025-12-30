@@ -1,9 +1,9 @@
-import { FieldStepper } from "#core/form-elements/field-stepper";
-import { FieldTextarea } from "#core/form-elements/field-textarea";
-import { FieldYesNo } from "#core/form-elements/field-yes-no";
-import { FormLayout } from "#core/layout/form-layout";
-import { Price } from "#price/price.js";
-import { FieldStandSize } from "#stand-size/field.js";
+import { FieldStepper } from "#i/core/form-elements/field-stepper";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea";
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { Price } from "#i/price/price.js";
+import { FieldStandSize } from "#i/stand-size/field.js";
 import type { Prisma } from "@animeaux/prisma";
 import { useLoaderData } from "@remix-run/react";
 import { FieldDividerType } from "./field-divider-type";

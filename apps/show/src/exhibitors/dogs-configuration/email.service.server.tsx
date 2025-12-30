@@ -1,14 +1,14 @@
-import type { IsFirstProps } from "#core/data-display/email-html.server.js";
+import type { IsFirstProps } from "#i/core/data-display/email-html.server.js";
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { Routes } from "#core/navigation.js";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
-import { GENDER_TRANSLATION } from "#exhibitors/dogs-configuration/gender.js";
-import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+} from "#i/core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { Routes } from "#i/core/navigation.js";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender.js";
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { joinReactNodes } from "@animeaux/core";
 import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
 import { promiseHash } from "remix-utils/promise";

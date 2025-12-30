@@ -1,7 +1,7 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
-import type { DividerTypeAvailability } from "#divider-type/availability.js";
-import { Price } from "#price/price.js";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
+import { Price } from "#i/price/price.js";
 import type { Prisma } from "@animeaux/prisma";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";

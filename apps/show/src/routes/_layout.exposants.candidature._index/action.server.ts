@@ -1,7 +1,7 @@
-import { Routes } from "#core/navigation";
-import { services } from "#core/services.server.js";
-import { ServiceApplication } from "#exhibitors/application/service.server";
-import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
+import { Routes } from "#i/core/navigation";
+import { services } from "#i/core/services.server.js";
+import { ServiceApplication } from "#i/exhibitors/application/service.server";
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import { catchError } from "@animeaux/core";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";

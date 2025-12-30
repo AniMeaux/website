@@ -1,6 +1,6 @@
-import { notFound } from "#core/response.server.js";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params";
+import { notFound } from "#i/core/response.server.js";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";

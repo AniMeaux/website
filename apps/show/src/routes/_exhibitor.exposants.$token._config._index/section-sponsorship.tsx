@@ -1,8 +1,8 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
-import { LightBoardCard } from "#core/layout/light-board-card";
-import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
+import { LightBoardCard } from "#i/core/layout/light-board-card";
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

@@ -1,8 +1,8 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
-import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import { getCollectionProps } from "@conform-to/react";
 import { FieldsetId, useFieldsets } from "./form";
 

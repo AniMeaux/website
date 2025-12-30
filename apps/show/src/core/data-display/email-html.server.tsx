@@ -1,12 +1,12 @@
-import tailwindConfig, { fonts } from "#../tailwind.config";
-import { createImageUrl } from "#core/data-display/image";
-import type { MarkdownComponents } from "#core/data-display/markdown";
+import tailwindConfig, { fonts } from "#i/../tailwind.config";
+import { createImageUrl } from "#i/core/data-display/image";
+import type { MarkdownComponents } from "#i/core/data-display/markdown";
 import {
   Markdown,
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
   withoutNode,
-} from "#core/data-display/markdown";
+} from "#i/core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
   Body,

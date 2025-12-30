@@ -1,5 +1,5 @@
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

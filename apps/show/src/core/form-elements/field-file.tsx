@@ -1,6 +1,6 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { InputFile } from "#core/form-elements/input-file";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { InputFile } from "#i/core/form-elements/input-file";
+import { FormLayout } from "#i/core/layout/form-layout";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";

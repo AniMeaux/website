@@ -1,16 +1,16 @@
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { ServiceExhibitorOnStandAnimationEmail } from "#exhibitors/animations/email.service.server";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
-import { ServiceExhibitorDocumentEmail } from "#exhibitors/documents/email.service.server.js";
-import { ServiceExhibitorDogConfigurationEmail } from "#exhibitors/dogs-configuration/email.service.server.js";
-import { ServiceExhibitorPerksEmail } from "#exhibitors/perks/email.service.server";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { ServiceExhibitorOnStandAnimationEmail } from "#i/exhibitors/animations/email.service.server";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import { ServiceExhibitorDocumentEmail } from "#i/exhibitors/documents/email.service.server.js";
+import { ServiceExhibitorDogConfigurationEmail } from "#i/exhibitors/dogs-configuration/email.service.server.js";
+import { ServiceExhibitorPerksEmail } from "#i/exhibitors/perks/email.service.server";
 import {
   ServiceExhibitorDescriptionEmail,
   ServiceExhibitorPublicProfileEmail,
-} from "#exhibitors/profile/email.service.server.js";
-import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import { ServiceExhibitorStandConfigurationEmail } from "#exhibitors/stand-configuration/email.service.server.js";
-import { ServiceExhibitorVisibilityEmail } from "#exhibitors/visibility-email.service.server.js";
+} from "#i/exhibitors/profile/email.service.server.js";
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
+import { ServiceExhibitorStandConfigurationEmail } from "#i/exhibitors/stand-configuration/email.service.server.js";
+import { ServiceExhibitorVisibilityEmail } from "#i/exhibitors/visibility-email.service.server.js";
 
 export class ModuleExhibitorEmail {
   document: ServiceExhibitorDocumentEmail;

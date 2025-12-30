@@ -1,15 +1,15 @@
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server.js";
-import { createImageUrl } from "#core/data-display/image.js";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { ImageData } from "#core/image/data.js";
-import { Routes } from "#core/navigation.js";
-import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
-import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target.js";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+} from "#i/core/data-display/email-html.server.js";
+import { createImageUrl } from "#i/core/data-display/image.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import { Routes } from "#i/core/navigation.js";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
+import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target.js";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
 import { joinReactNodes } from "@animeaux/core";
 import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Img } from "@react-email/components";

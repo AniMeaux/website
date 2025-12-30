@@ -1,5 +1,5 @@
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
-import { LegalStatus } from "#exhibitors/application/legal-status";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { LegalStatus } from "#i/exhibitors/application/legal-status";
 import { ShowExhibitorCategory } from "@animeaux/prisma";
 
 export namespace ExhibitorCategory {

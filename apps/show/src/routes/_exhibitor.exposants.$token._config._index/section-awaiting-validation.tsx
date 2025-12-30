@@ -1,4 +1,4 @@
-import { FormLayout } from "#core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout";
 import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";

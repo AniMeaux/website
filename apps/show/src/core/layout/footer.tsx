@@ -1,11 +1,11 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { SocialLink } from "#core/actions/social-link";
-import { DynamicImage } from "#core/data-display/image";
-import { LegalBackground } from "#core/layout/legal-background";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
-import { Pictogram } from "#generated/pictogram";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { SocialLink } from "#i/core/actions/social-link";
+import { DynamicImage } from "#i/core/data-display/image";
+import { LegalBackground } from "#i/core/layout/legal-background";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
+import { Pictogram } from "#i/generated/pictogram";
 import { cn } from "@animeaux/core";
 import { Link } from "@remix-run/react";
 

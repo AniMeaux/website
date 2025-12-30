@@ -1,6 +1,6 @@
-import { FileItem } from "#core/data-display/file-item";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card.js";
+import { FileItem } from "#i/core/data-display/file-item";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

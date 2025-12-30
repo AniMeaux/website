@@ -1,5 +1,5 @@
-import { notFound } from "#core/response.server";
-import { services } from "#core/services.server.js";
+import { notFound } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 

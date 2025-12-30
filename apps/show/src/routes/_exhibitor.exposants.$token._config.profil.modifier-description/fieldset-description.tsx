@@ -1,6 +1,6 @@
-import { FieldTextarea } from "#core/form-elements/field-textarea";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
 import type { FieldMetadata } from "@conform-to/react";
 import { useForm } from "./form";
 

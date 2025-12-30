@@ -1,5 +1,5 @@
-import { DynamicImage } from "#core/data-display/image";
-import { ImageData } from "#core/image/data.js";
+import { DynamicImage } from "#i/core/data-display/image";
+import { ImageData } from "#i/core/image/data.js";
 import { cn } from "@animeaux/core";
 import { Link } from "@remix-run/react";
 import { forwardRef } from "react";

@@ -1,7 +1,7 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
-import { Icon } from "#generated/icon";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { Icon } from "#i/generated/icon";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 

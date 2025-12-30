@@ -1,5 +1,5 @@
-import { Routes } from "#core/navigation";
-import { SORTED_PREVIOUS_EDITIONS } from "#previous-editions/previous-edition";
+import { Routes } from "#i/core/navigation";
+import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition";
 import { redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 

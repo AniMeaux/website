@@ -1,9 +1,9 @@
-import { createImageMedia } from "#core/data-display/image";
-import type { To } from "#core/navigation";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
-import logoMedium from "#images/logo-medium.svg";
-import logoSmall from "#images/logo-small.svg";
+import { createImageMedia } from "#i/core/data-display/image";
+import type { To } from "#i/core/navigation";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
+import logoMedium from "#i/images/logo-medium.svg";
+import logoSmall from "#i/images/logo-small.svg";
 import { cn } from "@animeaux/core";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Link, NavLink, createPath, useLocation } from "@remix-run/react";

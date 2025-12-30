@@ -1,4 +1,4 @@
-import type { ServicePrisma } from "#core/prisma.service.server.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 

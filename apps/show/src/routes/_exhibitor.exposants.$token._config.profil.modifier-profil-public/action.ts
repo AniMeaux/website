@@ -1,5 +1,5 @@
-import { ImageLimits } from "#core/image/limits.js";
-import { ActivityField } from "#exhibitors/activity-field/activity-field.js";
+import { ImageLimits } from "#i/core/image/limits.js";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
 import { ShowActivityTarget } from "@animeaux/prisma";
 import { simpleUrl, zu } from "@animeaux/zod-utils";
 

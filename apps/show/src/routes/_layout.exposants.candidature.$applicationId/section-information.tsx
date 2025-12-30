@@ -1,6 +1,6 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { BoardCard } from "#core/layout/board-card";
-import { Section } from "#core/layout/section";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { BoardCard } from "#i/core/layout/board-card";
+import { Section } from "#i/core/layout/section";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";

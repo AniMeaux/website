@@ -1,5 +1,5 @@
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown";
-import { Icon } from "#generated/icon";
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
+import { Icon } from "#i/generated/icon";
 
 export function CardAnimationsOnStand({
   onStandAnimations,

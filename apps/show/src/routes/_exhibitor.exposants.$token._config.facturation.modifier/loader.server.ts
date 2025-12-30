@@ -1,6 +1,6 @@
-import { Routes } from "#core/navigation.js";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params.js";
+import { Routes } from "#i/core/navigation.js";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";

@@ -1,9 +1,9 @@
-import { Markdown, PARAGRAPH_COMPONENTS } from "#core/data-display/markdown";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
-import { Routes } from "#core/navigation";
-import { PerksHelper } from "#exhibitors/perks/helper.js";
-import { Icon } from "#generated/icon";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
+import { Routes } from "#i/core/navigation";
+import { PerksHelper } from "#i/exhibitors/perks/helper.js";
+import { Icon } from "#i/generated/icon";
 import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
