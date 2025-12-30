@@ -29,8 +29,10 @@
     "@remix-run/node": "catalog:",
     "@remix-run/react": "catalog:",
     "@sentry/remix": "catalog:",
+    "encoding": "catalog:",
     "luxon": "catalog:",
     "react": "catalog:",
+    "react-dom": "catalog:",
     "zod": "catalog:",
     "zod-form-data": "catalog:"
   },

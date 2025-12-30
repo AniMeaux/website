@@ -220,6 +220,9 @@ catalogs:
     downshift:
       specifier: ^9.0.6
       version: 9.0.6
+    encoding:
+      specifier: ^0.1.13
+      version: 0.1.13
     eslint:
       specifier: ^8.56.0
       version: 8.57.0
@@ -1320,12 +1323,18 @@ importers:
       '@sentry/remix':
         specifier: 'catalog:'
         version: 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      encoding:
+        specifier: 'catalog:'
+        version: 0.1.13
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
       react:
         specifier: 'catalog:'
         version: 18.3.1
+      react-dom:
+        specifier: 'catalog:'
+        version: 18.3.1(react@18.3.1)
       zod:
         specifier: 'catalog:'
         version: 3.23.8
@@ -11229,7 +11238,6 @@ snapshots:
   encoding@0.1.13:
     dependencies:
       iconv-lite: 0.6.3
-    optional: true
 
   end-of-stream@1.4.4:
     dependencies:

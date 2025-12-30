@@ -89,6 +89,7 @@ catalog:
   d3-dsv: ^3.0.1
   dotenv-flow: ^4.1.0
   downshift: ^9.0.6
+  encoding: ^0.1.13
   eslint: ^8.56.0
   eslint-config-prettier: ^9.1.0
   express: ^4.17.1
