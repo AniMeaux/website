@@ -1,4 +1,4 @@
-import type { Prisma } from "./generated/client.js";
+import type { Prisma } from "#i/generated/client.js";
 
 /**
  * Primsa doesn't return a real Promise. This function wraps it in a real
