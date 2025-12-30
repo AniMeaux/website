@@ -1,11 +1,11 @@
-import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams } from "#animals/search-params";
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
+import { AnimalItem } from "#i/animals/item";
+import { AnimalSearchParams } from "#i/animals/search-params";
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

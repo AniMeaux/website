@@ -1,17 +1,17 @@
-import { Action, ProseInlineAction } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
+import { Action, ProseInlineAction } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
 import {
   ApplicationStatusIcon,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#show/exhibitors/applications/status";
-import { InvoiceIcon } from "#show/invoice/icon.js";
-import { InvoiceStatus } from "#show/invoice/status.js";
-import { SponsorshipCategory } from "#show/sponsors/category";
-import { Visibility, VisibilityIcon } from "#show/visibility";
+} from "#i/show/exhibitors/applications/status";
+import { InvoiceIcon } from "#i/show/invoice/icon.js";
+import { InvoiceStatus } from "#i/show/invoice/status.js";
+import { SponsorshipCategory } from "#i/show/sponsors/category";
+import { Visibility, VisibilityIcon } from "#i/show/visibility";
 import { joinReactNodes } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { Fragment } from "react/jsx-runtime";

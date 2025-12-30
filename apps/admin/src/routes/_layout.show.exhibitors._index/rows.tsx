@@ -1,9 +1,9 @@
-import { BaseLink } from "#core/base-link";
-import { DynamicImage } from "#core/data-display/image";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon.js";
-import { SponsorshipCategory } from "#show/sponsors/category.js";
-import { Visibility, VisibilityIcon } from "#show/visibility";
+import { BaseLink } from "#i/core/base-link";
+import { DynamicImage } from "#i/core/data-display/image";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon.js";
+import { SponsorshipCategory } from "#i/show/sponsors/category.js";
+import { Visibility, VisibilityIcon } from "#i/show/visibility";
 import { ImageUrl, cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import type { SerializeFrom } from "@remix-run/node";

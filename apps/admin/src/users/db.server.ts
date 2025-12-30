@@ -3,11 +3,11 @@ import {
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server";
-import { orderByRank } from "#core/order-by-rank";
-import { prisma } from "#core/prisma.server";
-import type { UserSearchParams } from "#users/search-params";
-import { UserSort } from "#users/search-params";
+} from "#i/core/errors.server";
+import { orderByRank } from "#i/core/order-by-rank";
+import { prisma } from "#i/core/prisma.server";
+import type { UserSearchParams } from "#i/users/search-params";
+import { UserSort } from "#i/users/search-params";
 import { generatePasswordHash } from "@animeaux/password";
 import type { User } from "@animeaux/prisma/server";
 import { Prisma, UserGroup } from "@animeaux/prisma/server";

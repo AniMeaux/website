@@ -1,6 +1,6 @@
-import { db } from "#core/db.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { FosterFamilySearchParams } from "#foster-families/search-params";
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

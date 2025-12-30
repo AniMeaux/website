@@ -1,6 +1,6 @@
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
 import { ShowActivityTarget } from "@animeaux/prisma";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";

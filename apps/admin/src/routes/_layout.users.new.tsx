@@ -1,13 +1,13 @@
-import { ErrorPage } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { EmailAlreadyUsedError } from "#core/errors.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { MissingPasswordError } from "#users/db.server";
-import { ActionFormData, UserForm } from "#users/form";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { EmailAlreadyUsedError } from "#i/core/errors.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { MissingPasswordError } from "#i/users/db.server";
+import { ActionFormData, UserForm } from "#i/users/form";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {

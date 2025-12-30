@@ -1,24 +1,24 @@
-import { AnimalItem } from "#animals/item";
-import { AnimalSearchParams } from "#animals/search-params";
+import { AnimalItem } from "#i/animals/item";
+import { AnimalSearchParams } from "#i/animals/search-params";
 import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
-} from "#animals/status";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { inferInstanceColor } from "#core/data-display/instance-color";
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { db } from "#core/db.server";
-import { AvatarCard } from "#core/layout/avatar-card";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
-import { Icon } from "#generated/icon";
-import { UserAvatar } from "#users/avatar";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#users/groups";
+} from "#i/animals/status";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { inferInstanceColor } from "#i/core/data-display/instance-color";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { db } from "#i/core/db.server";
+import { AvatarCard } from "#i/core/layout/avatar-card";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { prisma } from "#i/core/prisma.server";
+import { Icon } from "#i/generated/icon";
+import { UserAvatar } from "#i/users/avatar";
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups";
 import type { Prisma } from "@animeaux/prisma";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

@@ -1,16 +1,19 @@
-import { Action, ProseInlineAction } from "#core/actions.js";
-import { BaseLink } from "#core/base-link.js";
-import { Empty } from "#core/data-display/empty.js";
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
-import { Card } from "#core/layout/card";
-import { Separator } from "#core/layout/separator.js";
-import { Routes } from "#core/navigation.js";
-import { Dialog } from "#core/popovers/dialog.js";
-import { Icon } from "#generated/icon.js";
-import { theme } from "#generated/theme.js";
-import { InvoiceIcon } from "#show/invoice/icon.js";
-import { InvoiceStatus } from "#show/invoice/status.js";
+import { Action, ProseInlineAction } from "#i/core/actions.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { Empty } from "#i/core/data-display/empty.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import {
+  Markdown,
+  SENTENCE_COMPONENTS,
+} from "#i/core/data-display/markdown.js";
+import { Card } from "#i/core/layout/card";
+import { Separator } from "#i/core/layout/separator.js";
+import { Routes } from "#i/core/navigation.js";
+import { Dialog } from "#i/core/popovers/dialog.js";
+import { Icon } from "#i/generated/icon.js";
+import { theme } from "#i/generated/theme.js";
+import { InvoiceIcon } from "#i/show/invoice/icon.js";
+import { InvoiceStatus } from "#i/show/invoice/status.js";
 import { getCompleteLocation, joinReactNodes } from "@animeaux/core";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import type { SerializeFrom } from "@remix-run/node";

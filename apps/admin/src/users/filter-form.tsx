@@ -1,17 +1,20 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { toIsoDateValue } from "#core/dates";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
-import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { toIsoDateValue } from "#i/core/dates";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
+import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups";
 import {
   USER_DEFAULT_SORT,
   UserSearchParams,
   UserSort,
-} from "#users/search-params";
+} from "#i/users/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function UserFilterForm() {

@@ -1,5 +1,5 @@
-import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { Card } from "#core/layout/card";
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { Card } from "#i/core/layout/card";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

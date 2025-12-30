@@ -1,7 +1,7 @@
-import { checkEnv, getClientEnv } from "#core/env.server";
-import { initMonitoring } from "#core/monitoring.server";
-import { extendCurrentUserPreferences } from "#current-user/preferences.server";
-import { extendCurrentUserSession } from "#current-user/session.server";
+import { checkEnv, getClientEnv } from "#i/core/env.server";
+import { initMonitoring } from "#i/core/monitoring.server";
+import { extendCurrentUserPreferences } from "#i/current-user/preferences.server";
+import { extendCurrentUserSession } from "#i/current-user/session.server";
 import type { EntryContext, HandleDataRequestFunction } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
@@ -18,11 +18,11 @@ initMonitoring();
 const ABORT_DELAY_MS = 5000;
 
 if (process.env.NODE_ENV === "development") {
-  import("#mocks/mocks.server").then((module) => module.startWorker());
+  import("#i/mocks/mocks.server").then((module) => module.startWorker());
 }
 
 if (process.env.ENABLE_CRONS === "true") {
-  import("#core/crons/crons.server").then((module) => module.startCrons());
+  import("#i/core/crons/crons.server").then((module) => module.startCrons());
 }
 
 export default async function handleRequest(

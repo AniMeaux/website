@@ -1,10 +1,10 @@
-import { Item } from "#core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Card } from "#core/layout/card";
-import { ScreenSizeValue, useScreenSizeCondition } from "#core/screen-size";
-import { Icon } from "#generated/icon";
-import { theme } from "#generated/theme";
+import { Item } from "#i/core/data-display/item";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Card } from "#i/core/layout/card";
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
+import { Icon } from "#i/generated/icon";
+import { theme } from "#i/generated/theme";
 import { cn, toBooleanAttribute } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";

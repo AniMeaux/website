@@ -1,7 +1,7 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { Routes } from "#core/navigation";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Routes } from "#i/core/navigation";
 import {
   isRouteErrorResponse,
   useLocation,

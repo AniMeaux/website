@@ -1,8 +1,8 @@
-import { AlreadyExistError, PrismaErrorCodes } from "#core/errors.server";
-import { notifyShowApp } from "#core/notification.server.js";
-import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server";
-import { InvoiceStatus } from "#show/invoice/status";
+import { AlreadyExistError, PrismaErrorCodes } from "#i/core/errors.server";
+import { notifyShowApp } from "#i/core/notification.server.js";
+import { prisma } from "#i/core/prisma.server";
+import { notFound } from "#i/core/response.server";
+import { InvoiceStatus } from "#i/show/invoice/status";
 import { catchError } from "@animeaux/core";
 import { Prisma } from "@animeaux/prisma/server";
 

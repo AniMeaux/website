@@ -1,11 +1,11 @@
-import { createConfig } from "#core/config.server";
-import { ErrorPage } from "#core/data-display/error-page";
-import { useRouteHandles } from "#core/handles";
-import { getPageTitle } from "#core/page-title";
-import { theme } from "#generated/theme";
-import appleTouchIcon from "#images/apple-touch-icon.png";
-import favicon from "#images/favicon.svg";
-import maskIcon from "#images/mask-icon.svg";
+import { createConfig } from "#i/core/config.server";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { useRouteHandles } from "#i/core/handles";
+import { getPageTitle } from "#i/core/page-title";
+import { theme } from "#i/generated/theme";
+import appleTouchIcon from "#i/images/apple-touch-icon.png";
+import favicon from "#i/images/favicon.svg";
+import maskIcon from "#i/images/mask-icon.svg";
 import { cn } from "@animeaux/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -20,7 +20,7 @@ import {
 import { withSentry } from "@sentry/remix";
 import { Settings } from "luxon";
 
-import "#tailwind.css";
+import "#i/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";

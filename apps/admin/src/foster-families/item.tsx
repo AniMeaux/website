@@ -1,5 +1,5 @@
-import { SuggestionItem } from "#core/form-elements/resource-input";
-import { FosterFamilyAvatar } from "#foster-families/avatar";
+import { SuggestionItem } from "#i/core/form-elements/resource-input";
+import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 import { getShortLocation } from "@animeaux/core";
 import type { FosterFamilyAvailability } from "@animeaux/prisma";
 import { forwardRef } from "react";

@@ -1,25 +1,25 @@
-import { AnimalFilters } from "#animals/filter-form";
-import { AnimalItem } from "#animals/item";
+import { AnimalFilters } from "#i/animals/filter-form";
+import { AnimalItem } from "#i/animals/item";
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
-} from "#animals/search-params";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Paginator } from "#core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { db } from "#core/db.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
-import { forbidden } from "#core/response.server";
-import { PageSearchParams } from "#core/search-params";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { hasGroups } from "#users/groups";
+} from "#i/animals/search-params";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Paginator } from "#i/core/controllers/paginator";
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { db } from "#i/core/db.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { prisma } from "#i/core/prisma.server";
+import { forbidden } from "#i/core/response.server";
+import { PageSearchParams } from "#i/core/search-params";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { hasGroups } from "#i/users/groups";
 import { UserGroup } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

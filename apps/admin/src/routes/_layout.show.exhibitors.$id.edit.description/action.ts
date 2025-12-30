@@ -1,4 +1,4 @@
-import { ExhibitorStatus } from "#show/exhibitors/status";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { normalizeLineBreaks, zu } from "@animeaux/zod-utils";
 
 export const ActionSchema = zu

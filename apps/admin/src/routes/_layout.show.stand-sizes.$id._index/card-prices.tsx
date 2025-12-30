@@ -1,8 +1,8 @@
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Card } from "#core/layout/card.js";
-import { Icon } from "#generated/icon.js";
-import { ExhibitorCategory } from "#show/exhibitors/category.js";
-import { Price } from "#show/price.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import { Card } from "#i/core/layout/card.js";
+import { Icon } from "#i/generated/icon.js";
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
+import { Price } from "#i/show/price.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

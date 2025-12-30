@@ -1,13 +1,13 @@
-import type { BreedSearchParams } from "#breeds/search-params";
-import { BreedSort } from "#breeds/search-params";
+import type { BreedSearchParams } from "#i/breeds/search-params";
+import { BreedSort } from "#i/breeds/search-params";
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server";
-import { orderByRank } from "#core/order-by-rank";
-import { prisma } from "#core/prisma.server";
+} from "#i/core/errors.server";
+import { orderByRank } from "#i/core/order-by-rank";
+import { prisma } from "#i/core/prisma.server";
 import type { Breed } from "@animeaux/prisma/server";
 import { Prisma } from "@animeaux/prisma/server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";

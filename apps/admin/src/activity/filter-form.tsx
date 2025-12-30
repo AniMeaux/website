@@ -1,15 +1,18 @@
-import { ActivityAction } from "#activity/action";
-import { ActivityResource } from "#activity/resource";
-import { ActivitySearchParams } from "#activity/search-params";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { toIsoDateValue } from "#core/dates";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
-import { UserAvatar } from "#users/avatar";
+import { ActivityAction } from "#i/activity/action";
+import { ActivityResource } from "#i/activity/resource";
+import { ActivitySearchParams } from "#i/activity/search-params";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { toIsoDateValue } from "#i/core/dates";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
+import { UserAvatar } from "#i/users/avatar";
 import type { User } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

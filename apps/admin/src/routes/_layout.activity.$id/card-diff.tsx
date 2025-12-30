@@ -1,4 +1,4 @@
-import { Card } from "#core/layout/card.js";
+import { Card } from "#i/core/layout/card.js";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { useLoaderData } from "@remix-run/react";

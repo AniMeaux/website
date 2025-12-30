@@ -1,11 +1,11 @@
-import { NotFoundError, PrismaErrorCodes } from "#core/errors.server";
-import { fileStorage } from "#core/file-storage.server";
-import { notifyShowApp } from "#core/notification.server";
-import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server";
-import { ApplicationSearchParamsN } from "#show/exhibitors/applications/search-params";
-import { ExhibitorCategory } from "#show/exhibitors/category";
-import { SponsorshipOptionalCategory } from "#show/sponsors/category.js";
+import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server";
+import { fileStorage } from "#i/core/file-storage.server";
+import { notifyShowApp } from "#i/core/notification.server";
+import { prisma } from "#i/core/prisma.server";
+import { notFound } from "#i/core/response.server";
+import { ApplicationSearchParamsN } from "#i/show/exhibitors/applications/search-params";
+import { ExhibitorCategory } from "#i/show/exhibitors/category";
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js";
 import { catchError } from "@animeaux/core";
 import type { ShowExhibitorApplication } from "@animeaux/prisma/server";
 import {

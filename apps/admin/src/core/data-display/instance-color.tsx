@@ -1,5 +1,5 @@
-import type { AvatarColor } from "#core/data-display/avatar";
-import { simpleHash } from "#core/simple-hash";
+import type { AvatarColor } from "#i/core/data-display/avatar";
+import { simpleHash } from "#i/core/simple-hash";
 import invariant from "tiny-invariant";
 
 const COLORS = [

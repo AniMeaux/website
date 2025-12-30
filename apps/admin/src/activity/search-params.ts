@@ -1,6 +1,6 @@
-import { ActivityAction } from "#activity/action";
-import { ActivityResource } from "#activity/resource";
-import { endOfDay } from "#core/dates.js";
+import { ActivityAction } from "#i/activity/action";
+import { ActivityResource } from "#i/activity/resource";
+import { endOfDay } from "#i/core/dates.js";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import { DateTime } from "luxon";

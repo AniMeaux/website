@@ -1,4 +1,4 @@
-import type { IconName } from "#generated/icon";
+import type { IconName } from "#i/generated/icon";
 import type { User } from "@animeaux/prisma";
 import { UserGroup } from "@animeaux/prisma";
 import intersection from "lodash.intersection";

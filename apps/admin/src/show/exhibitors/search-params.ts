@@ -1,8 +1,8 @@
-import type { IconName } from "#generated/icon";
-import { ExhibitorStatus } from "#show/exhibitors/status";
-import { InvoiceStatus } from "#show/invoice/status.js";
-import { SponsorshipOptionalCategory } from "#show/sponsors/category";
-import { Visibility } from "#show/visibility";
+import type { IconName } from "#i/generated/icon";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { InvoiceStatus } from "#i/show/invoice/status.js";
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
+import { Visibility } from "#i/show/visibility";
 import {
   ShowActivityField,
   ShowActivityTarget,

@@ -1,27 +1,30 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
-import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
-import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
-import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
-import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon";
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon";
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#show/exhibitors/applications/search-params";
+} from "#i/show/exhibitors/applications/search-params";
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#show/exhibitors/applications/status";
+} from "#i/show/exhibitors/applications/status";
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#show/sponsors/category";
+} from "#i/show/sponsors/category";
 import type { ShowStandSize } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

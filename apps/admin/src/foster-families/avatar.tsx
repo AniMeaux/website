@@ -1,6 +1,6 @@
-import type { AvatarColor } from "#core/data-display/avatar";
-import { Avatar } from "#core/data-display/avatar";
-import { Icon } from "#generated/icon";
+import type { AvatarColor } from "#i/core/data-display/avatar";
+import { Avatar } from "#i/core/data-display/avatar";
+import { Icon } from "#i/generated/icon";
 import { FosterFamilyAvailability } from "@animeaux/prisma";
 import type { Except } from "type-fest";
 

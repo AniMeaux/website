@@ -1,16 +1,16 @@
-import { AnimalSmallItem } from "#animals/item";
+import { AnimalSmallItem } from "#i/animals/item";
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
   AnimalSterilization,
-} from "#animals/search-params";
-import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#animals/situation/health";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
+} from "#i/animals/search-params";
+import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#i/animals/situation/health";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
 import { formatAge } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";

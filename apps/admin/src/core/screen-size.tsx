@@ -1,5 +1,5 @@
-import type { ScreenSize } from "#generated/theme";
-import { theme } from "#generated/theme";
+import type { ScreenSize } from "#i/generated/theme";
+import { theme } from "#i/generated/theme";
 import { useEffect, useState } from "react";
 
 export const ScreenSizeValue = Object.fromEntries(

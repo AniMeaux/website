@@ -1,4 +1,4 @@
-import { Form } from "#core/form-elements/form";
+import { Form } from "#i/core/form-elements/form";
 import type { FieldMetadata } from "@conform-to/react";
 import type { Except } from "type-fest";
 

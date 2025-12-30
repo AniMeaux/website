@@ -1,7 +1,7 @@
-import { useConfig } from "#core/config";
-import type { AvatarColor } from "#core/data-display/avatar";
-import { createCloudinaryUrl } from "#core/data-display/image";
-import { Card } from "#core/layout/card";
+import { useConfig } from "#i/core/config";
+import type { AvatarColor } from "#i/core/data-display/avatar";
+import { createCloudinaryUrl } from "#i/core/data-display/image";
+import { Card } from "#i/core/layout/card";
 import { cn } from "@animeaux/core";
 import { cloneElement } from "react";
 

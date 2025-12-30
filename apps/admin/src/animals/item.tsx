@@ -1,20 +1,20 @@
-import { AnimalAvatar } from "#animals/avatar";
-import { GENDER_ICON, GENDER_TRANSLATION } from "#animals/gender";
-import { getAnimalDisplayName } from "#animals/profile/name";
+import { AnimalAvatar } from "#i/animals/avatar";
+import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender";
+import { getAnimalDisplayName } from "#i/animals/profile/name";
 import {
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#animals/situation/health";
-import { getSpeciesLabels } from "#animals/species";
-import { StatusBadge } from "#animals/status";
-import { BaseLink } from "#core/base-link";
-import { Chip } from "#core/data-display/chip";
-import type { DynamicImageProps } from "#core/data-display/image";
-import { DynamicImage } from "#core/data-display/image";
-import type { SuggestionItemProps } from "#core/form-elements/resource-input";
-import { SuggestionItem } from "#core/form-elements/resource-input";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
+} from "#i/animals/situation/health";
+import { getSpeciesLabels } from "#i/animals/species";
+import { StatusBadge } from "#i/animals/status";
+import { BaseLink } from "#i/core/base-link";
+import { Chip } from "#i/core/data-display/chip";
+import type { DynamicImageProps } from "#i/core/data-display/image";
+import { DynamicImage } from "#i/core/data-display/image";
+import type { SuggestionItemProps } from "#i/core/form-elements/resource-input";
+import { SuggestionItem } from "#i/core/form-elements/resource-input";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import type { Animal, Species, User } from "@animeaux/prisma";
 import { Gender } from "@animeaux/prisma";

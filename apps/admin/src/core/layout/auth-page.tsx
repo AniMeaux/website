@@ -1,6 +1,6 @@
-import { getPageTitle } from "#core/page-title";
-import backgroundPattern from "#images/background-pattern.svg";
-import nameAndLogo from "#images/name-and-logo.svg";
+import { getPageTitle } from "#i/core/page-title";
+import backgroundPattern from "#i/images/background-pattern.svg";
+import nameAndLogo from "#i/images/name-and-logo.svg";
 
 export const AuthPage = {
   Main: function AuthPageMain({ children }: React.PropsWithChildren<{}>) {

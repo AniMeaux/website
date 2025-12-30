@@ -1,8 +1,8 @@
-import { ShowDividerTypeDbDelegate } from "#show/divider-type/db.server";
-import { ShowExhibitorDbDelegate } from "#show/exhibitors/db.server";
-import { ShowInvoiceDbDelegate } from "#show/invoice/db.server";
-import { ShowSponsorDbDelegate } from "#show/sponsors/db.server";
-import { ShowStandSizeDbDelegate } from "#show/stand-size/db.server";
+import { ShowDividerTypeDbDelegate } from "#i/show/divider-type/db.server";
+import { ShowExhibitorDbDelegate } from "#i/show/exhibitors/db.server";
+import { ShowInvoiceDbDelegate } from "#i/show/invoice/db.server";
+import { ShowSponsorDbDelegate } from "#i/show/sponsors/db.server";
+import { ShowStandSizeDbDelegate } from "#i/show/stand-size/db.server";
 
 export class ShowDbDelegate {
   readonly exhibitor = new ShowExhibitorDbDelegate();

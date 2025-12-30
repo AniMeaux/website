@@ -1,4 +1,4 @@
-import { simpleHash } from "#core/simple-hash";
+import { simpleHash } from "#i/core/simple-hash";
 import type { HttpResponseResolver, StrictResponse } from "msw";
 import { HttpResponse, http } from "msw";
 import invariant from "tiny-invariant";

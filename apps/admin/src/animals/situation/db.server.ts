@@ -1,10 +1,10 @@
-import { ActivityAction } from "#activity/action.js";
-import { Activity } from "#activity/db.server.js";
-import { ActivityResource } from "#activity/resource.js";
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
-import { NotFoundError } from "#core/errors.server";
-import { Routes } from "#core/navigation";
-import { prisma } from "#core/prisma.server";
+import { ActivityAction } from "#i/activity/action.js";
+import { Activity } from "#i/activity/db.server.js";
+import { ActivityResource } from "#i/activity/resource.js";
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
+import { NotFoundError } from "#i/core/errors.server";
+import { Routes } from "#i/core/navigation";
+import { prisma } from "#i/core/prisma.server";
 import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
 import { Status, UserGroup } from "@animeaux/prisma/server";
 import { redirect } from "@remix-run/node";

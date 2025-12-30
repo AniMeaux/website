@@ -1,4 +1,4 @@
-import { ErrorsInlineHelper } from "#core/data-display/errors";
+import { ErrorsInlineHelper } from "#i/core/data-display/errors";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 

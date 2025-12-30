@@ -1,14 +1,17 @@
-import { ProseInlineAction } from "#core/actions.js";
-import { BaseLink } from "#core/base-link.js";
-import { Empty } from "#core/data-display/empty";
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
-import { Card } from "#core/layout/card";
-import { Separator } from "#core/layout/separator.js";
-import { Routes } from "#core/navigation.js";
-import { Icon } from "#generated/icon.js";
-import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target.js";
-import { StandZone } from "#show/exhibitors/stand-configuration/stand-zone.js";
+import { ProseInlineAction } from "#i/core/actions.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { Empty } from "#i/core/data-display/empty";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import {
+  Markdown,
+  SENTENCE_COMPONENTS,
+} from "#i/core/data-display/markdown.js";
+import { Card } from "#i/core/layout/card";
+import { Separator } from "#i/core/layout/separator.js";
+import { Routes } from "#i/core/navigation.js";
+import { Icon } from "#i/generated/icon.js";
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js";
+import { StandZone } from "#i/show/exhibitors/stand-configuration/stand-zone.js";
 import { joinReactNodes } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

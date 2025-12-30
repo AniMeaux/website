@@ -1,9 +1,9 @@
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { theme } from "#generated/theme";
-import googleTouchIconMac from "#images/google-touch-icon-mac.png";
-import googleTouchIconMaskable from "#images/google-touch-icon-maskable.png";
-import googleTouchIcon from "#images/google-touch-icon.png";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { theme } from "#i/generated/theme";
+import googleTouchIconMac from "#i/images/google-touch-icon-mac.png";
+import googleTouchIconMaskable from "#i/images/google-touch-icon-maskable.png";
+import googleTouchIcon from "#i/images/google-touch-icon.png";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import Bowser from "bowser";

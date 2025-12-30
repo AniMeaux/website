@@ -1,7 +1,7 @@
-import type { AvatarSize } from "#core/data-display/avatar";
-import { Avatar } from "#core/data-display/avatar";
-import type { DynamicImageProps } from "#core/data-display/image";
-import { DynamicImage } from "#core/data-display/image";
+import type { AvatarSize } from "#i/core/data-display/avatar";
+import { Avatar } from "#i/core/data-display/avatar";
+import type { DynamicImageProps } from "#i/core/data-display/image";
+import { DynamicImage } from "#i/core/data-display/image";
 import type { Animal } from "@animeaux/prisma";
 import type { Except } from "type-fest";
 

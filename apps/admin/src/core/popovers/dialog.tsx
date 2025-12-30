@@ -1,8 +1,8 @@
-import type { ActionColor } from "#core/actions";
-import { Action } from "#core/actions";
-import { Overlay } from "#core/popovers/overlay";
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
+import type { ActionColor } from "#i/core/actions";
+import { Action } from "#i/core/actions";
+import { Overlay } from "#i/core/popovers/overlay";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import * as RadixDialog from "@radix-ui/react-dialog";
 import { createContext, useContext, useMemo } from "react";

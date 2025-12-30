@@ -1,15 +1,15 @@
-import { ErrorPage } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import {
   InvalidPublicationDateError,
   UrlAlreadyUsedError,
-} from "#press-articles/db.server";
-import { ActionFormData, PressArticleForm } from "#press-articles/form";
+} from "#i/press-articles/db.server";
+import { ActionFormData, PressArticleForm } from "#i/press-articles/form";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {

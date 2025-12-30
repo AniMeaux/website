@@ -1,5 +1,5 @@
-import { forbidden } from "#core/response.server";
-import { hasGroups } from "#users/groups";
+import { forbidden } from "#i/core/response.server";
+import { hasGroups } from "#i/users/groups";
 import type { User, UserGroup } from "@animeaux/prisma/server";
 
 export function assertCurrentUserHasGroups(

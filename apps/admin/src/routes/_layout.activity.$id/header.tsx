@@ -1,4 +1,4 @@
-import { PageLayout } from "#core/layout/page.js";
+import { PageLayout } from "#i/core/layout/page.js";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";

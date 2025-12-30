@@ -1,15 +1,15 @@
-import { ActionFormData, ColorForm } from "#colors/form";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { AlreadyExistError } from "#core/errors.server";
-import { assertIsDefined } from "#core/is-defined.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { ActionFormData, ColorForm } from "#i/colors/form";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { AlreadyExistError } from "#i/core/errors.server";
+import { assertIsDefined } from "#i/core/is-defined.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { prisma } from "#i/core/prisma.server";
+import { notFound } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import type {

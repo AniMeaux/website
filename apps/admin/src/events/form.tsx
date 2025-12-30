@@ -1,20 +1,20 @@
-import { Action } from "#core/actions";
-import type { ImageFileOrId } from "#core/data-display/image";
+import { Action } from "#i/core/actions";
+import type { ImageFileOrId } from "#i/core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFile,
-} from "#core/data-display/image";
-import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/form-elements/form";
-import { ImageInput } from "#core/form-elements/image-input";
-import { Input } from "#core/form-elements/input";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Switch } from "#core/form-elements/switch";
-import { Textarea } from "#core/form-elements/textarea";
-import { Separator } from "#core/layout/separator";
-import { Icon } from "#generated/icon";
+} from "#i/core/data-display/image";
+import { toIsoDateValue } from "#i/core/dates";
+import { Form } from "#i/core/form-elements/form";
+import { ImageInput } from "#i/core/form-elements/image-input";
+import { Input } from "#i/core/form-elements/input";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Switch } from "#i/core/form-elements/switch";
+import { Textarea } from "#i/core/form-elements/textarea";
+import { Separator } from "#i/core/layout/separator";
+import { Icon } from "#i/generated/icon";
 import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { Event } from "@animeaux/prisma";

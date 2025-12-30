@@ -1,5 +1,5 @@
-import { Routes } from "#core/navigation";
-import { destroyCurrentUserSession } from "#current-user/session.server";
+import { Routes } from "#i/core/navigation";
+import { destroyCurrentUserSession } from "#i/current-user/session.server";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 import { createPath } from "history";
