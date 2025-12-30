@@ -5,13 +5,13 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    "./client": {
-      "types": "./build/src.client/index.d.ts",
-      "default": "./build/src.client/index.js"
+    ".": {
+      "types": "./build/src/index.d.ts",
+      "default": "./build/src/index.js"
     },
     "./server": {
-      "types": "./build/src.server/index.d.ts",
-      "default": "./build/src.server/index.js"
+      "types": "./build/src/index.server.d.ts",
+      "default": "./build/src/index.server.js"
     }
   },
   "scripts": {
