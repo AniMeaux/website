@@ -1,6 +1,6 @@
-import { BaseLink } from "#core/base-link";
-import { useConfig } from "#core/config";
-import { Icon } from "#generated/icon";
+import { BaseLink } from "#i/core/base-link";
+import { useConfig } from "#i/core/config";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 
 export function ShowBanner({ className }: { className?: string }) {

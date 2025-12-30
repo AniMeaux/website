@@ -1,8 +1,8 @@
-import { SPECIES_ICON } from "#animals/species";
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { getConfigFromMetaMatches } from "#core/config";
-import { Tab } from "#core/controllers/tabs";
+import { SPECIES_ICON } from "#i/animals/species";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { getConfigFromMetaMatches } from "#i/core/config";
+import { Tab } from "#i/core/controllers/tabs";
 import {
   OptionCard,
   OptionDescription,
@@ -11,25 +11,25 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#core/data-display/options";
-import { Timeline, TimelineItem } from "#core/data-display/timeline";
+} from "#i/core/data-display/options";
+import { Timeline, TimelineItem } from "#i/core/data-display/timeline";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubble-section";
+} from "#i/core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { Icon } from "#generated/icon";
-import { adoptImages } from "#images/adopt";
-import { questionsImages } from "#images/questions";
-import { socialImages } from "#images/social";
+} from "#i/core/layout/hero-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { Icon } from "#i/generated/icon";
+import { adoptImages } from "#i/images/adopt";
+import { questionsImages } from "#i/images/questions";
+import { socialImages } from "#i/images/social";
 import { cn } from "@animeaux/core";
 import { Species } from "@animeaux/prisma";
 import type { MetaFunction } from "@remix-run/node";

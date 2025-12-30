@@ -1,8 +1,8 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import { useConfig } from "#core/config";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { useConfig } from "#i/core/config";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 
 export function SocialLinks({ className }: { className?: string }) {

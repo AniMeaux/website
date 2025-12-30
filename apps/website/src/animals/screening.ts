@@ -1,4 +1,4 @@
-import type { IconProps } from "#generated/icon";
+import type { IconProps } from "#i/generated/icon";
 import { Gender, ScreeningResult } from "@animeaux/prisma";
 
 export const SCREENING_RESULT_ICON: Record<

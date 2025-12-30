@@ -1,4 +1,4 @@
-import { ActionFormData } from "#routes/resources.subscribe/input";
+import { ActionFormData } from "#i/routes/resources.subscribe/input";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { z } from "zod";

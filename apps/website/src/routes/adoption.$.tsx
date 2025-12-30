@@ -1,25 +1,25 @@
-import { AnimalItem } from "#animals/item";
-import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Paginator } from "#core/controllers/paginator";
+import { AnimalItem } from "#i/animals/item";
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Paginator } from "#i/core/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
   SPECIES_TO_PATH,
   SearchForm,
-} from "#core/controllers/searchForm";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { prisma } from "#core/db.server";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { getPage } from "#core/search-params";
+} from "#i/core/controllers/searchForm";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { prisma } from "#i/core/db.server";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { getPage } from "#i/core/search-params";
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
-} from "#core/translations";
+} from "#i/core/translations";
 import type { AnimalAge } from "@animeaux/core";
 import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
 import type { Prisma, Species } from "@animeaux/prisma";

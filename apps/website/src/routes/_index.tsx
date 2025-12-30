@@ -1,13 +1,13 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { SearchForm } from "#core/controllers/searchForm";
-import type { StaticImageProps } from "#core/data-display/image";
-import { StaticImage } from "#core/data-display/image";
-import { prisma } from "#core/db.server";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SearchForm } from "#i/core/controllers/searchForm";
+import type { StaticImageProps } from "#i/core/data-display/image";
+import { StaticImage } from "#i/core/data-display/image";
+import { prisma } from "#i/core/db.server";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubble-section";
+} from "#i/core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAction,
@@ -15,17 +15,17 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { DonationSection } from "#donation/section";
-import { EventItem } from "#events/item";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import { adoptionImages } from "#images/adoption";
-import { fosterFamilyLargeImages } from "#images/foster-family-large";
-import { fosterFamilySmallImages } from "#images/foster-family-small";
-import { heroImages } from "#images/hero";
-import { pickUpImages } from "#images/pick-up";
-import { volunteerImages } from "#images/volunteer";
+} from "#i/core/layout/hero-section";
+import { DonationSection } from "#i/donation/section";
+import { EventItem } from "#i/events/item";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { adoptionImages } from "#i/images/adoption";
+import { fosterFamilyLargeImages } from "#i/images/foster-family-large";
+import { fosterFamilySmallImages } from "#i/images/foster-family-small";
+import { heroImages } from "#i/images/hero";
+import { pickUpImages } from "#i/images/pick-up";
+import { volunteerImages } from "#i/images/volunteer";
 import { cn } from "@animeaux/core";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";

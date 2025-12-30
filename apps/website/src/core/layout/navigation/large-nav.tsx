@@ -1,18 +1,21 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#core/focus-trap";
-import { useWidth } from "#core/hooks";
-import { LineShapeHorizontal } from "#core/layout/line-shape";
-import type { NavGroup } from "#core/layout/navigation/shared";
-import { handleEscape, navLinkClassName } from "#core/layout/navigation/shared";
-import { ShowBanner } from "#core/layout/navigation/show-banner";
-import { SocialLinks } from "#core/layout/navigation/social-links";
-import { SubNavAct } from "#core/layout/navigation/sub-nav-act";
-import { SubNavAdopt } from "#core/layout/navigation/sub-nav-adopt";
-import { SubNavDiscover } from "#core/layout/navigation/sub-nav-discover";
-import { SubNavWarn } from "#core/layout/navigation/sub-nav-warn";
-import { useScrollLock } from "#core/scroll-lock";
-import nameAndLogo from "#images/name-and-logo.svg";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#i/core/focus-trap";
+import { useWidth } from "#i/core/hooks";
+import { LineShapeHorizontal } from "#i/core/layout/line-shape";
+import type { NavGroup } from "#i/core/layout/navigation/shared";
+import {
+  handleEscape,
+  navLinkClassName,
+} from "#i/core/layout/navigation/shared";
+import { ShowBanner } from "#i/core/layout/navigation/show-banner";
+import { SocialLinks } from "#i/core/layout/navigation/social-links";
+import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act";
+import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt";
+import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover";
+import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn";
+import { useScrollLock } from "#i/core/scroll-lock";
+import nameAndLogo from "#i/images/name-and-logo.svg";
 import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";
 import { forwardRef, useEffect, useRef, useState } from "react";

@@ -1,14 +1,14 @@
-import { useConfig } from "#core/config";
-import { createConfig } from "#core/config.server";
-import { ErrorPage } from "#core/data-display/error-page";
-import { Footer } from "#core/layout/footer";
-import { Header } from "#core/layout/header";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle, pageDescription } from "#core/page-title";
-import { theme } from "#generated/theme";
-import appleTouchIcon from "#images/apple-touch-icon.png";
-import favicon from "#images/favicon.svg";
-import { socialImages } from "#images/social";
+import { useConfig } from "#i/core/config";
+import { createConfig } from "#i/core/config.server";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { Footer } from "#i/core/layout/footer";
+import { Header } from "#i/core/layout/header";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle, pageDescription } from "#i/core/page-title";
+import { theme } from "#i/generated/theme";
+import appleTouchIcon from "#i/images/apple-touch-icon.png";
+import favicon from "#i/images/favicon.svg";
+import { socialImages } from "#i/images/social";
 import { cn } from "@animeaux/core";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -22,7 +22,7 @@ import {
 } from "@remix-run/react";
 import { Settings } from "luxon";
 
-import "#tailwind.css";
+import "#i/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";

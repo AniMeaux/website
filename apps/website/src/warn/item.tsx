@@ -1,6 +1,6 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import { DynamicImage } from "#core/data-display/image";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { DynamicImage } from "#i/core/data-display/image";
 
 export function WarnItem({
   to,

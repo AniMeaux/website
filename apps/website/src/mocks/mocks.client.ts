@@ -1,4 +1,4 @@
-import { cloudinaryHandlers } from "#mocks/cloudinary.client";
+import { cloudinaryHandlers } from "#i/mocks/cloudinary.client";
 import { setupWorker } from "msw/browser";
 
 const worker = setupWorker(...cloudinaryHandlers);

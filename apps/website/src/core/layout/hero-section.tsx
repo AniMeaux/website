@@ -1,5 +1,5 @@
-import type { StaticImageProps } from "#core/data-display/image";
-import { StaticImage } from "#core/data-display/image";
+import type { StaticImageProps } from "#i/core/data-display/image";
+import { StaticImage } from "#i/core/data-display/image";
 import { cn } from "@animeaux/core";
 
 export function HeroSection({

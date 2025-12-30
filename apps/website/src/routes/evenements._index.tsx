@@ -1,14 +1,14 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { prisma } from "#core/db.server";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { prisma } from "#i/core/db.server";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/related-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { EventItem } from "#events/item";
+} from "#i/core/layout/related-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { EventItem } from "#i/events/item";
 import { cn } from "@animeaux/core";
 import type { Prisma } from "@animeaux/prisma";
 import type { MetaFunction } from "@remix-run/node";

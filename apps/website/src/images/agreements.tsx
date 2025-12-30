@@ -1,8 +1,8 @@
-import type { ImageDescriptor } from "#core/data-display/image";
-import agreements1024 from "#images/agreements-1024w.png";
-import agreements1536 from "#images/agreements-1536w.png";
-import agreements2048 from "#images/agreements-2048w.png";
-import agreements512 from "#images/agreements-512w.png";
+import type { ImageDescriptor } from "#i/core/data-display/image";
+import agreements1024 from "#i/images/agreements-1024w.png";
+import agreements1536 from "#i/images/agreements-1536w.png";
+import agreements2048 from "#i/images/agreements-2048w.png";
+import agreements512 from "#i/images/agreements-512w.png";
 
 export const agreementsImages: ImageDescriptor = {
   alt: "Chat errants dans une rue.",

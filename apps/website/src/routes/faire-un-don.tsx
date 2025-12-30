@@ -1,10 +1,10 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#core/config";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
 import {
   BubbleShape,
   bubbleSectionClassNames,
-} from "#core/layout/bubble-section";
+} from "#i/core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAction,
@@ -12,16 +12,16 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import { donationImages } from "#images/donation";
-import { helloassoImages } from "#images/helloasso";
-import paypalImage from "#images/paypal.png";
-import { socialImages } from "#images/social";
-import teamingImage from "#images/teaming.png";
+} from "#i/core/layout/hero-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { donationImages } from "#i/images/donation";
+import { helloassoImages } from "#i/images/helloasso";
+import paypalImage from "#i/images/paypal.png";
+import { socialImages } from "#i/images/social";
+import teamingImage from "#i/images/teaming.png";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

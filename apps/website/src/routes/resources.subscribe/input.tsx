@@ -1,6 +1,6 @@
-import { createActionData } from "#core/schemas";
-import { Icon } from "#generated/icon";
-import type { action } from "#routes/resources.subscribe/route";
+import { createActionData } from "#i/core/schemas";
+import { Icon } from "#i/generated/icon";
+import type { action } from "#i/routes/resources.subscribe/route";
 import { cn } from "@animeaux/core";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
