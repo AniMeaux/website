@@ -35,28 +35,12 @@ export const partners: Partner[] = orderBy(
       url: "https://www.maxizoo.fr/stores/maxi-zoo-mareuil-les-meaux",
     },
     {
-      id: "0be42a59-4d05-4e09-ba5a-a7e5550be7a6",
-      image: "partners/7d3c7741-48a9-4659-b49a-3b901aec3a2a",
-      name: "NeoVoice",
-      description:
-        "NeoVoice est l’application 100 % gratuite, construite avec un vétérinaire, qui vous aide à mieux comprendre la santé et le comportement de votre chien.",
-      url: "https://www.neovoice.fr",
-    },
-    {
       id: "ce96c1c2-687b-4725-8ea7-4b50b6e76cd5",
       image: "partners/b12bb2c3-fcef-4197-981b-55c98d61b99a",
       name: "Super Logo",
       description:
         "En tant que graphiste professionnelle spécialisée dans la **création de logo d’entreprise**, Super Logo vous propose ses services pour la réalisation de votre identité visuelle. Passionnée par le monde du graphisme et à l’écoute de ses clients, Super Logo met ses compétences à profit pour les particuliers, les petites et les grandes entreprises.",
       url: "https://www.super-logo.com",
-    },
-    {
-      id: "01c5f92b-c600-4d25-8697-0f92c7a9d841",
-      image: "partners/48dd1169-443a-4cc5-a42f-4ae832d6c88e",
-      name: "Zooplus",
-      description:
-        "Zooplus Animalerie en ligne N°1 en France. Large Choix : +9000 articles pour animaux, prix choc, livraison rapide. 4 % du montant de votre commande reversé à l’association en passant par **ce lien**.",
-      url: "https://www.awin1.com/cread.php?s=3165838&v=7334&q=308797&r=765013",
     },
   ],
   (partner) => partner.name.toLowerCase(),
