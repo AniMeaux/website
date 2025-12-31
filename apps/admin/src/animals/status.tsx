@@ -1,6 +1,6 @@
-import type { ChipColor } from "#core/data-display/chip";
-import { Chip } from "#core/data-display/chip";
-import { Icon } from "#generated/icon";
+import type { ChipColor } from "#i/core/data-display/chip";
+import { Chip } from "#i/core/data-display/chip";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import { Status } from "@animeaux/prisma";
 import difference from "lodash.difference";

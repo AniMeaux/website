@@ -1,4 +1,4 @@
-import { Visibility } from "#show/visibility.js";
+import { Visibility } from "#i/show/visibility.js";
 import { zu } from "@animeaux/zod-utils";
 
 export const actionSchema = zu.object({

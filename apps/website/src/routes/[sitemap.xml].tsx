@@ -1,5 +1,5 @@
-import { createConfig } from "#core/config.server";
-import { SPECIES_TO_PATH } from "#core/controllers/searchForm";
+import { createConfig } from "#i/core/config.server";
+import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm";
 import { Species } from "@animeaux/prisma";
 import { renderToStaticMarkup } from "react-dom/server";
 

@@ -2,10 +2,10 @@ import {
   HAS_UP_COMMING_DIAGNOSE_CONDITIONS,
   HAS_UP_COMMING_STERILISATION_CONDITIONS,
   HAS_UP_COMMING_VACCINATION_CONDITIONS,
-} from "#animals/situation/health";
-import { ACTIVE_ANIMAL_STATUS } from "#animals/status";
-import { prisma } from "#core/prisma.server";
-import { hasGroups } from "#users/groups";
+} from "#i/animals/situation/health";
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
+import { prisma } from "#i/core/prisma.server";
+import { hasGroups } from "#i/users/groups";
 import type { Prisma, User } from "@animeaux/prisma/server";
 import { UserGroup } from "@animeaux/prisma/server";
 import { DateTime } from "luxon";

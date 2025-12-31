@@ -1,6 +1,6 @@
-import type { ServicePrisma } from "#core/prisma.service.server.js";
-import { notFound } from "#core/response.server.js";
-import { ShowDay } from "#core/show-day";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server.js";
+import { ShowDay } from "#i/core/show-day";
 import type { Prisma } from "@animeaux/prisma/server";
 
 export class ServiceAnimation {

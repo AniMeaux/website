@@ -1,11 +1,11 @@
-import { Action } from "#core/actions/action";
-import { DynamicImage } from "#core/data-display/image";
-import { Footer } from "#core/layout/footer";
-import { LazyElement } from "#core/layout/lazy-element";
-import { Section } from "#core/layout/section";
-import { ShowDay } from "#core/show-day";
-import { SponsorItem } from "#sponsors/item.js";
-import { SponsorsPlaceholderImage } from "#sponsors/placeholder-image.js";
+import { Action } from "#i/core/actions/action";
+import { DynamicImage } from "#i/core/data-display/image";
+import { Footer } from "#i/core/layout/footer";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import { Section } from "#i/core/layout/section";
+import { ShowDay } from "#i/core/show-day";
+import { SponsorItem } from "#i/sponsors/item.js";
+import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

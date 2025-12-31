@@ -1,6 +1,6 @@
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Card } from "#core/layout/card.js";
-import { Icon } from "#generated/icon.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import { Card } from "#i/core/layout/card.js";
+import { Icon } from "#i/generated/icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

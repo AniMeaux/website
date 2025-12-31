@@ -1,10 +1,10 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Paginator } from "#core/controllers/paginator";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { Card } from "#core/layout/card";
-import { DownloadApplicationsTrigger } from "#routes/downloads.show.applications/trigger.js";
-import { ApplicationSearchParams } from "#show/exhibitors/applications/search-params";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Paginator } from "#i/core/controllers/paginator";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Card } from "#i/core/layout/card";
+import { DownloadApplicationsTrigger } from "#i/routes/downloads.show.applications/trigger.js";
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ApplicationItem } from "./item";

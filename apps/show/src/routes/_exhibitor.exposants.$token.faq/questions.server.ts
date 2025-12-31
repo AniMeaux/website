@@ -1,4 +1,4 @@
-import type { Faq } from "#faq/faq";
+import type { Faq } from "#i/faq/faq";
 
 export const QUESTIONS: Faq[] = [
   {

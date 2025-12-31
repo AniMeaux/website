@@ -1,11 +1,11 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#exhibitors/activity-target/activity-target";
-import { Icon } from "#generated/icon";
+} from "#i/exhibitors/activity-target/activity-target";
+import { Icon } from "#i/generated/icon";
 import type { ShowActivityTarget } from "@animeaux/prisma";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";

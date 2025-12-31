@@ -1,13 +1,13 @@
-import { Action } from "#core/actions";
-import { db } from "#core/db.server";
-import { EmailAlreadyUsedError } from "#core/errors.server";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { Icon } from "#generated/icon";
+import { Action } from "#i/core/actions";
+import { db } from "#i/core/db.server";
+import { EmailAlreadyUsedError } from "#i/core/errors.server";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type {

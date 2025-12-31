@@ -1,12 +1,12 @@
-import type { ActionProps } from "#core/actions";
-import { Action } from "#core/actions";
-import { DenseHelper } from "#core/data-display/helper";
+import type { ActionProps } from "#i/core/actions";
+import { Action } from "#i/core/actions";
+import { DenseHelper } from "#i/core/data-display/helper";
 import {
   DataUrlOrDynamicImage,
   isImageOverSize,
-} from "#core/data-display/image";
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
+} from "#i/core/data-display/image";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn, toBooleanAttribute } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";

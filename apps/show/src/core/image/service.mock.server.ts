@@ -1,4 +1,4 @@
-import type { ServiceImage } from "#core/image/service.server.js";
+import type { ServiceImage } from "#i/core/image/service.server.js";
 import { LazyFile } from "@mjackson/lazy-file";
 import { v4 as uuid } from "uuid";
 

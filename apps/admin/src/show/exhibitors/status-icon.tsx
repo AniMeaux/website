@@ -1,6 +1,6 @@
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import { ExhibitorStatus } from "#show/exhibitors/status";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { cn } from "@animeaux/core";
 
 export function ExhibitorStatusIcon({

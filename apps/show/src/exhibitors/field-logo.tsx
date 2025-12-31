@@ -1,6 +1,6 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { InputFileImage } from "#core/form-elements/input-file-image";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { InputFileImage } from "#i/core/form-elements/input-file-image";
+import { FormLayout } from "#i/core/layout/form-layout";
 import { withoutKey } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";

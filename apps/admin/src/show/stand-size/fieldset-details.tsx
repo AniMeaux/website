@@ -1,8 +1,8 @@
-import { FieldNumeric } from "#core/form-elements/field-numeric.js";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input.js";
-import { Card } from "#core/layout/card";
-import { Icon } from "#generated/icon.js";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input.js";
+import { Card } from "#i/core/layout/card";
+import { Icon } from "#i/generated/icon.js";
 import type { FieldMetadata } from "@conform-to/react";
 
 export function FieldsetDetails({

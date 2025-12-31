@@ -1,7 +1,7 @@
-import type { IconName } from "#generated/icon.js";
-import { Icon } from "#generated/icon.js";
-import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
-import { formatBooking } from "#show/stand-size/booking.js";
+import type { IconName } from "#i/generated/icon.js";
+import { Icon } from "#i/generated/icon.js";
+import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js";
+import { formatBooking } from "#i/show/stand-size/booking.js";
 import { cn } from "@animeaux/core";
 
 export function StandSizeBookingIcon({

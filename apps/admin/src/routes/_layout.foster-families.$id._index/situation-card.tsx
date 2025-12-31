@@ -1,16 +1,16 @@
-import { SPECIES_TRANSLATION } from "#animals/species";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
+import { SPECIES_TRANSLATION } from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
-} from "#foster-families/availability";
-import { ICON_BY_HOUSING } from "#foster-families/housing";
-import { Icon } from "#generated/icon";
+} from "#i/foster-families/availability";
+import { ICON_BY_HOUSING } from "#i/foster-families/housing";
+import { Icon } from "#i/generated/icon";
 import { joinReactNodes } from "@animeaux/core";
 import {
   FosterFamilyAvailability,

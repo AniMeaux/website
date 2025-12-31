@@ -1,5 +1,5 @@
-import type { ServicePrisma } from "#core/prisma.service.server.js";
-import { notFound } from "#core/response.server.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server.js";
 import type { Prisma } from "@animeaux/prisma/server";
 
 export class ServiceInvoice {

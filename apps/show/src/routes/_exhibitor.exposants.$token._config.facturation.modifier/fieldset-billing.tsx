@@ -1,7 +1,7 @@
-import { FieldNumeric } from "#core/form-elements/field-numeric";
-import { FieldSwitch } from "#core/form-elements/field-switch";
-import { FieldText } from "#core/form-elements/field-text";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric";
+import { FieldSwitch } from "#i/core/form-elements/field-switch";
+import { FieldText } from "#i/core/form-elements/field-text";
+import { FormLayout } from "#i/core/layout/form-layout";
 import { useForm } from "./form";
 
 export function FieldsetBilling() {

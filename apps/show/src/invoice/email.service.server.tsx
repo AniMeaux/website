@@ -1,12 +1,12 @@
 import {
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { Routes } from "#core/navigation.js";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#exhibitors/service.server.js";
-import type { ServiceInvoice } from "#invoice/service.server";
+} from "#i/core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { Routes } from "#i/core/navigation.js";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
+import type { ServiceInvoice } from "#i/invoice/service.server";
 import { getCompleteLocation } from "@animeaux/core";
 import { promiseHash } from "remix-utils/promise";
 

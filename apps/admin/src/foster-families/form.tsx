@@ -1,28 +1,28 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
-import { Action } from "#core/actions";
-import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { toIsoDateValue } from "#i/core/dates";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
 import {
   CheckboxInput,
   CheckboxInputList,
   RadioInput,
   RadioInputList,
-} from "#core/form-elements/input-choice";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Textarea } from "#core/form-elements/textarea";
-import { Separator } from "#core/layout/separator";
+} from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Textarea } from "#i/core/form-elements/textarea";
+import { Separator } from "#i/core/layout/separator";
 import {
   AVAILABILITY_TRANSLATION,
   SORTED_AVAILABILITIES,
-} from "#foster-families/availability";
+} from "#i/foster-families/availability";
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
   SORTED_GARDEN,
   SORTED_HOUSING,
-} from "#foster-families/housing";
-import { Icon } from "#generated/icon";
+} from "#i/foster-families/housing";
+import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { FosterFamily } from "@animeaux/prisma";
 import {

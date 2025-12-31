@@ -1,5 +1,5 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
 import {
   HeroSection,
   HeroSectionAction,
@@ -7,8 +7,8 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { errorImages } from "#images/error";
+} from "#i/core/layout/hero-section";
+import { errorImages } from "#i/images/error";
 import { cn } from "@animeaux/core";
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 

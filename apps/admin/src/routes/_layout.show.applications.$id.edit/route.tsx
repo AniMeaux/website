@@ -1,23 +1,23 @@
-import { Action } from "#core/actions";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { NotFoundError } from "#core/errors.server";
-import { Form } from "#core/form-elements/form";
-import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Textarea } from "#core/form-elements/textarea";
-import { assertIsDefined } from "#core/is-defined.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes, useBackIfPossible } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { MissingRefusalMessageError } from "#show/exhibitors/applications/db.server";
+import { Action } from "#i/core/actions";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { NotFoundError } from "#i/core/errors.server";
+import { Form } from "#i/core/form-elements/form";
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Textarea } from "#i/core/form-elements/textarea";
+import { assertIsDefined } from "#i/core/is-defined.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { notFound } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { MissingRefusalMessageError } from "#i/show/exhibitors/applications/db.server";
 import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#show/exhibitors/applications/status";
+} from "#i/show/exhibitors/applications/status";
 import { toBooleanAttribute } from "@animeaux/core";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { ShowExhibitorApplicationStatus, UserGroup } from "@animeaux/prisma";

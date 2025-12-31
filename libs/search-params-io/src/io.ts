@@ -1,5 +1,5 @@
-import { SearchParamsReader } from "./reader.js";
-import { SearchParamsWritter } from "./writter.js";
+import { SearchParamsReader } from "#i/reader.js";
+import { SearchParamsWritter } from "#i/writter.js";
 
 export interface SearchParamsIO<TKeys extends Record<string, string>, TData>
   extends SearchParamsReader<TKeys, TData>,

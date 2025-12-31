@@ -1,8 +1,8 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FieldText } from "#core/form-elements/field-text";
-import { FieldTextarea } from "#core/form-elements/field-textarea";
-import { FormLayout } from "#core/layout/form-layout";
-import { DiscoverySource } from "#exhibitors/application/discovery-source";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FieldText } from "#i/core/form-elements/field-text";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 import { FieldsetId, useFieldsets } from "./form";

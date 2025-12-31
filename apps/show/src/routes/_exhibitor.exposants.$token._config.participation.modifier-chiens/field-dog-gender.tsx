@@ -1,9 +1,9 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
 import {
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#exhibitors/dogs-configuration/gender";
+} from "#i/exhibitors/dogs-configuration/gender";
 import type { Gender } from "@animeaux/prisma";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";

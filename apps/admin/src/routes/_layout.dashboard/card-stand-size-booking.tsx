@@ -1,9 +1,9 @@
-import { BaseLink } from "#core/base-link.js";
-import { SimpleEmpty } from "#core/data-display/empty.js";
-import { Card } from "#core/layout/card.js";
-import { Routes } from "#core/navigation.js";
-import { StandSizeBookingChip } from "#show/stand-size/booking-chip.js";
-import { StandSizeBookingIcon } from "#show/stand-size/booking-icon.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { SimpleEmpty } from "#i/core/data-display/empty.js";
+import { Card } from "#i/core/layout/card.js";
+import { Routes } from "#i/core/navigation.js";
+import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js";
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
 import type { SerializeFrom } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";

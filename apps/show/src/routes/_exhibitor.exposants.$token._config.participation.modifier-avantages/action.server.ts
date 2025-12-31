@@ -1,8 +1,8 @@
-import { Routes } from "#core/navigation";
-import { badRequest } from "#core/response.server";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params";
-import { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+import { Routes } from "#i/core/navigation";
+import { badRequest } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { ShowExhibitorStatus } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";

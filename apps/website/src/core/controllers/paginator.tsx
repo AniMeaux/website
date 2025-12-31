@@ -1,6 +1,6 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import { getPage, setPage } from "#core/search-params";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { getPage, setPage } from "#i/core/search-params";
 import { cn } from "@animeaux/core";
 import { useSearchParams } from "@remix-run/react";
 import type { ReactNode } from "react";

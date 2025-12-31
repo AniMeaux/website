@@ -1,12 +1,12 @@
-import { Action } from "#core/actions.js";
-import { BaseLink } from "#core/base-link.js";
-import { Empty } from "#core/data-display/empty";
-import { ARTICLE_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation.js";
-import { ExhibitorStatus } from "#show/exhibitors/status";
-import { StatusHelper } from "#show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
+import { Action } from "#i/core/actions.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { Empty } from "#i/core/data-display/empty";
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation.js";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { StatusHelper } from "#i/show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

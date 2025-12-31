@@ -1,6 +1,6 @@
-import { DynamicImage } from "#core/data-display/image";
-import { ImageData } from "#core/image/data.js";
-import { Icon } from "#generated/icon";
+import { DynamicImage } from "#i/core/data-display/image";
+import { ImageData } from "#i/core/image/data.js";
+import { Icon } from "#i/generated/icon";
 import { cn, createHookContext, useIsMounted } from "@animeaux/core";
 import type { DataUrlFile } from "@animeaux/files-io";
 import { readFile } from "@animeaux/files-io";

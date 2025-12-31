@@ -1,5 +1,5 @@
-import { checkEnv, getClientEnv } from "#core/env.server";
-import { initMonitoring } from "#core/monitoring.server";
+import { checkEnv, getClientEnv } from "#i/core/env.server";
+import { initMonitoring } from "#i/core/monitoring.server";
 import type { EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";

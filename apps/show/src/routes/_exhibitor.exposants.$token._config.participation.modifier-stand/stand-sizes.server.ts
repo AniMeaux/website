@@ -1,5 +1,5 @@
-import { services } from "#core/services.server.js";
-import { withAllowedCategories } from "#stand-size/allowed-categories.js";
+import { services } from "#i/core/services.server.js";
+import { withAllowedCategories } from "#i/stand-size/allowed-categories.js";
 import type { Prisma } from "@animeaux/prisma/server";
 
 export async function getStandSizesData(

@@ -1,10 +1,10 @@
-import { Action } from "#core/actions";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { Action } from "#i/core/actions";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";

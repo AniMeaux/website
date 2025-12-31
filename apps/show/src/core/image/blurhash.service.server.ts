@@ -1,4 +1,4 @@
-import { createImageUrl } from "#core/data-display/image";
+import { createImageUrl } from "#i/core/data-display/image";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
 

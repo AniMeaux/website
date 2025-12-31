@@ -1,4 +1,4 @@
-import { Routes } from "#core/navigation";
+import { Routes } from "#i/core/navigation";
 import { zu } from "@animeaux/zod-utils";
 import { useFetcher } from "@remix-run/react";
 import { createPath } from "history";

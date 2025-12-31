@@ -1,20 +1,20 @@
-import { Action, ProseInlineAction } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { InlineHelper } from "#core/data-display/helper.js";
-import { ItemList, SimpleItem } from "#core/data-display/item";
+import { Action, ProseInlineAction } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { InlineHelper } from "#i/core/data-display/helper.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   SENTENCE_COMPONENTS,
-} from "#core/data-display/markdown";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
-import { ExhibitorCategory } from "#show/exhibitors/category.js";
-import { InstallationDay } from "#show/exhibitors/stand-configuration/installation-day";
-import { ExhibitorStatus } from "#show/exhibitors/status";
-import { StatusHelper } from "#show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
+} from "#i/core/data-display/markdown";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { StatusHelper } from "#i/show/exhibitors/status-helper";
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

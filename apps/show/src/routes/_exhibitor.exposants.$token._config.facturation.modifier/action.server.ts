@@ -1,7 +1,7 @@
-import { Routes } from "#core/navigation.js";
-import { badRequest } from "#core/response.server.js";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params.js";
+import { Routes } from "#i/core/navigation.js";
+import { badRequest } from "#i/core/response.server.js";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";

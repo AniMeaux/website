@@ -1,26 +1,26 @@
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#animals/screening";
-import { SPECIES_ICON } from "#animals/species";
-import { ADOPTABLE_ANIMAL_STATUS } from "#animals/status";
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#core/config";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { DynamicImage, createCloudinaryUrl } from "#core/data-display/image";
-import type { MarkdownProps } from "#core/data-display/markdown";
-import { Markdown } from "#core/data-display/markdown";
-import { prisma } from "#core/db.server";
-import { isDefined } from "#core/is-defined";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
+} from "#i/animals/screening";
+import { SPECIES_ICON } from "#i/animals/species";
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { DynamicImage, createCloudinaryUrl } from "#i/core/data-display/image";
+import type { MarkdownProps } from "#i/core/data-display/markdown";
+import { Markdown } from "#i/core/data-display/markdown";
+import { prisma } from "#i/core/db.server";
+import { isDefined } from "#i/core/is-defined";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
 import {
   GENDER_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#core/translations";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
+} from "#i/core/translations";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn, formatAge } from "@animeaux/core";
 import { Gender, ScreeningResult, Species } from "@animeaux/prisma";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";

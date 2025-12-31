@@ -1,15 +1,15 @@
-import { ColorSearchParams } from "#colors/search-params";
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Input } from "#core/form-elements/input";
+import { ColorSearchParams } from "#i/colors/search-params";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Input } from "#i/core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/form-elements/resource-input";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
+} from "#i/core/form-elements/resource-input";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
 import { toBooleanAttribute } from "@animeaux/core";
 import type { Color } from "@animeaux/prisma";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

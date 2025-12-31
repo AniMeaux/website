@@ -1,21 +1,21 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { DynamicImage } from "#core/data-display/image";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { DynamicImage } from "#i/core/data-display/image";
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#core/layout/bubble-section";
+} from "#i/core/layout/bubble-section";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { agreementsImages } from "#images/agreements";
-import { citiesWithAgreements } from "#sterilisation-agreements/data.server";
+} from "#i/core/layout/hero-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { agreementsImages } from "#i/images/agreements";
+import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";

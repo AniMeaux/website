@@ -1,5 +1,5 @@
-import { isDefined } from "#core/is-defined";
-import type { IconName } from "#generated/icon";
+import { isDefined } from "#i/core/is-defined";
+import type { IconName } from "#i/generated/icon";
 import type { Animal, Breed, Color } from "@animeaux/prisma";
 import { Species } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";

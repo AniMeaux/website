@@ -1,8 +1,8 @@
-import { IconInline } from "#core/data-display/icon-inline.js";
-import { DynamicImage } from "#core/data-display/image.js";
-import type { SuggestionItemProps } from "#core/form-elements/resource-input.js";
-import { SuggestionItem } from "#core/form-elements/resource-input.js";
-import { SponsorshipCategory } from "#show/sponsors/category.js";
+import { IconInline } from "#i/core/data-display/icon-inline.js";
+import { DynamicImage } from "#i/core/data-display/image.js";
+import type { SuggestionItemProps } from "#i/core/form-elements/resource-input.js";
+import { SuggestionItem } from "#i/core/form-elements/resource-input.js";
+import { SponsorshipCategory } from "#i/show/sponsors/category.js";
 import { ImageUrl, joinReactNodes } from "@animeaux/core";
 import type { Prisma } from "@animeaux/prisma";
 import { forwardRef } from "react";

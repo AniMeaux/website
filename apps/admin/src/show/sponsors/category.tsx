@@ -1,5 +1,5 @@
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { ShowSponsorshipCategory } from "@animeaux/prisma";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";

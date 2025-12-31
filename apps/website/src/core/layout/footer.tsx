@@ -1,10 +1,10 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import { LineShapeHorizontal } from "#core/layout/line-shape";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import largeLogo from "#images/large-logo.svg";
-import { SubscriptionForm } from "#routes/resources.subscribe/input";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { LineShapeHorizontal } from "#i/core/layout/line-shape";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import largeLogo from "#i/images/large-logo.svg";
+import { SubscriptionForm } from "#i/routes/resources.subscribe/input";
 import { cn } from "@animeaux/core";
 
 export function Footer() {

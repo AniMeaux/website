@@ -1,6 +1,6 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { InputStepper } from "#core/form-elements/input-stepper";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { InputStepper } from "#i/core/form-elements/input-stepper";
+import { FormLayout } from "#i/core/layout/form-layout";
 import { toBooleanAttribute } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
 import { useInputControl } from "@conform-to/react";

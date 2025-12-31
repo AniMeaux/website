@@ -1,8 +1,8 @@
-import { ActivityAction } from "#activity/action.js";
-import { Activity } from "#activity/db.server.js";
-import { ActivityResource } from "#activity/resource.js";
-import type { CronDefinition } from "#core/crons/shared.server";
-import { prisma } from "#core/prisma.server";
+import { ActivityAction } from "#i/activity/action.js";
+import { Activity } from "#i/activity/db.server.js";
+import { ActivityResource } from "#i/activity/resource.js";
+import type { CronDefinition } from "#i/core/crons/shared.server";
+import { prisma } from "#i/core/prisma.server";
 import type { Prisma, PrismaClient } from "@animeaux/prisma/server";
 import { FosterFamilyAvailability } from "@animeaux/prisma/server";
 import { DateTime } from "luxon";

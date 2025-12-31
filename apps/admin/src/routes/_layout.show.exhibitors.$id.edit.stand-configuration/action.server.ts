@@ -1,6 +1,6 @@
-import { db } from "#core/db.server";
-import { Routes } from "#core/navigation";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { db } from "#i/core/db.server";
+import { Routes } from "#i/core/navigation";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";

@@ -1,18 +1,18 @@
-import { AnimalCreationSteps } from "#animals/creation-steps";
+import { AnimalCreationSteps } from "#i/animals/creation-steps";
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-} from "#animals/situation/db.server";
-import { ActionFormData, AnimalSituationForm } from "#animals/situation/form";
-import { ErrorPage } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+} from "#i/animals/situation/db.server";
+import { ActionFormData, AnimalSituationForm } from "#i/animals/situation/form";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {

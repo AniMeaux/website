@@ -1,11 +1,11 @@
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { Routes } from "#core/navigation.js";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#exhibitors/service.server.js";
+} from "#i/core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { Routes } from "#i/core/navigation.js";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
 import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { promiseHash } from "remix-utils/promise";
 import invariant from "tiny-invariant";

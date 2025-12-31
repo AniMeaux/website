@@ -1,8 +1,8 @@
-import type { ImageDescriptor } from "#core/data-display/image";
-import adopt1024 from "#images/adopt-1024w.png";
-import adopt1536 from "#images/adopt-1536w.png";
-import adopt2048 from "#images/adopt-2048w.png";
-import adopt512 from "#images/adopt-512w.png";
+import type { ImageDescriptor } from "#i/core/data-display/image";
+import adopt1024 from "#i/images/adopt-1024w.png";
+import adopt1536 from "#i/images/adopt-1536w.png";
+import adopt2048 from "#i/images/adopt-2048w.png";
+import adopt512 from "#i/images/adopt-512w.png";
 
 export const adoptImages: ImageDescriptor = {
   alt: "Chat escaladant une petite grille.",

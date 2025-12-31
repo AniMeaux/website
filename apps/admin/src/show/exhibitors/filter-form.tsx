@@ -1,29 +1,32 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
-import { ActivityField } from "#show/exhibitors/activity-field/activity-field";
-import { ActivityFieldIcon } from "#show/exhibitors/activity-field/icon";
-import { ActivityTarget } from "#show/exhibitors/activity-target/activity-target";
-import { ActivityTargetIcon } from "#show/exhibitors/activity-target/icon";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon";
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon";
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#show/exhibitors/applications/status";
-import { ExhibitorSearchParams } from "#show/exhibitors/search-params";
-import { ExhibitorStatus } from "#show/exhibitors/status";
-import { ExhibitorStatusIcon } from "#show/exhibitors/status-icon.js";
-import { InvoiceIcon } from "#show/invoice/icon.js";
-import { InvoiceStatus } from "#show/invoice/status.js";
+} from "#i/show/exhibitors/applications/status";
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params";
+import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
+import { InvoiceIcon } from "#i/show/invoice/icon.js";
+import { InvoiceStatus } from "#i/show/invoice/status.js";
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#show/sponsors/category";
-import { Visibility, VisibilityIcon } from "#show/visibility";
+} from "#i/show/sponsors/category";
+import { Visibility, VisibilityIcon } from "#i/show/visibility";
 import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 

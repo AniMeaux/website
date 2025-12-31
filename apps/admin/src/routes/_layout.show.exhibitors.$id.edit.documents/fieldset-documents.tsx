@@ -1,7 +1,7 @@
-import { BaseLink } from "#core/base-link";
-import { FileItem } from "#core/data-display/file-item";
-import { Form } from "#core/form-elements/form";
-import { Card } from "#core/layout/card";
+import { BaseLink } from "#i/core/base-link";
+import { FileItem } from "#i/core/data-display/file-item";
+import { Form } from "#i/core/form-elements/form";
+import { Card } from "#i/core/layout/card";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

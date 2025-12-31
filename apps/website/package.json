@@ -7,9 +7,6 @@
   "msw": {
     "workerDirectory": "./public"
   },
-  "imports": {
-    "#*": "./src/*"
-  },
   "scripts": {
     "prebuild": "pnpm clean && pnpm generate",
     "build": "run-s --print-label build:app",

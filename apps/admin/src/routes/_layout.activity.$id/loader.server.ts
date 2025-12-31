@@ -1,6 +1,6 @@
-import { Activity } from "#activity/db.server.js";
-import { db } from "#core/db.server.js";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
+import { Activity } from "#i/activity/db.server.js";
+import { db } from "#i/core/db.server.js";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";

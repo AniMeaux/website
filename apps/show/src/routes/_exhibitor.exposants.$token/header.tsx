@@ -1,5 +1,5 @@
-import { Header } from "#core/layout/header";
-import { Routes } from "#core/navigation";
+import { Header } from "#i/core/layout/header";
+import { Routes } from "#i/core/navigation";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

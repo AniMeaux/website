@@ -2,23 +2,23 @@ import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "#animals/adoption";
-import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#animals/age";
+} from "#i/animals/adoption";
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#i/animals/age";
 import {
   GENDER_ICON,
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#animals/gender";
+} from "#i/animals/gender";
 import {
   PICK_UP_REASON_ICON,
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#animals/pick-up";
+} from "#i/animals/pick-up";
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "#animals/screening";
+} from "#i/animals/screening";
 import {
   ANIMAL_DEFAULT_SORT,
   AnimalIdentification,
@@ -27,33 +27,36 @@ import {
   AnimalSortSearchParams,
   AnimalSterilization,
   AnimalVaccination,
-} from "#animals/search-params";
+} from "#i/animals/search-params";
 import {
   DIAGNOSIS_TRANSLATION,
   SORTED_DIAGNOSIS,
-} from "#animals/situation/diagnosis";
+} from "#i/animals/situation/diagnosis";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species";
+} from "#i/animals/species";
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
   StatusIcon,
-} from "#animals/status";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { toIsoDateValue } from "#core/dates";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { FosterFamilyAvatar } from "#foster-families/avatar";
-import { Icon } from "#generated/icon";
-import { UserAvatar } from "#users/avatar";
-import { hasGroups } from "#users/groups";
+} from "#i/animals/status";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { toIsoDateValue } from "#i/core/dates";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { FosterFamilyAvatar } from "#i/foster-families/avatar";
+import { Icon } from "#i/generated/icon";
+import { UserAvatar } from "#i/users/avatar";
+import { hasGroups } from "#i/users/groups";
 import type { FosterFamily, User } from "@animeaux/prisma";
 import { Gender, UserGroup } from "@animeaux/prisma";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";

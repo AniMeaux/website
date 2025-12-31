@@ -1,5 +1,5 @@
-import { Section } from "#core/layout/section";
-import { FaqItem, FaqList } from "#faq/item";
+import { Section } from "#i/core/layout/section";
+import { FaqItem, FaqList } from "#i/faq/item";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

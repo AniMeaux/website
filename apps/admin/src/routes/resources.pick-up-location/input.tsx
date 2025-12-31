@@ -1,17 +1,17 @@
-import { PickUpLocationSearchParams } from "#animals/search-params";
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Input } from "#core/form-elements/input";
+import { PickUpLocationSearchParams } from "#i/animals/search-params";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Input } from "#i/core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/form-elements/resource-input";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.pick-up-location/route";
-import { MAX_HIT_COUNT } from "#routes/resources.pick-up-location/shared";
+} from "#i/core/form-elements/resource-input";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
+import type { loader } from "#i/routes/resources.pick-up-location/route";
+import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared";
 import { toBooleanAttribute } from "@animeaux/core";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import type { SerializeFrom } from "@remix-run/node";

@@ -1,6 +1,6 @@
-import { useBackIfPossible } from "#core/navigation";
-import { actionSchema } from "#show/stand-size/action-schema";
-import { Visibility } from "#show/visibility.js";
+import { useBackIfPossible } from "#i/core/navigation";
+import { actionSchema } from "#i/show/stand-size/action-schema";
+import { Visibility } from "#i/show/visibility.js";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFetcher } from "@remix-run/react";

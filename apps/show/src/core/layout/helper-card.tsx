@@ -1,4 +1,4 @@
-import { Action } from "#core/actions/action";
+import { Action } from "#i/core/actions/action";
 import { cn, useRefOrProp } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef, useEffect } from "react";

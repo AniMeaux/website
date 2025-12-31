@@ -1,8 +1,8 @@
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Card } from "#core/layout/card.js";
-import { StandSizeBookingIcon } from "#show/stand-size/booking-icon.js";
-import { formatBooking } from "#show/stand-size/booking.js";
-import { Visibility, VisibilityIcon } from "#show/visibility.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import { Card } from "#i/core/layout/card.js";
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
+import { formatBooking } from "#i/show/stand-size/booking.js";
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

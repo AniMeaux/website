@@ -1,5 +1,5 @@
-import { DownloadTrigger } from "#core/actions/download-trigger.js";
-import { Routes } from "#core/navigation";
+import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
+import { Routes } from "#i/core/navigation";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
 

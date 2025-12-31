@@ -1,18 +1,18 @@
-import { getConfigFromMetaMatches } from "#core/config";
-import { createCloudinaryUrl, DynamicImage } from "#core/data-display/image";
+import { getConfigFromMetaMatches } from "#i/core/config";
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#core/data-display/markdown";
+} from "#i/core/data-display/markdown";
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#core/layout/related-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { WarnItem } from "#warn/item";
+} from "#i/core/layout/related-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { WarnItem } from "#i/warn/item";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

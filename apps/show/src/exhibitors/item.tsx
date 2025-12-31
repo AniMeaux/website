@@ -1,16 +1,16 @@
-import { Chip } from "#core/data-display/chip";
-import { IconInline } from "#core/data-display/icon-inline";
-import { DynamicImage } from "#core/data-display/image";
-import { ImageData } from "#core/image/data.js";
-import type { ActivityField } from "#exhibitors/activity-field/activity-field";
-import { ChipActivityField } from "#exhibitors/activity-field/chip";
-import { ChipActivityTarget } from "#exhibitors/activity-target/chip";
-import { CardAnimationsOnStand } from "#exhibitors/animations/card-animations-on-stand";
+import { Chip } from "#i/core/data-display/chip";
+import { IconInline } from "#i/core/data-display/icon-inline";
+import { DynamicImage } from "#i/core/data-display/image";
+import { ImageData } from "#i/core/image/data.js";
+import type { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { ChipActivityField } from "#i/exhibitors/activity-field/chip";
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip";
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand";
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#exhibitors/search-params";
-import { Icon } from "#generated/icon";
+} from "#i/exhibitors/search-params";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import type { ShowActivityTarget } from "@animeaux/prisma";
 import { Link } from "@remix-run/react";

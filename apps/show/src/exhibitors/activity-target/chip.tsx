@@ -1,9 +1,9 @@
-import { Chip } from "#core/data-display/chip";
+import { Chip } from "#i/core/data-display/chip";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#exhibitors/activity-target/activity-target";
-import { Icon } from "#generated/icon";
+} from "#i/exhibitors/activity-target/activity-target";
+import { Icon } from "#i/generated/icon";
 import type { ShowActivityTarget } from "@animeaux/prisma";
 
 export function ChipActivityTarget({

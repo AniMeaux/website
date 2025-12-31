@@ -1,6 +1,6 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page.js";
-import { createSocialMeta } from "#core/meta.js";
-import { getPageTitle } from "#core/page-title.js";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js";
+import { createSocialMeta } from "#i/core/meta.js";
+import { getPageTitle } from "#i/core/page-title.js";
 import type { MetaFunction } from "@remix-run/react";
 import type { loader } from "./loader.server.js";
 import { SectionEventList } from "./section-event-list";

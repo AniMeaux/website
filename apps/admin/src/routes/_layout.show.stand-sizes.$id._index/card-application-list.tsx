@@ -1,12 +1,12 @@
-import { Action } from "#core/actions.js";
-import { BaseLink } from "#core/base-link.js";
-import { SimpleEmpty } from "#core/data-display/empty";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation.js";
+import { Action } from "#i/core/actions.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation.js";
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#show/exhibitors/applications/search-params.js";
+} from "#i/show/exhibitors/applications/search-params.js";
 import { useLoaderData } from "@remix-run/react";
 import { ApplicationItem } from "./application-item";
 import type { loader } from "./loader.server";

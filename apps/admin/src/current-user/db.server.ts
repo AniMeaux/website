@@ -1,13 +1,13 @@
-import { EmailAlreadyUsedError, PrismaErrorCodes } from "#core/errors.server";
-import { setCurrentUserForMonitoring } from "#core/monitoring.server";
-import { Routes } from "#core/navigation";
-import { prisma } from "#core/prisma.server";
-import { NextSearchParams } from "#core/search-params";
+import { EmailAlreadyUsedError, PrismaErrorCodes } from "#i/core/errors.server";
+import { setCurrentUserForMonitoring } from "#i/core/monitoring.server";
+import { Routes } from "#i/core/navigation";
+import { prisma } from "#i/core/prisma.server";
+import { NextSearchParams } from "#i/core/search-params";
 import {
   destroyCurrentUserSession,
   getCurrentUserSession,
-} from "#current-user/session.server";
-import { hasGroups } from "#users/groups";
+} from "#i/current-user/session.server";
+import { hasGroups } from "#i/users/groups";
 import { generatePasswordHash, isSamePassword } from "@animeaux/password";
 import type { User } from "@animeaux/prisma/server";
 import { Prisma, UserGroup } from "@animeaux/prisma/server";

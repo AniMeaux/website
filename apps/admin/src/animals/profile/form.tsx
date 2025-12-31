@@ -4,24 +4,24 @@ import {
   SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
-} from "#animals/agreements";
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "#animals/gender";
+} from "#i/animals/agreements";
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender";
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species";
-import { Action } from "#core/actions";
-import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Textarea } from "#core/form-elements/textarea";
-import { Separator } from "#core/layout/separator";
-import { Icon } from "#generated/icon";
-import { BreedInput } from "#routes/resources.breed/input";
-import { ColorInput } from "#routes/resources.color/input";
+} from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { toIsoDateValue } from "#i/core/dates";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Textarea } from "#i/core/form-elements/textarea";
+import { Separator } from "#i/core/layout/separator";
+import { Icon } from "#i/generated/icon";
+import { BreedInput } from "#i/routes/resources.breed/input";
+import { ColorInput } from "#i/routes/resources.color/input";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { AnimalDraft, Breed, Color } from "@animeaux/prisma";
 import { Gender, Species } from "@animeaux/prisma";

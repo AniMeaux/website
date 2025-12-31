@@ -1,15 +1,15 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { Tab, Tabs } from "#core/controllers/tabs";
-import { DynamicImage } from "#core/data-display/image";
-import type { ServiceImage } from "#core/image/service.server.js";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
-import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import { PicturesLocationState } from "#previous-editions/pictures-location-state";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { Tab, Tabs } from "#i/core/controllers/tabs";
+import { DynamicImage } from "#i/core/data-display/image";
+import type { ServiceImage } from "#i/core/image/service.server.js";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   SORTED_PREVIOUS_EDITIONS,
-} from "#previous-editions/previous-edition";
+} from "#i/previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";

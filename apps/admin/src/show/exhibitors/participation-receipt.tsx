@@ -1,7 +1,7 @@
-import { Receipt } from "#core/data-display/receipt.js";
-import { ExhibitorCategory } from "#show/exhibitors/category.js";
-import { Price } from "#show/price.js";
-import { StandSizePrice } from "#show/stand-size/price.js";
+import { Receipt } from "#i/core/data-display/receipt.js";
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
+import { Price } from "#i/show/price.js";
+import { StandSizePrice } from "#i/show/stand-size/price.js";
 import type { Prisma } from "@animeaux/prisma";
 
 export function ParticipationReceipt({

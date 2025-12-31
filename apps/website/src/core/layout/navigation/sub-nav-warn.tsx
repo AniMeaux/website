@@ -1,5 +1,5 @@
-import type { SubNavComponent } from "#core/layout/navigation/shared";
-import { SubNavItem } from "#core/layout/navigation/shared";
+import type { SubNavComponent } from "#i/core/layout/navigation/shared";
+import { SubNavItem } from "#i/core/layout/navigation/shared";
 
 export const SubNavWarn: SubNavComponent = () => {
   return (

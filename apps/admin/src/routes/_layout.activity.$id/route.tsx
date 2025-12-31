@@ -1,6 +1,6 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page.js";
-import { PageLayout } from "#core/layout/page.js";
-import { getPageTitle } from "#core/page-title.js";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js";
+import { PageLayout } from "#i/core/layout/page.js";
+import { getPageTitle } from "#i/core/page-title.js";
 import type { MetaFunction } from "@remix-run/node";
 import { DateTime } from "luxon";
 import { CardDetails } from "./card-details";

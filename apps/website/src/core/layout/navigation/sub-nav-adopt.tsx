@@ -1,10 +1,10 @@
-import { SPECIES_ICON } from "#animals/species";
+import { SPECIES_ICON } from "#i/animals/species";
 import {
   LineShapeHorizontal,
   LineShapeVertical,
-} from "#core/layout/line-shape";
-import type { SubNavComponent } from "#core/layout/navigation/shared";
-import { SubNavItem } from "#core/layout/navigation/shared";
+} from "#i/core/layout/line-shape";
+import type { SubNavComponent } from "#i/core/layout/navigation/shared";
+import { SubNavItem } from "#i/core/layout/navigation/shared";
 import { cn } from "@animeaux/core";
 import { Species } from "@animeaux/prisma";
 

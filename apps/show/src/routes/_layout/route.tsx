@@ -1,6 +1,6 @@
-import { asRouteHandle } from "#core/handles";
-import { PageBackground } from "#core/layout/page-background";
-import { services } from "#core/services.server.js";
+import { asRouteHandle } from "#i/core/handles";
+import { PageBackground } from "#i/core/layout/page-background";
+import { services } from "#i/core/services.server.js";
 import { json } from "@remix-run/node";
 import { Outlet, useMatches } from "@remix-run/react";
 import { LayoutFooter } from "./footer";

@@ -1,9 +1,9 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { PageLayout } from "#i/core/layout/page";
+import { getPageTitle } from "#i/core/page-title";
+import { notFound } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";

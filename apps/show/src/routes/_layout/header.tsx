@@ -1,6 +1,6 @@
-import { Header } from "#core/layout/header";
-import { Routes } from "#core/navigation";
-import { ShowDay } from "#core/show-day";
+import { Header } from "#i/core/layout/header";
+import { Routes } from "#i/core/navigation";
+import { ShowDay } from "#i/core/show-day";
 import { useLocation } from "@remix-run/react";
 
 export function LayoutHeader() {

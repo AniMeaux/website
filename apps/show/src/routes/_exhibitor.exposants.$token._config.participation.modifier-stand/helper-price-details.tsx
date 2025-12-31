@@ -1,5 +1,5 @@
-import { HelperCard } from "#core/layout/helper-card.js";
-import { ParticipationReceipt } from "#exhibitors/participation-receipt.js";
+import { HelperCard } from "#i/core/layout/helper-card.js";
+import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js";
 import { useLoaderData } from "@remix-run/react";
 import { useForm } from "./form";
 import type { loader } from "./loader.server";

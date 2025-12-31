@@ -1,7 +1,7 @@
-import { Action } from "#core/actions";
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/page-title";
+import { Action } from "#i/core/actions";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { PageLayout } from "#i/core/layout/page";
+import { getPageTitle } from "#i/core/page-title";
 import { getFormProps } from "@conform-to/react";
 import type { MetaFunction } from "@remix-run/react";
 import { FieldsetConfiguration } from "./fieldset-configuration";

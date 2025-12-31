@@ -1,11 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
+
   "include": ["./env.d.ts", "./**/*.ts", "./**/*.tsx"],
   "exclude": ["./node_modules"],
 
   "compilerOptions": {
-    // Paths.
-    "baseUrl": "./",
-    "paths": { "#*": ["./src/*"] }
+    "rootDir": "./",
+    "paths": { "#i/*": ["./src/*"] }
   }
 }

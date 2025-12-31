@@ -1,7 +1,7 @@
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { Card } from "#core/layout/card";
-import { Icon } from "#generated/icon";
-import { DiscoverySource } from "#show/exhibitors/applications/discovery-source";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { Card } from "#i/core/layout/card";
+import { Icon } from "#i/generated/icon";
+import { DiscoverySource } from "#i/show/exhibitors/applications/discovery-source";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

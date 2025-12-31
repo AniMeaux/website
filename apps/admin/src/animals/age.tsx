@@ -1,4 +1,4 @@
-import type { IconName } from "#generated/icon";
+import type { IconName } from "#i/generated/icon";
 import { AnimalAge } from "@animeaux/core";
 import orderBy from "lodash.orderby";
 

@@ -1,9 +1,9 @@
-import { FieldTextarea } from "#core/form-elements/field-textarea";
-import { FormLayout } from "#core/layout/form-layout";
-import type { ActivityField } from "#exhibitors/activity-field/activity-field.js";
-import type { LegalStatus } from "#exhibitors/application/legal-status.js";
-import { ExhibitorCategory } from "#exhibitors/category.js";
-import { FieldStandSize } from "#stand-size/field.js";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea";
+import { FormLayout } from "#i/core/layout/form-layout";
+import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
+import type { LegalStatus } from "#i/exhibitors/application/legal-status.js";
+import { ExhibitorCategory } from "#i/exhibitors/category.js";
+import { FieldStandSize } from "#i/stand-size/field.js";
 import { ensureArray } from "@animeaux/core";
 import type { FieldMetadata } from "@conform-to/react";
 import { useLoaderData } from "@remix-run/react";

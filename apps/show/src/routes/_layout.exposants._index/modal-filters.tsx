@@ -1,16 +1,16 @@
-import { Action } from "#core/actions/action";
-import { FormLayout } from "#core/layout/form-layout";
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
+import { Action } from "#i/core/actions/action";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#exhibitors/activity-target/activity-target";
+} from "#i/exhibitors/activity-target/activity-target";
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#exhibitors/search-params";
-import { Icon } from "#generated/icon";
+} from "#i/exhibitors/search-params";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useLoaderData } from "@remix-run/react";

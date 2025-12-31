@@ -1,4 +1,4 @@
-import type { Entity } from "#routes/resources.global-search/entity.js";
+import type { Entity } from "#i/routes/resources.global-search/entity.js";
 import { useMatches } from "@remix-run/react";
 
 export type RouteHandle = {

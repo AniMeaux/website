@@ -1,22 +1,25 @@
-import { Action } from "#core/actions/action.js";
-import { Tab, Tabs } from "#core/controllers/tabs.js";
-import { IconInline } from "#core/data-display/icon-inline.js";
-import { DynamicImage } from "#core/data-display/image.js";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
-import { useElementSize } from "#core/elements.js";
-import { BeeIllustration } from "#core/illustration/bee.js";
-import { ImageData } from "#core/image/data.js";
-import { Section } from "#core/layout/section.js";
-import { HorizontalSeparator } from "#core/layout/separator.js";
-import { Routes } from "#core/navigation.js";
-import { ShowDay } from "#core/show-day";
+import { Action } from "#i/core/actions/action.js";
+import { Tab, Tabs } from "#i/core/controllers/tabs.js";
+import { IconInline } from "#i/core/data-display/icon-inline.js";
+import { DynamicImage } from "#i/core/data-display/image.js";
+import {
+  Markdown,
+  SENTENCE_COMPONENTS,
+} from "#i/core/data-display/markdown.js";
+import { useElementSize } from "#i/core/elements.js";
+import { BeeIllustration } from "#i/core/illustration/bee.js";
+import { ImageData } from "#i/core/image/data.js";
+import { Section } from "#i/core/layout/section.js";
+import { HorizontalSeparator } from "#i/core/layout/separator.js";
+import { Routes } from "#i/core/navigation.js";
+import { ShowDay } from "#i/core/show-day";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#exhibitors/activity-target/activity-target.js";
-import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
-import { Icon } from "#generated/icon.js";
-import { theme } from "#generated/theme.js";
+} from "#i/exhibitors/activity-target/activity-target.js";
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
+import { Icon } from "#i/generated/icon.js";
+import { theme } from "#i/generated/theme.js";
 import { cn } from "@animeaux/core";
 import type { ShowActivityTarget } from "@animeaux/prisma";
 import { ShowStandZone } from "@animeaux/prisma";

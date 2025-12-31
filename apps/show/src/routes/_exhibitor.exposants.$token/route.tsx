@@ -1,8 +1,8 @@
-import { ErrorPage } from "#core/data-display/error-page";
-import { PageBackground } from "#core/layout/page-background";
-import { notFound } from "#core/response.server";
-import { services } from "#core/services.server.js";
-import { RouteParamsSchema } from "#exhibitors/route-params";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { PageBackground } from "#i/core/layout/page-background";
+import { notFound } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
 import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";

@@ -1,4 +1,4 @@
-import { createLocationState } from "#core/location-state";
+import { createLocationState } from "#i/core/location-state";
 import { zu } from "@animeaux/zod-utils";
 
 export const PicturesLocationState = createLocationState(

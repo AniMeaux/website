@@ -1,6 +1,6 @@
-import { Chip } from "#core/data-display/chip.js";
-import type { ShowDividerTypeAvailability } from "#show/divider-type/availability.js";
-import { formatAvailability } from "#show/divider-type/availability.js";
+import { Chip } from "#i/core/data-display/chip.js";
+import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js";
+import { formatAvailability } from "#i/show/divider-type/availability.js";
 
 export function DividerTypeAvailabilityChip({
   dividerType,

@@ -1,16 +1,16 @@
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#core/cloudinary.server";
-import { ErrorPage } from "#core/data-display/error-page";
-import { db } from "#core/db.server";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { InvalidDateRangeError } from "#events/db.server";
-import { ActionFormData, EventForm } from "#events/form";
+} from "#i/core/cloudinary.server";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { InvalidDateRangeError } from "#i/events/db.server";
+import { ActionFormData, EventForm } from "#i/events/form";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {

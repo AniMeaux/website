@@ -1,4 +1,4 @@
-import { MarkdownLink } from "#core/data-display/markdown";
+import { MarkdownLink } from "#i/core/data-display/markdown";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
 

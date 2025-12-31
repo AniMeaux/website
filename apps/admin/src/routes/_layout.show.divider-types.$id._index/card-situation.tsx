@@ -1,7 +1,7 @@
-import { ItemList, SimpleItem } from "#core/data-display/item.js";
-import { Card } from "#core/layout/card.js";
-import { DividerTypeAvailabilityIcon } from "#show/divider-type/availability-icon.js";
-import { formatAvailability } from "#show/divider-type/availability.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
+import { Card } from "#i/core/layout/card.js";
+import { DividerTypeAvailabilityIcon } from "#i/show/divider-type/availability-icon.js";
+import { formatAvailability } from "#i/show/divider-type/availability.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 
