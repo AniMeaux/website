@@ -29,7 +29,7 @@ export const partners: Partner[] = orderBy(
     {
       id: "fa9bb889-09ea-49d9-adbf-229576355d44",
       image: "partners/aee9044c-93b1-4597-9c0e-17097b26ef23",
-      name: "Jeremy Dog Coach",
+      name: "Jérémy Dog Coach",
       description:
         "Jérémy est un éducateur et comportementaliste canin en méthodes positives, engagé dans le bien-être du chien et l’accompagnement bienveillant des familles.",
       url: "https://jeremydogcoach.com/",
