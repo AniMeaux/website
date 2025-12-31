@@ -1,6 +1,7 @@
 name: 🎪 Show - 🚀 Deploy
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
