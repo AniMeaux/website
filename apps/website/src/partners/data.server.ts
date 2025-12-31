@@ -19,6 +19,22 @@ export const partners: Partner[] = orderBy(
       url: "https://www.anideo.fr",
     },
     {
+      id: "13003230-b043-410d-9a8d-2973b8ca3f95",
+      image: "partners/f1074c24-b9d7-4d26-aead-239d558cce1f",
+      name: "Cou d'éclat",
+      description:
+        "Cou d’éclat propose des médailles en laiton personnalisées et des accessoires sur-mesure pour animaux et leurs dogparents, fabriqués en France. **1 € est reversé à notre association pour chaque commande !**",
+      url: "https://coudeclatmedailles.com/",
+    },
+    {
+      id: "fa9bb889-09ea-49d9-adbf-229576355d44",
+      image: "partners/aee9044c-93b1-4597-9c0e-17097b26ef23",
+      name: "Jeremy Dog Coach",
+      description:
+        "Jérémy est un éducateur et comportementaliste canin en méthodes positives, engagé dans le bien-être du chien et l’accompagnement bienveillant des familles.",
+      url: "https://jeremydogcoach.com/",
+    },
+    {
       id: "6042efa7-8dbe-4216-a79e-de3e5f12090b",
       image: "partners/570514db-e012-436a-8e8e-ea40a4299567",
       name: "La vie de nos animaux",
