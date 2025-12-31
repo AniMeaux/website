@@ -1,7 +1,7 @@
-import { getErrorTitle } from "#core/data-display/error-page";
-import { FormLayout } from "#core/layout/form-layout";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
+import { getErrorTitle } from "#i/core/data-display/error-page";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import type { loader } from "./loader.server";
 import { SectionForm } from "./section-form";

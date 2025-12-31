@@ -1,8 +1,8 @@
-import { Action } from "#core/actions";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Icon } from "#generated/icon";
+import { Action } from "#i/core/actions";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { Color } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";

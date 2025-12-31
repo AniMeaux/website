@@ -1,5 +1,5 @@
-import type { IconName } from "#generated/icon";
-import { Icon } from "#generated/icon";
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 
 export enum AgreementValue {

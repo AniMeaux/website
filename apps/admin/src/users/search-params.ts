@@ -1,4 +1,4 @@
-import { endOfDay } from "#core/dates";
+import { endOfDay } from "#i/core/dates";
 import { UserGroup } from "@animeaux/prisma";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";

@@ -1,7 +1,7 @@
-import { articles } from "#blog/data.server";
-import { ArticleItem } from "#blog/item";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
+import { articles } from "#i/blog/data.server";
+import { ArticleItem } from "#i/blog/item";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";

@@ -1,5 +1,5 @@
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
-import type { IconName } from "#generated/icon";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import type { IconName } from "#i/generated/icon";
 import { ShowActivityTarget } from "@animeaux/prisma";
 import {
   SearchParamsIO,

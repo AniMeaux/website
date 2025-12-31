@@ -1,6 +1,6 @@
-import type { IconName } from "#generated/icon.js";
-import { Icon } from "#generated/icon.js";
-import { InvoiceStatus } from "#show/invoice/status";
+import type { IconName } from "#i/generated/icon.js";
+import { Icon } from "#i/generated/icon.js";
+import { InvoiceStatus } from "#i/show/invoice/status";
 import { cn } from "@animeaux/core";
 
 export function InvoiceIcon({

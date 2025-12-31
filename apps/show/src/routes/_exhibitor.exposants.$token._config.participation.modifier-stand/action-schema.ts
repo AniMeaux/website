@@ -1,4 +1,4 @@
-import type { DividerTypeAvailability } from "#divider-type/availability.js";
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
 import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
 import { ShowInstallationDay } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";

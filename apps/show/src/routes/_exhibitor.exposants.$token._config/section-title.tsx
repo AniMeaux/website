@@ -1,4 +1,4 @@
-import { Section } from "#core/layout/section";
+import { Section } from "#i/core/layout/section";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";
 

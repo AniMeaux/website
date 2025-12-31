@@ -1,7 +1,7 @@
-import { Action } from "#core/actions/action.js";
-import { HelperCard } from "#core/layout/helper-card";
-import { Routes } from "#core/navigation.js";
-import { InvoiceStatus } from "#invoice/status.js";
+import { Action } from "#i/core/actions/action.js";
+import { HelperCard } from "#i/core/layout/helper-card";
+import { Routes } from "#i/core/navigation.js";
+import { InvoiceStatus } from "#i/invoice/status.js";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

@@ -1,5 +1,5 @@
-import { OnOff } from "#core/form-elements/field-on-off.js";
-import { Visibility } from "#show/visibility";
+import { OnOff } from "#i/core/form-elements/field-on-off.js";
+import { Visibility } from "#i/show/visibility";
 import { zu } from "@animeaux/zod-utils";
 
 export const actionSchema = zu.object({

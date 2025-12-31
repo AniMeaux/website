@@ -1,4 +1,4 @@
-import { HelperCard } from "#core/layout/helper-card";
+import { HelperCard } from "#i/core/layout/helper-card";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

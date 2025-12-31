@@ -1,13 +1,13 @@
-import { ErrorPage } from "#core/data-display/error-page";
-import { createImageUrl } from "#core/data-display/image";
-import { asRouteHandle } from "#core/handles";
-import { getPageTitle, pageDescription } from "#core/page-title";
-import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import { theme } from "#generated/theme";
-import appleTouchIcon from "#images/apple-touch-icon.png";
-import faviconDark from "#images/favicon-dark.png";
-import faviconLight from "#images/favicon-light.png";
-import maskIcon from "#images/mask-icon.png";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { createImageUrl } from "#i/core/data-display/image";
+import { asRouteHandle } from "#i/core/handles";
+import { getPageTitle, pageDescription } from "#i/core/page-title";
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
+import { theme } from "#i/generated/theme";
+import appleTouchIcon from "#i/images/apple-touch-icon.png";
+import faviconDark from "#i/images/favicon-dark.png";
+import faviconLight from "#i/images/favicon-light.png";
+import maskIcon from "#i/images/mask-icon.png";
 import { cn } from "@animeaux/core";
 import type { LinkDescriptor, LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -24,7 +24,7 @@ import {
 import { withSentry } from "@sentry/remix";
 import { Settings } from "luxon";
 
-import "#tailwind.css";
+import "#i/tailwind.css";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";

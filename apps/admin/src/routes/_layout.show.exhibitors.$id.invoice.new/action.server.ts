@@ -1,7 +1,7 @@
-import { db } from "#core/db.server.js";
-import { AlreadyExistError } from "#core/errors.server.js";
-import { Routes } from "#core/navigation.js";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
+import { db } from "#i/core/db.server.js";
+import { AlreadyExistError } from "#i/core/errors.server.js";
+import { Routes } from "#i/core/navigation.js";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { SubmissionResult } from "@conform-to/react";

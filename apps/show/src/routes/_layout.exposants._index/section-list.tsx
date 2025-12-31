@@ -1,20 +1,20 @@
-import { Action } from "#core/actions/action";
-import { InputActiveFilter } from "#core/form-elements/input-active-filter";
-import { LightBoardCard } from "#core/layout/light-board-card";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
+import { Action } from "#i/core/actions/action";
+import { InputActiveFilter } from "#i/core/form-elements/input-active-filter";
+import { LightBoardCard } from "#i/core/layout/light-board-card";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#exhibitors/activity-target/activity-target";
-import { ExhibitorItem } from "#exhibitors/item";
+} from "#i/exhibitors/activity-target/activity-target";
+import { ExhibitorItem } from "#i/exhibitors/item";
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#exhibitors/search-params";
-import { Icon } from "#generated/icon";
-import { Pictogram } from "#generated/pictogram";
+} from "#i/exhibitors/search-params";
+import { Icon } from "#i/generated/icon";
+import { Pictogram } from "#i/generated/pictogram";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 import { ModalFilters } from "./modal-filters";

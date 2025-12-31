@@ -1,8 +1,8 @@
-import type { ImageDescriptor } from "#core/data-display/image";
-import volunteer1024 from "#images/volunteer-1024w.png";
-import volunteer1536 from "#images/volunteer-1536w.png";
-import volunteer2048 from "#images/volunteer-2048w.png";
-import volunteer512 from "#images/volunteer-512w.png";
+import type { ImageDescriptor } from "#i/core/data-display/image";
+import volunteer1024 from "#i/images/volunteer-1024w.png";
+import volunteer1536 from "#i/images/volunteer-1536w.png";
+import volunteer2048 from "#i/images/volunteer-2048w.png";
+import volunteer512 from "#i/images/volunteer-512w.png";
 
 export const volunteerImages: ImageDescriptor = {
   alt: "Deux volontaires de dos avec des t-shirts Ani’Meaux.",

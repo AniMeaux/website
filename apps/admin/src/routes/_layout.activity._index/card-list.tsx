@@ -1,9 +1,9 @@
-import { ActivitySearchParams } from "#activity/search-params.js";
-import { Action } from "#core/actions.js";
-import { BaseLink } from "#core/base-link.js";
-import { Paginator } from "#core/controllers/paginator";
-import { SimpleEmpty } from "#core/data-display/empty.js";
-import { Card } from "#core/layout/card";
+import { ActivitySearchParams } from "#i/activity/search-params.js";
+import { Action } from "#i/core/actions.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { Paginator } from "#i/core/controllers/paginator";
+import { SimpleEmpty } from "#i/core/data-display/empty.js";
+import { Card } from "#i/core/layout/card";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { useLoaderData } from "@remix-run/react";
 import { ActivityItem } from "./item";

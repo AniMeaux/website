@@ -1,7 +1,7 @@
-import { FieldEmail } from "#core/form-elements/field-email";
-import { FieldPhone } from "#core/form-elements/field-phone";
-import { FieldText } from "#core/form-elements/field-text";
-import { FormLayout } from "#core/layout/form-layout";
+import { FieldEmail } from "#i/core/form-elements/field-email";
+import { FieldPhone } from "#i/core/form-elements/field-phone";
+import { FieldText } from "#i/core/form-elements/field-text";
+import { FormLayout } from "#i/core/layout/form-layout";
 import { FieldsetId, useFieldsets } from "./form";
 
 export function FieldsetContact() {

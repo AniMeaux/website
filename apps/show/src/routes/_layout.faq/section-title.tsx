@@ -1,6 +1,6 @@
-import { DynamicImage } from "#core/data-display/image";
-import { LazyElement } from "#core/layout/lazy-element";
-import { Section } from "#core/layout/section";
+import { DynamicImage } from "#i/core/data-display/image";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import { Section } from "#i/core/layout/section";
 
 export function SectionTitle() {
   return (

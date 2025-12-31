@@ -1,6 +1,6 @@
+import { FileStorage } from "#i/file-storage.server.js";
 import type { FileUpload } from "@mjackson/form-data-parser";
 import { v4 as uuid } from "uuid";
-import { FileStorage } from "./file-storage.js";
 
 export class FileStorageMock extends FileStorage {
   #files = new Map<string, FileStorage.File>();

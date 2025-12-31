@@ -1,13 +1,13 @@
-import type { ColorSearchParams } from "#colors/search-params";
-import { ColorSort } from "#colors/search-params";
+import type { ColorSearchParams } from "#i/colors/search-params";
+import { ColorSort } from "#i/colors/search-params";
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server";
-import { orderByRank } from "#core/order-by-rank";
-import { prisma } from "#core/prisma.server";
+} from "#i/core/errors.server";
+import { orderByRank } from "#i/core/order-by-rank";
+import { prisma } from "#i/core/prisma.server";
 import type { Color } from "@animeaux/prisma/server";
 import { Prisma } from "@animeaux/prisma/server";
 import type { SearchParamsIO } from "@animeaux/search-params-io";

@@ -1,9 +1,12 @@
-import { ProseInlineAction } from "#core/actions/prose-inline-action";
-import { Markdown, SENTENCE_COMPONENTS } from "#core/data-display/markdown.js";
-import { FormLayout } from "#core/layout/form-layout";
-import { HelperCard } from "#core/layout/helper-card";
-import { LightBoardCard } from "#core/layout/light-board-card";
-import { ChipActivityTarget } from "#exhibitors/activity-target/chip.js";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import {
+  Markdown,
+  SENTENCE_COMPONENTS,
+} from "#i/core/data-display/markdown.js";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { HelperCard } from "#i/core/layout/helper-card";
+import { LightBoardCard } from "#i/core/layout/light-board-card";
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
 import { joinReactNodes } from "@animeaux/core";
 import type { ShowActivityTarget } from "@animeaux/prisma";
 import { ShowStandZone } from "@animeaux/prisma";

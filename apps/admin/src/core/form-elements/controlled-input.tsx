@@ -1,6 +1,6 @@
-import type { InputProps } from "#core/form-elements/input";
-import { Input } from "#core/form-elements/input";
-import { useLayoutEffect } from "#core/use-layout-effect";
+import type { InputProps } from "#i/core/form-elements/input";
+import { Input } from "#i/core/form-elements/input";
+import { useLayoutEffect } from "#i/core/use-layout-effect";
 import { useState } from "react";
 
 /**

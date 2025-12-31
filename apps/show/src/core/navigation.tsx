@@ -1,6 +1,6 @@
-import type { ShowDay } from "#core/show-day";
-import type { PreviousEdition } from "#previous-editions/previous-edition";
-import type { SectionId } from "#routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+import type { ShowDay } from "#i/core/show-day";
+import type { PreviousEdition } from "#i/previous-editions/previous-edition";
+import type { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import type { Path } from "@remix-run/react";
 import { createPath } from "@remix-run/react";
 

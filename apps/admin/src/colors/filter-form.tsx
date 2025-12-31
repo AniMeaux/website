@@ -2,13 +2,16 @@ import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
   ColorSort,
-} from "#colors/search-params";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
+} from "#i/colors/search-params";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ColorFilterForm() {

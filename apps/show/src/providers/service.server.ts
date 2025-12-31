@@ -1,4 +1,4 @@
-import type { ServicePrisma } from "#core/prisma.service.server.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 
 export class ServiceProvider {
   // eslint-disable-next-line no-useless-constructor

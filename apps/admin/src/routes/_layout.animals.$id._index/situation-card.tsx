@@ -1,27 +1,27 @@
-import { ADOPTION_OPTION_TRANSLATION } from "#animals/adoption";
-import { PICK_UP_REASON_TRANSLATION } from "#animals/pick-up";
+import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption";
+import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up";
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#animals/screening";
+} from "#i/animals/screening";
 import {
   formatNextVaccinationDate,
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#animals/situation/health";
-import { STATUS_TRANSLATION, StatusIcon } from "#animals/status";
-import { Action, ProseInlineAction } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { InlineHelper } from "#core/data-display/helper";
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#core/data-display/markdown";
-import { Card } from "#core/layout/card";
-import { Routes } from "#core/navigation";
-import { DropdownSheet } from "#core/popovers/dropdown-sheet";
-import { FosterFamilyAvatar } from "#foster-families/avatar";
-import { Icon } from "#generated/icon";
-import { theme } from "#generated/theme";
-import { UserAvatar } from "#users/avatar";
+} from "#i/animals/situation/health";
+import { STATUS_TRANSLATION, StatusIcon } from "#i/animals/status";
+import { Action, ProseInlineAction } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { InlineHelper } from "#i/core/data-display/helper";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { Card } from "#i/core/layout/card";
+import { Routes } from "#i/core/navigation";
+import { DropdownSheet } from "#i/core/popovers/dropdown-sheet";
+import { FosterFamilyAvatar } from "#i/foster-families/avatar";
+import { Icon } from "#i/generated/icon";
+import { theme } from "#i/generated/theme";
+import { UserAvatar } from "#i/users/avatar";
 import { getLongLocation } from "@animeaux/core";
 import {
   AdoptionOption,

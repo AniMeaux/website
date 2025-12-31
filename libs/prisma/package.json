@@ -16,11 +16,13 @@
   },
   "scripts": {
     "prebuild": "pnpm clean && pnpm generate",
-    "build": "run-s --print-label build:src",
+    "build": "run-s --print-label build:src build:paths",
+    "build:paths": "tsc-alias -p ./tsconfig.build.json",
     "build:src": "tsc -p ./tsconfig.build.json",
     "clean": "rm -rf ./build ./src/generated",
     "copy-data": "tsx ./scripts/copy-data.ts",
     "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:paths": "pnpm build:paths --watch",
     "dev:prisma": "chokidar ./schema.prisma -c 'pnpm generate:prisma'",
     "dev:src": "pnpm build:src --watch",
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
@@ -56,6 +58,7 @@
     "pg": "catalog:",
     "pg-copy-streams": "catalog:",
     "tiny-invariant": "catalog:",
+    "tsc-alias": "catalog:",
     "tsx": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:"

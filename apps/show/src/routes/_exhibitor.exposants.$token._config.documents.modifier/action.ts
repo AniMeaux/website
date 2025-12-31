@@ -1,7 +1,4 @@
-import {
-  FILE_SIZE_LIMIT_B,
-  FILE_SIZE_LIMIT_MB,
-} from "@animeaux/file-storage/client";
+import { FILE_SIZE_LIMIT_B, FILE_SIZE_LIMIT_MB } from "@animeaux/file-storage";
 import { zu } from "@animeaux/zod-utils";
 
 const fileSchema = zu

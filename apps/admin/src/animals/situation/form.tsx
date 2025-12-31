@@ -1,37 +1,37 @@
 import {
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "#animals/adoption";
+} from "#i/animals/adoption";
 import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#animals/pick-up";
+} from "#i/animals/pick-up";
 import {
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "#animals/screening";
+} from "#i/animals/screening";
 import {
   DIAGNOSIS_TRANSLATION,
   SORTED_DIAGNOSIS,
-} from "#animals/situation/diagnosis";
+} from "#i/animals/situation/diagnosis";
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
-} from "#animals/status";
-import { Action } from "#core/actions";
-import { toIsoDateValue } from "#core/dates";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Textarea } from "#core/form-elements/textarea";
-import { Separator } from "#core/layout/separator";
-import { Icon } from "#generated/icon";
-import { FosterFamilyInput } from "#routes/resources.foster-family/input";
-import { ManagerInput } from "#routes/resources.manager/input";
-import { PickUpLocationInput } from "#routes/resources.pick-up-location/input";
-import { hasGroups } from "#users/groups";
+} from "#i/animals/status";
+import { Action } from "#i/core/actions";
+import { toIsoDateValue } from "#i/core/dates";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Textarea } from "#i/core/form-elements/textarea";
+import { Separator } from "#i/core/layout/separator";
+import { Icon } from "#i/generated/icon";
+import { FosterFamilyInput } from "#i/routes/resources.foster-family/input";
+import { ManagerInput } from "#i/routes/resources.manager/input";
+import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input";
+import { hasGroups } from "#i/users/groups";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma";
 import {

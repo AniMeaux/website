@@ -1,17 +1,20 @@
-import { BaseLink } from "#core/base-link";
-import { useFocusTrap } from "#core/focus-trap";
-import type { NavGroup } from "#core/layout/navigation/shared";
-import { handleEscape, navLinkClassName } from "#core/layout/navigation/shared";
-import { ShowBanner } from "#core/layout/navigation/show-banner";
-import { SocialLinks } from "#core/layout/navigation/social-links";
-import { SubNavAct } from "#core/layout/navigation/sub-nav-act";
-import { SubNavAdopt } from "#core/layout/navigation/sub-nav-adopt";
-import { SubNavDiscover } from "#core/layout/navigation/sub-nav-discover";
-import { SubNavWarn } from "#core/layout/navigation/sub-nav-warn";
-import { useScrollLock } from "#core/scroll-lock";
-import { Icon } from "#generated/icon";
-import logo from "#images/logo.svg";
-import nameAndLogo from "#images/name-and-logo.svg";
+import { BaseLink } from "#i/core/base-link";
+import { useFocusTrap } from "#i/core/focus-trap";
+import type { NavGroup } from "#i/core/layout/navigation/shared";
+import {
+  handleEscape,
+  navLinkClassName,
+} from "#i/core/layout/navigation/shared";
+import { ShowBanner } from "#i/core/layout/navigation/show-banner";
+import { SocialLinks } from "#i/core/layout/navigation/social-links";
+import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act";
+import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt";
+import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover";
+import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn";
+import { useScrollLock } from "#i/core/scroll-lock";
+import { Icon } from "#i/generated/icon";
+import logo from "#i/images/logo.svg";
+import nameAndLogo from "#i/images/name-and-logo.svg";
 import { cn } from "@animeaux/core";
 import { useLocation } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";

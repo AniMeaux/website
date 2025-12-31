@@ -1,5 +1,5 @@
-import { generateId } from "#core/id";
-import { useIsTouchScreen } from "#core/touch-screen";
+import { generateId } from "#i/core/id";
+import { useIsTouchScreen } from "#i/core/touch-screen";
 import {
   createContext,
   useCallback,

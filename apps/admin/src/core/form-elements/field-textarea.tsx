@@ -1,7 +1,7 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { Form } from "#core/form-elements/form";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Textarea } from "#core/form-elements/textarea";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { Form } from "#i/core/form-elements/form";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Textarea } from "#i/core/form-elements/textarea";
 import type { FieldMetadata } from "@conform-to/react";
 import { getTextareaProps } from "@conform-to/react";
 

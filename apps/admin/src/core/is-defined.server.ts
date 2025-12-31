@@ -1,4 +1,4 @@
-import { notFound } from "#core/response.server";
+import { notFound } from "#i/core/response.server";
 
 export function assertIsDefined<T>(
   value: T | null | undefined,

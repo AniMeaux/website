@@ -1,7 +1,7 @@
-import type { BaseLinkProps } from "#core/base-link";
-import { BaseLink } from "#core/base-link";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import type { Location } from "history";
 import { forwardRef } from "react";

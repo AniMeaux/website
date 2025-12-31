@@ -1,6 +1,6 @@
-import type { ServiceCache } from "#core/cache.service.server.js";
-import type { ServiceImage } from "#core/image/service.server.js";
-import type { PreviousEdition } from "#previous-editions/previous-edition.js";
+import type { ServiceCache } from "#i/core/cache.service.server.js";
+import type { ServiceImage } from "#i/core/image/service.server.js";
+import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 import { zu } from "@animeaux/zod-utils";
 import cachified from "@epic-web/cachified";
 import { LazyFile } from "@mjackson/lazy-file";

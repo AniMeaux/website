@@ -1,6 +1,6 @@
-import { ActionIcon } from "#core/actions/action";
-import { FormLayout } from "#core/layout/form-layout";
-import { Icon } from "#generated/icon";
+import { ActionIcon } from "#i/core/actions/action";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { Icon } from "#i/generated/icon";
 import { cn, useRefOrProp } from "@animeaux/core";
 import { forwardRef, useEffect } from "react";
 import type { Merge } from "type-fest";

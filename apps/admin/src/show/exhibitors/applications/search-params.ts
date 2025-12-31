@@ -1,4 +1,4 @@
-import { SponsorshipOptionalCategory } from "#show/sponsors/category";
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
 import {
   ShowActivityField,
   ShowActivityTarget,

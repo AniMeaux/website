@@ -1,6 +1,6 @@
-import { FieldText } from "#core/form-elements/field-text";
-import { Form } from "#core/form-elements/form";
-import { Card } from "#core/layout/card";
+import { FieldText } from "#i/core/form-elements/field-text";
+import { Form } from "#i/core/form-elements/form";
+import { Card } from "#i/core/layout/card";
 import { useForm } from "./form";
 
 export function FieldsetStructure() {

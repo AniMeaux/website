@@ -1,4 +1,4 @@
-import { BaseLink } from "#core/base-link";
+import { BaseLink } from "#i/core/base-link";
 import { cn } from "@animeaux/core";
 import { Children, isValidElement } from "react";
 

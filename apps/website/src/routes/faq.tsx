@@ -1,19 +1,19 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { getConfigFromMetaMatches } from "#core/config";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { getConfigFromMetaMatches } from "#i/core/config";
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#core/layout/hero-section";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import type { IconProps } from "#generated/icon";
-import { Icon } from "#generated/icon";
-import { questionsImages } from "#images/questions";
-import { socialImages } from "#images/social";
+} from "#i/core/layout/hero-section";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import type { IconProps } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { questionsImages } from "#i/images/questions";
+import { socialImages } from "#i/images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 

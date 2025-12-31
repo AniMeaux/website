@@ -1,10 +1,10 @@
-import { ActionIcon } from "#core/actions/action";
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { FormLayout } from "#core/layout/form-layout";
-import { FieldActivityField } from "#exhibitors/activity-field/field";
-import { FieldActivityTarget } from "#exhibitors/activity-target/field";
-import { FieldLogo } from "#exhibitors/field-logo";
-import { Icon } from "#generated/icon";
+import { ActionIcon } from "#i/core/actions/action";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldActivityField } from "#i/exhibitors/activity-field/field";
+import { FieldActivityTarget } from "#i/exhibitors/activity-target/field";
+import { FieldLogo } from "#i/exhibitors/field-logo";
+import { Icon } from "#i/generated/icon";
 import { withoutKey } from "@animeaux/core";
 import { getInputProps } from "@conform-to/react";
 import { useLoaderData } from "@remix-run/react";

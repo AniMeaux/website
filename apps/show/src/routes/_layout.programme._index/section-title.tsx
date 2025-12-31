@@ -1,4 +1,4 @@
-import { Section } from "#core/layout/section";
+import { Section } from "#i/core/layout/section";
 
 export function SectionTitle() {
   return (

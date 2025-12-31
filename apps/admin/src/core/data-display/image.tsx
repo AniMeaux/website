@@ -1,8 +1,8 @@
-import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#core/cloudinary";
-import { useConfig } from "#core/config";
-import { generateId } from "#core/id";
-import type { ScreenSize } from "#generated/theme";
-import { theme } from "#generated/theme";
+import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#i/core/cloudinary";
+import { useConfig } from "#i/core/config";
+import { generateId } from "#i/core/id";
+import type { ScreenSize } from "#i/generated/theme";
+import { theme } from "#i/generated/theme";
 import { cn } from "@animeaux/core";
 import orderBy from "lodash.orderby";
 import { forwardRef } from "react";

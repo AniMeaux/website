@@ -1,18 +1,21 @@
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#show/sponsors/category";
+} from "#i/show/sponsors/category";
 import {
   SponsorSearchParams,
   SponsorSearchParamsN,
-} from "#show/sponsors/search-params";
-import { Visibility, VisibilityIcon } from "#show/visibility";
+} from "#i/show/sponsors/search-params";
+import { Visibility, VisibilityIcon } from "#i/show/visibility";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function SponsorFilters() {

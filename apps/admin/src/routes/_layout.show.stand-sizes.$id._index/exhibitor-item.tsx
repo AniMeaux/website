@@ -1,7 +1,7 @@
-import { BaseLink } from "#core/base-link.js";
-import { DynamicImage } from "#core/data-display/image.js";
-import { Routes } from "#core/navigation.js";
-import { Visibility, VisibilityIcon } from "#show/visibility.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { DynamicImage } from "#i/core/data-display/image.js";
+import { Routes } from "#i/core/navigation.js";
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js";
 import { ImageUrl } from "@animeaux/core";
 import type { SerializeFrom } from "@remix-run/node";
 import type { loader } from "./loader.server";

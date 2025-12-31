@@ -1,6 +1,6 @@
-import { db } from "#core/db.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { hasGroups } from "#users/groups";
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { hasGroups } from "#i/users/groups";
 import { UserGroup } from "@animeaux/prisma/server";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

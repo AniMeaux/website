@@ -1,7 +1,7 @@
-import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
-import { ImageData } from "#core/image/data.js";
-import { ServicePrisma } from "#core/prisma.service.server.js";
-import { notFound } from "#core/response.server";
+import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server";
 import { Prisma } from "@animeaux/prisma/server";
 import { captureException } from "@sentry/remix";
 import type { Except } from "type-fest";

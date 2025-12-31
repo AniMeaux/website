@@ -1,12 +1,15 @@
-import { AnimalDbDelegate, PickUpLocationDbDelegate } from "#animals/db.server";
-import { BreedDbDelegate } from "#breeds/db.server";
-import { ColorDbDelegate } from "#colors/db.server";
-import { CurrentUserDbDelegate } from "#current-user/db.server";
-import { EventDbDelegate } from "#events/db.server";
-import { FosterFamilyDbDelegate } from "#foster-families/db.server";
-import { PressArticleDbDelegate } from "#press-articles/db.server";
-import { ShowDbDelegate } from "#show/db.server";
-import { UserDbDelegate } from "#users/db.server";
+import {
+  AnimalDbDelegate,
+  PickUpLocationDbDelegate,
+} from "#i/animals/db.server";
+import { BreedDbDelegate } from "#i/breeds/db.server";
+import { ColorDbDelegate } from "#i/colors/db.server";
+import { CurrentUserDbDelegate } from "#i/current-user/db.server";
+import { EventDbDelegate } from "#i/events/db.server";
+import { FosterFamilyDbDelegate } from "#i/foster-families/db.server";
+import { PressArticleDbDelegate } from "#i/press-articles/db.server";
+import { ShowDbDelegate } from "#i/show/db.server";
+import { UserDbDelegate } from "#i/users/db.server";
 
 class DbClient {
   readonly animal = new AnimalDbDelegate();

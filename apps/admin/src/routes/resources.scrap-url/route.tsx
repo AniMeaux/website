@@ -1,7 +1,7 @@
-import { db } from "#core/db.server";
-import { scrapUrl } from "#core/metascraper.server";
-import { badRequest } from "#core/response.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { db } from "#i/core/db.server";
+import { scrapUrl } from "#i/core/metascraper.server";
+import { badRequest } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

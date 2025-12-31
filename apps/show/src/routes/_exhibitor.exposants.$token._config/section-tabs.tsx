@@ -1,5 +1,5 @@
-import { Tab, Tabs } from "#core/controllers/tabs";
-import { Routes } from "#core/navigation";
+import { Tab, Tabs } from "#i/core/controllers/tabs";
+import { Routes } from "#i/core/navigation";
 import { cn } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";

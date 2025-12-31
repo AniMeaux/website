@@ -1,7 +1,7 @@
-import { FieldErrorHelper } from "#core/form-elements/field-error-helper";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { RequiredStar } from "#core/form-elements/required-star";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RequiredStar } from "#i/core/form-elements/required-star";
 import type { FieldMetadata } from "@conform-to/react";
 import { getInputProps } from "@conform-to/react";
 

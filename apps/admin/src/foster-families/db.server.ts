@@ -1,15 +1,15 @@
-import { ActivityAction } from "#activity/action.js";
-import { Activity } from "#activity/db.server.js";
-import { ActivityResource } from "#activity/resource.js";
+import { ActivityAction } from "#i/activity/action.js";
+import { Activity } from "#i/activity/db.server.js";
+import { ActivityResource } from "#i/activity/resource.js";
 import {
   EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server";
-import { orderByRank } from "#core/order-by-rank";
-import { prisma } from "#core/prisma.server";
-import type { FosterFamilySearchParams } from "#foster-families/search-params";
+} from "#i/core/errors.server";
+import { orderByRank } from "#i/core/order-by-rank";
+import { prisma } from "#i/core/prisma.server";
+import type { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import type {
   FosterFamily,
   FosterFamilyGarden,

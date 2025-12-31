@@ -1,7 +1,7 @@
-import { BaseLink } from "#core/base-link.js";
-import { toRoundedRelative } from "#core/dates.js";
-import { Routes } from "#core/navigation.js";
-import { ApplicationStatusIcon } from "#show/exhibitors/applications/status.js";
+import { BaseLink } from "#i/core/base-link.js";
+import { toRoundedRelative } from "#i/core/dates.js";
+import { Routes } from "#i/core/navigation.js";
+import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status.js";
 import type { SerializeFrom } from "@remix-run/node";
 import { DateTime } from "luxon";
 import type { loader } from "./loader.server";

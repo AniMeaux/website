@@ -1,1 +1,1 @@
-export * from "./generated/browser.js";
+export * from "#i/generated/browser.js";

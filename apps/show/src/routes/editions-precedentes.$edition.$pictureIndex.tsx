@@ -1,19 +1,19 @@
-import { getErrorTitle } from "#core/data-display/error-page";
-import { DynamicImage } from "#core/data-display/image";
-import { useElementSize } from "#core/elements";
-import type { RouteHandle } from "#core/handles";
-import { createSocialMeta } from "#core/meta";
-import { Routes } from "#core/navigation";
-import { getPageTitle } from "#core/page-title";
-import { notFound } from "#core/response.server";
-import { ScrollRestorationLocationState } from "#core/scroll-restoration";
-import { services } from "#core/services.server.js";
-import { Icon } from "#generated/icon";
-import { PicturesLocationState } from "#previous-editions/pictures-location-state";
+import { getErrorTitle } from "#i/core/data-display/error-page";
+import { DynamicImage } from "#i/core/data-display/image";
+import { useElementSize } from "#i/core/elements";
+import type { RouteHandle } from "#i/core/handles";
+import { createSocialMeta } from "#i/core/meta";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { notFound } from "#i/core/response.server";
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
+import { services } from "#i/core/services.server.js";
+import { Icon } from "#i/generated/icon";
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state";
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
-} from "#previous-editions/previous-edition";
+} from "#i/previous-editions/previous-edition";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";

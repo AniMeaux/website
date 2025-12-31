@@ -1,4 +1,4 @@
-import { ensureArray } from "#core/collections";
+import { ensureArray } from "#i/core/collections";
 import { cn, fromBooleanAttribute } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { createElement, forwardRef } from "react";

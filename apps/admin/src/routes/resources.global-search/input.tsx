@@ -1,19 +1,19 @@
-import { AnimalSuggestionItem } from "#animals/item";
-import { getAnimalDisplayName } from "#animals/profile/name";
-import { AnimalSearchParams } from "#animals/search-params";
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Input } from "#core/form-elements/input";
+import { AnimalSuggestionItem } from "#i/animals/item";
+import { getAnimalDisplayName } from "#i/animals/profile/name";
+import { AnimalSearchParams } from "#i/animals/search-params";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Input } from "#i/core/form-elements/input";
 import {
   SuggestionItem,
   SuggestionList,
-} from "#core/form-elements/resource-input";
-import { useRouteHandles } from "#core/handles";
-import { Routes, useNavigate } from "#core/navigation";
-import { Overlay } from "#core/popovers/overlay";
-import { FosterFamilySuggestionItem } from "#foster-families/item";
-import { FosterFamilySearchParams } from "#foster-families/search-params";
-import { Icon } from "#generated/icon";
-import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
+} from "#i/core/form-elements/resource-input";
+import { useRouteHandles } from "#i/core/handles";
+import { Routes, useNavigate } from "#i/core/navigation";
+import { Overlay } from "#i/core/popovers/overlay";
+import { FosterFamilySuggestionItem } from "#i/foster-families/item";
+import { FosterFamilySearchParams } from "#i/foster-families/search-params";
+import { Icon } from "#i/generated/icon";
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
 import { cn } from "@animeaux/core";
 import type { User } from "@animeaux/prisma";
 import * as Dialog from "@radix-ui/react-dialog";

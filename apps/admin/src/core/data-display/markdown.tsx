@@ -1,5 +1,5 @@
-import { ProseInlineAction } from "#core/actions";
-import { BaseLink } from "#core/base-link";
+import { ProseInlineAction } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";

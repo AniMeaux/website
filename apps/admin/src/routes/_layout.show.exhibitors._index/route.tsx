@@ -1,8 +1,8 @@
-import { SortAndFiltersFloatingAction } from "#core/controllers/sort-and-filters-floating-action";
-import { Card } from "#core/layout/card";
-import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/page-title";
-import { ExhibitorFilters } from "#show/exhibitors/filter-form";
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { getPageTitle } from "#i/core/page-title";
+import { ExhibitorFilters } from "#i/show/exhibitors/filter-form";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { CardList } from "./card-list";

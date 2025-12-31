@@ -1,8 +1,8 @@
-import { db } from "#core/db.server.js";
-import { NotFoundError, ReferencedError } from "#core/errors.server.js";
-import { Routes } from "#core/navigation.js";
-import { badRequest, notFound } from "#core/response.server.js";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
+import { db } from "#i/core/db.server.js";
+import { NotFoundError, ReferencedError } from "#i/core/errors.server.js";
+import { Routes } from "#i/core/navigation.js";
+import { badRequest, notFound } from "#i/core/response.server.js";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
 import { catchError } from "@animeaux/core";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";

@@ -2,5 +2,5 @@
   "extends": "./tsconfig.json",
 
   // Only build files under these folders.
-  "include": ["./src.client/**/*", "./src.server/**/*"]
+  "include": ["./src/**/*"]
 }

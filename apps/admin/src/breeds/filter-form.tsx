@@ -2,18 +2,21 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species";
+} from "#i/animals/species";
 import {
   BREED_DEFAULT_SORT,
   BreedSearchParams,
   BreedSort,
-} from "#breeds/search-params";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
-import { Icon } from "#generated/icon";
+} from "#i/breeds/search-params";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
+import { Icon } from "#i/generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function BreedFilterForm() {

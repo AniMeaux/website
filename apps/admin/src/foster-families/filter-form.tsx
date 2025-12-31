@@ -2,18 +2,21 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#animals/species";
-import { Action } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import { Filters } from "#core/controllers/filters";
-import { ControlledInput } from "#core/form-elements/controlled-input";
-import { Form } from "#core/form-elements/form";
-import { ToggleInput, ToggleInputList } from "#core/form-elements/toggle-input";
+} from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { Filters } from "#i/core/controllers/filters";
+import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Form } from "#i/core/form-elements/form";
+import {
+  ToggleInput,
+  ToggleInputList,
+} from "#i/core/form-elements/toggle-input";
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
   SORTED_AVAILABILITIES,
-} from "#foster-families/availability";
+} from "#i/foster-families/availability";
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -21,9 +24,9 @@ import {
   ICON_BY_HOUSING,
   SORTED_GARDEN,
   SORTED_HOUSING,
-} from "#foster-families/housing";
-import { FosterFamilySearchParams } from "#foster-families/search-params";
-import { Icon } from "#generated/icon";
+} from "#i/foster-families/housing";
+import { FosterFamilySearchParams } from "#i/foster-families/search-params";
+import { Icon } from "#i/generated/icon";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function FosterFamilyFilters({

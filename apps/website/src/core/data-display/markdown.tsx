@@ -1,9 +1,9 @@
-import { actionClassNames } from "#core/actions";
-import { BaseLink } from "#core/base-link";
-import type { Config } from "#core/config";
-import { useConfig } from "#core/config";
-import { DynamicImage } from "#core/data-display/image";
-import { LineShapeVertical } from "#core/layout/line-shape";
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import type { Config } from "#i/core/config";
+import { useConfig } from "#i/core/config";
+import { DynamicImage } from "#i/core/data-display/image";
+import { LineShapeVertical } from "#i/core/layout/line-shape";
 import { cn } from "@animeaux/core";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";

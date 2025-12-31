@@ -1,23 +1,23 @@
-import { getAllAnimalPictures } from "#animals/pictures/all-pictures";
+import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures";
 import {
   DragAndDropContextProvider,
   PictureItemPreview,
   useDragItem,
   useDropContainer,
-} from "#animals/pictures/drag-and-drop";
-import { Action } from "#core/actions";
-import { InlineHelper } from "#core/data-display/helper";
-import type { ImageFile, ImageFileOrId } from "#core/data-display/image";
+} from "#i/animals/pictures/drag-and-drop";
+import { Action } from "#i/core/actions";
+import { InlineHelper } from "#i/core/data-display/helper";
+import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image";
 import {
   IMAGE_SIZE_LIMIT_MB,
   getImageId,
   isImageFile,
   isImageOverSize,
   readFiles,
-} from "#core/data-display/image";
-import { Form } from "#core/form-elements/form";
-import { ImageInput } from "#core/form-elements/image-input";
-import { Icon } from "#generated/icon";
+} from "#i/core/data-display/image";
+import { Form } from "#i/core/form-elements/form";
+import { ImageInput } from "#i/core/form-elements/image-input";
+import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { Animal } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";

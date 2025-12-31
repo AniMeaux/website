@@ -1,17 +1,17 @@
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Input } from "#core/form-elements/input";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Input } from "#i/core/form-elements/input";
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/form-elements/resource-input";
-import { Routes } from "#core/navigation";
-import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.manager/route";
-import { UserAvatar } from "#users/avatar";
-import { UserSearchParams } from "#users/search-params";
+} from "#i/core/form-elements/resource-input";
+import { Routes } from "#i/core/navigation";
+import { Icon } from "#i/generated/icon";
+import type { loader } from "#i/routes/resources.manager/route";
+import { UserAvatar } from "#i/users/avatar";
+import { UserSearchParams } from "#i/users/search-params";
 import { toBooleanAttribute } from "@animeaux/core";
 import type { User } from "@animeaux/prisma";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

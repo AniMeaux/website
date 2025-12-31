@@ -1,10 +1,10 @@
-import { db } from "#core/db.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#show/exhibitors/applications/search-params.js";
-import { ExhibitorSearchParams } from "#show/exhibitors/search-params.js";
+} from "#i/show/exhibitors/applications/search-params.js";
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";

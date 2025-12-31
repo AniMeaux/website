@@ -1,8 +1,8 @@
-import { Action } from "#core/actions/action";
-import { DynamicImage } from "#core/data-display/image";
-import { LazyElement } from "#core/layout/lazy-element";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
+import { Action } from "#i/core/actions/action";
+import { DynamicImage } from "#i/core/data-display/image";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
 import { cn } from "@animeaux/core";
 import { Link, isRouteErrorResponse, useRouteError } from "@remix-run/react";
 import { captureRemixErrorBoundaryError } from "@sentry/remix";

@@ -1,15 +1,15 @@
-import { Action } from "#core/actions";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
+import { Action } from "#i/core/actions";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#core/form-elements/input-choice";
-import { PasswordInput } from "#core/form-elements/password-input";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Separator } from "#core/layout/separator";
-import { Icon } from "#generated/icon";
-import { GROUP_TRANSLATION, SORTED_GROUPS } from "#users/groups";
+} from "#i/core/form-elements/input-choice";
+import { PasswordInput } from "#i/core/form-elements/password-input";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Separator } from "#i/core/layout/separator";
+import { Icon } from "#i/generated/icon";
+import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { User } from "@animeaux/prisma";
 import { UserGroup } from "@animeaux/prisma";

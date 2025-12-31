@@ -1,7 +1,7 @@
-import { FieldText } from "#core/form-elements/field-text";
-import { FieldYesNo } from "#core/form-elements/field-yes-no";
-import { FormLayout } from "#core/layout/form-layout";
-import { DogsHelper } from "#exhibitors/dogs-configuration/helper";
+import { FieldText } from "#i/core/form-elements/field-text";
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper";
 import { Gender } from "@animeaux/prisma";
 import { Fragment } from "react";
 import { FieldDogGender } from "./field-dog-gender";

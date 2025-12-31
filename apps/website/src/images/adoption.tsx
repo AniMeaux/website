@@ -1,6 +1,6 @@
-import type { ImageDescriptor } from "#core/data-display/image";
-import adoption1024 from "#images/adoption-1024w.png";
-import adoption512 from "#images/adoption-512w.png";
+import type { ImageDescriptor } from "#i/core/data-display/image";
+import adoption1024 from "#i/images/adoption-1024w.png";
+import adoption512 from "#i/images/adoption-512w.png";
 
 export const adoptionImages: ImageDescriptor = {
   alt: "Chat escaladant une petite grille.",

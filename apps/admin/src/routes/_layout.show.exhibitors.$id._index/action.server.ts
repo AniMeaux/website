@@ -1,7 +1,7 @@
-import { db } from "#core/db.server.js";
-import { Routes } from "#core/navigation.js";
-import { badRequest, ok } from "#core/response.server.js";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server.js";
+import { db } from "#i/core/db.server.js";
+import { Routes } from "#i/core/navigation.js";
+import { badRequest, ok } from "#i/core/response.server.js";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";

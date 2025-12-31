@@ -1,8 +1,8 @@
-import { Action } from "#core/actions/action.js";
-import { LightBoardCard } from "#core/layout/light-board-card.js";
-import { Section } from "#core/layout/section.js";
-import { Routes } from "#core/navigation.js";
-import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
+import { Action } from "#i/core/actions/action.js";
+import { LightBoardCard } from "#i/core/layout/light-board-card.js";
+import { Section } from "#i/core/layout/section.js";
+import { Routes } from "#i/core/navigation.js";
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
 import { Link } from "@remix-run/react";
 
 export function SectionOnStandEvents() {

@@ -1,12 +1,12 @@
-import { Action } from "#core/actions/action";
-import { SocialLink } from "#core/actions/social-link";
-import { DynamicImage } from "#core/data-display/image";
-import { HighLightBackground } from "#core/layout/highlight-background";
-import { LazyElement } from "#core/layout/lazy-element";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
-import { Pictogram } from "#generated/pictogram";
-import logoLarge from "#images/logo-large.svg";
+import { Action } from "#i/core/actions/action";
+import { SocialLink } from "#i/core/actions/social-link";
+import { DynamicImage } from "#i/core/data-display/image";
+import { HighLightBackground } from "#i/core/layout/highlight-background";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
+import { Pictogram } from "#i/generated/pictogram";
+import logoLarge from "#i/images/logo-large.svg";
 import { Link } from "@remix-run/react";
 
 export function RouteWaiting() {

@@ -1,4 +1,4 @@
-import { Icon } from "#generated/icon";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef } from "react";

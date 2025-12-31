@@ -1,4 +1,4 @@
-import { services } from "#core/services.server.js";
+import { services } from "#i/core/services.server.js";
 import type { Prisma } from "@animeaux/prisma/server";
 
 export async function getDividerTypesData(

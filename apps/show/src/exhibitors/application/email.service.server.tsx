@@ -2,16 +2,16 @@ import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#core/data-display/email-html.server";
-import { createImageUrl } from "#core/data-display/image";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { ImageData } from "#core/image/data.js";
-import { Routes } from "#core/navigation";
-import { ActivityField } from "#exhibitors/activity-field/activity-field";
-import { ACTIVITY_TARGET_TRANSLATION } from "#exhibitors/activity-target/activity-target";
-import { DiscoverySource } from "#exhibitors/application/discovery-source";
-import { LegalStatus } from "#exhibitors/application/legal-status";
-import { SponsorshipCategory } from "#exhibitors/sponsorship/category";
+} from "#i/core/data-display/email-html.server";
+import { createImageUrl } from "#i/core/data-display/image";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import { Routes } from "#i/core/navigation";
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target";
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
+import { LegalStatus } from "#i/exhibitors/application/legal-status";
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import { getCompleteLocation } from "@animeaux/core";
 import type { Prisma } from "@animeaux/prisma";
 import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";

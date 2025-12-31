@@ -1,6 +1,6 @@
-import { Chip } from "#core/data-display/chip.js";
-import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
-import { formatBooking } from "#show/stand-size/booking.js";
+import { Chip } from "#i/core/data-display/chip.js";
+import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js";
+import { formatBooking } from "#i/show/stand-size/booking.js";
 
 export function StandSizeBookingChip({
   standSize,

@@ -1,17 +1,17 @@
-import { BaseTextInput } from "#core/form-elements/base-text-input";
-import { Input } from "#core/form-elements/input";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { Input } from "#i/core/form-elements/input";
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#core/form-elements/resource-input";
-import { Routes, useNavigate } from "#core/navigation";
-import { NextSearchParams } from "#core/search-params";
-import { FosterFamilySuggestionItem } from "#foster-families/item";
-import { FosterFamilySearchParams } from "#foster-families/search-params";
-import { Icon } from "#generated/icon";
-import type { loader } from "#routes/resources.foster-family/route";
+} from "#i/core/form-elements/resource-input";
+import { Routes, useNavigate } from "#i/core/navigation";
+import { NextSearchParams } from "#i/core/search-params";
+import { FosterFamilySuggestionItem } from "#i/foster-families/item";
+import { FosterFamilySearchParams } from "#i/foster-families/search-params";
+import { Icon } from "#i/generated/icon";
+import type { loader } from "#i/routes/resources.foster-family/route";
 import { toBooleanAttribute } from "@animeaux/core";
 import type { FosterFamily } from "@animeaux/prisma";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";

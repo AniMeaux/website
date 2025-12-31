@@ -3,10 +3,10 @@ import {
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#core/errors.server.js";
-import { prisma } from "#core/prisma.server";
-import { notFound } from "#core/response.server.js";
-import type { ShowStandSizeBooking } from "#show/stand-size/booking.js";
+} from "#i/core/errors.server.js";
+import { prisma } from "#i/core/prisma.server";
+import { notFound } from "#i/core/response.server.js";
+import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js";
 import { catchError } from "@animeaux/core";
 import { Prisma } from "@animeaux/prisma/server";
 import merge from "lodash.merge";

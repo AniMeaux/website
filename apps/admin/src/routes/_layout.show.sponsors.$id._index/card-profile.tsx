@@ -1,8 +1,8 @@
-import { ProseInlineAction } from "#core/actions";
-import { DynamicImage } from "#core/data-display/image";
-import { ItemList, SimpleItem } from "#core/data-display/item";
-import { Card } from "#core/layout/card";
-import { Icon } from "#generated/icon";
+import { ProseInlineAction } from "#i/core/actions";
+import { DynamicImage } from "#i/core/data-display/image";
+import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { Card } from "#i/core/layout/card";
+import { Icon } from "#i/generated/icon";
 import { ImageUrl } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./route";

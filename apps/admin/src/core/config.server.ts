@@ -1,4 +1,4 @@
-import type { Config } from "#core/config";
+import type { Config } from "#i/core/config";
 import invariant from "tiny-invariant";
 
 export function createConfig(): Config {

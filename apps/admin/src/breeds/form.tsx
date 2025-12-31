@@ -1,10 +1,10 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#animals/species";
-import { Action } from "#core/actions";
-import { Form } from "#core/form-elements/form";
-import { Input } from "#core/form-elements/input";
-import { RadioInput, RadioInputList } from "#core/form-elements/input-choice";
-import { RequiredStar } from "#core/form-elements/required-star";
-import { Icon } from "#generated/icon";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { Breed } from "@animeaux/prisma";
 import { Species } from "@animeaux/prisma";

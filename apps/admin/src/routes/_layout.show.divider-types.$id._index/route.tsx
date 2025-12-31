@@ -1,6 +1,6 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { PageLayout } from "#core/layout/page";
-import { getPageTitle } from "#core/page-title";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { PageLayout } from "#i/core/layout/page";
+import { getPageTitle } from "#i/core/page-title";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { CardDetails } from "./card-details";

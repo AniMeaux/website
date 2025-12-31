@@ -1,6 +1,6 @@
-import { OnOff } from "#core/form-elements/field-on-off.js";
-import { useBackIfPossible } from "#core/navigation";
-import { Visibility } from "#show/visibility";
+import { OnOff } from "#i/core/form-elements/field-on-off.js";
+import { useBackIfPossible } from "#i/core/navigation";
+import { Visibility } from "#i/show/visibility";
 import { createStrictContext } from "@animeaux/core";
 import { useForm as useFormBase } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";

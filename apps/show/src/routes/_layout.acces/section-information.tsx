@@ -1,7 +1,7 @@
-import { HighLightBackground } from "#core/layout/highlight-background";
-import { LazyElement } from "#core/layout/lazy-element";
-import { Section } from "#core/layout/section";
-import { Pictogram } from "#generated/pictogram";
+import { HighLightBackground } from "#i/core/layout/highlight-background";
+import { LazyElement } from "#i/core/layout/lazy-element";
+import { Section } from "#i/core/layout/section";
+import { Pictogram } from "#i/generated/pictogram";
 
 export function SectionInformation() {
   return (

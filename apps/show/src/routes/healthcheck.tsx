@@ -1,6 +1,6 @@
 // learn more: https://fly.io/docs/reference/configuration/#services-http_checks
 
-import { services } from "#core/services.server.js";
+import { services } from "#i/core/services.server.js";
 
 export async function loader() {
   try {

@@ -1,21 +1,21 @@
-import { GENDER_ICON } from "#animals/gender";
+import { GENDER_ICON } from "#i/animals/gender";
 import {
   AnimalSearchParams,
   AnimalSortSearchParams,
-} from "#animals/search-params";
-import { Action } from "#core/actions";
-import { useConfig } from "#core/config";
-import { BlockHelper } from "#core/data-display/helper";
-import type { DynamicImageProps, ImageSize } from "#core/data-display/image";
-import { BaseImage, createCloudinaryUrl } from "#core/data-display/image";
-import { db } from "#core/db.server";
-import type { RouteHandle } from "#core/handles";
-import { Spinner } from "#core/loaders/spinner";
-import { useCurrentUserForMonitoring } from "#core/monitoring";
-import { getPageTitle } from "#core/page-title";
-import { prisma } from "#core/prisma.server";
-import { assertCurrentUserHasGroups } from "#current-user/groups.server";
-import { Icon } from "#generated/icon";
+} from "#i/animals/search-params";
+import { Action } from "#i/core/actions";
+import { useConfig } from "#i/core/config";
+import { BlockHelper } from "#i/core/data-display/helper";
+import type { DynamicImageProps, ImageSize } from "#i/core/data-display/image";
+import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image";
+import { db } from "#i/core/db.server";
+import type { RouteHandle } from "#i/core/handles";
+import { Spinner } from "#i/core/loaders/spinner";
+import { useCurrentUserForMonitoring } from "#i/core/monitoring";
+import { getPageTitle } from "#i/core/page-title";
+import { prisma } from "#i/core/prisma.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import { Gender, UserGroup } from "@animeaux/prisma";
 import { fromPrismaPromise } from "@animeaux/prisma/server";

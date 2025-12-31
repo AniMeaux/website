@@ -1,5 +1,5 @@
-import { Card } from "#core/layout/card";
-import { ParticipationReceipt } from "#show/exhibitors/participation-receipt.js";
+import { Card } from "#i/core/layout/card";
+import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js";
 import { useLoaderData } from "@remix-run/react";
 import type { loader } from "./loader.server";
 

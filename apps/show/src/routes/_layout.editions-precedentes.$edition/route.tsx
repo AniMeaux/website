@@ -1,8 +1,8 @@
-import { ErrorPage, getErrorTitle } from "#core/data-display/error-page";
-import { createSocialMeta } from "#core/meta";
-import { getPageTitle } from "#core/page-title";
-import { services } from "#core/services.server.js";
-import { PreviousEdition } from "#previous-editions/previous-edition";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
+import { services } from "#i/core/services.server.js";
+import { PreviousEdition } from "#i/previous-editions/previous-edition";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { defer } from "@remix-run/node";

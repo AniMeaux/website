@@ -1,6 +1,6 @@
-import { notFound } from "#core/response.server";
-import { services } from "#core/services.server.js";
-import { ExhibitorSearchParams } from "#exhibitors/search-params";
+import { notFound } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params";
 import { ShowExhibitorStatus } from "@animeaux/prisma/server";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";

@@ -1,7 +1,7 @@
-import { EmailHtml } from "#core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#core/email/service.server.js";
-import { Routes } from "#core/navigation.js";
-import type { ServiceApplication } from "#exhibitors/application/service.server.js";
+import { EmailHtml } from "#i/core/data-display/email-html.server.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
+import { Routes } from "#i/core/navigation.js";
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
 
 export class ServiceExhibitorVisibilityEmail {
   // eslint-disable-next-line no-useless-constructor

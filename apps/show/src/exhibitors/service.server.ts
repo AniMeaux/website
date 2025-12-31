@@ -1,8 +1,8 @@
-import type { ServiceBlurhash } from "#core/image/blurhash.service.server.js";
-import { ImageData } from "#core/image/data.js";
-import type { ServicePrisma } from "#core/prisma.service.server.js";
-import { notFound } from "#core/response.server.js";
-import { ExhibitorSearchParams } from "#exhibitors/search-params.js";
+import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server.js";
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import type { Prisma, ShowExhibitor } from "@animeaux/prisma/server";
 import { ShowExhibitorStatus } from "@animeaux/prisma/server";

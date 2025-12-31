@@ -1,4 +1,4 @@
-import type { IconName } from "#generated/icon.js";
+import type { IconName } from "#i/generated/icon.js";
 import { ActivityResource as PrismaActivityResource } from "@animeaux/prisma";
 
 export namespace ActivityResource {

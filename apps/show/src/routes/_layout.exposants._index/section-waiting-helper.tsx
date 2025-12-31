@@ -1,7 +1,7 @@
-import { Action } from "#core/actions/action";
-import { BoardCard } from "#core/layout/board-card";
-import { Section } from "#core/layout/section";
-import { Routes } from "#core/navigation";
+import { Action } from "#i/core/actions/action";
+import { BoardCard } from "#i/core/layout/board-card";
+import { Section } from "#i/core/layout/section";
+import { Routes } from "#i/core/navigation";
 import { Link } from "@remix-run/react";
 
 export function SectionWaitingHelper() {

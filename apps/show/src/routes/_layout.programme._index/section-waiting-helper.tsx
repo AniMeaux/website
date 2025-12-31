@@ -1,5 +1,5 @@
-import { BoardCard } from "#core/layout/board-card";
-import { Section } from "#core/layout/section";
+import { BoardCard } from "#i/core/layout/board-card";
+import { Section } from "#i/core/layout/section";
 
 export function SectionWaitingHelper() {
   return (

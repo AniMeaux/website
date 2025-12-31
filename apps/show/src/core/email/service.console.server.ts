@@ -1,4 +1,4 @@
-import type { ServiceEmail } from "#core/email/service.server.js";
+import type { ServiceEmail } from "#i/core/email/service.server.js";
 import { render } from "@react-email/render";
 
 export class ServiceEmailConsole implements ServiceEmail {
