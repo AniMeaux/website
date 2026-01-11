@@ -1,10 +1,4 @@
 import { PrismaClient } from "@animeaux/prisma/server";
-import invariant from "tiny-invariant";
-
-invariant(
-  typeof process.env.DATABASE_URL === "string",
-  "DATABASE_URL must be defined.",
-);
 
 export let prisma: PrismaClient;
 

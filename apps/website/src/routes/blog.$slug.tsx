@@ -1,6 +1,5 @@
 import { articles } from "#i/blog/data.server";
 import { ArticleItem } from "#i/blog/item";
-import { getConfigFromMetaMatches } from "#i/core/config";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { DynamicImage, createCloudinaryUrl } from "#i/core/data-display/image";
 import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
@@ -44,21 +43,24 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return json({ article, otherArticles });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const article = data?.article;
   if (article == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
-  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     type: "article",
     title: getPageTitle(article.title),
     description: article.description,
-    imageUrl: createCloudinaryUrl(config.cloudinaryName, article.image, {
-      size: "1024",
-      aspectRatio: "16:9",
-    }),
+    imageUrl: createCloudinaryUrl(
+      CLIENT_ENV.CLOUDINARY_CLOUD_NAME,
+      article.image,
+      {
+        size: "1024",
+        aspectRatio: "16:9",
+      },
+    ),
     publishedTime: article.publicationDate,
     author: article.authorName,
   });

@@ -1,4 +1,3 @@
-import { createConfig } from "#i/core/config.server";
 import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm";
 import { Species } from "@animeaux/prisma";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -69,13 +68,11 @@ Object.values(Species).forEach((species) => {
 });
 
 export async function loader() {
-  const config = createConfig();
-
   const markup = renderToStaticMarkup(
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       {urlDefinitions.map((url) => (
         <url key={url.path}>
-          <loc>{`${config.publicHost}${url.path}`}</loc>
+          <loc>{`${process.env.PUBLIC_HOST}${url.path}`}</loc>
           <changefreq>{url.changeFrequency}</changefreq>
           {url.priority != null && <priority>{url.priority}</priority>}
         </url>

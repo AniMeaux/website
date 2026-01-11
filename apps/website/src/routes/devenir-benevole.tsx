@@ -1,6 +1,5 @@
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
 import type { StaticImageProps } from "#i/core/data-display/image";
 import { StaticImage } from "#i/core/data-display/image";
 import {
@@ -31,11 +30,10 @@ import { volunteerImages } from "#i/images/volunteer";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Devenez bénévole"),
-    imageUrl: `${config.publicHost}${socialImages.volunteer.imagesBySize[1024]}`,
+    imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.volunteer.imagesBySize[1024]}`,
   });
 };
 
@@ -66,8 +64,6 @@ export default function Route() {
 }
 
 function OptionsSection() {
-  const { volunteerFormUrl } = useConfig();
-
   return (
     <section className="flex flex-col gap-12">
       <h2
@@ -109,7 +105,7 @@ function OptionsSection() {
       </OptionList>
 
       <BaseLink
-        to={volunteerFormUrl}
+        to={CLIENT_ENV.VOLUNTEER_FORM_URL}
         className={cn(actionClassNames.standalone(), "self-center")}
       >
         Adhérer sur Helloasso

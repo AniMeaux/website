@@ -27,6 +27,7 @@
   "dependencies": {
     "@animeaux/core": "workspace:*",
     "@animeaux/prisma": "workspace:*",
+    "@animeaux/zod-utils": "workspace:*",
     "@remix-run/node": "catalog:",
     "@remix-run/react": "catalog:",
     "@remix-run/serve": "catalog:",

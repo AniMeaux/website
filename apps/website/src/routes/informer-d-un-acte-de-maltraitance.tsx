@@ -1,4 +1,3 @@
-import { getConfigFromMetaMatches } from "#i/core/config";
 import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
 import {
   ARTICLE_COMPONENTS,
@@ -18,11 +17,10 @@ import type { MetaFunction } from "@remix-run/node";
 
 const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Informer d’un acte de maltraitance"),
-    imageUrl: createCloudinaryUrl(config.cloudinaryName, IMAGE_ID, {
+    imageUrl: createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, IMAGE_ID, {
       size: "1024",
       aspectRatio: "16:9",
     }),

@@ -1,4 +1,3 @@
-import { getConfigFromMetaMatches } from "#i/core/config";
 import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
 import {
   ARTICLE_COMPONENTS,
@@ -18,11 +17,10 @@ import type { MetaFunction } from "@remix-run/node";
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Signaler un animal errant"),
-    imageUrl: createCloudinaryUrl(config.cloudinaryName, IMAGE_ID, {
+    imageUrl: createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, IMAGE_ID, {
       size: "1024",
       aspectRatio: "16:9",
     }),
