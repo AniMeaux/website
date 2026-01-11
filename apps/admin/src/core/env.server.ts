@@ -39,12 +39,14 @@ function formatErrors(
  */
 export function getClientEnv() {
   return {
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     PRICE_ADDITIONAL_BRACELET: process.env.PRICE_ADDITIONAL_BRACELET,
     PRICE_BREAKFAST_PER_PERSON_PER_DAY:
       process.env.PRICE_BREAKFAST_PER_PERSON_PER_DAY,
     PRICE_CORNER_STAND: process.env.PRICE_CORNER_STAND,
     PRICE_DIVIDER: process.env.PRICE_DIVIDER,
     PRICE_TABLE_CLOTHS: process.env.PRICE_TABLE_CLOTHS,
+    PUBLIC_HOST: process.env.PUBLIC_HOST,
     RUNTIME_ENV: process.env.RUNTIME_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
@@ -68,6 +70,12 @@ declare global {
 
 const processEnvSchema = zu
   .object({
+    APPLICATION_TOKEN: zu.string(),
+    CLOUDINARY_API_KEY: zu.string(),
+    CLOUDINARY_API_SECRET: zu.string(),
+    CLOUDINARY_CLOUD_NAME: zu.string(),
+    DATABASE_URL: zu.string(),
+    ENABLE_CRONS: zu.enum(["true", "false"]),
     GOOGLE_API_CLIENT_EMAIL: zu.string().min(1).optional(),
     GOOGLE_API_PRIVATE_KEY: zu.string().min(1).optional(),
     GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),
@@ -102,6 +110,7 @@ const processEnvSchema = zu
       // Because we access the raw value and not the parsed one, we need to be
       // sure the type remains string and not number.
       .transform((value) => String(value)),
+    PUBLIC_HOST: zu.string(),
     RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
     SENTRY_DSN: zu.string().optional(),
     SENTRY_TRACES_SAMPLE_RATE: zu.coerce
@@ -112,6 +121,8 @@ const processEnvSchema = zu
       // sure the type remains string and not number.
       .transform((value) => String(value))
       .optional(),
+    SESSION_SECRET: zu.string(),
+    SHOW_NOTIFICATION_ENDPOINT: zu.string(),
     SHOW_URL: zu.string(),
   })
   .refine(

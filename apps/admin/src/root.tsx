@@ -1,4 +1,3 @@
-import { createConfig } from "#i/core/config.server";
 import { ErrorPage } from "#i/core/data-display/error-page";
 import { useRouteHandles } from "#i/core/handles";
 import { getPageTitle } from "#i/core/page-title";
@@ -66,7 +65,7 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader() {
-  return json({ CLIENT_ENV: global.CLIENT_ENV, config: createConfig() });
+  return json({ CLIENT_ENV: global.CLIENT_ENV });
 }
 
 export const meta: MetaFunction = () => {

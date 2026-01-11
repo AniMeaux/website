@@ -1,4 +1,3 @@
-import { useConfig } from "#i/core/config";
 import type { AvatarColor } from "#i/core/data-display/avatar";
 import { createCloudinaryUrl } from "#i/core/data-display/image";
 import { Card } from "#i/core/layout/card";
@@ -16,14 +15,12 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
   imageId: string;
   imageAlt: string;
 }) {
-  const { cloudinaryName } = useConfig();
-
   return (
     <div className="relative z-0 flex h-6 md:h-10">
       <span className="absolute left-0 top-0 h-full w-full backdrop-blur-3xl" />
 
       <img
-        src={createCloudinaryUrl(cloudinaryName, imageId, {
+        src={createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
           size: "128",
           aspectRatio: "1:1",
         })}

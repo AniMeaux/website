@@ -2,9 +2,6 @@ import type { User } from "@animeaux/prisma/server";
 import { zu } from "@animeaux/zod-utils";
 import { createCookie, createCookieSessionStorage } from "@remix-run/node";
 import { createTypedSessionStorage } from "remix-utils/typed-session";
-import invariant from "tiny-invariant";
-
-invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
 const SessionSchema = zu.object({
   userId: zu.string().uuid().optional().catch(undefined),
