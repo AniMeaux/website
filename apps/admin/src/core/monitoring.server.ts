@@ -2,11 +2,7 @@ import type { User } from "@animeaux/prisma/server";
 import { init, setUser } from "@sentry/remix";
 
 export function initMonitoring() {
-  if (
-    process.env.SENTRY_DSN != null &&
-    (process.env.RUNTIME_ENV !== "local" ||
-      process.env.SENTRY_ENABLE_LOCAL === "true")
-  ) {
+  if (process.env.SENTRY_DSN != null) {
     init({
       dsn: process.env.SENTRY_DSN,
       environment: process.env.RUNTIME_ENV,
