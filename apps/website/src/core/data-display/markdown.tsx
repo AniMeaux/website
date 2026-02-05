@@ -1,7 +1,5 @@
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import type { Config } from "#i/core/config";
-import { useConfig } from "#i/core/config";
 import { DynamicImage } from "#i/core/data-display/image";
 import { LineShapeVertical } from "#i/core/layout/line-shape";
 import { cn } from "@animeaux/core";
@@ -53,10 +51,14 @@ export enum MarkdownLink {
   PICK_UP_FORM = "PICK_UP_FORM",
 }
 
-const LINK_TO_CONFIG_KEY: Record<MarkdownLink, keyof Config> = {
-  [MarkdownLink.FACEBOOK]: "facebookUrl",
-  [MarkdownLink.INSTAGRAM]: "instagramUrl",
-  [MarkdownLink.PICK_UP_FORM]: "pickUpFormUrl",
+function isMarkdownLink(maybeLink: string): maybeLink is MarkdownLink {
+  return Object.values(MarkdownLink).includes(maybeLink as MarkdownLink);
+}
+
+const LINK_URL: Record<MarkdownLink, string> = {
+  [MarkdownLink.FACEBOOK]: CLIENT_ENV.FACEBOOK_URL,
+  [MarkdownLink.INSTAGRAM]: CLIENT_ENV.INSTAGRAM_URL,
+  [MarkdownLink.PICK_UP_FORM]: CLIENT_ENV.PICK_UP_FORM_URL,
 };
 
 export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
@@ -92,15 +94,11 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
       <div className="flex-1">{children}</div>
     </blockquote>
   ),
-  a: function A({ children, href }) {
-    const config = useConfig();
-    const configKey = LINK_TO_CONFIG_KEY[href as MarkdownLink];
+  a: ({ children, href = "" }) => {
+    const url = isMarkdownLink(href) ? LINK_URL[href] : href;
 
     return (
-      <BaseLink
-        to={configKey == null ? href : config[configKey]}
-        className={actionClassNames.proseInline()}
-      >
+      <BaseLink to={url} className={actionClassNames.proseInline()}>
         {children}
       </BaseLink>
     );

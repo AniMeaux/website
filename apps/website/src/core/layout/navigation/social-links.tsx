@@ -1,38 +1,35 @@
 import type { BaseLinkProps } from "#i/core/base-link";
 import { BaseLink } from "#i/core/base-link";
-import { useConfig } from "#i/core/config";
 import type { IconProps } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 
 export function SocialLinks({ className }: { className?: string }) {
-  const { facebookUrl, instagramUrl, linkedInUrl, twitterUrl } = useConfig();
-
   return (
     <div className={cn(className, "flex gap-1")}>
       <SocialLink
-        to={facebookUrl}
+        to={CLIENT_ENV.FACEBOOK_URL}
         icon="facebook"
         title="Page Facebook"
         className="hover:bg-facebook hover:text-facebook"
       />
 
       <SocialLink
-        to={instagramUrl}
+        to={CLIENT_ENV.INSTAGRAM_URL}
         icon="instagram"
         title="Compte Instagram"
         className="hover:bg-instagram hover:text-instagram"
       />
 
       <SocialLink
-        to={linkedInUrl}
+        to={CLIENT_ENV.LINKEDIN_URL}
         icon="linkedin"
         title="Page LinkedIn"
         className="hover:bg-linkedin hover:text-linkedin"
       />
 
       <SocialLink
-        to={twitterUrl}
+        to={CLIENT_ENV.TWITTER_URL}
         icon="twitter"
         title="Compte Twitter"
         className="hover:bg-twitter hover:text-twitter"

@@ -1,7 +1,6 @@
 import { SPECIES_ICON } from "#i/animals/species";
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches } from "#i/core/config";
 import { Tab } from "#i/core/controllers/tabs";
 import {
   OptionCard,
@@ -35,11 +34,10 @@ import { Species } from "@animeaux/prisma";
 import type { MetaFunction } from "@remix-run/node";
 import { useState } from "react";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Conditions d’adoption"),
-    imageUrl: `${config.publicHost}${socialImages.adoptionConditions.imagesBySize[1024]}`,
+    imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.adoptionConditions.imagesBySize[1024]}`,
   });
 };
 

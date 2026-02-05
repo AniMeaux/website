@@ -1,11 +1,5 @@
 import { singleton } from "@animeaux/core";
 import { PrismaClient } from "@animeaux/prisma/server";
-import invariant from "tiny-invariant";
-
-invariant(
-  typeof process.env.DATABASE_URL === "string",
-  "DATABASE_URL must be defined.",
-);
 
 // This is needed because in development we don't want to restart the server
 // with every change, but we want to make sure we don't create a new connection

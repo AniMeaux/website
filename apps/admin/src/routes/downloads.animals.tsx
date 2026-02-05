@@ -4,7 +4,6 @@ import {
   AnimalSortSearchParams,
 } from "#i/animals/search-params";
 import { Action } from "#i/core/actions";
-import { useConfig } from "#i/core/config";
 import { BlockHelper } from "#i/core/data-display/helper";
 import type { DynamicImageProps, ImageSize } from "#i/core/data-display/image";
 import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image";
@@ -221,8 +220,6 @@ function AnimalItem({
   imageSize: DynamicImageProps["fallbackSize"];
   width: number;
 }) {
-  const config = useConfig();
-
   return (
     <li
       {...rest}
@@ -230,10 +227,14 @@ function AnimalItem({
       style={{ width }}
     >
       <BaseImage
-        src={createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
-          size: imageSize,
-          aspectRatio: "4:3",
-        })}
+        src={createCloudinaryUrl(
+          CLIENT_ENV.CLOUDINARY_CLOUD_NAME,
+          animal.avatar,
+          {
+            size: imageSize,
+            aspectRatio: "4:3",
+          },
+        )}
         alt={animal.name}
         aspectRatio="4:3"
         className="w-full rounded-1"

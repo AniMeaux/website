@@ -917,6 +917,9 @@ importers:
       '@animeaux/prisma':
         specifier: workspace:*
         version: link:../../libs/prisma
+      '@animeaux/zod-utils':
+        specifier: workspace:*
+        version: link:../../libs/zod-utils
       '@remix-run/node':
         specifier: 'catalog:'
         version: 2.9.2(typescript@5.4.5)

@@ -35,6 +35,7 @@ COPY package.json ./
 COPY libs/core/package.json libs/core/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/search-params-io/package.json libs/search-params-io/
+COPY libs/zod-utils/package.json libs/zod-utils/
 COPY apps/website/package.json apps/website/
 
 # App production build.
@@ -50,6 +51,7 @@ COPY tsconfig.base.json tsconfig.libs.json ./
 COPY libs/core libs/core
 COPY libs/prisma libs/prisma
 COPY libs/search-params-io libs/search-params-io
+COPY libs/zod-utils libs/zod-utils
 COPY apps/website apps/website
 
 # Build libs and app.

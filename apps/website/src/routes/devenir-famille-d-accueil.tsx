@@ -1,6 +1,5 @@
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
 import { Timeline, TimelineItem } from "#i/core/data-display/timeline";
 import {
   HeroSection,
@@ -19,17 +18,14 @@ import { socialImages } from "#i/images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Devenez famille d’accueil"),
-    imageUrl: `${config.publicHost}${socialImages.fosterFamily.imagesBySize[1024]}`,
+    imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.fosterFamily.imagesBySize[1024]}`,
   });
 };
 
 export default function Route() {
-  const { fosterFamilyFormUrl } = useConfig();
-
   return (
     <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
@@ -65,7 +61,7 @@ export default function Route() {
             icon="file-lines"
             action={
               <BaseLink
-                to={fosterFamilyFormUrl}
+                to={CLIENT_ENV.FOSTER_FAMILY_FORM_URL}
                 className={actionClassNames.standalone()}
               >
                 Remplir le formulaire

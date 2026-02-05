@@ -1,5 +1,4 @@
 import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#i/core/cloudinary";
-import { useConfig } from "#i/core/config";
 import { generateId } from "#i/core/id";
 import type { ScreenSize } from "#i/generated/theme";
 import { theme } from "#i/generated/theme";
@@ -77,10 +76,8 @@ export function DynamicImage({
   fallbackSize,
   ...rest
 }: DynamicImageProps) {
-  const config = useConfig();
-
   const srcSet = IMAGE_SIZES.map((size) => {
-    const url = createCloudinaryUrl(config.cloudinaryName, imageId, {
+    const url = createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
       size,
       aspectRatio,
     });
@@ -106,7 +103,7 @@ export function DynamicImage({
     <BaseImage
       {...rest}
       aspectRatio={aspectRatio}
-      src={createCloudinaryUrl(config.cloudinaryName, imageId, {
+      src={createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
         size: fallbackSize,
         aspectRatio,
       })}

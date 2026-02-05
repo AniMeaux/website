@@ -7,11 +7,7 @@ import {
 import { useEffect } from "react";
 
 export function initMonitoring() {
-  if (
-    CLIENT_ENV.SENTRY_DSN != null &&
-    (CLIENT_ENV.RUNTIME_ENV !== "local" ||
-      CLIENT_ENV.SENTRY_ENABLE_LOCAL === "true")
-  ) {
+  if (CLIENT_ENV.SENTRY_DSN != null) {
     init({
       dsn: CLIENT_ENV.SENTRY_DSN,
       environment: CLIENT_ENV.RUNTIME_ENV,

@@ -1,4 +1,3 @@
-import { useConfig } from "#i/core/config";
 import type { IconProps } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
 import type { ScreenSize } from "#i/generated/theme";
@@ -103,13 +102,12 @@ export function DynamicImage({
   background?: ImageBackground;
   className?: string;
 }) {
-  const config = useConfig();
   const image: StaticImageProps["image"] = {
     alt,
     imagesBySize: Object.fromEntries(
       IMAGE_SIZES.map((size) => [
         size,
-        createCloudinaryUrl(config.cloudinaryName, imageId, {
+        createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
           size,
         }),
       ]),

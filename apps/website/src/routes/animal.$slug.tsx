@@ -6,7 +6,6 @@ import { SPECIES_ICON } from "#i/animals/species";
 import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { DynamicImage, createCloudinaryUrl } from "#i/core/data-display/image";
 import type { MarkdownProps } from "#i/core/data-display/markdown";
@@ -75,19 +74,22 @@ export async function loader({ params }: LoaderFunctionArgs) {
   return json({ animal });
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data, matches }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const animal = data?.animal;
   if (animal == null) {
     return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
   }
 
-  const config = getConfigFromMetaMatches(matches);
   return createSocialMeta({
     title: getPageTitle(`Adopter ${animal.name}`),
-    imageUrl: createCloudinaryUrl(config.cloudinaryName, animal.avatar, {
-      size: "1024",
-      aspectRatio: "16:9",
-    }),
+    imageUrl: createCloudinaryUrl(
+      CLIENT_ENV.CLOUDINARY_CLOUD_NAME,
+      animal.avatar,
+      {
+        size: "1024",
+        aspectRatio: "16:9",
+      },
+    ),
   });
 };
 
@@ -153,8 +155,6 @@ export default function Route() {
 }
 
 function Actions() {
-  const { adoptionFormUrl } = useConfig();
-
   return (
     <>
       <BaseLink
@@ -164,7 +164,10 @@ function Actions() {
         Voir les conditions d’adoption
       </BaseLink>
 
-      <BaseLink to={adoptionFormUrl} className={actionClassNames.standalone()}>
+      <BaseLink
+        to={CLIENT_ENV.ADOPTION_FORM_URL}
+        className={actionClassNames.standalone()}
+      >
         Je l’adopte
       </BaseLink>
     </>

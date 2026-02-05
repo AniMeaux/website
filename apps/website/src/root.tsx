@@ -1,5 +1,3 @@
-import { useConfig } from "#i/core/config";
-import { createConfig } from "#i/core/config.server";
 import { ErrorPage } from "#i/core/data-display/error-page";
 import { Footer } from "#i/core/layout/footer";
 import { Header } from "#i/core/layout/header";
@@ -18,6 +16,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
 } from "@remix-run/react";
 import { Settings } from "luxon";
@@ -67,16 +66,16 @@ export const links: LinksFunction = () => {
 };
 
 export async function loader() {
-  return json({ config: createConfig() });
+  return json({ CLIENT_ENV: global.CLIENT_ENV });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   // The data can be null in case of error.
-  const config = data?.config;
+  const CLIENT_ENV = data?.CLIENT_ENV;
 
   let imageUrl: string | undefined = undefined;
-  if (config != null) {
-    imageUrl = `${config.publicHost}${socialImages.default.imagesBySize[1024]}`;
+  if (CLIENT_ENV != null) {
+    imageUrl = `${CLIENT_ENV.PUBLIC_HOST}${socialImages.default.imagesBySize[1024]}`;
   }
 
   return createSocialMeta({
@@ -87,13 +86,18 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function App() {
-  const { googleTagManagerId, publicHost } = useConfig();
+  const { CLIENT_ENV } = useLoaderData<typeof loader>();
 
   return (
-    <Document googleTagManagerId={googleTagManagerId} publicHost={publicHost}>
+    <Document
+      googleTagManagerId={CLIENT_ENV.GOOGLE_TAG_MANAGER_ID}
+      publicHost={CLIENT_ENV.PUBLIC_HOST}
+    >
       <Header />
       <Outlet />
       <Footer />
+
+      <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
   );
 }
@@ -102,6 +106,8 @@ export function ErrorBoundary() {
   return (
     <Document>
       <ErrorPage isStandAlone />
+
+      <GlobalClientEnv />
     </Document>
   );
 }
@@ -172,6 +178,20 @@ function Document({
         <Scripts />
       </body>
     </html>
+  );
+}
+
+function GlobalClientEnv({
+  clientEnv = {},
+}: {
+  clientEnv?: Record<string, any>;
+}) {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
+      }}
+    />
   );
 }
 
