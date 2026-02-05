@@ -27,7 +27,7 @@ export function createActionSchema({
             message: "Veuillez entrer un nombre valide",
           })
           .int({ message: "Veuillez entrer un nombre entier" })
-          .min(1, "Veuillez entrer un nombre supérieur ou égal à 1"),
+          .min(0, "Veuillez entrer un nombre supérieur ou égal à 0"),
         dividerCount: zu.coerce
           .number({ message: "Veuillez entrer un nombre valide" })
           .int({ message: "Veuillez entrer un nombre entier" })
