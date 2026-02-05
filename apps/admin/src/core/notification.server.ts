@@ -1,14 +1,3 @@
-import invariant from "tiny-invariant";
-
-invariant(
-  process.env.SHOW_NOTIFICATION_ENDPOINT,
-  "SHOW_NOTIFICATION_ENDPOINT must be set",
-);
-
-const SHOW_NOTIFICATION_ENDPOINT = process.env.SHOW_NOTIFICATION_ENDPOINT;
-
-invariant(process.env.APPLICATION_TOKEN, "APPLICATION_TOKEN must be set");
-
 type ShowNotification =
   | { type: "application-status-updated"; applicationId: string }
   | { type: "description-treated"; exhibitorId: string }
@@ -23,7 +12,7 @@ type ShowNotification =
   | { type: "stand-configuration-treated"; exhibitorId: string };
 
 export async function notifyShowApp(notification: ShowNotification) {
-  const response = await fetch(SHOW_NOTIFICATION_ENDPOINT, {
+  const response = await fetch(process.env.SHOW_NOTIFICATION_ENDPOINT, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.APPLICATION_TOKEN}`,

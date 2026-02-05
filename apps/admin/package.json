@@ -17,6 +17,8 @@
     "dev:app": "NODE_OPTIONS=\"-r dotenv-flow/config\" remix vite:dev --host",
     "dev:icons": "pnpm generate:icons --watch",
     "dev:theme": "tsx watch --clear-screen=false ./scripts/generate-theme.ts",
+    "docker-build": "docker buildx build --file ./Dockerfile --tag local/admin ../..",
+    "docker-start": "docker run --rm --network host --env-file .env --env-file .env.local --env PORT=3002 local/admin",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:icons": "tsx ./scripts/generate-icon-sprite.ts --minify",
     "generate:theme": "tsx ./scripts/generate-theme.ts",

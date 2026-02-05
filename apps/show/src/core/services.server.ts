@@ -49,9 +49,7 @@ class ServicesRootModule {
   email: ServiceEmail =
     process.env.RESEND_API_KEY != null
       ? new ServiceEmailResend(process.env.RESEND_API_KEY, {
-          useTestEmail:
-            process.env.RUNTIME_ENV === "local" &&
-            process.env.RESEND_ENABLE_LOCAL !== "true",
+          useTestEmail: process.env.RESEND_USE_REAL_EMAIL !== "true",
 
           onError: (error, { template, effectiveTo, textBody }) => {
             console.error("Could not send email:", error);

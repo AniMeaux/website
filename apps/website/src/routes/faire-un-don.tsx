@@ -1,6 +1,5 @@
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches, useConfig } from "#i/core/config";
 import {
   BubbleShape,
   bubbleSectionClassNames,
@@ -25,17 +24,14 @@ import teamingImage from "#i/images/teaming.png";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Faire un don"),
-    imageUrl: `${config.publicHost}${socialImages.donation.imagesBySize[1024]}`,
+    imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.donation.imagesBySize[1024]}`,
   });
 };
 
 export default function Route() {
-  const { donationUrl } = useConfig();
-
   return (
     <main className="flex w-full flex-col gap-24 px-page">
       <HeroSection>
@@ -73,7 +69,7 @@ export default function Route() {
           </HeroSectionParagraph>
           <HeroSectionAction>
             <BaseLink
-              to={donationUrl}
+              to={CLIENT_ENV.DONATION_URL}
               className={actionClassNames.standalone()}
             >
               Faire un don
@@ -88,8 +84,6 @@ export default function Route() {
 }
 
 function OtherOptionsSection() {
-  const { paypalUrl, teamingUrl } = useConfig();
-
   return (
     <section className="flex flex-col gap-12">
       <h2
@@ -106,7 +100,7 @@ function OtherOptionsSection() {
           image={{ src: paypalImage, alt: "PayPal" }}
           action={
             <BaseLink
-              to={paypalUrl}
+              to={CLIENT_ENV.PAYPAL_URL}
               className={actionClassNames.standalone({ color: "gray" })}
             >
               Faire un don
@@ -120,7 +114,7 @@ function OtherOptionsSection() {
           image={{ src: teamingImage, alt: "Teaming" }}
           action={
             <BaseLink
-              to={teamingUrl}
+              to={CLIENT_ENV.TEAMING_URL}
               className={actionClassNames.standalone({ color: "gray" })}
             >
               Faire un don

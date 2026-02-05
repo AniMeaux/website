@@ -1,5 +1,3 @@
-import type { Config } from "#i/core/config";
-import { useConfig } from "#i/core/config";
 import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
@@ -11,8 +9,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Route() {
-  const config = useConfig();
-
   return (
     <main className="flex w-full flex-col gap-12 px-article">
       <header className="flex flex-col gap-6">
@@ -24,16 +20,14 @@ export default function Route() {
       </header>
 
       <article>
-        <Markdown components={ARTICLE_COMPONENTS}>
-          {getContent(config)}
-        </Markdown>
+        <Markdown components={ARTICLE_COMPONENTS}>{getContent()}</Markdown>
       </article>
     </main>
   );
 }
 
-function getContent({ publicHost }: Config) {
-  return `Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l’économie numérique, dite L.C.E.N., il est porté à la connaissance des utilisateurs et visiteurs, ci-après l’**"Utilisateur"**, du site ${publicHost}, ci-après le **"Site"**, les présentes mentions légales.
+function getContent() {
+  return `Conformément aux dispositions des Articles 6-III et 19 de la Loi n°2004-575 du 21 juin 2004 pour la Confiance dans l’économie numérique, dite L.C.E.N., il est porté à la connaissance des utilisateurs et visiteurs, ci-après l’**"Utilisateur"**, du site ${CLIENT_ENV.PUBLIC_HOST}, ci-après le **"Site"**, les présentes mentions légales.
 
 La connexion et la navigation sur le Site par l’Utilisateur implique acceptation intégrale et sans réserve des présentes mentions légales.
 

@@ -1,14 +1,11 @@
 import { BaseLink } from "#i/core/base-link";
-import { useConfig } from "#i/core/config";
 import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 
 export function ShowBanner({ className }: { className?: string }) {
-  const { showUrl } = useConfig();
-
   return (
     <BaseLink
-      to={showUrl}
+      to={CLIENT_ENV.SHOW_URL}
       className={cn(
         className,
         "flex items-center gap-3 bg-show-mystic px-page pb-2 text-show-alabaster pt-safe-2 text-show-body-lowercase-emphasis md:gap-6",

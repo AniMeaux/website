@@ -1,4 +1,3 @@
-import { createConfig } from "#i/core/config.server";
 import { createCloudinaryUrl } from "#i/core/data-display/image";
 import { db } from "#i/core/db.server";
 import { notFound } from "#i/core/response.server";
@@ -28,11 +27,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     throw notFound();
   }
 
-  const config = createConfig();
-  const url = createCloudinaryUrl(config.cloudinaryName, paramsResult.data.id, {
-    aspectRatio: "none",
-    format: "jpg",
-  });
+  const url = createCloudinaryUrl(
+    process.env.CLOUDINARY_CLOUD_NAME,
+    paramsResult.data.id,
+    {
+      aspectRatio: "none",
+      format: "jpg",
+    },
+  );
 
   return await fetch(url);
 }

@@ -2,16 +2,30 @@ import { zu } from "@animeaux/zod-utils";
 import { DateTime } from "luxon";
 
 export function checkEnv() {
-  const result = ProcessEnvSchema.safeParse(process.env);
+  const result = processEnvSchema.safeParse(process.env);
 
   if (!result.success) {
     console.error(
       "Invalid environment variables:",
-      result.error.flatten().fieldErrors,
+      formatErrors(result.error.flatten()),
     );
 
     throw new Error("Invalid envirmonment variables");
   }
+}
+
+function formatErrors(
+  errors: zu.inferFlattenedErrors<typeof processEnvSchema>,
+) {
+  const payload: Record<string, string[]> = {
+    ...errors.fieldErrors,
+  };
+
+  if (errors.formErrors.length > 0) {
+    payload.formErrors = errors.formErrors;
+  }
+
+  return JSON.stringify(payload, null, 2);
 }
 
 /**
@@ -53,7 +67,6 @@ export function getClientEnv() {
     PUBLIC_HOST: process.env.PUBLIC_HOST,
     RUNTIME_ENV: process.env.RUNTIME_ENV,
     SENTRY_DSN: process.env.SENTRY_DSN,
-    SENTRY_ENABLE_LOCAL: process.env.SENTRY_ENABLE_LOCAL,
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
     SPONSORSHIP_URL: process.env.SPONSORSHIP_URL,
     TICKETING_URL: process.env.TICKETING_URL,
@@ -70,11 +83,11 @@ declare global {
   }
 
   namespace NodeJS {
-    interface ProcessEnv extends zu.infer<typeof ProcessEnvSchema> {}
+    interface ProcessEnv extends zu.infer<typeof processEnvSchema> {}
   }
 }
 
-const ProcessEnvSchema = zu
+const processEnvSchema = zu
   .object({
     ANIMEAUX_URL: zu.string(),
     APPLICATION_TOKEN_ADMIN: zu.string(),
@@ -140,10 +153,9 @@ const ProcessEnvSchema = zu
       .transform((value) => String(value)),
     PUBLIC_HOST: zu.string(),
     RESEND_API_KEY: zu.string().optional(),
-    RESEND_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
+    RESEND_USE_REAL_EMAIL: zu.enum(["false", "true"]).optional(),
     RUNTIME_ENV: zu.enum(["local", "production", "staging"]),
     SENTRY_DSN: zu.string().optional(),
-    SENTRY_ENABLE_LOCAL: zu.enum(["false", "true"]).optional(),
     SENTRY_TRACES_SAMPLE_RATE: zu.coerce
       .number()
       .min(0)
@@ -156,18 +168,16 @@ const ProcessEnvSchema = zu
     TICKETING_URL: zu.string(),
   })
   .refine(
-    (env) =>
-      env.GOOGLE_API_CLIENT_EMAIL != null || env.NODE_ENV !== "production",
-    {
-      message:
-        "`GOOGLE_API_CLIENT_EMAIL` is required when `NODE_ENV=production`",
-    },
+    (env) => env.GOOGLE_API_CLIENT_EMAIL != null || env.RUNTIME_ENV == "local",
+    (env) => ({
+      path: ["GOOGLE_API_CLIENT_EMAIL"],
+      message: `Required when \`RUNTIME_ENV=${env.RUNTIME_ENV}\``,
+    }),
   )
   .refine(
-    (env) =>
-      env.GOOGLE_API_PRIVATE_KEY != null || env.NODE_ENV !== "production",
-    {
-      message:
-        "`GOOGLE_API_PRIVATE_KEY` is required when `NODE_ENV=production`",
-    },
+    (env) => env.GOOGLE_API_PRIVATE_KEY != null || env.RUNTIME_ENV === "local",
+    (env) => ({
+      path: ["GOOGLE_API_PRIVATE_KEY"],
+      message: `Required when \`RUNTIME_ENV=${env.RUNTIME_ENV}\``,
+    }),
   );

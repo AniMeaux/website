@@ -1,6 +1,5 @@
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
-import { getConfigFromMetaMatches } from "#i/core/config";
 import {
   HeroSection,
   HeroSectionAside,
@@ -17,11 +16,10 @@ import { socialImages } from "#i/images/social";
 import { cn } from "@animeaux/core";
 import type { MetaFunction } from "@remix-run/node";
 
-export const meta: MetaFunction = ({ matches }) => {
-  const config = getConfigFromMetaMatches(matches);
+export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Foire aux questions"),
-    imageUrl: `${config.publicHost}${socialImages.faq.imagesBySize[1024]}`,
+    imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.faq.imagesBySize[1024]}`,
   });
 };
 

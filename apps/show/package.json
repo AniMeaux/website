@@ -19,6 +19,8 @@
     "dev:icons": "pnpm generate:icons --watch",
     "dev:pictograms": "pnpm generate:pictograms --watch",
     "dev:theme": "tsx watch --clear-screen=false ./scripts/generate-theme.ts",
+    "docker-build": "docker buildx build --file ./Dockerfile --tag local/show ../..",
+    "docker-start": "docker run --rm --network host --env-file .env --env-file .env.local --env PORT=3001 local/show",
     "generate": "run-p --continue-on-error --print-label generate:*",
     "generate:icons": "tsx ./scripts/generate-icon-sprite.ts --minify",
     "generate:pictograms": "tsx ./scripts/generate-pictogram-sprite.ts --minify",
