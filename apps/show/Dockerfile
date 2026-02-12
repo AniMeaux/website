@@ -1,5 +1,5 @@
 # Base stage for all subsequent stages.
-FROM node:22.11-bullseye-slim AS base
+FROM node:22.12-bullseye-slim AS base
 
 # Needed for Prisma generation and runtime.
 RUN apt-get update && apt-get install -y openssl
