@@ -32,6 +32,18 @@ import { DateTime } from "luxon"
 
 const DEFAULT_PASSWORD = "NotASword1!"
 
+const ACTIVE_ANIMAL_STATUS: Status[] = [
+  Status.OPEN_TO_ADOPTION,
+  Status.OPEN_TO_RESERVATION,
+  Status.RESERVED,
+  Status.RETIRED,
+  Status.UNAVAILABLE,
+]
+
+const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
+  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
+)
+
 console.log("🌱 Seeding data...")
 
 const prisma = new PrismaClient()
@@ -381,18 +393,6 @@ function createEventInput({
     isVisible: faker.datatype.boolean(),
   }
 }
-
-const ACTIVE_ANIMAL_STATUS: Status[] = [
-  Status.OPEN_TO_ADOPTION,
-  Status.OPEN_TO_RESERVATION,
-  Status.RESERVED,
-  Status.RETIRED,
-  Status.UNAVAILABLE,
-]
-
-const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
-  (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
-)
 
 async function seedAnimals() {
   await Promise.all([
