@@ -29,10 +29,9 @@
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit",
-    "migrate": "yarn prisma-env migrate dev",
-    "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
-    "reset": "yarn prisma-env migrate reset -f",
-    "studio": "yarn prisma-env studio"
+    "migrate": "prisma migrate dev",
+    "reset": "prisma migrate reset -f",
+    "studio": "prisma studio"
   },
   "prisma": {
     "seed": "tsx -r dotenv-flow/config ./scripts/seed-data.ts"
