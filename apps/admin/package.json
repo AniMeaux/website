@@ -20,7 +20,7 @@
     "docker-build": "docker buildx build --file ./Dockerfile --tag local/admin ../..",
     "docker-start": "docker run --rm --network host --env-file .env --env-file .env.local --env PORT=3002 local/admin",
     "generate": "run-p --continue-on-error --print-label generate:*",
-    "generate:icons": "tsx ./scripts/generate-icon-sprite.ts --minify",
+    "generate:icons": "tsx ./scripts/generate-icon-sprite.ts",
     "generate:theme": "tsx ./scripts/generate-theme.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:types": "tsc --noEmit",
