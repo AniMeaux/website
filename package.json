@@ -35,6 +35,7 @@
     "pm2": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-organize-imports": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:"
+    "prettier-plugin-tailwindcss": "catalog:",
+    "typescript": "catalog:"
   }
 }

@@ -429,6 +429,9 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: 'catalog:'
         version: 0.6.1(prettier-plugin-organize-imports@3.2.4(prettier@3.3.0)(typescript@5.4.5))(prettier@3.3.0)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.4.5
 
   apps/admin:
     dependencies:
@@ -9155,7 +9158,7 @@ snapshots:
 
   '@pm2/pm2-version-check@1.0.4':
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -10525,7 +10528,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -12318,7 +12321,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
