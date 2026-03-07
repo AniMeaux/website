@@ -34,16 +34,10 @@ swap_size_mb = 512
     hard_limit = 100
     soft_limit = 80
 
-  [[services.tcp_checks]]
-    interval = "15s"
-    timeout = "2s"
-    grace_period = "1s"
-    restart_limit = 0
-
   [[services.http_checks]]
-    interval = "10s"
+    interval = "1m"
     timeout = "2s"
-    grace_period = "5s"
+    grace_period = "1m"
     restart_limit = 0
     method = "get"
     path = "/healthcheck"
