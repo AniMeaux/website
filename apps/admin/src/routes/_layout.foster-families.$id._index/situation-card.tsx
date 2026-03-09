@@ -14,6 +14,7 @@ import { Icon } from "#i/generated/icon";
 import { joinReactNodes } from "@animeaux/core";
 import {
   FosterFamilyAvailability,
+  FosterFamilyEmergencies,
   FosterFamilyGarden,
   FosterFamilyHousing,
 } from "@animeaux/prisma";
@@ -113,6 +114,12 @@ export function SituationCard() {
               ].join("")}
             </Markdown>
           </SimpleItem>
+
+          <SimpleItem icon={<Icon href="icon-hand-holding-heart-solid" />}>
+            <Markdown components={HIGHLIGHT_COMPONENTS}>
+              {[TEXT_BY_EMERGENCY[fosterFamily.emergencies]].join("")}
+            </Markdown>
+          </SimpleItem>
         </ItemList>
       </Card.Content>
     </Card>
@@ -130,4 +137,11 @@ const TEXT_BY_GARDEN: Record<FosterFamilyGarden, string> = {
   [FosterFamilyGarden.NO]: ", sans **jardin**",
   [FosterFamilyGarden.UNKNOWN]: "",
   [FosterFamilyGarden.YES]: ", avec **jardin**",
+};
+
+const TEXT_BY_EMERGENCY: Record<FosterFamilyEmergencies, string> = {
+  [FosterFamilyEmergencies.NO]: "Accueil court terme et urgence : **Non**",
+  [FosterFamilyEmergencies.YES]: "Accueil court terme et urgence : **Oui**",
+  [FosterFamilyEmergencies.UNKNOWN]:
+    "Accueil court terme et urgence : **Inconnu**",
 };
