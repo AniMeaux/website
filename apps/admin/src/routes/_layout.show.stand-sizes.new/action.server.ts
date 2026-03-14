@@ -1,8 +1,3 @@
-import { db } from "#i/core/db.server.js";
-import { AlreadyExistError } from "#i/core/errors.server.js";
-import { Routes } from "#i/core/navigation.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { actionSchema } from "#i/show/stand-size/action-schema";
 import { catchError } from "@animeaux/core";
 import { UserGroup } from "@animeaux/prisma/server";
 import type { SubmissionResult } from "@conform-to/react";
@@ -10,6 +5,12 @@ import { parseWithZod } from "@conform-to/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import type { MergeExclusive } from "type-fest";
+
+import { db } from "#i/core/db.server.js";
+import { AlreadyExistError } from "#i/core/errors.server.js";
+import { Routes } from "#i/core/navigation.js";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
+import { actionSchema } from "#i/show/stand-size/action-schema";
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

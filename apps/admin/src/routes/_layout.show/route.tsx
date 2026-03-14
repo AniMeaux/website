@@ -1,3 +1,8 @@
+import { UserGroup } from "@animeaux/prisma";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Outlet, useLoaderData } from "@remix-run/react";
+
 import { db } from "#i/core/db.server";
 import type { RouteHandle } from "#i/core/handles.js";
 import { PageLayout } from "#i/core/layout/page";
@@ -5,10 +10,6 @@ import { Routes } from "#i/core/navigation";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { Entity } from "#i/routes/resources.global-search/entity.js";
 import { hasGroups } from "#i/users/groups.js";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
 
 export const handle: RouteHandle = {
   globalSearchEntity: Entity.Enum.EXHIBITOR,

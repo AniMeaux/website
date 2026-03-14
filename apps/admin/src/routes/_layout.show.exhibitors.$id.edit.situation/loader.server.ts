@@ -1,9 +1,11 @@
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+
 import { routeParamsSchema } from "./route-params";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {

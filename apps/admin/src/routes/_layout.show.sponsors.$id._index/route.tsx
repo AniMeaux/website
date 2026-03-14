@@ -1,9 +1,3 @@
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
@@ -11,6 +5,14 @@ import { json } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
+
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { PageLayout } from "#i/core/layout/page";
+import { getPageTitle } from "#i/core/page-title";
+import { notFound } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+
 import { CardProfile } from "./card-profile";
 import { CardSituation } from "./card-situation";
 

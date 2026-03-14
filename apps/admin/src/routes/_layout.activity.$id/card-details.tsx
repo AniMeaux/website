@@ -1,3 +1,5 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { ActivityAction } from "#i/activity/action.js";
 import { ActivityActorType } from "#i/activity/actor-type.js";
 import { ActivityResource } from "#i/activity/resource.js";
@@ -12,7 +14,7 @@ import { Routes } from "#i/core/navigation.js";
 import { FosterFamilyAvatar } from "#i/foster-families/avatar.js";
 import { Icon } from "#i/generated/icon.js";
 import { UserAvatar } from "#i/users/avatar.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardDetails() {

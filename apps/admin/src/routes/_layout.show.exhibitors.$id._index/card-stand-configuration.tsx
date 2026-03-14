@@ -1,3 +1,5 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { Action, ProseInlineAction } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { InlineHelper } from "#i/core/data-display/helper.js";
@@ -15,7 +17,7 @@ import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installa
 import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { StatusHelper } from "#i/show/exhibitors/status-helper";
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardStandConfiguration() {

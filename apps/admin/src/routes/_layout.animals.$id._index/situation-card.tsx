@@ -1,3 +1,15 @@
+import { getLongLocation } from "@animeaux/core";
+import {
+  AdoptionOption,
+  Diagnosis,
+  Gender,
+  ScreeningResult,
+  Species,
+  Status,
+} from "@animeaux/prisma";
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption";
 import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up";
 import {
@@ -22,17 +34,7 @@ import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 import { Icon } from "#i/generated/icon";
 import { theme } from "#i/generated/theme";
 import { UserAvatar } from "#i/users/avatar";
-import { getLongLocation } from "@animeaux/core";
-import {
-  AdoptionOption,
-  Diagnosis,
-  Gender,
-  ScreeningResult,
-  Species,
-  Status,
-} from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./route";
 
 export function SituationCard() {

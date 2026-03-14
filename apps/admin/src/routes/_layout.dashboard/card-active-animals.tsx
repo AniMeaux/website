@@ -1,3 +1,5 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { AnimalItem } from "#i/animals/item";
 import { AnimalSearchParams } from "#i/animals/search-params";
 import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
@@ -6,7 +8,7 @@ import { BaseLink } from "#i/core/base-link";
 import { SimpleEmpty } from "#i/core/data-display/empty";
 import { Card } from "#i/core/layout/card";
 import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardActiveAnimals() {

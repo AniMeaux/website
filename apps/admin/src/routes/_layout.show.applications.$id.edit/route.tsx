@@ -1,3 +1,13 @@
+import { toBooleanAttribute } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { ShowExhibitorApplicationStatus, UserGroup } from "@animeaux/prisma";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+
 import { Action } from "#i/core/actions";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { db } from "#i/core/db.server";
@@ -18,15 +28,6 @@ import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#i/show/exhibitors/applications/status";
-import { toBooleanAttribute } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { ShowExhibitorApplicationStatus, UserGroup } from "@animeaux/prisma";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,9 +1,11 @@
-import { db } from "#i/core/db.server";
-import { forbidden } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+
+import { db } from "#i/core/db.server";
+import { forbidden } from "#i/core/response.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+
 import { Entity } from "./entity";
 import { GlobalSearchParams } from "./search-params";
 

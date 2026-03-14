@@ -1,3 +1,5 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions.js";
 import { BaseLink } from "#i/core/base-link.js";
 import { InlineHelper } from "#i/core/data-display/helper.js";
@@ -9,7 +11,7 @@ import { Icon } from "#i/generated/icon";
 import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { StatusHelper } from "#i/show/exhibitors/status-helper";
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardPerks() {

@@ -1,8 +1,9 @@
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { useLayoutEffect } from "#i/core/use-layout-effect";
 import autosize from "autosize";
 import { forwardRef, useRef } from "react";
 import invariant from "tiny-invariant";
+
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
+import { useLayoutEffect } from "#i/core/use-layout-effect";
 
 export const Textarea = forwardRef<
   React.ComponentRef<"textarea">,

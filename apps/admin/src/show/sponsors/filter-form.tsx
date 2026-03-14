@@ -1,3 +1,5 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Filters } from "#i/core/controllers/filters";
@@ -16,7 +18,6 @@ import {
   SponsorSearchParamsN,
 } from "#i/show/sponsors/search-params";
 import { Visibility, VisibilityIcon } from "#i/show/visibility";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function SponsorFilters() {
   return (

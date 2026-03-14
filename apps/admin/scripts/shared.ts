@@ -1,11 +1,12 @@
 import { readFile } from "node:fs/promises";
+
 import { relative } from "path/posix";
 
 export async function safelyReadFile(path: string) {
   let content: undefined | string;
   try {
     content = await readFile(path, "utf-8");
-  } catch (error) {}
+  } catch (_error) {}
 
   return content;
 }

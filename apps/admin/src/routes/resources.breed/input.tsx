@@ -1,3 +1,12 @@
+import { toBooleanAttribute } from "@animeaux/core";
+import type { Breed, Species } from "@animeaux/prisma";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import type { SerializeFrom } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+import { useCombobox } from "downshift";
+import { createPath } from "history";
+import { forwardRef, useEffect, useState } from "react";
+
 import { BreedSearchParams } from "#i/breeds/search-params";
 import { ensureArray } from "#i/core/collections";
 import { BaseTextInput } from "#i/core/form-elements/base-text-input";
@@ -11,14 +20,7 @@ import {
 } from "#i/core/form-elements/resource-input";
 import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon";
-import { toBooleanAttribute } from "@animeaux/core";
-import type { Breed, Species } from "@animeaux/prisma";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
+
 import type { loader } from "./route";
 
 type BreedInputProps = {

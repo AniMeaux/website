@@ -1,3 +1,11 @@
+import { UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import { AnimalFilters } from "#i/animals/filter-form";
 import { AnimalItem } from "#i/animals/item";
 import {
@@ -20,13 +28,6 @@ import { forbidden } from "#i/core/response.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { hasGroups } from "#i/users/groups";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 60;

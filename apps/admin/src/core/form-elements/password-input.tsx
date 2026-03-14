@@ -1,6 +1,7 @@
+import { forwardRef, useState } from "react";
+
 import { Input } from "#i/core/form-elements/input";
 import { Icon } from "#i/generated/icon";
-import { forwardRef, useState } from "react";
 
 export const PasswordInput = Object.assign(
   forwardRef<

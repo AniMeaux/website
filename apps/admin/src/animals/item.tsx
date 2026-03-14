@@ -1,3 +1,9 @@
+import { cn } from "@animeaux/core";
+import type { Animal, Species, User } from "@animeaux/prisma";
+import { Gender } from "@animeaux/prisma";
+import type { SerializeFrom } from "@remix-run/node";
+import { forwardRef } from "react";
+
 import { AnimalAvatar } from "#i/animals/avatar";
 import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender";
 import { getAnimalDisplayName } from "#i/animals/profile/name";
@@ -15,11 +21,6 @@ import type { SuggestionItemProps } from "#i/core/form-elements/resource-input";
 import { SuggestionItem } from "#i/core/form-elements/resource-input";
 import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import type { Animal, Species, User } from "@animeaux/prisma";
-import { Gender } from "@animeaux/prisma";
-import type { SerializeFrom } from "@remix-run/node";
-import { forwardRef } from "react";
 
 export function AnimalItem({
   animal,

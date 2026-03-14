@@ -1,5 +1,6 @@
-import type { Entity } from "#i/routes/resources.global-search/entity.js";
 import { useMatches } from "@remix-run/react";
+
+import type { Entity } from "#i/routes/resources.global-search/entity.js";
 
 export type RouteHandle = {
   htmlBackgroundColor?: string;

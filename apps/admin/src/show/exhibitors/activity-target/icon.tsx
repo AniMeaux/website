@@ -1,9 +1,10 @@
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
 import { ShowActivityTarget } from "@animeaux/prisma";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
 
 export const ActivityTargetIcon = forwardRef<
   React.ComponentRef<"span">,

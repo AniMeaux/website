@@ -1,5 +1,3 @@
-import { generateId } from "#i/core/id";
-import { useIsTouchScreen } from "#i/core/touch-screen";
 import {
   createContext,
   useCallback,
@@ -13,6 +11,9 @@ import { DndProvider, useDrag, useDragLayer, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from "react-dnd-touch-backend";
 import invariant from "tiny-invariant";
+
+import { generateId } from "#i/core/id";
+import { useIsTouchScreen } from "#i/core/touch-screen";
 
 export enum DragAndDropDirection {
   HORIZONTAL,
@@ -97,7 +98,7 @@ export function createDragAndDropContext<DataType>() {
       () => ({
         ...state,
         direction,
-        isDisabled: isDisabled,
+        isDisabled,
         endDrag,
         hoverItem,
         itemType,
@@ -223,9 +224,9 @@ export function createDragAndDropContext<DataType>() {
       canDrop: () => false,
 
       hover: (draggedItem, monitor) => {
-        // TODO: Use the center of the preview element instead of the pointer
-        // position for the computation.
-        // It would be more intuative for the user.
+        // Using the center of the preview element instead of the pointer
+        // position for the computation would be more intuitive for the user but
+        // it's harder to compute.
         const pointerPosition = monitor.getClientOffset();
 
         // The `hover` method is called even when `canDrop` return `false`.
@@ -292,7 +293,7 @@ export function createDragAndDropContext<DataType>() {
     const { isDragging, item, sourcePreviewCoordinates } = useDragLayer(
       (monitor: DragLayerMonitor) => ({
         isDragging: monitor.isDragging(),
-        item: monitor.getItem() as DragItem<DataType>,
+        item: monitor.getItem(),
         sourcePreviewCoordinates: getSourcePreviewCoordinates(monitor),
       }),
     );
@@ -307,7 +308,7 @@ export function createDragAndDropContext<DataType>() {
 
     return {
       isVisible: true,
-      item: item,
+      item,
       style: getStyle(draggedElementInitialRect, sourcePreviewCoordinates),
     };
   }

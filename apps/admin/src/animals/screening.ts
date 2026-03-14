@@ -1,6 +1,7 @@
-import type { IconName } from "#i/generated/icon";
 import { Gender, ScreeningResult } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
+
+import type { IconName } from "#i/generated/icon";
 
 export const SCREENING_RESULT_TRANSLATION: Record<
   ScreeningResult,

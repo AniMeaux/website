@@ -1,7 +1,8 @@
+import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+
 import { FieldText } from "#i/core/form-elements/field-text.js";
 import { Form } from "#i/core/form-elements/form";
 import { Card } from "#i/core/layout/card";
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
 
 export function FieldsetIdentification({
   form,

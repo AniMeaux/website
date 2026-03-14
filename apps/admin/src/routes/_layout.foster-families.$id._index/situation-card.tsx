@@ -1,3 +1,12 @@
+import { joinReactNodes } from "@animeaux/core";
+import {
+  FosterFamilyAvailability,
+  FosterFamilyGarden,
+  FosterFamilyHousing,
+} from "@animeaux/prisma";
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { SPECIES_TRANSLATION } from "#i/animals/species";
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
@@ -11,14 +20,7 @@ import {
 } from "#i/foster-families/availability";
 import { ICON_BY_HOUSING } from "#i/foster-families/housing";
 import { Icon } from "#i/generated/icon";
-import { joinReactNodes } from "@animeaux/core";
-import {
-  FosterFamilyAvailability,
-  FosterFamilyGarden,
-  FosterFamilyHousing,
-} from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./route";
 
 export function SituationCard() {

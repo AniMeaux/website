@@ -1,6 +1,7 @@
+import { cn } from "@animeaux/core";
+
 import type { IconName } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
 
 export type ChipVariant = "primary" | "secondary";
 

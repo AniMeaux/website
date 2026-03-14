@@ -1,11 +1,12 @@
+import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
+import { redirect } from "@remix-run/node";
+
 import { ActivityAction } from "#i/activity/action.js";
 import { Activity } from "#i/activity/db.server.js";
 import { ActivityResource } from "#i/activity/resource.js";
 import { NotFoundError } from "#i/core/errors.server";
 import { Routes } from "#i/core/navigation";
 import { prisma } from "#i/core/prisma.server";
-import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
-import { redirect } from "@remix-run/node";
 
 type ProfileKeys =
   | "alias"
@@ -86,7 +87,7 @@ export class AnimalProfileDbDelegate {
 
     try {
       await this.validate(prisma, draft);
-    } catch (error) {
+    } catch (_error) {
       throw redirect(Routes.animals.new.profile.toString());
     }
   }

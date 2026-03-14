@@ -1,9 +1,11 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
 import { Card } from "#i/core/layout/card.js";
 import { Icon } from "#i/generated/icon.js";
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
 import { Price } from "#i/show/price.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardPrices() {

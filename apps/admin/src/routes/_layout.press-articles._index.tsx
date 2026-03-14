@@ -1,3 +1,18 @@
+import { cn } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils/promise";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Paginator } from "#i/core/controllers/paginator";
@@ -14,20 +29,6 @@ import { prisma } from "#i/core/prisma.server";
 import { badRequest, notFound } from "#i/core/response.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
 
 const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
 
@@ -203,6 +204,7 @@ function PressArticleItem({
 
         <Dialog>
           <span
+            role="presentation"
             onClick={(event) => event.preventDefault()}
             className="absolute bottom-0.5 right-0.5 flex"
           >

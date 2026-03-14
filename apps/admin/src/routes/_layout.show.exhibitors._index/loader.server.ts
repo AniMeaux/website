@@ -1,12 +1,13 @@
+import { UserGroup } from "@animeaux/prisma/server";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { promiseHash } from "remix-utils/promise";
+
 import { db } from "#i/core/db.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params";
 import { hasGroups } from "#i/users/groups.js";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
 
 const EXHIBITOR_COUNT_PER_PAGE = 20;
 

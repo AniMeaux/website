@@ -1,3 +1,9 @@
+import { cn, toBooleanAttribute } from "@animeaux/core";
+import * as Dialog from "@radix-ui/react-dialog";
+import * as Popover from "@radix-ui/react-popover";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { forwardRef } from "react";
+
 import { Item } from "#i/core/data-display/item";
 import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
 import { BaseTextInput } from "#i/core/form-elements/base-text-input";
@@ -5,11 +11,6 @@ import { Card } from "#i/core/layout/card";
 import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
 import { Icon } from "#i/generated/icon";
 import { theme } from "#i/generated/theme";
-import { cn, toBooleanAttribute } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Popover from "@radix-ui/react-popover";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { forwardRef } from "react";
 
 type ResourceInputLayoutProps = {
   isOpened: boolean;

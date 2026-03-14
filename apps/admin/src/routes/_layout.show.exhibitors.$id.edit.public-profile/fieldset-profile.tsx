@@ -1,3 +1,7 @@
+import { ensureArray, ImageUrl, withoutKey } from "@animeaux/core";
+import { getInputProps } from "@conform-to/react";
+import { useLoaderData } from "@remix-run/react";
+
 import { DynamicImage } from "#i/core/data-display/image";
 import { FieldCheckboxes } from "#i/core/form-elements/field-checkboxes";
 import { FieldList } from "#i/core/form-elements/field-list";
@@ -9,9 +13,7 @@ import { Card } from "#i/core/layout/card";
 import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
 import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import { ImageUrl, ensureArray, withoutKey } from "@animeaux/core";
-import { getInputProps } from "@conform-to/react";
-import { useLoaderData } from "@remix-run/react";
+
 import { useForm } from "./form";
 import type { loader } from "./route";
 

@@ -1,3 +1,10 @@
+import { UserGroup } from "@animeaux/prisma";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+import invariant from "tiny-invariant";
+
 import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
 import { db } from "#i/core/db.server";
 import { Card } from "#i/core/layout/card";
@@ -8,12 +15,7 @@ import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { SponsorFilters } from "#i/show/sponsors/filter-form";
 import { SponsorSearchParams } from "#i/show/sponsors/search-params";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
+
 import { CardList } from "./card-list";
 
 export async function loader({ request }: LoaderFunctionArgs) {

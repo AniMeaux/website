@@ -1,6 +1,7 @@
+import invariant from "tiny-invariant";
+
 import type { AvatarColor } from "#i/core/data-display/avatar";
 import { simpleHash } from "#i/core/simple-hash";
-import invariant from "tiny-invariant";
 
 const COLORS = [
   "blue-light",

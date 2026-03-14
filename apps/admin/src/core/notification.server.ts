@@ -22,7 +22,6 @@ export async function notifyShowApp(notification: ShowNotification) {
   });
 
   if (!response.ok) {
-    // TODO: Capture error and don't throw.
     throw new Error(`${response.status} ${response.statusText}`);
   }
 }

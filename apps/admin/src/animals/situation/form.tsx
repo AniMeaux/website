@@ -1,3 +1,22 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma";
+import {
+  AdoptionOption,
+  Diagnosis,
+  Gender,
+  PickUpReason,
+  ScreeningResult,
+  Species,
+  Status,
+  UserGroup,
+} from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
+
 import {
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
@@ -32,24 +51,6 @@ import { FosterFamilyInput } from "#i/routes/resources.foster-family/input";
 import { ManagerInput } from "#i/routes/resources.manager/input";
 import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input";
 import { hasGroups } from "#i/users/groups";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma";
-import {
-  AdoptionOption,
-  Diagnosis,
-  Gender,
-  PickUpReason,
-  ScreeningResult,
-  Species,
-  Status,
-  UserGroup,
-} from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

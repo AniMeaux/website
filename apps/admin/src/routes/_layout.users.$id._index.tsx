@@ -1,3 +1,17 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { Prisma, User } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useEffect, useState } from "react";
+import { promiseHash } from "remix-utils/promise";
+
 import { AnimalItem } from "#i/animals/item";
 import { AnimalSearchParams } from "#i/animals/search-params";
 import {
@@ -29,19 +43,6 @@ import { Icon } from "#i/generated/icon";
 import { UserAvatar } from "#i/users/avatar";
 import { DeleteMyselfError, DisableMyselfError } from "#i/users/db.server";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Prisma, User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

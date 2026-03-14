@@ -1,3 +1,13 @@
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { db } from "#i/core/db.server";
 import { EmailAlreadyUsedError, NotFoundError } from "#i/core/errors.server";
@@ -12,15 +22,6 @@ import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { LockMyselfError } from "#i/users/db.server";
 import { ActionFormData, UserForm } from "#i/users/form";
 import { GROUP_TRANSLATION } from "#i/users/groups";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

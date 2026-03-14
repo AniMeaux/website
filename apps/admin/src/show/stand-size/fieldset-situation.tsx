@@ -1,8 +1,9 @@
+import type { FieldMetadata } from "@conform-to/react";
+
 import { FieldRadios } from "#i/core/form-elements/field-radios.js";
 import { Form } from "#i/core/form-elements/form";
 import { Card } from "#i/core/layout/card";
 import { Visibility } from "#i/show/visibility.js";
-import type { FieldMetadata } from "@conform-to/react";
 
 export function FieldsetSituation({
   fields,

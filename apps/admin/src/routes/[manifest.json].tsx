@@ -1,12 +1,13 @@
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { theme } from "#i/generated/theme";
-import googleTouchIconMac from "#i/images/google-touch-icon-mac.png";
-import googleTouchIconMaskable from "#i/images/google-touch-icon-maskable.png";
-import googleTouchIcon from "#i/images/google-touch-icon.png";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import Bowser from "bowser";
+
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { theme } from "#i/generated/theme";
+import googleTouchIcon from "#i/images/google-touch-icon.png";
+import googleTouchIconMac from "#i/images/google-touch-icon-mac.png";
+import googleTouchIconMaskable from "#i/images/google-touch-icon-maskable.png";
 
 // Make sure images are added to the build assets.
 // It looks like an asset only used on the server won't be included in the

@@ -1,11 +1,12 @@
+import { cn } from "@animeaux/core";
+import * as RadixDialog from "@radix-ui/react-dialog";
+import { createContext, useContext, useMemo } from "react";
+
 import type { ActionColor } from "#i/core/actions";
 import { Action } from "#i/core/actions";
 import { Overlay } from "#i/core/popovers/overlay";
 import type { IconName } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import * as RadixDialog from "@radix-ui/react-dialog";
-import { createContext, useContext, useMemo } from "react";
 
 type DialogVariant = "alert" | "info" | "warning";
 
@@ -43,6 +44,8 @@ Dialog.Content = function DialogContent({
            * https://github.com/radix-ui/primitives/issues/2373
            */}
           <div
+            // Explained just above.
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
             className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-popover-md focus-visible:focus-compact-blue-400"
           >

@@ -1,3 +1,6 @@
+import type { User } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import { ActivityAction } from "#i/activity/action";
 import { ActivityResource } from "#i/activity/resource";
 import { ActivitySearchParams } from "#i/activity/search-params";
@@ -13,8 +16,6 @@ import {
 } from "#i/core/form-elements/toggle-input";
 import { Icon } from "#i/generated/icon";
 import { UserAvatar } from "#i/users/avatar";
-import type { User } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ActivityFilters({
   users,

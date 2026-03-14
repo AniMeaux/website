@@ -1,5 +1,6 @@
-import type { IconName } from "#i/generated/icon.js";
 import { ActivityResource as PrismaActivityResource } from "@animeaux/prisma";
+
+import type { IconName } from "#i/generated/icon.js";
 
 export namespace ActivityResource {
   export const Enum = PrismaActivityResource;

@@ -1,16 +1,3 @@
-import { AnimalCreationSteps } from "#i/animals/creation-steps";
-import { ActionFormData, AnimalPicturesForm } from "#i/animals/pictures/form";
-import {
-  CloudinaryUploadApiError,
-  createCloudinaryUploadHandler,
-} from "#i/core/cloudinary.server";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {
@@ -27,6 +14,20 @@ import {
 } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import invariant from "tiny-invariant";
+
+import { AnimalCreationSteps } from "#i/animals/creation-steps";
+import { ActionFormData, AnimalPicturesForm } from "#i/animals/pictures/form";
+import {
+  CloudinaryUploadApiError,
+  createCloudinaryUploadHandler,
+} from "#i/core/cloudinary.server";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

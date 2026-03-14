@@ -1,9 +1,10 @@
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+
 import { db } from "#i/core/db.server";
 import { Routes } from "#i/core/navigation";
 import { commitCurrentUserPreferences } from "#i/current-user/preferences.server";
 import { ActionFormData } from "#i/routes/resources.preferences/shared";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 
 export async function loader() {
   // Nothing to render here.

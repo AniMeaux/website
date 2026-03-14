@@ -1,3 +1,18 @@
+import { cn } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { SPECIES_ICON } from "#i/animals/species";
 import { BreedFilterForm } from "#i/breeds/filter-form";
 import { BreedSearchParams } from "#i/breeds/search-params";
@@ -18,20 +33,6 @@ import { badRequest, notFound } from "#i/core/response.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 const BREED_COUNT_PER_PAGE = 20;
 

@@ -1,3 +1,6 @@
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { AnimalSmallItem } from "#i/animals/item";
 import {
   AnimalSearchParams,
@@ -5,17 +8,16 @@ import {
   AnimalSortSearchParams,
 } from "#i/animals/search-params";
 import {
-  HAS_UP_COMMING_VACCINATION_CONDITIONS,
   formatNextVaccinationDate,
   getNextVaccinationState,
+  HAS_UP_COMMING_VACCINATION_CONDITIONS,
 } from "#i/animals/situation/health";
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { SimpleEmpty } from "#i/core/data-display/empty";
 import { Card } from "#i/core/layout/card";
 import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./loader.server";
 
 export function CardAnimalsToVaccinate() {

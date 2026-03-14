@@ -1,5 +1,6 @@
-import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.server";
 import { setupServer } from "msw/node";
+
+import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.server";
 
 const server = setupServer(...cloudinaryHandlers);
 

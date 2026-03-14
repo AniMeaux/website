@@ -1,3 +1,6 @@
+import type { ShowStandSize } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Filters } from "#i/core/controllers/filters";
@@ -25,8 +28,6 @@ import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
 } from "#i/show/sponsors/category";
-import type { ShowStandSize } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ApplicationFilters({
   standSizes,

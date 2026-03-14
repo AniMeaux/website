@@ -1,10 +1,11 @@
-import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.client";
 import { setupWorker } from "msw/browser";
+
+import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.client";
 
 const worker = setupWorker(...cloudinaryHandlers);
 
-export function startWorker() {
-  worker.start({
+export async function startWorker() {
+  await worker.start({
     onUnhandledRequest: "bypass",
     quiet: true,
     serviceWorker: {

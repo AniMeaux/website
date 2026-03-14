@@ -1,7 +1,9 @@
+import type { MetaFunction } from "@remix-run/react";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { PageLayout } from "#i/core/layout/page";
 import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
+
 import { CardActivityDescription } from "./card-activity-description";
 import { CardComments } from "./card-comments";
 import { CardContact } from "./card-contact";

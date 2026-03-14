@@ -1,8 +1,9 @@
-import { SuggestionItem } from "#i/core/form-elements/resource-input";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 import { getShortLocation } from "@animeaux/core";
 import type { FosterFamilyAvailability } from "@animeaux/prisma";
 import { forwardRef } from "react";
+
+import { SuggestionItem } from "#i/core/form-elements/resource-input";
+import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 
 export const FosterFamilySuggestionItem = forwardRef<
   React.ComponentRef<typeof SuggestionItem>,

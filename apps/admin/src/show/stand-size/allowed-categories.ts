@@ -1,5 +1,6 @@
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
 import type { Prisma } from "@animeaux/prisma";
+
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
 
 export type StandSizeAllowedCategories = {
   allowedCategories: ExhibitorCategory.Enum[];

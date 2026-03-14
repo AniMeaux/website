@@ -1,3 +1,5 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
@@ -17,7 +19,6 @@ import {
   ToggleInputList,
 } from "#i/core/form-elements/toggle-input";
 import { Icon } from "#i/generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

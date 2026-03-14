@@ -1,3 +1,7 @@
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import type { MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions.js";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { InlineHelper } from "#i/core/data-display/helper.js";
@@ -7,9 +11,7 @@ import { Dialog } from "#i/core/popovers/dialog.js";
 import { Icon } from "#i/generated/icon.js";
 import { theme } from "#i/generated/theme.js";
 import { SponsorshipCategory } from "#i/show/sponsors/category.js";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { ActionIntent } from "./action";
 import type { action } from "./action.server";
 import { CardBilling } from "./card-billing";

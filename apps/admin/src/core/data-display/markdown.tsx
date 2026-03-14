@@ -1,9 +1,13 @@
-import { ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import type { Options as ReactMarkdownOptions } from "react-markdown";
+import type {
+  ExtraProps,
+  Options as ReactMarkdownOptions,
+} from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
+
+import { ProseInlineAction } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
 
 export type MarkdownComponents = NonNullable<
   ReactMarkdownOptions["components"]
@@ -101,7 +105,7 @@ const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
  * Remove `node` from props object because we don't want to have
  * `node="[object Object]"` in the DOM.
  */
-function withoutNode<TProps extends Record<string, any>>({
+function withoutNode<TProps extends ExtraProps>({
   node,
   ...props
 }: TProps): Omit<TProps, "node"> {

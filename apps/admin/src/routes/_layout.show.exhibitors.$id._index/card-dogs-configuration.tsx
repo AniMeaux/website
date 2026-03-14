@@ -1,3 +1,7 @@
+import { joinReactNodes } from "@animeaux/core";
+import { Gender } from "@animeaux/prisma";
+import { useLoaderData } from "@remix-run/react";
+
 import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender.js";
 import { Action } from "#i/core/actions.js";
 import { BaseLink } from "#i/core/base-link.js";
@@ -11,9 +15,7 @@ import { Icon } from "#i/generated/icon.js";
 import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { StatusHelper } from "#i/show/exhibitors/status-helper.js";
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { joinReactNodes } from "@animeaux/core";
-import { Gender } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardDogsConfiguration() {

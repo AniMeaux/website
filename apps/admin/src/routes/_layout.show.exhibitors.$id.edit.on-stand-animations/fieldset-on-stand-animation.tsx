@@ -1,8 +1,10 @@
+import type { FieldMetadata } from "@conform-to/react";
+
 import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
 import { FieldTextarea } from "#i/core/form-elements/field-textarea";
 import { Form } from "#i/core/form-elements/form";
 import { Card } from "#i/core/layout/card";
-import type { FieldMetadata } from "@conform-to/react";
+
 import { useForm } from "./form";
 
 export function FieldsetOnStandAnimation() {

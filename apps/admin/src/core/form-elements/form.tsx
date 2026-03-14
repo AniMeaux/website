@@ -1,6 +1,7 @@
-import { ErrorsInlineHelper } from "#i/core/data-display/errors";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
+
+import { ErrorsInlineHelper } from "#i/core/data-display/errors";
 
 export function Form({
   className,

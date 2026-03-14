@@ -1,8 +1,9 @@
-import type { LocationState } from "#i/core/location-state";
-import { useLocationState } from "#i/core/location-state";
 import type { NavLinkProps } from "@remix-run/react";
 import { Link, NavLink } from "@remix-run/react";
 import { forwardRef } from "react";
+
+import type { LocationState } from "#i/core/location-state";
+import { useLocationState } from "#i/core/location-state";
 
 export type BaseLinkProps = {
   children?: NavLinkProps["children"];

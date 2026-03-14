@@ -1,3 +1,13 @@
+import { UserGroup } from "@animeaux/prisma";
+import type { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+
 import { ErrorPage } from "#i/core/data-display/error-page";
 import { db } from "#i/core/db.server";
 import { EmailAlreadyUsedError } from "#i/core/errors.server";
@@ -8,15 +18,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { MissingPasswordError } from "#i/users/db.server";
 import { ActionFormData, UserForm } from "#i/users/form";
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

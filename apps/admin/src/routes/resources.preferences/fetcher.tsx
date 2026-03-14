@@ -1,9 +1,10 @@
-import { Routes } from "#i/core/navigation";
-import type { action } from "#i/routes/resources.preferences/route";
-import { ActionFormData } from "#i/routes/resources.preferences/shared";
 import type { zu } from "@animeaux/zod-utils";
 import { useFetcher } from "@remix-run/react";
 import { useCallback, useMemo } from "react";
+
+import { Routes } from "#i/core/navigation";
+import type { action } from "#i/routes/resources.preferences/route";
+import { ActionFormData } from "#i/routes/resources.preferences/shared";
 
 export function usePreferencesFetcher() {
   const fetcher = useFetcher<action>();

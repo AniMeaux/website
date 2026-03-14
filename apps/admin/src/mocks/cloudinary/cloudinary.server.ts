@@ -9,7 +9,7 @@ import {
 } from "@remix-run/node";
 import type { UploadApiErrorResponse, UploadApiResponse } from "cloudinary";
 import type { HttpResponseResolver } from "msw";
-import { HttpResponse, http } from "msw";
+import { http, HttpResponse } from "msw";
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({

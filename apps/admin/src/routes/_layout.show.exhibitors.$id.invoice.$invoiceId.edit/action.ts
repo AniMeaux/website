@@ -1,5 +1,6 @@
-import { InvoiceStatus } from "#i/show/invoice/status.js";
 import { normalizeNumber, zu } from "@animeaux/zod-utils";
+
+import { InvoiceStatus } from "#i/show/invoice/status.js";
 
 export const actionSchema = zu.object({
   amount: zu.preprocess(

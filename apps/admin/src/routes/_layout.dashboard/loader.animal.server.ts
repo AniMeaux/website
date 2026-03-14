@@ -1,3 +1,9 @@
+import type { Prisma, User } from "@animeaux/prisma/server";
+import { UserGroup } from "@animeaux/prisma/server";
+import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import {
   HAS_UP_COMMING_DIAGNOSE_CONDITIONS,
   HAS_UP_COMMING_STERILISATION_CONDITIONS,
@@ -6,11 +12,6 @@ import {
 import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
 import { prisma } from "#i/core/prisma.server";
 import { hasGroups } from "#i/users/groups";
-import type { Prisma, User } from "@animeaux/prisma/server";
-import { UserGroup } from "@animeaux/prisma/server";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
   const activeAnimalsWhere: Prisma.AnimalWhereInput = {

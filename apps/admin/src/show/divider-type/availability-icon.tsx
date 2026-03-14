@@ -1,8 +1,9 @@
+import { cn } from "@animeaux/core";
+
 import type { IconName } from "#i/generated/icon.js";
 import { Icon } from "#i/generated/icon.js";
 import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js";
 import { formatAvailability } from "#i/show/divider-type/availability.js";
-import { cn } from "@animeaux/core";
 
 export function DividerTypeAvailabilityIcon({
   dividerType,

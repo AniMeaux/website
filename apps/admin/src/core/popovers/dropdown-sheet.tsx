@@ -1,10 +1,11 @@
-import { Overlay } from "#i/core/popovers/overlay";
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
 import { cn } from "@animeaux/core";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Popover from "@radix-ui/react-popover";
 import { createContext, forwardRef, useContext } from "react";
 import invariant from "tiny-invariant";
+
+import { Overlay } from "#i/core/popovers/overlay";
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
 
 type Component = "popover" | "dialog";
 const DropdownSheetContext = createContext<undefined | Component>(undefined);
@@ -30,8 +31,7 @@ export function DropdownSheet(
 }
 
 DropdownSheet.Trigger = forwardRef<
-  React.ComponentRef<typeof Dialog.Trigger> &
-    React.ComponentRef<typeof Popover.Trigger>,
+  React.ComponentRef<typeof Dialog.Trigger>,
   React.ComponentPropsWithoutRef<typeof Dialog.Trigger> &
     React.ComponentPropsWithoutRef<typeof Popover.Trigger>
 >(function DropdownSheetTrigger(props, ref) {
@@ -63,8 +63,7 @@ DropdownSheet.Portal = function DropdownSheetPortal({
 };
 
 DropdownSheet.Content = forwardRef<
-  React.ComponentRef<typeof Dialog.Content> &
-    React.ComponentRef<typeof Popover.Content>,
+  React.ComponentRef<typeof Dialog.Content>,
   React.ComponentPropsWithoutRef<typeof Dialog.Content> &
     React.ComponentPropsWithoutRef<typeof Popover.Content>
 >(function DropdownSheetContent(
@@ -106,6 +105,8 @@ DropdownSheet.Content = forwardRef<
          * https://github.com/radix-ui/primitives/issues/2373
          */}
         <div
+          // Explained just above.
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-md focus-visible:focus-compact-blue-400"
         >
@@ -143,6 +144,8 @@ DropdownSheet.Content = forwardRef<
        * https://github.com/radix-ui/primitives/issues/2373
        */}
       <div
+        // Explained just above.
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm focus-visible:focus-compact-blue-400"
       >

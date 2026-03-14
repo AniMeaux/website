@@ -1,7 +1,9 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { ItemList, SimpleItem } from "#i/core/data-display/item";
 import { Card } from "#i/core/layout/card";
 import { Icon } from "#i/generated/icon";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardContact() {

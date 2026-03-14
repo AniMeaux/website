@@ -1,3 +1,9 @@
+import { getCompleteLocation, joinReactNodes } from "@animeaux/core";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import type { SerializeFrom } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { Action, ProseInlineAction } from "#i/core/actions.js";
 import { BaseLink } from "#i/core/base-link.js";
 import { Empty } from "#i/core/data-display/empty.js";
@@ -14,11 +20,7 @@ import { Icon } from "#i/generated/icon.js";
 import { theme } from "#i/generated/theme.js";
 import { InvoiceIcon } from "#i/show/invoice/icon.js";
 import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { getCompleteLocation, joinReactNodes } from "@animeaux/core";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import { ActionIntent } from "./action";
 import type { action } from "./action.server";
 import type { loader } from "./loader.server";

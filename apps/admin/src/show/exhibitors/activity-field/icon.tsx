@@ -1,9 +1,10 @@
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
 import { ShowActivityField } from "@animeaux/prisma";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import type { IconName } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon";
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
 
 export const ActivityFieldIcon = forwardRef<
   React.ComponentRef<"span">,

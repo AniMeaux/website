@@ -8,11 +8,3 @@ export function ensureArray<DataType>(
   const array = Array.isArray(value) ? value : [value];
   return array.filter(Boolean);
 }
-
-export function isIterable(value: unknown): value is Iterable<any> {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    Symbol.iterator in (value as Iterable<any>)
-  );
-}

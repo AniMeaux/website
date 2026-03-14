@@ -1,13 +1,14 @@
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+
 import { db } from "#i/core/db.server";
 import { assertIsDefined } from "#i/core/is-defined.server";
 import { Routes } from "#i/core/navigation";
 import { prisma } from "#i/core/prisma.server";
 import { notFound } from "#i/core/response.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

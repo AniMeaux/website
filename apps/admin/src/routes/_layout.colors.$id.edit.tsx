@@ -1,3 +1,13 @@
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { ActionFormData, ColorForm } from "#i/colors/form";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { db } from "#i/core/db.server";
@@ -10,15 +20,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { prisma } from "#i/core/prisma.server";
 import { notFound } from "#i/core/response.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

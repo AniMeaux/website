@@ -1,3 +1,15 @@
+import { cn, getShortLocation } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { AnimalAvatar } from "#i/animals/avatar";
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
@@ -17,17 +29,6 @@ import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 import { FosterFamilyFilters } from "#i/foster-families/filter-form";
 import { FosterFamilySearchParams } from "#i/foster-families/search-params";
-import { cn, getShortLocation } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type {
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
 

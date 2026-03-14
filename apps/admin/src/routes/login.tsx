@@ -1,3 +1,15 @@
+import { cn } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+import { useEffect, useRef } from "react";
+
 import { Action } from "#i/core/actions";
 import { db } from "#i/core/db.server";
 import { Form } from "#i/core/form-elements/form";
@@ -11,17 +23,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { NextSearchParams } from "#i/core/search-params";
 import { createCurrentUserSession } from "#i/current-user/session.server";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white"),
@@ -36,7 +37,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       { skipPasswordChangeCheck: true },
     );
     hasCurrentUser = true;
-  } catch (error) {
+  } catch (_error) {
     hasCurrentUser = false;
   }
 

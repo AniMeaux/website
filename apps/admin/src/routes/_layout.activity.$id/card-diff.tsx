@@ -1,16 +1,18 @@
-import { Card } from "#i/core/layout/card.js";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { useLoaderData } from "@remix-run/react";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import { Card } from "#i/core/layout/card.js";
+
 import type { loader } from "./loader.server";
 
 namespace DiffSection {
   export const Root = forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section>
-  >(({ className, ...props }, ref) => {
+  >(function Root({ className, ...props }, ref) {
     return (
       <Primitive.section
         {...props}
@@ -23,7 +25,7 @@ namespace DiffSection {
   export const Title = forwardRef<
     React.ComponentRef<typeof Primitive.h3>,
     React.ComponentPropsWithoutRef<typeof Primitive.h3>
-  >(({ className, ...props }, ref) => {
+  >(function Title({ className, ...props }, ref) {
     return (
       <Primitive.h3
         {...props}
@@ -38,7 +40,7 @@ namespace DiffSection {
     Except<React.ComponentPropsWithoutRef<"pre">, "children"> & {
       code?: unknown;
     }
-  >(({ className, code, ...props }, ref) => {
+  >(function Code({ className, code, ...props }, ref) {
     return (
       <pre
         {...props}

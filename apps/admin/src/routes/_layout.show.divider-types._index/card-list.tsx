@@ -1,6 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { SimpleEmpty } from "#i/core/data-display/empty";
 import { Card } from "#i/core/layout/card";
-import { useLoaderData } from "@remix-run/react";
+
 import { DividerTypeItem } from "./item";
 import type { loader } from "./loader.server";
 

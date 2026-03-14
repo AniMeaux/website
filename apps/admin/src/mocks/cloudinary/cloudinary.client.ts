@@ -1,7 +1,8 @@
-import { simpleHash } from "#i/core/simple-hash";
 import type { HttpResponseResolver, StrictResponse } from "msw";
-import { HttpResponse, http } from "msw";
+import { http, HttpResponse } from "msw";
 import invariant from "tiny-invariant";
+
+import { simpleHash } from "#i/core/simple-hash";
 
 const SVGS = [
   // Cat

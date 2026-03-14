@@ -1,3 +1,12 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { Animal } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFormAction } from "@remix-run/react";
+import { useRef, useState } from "react";
+import invariant from "tiny-invariant";
+
 import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures";
 import {
   DragAndDropContextProvider,
@@ -9,8 +18,8 @@ import { Action } from "#i/core/actions";
 import { InlineHelper } from "#i/core/data-display/helper";
 import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image";
 import {
-  IMAGE_SIZE_LIMIT_MB,
   getImageId,
+  IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFiles,
@@ -18,14 +27,6 @@ import {
 import { Form } from "#i/core/form-elements/form";
 import { ImageInput } from "#i/core/form-elements/image-input";
 import { Icon } from "#i/generated/icon";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Animal } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFormAction } from "@remix-run/react";
-import { useRef, useState } from "react";
-import invariant from "tiny-invariant";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

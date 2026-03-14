@@ -1,9 +1,10 @@
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { PageSearchParams } from "#i/core/search-params";
 import { cn } from "@animeaux/core";
 import { useSearchParams } from "@remix-run/react";
 import type { ReactNode } from "react";
+
+import type { BaseLinkProps } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link";
+import { PageSearchParams } from "#i/core/search-params";
 
 export function Paginator({
   pageCount,

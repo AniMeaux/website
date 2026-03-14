@@ -1,3 +1,7 @@
+import { getFormProps } from "@conform-to/react";
+import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions.js";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js";
 import { PageLayout } from "#i/core/layout/page.js";
@@ -6,9 +10,7 @@ import { FieldsetDetails } from "#i/show/stand-size/fieldset-details.js";
 import { FieldsetIdentification } from "#i/show/stand-size/fieldset-identification.js";
 import { FieldsetPrices } from "#i/show/stand-size/fieldset-prices.js";
 import { FieldsetSituation } from "#i/show/stand-size/fieldset-situation.js";
-import { getFormProps } from "@conform-to/react";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
+
 import { useFormRoot } from "./form.js";
 import type { loader } from "./loader.server.js";
 

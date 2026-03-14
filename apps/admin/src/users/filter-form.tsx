@@ -1,3 +1,5 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Filters } from "#i/core/controllers/filters";
@@ -15,7 +17,6 @@ import {
   UserSearchParams,
   UserSort,
 } from "#i/users/search-params";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function UserFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

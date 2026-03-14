@@ -1,8 +1,9 @@
+import type { MetaFunction } from "@remix-run/node";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { PageLayout } from "#i/core/layout/page";
 import { getPageTitle } from "#i/core/page-title";
 import { notFound } from "#i/core/response.server";
-import type { MetaFunction } from "@remix-run/node";
 
 export async function loader() {
   throw notFound();
