@@ -1,7 +1,9 @@
 import { zu } from "@animeaux/zod-utils";
 
 export namespace FormDataDelegate {
-  export function create<TSchema extends zu.ZodObject<any>>(schema: TSchema) {
+  export function create<TSchema extends zu.ZodObject<zu.ZodRawShape>>(
+    schema: TSchema,
+  ) {
     return {
       schema,
       keys: zu.getObjectKeys(schema),
