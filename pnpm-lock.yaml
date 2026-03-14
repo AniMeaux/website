@@ -1355,9 +1355,15 @@ importers:
         specifier: 'catalog:'
         version: 18.3.1
     devDependencies:
+      '@animeaux/dev-tools':
+        specifier: workspace:*
+        version: link:../dev-tools
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3(jiti@2.6.1)
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5
