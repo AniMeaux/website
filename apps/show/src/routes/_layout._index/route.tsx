@@ -1,11 +1,13 @@
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { promiseHash } from "remix-utils/promise";
+
 import { ErrorPage } from "#i/core/data-display/error-page";
 import type { RouteHandle } from "#i/core/handles";
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
 import { services } from "#i/core/services.server.js";
-import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+
 import { RouteOnline } from "./route-online";
 import { RouteWaiting } from "./route-waiting";
 

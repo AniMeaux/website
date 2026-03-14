@@ -1,6 +1,7 @@
+import type { FileUpload } from "@mjackson/form-data-parser";
+
 import type { ImageData } from "#i/core/image/data.js";
 import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
-import type { FileUpload } from "@mjackson/form-data-parser";
 
 export interface ServiceImage {
   createReversibleUpload: () => {

@@ -1,16 +1,16 @@
-import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
-import { ImageData } from "#i/core/image/data.js";
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server.js";
-import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
 import type { FileStorage } from "@animeaux/file-storage/server";
 import type { Prisma, ShowExhibitor } from "@animeaux/prisma/server";
 import { ShowExhibitorStatus } from "@animeaux/prisma/server";
 import { captureException } from "@sentry/remix";
 import { promiseHash } from "remix-utils/promise";
 
+import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server.js";
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
+
 export class ServiceExhibitor {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private prisma: ServicePrisma,
     private fileStorage: FileStorage,

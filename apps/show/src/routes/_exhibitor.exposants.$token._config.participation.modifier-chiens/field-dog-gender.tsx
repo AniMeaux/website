@@ -1,12 +1,13 @@
+import type { Gender } from "@animeaux/prisma";
+import type { FieldMetadata } from "@conform-to/react";
+import { getCollectionProps } from "@conform-to/react";
+
 import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
 import { FormLayout } from "#i/core/layout/form-layout";
 import {
   GENDER_TRANSLATION,
   SORTED_GENDERS,
 } from "#i/exhibitors/dogs-configuration/gender";
-import type { Gender } from "@animeaux/prisma";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
 
 export function FieldDogGender({
   field,

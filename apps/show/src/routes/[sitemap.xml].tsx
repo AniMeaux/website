@@ -1,7 +1,8 @@
+import { renderToStaticMarkup } from "react-dom/server";
+
 import { Routes } from "#i/core/navigation";
 import { ShowDay } from "#i/core/show-day";
 import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition";
-import { renderToStaticMarkup } from "react-dom/server";
 
 export async function loader() {
   const urlDefinitions: UrlDefinition[] = [

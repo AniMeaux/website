@@ -1,3 +1,7 @@
+import { ShowExhibitorStatus } from "@animeaux/prisma";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
@@ -6,12 +10,8 @@ import type { ServiceEmail } from "#i/core/email/service.server.js";
 import { Routes } from "#i/core/navigation.js";
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 export class ServiceExhibitorDocumentEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,

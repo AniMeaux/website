@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 import { Action } from "#i/core/actions/action";
 import { SocialLink } from "#i/core/actions/social-link";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -7,7 +9,6 @@ import { Section } from "#i/core/layout/section";
 import { Routes } from "#i/core/navigation";
 import { Pictogram } from "#i/generated/pictogram";
 import logoLarge from "#i/images/logo-large.svg";
-import { Link } from "@remix-run/react";
 
 export function RouteWaiting() {
   return (

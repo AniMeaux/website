@@ -1,9 +1,9 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 import type { Prisma } from "@animeaux/prisma/server";
 import type { Simplify } from "type-fest";
 
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+
 export class ServiceStandSize {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getMany<T extends Prisma.ShowStandSizeSelect>(params: {

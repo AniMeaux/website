@@ -1,3 +1,6 @@
+import type { FieldMetadata } from "@conform-to/react";
+import { getCollectionProps } from "@conform-to/react";
+
 import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
 import { FieldNumeric } from "#i/core/form-elements/field-numeric";
 import { FieldSwitch } from "#i/core/form-elements/field-switch.js";
@@ -9,8 +12,7 @@ import { FieldActivityField } from "#i/exhibitors/activity-field/field";
 import { FieldActivityTarget } from "#i/exhibitors/activity-target/field";
 import { LegalStatus } from "#i/exhibitors/application/legal-status";
 import { FieldLogo } from "#i/exhibitors/field-logo";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+
 import { FieldsetId, useFieldsets } from "./form";
 
 export function FieldsetStructure() {

@@ -1,3 +1,5 @@
+import { Link, useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions/action";
 import { InputActiveFilter } from "#i/core/form-elements/input-active-filter";
 import { LightBoardCard } from "#i/core/layout/light-board-card";
@@ -15,7 +17,7 @@ import {
 } from "#i/exhibitors/search-params";
 import { Icon } from "#i/generated/icon";
 import { Pictogram } from "#i/generated/pictogram";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 import { ModalFilters } from "./modal-filters";
 import { SearchParamsForm } from "./search-params-form";

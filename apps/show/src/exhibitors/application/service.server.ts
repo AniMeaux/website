@@ -1,13 +1,13 @@
-import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
-import { ImageData } from "#i/core/image/data.js";
-import { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server";
 import { Prisma } from "@animeaux/prisma/server";
 import { captureException } from "@sentry/remix";
 import type { Except } from "type-fest";
 
+import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
+import { ImageData } from "#i/core/image/data.js";
+import { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server";
+
 export class ServiceApplication {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private prisma: ServicePrisma,
     private blurhash: ServiceBlurhash,

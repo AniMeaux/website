@@ -1,13 +1,15 @@
-import { Routes } from "#i/core/navigation";
-import { badRequest } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
 import { ShowExhibitorStatus } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
+
+import { Routes } from "#i/core/navigation";
+import { badRequest } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+
 import { createActionSchema } from "./action-schema";
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -40,7 +42,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     breakfastPeopleCountSunday: submission.value.breakfastPeopleCountSunday,
   });
 
-  services.exhibitorEmail.perks.submitted(routeParams.token);
+  void services.exhibitorEmail.perks.submitted(routeParams.token);
 
   throw redirect(
     Routes.exhibitors

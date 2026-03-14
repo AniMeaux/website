@@ -1,6 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { FormLayout } from "#i/core/layout/form-layout.js";
 import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server.js";
 import { SectionId } from "./section-id.js";
 

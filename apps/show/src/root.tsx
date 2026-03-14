@@ -1,13 +1,5 @@
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { createImageUrl } from "#i/core/data-display/image";
-import { asRouteHandle } from "#i/core/handles";
-import { getPageTitle, pageDescription } from "#i/core/page-title";
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
-import { theme } from "#i/generated/theme";
-import appleTouchIcon from "#i/images/apple-touch-icon.png";
-import faviconDark from "#i/images/favicon-dark.png";
-import faviconLight from "#i/images/favicon-light.png";
-import maskIcon from "#i/images/mask-icon.png";
+import "#i/tailwind.css";
+
 import { cn } from "@animeaux/core";
 import type { LinkDescriptor, LinksFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
@@ -24,7 +16,16 @@ import {
 import { withSentry } from "@sentry/remix";
 import { Settings } from "luxon";
 
-import "#i/tailwind.css";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { createImageUrl } from "#i/core/data-display/image";
+import { asRouteHandle } from "#i/core/handles";
+import { getPageTitle, pageDescription } from "#i/core/page-title";
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
+import { theme } from "#i/generated/theme";
+import appleTouchIcon from "#i/images/apple-touch-icon.png";
+import faviconDark from "#i/images/favicon-dark.png";
+import faviconLight from "#i/images/favicon-light.png";
+import maskIcon from "#i/images/mask-icon.png";
 
 // Display dates in French.
 Settings.defaultLocale = "fr";
@@ -223,11 +224,7 @@ function Document({
   );
 }
 
-function GlobalClientEnv({
-  clientEnv = {},
-}: {
-  clientEnv?: Record<string, any>;
-}) {
+function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
   return (
     <script
       dangerouslySetInnerHTML={{

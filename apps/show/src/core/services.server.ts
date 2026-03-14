@@ -1,3 +1,10 @@
+import type { FileStorage } from "@animeaux/file-storage/server";
+import {
+  FileStorageGoogleDrive,
+  FileStorageMock,
+} from "@animeaux/file-storage/server";
+import { captureException } from "@sentry/remix";
+
 import { ServiceAnimation } from "#i/animations/service.server.js";
 import { ServiceCache } from "#i/core/cache.service.server.js";
 import { ServiceEmailConsole } from "#i/core/email/service.console.server.js";
@@ -18,12 +25,6 @@ import { ServiceInvoice } from "#i/invoice/service.server.js";
 import { ServiceProvider } from "#i/providers/service.server.js";
 import { ServiceSponsor } from "#i/sponsors/service.server.js";
 import { ServiceStandSize } from "#i/stand-size/service.server.js";
-import type { FileStorage } from "@animeaux/file-storage/server";
-import {
-  FileStorageGoogleDrive,
-  FileStorageMock,
-} from "@animeaux/file-storage/server";
-import { captureException } from "@sentry/remix";
 
 class ServicesRootModule {
   prisma = new ServicePrisma();

@@ -1,3 +1,8 @@
+import type { ShowStandSize } from "@animeaux/prisma";
+import { ShowActivityTarget } from "@animeaux/prisma";
+import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
+import invariant from "tiny-invariant";
+
 import { Enums } from "#i/core/enums.js";
 import { ImageLimits } from "#i/core/image/limits.js";
 import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
@@ -6,10 +11,6 @@ import { LegalStatus } from "#i/exhibitors/application/legal-status";
 import { ExhibitorCategory } from "#i/exhibitors/category.js";
 import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import type { StandSizeAllowedCategories } from "#i/stand-size/allowed-categories.js";
-import type { ShowStandSize } from "@animeaux/prisma";
-import { ShowActivityTarget } from "@animeaux/prisma";
-import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
-import invariant from "tiny-invariant";
 
 export function createActionSchema(
   availableStandSizes: (Pick<ShowStandSize, "id"> &

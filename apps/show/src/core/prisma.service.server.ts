@@ -3,7 +3,7 @@ import { PrismaClient } from "@animeaux/prisma/server";
 export class ServicePrisma extends PrismaClient {
   constructor() {
     super();
-    this.$connect();
+    void this.$connect();
   }
 }
 

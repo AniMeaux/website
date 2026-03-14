@@ -1,9 +1,9 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server.js";
 import type { Prisma } from "@animeaux/prisma/server";
 
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import { notFound } from "#i/core/response.server.js";
+
 export class ServiceInvoice {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async get<T extends Prisma.ShowInvoiceSelect>(

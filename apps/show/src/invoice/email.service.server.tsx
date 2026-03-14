@@ -1,3 +1,6 @@
+import { getCompleteLocation } from "@animeaux/core";
+import { promiseHash } from "remix-utils/promise";
+
 import {
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
@@ -7,11 +10,8 @@ import { Routes } from "#i/core/navigation.js";
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
 import type { ServiceInvoice } from "#i/invoice/service.server";
-import { getCompleteLocation } from "@animeaux/core";
-import { promiseHash } from "remix-utils/promise";
 
 export class ServiceInvoiceEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,

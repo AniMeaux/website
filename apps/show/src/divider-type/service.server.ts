@@ -1,10 +1,10 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
 import type { Prisma } from "@animeaux/prisma/server";
 import type { Simplify } from "type-fest";
 
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
+
 export class ServiceDividerType {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getMany<T extends Prisma.ShowDividerTypeSelect>(params: { select: T }) {

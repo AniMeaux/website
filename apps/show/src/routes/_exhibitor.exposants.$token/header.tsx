@@ -1,6 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { Header } from "#i/core/layout/header";
 import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./route";
 
 export function LayoutHeader() {

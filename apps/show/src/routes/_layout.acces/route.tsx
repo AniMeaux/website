@@ -1,9 +1,11 @@
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
 import { notFound } from "#i/core/response.server";
-import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+
 import { SectionCarpool } from "./section-carpool";
 import { SectionEcology } from "./section-ecology";
 import { SectionInformation } from "./section-information";

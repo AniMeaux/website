@@ -1,7 +1,9 @@
+import type { MetaFunction } from "@remix-run/react";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 import { SectionDescription } from "./section-description";
 import { SectionForm } from "./section-form";

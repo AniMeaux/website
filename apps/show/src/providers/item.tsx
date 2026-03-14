@@ -1,9 +1,10 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { ImageData } from "#i/core/image/data.js";
 import { cn } from "@animeaux/core";
 import { Link } from "@remix-run/react";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import { DynamicImage } from "#i/core/data-display/image";
+import { ImageData } from "#i/core/image/data.js";
 
 export const ProviderItem = forwardRef<
   React.ComponentRef<"li">,

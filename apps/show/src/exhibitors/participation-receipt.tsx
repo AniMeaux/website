@@ -1,8 +1,9 @@
+import type { Prisma } from "@animeaux/prisma";
+
 import { Receipt } from "#i/core/data-display/receipt.js";
 import { ExhibitorCategory } from "#i/exhibitors/category.js";
 import { Price } from "#i/price/price.js";
 import { StandSizePrice } from "#i/stand-size/price.js";
-import type { Prisma } from "@animeaux/prisma";
 
 export function ParticipationReceipt({
   standSize,
@@ -36,7 +37,7 @@ export function ParticipationReceipt({
   const priceStandSize =
     standSize != null
       ? StandSizePrice.getPrice({
-          standSize: standSize,
+          standSize,
           category: exhibitorCategory,
         })
       : null;

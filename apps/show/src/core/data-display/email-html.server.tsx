@@ -1,12 +1,3 @@
-import tailwindConfig, { fonts } from "#i/../tailwind.config";
-import { createImageUrl } from "#i/core/data-display/image";
-import type { MarkdownComponents } from "#i/core/data-display/markdown";
-import {
-  Markdown,
-  PARAGRAPH_COMPONENTS,
-  SENTENCE_COMPONENTS,
-  withoutNode,
-} from "#i/core/data-display/markdown";
 import { cn } from "@animeaux/core";
 import {
   Body,
@@ -25,9 +16,20 @@ import {
   Text,
 } from "@react-email/components";
 import { Children, cloneElement, isValidElement } from "react";
+import type { ExtraProps } from "react-markdown";
+
+import tailwindConfig, { fonts } from "#i/../tailwind.config";
+import { createImageUrl } from "#i/core/data-display/image";
+import type { MarkdownComponents } from "#i/core/data-display/markdown";
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+  SENTENCE_COMPONENTS,
+  withoutNode,
+} from "#i/core/data-display/markdown";
 
 export const EmailHtml = {
-  Root: function EmailHtmlRoot({ children }: React.PropsWithChildren<{}>) {
+  Root: function EmailHtmlRoot({ children }: React.PropsWithChildren) {
     const fontElements = (Object.keys(fonts) as (keyof typeof fonts)[]).flatMap(
       (type) => {
         const fontFamily = fonts[type];
@@ -76,7 +78,7 @@ export const EmailHtml = {
     );
   },
 
-  Title: function EmailHtmlTitle(props: React.PropsWithChildren<{}>) {
+  Title: function EmailHtmlTitle(props: React.PropsWithChildren) {
     return (
       <Heading
         {...props}
@@ -96,7 +98,7 @@ export const EmailHtml = {
     );
   },
 
-  Footer: function EmailHtmlFooter(props: React.PropsWithChildren<{}>) {
+  Footer: function EmailHtmlFooter(props: React.PropsWithChildren) {
     return (
       <EmailHtml.Section.Root>
         <Text {...props} className="m-0 text-caption-lowercase-default" />
@@ -191,9 +193,7 @@ export const EmailHtml = {
   },
 
   Section: {
-    Root: function EmailHtmlSectionRoot({
-      children,
-    }: React.PropsWithChildren<{}>) {
+    Root: function EmailHtmlSectionRoot({ children }: React.PropsWithChildren) {
       const childrenElements = Children.toArray(children).filter(
         (child): child is React.ReactElement<IsFirstProps> =>
           isValidElement(child),
@@ -346,7 +346,7 @@ type FallbackFont = KeepString<
 
 type KeepString<T> = T extends string ? T : never;
 
-function Strong(props: React.PropsWithChildren<{}>) {
+function Strong(props: React.PropsWithChildren<ExtraProps>) {
   // Wrap in a span with the class because the font weight is not well
   // rendered.
   return (

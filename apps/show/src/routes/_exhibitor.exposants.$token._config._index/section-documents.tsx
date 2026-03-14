@@ -1,7 +1,9 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { FileItem } from "#i/core/data-display/file-item";
 import { FormLayout } from "#i/core/layout/form-layout";
 import { HelperCard } from "#i/core/layout/helper-card.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function SectionDocuments() {

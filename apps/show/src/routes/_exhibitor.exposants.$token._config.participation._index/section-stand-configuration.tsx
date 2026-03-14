@@ -1,3 +1,6 @@
+import { ShowExhibitorStatus } from "@animeaux/prisma";
+import { Link, useLoaderData } from "@remix-run/react";
+
 import {
   Markdown,
   PARAGRAPH_COMPONENTS,
@@ -8,8 +11,7 @@ import { HelperCard } from "#i/core/layout/helper-card";
 import { Routes } from "#i/core/navigation";
 import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day";
 import { Icon } from "#i/generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server.js";
 import { SectionId } from "./section-id.js";
 

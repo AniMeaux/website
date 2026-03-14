@@ -1,8 +1,10 @@
-import { notFound } from "#i/core/response.server.js";
-import { services } from "#i/core/services.server.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import groupBy from "lodash.groupby";
+
+import { notFound } from "#i/core/response.server.js";
+import { services } from "#i/core/services.server.js";
+
 import { routeParamsSchema } from "./route-params.js";
 
 export async function loader({ params }: LoaderFunctionArgs) {

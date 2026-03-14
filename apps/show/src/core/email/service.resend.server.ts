@@ -1,8 +1,9 @@
-import type { ServiceEmail } from "#i/core/email/service.server.js";
 import { catchError } from "@animeaux/core";
 import { render } from "@react-email/render";
 import { Resend } from "resend";
 import type { MergeExclusive } from "type-fest";
+
+import type { ServiceEmail } from "#i/core/email/service.server.js";
 
 export class ServiceEmailResend implements ServiceEmail {
   private resend: Resend;
@@ -16,7 +17,7 @@ export class ServiceEmailResend implements ServiceEmail {
         error: unknown,
         context: { textBody?: string } & MergeExclusive<
           { template: ServiceEmail.Template; effectiveTo: string[] },
-          {}
+          object
         >,
       ) => void;
     },

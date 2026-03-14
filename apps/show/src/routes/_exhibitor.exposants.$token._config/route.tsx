@@ -1,8 +1,10 @@
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
+
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
+
 import { SectionTabs } from "./section-tabs";
 import { SectionTitle } from "./section-title";
 

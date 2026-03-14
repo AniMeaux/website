@@ -1,8 +1,9 @@
-import { badRequest, unauthorized } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
 import { zu } from "@animeaux/zod-utils";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+
+import { badRequest, unauthorized } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
 
 export async function action({ request }: ActionFunctionArgs) {
   assertIsAuthorizedApplication(request);
@@ -29,31 +30,35 @@ export async function action({ request }: ActionFunctionArgs) {
 
   switch (action.data.type) {
     case ActionSchemaApplicationStatusUpdated.shape.type.value: {
-      services.applicationEmail.treated(action.data.applicationId);
+      void services.applicationEmail.treated(action.data.applicationId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaDocumentsTreated.shape.type.value: {
-      services.exhibitorEmail.document.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.document.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaDogsConfigurationTreated.shape.type.value: {
-      services.exhibitorEmail.dogConfiguration.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.dogConfiguration.treated(
+        action.data.exhibitorId,
+      );
 
       return json({ ok: true });
     }
 
     case ActionSchemaExhibitorVisibleTreated.shape.type.value: {
-      services.exhibitorEmail.visibility.isVisible(action.data.exhibitorId);
+      void services.exhibitorEmail.visibility.isVisible(
+        action.data.exhibitorId,
+      );
 
       return json({ ok: true });
     }
 
     case ActionSchemaInvoicePaid.shape.type.value: {
-      services.invoiceEmail.paid(
+      void services.invoiceEmail.paid(
         action.data.exhibitorId,
         action.data.invoiceId,
       );
@@ -62,31 +67,35 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     case ActionSchemaNewInvoice.shape.type.value: {
-      services.invoiceEmail.newInvoice(action.data.exhibitorId);
+      void services.invoiceEmail.newInvoice(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaOnStandAnimationsTreated.shape.type.value: {
-      services.exhibitorEmail.onStandAnimation.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.onStandAnimation.treated(
+        action.data.exhibitorId,
+      );
 
       return json({ ok: true });
     }
 
     case ActionSchemaPublicProfileTreated.shape.type.value: {
-      services.exhibitorEmail.publicProfile.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.publicProfile.treated(
+        action.data.exhibitorId,
+      );
 
       return json({ ok: true });
     }
 
     case ActionSchemaDescriptionTreated.shape.type.value: {
-      services.exhibitorEmail.description.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.description.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }
 
     case ActionSchemaStandConfigurationTreated.shape.type.value: {
-      services.exhibitorEmail.standConfiguration.treated(
+      void services.exhibitorEmail.standConfiguration.treated(
         action.data.exhibitorId,
       );
 
@@ -94,7 +103,7 @@ export async function action({ request }: ActionFunctionArgs) {
     }
 
     case ActionSchemaPerksTreated.shape.type.value: {
-      services.exhibitorEmail.perks.treated(action.data.exhibitorId);
+      void services.exhibitorEmail.perks.treated(action.data.exhibitorId);
 
       return json({ ok: true });
     }

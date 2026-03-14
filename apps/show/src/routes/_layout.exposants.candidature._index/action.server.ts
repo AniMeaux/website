@@ -1,7 +1,3 @@
-import { Routes } from "#i/core/navigation";
-import { services } from "#i/core/services.server.js";
-import { ServiceApplication } from "#i/exhibitors/application/service.server";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
 import { catchError } from "@animeaux/core";
 import { parseWithZod } from "@conform-to/zod";
 import { parseFormData } from "@mjackson/form-data-parser";
@@ -9,6 +5,12 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { captureException } from "@sentry/remix";
 import { v4 as uuid } from "uuid";
+
+import { Routes } from "#i/core/navigation";
+import { services } from "#i/core/services.server.js";
+import { ServiceApplication } from "#i/exhibitors/application/service.server";
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
+
 import { createActionSchema } from "./action-schema";
 import { getStandSizesData } from "./stand-sizes.server";
 
@@ -123,7 +125,7 @@ export async function action({ request }: ActionFunctionArgs) {
     throw error;
   }
 
-  services.applicationEmail.submitted(application);
+  void services.applicationEmail.submitted(application);
 
   throw redirect(
     Routes.exhibitors.application.applicationId(application.id).toString(),

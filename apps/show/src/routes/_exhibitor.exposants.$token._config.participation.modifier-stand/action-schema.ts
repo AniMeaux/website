@@ -1,8 +1,9 @@
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
 import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
 import { ShowInstallationDay } from "@animeaux/prisma";
 import { zu } from "@animeaux/zod-utils";
 import invariant from "tiny-invariant";
+
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
 
 export const DividerType = {
   none: "none",

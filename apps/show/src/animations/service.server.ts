@@ -1,10 +1,10 @@
+import type { Prisma } from "@animeaux/prisma/server";
+
 import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 import { notFound } from "#i/core/response.server.js";
 import { ShowDay } from "#i/core/show-day";
-import type { Prisma } from "@animeaux/prisma/server";
 
 export class ServiceAnimation {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getManyVisibleByDay<T extends Prisma.ShowAnimationSelect>(

@@ -1,8 +1,9 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 import invariant from "tiny-invariant";
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
 
 export function FieldStandSize({
   field,

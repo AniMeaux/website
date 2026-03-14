@@ -1,9 +1,9 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 import orderBy from "lodash.orderby";
 import invariant from "tiny-invariant";
 
+import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+
 export class ServiceSponsor {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getManyVisible() {

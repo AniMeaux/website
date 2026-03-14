@@ -1,6 +1,7 @@
-import type { ServiceImage } from "#i/core/image/service.server.js";
 import { LazyFile } from "@mjackson/lazy-file";
 import { v4 as uuid } from "uuid";
+
+import type { ServiceImage } from "#i/core/image/service.server.js";
 
 export class ServiceImageMock implements ServiceImage {
   createReversibleUpload() {

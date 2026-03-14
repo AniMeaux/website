@@ -1,6 +1,7 @@
-import { FileItem } from "#i/core/data-display/file-item";
 import { cn, createHookContext } from "@animeaux/core";
 import { forwardRef, useState } from "react";
+
+import { FileItem } from "#i/core/data-display/file-item";
 
 export const InputFile = {
   Root: forwardRef<

@@ -1,6 +1,7 @@
-import type { IconName } from "#i/generated/icon";
 import { ShowActivityTarget } from "@animeaux/prisma";
 import orderBy from "lodash.orderby";
+
+import type { IconName } from "#i/generated/icon";
 
 export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {
   [ShowActivityTarget.CATS]: "Chats",

@@ -1,3 +1,9 @@
+import { cn } from "@animeaux/core";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useLoaderData } from "@remix-run/react";
+import { forwardRef, useLayoutEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
+
 import { Action } from "#i/core/actions/action";
 import { FormLayout } from "#i/core/layout/form-layout";
 import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
@@ -11,11 +17,7 @@ import {
   useExhibitorSearchParams,
 } from "#i/exhibitors/search-params";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
-import { useLoaderData } from "@remix-run/react";
-import { forwardRef, useLayoutEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+
 import type { loader } from "./loader.server";
 import { SearchParamsForm } from "./search-params-form";
 
@@ -24,7 +26,7 @@ export const ModalFilters = {
   Trigger: Dialog.Trigger,
   Portal: Dialog.Portal,
 
-  Card: forwardRef<React.ComponentRef<typeof Dialog.Overlay>, {}>(
+  Card: forwardRef<React.ComponentRef<typeof Dialog.Overlay>, object>(
     function ModalFiltersCard(props, ref) {
       const { exhibitors } = useLoaderData<typeof loader>();
 
@@ -137,7 +139,7 @@ function useScrollState<TELement extends HTMLElement>() {
 function FieldAnimations() {
   const { exhibitorSearchParams } = useExhibitorSearchParams();
 
-  let values: ExhibitorSearchParams.EventType.Enum[] = [];
+  const values: ExhibitorSearchParams.EventType.Enum[] = [];
 
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_PROGRAM === "true") {
     values.push(ExhibitorSearchParams.EventType.Enum.ON_STAGE);

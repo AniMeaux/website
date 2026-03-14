@@ -1,8 +1,9 @@
-import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import { Primitive } from "@animeaux/react-primitives";
 import { Link } from "@remix-run/react";
 import { forwardRef } from "react";
+
+import { Icon } from "#i/generated/icon";
 
 export const TaskItem = {
   Root: forwardRef<

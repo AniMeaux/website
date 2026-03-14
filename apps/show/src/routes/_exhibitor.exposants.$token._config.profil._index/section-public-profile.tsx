@@ -1,3 +1,7 @@
+import { joinReactNodes } from "@animeaux/core";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
+import { Link, useLoaderData } from "@remix-run/react";
+
 import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
 import { ChipList } from "#i/core/data-display/chip";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -9,9 +13,7 @@ import { Routes } from "#i/core/navigation";
 import { ChipActivityField } from "#i/exhibitors/activity-field/chip";
 import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip";
 import { Icon } from "#i/generated/icon";
-import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./route";
 
 export function SectionPublicProfile() {
