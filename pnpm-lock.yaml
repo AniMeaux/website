@@ -1442,6 +1442,9 @@ importers:
       '@animeaux/core':
         specifier: workspace:*
         version: link:../libs/core
+      '@animeaux/dev-tools':
+        specifier: workspace:*
+        version: link:../libs/dev-tools
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1454,6 +1457,12 @@ importers:
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3(jiti@2.6.1)
+      npm-run-all:
+        specifier: 'catalog:'
+        version: 4.1.5
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
@@ -8809,7 +8818,7 @@ snapshots:
   '@eslint/config-array@0.21.1':
     dependencies:
       '@eslint/object-schema': 2.1.7
-      debug: 4.3.7
+      debug: 4.4.3
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -8825,7 +8834,7 @@ snapshots:
   '@eslint/eslintrc@3.3.3':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7
+      debug: 4.4.3
       espree: 10.4.0
       globals: 14.0.0
       ignore: 5.3.1
@@ -12043,7 +12052,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.6
-      debug: 4.3.7
+      debug: 4.4.3
       escape-string-regexp: 4.0.0
       eslint-scope: 8.4.0
       eslint-visitor-keys: 4.2.1
