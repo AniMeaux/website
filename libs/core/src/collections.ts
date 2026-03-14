@@ -7,11 +7,3 @@ export function ensureArray<DataType>(
 
   return Array.isArray(value) ? value : [value];
 }
-
-export function isIterable(value: unknown): value is Iterable<any> {
-  return (
-    value != null &&
-    typeof value === "object" &&
-    Symbol.iterator in (value as Iterable<any>)
-  );
-}
