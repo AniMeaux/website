@@ -1,7 +1,8 @@
-import { ActionFormData } from "#i/routes/resources.subscribe/input";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import type { z } from "zod";
+
+import { ActionFormData } from "#i/routes/resources.subscribe/input";
 
 export async function loader() {
   // Nothing to render here.
@@ -41,9 +42,7 @@ export async function action({ request }: ActionFunctionArgs) {
         },
         body: JSON.stringify(formData.data),
       });
-    } catch (error) {
-      // TODO: Capture error?
-    }
+    } catch (_error) {}
   }
 
   return json<ActionData>({ type: "success" });

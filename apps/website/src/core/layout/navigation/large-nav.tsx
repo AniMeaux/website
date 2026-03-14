@@ -1,3 +1,8 @@
+import { cn } from "@animeaux/core";
+import { useLocation } from "@remix-run/react";
+import { forwardRef, useEffect, useRef, useState } from "react";
+import { Transition } from "react-transition-group";
+
 import type { BaseLinkProps } from "#i/core/base-link";
 import { BaseLink } from "#i/core/base-link";
 import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#i/core/focus-trap";
@@ -16,10 +21,6 @@ import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover";
 import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn";
 import { useScrollLock } from "#i/core/scroll-lock";
 import nameAndLogo from "#i/images/name-and-logo.svg";
-import { cn } from "@animeaux/core";
-import { useLocation } from "@remix-run/react";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { Transition } from "react-transition-group";
 
 type State = NavGroup | null;
 
@@ -278,6 +279,7 @@ const Dropdown = forwardRef<
           >
             <div
               ref={childrenRef}
+              role="presentation"
               className="flex w-[600px] flex-col pb-12 pt-safe-[calc(48px+var(--header-height))]"
               onKeyDown={handleEscape(onClose)}
             >

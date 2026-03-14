@@ -1,3 +1,13 @@
+import { cn, formatAge } from "@animeaux/core";
+import { Gender, ScreeningResult, Species } from "@animeaux/prisma";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { useRef, useState } from "react";
+import invariant from "tiny-invariant";
+import { z } from "zod";
+
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
@@ -7,7 +17,7 @@ import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { DynamicImage, createCloudinaryUrl } from "#i/core/data-display/image";
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
 import type { MarkdownProps } from "#i/core/data-display/markdown";
 import { Markdown } from "#i/core/data-display/markdown";
 import { prisma } from "#i/core/db.server";
@@ -20,15 +30,6 @@ import {
 } from "#i/core/translations";
 import type { IconProps } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
-import { cn, formatAge } from "@animeaux/core";
-import { Gender, ScreeningResult, Species } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useRef, useState } from "react";
-import invariant from "tiny-invariant";
-import { z } from "zod";
 
 const UuidSchema = z.string().uuid();
 
@@ -374,7 +375,7 @@ function Agreement({
   entity: "babies" | "cats" | "dogs";
   value: boolean | null;
 }) {
-  let icon: IconProps["id"] =
+  const icon: IconProps["id"] =
     entity === "babies"
       ? value == null
         ? "baby-circle-question"

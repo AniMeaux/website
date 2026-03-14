@@ -987,6 +987,9 @@ importers:
         specifier: 'catalog:'
         version: 3.23.8
     devDependencies:
+      '@animeaux/dev-tools':
+        specifier: workspace:*
+        version: link:../../libs/dev-tools
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
@@ -1023,6 +1026,9 @@ importers:
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.3(jiti@2.6.1)
       msw:
         specifier: 'catalog:'
         version: 2.3.1(typescript@5.4.5)

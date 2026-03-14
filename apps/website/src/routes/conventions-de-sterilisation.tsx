@@ -1,3 +1,8 @@
+import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -16,10 +21,6 @@ import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
 import { agreementsImages } from "#i/images/agreements";
 import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 
 export async function loader() {
   return json({ citiesWithAgreements });

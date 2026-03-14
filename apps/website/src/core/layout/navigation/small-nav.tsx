@@ -1,3 +1,9 @@
+import { cn } from "@animeaux/core";
+import { useLocation } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+import { Transition } from "react-transition-group";
+import invariant from "tiny-invariant";
+
 import { BaseLink } from "#i/core/base-link";
 import { useFocusTrap } from "#i/core/focus-trap";
 import type { NavGroup } from "#i/core/layout/navigation/shared";
@@ -15,11 +21,6 @@ import { useScrollLock } from "#i/core/scroll-lock";
 import { Icon } from "#i/generated/icon";
 import logo from "#i/images/logo.svg";
 import nameAndLogo from "#i/images/name-and-logo.svg";
-import { cn } from "@animeaux/core";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import { Transition } from "react-transition-group";
-import invariant from "tiny-invariant";
 
 type State =
   | { isOpened: false; openedGroup?: null }
@@ -57,6 +58,7 @@ export function SmallNav({
   return (
     <header
       ref={headerRef}
+      role="presentation"
       className="relative z-10 flex w-full flex-col md:hidden"
       onKeyDown={handleEscape(() => {
         setState((prevState) =>

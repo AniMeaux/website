@@ -1,6 +1,7 @@
-import { MarkdownLink } from "#i/core/data-display/markdown";
 import orderBy from "lodash.orderby";
 import { DateTime } from "luxon";
+
+import { MarkdownLink } from "#i/core/data-display/markdown";
 
 export type Article = {
   id: string;

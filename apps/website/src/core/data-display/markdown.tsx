@@ -1,13 +1,14 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { LineShapeVertical } from "#i/core/layout/line-shape";
 import { cn } from "@animeaux/core";
 import type { Options as ReactMarkdownOptions } from "react-markdown";
 import ReactMarkdown from "react-markdown";
 import breaks from "remark-breaks";
 import gfm from "remark-gfm";
 import invariant from "tiny-invariant";
+
+import { actionClassNames } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { DynamicImage } from "#i/core/data-display/image";
+import { LineShapeVertical } from "#i/core/layout/line-shape";
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.

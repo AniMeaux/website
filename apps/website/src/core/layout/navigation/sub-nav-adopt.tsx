@@ -1,3 +1,6 @@
+import { cn } from "@animeaux/core";
+import { Species } from "@animeaux/prisma";
+
 import { SPECIES_ICON } from "#i/animals/species";
 import {
   LineShapeHorizontal,
@@ -5,8 +8,6 @@ import {
 } from "#i/core/layout/line-shape";
 import type { SubNavComponent } from "#i/core/layout/navigation/shared";
 import { SubNavItem } from "#i/core/layout/navigation/shared";
-import { cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
 
 export const SubNavAdopt: SubNavComponent = () => {
   return (

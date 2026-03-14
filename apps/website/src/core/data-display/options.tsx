@@ -1,5 +1,6 @@
-import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
+
+import { Icon } from "#i/generated/icon";
 
 export function OptionList({ children }: { children: React.ReactNode }) {
   return (

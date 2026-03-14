@@ -1,5 +1,5 @@
 import type { HttpResponseResolver, StrictResponse } from "msw";
-import { HttpResponse, http } from "msw";
+import { http, HttpResponse } from "msw";
 import invariant from "tiny-invariant";
 
 const SVGS = [

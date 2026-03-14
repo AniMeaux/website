@@ -1,14 +1,15 @@
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
 import { cn } from "@animeaux/core";
 import type { PressArticle } from "@animeaux/prisma";
 import type { MetaFunction, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
+
+import { BaseLink } from "#i/core/base-link";
+import { DynamicImage } from "#i/core/data-display/image";
+import { prisma } from "#i/core/db.server";
+import { createSocialMeta } from "#i/core/meta";
+import { getPageTitle } from "#i/core/page-title";
 
 export async function loader() {
   const pressArticles = await prisma.pressArticle.findMany({

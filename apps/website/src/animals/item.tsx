@@ -1,3 +1,7 @@
+import { cn, formatAge } from "@animeaux/core";
+import type { Species } from "@animeaux/prisma";
+import { Gender } from "@animeaux/prisma";
+
 import { BaseLink } from "#i/core/base-link";
 import { DynamicImage } from "#i/core/data-display/image";
 import { isDefined } from "#i/core/is-defined";
@@ -7,9 +11,6 @@ import {
   SPECIES_TRANSLATION_STANDALONE,
 } from "#i/core/translations";
 import { Icon } from "#i/generated/icon";
-import { cn, formatAge } from "@animeaux/core";
-import type { Species } from "@animeaux/prisma";
-import { Gender } from "@animeaux/prisma";
 
 export function AnimalItem({
   isDisabled = false,

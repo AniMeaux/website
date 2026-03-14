@@ -1,6 +1,7 @@
-import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm";
 import { Species } from "@animeaux/prisma";
 import { renderToStaticMarkup } from "react-dom/server";
+
+import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm";
 
 type SitemapAttribute = {
   key?: React.Key;

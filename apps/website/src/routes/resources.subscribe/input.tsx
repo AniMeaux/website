@@ -1,11 +1,12 @@
-import { createActionData } from "#i/core/schemas";
-import { Icon } from "#i/generated/icon";
-import type { action } from "#i/routes/resources.subscribe/route";
 import { cn } from "@animeaux/core";
 import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import invariant from "tiny-invariant";
 import { z } from "zod";
+
+import { createActionData } from "#i/core/schemas";
+import { Icon } from "#i/generated/icon";
+import type { action } from "#i/routes/resources.subscribe/route";
 
 const RESOURCE_PATHNAME = "/resources/subscribe";
 

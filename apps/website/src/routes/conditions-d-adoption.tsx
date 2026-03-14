@@ -1,3 +1,8 @@
+import { cn } from "@animeaux/core";
+import { Species } from "@animeaux/prisma";
+import type { MetaFunction } from "@remix-run/node";
+import { useState } from "react";
+
 import { SPECIES_ICON } from "#i/animals/species";
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
@@ -13,8 +18,8 @@ import {
 } from "#i/core/data-display/options";
 import { Timeline, TimelineItem } from "#i/core/data-display/timeline";
 import {
-  BubbleShape,
   bubbleSectionClassNames,
+  BubbleShape,
 } from "#i/core/layout/bubble-section";
 import {
   HeroSection,
@@ -29,10 +34,6 @@ import { Icon } from "#i/generated/icon";
 import { adoptImages } from "#i/images/adopt";
 import { questionsImages } from "#i/images/questions";
 import { socialImages } from "#i/images/social";
-import { cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
-import type { MetaFunction } from "@remix-run/node";
-import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
