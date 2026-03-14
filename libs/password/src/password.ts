@@ -1,4 +1,5 @@
 import { randomBytes, scrypt, timingSafeEqual } from "node:crypto";
+
 import invariant from "tiny-invariant";
 
 const SEPARATOR = ".";
