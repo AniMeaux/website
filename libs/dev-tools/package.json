@@ -5,13 +5,19 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    "./eslint": "./eslint.config.js"
+    "./eslint": "./eslint.config.js",
+    "./prettier": "./prettier.config.js"
   },
   "scripts": {
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
-    "lint-fix": "run-s --print-label lint-fix:eslint",
-    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
+    "lint:prettier": "prettier --list-different .",
+    "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:prettier": "prettier --write ."
+  },
+  "optionalDependencies": {
+    "prettier-plugin-tailwindcss": "catalog:"
   },
   "dependencies": {
     "eslint": "catalog:",
@@ -22,6 +28,7 @@
     "eslint-plugin-simple-import-sort": "catalog:",
     "eslint-plugin-unused-imports": "catalog:",
     "globals": "catalog:",
+    "prettier": "catalog:",
     "typescript-eslint": "catalog:"
   },
   "devDependencies": {

@@ -33,7 +33,6 @@
     "npm-run-all": "catalog:",
     "pm2": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "typescript": "catalog:"
   }
 }

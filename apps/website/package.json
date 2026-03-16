@@ -24,9 +24,11 @@
     "generate:theme": "tsx ./scripts/generate-theme.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:prettier": "prettier --list-different .",
     "lint:tsc": "tsc --noEmit",
-    "lint-fix": "run-s --print-label lint-fix:eslint",
+    "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
     "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:prettier": "prettier --write .",
     "start": "remix-serve ./build/server/index.js"
   },
   "dependencies": {
@@ -70,6 +72,8 @@
     "msw": "catalog:",
     "node-html-parser": "catalog:",
     "npm-run-all": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
     "tailwindcss": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",

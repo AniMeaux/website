@@ -12,9 +12,11 @@
   "scripts": {
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:prettier": "prettier --list-different .",
     "lint:tsx": "tsc --noEmit",
-    "lint-fix": "run-s --print-label lint-fix:eslint",
-    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
+    "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:prettier": "prettier --write ."
   },
   "devDependencies": {
     "@animeaux/core": "workspace:*",
@@ -25,6 +27,7 @@
     "dotenv-flow": "catalog:",
     "eslint": "catalog:",
     "npm-run-all": "catalog:",
+    "prettier": "catalog:",
     "tiny-invariant": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:"
