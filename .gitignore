@@ -5,4 +5,4 @@
 /logs/**/*.log
 
 # Dependencies installed by pnpm.
-node_modules/
+/node_modules/
