@@ -1,8 +1,9 @@
-import type { IconName } from "#i/generated/icon.js";
-import { SponsorshipCategory } from "#i/show/sponsors/category";
-import { Visibility } from "#i/show/visibility";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
+
+import type { IconName } from "#i/generated/icon.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category"
+import { Visibility } from "#i/show/visibility"
 
 export const SponsorSearchParams = SearchParamsIO.create({
   keys: {
@@ -18,33 +19,33 @@ export const SponsorSearchParams = SearchParamsIO.create({
       exhibitor: SearchParamsIO.getValues(searchParams, keys.exhibitor),
       name: SearchParamsIO.getValue(searchParams, keys.name),
       visibility: SearchParamsIO.getValues(searchParams, keys.visibility),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValues(searchParams, keys.categories, data.categories);
+    SearchParamsIO.setValues(searchParams, keys.categories, data.categories)
 
-    SearchParamsIO.setValues(searchParams, keys.exhibitor, data.exhibitor);
+    SearchParamsIO.setValues(searchParams, keys.exhibitor, data.exhibitor)
 
-    SearchParamsIO.setValue(searchParams, keys.name, data.name);
+    SearchParamsIO.setValue(searchParams, keys.name, data.name)
 
-    SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility);
+    SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility)
   },
-});
+})
 
 export namespace SponsorSearchParamsN {
-  export type Value = SearchParamsIO.Infer<typeof SponsorSearchParams>;
+  export type Value = SearchParamsIO.Infer<typeof SponsorSearchParams>
 
   export namespace Exhibitor {
-    export const Enum = { YES: "YES", NO: "NO" } as const;
-    export type Enum = (typeof Enum)[keyof typeof Enum];
+    export const Enum = { YES: "YES", NO: "NO" } as const
+    export type Enum = (typeof Enum)[keyof typeof Enum]
 
-    export const values = [Enum.YES, Enum.NO];
+    export const values = [Enum.YES, Enum.NO]
 
     export const translation: Record<Enum, string> = {
       [Enum.YES]: "Est exposant",
       [Enum.NO]: "N’est pas exposant",
-    };
+    }
 
     export const icon: Record<Enum, { light: IconName; solid: IconName }> = {
       [Enum.YES]: {
@@ -55,7 +56,7 @@ export namespace SponsorSearchParamsN {
         light: "icon-store-slash-light",
         solid: "icon-store-slash-solid",
       },
-    };
+    }
   }
 }
 
@@ -68,4 +69,4 @@ const SearchParamsSchema = zu.object({
   ),
   name: zu.searchParams.string(),
   visibility: zu.searchParams.set(zu.searchParams.nativeEnum(Visibility.Enum)),
-});
+})

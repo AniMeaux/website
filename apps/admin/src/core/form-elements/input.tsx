@@ -1,8 +1,9 @@
-import { ensureArray } from "#i/core/collections";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { toBooleanAttribute } from "@animeaux/core";
-import { forwardRef } from "react";
-import type { SetRequired } from "type-fest";
+import { toBooleanAttribute } from "@animeaux/core"
+import { forwardRef } from "react"
+import type { SetRequired } from "type-fest"
+
+import { ensureArray } from "#i/core/collections"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
 
 export type InputProps = Omit<
   React.ComponentPropsWithoutRef<typeof BaseTextInput>,
@@ -10,12 +11,12 @@ export type InputProps = Omit<
 > & {
   leftAdornment?: React.ComponentPropsWithoutRef<
     typeof BaseTextInput.AdornmentContainer
-  >["adornment"];
+  >["adornment"]
   rightAdornment?: React.ComponentPropsWithoutRef<
     typeof BaseTextInput.AdornmentContainer
-  >["adornment"];
-  hasError?: boolean;
-};
+  >["adornment"]
+  hasError?: boolean
+}
 
 export const Input = Object.assign(
   forwardRef<React.ComponentRef<"input">, InputProps>(function Input(
@@ -67,13 +68,13 @@ export const Input = Object.assign(
           adornment={rightAdornment}
         />
       </BaseTextInput.Root>
-    );
+    )
   }),
   {
     Adornment: BaseTextInput.Adornment,
     ActionAdornment: BaseTextInput.ActionAdornment,
   },
-);
+)
 
 function getTypeFallbackPattern({
   type,
@@ -84,39 +85,39 @@ function getTypeFallbackPattern({
 >) {
   switch (type) {
     case "date": {
-      return "\\d{4}-\\d{2}-\\d{2}";
+      return "\\d{4}-\\d{2}-\\d{2}"
     }
 
     case "datetime-local": {
-      return "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}";
+      return "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"
     }
 
     case "email": {
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#basic_validation
-      return "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*";
+      return "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*"
     }
 
     case "tel": {
-      return "\\+?[\\s\\d]+";
+      return "\\+?[\\s\\d]+"
     }
 
     case "time": {
-      return "\\d{2}:\\d{2}";
+      return "\\d{2}:\\d{2}"
     }
 
     case "url": {
-      return "https://.*";
+      return "https://.*"
     }
 
     case "text": {
       if (inputMode != null) {
         switch (inputMode) {
           case "decimal": {
-            return "-?\\d*[\\.,]?\\d+";
+            return "-?\\d*[\\.,]?\\d+"
           }
 
           case "numeric": {
-            return "-?\\d+";
+            return "-?\\d+"
           }
 
           default: {
@@ -125,11 +126,11 @@ function getTypeFallbackPattern({
         }
       }
 
-      return undefined;
+      return undefined
     }
 
     default: {
-      return undefined;
+      return undefined
     }
   }
 }

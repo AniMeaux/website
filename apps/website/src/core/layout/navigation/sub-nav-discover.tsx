@@ -1,5 +1,5 @@
-import type { SubNavComponent } from "#i/core/layout/navigation/shared";
-import { SubNavItem } from "#i/core/layout/navigation/shared";
+import type { SubNavComponent } from "#i/core/layout/navigation/shared"
+import { SubNavItem } from "#i/core/layout/navigation/shared"
 
 export const SubNavDiscover: SubNavComponent = () => {
   return (
@@ -28,13 +28,13 @@ export const SubNavDiscover: SubNavComponent = () => {
         FAQ
       </SubNavItem>
     </div>
-  );
-};
+  )
+}
 
 SubNavDiscover.isActive = (location) => {
-  const pathname = location.pathname.toLowerCase();
+  const pathname = location.pathname.toLowerCase()
 
   return ["/partenaires", "/blog", "/faq"].some((path) =>
     pathname.startsWith(path),
-  );
-};
+  )
+}

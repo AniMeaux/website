@@ -1,25 +1,27 @@
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
+
+import { db } from "#i/core/db.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#i/show/exhibitors/applications/search-params.js";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
-import { UserGroup } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
-import { RouteParamsSchema } from "./route-params";
+} from "#i/show/exhibitors/applications/search-params.js"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
+
+import { RouteParamsSchema } from "./route-params"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const {
     standSize,
@@ -77,7 +79,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         structureName: true,
       },
     }),
-  });
+  })
 
   return json({
     standSize,
@@ -85,5 +87,5 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     exhibitorTotalCount,
     applications,
     applicationTotalCount,
-  });
+  })
 }

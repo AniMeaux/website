@@ -1,17 +1,18 @@
-import { Header } from "#i/core/layout/header";
-import { Routes } from "#i/core/navigation";
-import { ShowDay } from "#i/core/show-day";
-import { useLocation } from "@remix-run/react";
+import { useLocation } from "@remix-run/react"
+
+import { Header } from "#i/core/layout/header"
+import { Routes } from "#i/core/navigation"
+import { ShowDay } from "#i/core/show-day"
 
 export function LayoutHeader() {
-  const location = useLocation();
+  const location = useLocation()
 
   if (CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE !== "true") {
     if (location.pathname === Routes.home.toString()) {
-      return null;
+      return null
     }
 
-    return <Header.Root />;
+    return <Header.Root />
   }
 
   return (
@@ -32,5 +33,5 @@ export function LayoutHeader() {
 
       <Header.NavItem to={Routes.faq.toString()}>FAQ</Header.NavItem>
     </Header.Root>
-  );
+  )
 }

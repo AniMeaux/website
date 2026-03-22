@@ -1,9 +1,12 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
+
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
 import {
-  BubbleShape,
   bubbleSectionClassNames,
-} from "#i/core/layout/bubble-section";
+  BubbleShape,
+} from "#i/core/layout/bubble-section"
 import {
   HeroSection,
   HeroSectionAction,
@@ -11,25 +14,23 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { donationImages } from "#i/images/donation";
-import { helloassoImages } from "#i/images/helloasso";
-import paypalImage from "#i/images/paypal.png";
-import { socialImages } from "#i/images/social";
-import teamingImage from "#i/images/teaming.png";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { donationImages } from "#i/images/donation"
+import { helloassoImages } from "#i/images/helloasso"
+import paypalImage from "#i/images/paypal.png"
+import { socialImages } from "#i/images/social"
+import teamingImage from "#i/images/teaming.png"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Faire un don"),
     imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.donation.imagesBySize[1024]}`,
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -80,7 +81,7 @@ export default function Route() {
 
       <OtherOptionsSection />
     </main>
-  );
+  )
 }
 
 function OtherOptionsSection() {
@@ -134,7 +135,7 @@ function OtherOptionsSection() {
         </OtherOption>
       </ul>
     </section>
-  );
+  )
 }
 
 function OtherOption({
@@ -142,9 +143,9 @@ function OtherOption({
   action,
   children,
 }: {
-  image: IconProps["id"] | { src: string; alt: string };
-  action?: React.ReactNode;
-  children: React.ReactNode;
+  image: IconProps["id"] | { src: string; alt: string }
+  action?: React.ReactNode
+  children: React.ReactNode
 }) {
   return (
     <li className="flex w-[200px] flex-none flex-col gap-6 text-center">
@@ -163,7 +164,7 @@ function OtherOption({
       <p>{children}</p>
       {action != null && <div className="self-center">{action}</div>}
     </li>
-  );
+  )
 }
 
 function TaxationSection() {
@@ -223,5 +224,5 @@ function TaxationSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,27 +1,28 @@
-import { AnimalCreationSteps } from "#i/animals/creation-steps";
+import { UserGroup } from "@animeaux/prisma"
+import type { zu } from "@animeaux/zod-utils"
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+
+import { AnimalCreationSteps } from "#i/animals/creation-steps"
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-} from "#i/animals/situation/db.server";
-import { ActionFormData, AnimalSituationForm } from "#i/animals/situation/form";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+} from "#i/animals/situation/db.server"
+import { ActionFormData, AnimalSituationForm } from "#i/animals/situation/form"
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { draft, ...currentUser } = await db.currentUser.get(request, {
@@ -36,44 +37,44 @@ export async function loader({ request }: LoaderFunctionArgs) {
         },
       },
     },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  await db.animal.profile.assertDraftIsValid(draft);
+  await db.animal.profile.assertDraftIsValid(draft)
 
-  return json({ draft, currentUser });
+  return json({ draft, currentUser })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle(["Nouvel animal", "Situation"]) }];
-};
+  return [{ title: getPageTitle(["Nouvel animal", "Situation"]) }]
+}
 
 type ActionData = {
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true, draft: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  await db.animal.profile.assertDraftIsValid(currentUser.draft);
+  await db.animal.profile.assertDraftIsValid(currentUser.draft)
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
@@ -100,7 +101,7 @@ export async function action({ request }: ActionFunctionArgs) {
       screeningFelv: formData.data.screeningFelv,
       screeningFiv: formData.data.screeningFiv,
       status: formData.data.status,
-    });
+    })
   } catch (error) {
     if (error instanceof MissingAdoptionDateError) {
       return json<ActionData>(
@@ -113,7 +114,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof MissingManagerError) {
@@ -127,7 +128,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof NotManagerError) {
@@ -143,7 +144,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof MissingPickUpLocationError) {
@@ -157,22 +158,22 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
-  throw redirect(Routes.animals.new.pictures.toString());
+  throw redirect(Routes.animals.new.pictures.toString())
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { currentUser, draft } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { currentUser, draft } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <PageLayout.Root>
@@ -194,5 +195,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

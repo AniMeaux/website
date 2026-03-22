@@ -1,16 +1,16 @@
-import { zu } from "@animeaux/zod-utils";
-import { DateTime } from "luxon";
+import { zu } from "@animeaux/zod-utils"
+import { DateTime } from "luxon"
 
 export function checkEnv() {
-  const result = processEnvSchema.safeParse(process.env);
+  const result = processEnvSchema.safeParse(process.env)
 
   if (!result.success) {
     console.error(
       "Invalid environment variables:",
       formatErrors(result.error.flatten()),
-    );
+    )
 
-    throw new Error("Invalid envirmonment variables");
+    throw new Error("Invalid envirmonment variables")
   }
 }
 
@@ -19,13 +19,13 @@ function formatErrors(
 ) {
   const payload: Record<string, string[]> = {
     ...errors.fieldErrors,
-  };
-
-  if (errors.formErrors.length > 0) {
-    payload.formErrors = errors.formErrors;
   }
 
-  return JSON.stringify(payload, null, 2);
+  if (errors.formErrors.length > 0) {
+    payload.formErrors = errors.formErrors
+  }
+
+  return JSON.stringify(payload, null, 2)
 }
 
 /**
@@ -70,16 +70,16 @@ export function getClientEnv() {
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
     SPONSORSHIP_URL: process.env.SPONSORSHIP_URL,
     TICKETING_URL: process.env.TICKETING_URL,
-  };
+  }
 }
 
-type CLIENT_ENV = ReturnType<typeof getClientEnv>;
+type CLIENT_ENV = ReturnType<typeof getClientEnv>
 
 declare global {
-  var CLIENT_ENV: CLIENT_ENV;
+  var CLIENT_ENV: CLIENT_ENV
 
   interface Window {
-    CLIENT_ENV: CLIENT_ENV;
+    CLIENT_ENV: CLIENT_ENV
   }
 
   namespace NodeJS {
@@ -180,4 +180,4 @@ const processEnvSchema = zu
       path: ["GOOGLE_API_PRIVATE_KEY"],
       message: `Required when \`RUNTIME_ENV=${env.RUNTIME_ENV}\``,
     }),
-  );
+  )

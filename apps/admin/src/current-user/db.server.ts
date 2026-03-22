@@ -1,18 +1,19 @@
-import { EmailAlreadyUsedError, PrismaErrorCodes } from "#i/core/errors.server";
-import { setCurrentUserForMonitoring } from "#i/core/monitoring.server";
-import { Routes } from "#i/core/navigation";
-import { prisma } from "#i/core/prisma.server";
-import { NextSearchParams } from "#i/core/search-params";
+import { generatePasswordHash, isSamePassword } from "@animeaux/password"
+import type { User } from "@animeaux/prisma/server"
+import { Prisma, UserGroup } from "@animeaux/prisma/server"
+import { redirect } from "@remix-run/node"
+import { createPath } from "history"
+
+import { EmailAlreadyUsedError, PrismaErrorCodes } from "#i/core/errors.server"
+import { setCurrentUserForMonitoring } from "#i/core/monitoring.server"
+import { Routes } from "#i/core/navigation"
+import { prisma } from "#i/core/prisma.server"
+import { NextSearchParams } from "#i/core/search-params"
 import {
   destroyCurrentUserSession,
   getCurrentUserSession,
-} from "#i/current-user/session.server";
-import { hasGroups } from "#i/users/groups";
-import { generatePasswordHash, isSamePassword } from "@animeaux/password";
-import type { User } from "@animeaux/prisma/server";
-import { Prisma, UserGroup } from "@animeaux/prisma/server";
-import { redirect } from "@remix-run/node";
-import { createPath } from "history";
+} from "#i/current-user/session.server"
+import { hasGroups } from "#i/users/groups"
 
 export class CurrentUserDbDelegate {
   async get<T extends Prisma.UserSelect>(
@@ -22,9 +23,9 @@ export class CurrentUserDbDelegate {
       skipPasswordChangeCheck = false,
     }: { skipPasswordChangeCheck?: boolean } = {},
   ) {
-    const session = await getCurrentUserSession(request);
+    const session = await getCurrentUserSession(request)
     if (session.data.userId == null) {
-      throw await this.redirectToLogin(request);
+      throw await this.redirectToLogin(request)
     }
 
     const user = await prisma.$transaction(async (prisma) => {
@@ -39,24 +40,24 @@ export class CurrentUserDbDelegate {
         groups: true,
         id: true,
         shouldChangePassword: true,
-      } satisfies Prisma.UserSelect;
+      } satisfies Prisma.UserSelect
 
       const user = (await prisma.user.findFirst({
         select: { ...args.select, ...internalSelect },
         where: { id: session.data.userId, isDisabled: false },
-      })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>;
+      })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>
 
       if (user == null) {
-        throw await this.redirectToLogin(request);
+        throw await this.redirectToLogin(request)
       }
 
       await prisma.user.update({
         where: { id: session.data.userId },
         data: { lastActivityAt: new Date() },
-      });
+      })
 
-      return user;
-    });
+      return user
+    })
 
     if (
       !hasGroups(user, [
@@ -66,29 +67,29 @@ export class CurrentUserDbDelegate {
         UserGroup.VOLUNTEER,
       ])
     ) {
-      throw await this.redirectToLogin(request);
+      throw await this.redirectToLogin(request)
     }
 
-    setCurrentUserForMonitoring(user);
+    setCurrentUserForMonitoring(user)
 
     if (!skipPasswordChangeCheck && user.shouldChangePassword) {
-      throw await this.redirectToDefinePassword(request);
+      throw await this.redirectToDefinePassword(request)
     }
 
-    return user as Prisma.UserGetPayload<{ select: typeof args.select }>;
+    return user as Prisma.UserGetPayload<{ select: typeof args.select }>
   }
 
   async verifyLogin({
     email,
     password,
   }: {
-    email: User["email"];
-    password: string;
+    email: User["email"]
+    password: string
   }) {
     const user = await prisma.user.findFirst({
       where: { email, isDisabled: false },
       select: { id: true, password: true, groups: true },
-    });
+    })
 
     if (user?.password == null) {
       // Prevent finding out which emails exists through a timing attack.
@@ -98,13 +99,13 @@ export class CurrentUserDbDelegate {
         "Hello there",
         // "Obiwan Kenobi?"
         "879d5935bab9b03280188c1806cf5ae751579b3342c51e788c43be14e0109ab8b98da03f5fa2cc96c85ca192eda9aaf892cba7ba1fc3b7d1a4a1eb8956a65c53.6a71cc1003ad30a5c6abf0d53baa2c5d",
-      );
+      )
 
-      return null;
+      return null
     }
 
     if (!(await isSamePassword(password, user.password.hash))) {
-      return null;
+      return null
     }
 
     if (
@@ -115,14 +116,14 @@ export class CurrentUserDbDelegate {
         UserGroup.VOLUNTEER,
       ])
     ) {
-      return null;
+      return null
     }
 
-    return user.id;
+    return user.id
   }
 
   async updatePassword(userId: User["id"], password: string) {
-    const passwordHash = await generatePasswordHash(password);
+    const passwordHash = await generatePasswordHash(password)
 
     await prisma.user.update({
       where: { id: userId },
@@ -130,7 +131,7 @@ export class CurrentUserDbDelegate {
         shouldChangePassword: false,
         password: { update: { hash: passwordHash } },
       },
-    });
+    })
   }
 
   async updateProfile(
@@ -138,22 +139,22 @@ export class CurrentUserDbDelegate {
     data: Pick<User, "email" | "displayName">,
   ) {
     try {
-      await prisma.user.update({ where: { id }, data });
+      await prisma.user.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-          throw new EmailAlreadyUsedError();
+          throw new EmailAlreadyUsedError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   private async redirectToLogin(request: Request) {
-    setCurrentUserForMonitoring(null);
+    setCurrentUserForMonitoring(null)
 
-    const path = this.getCurrentRoutePath(request);
+    const path = this.getCurrentRoutePath(request)
 
     return redirect(
       createPath({
@@ -161,29 +162,29 @@ export class CurrentUserDbDelegate {
         search: NextSearchParams.format({ next: path }),
       }),
       { headers: { "Set-Cookie": await destroyCurrentUserSession() } },
-    );
+    )
   }
 
   private async redirectToDefinePassword(request: Request) {
-    const path = this.getCurrentRoutePath(request);
+    const path = this.getCurrentRoutePath(request)
 
     return redirect(
       createPath({
         pathname: Routes.definePassword.toString(),
         search: NextSearchParams.format({ next: path }),
       }),
-    );
+    )
   }
 
   private getCurrentRoutePath(request: Request) {
     // Remove host from URL.
-    let path = createPath(new URL(request.url));
+    let path = createPath(new URL(request.url))
 
     // We don't want to redirect to resources routes as they don't render UI.
     if (path.startsWith("/resources/")) {
-      path = "/";
+      path = "/"
     }
 
-    return path;
+    return path
   }
 }

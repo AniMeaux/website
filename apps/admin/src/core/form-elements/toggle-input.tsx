@@ -1,12 +1,12 @@
-import { Item, ItemList } from "#i/core/data-display/item";
-import { Icon } from "#i/generated/icon";
+import { Item, ItemList } from "#i/core/data-display/item"
+import { Icon } from "#i/generated/icon"
 
 export function ToggleInputList({ children }: { children?: React.ReactNode }) {
   return (
     <ItemList asChild>
       <div>{children}</div>
     </ItemList>
-  );
+  )
 }
 
 export function ToggleInput({
@@ -15,9 +15,9 @@ export function ToggleInput({
   label,
   ...rest
 }: React.InputHTMLAttributes<HTMLInputElement> & {
-  icon: React.ReactNode;
-  iconChecked?: React.ReactNode;
-  label: React.ReactNode;
+  icon: React.ReactNode
+  iconChecked?: React.ReactNode
+  label: React.ReactNode
 }) {
   return (
     <Item.Root asChild>
@@ -55,5 +55,5 @@ export function ToggleInput({
         </Item.Icon>
       </label>
     </Item.Root>
-  );
+  )
 }

@@ -1,18 +1,19 @@
+import { generatePasswordHash } from "@animeaux/password"
+import type { User } from "@animeaux/prisma/server"
+import { Prisma, UserGroup } from "@animeaux/prisma/server"
+import type { SearchParamsIO } from "@animeaux/search-params-io"
+import { DateTime } from "luxon"
+
 import {
   EmailAlreadyUsedError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server";
-import { orderByRank } from "#i/core/order-by-rank";
-import { prisma } from "#i/core/prisma.server";
-import type { UserSearchParams } from "#i/users/search-params";
-import { UserSort } from "#i/users/search-params";
-import { generatePasswordHash } from "@animeaux/password";
-import type { User } from "@animeaux/prisma/server";
-import { Prisma, UserGroup } from "@animeaux/prisma/server";
-import type { SearchParamsIO } from "@animeaux/search-params-io";
-import { DateTime } from "luxon";
+} from "#i/core/errors.server"
+import { orderByRank } from "#i/core/order-by-rank"
+import { prisma } from "#i/core/prisma.server"
+import type { UserSearchParams } from "#i/users/search-params"
+import { UserSort } from "#i/users/search-params"
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}
@@ -27,13 +28,13 @@ export class UserDbDelegate {
       where,
       take,
     }: {
-      select: T;
-      where?: Prisma.UserWhereInput;
-      take?: number;
+      select: T
+      where?: Prisma.UserWhereInput
+      take?: number
     },
   ) {
     // Ensure we only use our selected properties.
-    const internalSelect = { id: true } satisfies Prisma.UserSelect;
+    const internalSelect = { id: true } satisfies Prisma.UserSelect
 
     // When there are no text search, return hits ordered by name.
     if (displayName == null) {
@@ -42,19 +43,19 @@ export class UserDbDelegate {
         select: { ...select, ...internalSelect },
         orderBy: { displayName: "asc" },
         take,
-      });
+      })
     }
 
-    const hits = await this.getHits(displayName);
+    const hits = await this.getHits(displayName)
 
     const users = (await prisma.user.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
       select: { ...select, ...internalSelect },
-    })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>[];
+    })) as Prisma.UserGetPayload<{ select: typeof internalSelect }>[]
 
     return orderByRank(users, hits, { take }) as Prisma.UserGetPayload<{
-      select: typeof select & typeof internalSelect;
-    }>[];
+      select: typeof select & typeof internalSelect
+    }>[]
   }
 
   async setIsDisabled(
@@ -64,44 +65,44 @@ export class UserDbDelegate {
   ) {
     // Don't allow a user to disable himself.
     if (currentUser.id === id) {
-      throw new DisableMyselfError();
+      throw new DisableMyselfError()
     }
 
     try {
-      await prisma.user.update({ where: { id }, data: { isDisabled } });
+      await prisma.user.update({ where: { id }, data: { isDisabled } })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
+          throw new NotFoundError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   async delete(userId: User["id"], currentUser: Pick<User, "id">) {
     // Don't allow a user to delete himself.
     if (currentUser.id === userId) {
-      throw new DeleteMyselfError();
+      throw new DeleteMyselfError()
     }
 
     try {
-      await prisma.user.delete({ where: { id: userId } });
+      await prisma.user.delete({ where: { id: userId } })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case PrismaErrorCodes.NOT_FOUND: {
-            throw new NotFoundError();
+            throw new NotFoundError()
           }
 
           case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
-            throw new ReferencedError();
+            throw new ReferencedError()
           }
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
@@ -111,13 +112,13 @@ export class UserDbDelegate {
     groups,
     temporaryPassword,
   }: Pick<User, "displayName" | "email" | "groups"> & {
-    temporaryPassword: string;
+    temporaryPassword: string
   }) {
     if (temporaryPassword === "") {
-      throw new MissingPasswordError();
+      throw new MissingPasswordError()
     }
 
-    const passwordHash = await generatePasswordHash(temporaryPassword);
+    const passwordHash = await generatePasswordHash(temporaryPassword)
 
     try {
       const user = await prisma.user.create({
@@ -128,17 +129,17 @@ export class UserDbDelegate {
           password: { create: { hash: passwordHash } },
         },
         select: { id: true },
-      });
+      })
 
-      return user.id;
+      return user.id
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-          throw new EmailAlreadyUsedError();
+          throw new EmailAlreadyUsedError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
@@ -150,19 +151,19 @@ export class UserDbDelegate {
       groups,
       temporaryPassword,
     }: Pick<User, "displayName" | "email" | "groups"> & {
-      temporaryPassword: string;
+      temporaryPassword: string
     },
     currentUser: Pick<User, "id">,
   ) {
     // Don't allow an admin (only admins can access users) to lock himself out.
     if (currentUser.id === userId && !groups.includes(UserGroup.ADMIN)) {
-      throw new LockMyselfError();
+      throw new LockMyselfError()
     }
 
     const passwordHash =
       temporaryPassword === ""
         ? null
-        : await generatePasswordHash(temporaryPassword);
+        : await generatePasswordHash(temporaryPassword)
 
     try {
       await prisma.user.update({
@@ -178,68 +179,68 @@ export class UserDbDelegate {
               : { update: { hash: passwordHash } },
         },
         select: { id: true },
-      });
+      })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case PrismaErrorCodes.NOT_FOUND: {
-            throw new NotFoundError();
+            throw new NotFoundError()
           }
 
           case PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED: {
-            throw new EmailAlreadyUsedError();
+            throw new EmailAlreadyUsedError()
           }
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   async createFindManyParams(
     searchParams: SearchParamsIO.Infer<typeof UserSearchParams>,
   ) {
-    const where: Prisma.UserWhereInput[] = [];
+    const where: Prisma.UserWhereInput[] = []
 
     if (searchParams.groups.size > 0) {
-      where.push({ groups: { hasSome: Array.from(searchParams.groups) } });
+      where.push({ groups: { hasSome: Array.from(searchParams.groups) } })
     }
 
     if (
       searchParams.lastActivityStart != null ||
       searchParams.lastActivityEnd != null
     ) {
-      const lastActivityAt: Prisma.DateTimeFilter = {};
+      const lastActivityAt: Prisma.DateTimeFilter = {}
 
       if (searchParams.lastActivityStart != null) {
-        lastActivityAt.gte = searchParams.lastActivityStart;
+        lastActivityAt.gte = searchParams.lastActivityStart
       }
 
       if (searchParams.lastActivityEnd != null) {
         lastActivityAt.lte = DateTime.fromJSDate(searchParams.lastActivityEnd)
           .endOf("day")
-          .toJSDate();
+          .toJSDate()
       }
 
-      where.push({ lastActivityAt });
+      where.push({ lastActivityAt })
     }
 
     if (searchParams.noActivity) {
-      where.push({ lastActivityAt: null });
+      where.push({ lastActivityAt: null })
     }
 
     if (searchParams.displayName != null) {
-      const hits = await this.getHits(searchParams.displayName);
+      const hits = await this.getHits(searchParams.displayName)
 
-      where.push({ id: { in: hits.map((hit) => hit.id) } });
+      where.push({ id: { in: hits.map((hit) => hit.id) } })
     }
 
-    const orderBy = USER_ORDER_BY[searchParams.sort];
+    const orderBy = USER_ORDER_BY[searchParams.sort]
 
     return {
       orderBy,
       where: { AND: where },
-    } satisfies Prisma.UserFindManyArgs;
+    } satisfies Prisma.UserFindManyArgs
   }
 
   private async getHits(
@@ -262,11 +263,11 @@ export class UserDbDelegate {
         "matchRank" < 6.7
       ORDER BY
         "matchRank" ASC
-    `;
+    `
   }
 }
 
 const USER_ORDER_BY: Record<UserSort, Prisma.UserFindManyArgs["orderBy"]> = {
   [UserSort.NAME]: { displayName: "asc" },
   [UserSort.LAST_ACTIVITY]: { lastActivityAt: "desc" },
-};
+}

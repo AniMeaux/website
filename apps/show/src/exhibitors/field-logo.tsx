@@ -1,20 +1,21 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { InputFileImage } from "#i/core/form-elements/input-file-image";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { withoutKey } from "@animeaux/core";
-import type { FieldMetadata } from "@conform-to/react";
-import { getInputProps } from "@conform-to/react";
+import { withoutKey } from "@animeaux/core"
+import type { FieldMetadata } from "@conform-to/react"
+import { getInputProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { InputFileImage } from "#i/core/form-elements/input-file-image"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function FieldLogo({
   field,
   label,
   defaultLogo,
 }: {
-  field: FieldMetadata<undefined | File>;
-  label: React.ReactNode;
+  field: FieldMetadata<undefined | File>
+  label: React.ReactNode
   defaultLogo?: React.ComponentPropsWithoutRef<
     typeof InputFileImage.Placeholder
-  >["defaultLogo"];
+  >["defaultLogo"]
 }) {
   return (
     <FormLayout.Field>
@@ -48,5 +49,5 @@ export function FieldLogo({
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

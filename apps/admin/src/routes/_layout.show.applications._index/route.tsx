@@ -1,32 +1,34 @@
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { ApplicationFilters } from "#i/show/exhibitors/applications/filter-form";
-import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params";
-import { hasGroups } from "#i/users/groups.js";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
-import { CardList } from "./card-list";
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
+
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { ApplicationFilters } from "#i/show/exhibitors/applications/filter-form"
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params"
+import { hasGroups } from "#i/users/groups.js"
+
+import { CardList } from "./card-list"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const {
     applications: { applications, totalCount },
@@ -53,11 +55,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     standSizes: db.show.standSize.findMany({
       select: { id: true, label: true },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / APPLICATION_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / APPLICATION_COUNT_PER_PAGE)
 
-  const canExport = hasGroups(currentUser, [UserGroup.ADMIN]);
+  const canExport = hasGroups(currentUser, [UserGroup.ADMIN])
 
   return json({
     totalCount,
@@ -65,17 +67,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
     applications,
     standSizes,
     canExport,
-  });
+  })
 }
 
-const APPLICATION_COUNT_PER_PAGE = 20;
+const APPLICATION_COUNT_PER_PAGE = 20
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Candidatures") }];
-};
+  return [{ title: getPageTitle("Candidatures") }]
+}
 
 export default function Route() {
-  const { totalCount, standSizes } = useLoaderData<typeof loader>();
+  const { totalCount, standSizes } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -101,5 +103,5 @@ export default function Route() {
         <ApplicationFilters standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
-  );
+  )
 }

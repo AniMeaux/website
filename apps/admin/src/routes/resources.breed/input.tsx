@@ -1,33 +1,35 @@
-import { BreedSearchParams } from "#i/breeds/search-params";
-import { ensureArray } from "#i/core/collections";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Input } from "#i/core/form-elements/input";
+import { toBooleanAttribute } from "@animeaux/core"
+import type { Breed, Species } from "@animeaux/prisma"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import type { SerializeFrom } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+import { useCombobox } from "downshift"
+import { createPath } from "history"
+import { forwardRef, useEffect, useState } from "react"
+
+import { BreedSearchParams } from "#i/breeds/search-params"
+import { ensureArray } from "#i/core/collections"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Input } from "#i/core/form-elements/input"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { toBooleanAttribute } from "@animeaux/core";
-import type { Breed, Species } from "@animeaux/prisma";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
-import type { loader } from "./route";
+} from "#i/core/form-elements/resource-input"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+
+import type { loader } from "./route"
 
 type BreedInputProps = {
-  name: string;
-  defaultValue?: null | Pick<Breed, "id" | "name">;
-  species?: null | Species;
-  disabled?: boolean;
-  hasError?: boolean;
-};
+  name: string
+  defaultValue?: null | Pick<Breed, "id" | "name">
+  species?: null | Species
+  disabled?: boolean
+  hasError?: boolean
+}
 
 export const BreedInput = forwardRef<
   React.ComponentRef<typeof InputTrigger>,
@@ -42,14 +44,14 @@ export const BreedInput = forwardRef<
   },
   ref,
 ) {
-  const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<loader>();
+  const [isOpened, setIsOpened] = useState(false)
+  const fetcher = useFetcher<loader>()
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is
   //   opened.
   // - Make sure we clear any search when the combobox is closed.
-  const load = fetcher.load;
+  const load = fetcher.load
   useEffect(() => {
     if (!isOpened) {
       load(
@@ -59,11 +61,11 @@ export const BreedInput = forwardRef<
             species: new Set(ensureArray(species)),
           }),
         }),
-      );
+      )
     }
-  }, [load, isOpened, species]);
+  }, [load, isOpened, species])
 
-  const [breed, setBreed] = useState(defaultValue);
+  const [breed, setBreed] = useState(defaultValue)
 
   return (
     <>
@@ -101,28 +103,28 @@ export const BreedInput = forwardRef<
                     name: value,
                   }),
                 }),
-              );
+              )
             }}
             onSelectedItem={(breed) => {
-              setBreed(breed);
-              setIsOpened(false);
+              setBreed(breed)
+              setIsOpened(false)
             }}
             onClose={() => setIsOpened(false)}
           />
         }
       />
     </>
-  );
-});
+  )
+})
 
 const InputTrigger = forwardRef<
   React.ComponentRef<"button">,
   {
-    disabled: boolean;
-    breed: null | Pick<Breed, "id" | "name">;
-    setBreed: React.Dispatch<null | Pick<Breed, "id" | "name">>;
-    hasError: boolean;
-    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
+    disabled: boolean
+    breed: null | Pick<Breed, "id" | "name">
+    setBreed: React.Dispatch<null | Pick<Breed, "id" | "name">>
+    hasError: boolean
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>
   }
 >(function InputTrigger(
   { disabled, breed, setBreed, hasError, triggerElement: TriggerElement },
@@ -140,7 +142,7 @@ const InputTrigger = forwardRef<
     <BaseTextInput.Adornment key="caret">
       <Icon href="icon-caret-down-solid" />
     </BaseTextInput.Adornment>,
-  ].filter(Boolean);
+  ].filter(Boolean)
 
   return (
     <BaseTextInput.Root aria-disabled={disabled}>
@@ -174,8 +176,8 @@ const InputTrigger = forwardRef<
         adornment={rightAdornments}
       />
     </BaseTextInput.Root>
-  );
-});
+  )
+})
 
 function Combobox({
   breed: selectedBreed,
@@ -184,28 +186,28 @@ function Combobox({
   onSelectedItem,
   onClose,
 }: {
-  breed: null | Pick<Breed, "id" | "name">;
-  breeds: SerializeFrom<typeof loader>["breeds"];
-  onInputValueChange: React.Dispatch<string>;
-  onSelectedItem: React.Dispatch<null | Pick<Breed, "id" | "name">>;
-  onClose: () => void;
+  breed: null | Pick<Breed, "id" | "name">
+  breeds: SerializeFrom<typeof loader>["breeds"]
+  onInputValueChange: React.Dispatch<string>
+  onSelectedItem: React.Dispatch<null | Pick<Breed, "id" | "name">>
+  onClose: () => void
 }) {
   const combobox = useCombobox({
     isOpen: true,
     items: breeds,
     itemToString: (breed) => breed?.name ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
-      onSelectedItem(selectedItem);
+      onSelectedItem(selectedItem)
     },
     onInputValueChange: ({ inputValue = "" }) => {
-      onInputValueChange(inputValue);
+      onInputValueChange(inputValue)
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
-        onClose();
+        onClose()
       }
     },
-  });
+  })
 
   return (
     <ResourceComboboxLayout
@@ -250,5 +252,5 @@ function Combobox({
         </SuggestionList>
       }
     />
-  );
+  )
 }

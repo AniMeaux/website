@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
 export const Radio = forwardRef<
   React.ComponentRef<"input">,
@@ -22,5 +22,5 @@ export const Radio = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})

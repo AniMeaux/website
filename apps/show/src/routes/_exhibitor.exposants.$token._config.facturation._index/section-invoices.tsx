@@ -1,15 +1,17 @@
-import { TaskItem } from "#i/core/data-display/task-item.js";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Icon } from "#i/generated/icon.js";
-import { InvoiceStatus } from "#i/invoice/status.js";
-import type { SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import type { loader } from "./loader.server";
+import type { SerializeFrom } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { TaskItem } from "#i/core/data-display/task-item.js"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Icon } from "#i/generated/icon.js"
+import { InvoiceStatus } from "#i/invoice/status.js"
+
+import type { loader } from "./loader.server"
 
 export function SectionInvoices() {
-  const { invoices } = useLoaderData<typeof loader>();
+  const { invoices } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section>
@@ -25,13 +27,13 @@ export function SectionInvoices() {
         ))
       )}
     </FormLayout.Section>
-  );
+  )
 }
 
 function InvoiceItem({
   invoice,
 }: {
-  invoice: SerializeFrom<typeof loader>["invoices"][number];
+  invoice: SerializeFrom<typeof loader>["invoices"][number]
 }) {
   return (
     <TaskItem.Root to={invoice.url} target="_blank" rel="noreferrer">
@@ -65,5 +67,5 @@ function InvoiceItem({
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }

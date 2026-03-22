@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby";
+import orderBy from "lodash.orderby"
 
 export enum PreviousEdition {
   Y_2022 = "2022",
@@ -11,7 +11,7 @@ export const SORTED_PREVIOUS_EDITIONS = orderBy(
   Object.values(PreviousEdition),
   (edition) => edition,
   ["desc"],
-);
+)
 
 export const PREVIOUS_EDITION_PHOTOGRAPH: Partial<
   Record<PreviousEdition, { name: string; url: string }>
@@ -28,4 +28,4 @@ export const PREVIOUS_EDITION_PHOTOGRAPH: Partial<
     name: "Julia Pommé Photographe",
     url: "https://www.juliapommephotographe.com",
   },
-};
+}

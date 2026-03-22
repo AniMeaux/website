@@ -1,16 +1,18 @@
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation.js";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
-import { useLoaderData } from "@remix-run/react";
-import { ExhibitorItem } from "./exhibitor-item";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation.js"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
+
+import { ExhibitorItem } from "./exhibitor-item"
+import type { loader } from "./loader.server"
 
 export function CardExhibitorList() {
   const { standSize, exhibitorTotalCount, exhibitors } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -56,5 +58,5 @@ export function CardExhibitorList() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

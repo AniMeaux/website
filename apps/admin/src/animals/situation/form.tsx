@@ -1,39 +1,5 @@
-import {
-  ADOPTION_OPTION_TRANSLATION,
-  SORTED_ADOPTION_OPTION,
-} from "#i/animals/adoption";
-import {
-  PICK_UP_REASON_TRANSLATION,
-  SORTED_PICK_UP_REASON,
-} from "#i/animals/pick-up";
-import {
-  SCREENING_RESULT_TRANSLATION,
-  SORTED_SCREENING_RESULTS,
-} from "#i/animals/screening";
-import {
-  DIAGNOSIS_TRANSLATION,
-  SORTED_DIAGNOSIS,
-} from "#i/animals/situation/diagnosis";
-import {
-  ACTIVE_ANIMAL_STATUS,
-  SORTED_STATUS,
-  STATUS_TRANSLATION,
-} from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import { toIsoDateValue } from "#i/core/dates";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Textarea } from "#i/core/form-elements/textarea";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
-import { FosterFamilyInput } from "#i/routes/resources.foster-family/input";
-import { ManagerInput } from "#i/routes/resources.manager/input";
-import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input";
-import { hasGroups } from "#i/users/groups";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { AnimalDraft, FosterFamily, User } from "@animeaux/prisma"
 import {
   AdoptionOption,
   Diagnosis,
@@ -43,13 +9,48 @@ import {
   Species,
   Status,
   UserGroup,
-} from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+} from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useLocation } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
+import invariant from "tiny-invariant"
+
+import {
+  ADOPTION_OPTION_TRANSLATION,
+  SORTED_ADOPTION_OPTION,
+} from "#i/animals/adoption"
+import {
+  PICK_UP_REASON_TRANSLATION,
+  SORTED_PICK_UP_REASON,
+} from "#i/animals/pick-up"
+import {
+  SCREENING_RESULT_TRANSLATION,
+  SORTED_SCREENING_RESULTS,
+} from "#i/animals/screening"
+import {
+  DIAGNOSIS_TRANSLATION,
+  SORTED_DIAGNOSIS,
+} from "#i/animals/situation/diagnosis"
+import {
+  ACTIVE_ANIMAL_STATUS,
+  SORTED_STATUS,
+  STATUS_TRANSLATION,
+} from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import { toIsoDateValue } from "#i/core/dates"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Textarea } from "#i/core/form-elements/textarea"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
+import { FosterFamilyInput } from "#i/routes/resources.foster-family/input"
+import { ManagerInput } from "#i/routes/resources.manager/input"
+import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input"
+import { hasGroups } from "#i/users/groups"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -90,7 +91,7 @@ export const ActionFormData = FormDataDelegate.create(
     }),
     vaccination: zu.enum(["MANDATORY", "WONT_BE_DONE"]),
   }),
-);
+)
 
 type DefaultAnimal = null | SerializeFrom<
   Pick<
@@ -112,10 +113,10 @@ type DefaultAnimal = null | SerializeFrom<
     | "species"
     | "status"
   > & {
-    fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">;
-    manager?: null | Pick<User, "id" | "displayName">;
+    fosterFamily?: null | Pick<FosterFamily, "id" | "displayName">
+    manager?: null | Pick<User, "id" | "displayName">
   }
->;
+>
 
 export function AnimalSituationForm({
   isCreate = false,
@@ -123,55 +124,55 @@ export function AnimalSituationForm({
   currentUser,
   fetcher,
 }: {
-  isCreate?: boolean;
-  defaultAnimal?: DefaultAnimal;
-  currentUser?: null | Pick<User, "id" | "displayName" | "groups">;
+  isCreate?: boolean
+  defaultAnimal?: DefaultAnimal
+  currentUser?: null | Pick<User, "id" | "displayName" | "groups">
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
   const [statusState, setStatusState] = useState(
     defaultAnimal?.status ?? Status.UNAVAILABLE,
-  );
+  )
 
   const [isVaccinationMandatoryState, setIsVaccinationMandatoryState] =
-    useState(defaultAnimal?.isVaccinationMandatory !== false);
+    useState(defaultAnimal?.isVaccinationMandatory !== false)
 
-  const adoptionDateRef = useRef<HTMLInputElement>(null);
-  const commentsRef = useRef<HTMLTextAreaElement>(null);
-  const isSterilizedRef = useRef<HTMLInputElement>(null);
-  const managerRef = useRef<HTMLButtonElement>(null);
-  const nextVaccinationDateRef = useRef<HTMLInputElement>(null);
-  const pickUpDateRef = useRef<HTMLInputElement>(null);
-  const pickUpLocationRef = useRef<HTMLButtonElement>(null);
+  const adoptionDateRef = useRef<HTMLInputElement>(null)
+  const commentsRef = useRef<HTMLTextAreaElement>(null)
+  const isSterilizedRef = useRef<HTMLInputElement>(null)
+  const managerRef = useRef<HTMLButtonElement>(null)
+  const nextVaccinationDateRef = useRef<HTMLInputElement>(null)
+  const pickUpDateRef = useRef<HTMLInputElement>(null)
+  const pickUpLocationRef = useRef<HTMLButtonElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.managerId != null) {
-        managerRef.current?.focus();
+        managerRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.adoptionDate != null) {
-        adoptionDateRef.current?.focus();
+        adoptionDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.pickUpDate != null) {
-        pickUpDateRef.current?.focus();
+        pickUpDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.pickUpLocation != null) {
-        pickUpLocationRef.current?.focus();
+        pickUpLocationRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.isSterilized != null) {
-        isSterilizedRef.current?.focus();
+        isSterilizedRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.nextVaccinationDate != null) {
-        nextVaccinationDateRef.current?.focus();
+        nextVaccinationDateRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
-  const { hash } = useLocation();
+  const { hash } = useLocation()
   useEffect(() => {
     if (hash === `#${ActionFormData.keys.comments}`) {
-      commentsRef.current?.focus();
+      commentsRef.current?.focus()
     }
-  }, [hash]);
+  }, [hash])
 
   return (
     <Form asChild hasHeader>
@@ -565,15 +566,15 @@ export function AnimalSituationForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }
 
 function DiagnosisField({ defaultAnimal }: { defaultAnimal?: DefaultAnimal }) {
-  const gender = defaultAnimal?.gender;
-  invariant(gender != null, "gender must be defined");
+  const gender = defaultAnimal?.gender
+  invariant(gender != null, "gender must be defined")
 
   if (defaultAnimal?.species !== Species.DOG) {
-    return null;
+    return null
   }
 
   return (
@@ -596,5 +597,5 @@ function DiagnosisField({ defaultAnimal }: { defaultAnimal?: DefaultAnimal }) {
         ))}
       </RadioInputList>
     </Form.Field>
-  );
+  )
 }

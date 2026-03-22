@@ -1,15 +1,16 @@
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { render } from "@react-email/render";
+import { render } from "@react-email/render"
+
+import type { ServiceEmail } from "#i/core/email/service.server.js"
 
 export class ServiceEmailConsole implements ServiceEmail {
   async send(template: ServiceEmail.TemplateParam) {
-    template = await template;
+    template = await template
 
     if (template == null) {
-      return;
+      return
     }
 
-    const textBody = await render(template.body, { plainText: true });
+    const textBody = await render(template.body, { plainText: true })
 
     console.log(
       [
@@ -19,6 +20,6 @@ export class ServiceEmailConsole implements ServiceEmail {
         `  Subject: ${template.subject}`,
         `  Text:\n\n${textBody}\n`,
       ].join("\n"),
-    );
+    )
   }
 }

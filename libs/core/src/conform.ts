@@ -8,9 +8,9 @@
  * @see https://github.com/facebook/react/pull/25697
  * @see https://github.com/edmundhung/conform/releases/tag/v1.2.0
  */
-export function withoutKey<TObject extends Record<string, any>>({
+export function withoutKey<TObject extends { key?: string }>({
   key,
   ...props
 }: TObject): Omit<TObject, "key"> {
-  return { ...props };
+  return { ...props }
 }

@@ -1,28 +1,30 @@
-import { Routes } from "#i/core/navigation";
-import { services } from "#i/core/services.server.js";
-import { ServiceApplication } from "#i/exhibitors/application/service.server";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
-import { catchError } from "@animeaux/core";
-import { parseWithZod } from "@conform-to/zod";
-import { parseFormData } from "@mjackson/form-data-parser";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { captureException } from "@sentry/remix";
-import { v4 as uuid } from "uuid";
-import { createActionSchema } from "./action-schema";
-import { getStandSizesData } from "./stand-sizes.server";
+import { catchError } from "@animeaux/core"
+import { parseWithZod } from "@conform-to/zod"
+import { parseFormData } from "@mjackson/form-data-parser"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { captureException } from "@sentry/remix"
+import { v4 as uuid } from "uuid"
+
+import { Routes } from "#i/core/navigation"
+import { services } from "#i/core/services.server.js"
+import { ServiceApplication } from "#i/exhibitors/application/service.server"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+
+import { createActionSchema } from "./action-schema"
+import { getStandSizesData } from "./stand-sizes.server"
 
 export async function action({ request }: ActionFunctionArgs) {
-  const standSizes = await getStandSizesData();
+  const standSizes = await getStandSizesData()
 
   const availableStandSizes = standSizes.filter(
     (standSize) => standSize.isAvailable,
-  );
+  )
 
-  const reversibleUpload = services.image.createReversibleUpload();
+  const reversibleUpload = services.image.createReversibleUpload()
 
   async function revertUpload() {
-    const errors = await reversibleUpload.revert();
+    const errors = await reversibleUpload.revert()
 
     if (errors != null) {
       captureException(
@@ -35,34 +37,34 @@ export async function action({ request }: ActionFunctionArgs) {
             })),
           },
         },
-      );
+      )
     }
   }
 
   const formData = await parseFormData(request, async (fileUpload) => {
     if (fileUpload.fieldName !== "structure.logo" || fileUpload.name === "") {
-      return undefined;
+      return undefined
     }
 
     try {
       return await reversibleUpload.upload(fileUpload, {
         imageId: `show/exhibitors-logo/${uuid()}`,
-      });
+      })
     } catch (error) {
-      captureException(error);
+      captureException(error)
 
-      return undefined;
+      return undefined
     }
-  });
+  })
 
   const submission = parseWithZod(formData, {
     schema: createActionSchema(availableStandSizes),
-  });
+  })
 
   if (submission.status !== "success") {
-    await revertUpload();
+    await revertUpload()
 
-    return json(submission.reply(), { status: 400 });
+    return json(submission.reply(), { status: 400 })
   }
 
   const [error, application] = await catchError(() =>
@@ -102,10 +104,10 @@ export async function action({ request }: ActionFunctionArgs) {
 
       comments: submission.value.comments.comments,
     }),
-  );
+  )
 
   if (error != null) {
-    await revertUpload();
+    await revertUpload()
 
     if (error instanceof ServiceApplication.EmailAlreadyUsedError) {
       return json(
@@ -117,15 +119,15 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         }),
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
-  services.applicationEmail.submitted(application);
+  void services.applicationEmail.submitted(application)
 
   throw redirect(
     Routes.exhibitors.application.applicationId(application.id).toString(),
-  );
+  )
 }

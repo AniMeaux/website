@@ -1,18 +1,20 @@
-import { BaseLink } from "#i/core/base-link";
-import { FileItem } from "#i/core/data-display/file-item";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { useLoaderData } from "@remix-run/react"
+
+import { BaseLink } from "#i/core/base-link"
+import { FileItem } from "#i/core/data-display/file-item"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+
+import type { loader } from "./route"
 
 export function FieldsetDocuments() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const filesItems = [
     { label: "Pièce d’identité", file: exhibitor.identificationFile },
     { label: "Justificatif d’immatriculation", file: exhibitor.kbisFile },
     { label: "Assurance", file: exhibitor.insuranceFile },
-  ];
+  ]
 
   return (
     <Card>
@@ -49,5 +51,5 @@ export function FieldsetDocuments() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

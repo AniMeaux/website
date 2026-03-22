@@ -1,17 +1,17 @@
-import type { NavLinkProps } from "@remix-run/react";
-import { Link, NavLink } from "@remix-run/react";
-import { forwardRef } from "react";
+import type { NavLinkProps } from "@remix-run/react"
+import { Link, NavLink } from "@remix-run/react"
+import { forwardRef } from "react"
 
 export type BaseLinkProps = {
-  to?: NavLinkProps["to"] | null;
-  isNavLink?: boolean;
-  shouldOpenInNewTarget?: boolean;
-  reloadDocument?: NavLinkProps["reloadDocument"];
-  className?: NavLinkProps["className"];
-  style?: NavLinkProps["style"];
-  children?: NavLinkProps["children"];
-  title?: string;
-};
+  to?: NavLinkProps["to"] | null
+  isNavLink?: boolean
+  shouldOpenInNewTarget?: boolean
+  reloadDocument?: NavLinkProps["reloadDocument"]
+  className?: NavLinkProps["className"]
+  style?: NavLinkProps["style"]
+  children?: NavLinkProps["children"]
+  title?: string
+}
 
 export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
   function BaseLink(
@@ -31,7 +31,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
       React.RefAttributes<HTMLAnchorElement> = {
       ref,
       title,
-    };
+    }
 
     if (to == null) {
       return (
@@ -42,12 +42,12 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
           style={defaultCallProp(style)}
           children={defaultCallProp(children)}
         />
-      );
+      )
     }
 
     if (shouldOpenInNewTarget) {
-      commonProps.target = "_blank";
-      commonProps.rel = "noopener noreferrer";
+      commonProps.target = "_blank"
+      commonProps.rel = "noopener noreferrer"
     }
 
     if (isNavLink) {
@@ -61,7 +61,7 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
           style={style}
           children={children}
         />
-      );
+      )
     }
 
     return (
@@ -74,9 +74,9 @@ export const BaseLink = forwardRef<HTMLAnchorElement, BaseLinkProps>(
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}
       />
-    );
+    )
   },
-);
+)
 
 function defaultCallProp<
   TValue extends string | React.CSSProperties | React.ReactNode,
@@ -85,14 +85,14 @@ function defaultCallProp<
     | undefined
     | TValue
     | ((arg: {
-        isActive: boolean;
-        isPending: boolean;
-        isTransitioning: boolean;
+        isActive: boolean
+        isPending: boolean
+        isTransitioning: boolean
       }) => undefined | TValue),
 ) {
   if (typeof prop === "function") {
-    return prop({ isActive: false, isPending: false, isTransitioning: false });
+    return prop({ isActive: false, isPending: false, isTransitioning: false })
   }
 
-  return prop;
+  return prop
 }

@@ -1,27 +1,29 @@
-import { Action } from "#i/core/actions/action";
-import { InputActiveFilter } from "#i/core/form-elements/input-active-filter";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions/action"
+import { InputActiveFilter } from "#i/core/form-elements/input-active-filter"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#i/exhibitors/activity-target/activity-target";
-import { ExhibitorItem } from "#i/exhibitors/item";
+} from "#i/exhibitors/activity-target/activity-target"
+import { ExhibitorItem } from "#i/exhibitors/item"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params";
-import { Icon } from "#i/generated/icon";
-import { Pictogram } from "#i/generated/pictogram";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
-import { ModalFilters } from "./modal-filters";
-import { SearchParamsForm } from "./search-params-form";
+} from "#i/exhibitors/search-params"
+import { Icon } from "#i/generated/icon"
+import { Pictogram } from "#i/generated/pictogram"
+
+import type { loader } from "./loader.server"
+import { ModalFilters } from "./modal-filters"
+import { SearchParamsForm } from "./search-params-form"
 
 export function SectionList() {
-  const { exhibitors } = useLoaderData<typeof loader>();
+  const { exhibitors } = useLoaderData<typeof loader>()
 
   return (
     <ModalFilters.Root>
@@ -74,7 +76,7 @@ export function SectionList() {
         <ModalFilters.Card />
       </ModalFilters.Portal>
     </ModalFilters.Root>
-  );
+  )
 }
 
 function BecomeExhibitorItem() {
@@ -95,11 +97,11 @@ function BecomeExhibitorItem() {
         </Link>
       </Action>
     </li>
-  );
+  )
 }
 
 function ActiveFilterAnimations() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return Array.from(exhibitorSearchParams.eventTypes).map((eventType) => (
     <InputActiveFilter.Root key={eventType}>
@@ -118,11 +120,11 @@ function ActiveFilterAnimations() {
 
       <InputActiveFilter.RemoveIcon />
     </InputActiveFilter.Root>
-  ));
+  ))
 }
 
 function ActiveFilterFields() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return Array.from(exhibitorSearchParams.fields).map((activityField) => (
     <InputActiveFilter.Root key={activityField}>
@@ -141,13 +143,13 @@ function ActiveFilterFields() {
 
       <InputActiveFilter.RemoveIcon />
     </InputActiveFilter.Root>
-  ));
+  ))
 }
 
 function ActiveFilterSponsorshipAndLaureats() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
-  const filtersNodes: React.ReactNode[] = [];
+  const filtersNodes: React.ReactNode[] = []
 
   if (exhibitorSearchParams.isSponsor) {
     filtersNodes.push(
@@ -165,7 +167,7 @@ function ActiveFilterSponsorshipAndLaureats() {
 
         <InputActiveFilter.RemoveIcon />
       </InputActiveFilter.Root>,
-    );
+    )
   }
 
   if (exhibitorSearchParams.isOrganizersFavorite) {
@@ -184,7 +186,7 @@ function ActiveFilterSponsorshipAndLaureats() {
 
         <InputActiveFilter.RemoveIcon />
       </InputActiveFilter.Root>,
-    );
+    )
   }
 
   if (exhibitorSearchParams.isRisingStar) {
@@ -203,14 +205,14 @@ function ActiveFilterSponsorshipAndLaureats() {
 
         <InputActiveFilter.RemoveIcon />
       </InputActiveFilter.Root>,
-    );
+    )
   }
 
-  return filtersNodes;
+  return filtersNodes
 }
 
 function ActiveFilterTargets() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return Array.from(exhibitorSearchParams.targets).map((activityTarget) => (
     <InputActiveFilter.Root key={activityTarget}>
@@ -229,5 +231,5 @@ function ActiveFilterTargets() {
 
       <InputActiveFilter.RemoveIcon />
     </InputActiveFilter.Root>
-  ));
+  ))
 }

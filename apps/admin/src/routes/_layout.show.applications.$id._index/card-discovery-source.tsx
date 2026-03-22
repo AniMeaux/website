@@ -1,12 +1,14 @@
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon";
-import { DiscoverySource } from "#i/show/exhibitors/applications/discovery-source";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon"
+import { DiscoverySource } from "#i/show/exhibitors/applications/discovery-source"
+
+import type { loader } from "./loader.server"
 
 export function CardDiscoverySource() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -25,5 +27,5 @@ export function CardDiscoverySource() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

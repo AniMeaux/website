@@ -1,24 +1,26 @@
-import { AnimalSmallItem } from "#i/animals/item";
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { AnimalSmallItem } from "#i/animals/item"
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
-} from "#i/animals/search-params";
-import { HAS_UP_COMMING_DIAGNOSE_CONDITIONS } from "#i/animals/situation/health";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import type { loader } from "./loader.server";
+} from "#i/animals/search-params"
+import { HAS_UP_COMMING_DIAGNOSE_CONDITIONS } from "#i/animals/situation/health"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+
+import type { loader } from "./loader.server"
 
 export function CardDogsToDiagnose() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   if (animal == null) {
-    return null;
+    return null
   }
 
   return (
@@ -53,13 +55,13 @@ export function CardDogsToDiagnose() {
                     statuses: new Set(
                       HAS_UP_COMMING_DIAGNOSE_CONDITIONS.status,
                     ),
-                  });
+                  })
 
                   AnimalSortSearchParams.set(searchParams, {
                     sort: AnimalSort.PICK_UP,
-                  });
+                  })
 
-                  return searchParams.toString();
+                  return searchParams.toString()
                 })(),
               }}
             >
@@ -95,5 +97,5 @@ export function CardDogsToDiagnose() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

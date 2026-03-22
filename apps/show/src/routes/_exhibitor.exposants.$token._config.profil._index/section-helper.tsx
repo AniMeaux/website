@@ -1,4 +1,4 @@
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function SectionHelper() {
   return (
@@ -13,5 +13,5 @@ export function SectionHelper() {
         votre logo.
       </p>
     </FormLayout.AsideHelper.Root>
-  );
+  )
 }

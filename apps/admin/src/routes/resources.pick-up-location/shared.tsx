@@ -1,1 +1,1 @@
-export const MAX_HIT_COUNT = 6;
+export const MAX_HIT_COUNT = 6

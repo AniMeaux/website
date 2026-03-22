@@ -1,15 +1,17 @@
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+
+import type { loader } from "./route"
 
 export function SectionDescription() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id="description">
@@ -51,14 +53,14 @@ export function SectionDescription() {
         )}
       </LightBoardCard>
     </FormLayout.Section>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -67,7 +69,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validée",
     } satisfies Record<typeof exhibitor.descriptionStatus, string>
-  )[exhibitor.descriptionStatus];
+  )[exhibitor.descriptionStatus]
 
   const content = (
     {
@@ -79,7 +81,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "Votre description est complétée et validée par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.descriptionStatus, string>
-  )[exhibitor.descriptionStatus];
+  )[exhibitor.descriptionStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -89,5 +91,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

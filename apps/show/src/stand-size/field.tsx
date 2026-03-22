@@ -1,21 +1,22 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
-import invariant from "tiny-invariant";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+import invariant from "tiny-invariant"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function FieldStandSize({
   field,
   label,
   standSizes,
 }: {
-  field: FieldMetadata<string>;
-  label: React.ReactNode;
+  field: FieldMetadata<string>
+  label: React.ReactNode
   standSizes: {
-    id: string;
-    label: string;
-    isAvailable: boolean;
-  }[];
+    id: string
+    label: string
+    isAvailable: boolean
+  }[]
 }) {
   return (
     <FormLayout.Field>
@@ -28,9 +29,9 @@ export function FieldStandSize({
         }).map((props) => {
           const standSize = standSizes.find(
             (standSize) => standSize.id === props.value,
-          );
+          )
 
-          invariant(standSize != null, "`standSize` should be defined");
+          invariant(standSize != null, "`standSize` should be defined")
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -46,7 +47,7 @@ export function FieldStandSize({
 
               <FormLayout.Selector.RadioIcon />
             </FormLayout.Selector.Root>
-          );
+          )
         })}
       </FormLayout.Selectors>
 
@@ -60,5 +61,5 @@ export function FieldStandSize({
         <FormLayout.Helper>Sous réserve de disponibilité</FormLayout.Helper>
       )}
     </FormLayout.Field>
-  );
+  )
 }

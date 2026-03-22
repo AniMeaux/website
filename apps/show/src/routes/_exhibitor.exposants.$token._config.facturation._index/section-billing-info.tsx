@@ -1,16 +1,15 @@
-import {
-  Markdown,
-  SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown.js";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { Routes } from "#i/core/navigation.js";
-import { Icon } from "#i/generated/icon.js";
-import { getCompleteLocation } from "@animeaux/core";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { getCompleteLocation } from "@animeaux/core"
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+
+import type { loader } from "./loader.server"
 
 export function SectionBillingInfo() {
-  const { exhibitor, invoices } = useLoaderData<typeof loader>();
+  const { exhibitor, invoices } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section>
@@ -45,5 +44,5 @@ export function SectionBillingInfo() {
         </FormLayout.Output>
       </FormLayout.Field>
     </FormLayout.Section>
-  );
+  )
 }

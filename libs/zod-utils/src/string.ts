@@ -9,8 +9,8 @@
  */
 export function normalizeLineBreaks(value: unknown) {
   if (typeof value !== "string") {
-    return value;
+    return value
   }
 
-  return value.replaceAll(/\r\n/g, "\n");
+  return value.replaceAll(/\r\n/g, "\n")
 }

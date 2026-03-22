@@ -1,22 +1,24 @@
-import { getErrorTitle } from "#i/core/data-display/error-page.js";
-import { FormLayout } from "#i/core/layout/form-layout.js";
-import { createSocialMeta } from "#i/core/meta.js";
-import { getPageTitle } from "#i/core/page-title.js";
-import type { MetaFunction } from "@remix-run/react";
-import type { loader } from "./loader.server";
-import { SectionBillingInfo } from "./section-billing-info";
-import { SectionHelper } from "./section-helper";
-import { SectionInvoices } from "./section-invoices";
+import type { MetaFunction } from "@remix-run/react"
 
-export { loader } from "./loader.server";
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+
+import type { loader } from "./loader.server"
+import { SectionBillingInfo } from "./section-billing-info"
+import { SectionHelper } from "./section-helper"
+import { SectionInvoices } from "./section-invoices"
+
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data != null ? ["Facturation", data.exhibitor.name] : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -30,5 +32,5 @@ export default function Route() {
 
       <SectionHelper />
     </FormLayout.Root>
-  );
+  )
 }

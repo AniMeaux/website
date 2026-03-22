@@ -1,17 +1,18 @@
-import { notFound } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { ExhibitorSearchParams } from "#i/exhibitors/search-params";
-import { ShowExhibitorStatus } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { ShowExhibitorStatus } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+
+import { notFound } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_SITE_ONLINE !== "true") {
-    throw notFound();
+    throw notFound()
   }
 
   if (process.env.FEATURE_FLAG_SHOW_EXHIBITORS !== "true") {
-    return json({ exhibitors: [] });
+    return json({ exhibitors: [] })
   }
 
   const exhibitors = await services.exhibitor.findManyVisible({
@@ -37,7 +38,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
       _count: { select: { animations: { where: { isVisible: true } } } },
     },
-  });
+  })
 
   return json({
     exhibitors: exhibitors.map(
@@ -49,10 +50,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
         onStandAnimationsStatus,
         ...exhibitor
       }) => {
-        const url = links[0];
+        const url = links[0]
 
         if (url == null) {
-          throw notFound();
+          throw notFound()
         }
 
         return {
@@ -72,8 +73,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
             onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED
               ? onStandAnimations
               : null,
-        };
+        }
       },
     ),
-  });
+  })
 }

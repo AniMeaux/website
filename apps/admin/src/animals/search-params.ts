@@ -1,5 +1,4 @@
-import { endOfDay } from "#i/core/dates";
-import { AnimalAge } from "@animeaux/core";
+import { AnimalAge } from "@animeaux/core"
 import {
   AdoptionOption,
   Diagnosis,
@@ -8,10 +7,12 @@ import {
   ScreeningResult,
   Species,
   Status,
-} from "@animeaux/prisma";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
-import { DateTime } from "luxon";
+} from "@animeaux/prisma"
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
+import { DateTime } from "luxon"
+
+import { endOfDay } from "#i/core/dates"
 
 export enum AnimalSort {
   BIRTHDATE = "B",
@@ -20,7 +21,7 @@ export enum AnimalSort {
   VACCINATION = "V",
 }
 
-export const ANIMAL_DEFAULT_SORT = AnimalSort.PICK_UP;
+export const ANIMAL_DEFAULT_SORT = AnimalSort.PICK_UP
 
 export const AnimalSortSearchParams = SearchParamsIO.create({
   keys: { sort: "sort" },
@@ -28,7 +29,7 @@ export const AnimalSortSearchParams = SearchParamsIO.create({
   parseFunction: (searchParams, keys) => {
     return AnimalSortSearchParamsSchema.parse({
       sort: SearchParamsIO.getValue(searchParams, keys.sort),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
@@ -36,13 +37,13 @@ export const AnimalSortSearchParams = SearchParamsIO.create({
       searchParams,
       keys.sort,
       data.sort === ANIMAL_DEFAULT_SORT ? undefined : data.sort,
-    );
+    )
   },
-});
+})
 
 const AnimalSortSearchParamsSchema = zu.object({
   sort: zu.searchParams.nativeEnum(AnimalSort).default(ANIMAL_DEFAULT_SORT),
-});
+})
 
 export enum AnimalSterilization {
   YES = "Y",
@@ -148,7 +149,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       ),
       iCadNumber: SearchParamsIO.getValue(searchParams, keys.iCadNumber),
       genders: SearchParamsIO.getValues(searchParams, keys.genders),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
@@ -158,7 +159,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.adoptionDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.adoptionDateEnd).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -166,15 +167,15 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.adoptionDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.adoptionDateStart).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValues(
       searchParams,
       keys.adoptionOptions,
       data.adoptionOptions,
-    );
+    )
 
-    SearchParamsIO.setValues(searchParams, keys.ages, data.ages);
+    SearchParamsIO.setValues(searchParams, keys.ages, data.ages)
 
     SearchParamsIO.setValue(
       searchParams,
@@ -182,7 +183,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.birthdateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.birthdateEnd).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -190,33 +191,33 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.birthdateStart == null
         ? undefined
         : DateTime.fromJSDate(data.birthdateStart).toISODate(),
-    );
+    )
 
-    SearchParamsIO.setValues(searchParams, keys.diagnosis, data.diagnosis);
+    SearchParamsIO.setValues(searchParams, keys.diagnosis, data.diagnosis)
 
-    SearchParamsIO.setValues(searchParams, keys.felvResults, data.felvResults);
+    SearchParamsIO.setValues(searchParams, keys.felvResults, data.felvResults)
 
-    SearchParamsIO.setValues(searchParams, keys.fivResults, data.fivResults);
+    SearchParamsIO.setValues(searchParams, keys.fivResults, data.fivResults)
 
     SearchParamsIO.setValues(
       searchParams,
       keys.fosterFamiliesId,
       data.fosterFamiliesId,
-    );
+    )
 
-    SearchParamsIO.setValues(searchParams, keys.managersId, data.managersId);
+    SearchParamsIO.setValues(searchParams, keys.managersId, data.managersId)
 
-    SearchParamsIO.setValue(searchParams, keys.nameOrAlias, data.nameOrAlias);
+    SearchParamsIO.setValue(searchParams, keys.nameOrAlias, data.nameOrAlias)
 
     SearchParamsIO.setValues(
       searchParams,
       keys.identification,
       data.identification,
-    );
+    )
 
-    SearchParamsIO.setValue(searchParams, keys.iCadNumber, data.iCadNumber);
+    SearchParamsIO.setValue(searchParams, keys.iCadNumber, data.iCadNumber)
 
-    SearchParamsIO.setValues(searchParams, keys.genders, data.genders);
+    SearchParamsIO.setValues(searchParams, keys.genders, data.genders)
 
     SearchParamsIO.setValue(
       searchParams,
@@ -224,7 +225,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.nextVaccinationDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.nextVaccinationDateEnd).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -232,7 +233,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.nextVaccinationDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.nextVaccinationDateStart).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -240,7 +241,7 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.pickUpDateEnd == null
         ? undefined
         : DateTime.fromJSDate(data.pickUpDateEnd).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -248,37 +249,33 @@ export const AnimalSearchParams = SearchParamsIO.create({
       data.pickUpDateStart == null
         ? undefined
         : DateTime.fromJSDate(data.pickUpDateStart).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValues(
       searchParams,
       keys.pickUpLocations,
       data.pickUpLocations,
-    );
+    )
 
     SearchParamsIO.setValues(
       searchParams,
       keys.pickUpReasons,
       data.pickUpReasons,
-    );
+    )
 
-    SearchParamsIO.setValues(searchParams, keys.species, data.species);
+    SearchParamsIO.setValues(searchParams, keys.species, data.species)
 
-    SearchParamsIO.setValues(searchParams, keys.statuses, data.statuses);
+    SearchParamsIO.setValues(searchParams, keys.statuses, data.statuses)
 
     SearchParamsIO.setValues(
       searchParams,
       keys.sterilizations,
       data.sterilizations,
-    );
+    )
 
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.vaccinations,
-      data.vaccinations,
-    );
+    SearchParamsIO.setValues(searchParams, keys.vaccinations, data.vaccinations)
   },
-});
+})
 
 const AnimalSearchParamsSchema = zu.object({
   adoptionDateEnd: zu.searchParams.date().transform(endOfDay),
@@ -322,7 +319,7 @@ const AnimalSearchParamsSchema = zu.object({
   ),
   iCadNumber: zu.searchParams.string(),
   genders: zu.searchParams.set(zu.searchParams.nativeEnum(Gender)),
-});
+})
 
 export const PickUpLocationSearchParams = SearchParamsIO.create({
   keys: { text: "q" },
@@ -330,14 +327,14 @@ export const PickUpLocationSearchParams = SearchParamsIO.create({
   parseFunction: (searchParams, keys) => {
     return PickUpLocationSearchParamsSchema.parse({
       text: SearchParamsIO.getValue(searchParams, keys.text),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.text, data.text);
+    SearchParamsIO.setValue(searchParams, keys.text, data.text)
   },
-});
+})
 
 const PickUpLocationSearchParamsSchema = zu.object({
   text: zu.searchParams.string(),
-});
+})

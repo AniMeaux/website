@@ -1,6 +1,7 @@
-import { cn } from "@animeaux/core";
-import { Children } from "react";
-import { LineShapeHorizontal } from "./line-shape";
+import { cn } from "@animeaux/core"
+import { Children } from "react"
+
+import { LineShapeHorizontal } from "./line-shape"
 
 export function RelatedSection({ children }: { children: React.ReactNode }) {
   return (
@@ -16,13 +17,13 @@ export function RelatedSection({ children }: { children: React.ReactNode }) {
 
       <div className="flex w-full flex-col gap-12">{children}</div>
     </aside>
-  );
+  )
 }
 
 export function RelatedSectionTitle({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <h2
@@ -33,15 +34,15 @@ export function RelatedSectionTitle({
     >
       {children}
     </h2>
-  );
+  )
 }
 
 export function RelatedSectionList({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  const childrenCount = Children.count(children);
+  const childrenCount = Children.count(children)
 
   return (
     <ul
@@ -51,5 +52,5 @@ export function RelatedSectionList({
     >
       {children}
     </ul>
-  );
+  )
 }

@@ -1,11 +1,12 @@
-import { ActivityAction } from "#i/activity/action.js";
-import { Activity } from "#i/activity/db.server.js";
-import { ActivityResource } from "#i/activity/resource.js";
-import { NotFoundError } from "#i/core/errors.server";
-import { Routes } from "#i/core/navigation";
-import { prisma } from "#i/core/prisma.server";
-import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
-import { redirect } from "@remix-run/node";
+import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server"
+import { redirect } from "@remix-run/node"
+
+import { ActivityAction } from "#i/activity/action.js"
+import { Activity } from "#i/activity/db.server.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import { NotFoundError } from "#i/core/errors.server"
+import { Routes } from "#i/core/navigation"
+import { prisma } from "#i/core/prisma.server"
 
 type ProfileKeys =
   | "alias"
@@ -19,10 +20,10 @@ type ProfileKeys =
   | "isOkChildren"
   | "isOkDogs"
   | "name"
-  | "species";
+  | "species"
 
-export type AnimalProfile = Pick<Animal, ProfileKeys>;
-type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>;
+export type AnimalProfile = Pick<Animal, ProfileKeys>
+type AnimalDraftProfile = Pick<AnimalDraft, ProfileKeys>
 
 export class BreedNotForSpeciesError extends Error {}
 
@@ -33,15 +34,15 @@ export class AnimalProfileDbDelegate {
     currentUser: { id: string },
   ) {
     await prisma.$transaction(async (prisma) => {
-      await this.validate(prisma, data);
+      await this.validate(prisma, data)
 
-      const currentAnimal = await prisma.animal.findUnique({ where: { id } });
+      const currentAnimal = await prisma.animal.findUnique({ where: { id } })
 
       if (currentAnimal == null) {
-        throw new NotFoundError();
+        throw new NotFoundError()
       }
 
-      const newAnimal = await prisma.animal.update({ where: { id }, data });
+      const newAnimal = await prisma.animal.update({ where: { id }, data })
 
       await Activity.create({
         currentUser,
@@ -50,20 +51,20 @@ export class AnimalProfileDbDelegate {
         resourceId: id,
         before: currentAnimal,
         after: newAnimal,
-      });
-    });
+      })
+    })
   }
 
   async updateDraft(ownerId: AnimalDraft["ownerId"], data: AnimalProfile) {
     await prisma.$transaction(async (prisma) => {
-      await this.validate(prisma, data);
+      await this.validate(prisma, data)
 
       await prisma.animalDraft.upsert({
         where: { ownerId },
         update: data,
         create: { ...data, ownerId },
-      });
-    });
+      })
+    })
   }
 
   async validate(prisma: Prisma.TransactionClient, data: AnimalProfile) {
@@ -71,23 +72,23 @@ export class AnimalProfileDbDelegate {
       const breed = await prisma.breed.findUnique({
         where: { id: data.breedId },
         select: { species: true },
-      });
+      })
 
       if (breed == null || breed.species !== data.species) {
-        throw new BreedNotForSpeciesError();
+        throw new BreedNotForSpeciesError()
       }
     }
   }
 
   async assertDraftIsValid(draft?: null | AnimalDraftProfile) {
     if (!this.draftHasProfile(draft)) {
-      throw redirect(Routes.animals.new.profile.toString());
+      throw redirect(Routes.animals.new.profile.toString())
     }
 
     try {
-      await this.validate(prisma, draft);
-    } catch (error) {
-      throw redirect(Routes.animals.new.profile.toString());
+      await this.validate(prisma, draft)
+    } catch (_error) {
+      throw redirect(Routes.animals.new.profile.toString())
     }
   }
 
@@ -98,6 +99,6 @@ export class AnimalProfileDbDelegate {
       draft.gender != null &&
       draft.name != null &&
       draft.species != null
-    );
+    )
   }
 }

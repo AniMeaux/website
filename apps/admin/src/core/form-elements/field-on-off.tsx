@@ -1,31 +1,32 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { InputChoice, InputsChoices } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { InputChoice, InputsChoices } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
 
 export namespace OnOff {
   export const Enum = {
     ON: "ON",
     OFF: "OFF",
-  } as const;
+  } as const
 
-  export type Enum = (typeof Enum)[keyof typeof Enum];
+  export type Enum = (typeof Enum)[keyof typeof Enum]
 
-  export const values = [Enum.ON, Enum.OFF];
+  export const values = [Enum.ON, Enum.OFF]
 
   export const translation: Record<Enum, string> = {
     [Enum.ON]: "Oui",
     [Enum.OFF]: "Non",
-  };
+  }
 
   export function fromBoolean(value: boolean) {
-    return value ? Enum.ON : Enum.OFF;
+    return value ? Enum.ON : Enum.OFF
   }
 
   export function toBoolean(value?: Enum) {
-    return value === Enum.ON;
+    return value === Enum.ON
   }
 }
 
@@ -35,10 +36,10 @@ export function FieldOnOff({
   required = false,
   helper,
 }: {
-  field: FieldMetadata<OnOff.Enum>;
-  label: React.ReactNode;
-  required?: boolean;
-  helper?: React.ReactNode;
+  field: FieldMetadata<OnOff.Enum>
+  label: React.ReactNode
+  required?: boolean
+  helper?: React.ReactNode
 }) {
   return (
     <Form.Field>
@@ -63,5 +64,5 @@ export function FieldOnOff({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

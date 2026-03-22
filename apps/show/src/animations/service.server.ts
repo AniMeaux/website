@@ -1,10 +1,10 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server.js";
-import { ShowDay } from "#i/core/show-day";
-import type { Prisma } from "@animeaux/prisma/server";
+import type { Prisma } from "@animeaux/prisma/server"
+
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { ShowDay } from "#i/core/show-day"
 
 export class ServiceAnimation {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getManyVisibleByDay<T extends Prisma.ShowAnimationSelect>(
@@ -21,7 +21,7 @@ export class ServiceAnimation {
       },
       orderBy: { startTime: "asc" },
       select: params.select,
-    });
+    })
   }
 
   async getManyVisibleByToken<T extends Prisma.ShowAnimationSelect>(
@@ -37,12 +37,12 @@ export class ServiceAnimation {
           select: params.select,
         },
       },
-    });
+    })
 
     if (exhibitor?.animations == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor.animations;
+    return exhibitor.animations
   }
 }

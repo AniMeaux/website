@@ -1,21 +1,23 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FieldNumeric } from "#i/core/form-elements/field-numeric";
-import { FieldSwitch } from "#i/core/form-elements/field-switch.js";
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FieldTextarea } from "#i/core/form-elements/field-textarea.js";
-import { FieldUrl } from "#i/core/form-elements/field-url";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { FieldActivityField } from "#i/exhibitors/activity-field/field";
-import { FieldActivityTarget } from "#i/exhibitors/activity-target/field";
-import { LegalStatus } from "#i/exhibitors/application/legal-status";
-import { FieldLogo } from "#i/exhibitors/field-logo";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
-import { FieldsetId, useFieldsets } from "./form";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FieldNumeric } from "#i/core/form-elements/field-numeric"
+import { FieldSwitch } from "#i/core/form-elements/field-switch.js"
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FieldUrl } from "#i/core/form-elements/field-url"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldActivityField } from "#i/exhibitors/activity-field/field"
+import { FieldActivityTarget } from "#i/exhibitors/activity-target/field"
+import { LegalStatus } from "#i/exhibitors/application/legal-status"
+import { FieldLogo } from "#i/exhibitors/field-logo"
+
+import { FieldsetId, useFieldsets } from "./form"
 
 export function FieldsetStructure() {
-  const { fieldsets } = useFieldsets();
-  const fieldset = fieldsets.structure.getFieldset();
+  const { fieldsets } = useFieldsets()
+  const fieldset = fieldsets.structure.getFieldset()
 
   return (
     <FormLayout.Section id={FieldsetId.STRUCTURE}>
@@ -70,12 +72,12 @@ export function FieldsetStructure() {
 
       <FieldLogo label="Logo" field={fieldset.logo} />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldLegalStatus() {
-  const { fieldsets } = useFieldsets();
-  const field = fieldsets.structure.getFieldset().legalStatus;
+  const { fieldsets } = useFieldsets()
+  const field = fieldsets.structure.getFieldset().legalStatus
 
   return (
     <FormLayout.Field>
@@ -100,5 +102,5 @@ function FieldLegalStatus() {
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

@@ -1,22 +1,24 @@
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { ExhibitorFilters } from "#i/show/exhibitors/filter-form";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { CardList } from "./card-list";
-import type { loader } from "./loader.server.js";
+import type { MetaFunction } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 
-export { loader } from "./loader.server.js";
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { ExhibitorFilters } from "#i/show/exhibitors/filter-form"
+
+import { CardList } from "./card-list"
+import type { loader } from "./loader.server.js"
+
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Candidatures") }];
-};
+  return [{ title: getPageTitle("Candidatures") }]
+}
 
 export default function Route() {
   const { totalCount, dividerTypes, standSizes } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -45,5 +47,5 @@ export default function Route() {
         <ExhibitorFilters dividerTypes={dividerTypes} standSizes={standSizes} />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
-  );
+  )
 }

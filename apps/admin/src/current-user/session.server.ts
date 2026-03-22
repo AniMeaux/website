@@ -1,11 +1,11 @@
-import type { User } from "@animeaux/prisma/server";
-import { zu } from "@animeaux/zod-utils";
-import { createCookie, createCookieSessionStorage } from "@remix-run/node";
-import { createTypedSessionStorage } from "remix-utils/typed-session";
+import type { User } from "@animeaux/prisma/server"
+import { zu } from "@animeaux/zod-utils"
+import { createCookie, createCookieSessionStorage } from "@remix-run/node"
+import { createTypedSessionStorage } from "remix-utils/typed-session"
 
 const SessionSchema = zu.object({
   userId: zu.string().uuid().optional().catch(undefined),
-});
+})
 
 const sessionCookie = createCookie("_session", {
   httpOnly: true,
@@ -15,27 +15,27 @@ const sessionCookie = createCookie("_session", {
   maxAge: 60 * 60 * 24 * 7 * 2,
   secrets: [process.env.SESSION_SECRET],
   secure: process.env.NODE_ENV === "production",
-});
+})
 
 const sessionStorage = createTypedSessionStorage({
   sessionStorage: createCookieSessionStorage({ cookie: sessionCookie }),
   schema: SessionSchema,
-});
+})
 
 export async function getCurrentUserSession(request?: Request) {
-  const cookie = request?.headers.get("cookie");
-  return await sessionStorage.getSession(cookie);
+  const cookie = request?.headers.get("cookie")
+  return await sessionStorage.getSession(cookie)
 }
 
 export async function createCurrentUserSession(userId: User["id"]) {
-  const session = await getCurrentUserSession();
-  session.data.userId = userId;
-  return await sessionStorage.commitSession(session);
+  const session = await getCurrentUserSession()
+  session.data.userId = userId
+  return await sessionStorage.commitSession(session)
 }
 
 export async function destroyCurrentUserSession() {
-  const session = await getCurrentUserSession();
-  return await sessionStorage.destroySession(session);
+  const session = await getCurrentUserSession()
+  return await sessionStorage.destroySession(session)
 }
 
 export async function extendCurrentUserSession(
@@ -44,15 +44,15 @@ export async function extendCurrentUserSession(
 ) {
   const setCookieValue = await sessionCookie.parse(
     responseHeaders.get("set-cookie"),
-  );
+  )
 
   if (setCookieValue == null) {
-    const cookieValue = await sessionCookie.parse(requestHeaders.get("cookie"));
+    const cookieValue = await sessionCookie.parse(requestHeaders.get("cookie"))
     if (cookieValue != null) {
       responseHeaders.append(
         "Set-Cookie",
         await sessionCookie.serialize(cookieValue),
-      );
+      )
     }
   }
 }

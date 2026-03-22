@@ -1,31 +1,33 @@
-import { asRouteHandle } from "#i/core/handles";
-import { PageBackground } from "#i/core/layout/page-background";
-import { services } from "#i/core/services.server.js";
-import { json } from "@remix-run/node";
-import { Outlet, useMatches } from "@remix-run/react";
-import { LayoutFooter } from "./footer";
-import { LayoutHeader } from "./header";
+import { json } from "@remix-run/node"
+import { Outlet, useMatches } from "@remix-run/react"
+
+import { asRouteHandle } from "#i/core/handles"
+import { PageBackground } from "#i/core/layout/page-background"
+import { services } from "#i/core/services.server.js"
+
+import { LayoutFooter } from "./footer"
+import { LayoutHeader } from "./header"
 
 export async function loader() {
   if (
     process.env.FEATURE_FLAG_SITE_ONLINE !== "true" ||
     process.env.FEATURE_FLAG_SHOW_SPONSORS !== "true"
   ) {
-    return json({ sponsors: [] });
+    return json({ sponsors: [] })
   }
 
-  const sponsors = await services.sponsor.getManyVisible();
+  const sponsors = await services.sponsor.getManyVisible()
 
-  return json({ sponsors });
+  return json({ sponsors })
 }
 
 export default function Route() {
-  const matches = useMatches();
-  const routeHandles = matches.map((match) => asRouteHandle(match.handle));
+  const matches = useMatches()
+  const routeHandles = matches.map((match) => asRouteHandle(match.handle))
 
   const hasExpandedPageBackground = routeHandles.some(
     (handle) => handle.hasExpandedPageBackground,
-  );
+  )
 
   return (
     <>
@@ -35,5 +37,5 @@ export default function Route() {
       <Outlet />
       <LayoutFooter />
     </>
-  );
+  )
 }

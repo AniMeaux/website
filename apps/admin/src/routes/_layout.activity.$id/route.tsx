@@ -1,14 +1,16 @@
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js";
-import { PageLayout } from "#i/core/layout/page.js";
-import { getPageTitle } from "#i/core/page-title.js";
-import type { MetaFunction } from "@remix-run/node";
-import { DateTime } from "luxon";
-import { CardDetails } from "./card-details";
-import { CardDiff } from "./card-diff";
-import { Header } from "./header";
-import type { loader } from "./loader.server";
+import type { MetaFunction } from "@remix-run/node"
+import { DateTime } from "luxon"
 
-export { loader } from "./loader.server";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+
+import { CardDetails } from "./card-details"
+import { CardDiff } from "./card-diff"
+import { Header } from "./header"
+import type { loader } from "./loader.server"
+
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -19,8 +21,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
           : getErrorTitle(404),
       ),
     },
-  ];
-};
+  ]
+}
 
 export function ErrorBoundary() {
   return (
@@ -29,7 +31,7 @@ export function ErrorBoundary() {
         <ErrorPage />
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 export default function Route() {
@@ -42,5 +44,5 @@ export default function Route() {
         <CardDiff />
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

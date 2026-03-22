@@ -1,17 +1,18 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { SocialLink } from "#i/core/actions/social-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { LegalBackground } from "#i/core/layout/legal-background";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { Pictogram } from "#i/generated/pictogram";
-import { cn } from "@animeaux/core";
-import { Link } from "@remix-run/react";
+import { cn } from "@animeaux/core"
+import { Link } from "@remix-run/react"
+
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { SocialLink } from "#i/core/actions/social-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { LegalBackground } from "#i/core/layout/legal-background"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { Pictogram } from "#i/generated/pictogram"
 
 export const Footer = {
-  Root: function FooterRoot({ children }: React.PropsWithChildren<{}>) {
-    return <footer className="grid grid-cols-1">{children}</footer>;
+  Root: function FooterRoot({ children }: React.PropsWithChildren) {
+    return <footer className="grid grid-cols-1">{children}</footer>
   },
 
   WaveSection: function FooterWaveSection({
@@ -32,7 +33,7 @@ export const Footer = {
 
         <Wave className="absolute inset-x-0 bottom-0 -z-just-above h-[53px] w-full md:h-[90px]" />
       </section>
-    );
+    )
   },
 
   LegalSection: function FooterLegalSection() {
@@ -44,7 +45,7 @@ export const Footer = {
           Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
-    );
+    )
   },
 
   ContentSection: function FooterContentSection({
@@ -59,13 +60,13 @@ export const Footer = {
           className,
         )}
       />
-    );
+    )
   },
 
   AnimeauxLogo: function FooterAnimeauxLogo({
     isLarge = false,
   }: {
-    isLarge?: boolean;
+    isLarge?: boolean
   }) {
     return (
       <DynamicImage
@@ -83,7 +84,7 @@ export const Footer = {
           isLarge ? "md:w-[200px]" : undefined,
         )}
       />
-    );
+    )
   },
 
   Links: function FooterLinks() {
@@ -133,18 +134,18 @@ export const Footer = {
           au Colisée de Meaux.
         </p>
       </Section.TextAside>
-    );
+    )
   },
-};
+}
 
 function ContactItem({
   icon,
   to,
   children,
 }: {
-  icon: React.ComponentProps<typeof Icon>["id"];
-  to: NonNullable<React.ComponentProps<typeof Link>["to"]>;
-  children: string;
+  icon: React.ComponentProps<typeof Icon>["id"]
+  to: NonNullable<React.ComponentProps<typeof Link>["to"]>
+  children: string
 }) {
   return (
     <li className="grid grid-cols-1 justify-items-start">
@@ -165,7 +166,7 @@ function ContactItem({
         <span>{children}</span>
       </Link>
     </li>
-  );
+  )
 }
 
 function Wave({ className }: { className?: string }) {
@@ -199,5 +200,5 @@ function Wave({ className }: { className?: string }) {
         />
       </svg>
     </>
-  );
+  )
 }

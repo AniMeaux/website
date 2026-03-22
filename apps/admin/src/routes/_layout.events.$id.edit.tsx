@@ -1,49 +1,50 @@
-import {
-  CloudinaryUploadApiError,
-  createCloudinaryUploadHandler,
-} from "#i/core/cloudinary.server";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { NotFoundError } from "#i/core/errors.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { InvalidDateRangeError } from "#i/events/db.server";
-import { ActionFormData, EventForm } from "#i/events/form";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
+} from "@remix-run/node"
 import {
   json,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
-} from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+} from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+
+import {
+  CloudinaryUploadApiError,
+  createCloudinaryUploadHandler,
+} from "#i/core/cloudinary.server"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { NotFoundError } from "#i/core/errors.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes, useBackIfPossible } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { InvalidDateRangeError } from "#i/events/db.server"
+import { ActionFormData, EventForm } from "#i/events/form"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const event = await prisma.event.findUnique({
@@ -59,42 +60,42 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       title: true,
       url: true,
     },
-  });
+  })
 
-  assertIsDefined(event);
+  assertIsDefined(event)
 
-  return json({ event });
+  return json({ event })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const event = data?.event;
+  const event = data?.event
   if (event == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(`Modifier ${event.title}`) }];
-};
+  return [{ title: getPageTitle(`Modifier ${event.title}`) }]
+}
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const cloudinaryUploadHandler = createCloudinaryUploadHandler({
     filter: ({ name }) => name === ActionFormData.keys.image,
-  });
+  })
 
   try {
     const rawFormData = await unstable_parseMultipartFormData(
@@ -105,15 +106,15 @@ export async function action({ request, params }: ActionFunctionArgs) {
           filter: ({ contentType }) => contentType == null,
         }),
       ),
-    );
+    )
 
-    const formData = ActionFormData.safeParse(rawFormData);
+    const formData = ActionFormData.safeParse(rawFormData)
     if (!formData.success) {
-      await cloudinaryUploadHandler.revert();
+      await cloudinaryUploadHandler.revert()
       return json<ActionData>(
         { errors: formData.error.flatten() },
         { status: 400 },
-      );
+      )
     }
 
     await db.event.update(paramsResult.data.id, {
@@ -126,10 +127,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
       startDate: formData.data.startDate,
       title: formData.data.title,
       url: formData.data.url || null,
-    });
+    })
   } catch (error) {
     if (error instanceof Error) {
-      await cloudinaryUploadHandler.revert();
+      await cloudinaryUploadHandler.revert()
     }
 
     if (error instanceof CloudinaryUploadApiError) {
@@ -141,7 +142,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: error.status },
-      );
+      )
     }
 
     if (error instanceof NotFoundError) {
@@ -153,7 +154,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 404 },
-      );
+      )
     }
 
     if (error instanceof InvalidDateRangeError) {
@@ -169,25 +170,25 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   return json<ActionData>({
     redirectTo: Routes.events.id(paramsResult.data.id).toString(),
-  });
+  })
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { event } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  const { event } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
   return (
     <PageLayout.Root>
@@ -203,5 +204,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

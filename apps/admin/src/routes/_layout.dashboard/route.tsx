@@ -1,19 +1,21 @@
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/node";
-import { CardActiveAnimals } from "./card-active-animals";
-import { CardAnimalsToSterilize } from "./card-animals-to-sterilize";
-import { CardAnimalsToVaccinate } from "./card-animals-to-vaccinate";
-import { CardDogsToDiagnose } from "./card-dogs-to-diagnose";
-import { CardManagedAnimals } from "./card-managed-animals";
-import { CardStandSizeBooking } from "./card-stand-size-booking";
-import { CardUntreatedApplications } from "./card-untreated-applications";
+import type { MetaFunction } from "@remix-run/node"
 
-export { loader } from "./loader.server";
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+
+import { CardActiveAnimals } from "./card-active-animals"
+import { CardAnimalsToSterilize } from "./card-animals-to-sterilize"
+import { CardAnimalsToVaccinate } from "./card-animals-to-vaccinate"
+import { CardDogsToDiagnose } from "./card-dogs-to-diagnose"
+import { CardManagedAnimals } from "./card-managed-animals"
+import { CardStandSizeBooking } from "./card-stand-size-booking"
+import { CardUntreatedApplications } from "./card-untreated-applications"
+
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Tableau de bord") }];
-};
+  return [{ title: getPageTitle("Tableau de bord") }]
+}
 
 export default function Route() {
   return (
@@ -35,5 +37,5 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

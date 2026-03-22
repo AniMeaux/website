@@ -3,21 +3,21 @@ export function orderByRank<TValue extends { id: string }>(
   hits: { id: string }[],
   { take }: { take?: number } = {},
 ) {
-  const valuesById = new Map(values.map((value) => [value.id, value]));
+  const valuesById = new Map(values.map((value) => [value.id, value]))
 
-  const orderedValues: typeof values = [];
+  const orderedValues: typeof values = []
 
   for (const hit of hits) {
     if (take === orderedValues.length) {
-      break;
+      break
     }
 
-    const value = valuesById.get(hit.id);
+    const value = valuesById.get(hit.id)
 
     if (value != null) {
-      orderedValues.push(value);
+      orderedValues.push(value)
     }
   }
 
-  return orderedValues;
+  return orderedValues
 }

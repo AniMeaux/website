@@ -1,22 +1,24 @@
-import { ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import type { Options as ReactMarkdownOptions } from "react-markdown";
-import ReactMarkdown from "react-markdown";
-import breaks from "remark-breaks";
-import gfm from "remark-gfm";
+import type {
+  ExtraProps,
+  Options as ReactMarkdownOptions,
+} from "react-markdown"
+import ReactMarkdown from "react-markdown"
+import breaks from "remark-breaks"
+import gfm from "remark-gfm"
 
-export type MarkdownComponents = NonNullable<
-  ReactMarkdownOptions["components"]
->;
+import { ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+
+export type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>
 
 export function Markdown({
   children,
   components,
   className,
 }: {
-  children: string;
-  components: MarkdownComponents;
-  className?: string;
+  children: string
+  components: MarkdownComponents
+  className?: string
 }) {
   return (
     <ReactMarkdown
@@ -26,7 +28,7 @@ export function Markdown({
       unwrapDisallowed
       allowElement={(element) => {
         // Only allow elements defined in the `components`.
-        return components[element.tagName as keyof MarkdownComponents] != null;
+        return components[element.tagName as keyof MarkdownComponents] != null
       }}
       components={components}
       remarkPlugins={REMARK_PLUGINS}
@@ -34,14 +36,14 @@ export function Markdown({
     >
       {children}
     </ReactMarkdown>
-  );
+  )
 }
 
 export const HIGHLIGHT_COMPONENTS: MarkdownComponents = {
   strong: (props) => (
     <strong {...withoutNode(props)} className="text-body-emphasis" />
   ),
-};
+}
 
 export const SENTENCE_COMPONENTS: MarkdownComponents = {
   ...HIGHLIGHT_COMPONENTS,
@@ -57,7 +59,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
       </BaseLink>
     </ProseInlineAction>
   ),
-};
+}
 
 export const ARTICLE_COMPONENTS: MarkdownComponents = {
   ...SENTENCE_COMPONENTS,
@@ -88,22 +90,22 @@ export const ARTICLE_COMPONENTS: MarkdownComponents = {
       className="inline-flex rounded-0.5 bg-gray-100 px-0.5 text-code-default"
     />
   ),
-};
+}
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.
   breaks,
   // Allow autolink literals, strikethrough, table and task list.
   gfm,
-];
+]
 
 /**
  * Remove `node` from props object because we don't want to have
  * `node="[object Object]"` in the DOM.
  */
-function withoutNode<TProps extends Record<string, any>>({
+function withoutNode<TProps extends ExtraProps>({
   node,
   ...props
 }: TProps): Omit<TProps, "node"> {
-  return props;
+  return props
 }

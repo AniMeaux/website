@@ -1,18 +1,18 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
-type SectionWidth = "full" | "narrow" | "normal";
-type SectionHeight = "large" | "normal";
+type SectionWidth = "full" | "narrow" | "normal"
+type SectionHeight = "large" | "normal"
 
 export const Section = {
   Root: forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section> & {
-      width?: SectionWidth;
-      height?: SectionHeight;
-      columnCount?: 1 | 2;
-      isTitleOnly?: boolean;
+      width?: SectionWidth
+      height?: SectionHeight
+      columnCount?: 1 | 2
+      isTitleOnly?: boolean
     }
   >(function SectionRoot(
     {
@@ -45,7 +45,7 @@ export const Section = {
           className,
         )}
       />
-    );
+    )
   }),
 
   TextAside: forwardRef<
@@ -58,7 +58,7 @@ export const Section = {
         ref={ref}
         className={cn("grid grid-cols-1 gap-2", className)}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
@@ -74,13 +74,13 @@ export const Section = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Action: forwardRef<
     React.ComponentRef<typeof Primitive.button>,
     React.ComponentPropsWithoutRef<typeof Primitive.button> & {
-      isCentered?: boolean;
+      isCentered?: boolean
     }
   >(function SectionAction({ isCentered = false, className, ...props }, ref) {
     return (
@@ -93,7 +93,7 @@ export const Section = {
           className,
         )}
       />
-    );
+    )
   }),
 
   ImageAside: forwardRef<
@@ -109,12 +109,12 @@ export const Section = {
           className,
         )}
       />
-    );
+    )
   }),
-};
+}
 
 const SECTION_ROOT_WIDTH_CLASS_NAMES: Record<SectionWidth, string> = {
   full: "",
   narrow: cn("px-safe-page-narrow"),
   normal: cn("px-safe-page-narrow md:px-safe-page-normal"),
-};
+}

@@ -1,30 +1,29 @@
-import { Action, ProseInlineAction } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { Empty } from "#i/core/data-display/empty.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import {
-  Markdown,
-  SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown.js";
-import { Card } from "#i/core/layout/card";
-import { Separator } from "#i/core/layout/separator.js";
-import { Routes } from "#i/core/navigation.js";
-import { Dialog } from "#i/core/popovers/dialog.js";
-import { Icon } from "#i/generated/icon.js";
-import { theme } from "#i/generated/theme.js";
-import { InvoiceIcon } from "#i/show/invoice/icon.js";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { getCompleteLocation, joinReactNodes } from "@animeaux/core";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { ActionIntent } from "./action";
-import type { action } from "./action.server";
-import type { loader } from "./loader.server";
+import { getCompleteLocation, joinReactNodes } from "@animeaux/core"
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import type { SerializeFrom } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { Action, ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Empty } from "#i/core/data-display/empty.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card"
+import { Separator } from "#i/core/layout/separator.js"
+import { Routes } from "#i/core/navigation.js"
+import { Dialog } from "#i/core/popovers/dialog.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
+import { InvoiceIcon } from "#i/show/invoice/icon.js"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
+
+import { ActionIntent } from "./action"
+import type { action } from "./action.server"
+import type { loader } from "./loader.server"
 
 export function CardBilling() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -67,11 +66,11 @@ export function CardBilling() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemAddress() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -87,19 +86,19 @@ function ItemAddress() {
         })}
       </Markdown>
     </SimpleItem>
-  );
+  )
 }
 
-type Invoice = SerializeFrom<typeof loader>["exhibitor"]["invoices"][number];
+type Invoice = SerializeFrom<typeof loader>["exhibitor"]["invoices"][number]
 
 function InvoiceListItem({
   invoice,
   exhibitorId,
 }: {
-  invoice: Invoice;
-  exhibitorId: string;
+  invoice: Invoice
+  exhibitorId: string
 }) {
-  const fetcher = useFetcher<typeof action>();
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <div className="grid grid-cols-fr-auto gap-2">
@@ -199,7 +198,7 @@ function InvoiceListItem({
         </DropdownMenu.Portal>
       </DropdownMenu.Root>
     </div>
-  );
+  )
 }
 
 function ItemNumber({ number }: { number: Invoice["number"] }) {
@@ -207,7 +206,7 @@ function ItemNumber({ number }: { number: Invoice["number"] }) {
     <SimpleItem isLightIcon icon={<Icon href="icon-hashtag-light" />}>
       {number}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemAmount({ amount }: { amount: Invoice["amount"] }) {
@@ -215,15 +214,15 @@ function ItemAmount({ amount }: { amount: Invoice["amount"] }) {
     <SimpleItem isLightIcon icon={<Icon href="icon-tag-light" />}>
       {amount.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemStatus({
   status,
   dueDate,
 }: {
-  status: Invoice["status"];
-  dueDate: Invoice["dueDate"];
+  status: Invoice["status"]
+  dueDate: Invoice["dueDate"]
 }) {
   return (
     <SimpleItem isLightIcon icon={<InvoiceIcon status={status} />}>
@@ -235,7 +234,7 @@ function ItemStatus({
         </>
       ) : null}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemUrl({ url }: { url: Invoice["url"] }) {
@@ -251,5 +250,5 @@ function ItemUrl({ url }: { url: Invoice["url"] }) {
         </a>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }

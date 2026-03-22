@@ -1,9 +1,10 @@
-import type { AvatarSize } from "#i/core/data-display/avatar";
-import { Avatar } from "#i/core/data-display/avatar";
-import type { DynamicImageProps } from "#i/core/data-display/image";
-import { DynamicImage } from "#i/core/data-display/image";
-import type { Animal } from "@animeaux/prisma";
-import type { Except } from "type-fest";
+import type { Animal } from "@animeaux/prisma"
+import type { Except } from "type-fest"
+
+import type { AvatarSize } from "#i/core/data-display/avatar"
+import { Avatar } from "#i/core/data-display/avatar"
+import type { DynamicImageProps } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image"
 
 export function AnimalAvatar({
   animal,
@@ -13,8 +14,8 @@ export function AnimalAvatar({
   DynamicImageProps,
   "imageId" | "alt" | "fallbackSize" | "sizeMapping" | "aspectRatio"
 > & {
-  animal: Pick<Animal, "avatar" | "name">;
-  size?: AvatarSize;
+  animal: Pick<Animal, "avatar" | "name">
+  size?: AvatarSize
 }) {
   return (
     <Avatar asChild size={size}>
@@ -27,11 +28,11 @@ export function AnimalAvatar({
         aspectRatio="1:1"
       />
     </Avatar>
-  );
+  )
 }
 
 const SIZE_VALUE: Record<AvatarSize, string> = {
   sm: "20px",
   md: "40px",
   lg: "80px",
-};
+}

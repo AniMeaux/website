@@ -1,19 +1,20 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { ImageData } from "#i/core/image/data.js";
-import { cn } from "@animeaux/core";
-import { Link } from "@remix-run/react";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Link } from "@remix-run/react"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import { DynamicImage } from "#i/core/data-display/image"
+import { ImageData } from "#i/core/image/data.js"
 
 export const SponsorItem = forwardRef<
   React.ComponentRef<"li">,
   Except<React.ComponentPropsWithoutRef<"li">, "children"> & {
-    sponsor: { logoPath: string; name: string; url: string };
-    imageSizes: React.ComponentPropsWithoutRef<typeof DynamicImage>["sizes"];
+    sponsor: { logoPath: string; name: string; url: string }
+    imageSizes: React.ComponentPropsWithoutRef<typeof DynamicImage>["sizes"]
     imageFallbackSize: React.ComponentPropsWithoutRef<
       typeof DynamicImage
-    >["fallbackSize"];
-    isSmall?: boolean;
+    >["fallbackSize"]
+    isSmall?: boolean
   }
 >(function SponsorItem(
   {
@@ -47,5 +48,5 @@ export const SponsorItem = forwardRef<
         />
       </Link>
     </li>
-  );
-});
+  )
+})

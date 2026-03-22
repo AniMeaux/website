@@ -1,5 +1,6 @@
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
+
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
 
 export const ActionSchema = zu
   .object({
@@ -30,4 +31,4 @@ export const ActionSchema = zu
       message: "Veuillez entrer un message",
       path: ["statusMessage"],
     },
-  );
+  )

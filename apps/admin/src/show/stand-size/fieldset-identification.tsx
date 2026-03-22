@@ -1,16 +1,17 @@
-import { FieldText } from "#i/core/form-elements/field-text.js";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+import type { FieldMetadata, FormMetadata } from "@conform-to/react"
+
+import { FieldText } from "#i/core/form-elements/field-text.js"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
 
 export function FieldsetIdentification({
   form,
   fields,
 }: {
-  form: { errors: FormMetadata["errors"] };
+  form: { errors: FormMetadata["errors"] }
   fields: {
-    label: FieldMetadata<string>;
-  };
+    label: FieldMetadata<string>
+  }
 }) {
   return (
     <Card>
@@ -26,5 +27,5 @@ export function FieldsetIdentification({
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

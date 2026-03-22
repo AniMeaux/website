@@ -1,6 +1,7 @@
-import { BaseLink } from "#i/core/base-link";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
+
+import { BaseLink } from "#i/core/base-link"
+import { Icon } from "#i/generated/icon"
 
 export function ShowBanner({ className }: { className?: string }) {
   return (
@@ -26,7 +27,7 @@ export function ShowBanner({ className }: { className?: string }) {
         <Icon id="arrow-right" className="text-[20px]" />
       </p>
     </BaseLink>
-  );
+  )
 }
 
 function ShowLogo() {
@@ -96,5 +97,5 @@ function ShowLogo() {
         <path d="m90.7557 232.572c3.8039-.316 6.7083-2.731 6.487-5.393-.2212-2.662-3.4843-4.564-7.2882-4.248s-6.7083 2.731-6.487 5.393c.2212 2.662 3.4843 4.564 7.2882 4.248z" />
       </g>
     </svg>
-  );
+  )
 }

@@ -1,8 +1,10 @@
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import { Card } from "#i/core/layout/card.js";
-import { Icon } from "#i/generated/icon.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
+import { Icon } from "#i/generated/icon.js"
+
+import type { loader } from "./loader.server"
 
 export function CardDetails() {
   return (
@@ -21,22 +23,22 @@ export function CardDetails() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemArea() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-expand-light" />}>
       Surface de{" "}
       <strong className="text-body-emphasis">{standSize.area} m²</strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemMaxCount() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
@@ -45,11 +47,11 @@ function ItemMaxCount() {
       </strong>{" "}
       maximum
     </SimpleItem>
-  );
+  )
 }
 
 function ItemMaxTableCount() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-table-picnic-light" />}>
@@ -59,14 +61,14 @@ function ItemMaxTableCount() {
       </strong>{" "}
       maximum
     </SimpleItem>
-  );
+  )
 }
 
 function ItemMaxPeopleCount() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   const additionalPeopleCount =
-    standSize.maxBraceletCount - standSize.maxPeopleCount;
+    standSize.maxBraceletCount - standSize.maxPeopleCount
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-people-group-light" />}>
@@ -80,11 +82,11 @@ function ItemMaxPeopleCount() {
       </strong>
       )
     </SimpleItem>
-  );
+  )
 }
 
 function ItemMaxDividerCount() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
@@ -94,5 +96,5 @@ function ItemMaxDividerCount() {
       </strong>{" "}
       maximum
     </SimpleItem>
-  );
+  )
 }

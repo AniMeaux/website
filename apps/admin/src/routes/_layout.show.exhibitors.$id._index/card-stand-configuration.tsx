@@ -1,42 +1,44 @@
-import { Action, ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { InlineHelper } from "#i/core/data-display/helper.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
+import { useLoaderData } from "@remix-run/react"
+
+import { Action, ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { StatusHelper } from "#i/show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+} from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
+
+import type { loader } from "./loader.server"
 
 export function CardStandConfiguration() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const hasTooManyDividers =
-    exhibitor.dividerCount > exhibitor.size.maxDividerCount;
+    exhibitor.dividerCount > exhibitor.size.maxDividerCount
 
-  const hasTooManyTables = exhibitor.tableCount > exhibitor.size.maxTableCount;
+  const hasTooManyTables = exhibitor.tableCount > exhibitor.size.maxTableCount
 
   const hasTooManyPeople =
-    exhibitor.peopleCount > exhibitor.size.maxBraceletCount;
+    exhibitor.peopleCount > exhibitor.size.maxBraceletCount
 
   const hasTooManyChairsOnStand =
-    exhibitor.chairCount > exhibitor.size.maxBraceletCount;
+    exhibitor.chairCount > exhibitor.size.maxBraceletCount
 
-  const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount;
+  const hasUnusedChairs = exhibitor.chairCount > exhibitor.peopleCount
 
   const hasNotAllowedStandSize = !exhibitor.size.allowedCategories.includes(
     exhibitor.category,
-  );
+  )
 
   return (
     <Card>
@@ -114,11 +116,11 @@ export function CardStandConfiguration() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function StandConfigurationStatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <StatusHelper.Root>
@@ -140,11 +142,11 @@ function StandConfigurationStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
-  );
+  )
 }
 
 function ItemPeopleCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-people-group-light" />}>
@@ -158,11 +160,11 @@ function ItemPeopleCount() {
       </strong>{" "}
       chaise{exhibitor.chairCount > 1 ? "s" : null}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemTable() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-table-picnic-light" />}>
@@ -174,11 +176,11 @@ function ItemTable() {
       </strong>{" "}
       nappage
     </SimpleItem>
-  );
+  )
 }
 
 function ItemDivider() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
@@ -197,11 +199,11 @@ function ItemDivider() {
         </>
       )}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemStandInfo() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-store-light" />}>
@@ -222,14 +224,14 @@ function ItemStandInfo() {
       </strong>{" "}
       placement privilégié (stand en angle)
     </SimpleItem>
-  );
+  )
 }
 
 function ItemInstallationDay() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.installationDay == null) {
-    return null;
+    return null
   }
 
   return (
@@ -239,14 +241,14 @@ function ItemInstallationDay() {
         {InstallationDay.translation[exhibitor.installationDay]}
       </strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemComment() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.placementComment == null) {
-    return null;
+    return null
   }
 
   return (
@@ -255,5 +257,5 @@ function ItemComment() {
         {exhibitor.placementComment}
       </Markdown>
     </SimpleItem>
-  );
+  )
 }

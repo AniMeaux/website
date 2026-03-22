@@ -1,30 +1,31 @@
-import type { ImageData } from "#i/core/image/data.js";
-import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
-import type { FileUpload } from "@mjackson/form-data-parser";
+import type { FileUpload } from "@mjackson/form-data-parser"
+
+import type { ImageData } from "#i/core/image/data.js"
+import type { PreviousEdition } from "#i/previous-editions/previous-edition.js"
 
 export interface ServiceImage {
   createReversibleUpload: () => {
-    upload: ServiceImage.Uploader;
-    revert: ServiceImage.Reverter;
-  };
+    upload: ServiceImage.Uploader
+    revert: ServiceImage.Reverter
+  }
 
-  getAllImages: (edition: PreviousEdition) => Promise<ServiceImage.Image[]>;
+  getAllImages: (edition: PreviousEdition) => Promise<ServiceImage.Image[]>
 
-  setBlurhash: (imageId: string, blurhash: string) => Promise<void>;
+  setBlurhash: (imageId: string, blurhash: string) => Promise<void>
 }
 
 export namespace ServiceImage {
   export type Image = ImageData & {
-    width: number;
-    height: number;
-  };
+    width: number
+    height: number
+  }
 
   export type Uploader = (
     fileUpload: FileUpload,
     params: { imageId: string },
-  ) => Promise<File>;
+  ) => Promise<File>
 
   export type Reverter = () => Promise<
     undefined | { imageId: string; error: unknown }[]
-  >;
+  >
 }

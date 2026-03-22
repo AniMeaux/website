@@ -1,26 +1,26 @@
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
+import type { User } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
 
 export namespace Entity {
   export const Enum = {
     ANIMAL: "ANIMAL",
     EXHIBITOR: "EXHIBITOR",
     FOSTER_FAMILY: "FOSTER_FAMILY",
-  } as const;
+  } as const
 
-  export type Enum = (typeof Enum)[keyof typeof Enum];
+  export type Enum = (typeof Enum)[keyof typeof Enum]
 
   export const translations: Record<Enum, string> = {
     [Enum.ANIMAL]: "Animaux",
     [Enum.EXHIBITOR]: "Exposants",
     [Enum.FOSTER_FAMILY]: "FA",
-  };
+  }
 
   export const values = orderBy(
     Object.values(Enum),
     (entity) => translations[entity],
-  );
+  )
 
   export function getPossibleValuesForCurrentUser(
     currentUser: Pick<User, "groups">,
@@ -29,7 +29,7 @@ export namespace Entity {
       currentUser.groups.some((group) =>
         ALLOWED_ENTITIES_PER_GROUP[group].has(entity),
       ),
-    );
+    )
   }
 
   const ALLOWED_ENTITIES_PER_GROUP: Record<UserGroup, Set<Enum>> = {
@@ -44,5 +44,5 @@ export namespace Entity {
     [UserGroup.SHOW_ORGANIZER]: new Set([Enum.EXHIBITOR]),
     [UserGroup.VETERINARIAN]: new Set([Enum.ANIMAL]),
     [UserGroup.VOLUNTEER]: new Set([Enum.ANIMAL]),
-  };
+  }
 }

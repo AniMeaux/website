@@ -1,25 +1,26 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { toIsoDateValue } from "#i/core/dates";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { toIsoDateValue } from "#i/core/dates"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
-import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
+import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups"
 import {
   USER_DEFAULT_SORT,
   UserSearchParams,
   UserSort,
-} from "#i/users/search-params";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+} from "#i/users/search-params"
 
 export function UserFilterForm() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const userSearchParams = UserSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const userSearchParams = UserSearchParams.parse(searchParams)
 
   return (
     <Filters>
@@ -97,7 +98,7 @@ export function UserFilterForm() {
                           ...userSearchParams,
                           displayName: undefined,
                         }),
-                      );
+                      )
                     })
                   }
                 >
@@ -211,7 +212,7 @@ export function UserFilterForm() {
                               ...userSearchParams,
                               lastActivityStart: undefined,
                             }),
-                          );
+                          )
                         })
                       }
                     >
@@ -248,7 +249,7 @@ export function UserFilterForm() {
                               ...userSearchParams,
                               lastActivityEnd: undefined,
                             }),
-                          );
+                          )
                         })
                       }
                     >
@@ -262,5 +263,5 @@ export function UserFilterForm() {
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }

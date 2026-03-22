@@ -1,26 +1,27 @@
-import { db } from "#i/core/db.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params";
-import { hasGroups } from "#i/users/groups.js";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-const EXHIBITOR_COUNT_PER_PAGE = 20;
+import { db } from "#i/core/db.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params"
+import { hasGroups } from "#i/users/groups.js"
+
+const EXHIBITOR_COUNT_PER_PAGE = 20
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const {
     exhibitors: { exhibitors, totalCount },
@@ -53,11 +54,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     standSizes: db.show.standSize.findMany({
       select: { id: true, label: true },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / EXHIBITOR_COUNT_PER_PAGE)
 
-  const canExport = hasGroups(currentUser, [UserGroup.ADMIN]);
+  const canExport = hasGroups(currentUser, [UserGroup.ADMIN])
 
   return json({
     totalCount,
@@ -66,5 +67,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
     dividerTypes,
     standSizes,
     canExport,
-  });
+  })
 }

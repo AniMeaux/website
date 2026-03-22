@@ -1,29 +1,30 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Timeline, TimelineItem } from "#i/core/data-display/timeline";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
+
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Timeline, TimelineItem } from "#i/core/data-display/timeline"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { engagementImages } from "#i/images/engagement";
-import { equipmentImages } from "#i/images/equipment";
-import { followUpImages } from "#i/images/follow-up";
-import { fosterFamilyLargeImages } from "#i/images/foster-family-large";
-import { socialImages } from "#i/images/social";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { engagementImages } from "#i/images/engagement"
+import { equipmentImages } from "#i/images/equipment"
+import { followUpImages } from "#i/images/follow-up"
+import { fosterFamilyLargeImages } from "#i/images/foster-family-large"
+import { socialImages } from "#i/images/social"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Devenez famille d’accueil"),
     imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.fosterFamily.imagesBySize[1024]}`,
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -128,5 +129,5 @@ export default function Route() {
         </HeroSectionAside>
       </HeroSection>
     </main>
-  );
+  )
 }

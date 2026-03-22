@@ -1,5 +1,5 @@
-import { Gender } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { Gender } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 
 export const ActionSchema = zu.object({
   dogs: zu.array(
@@ -30,4 +30,4 @@ export const ActionSchema = zu.object({
   // For some reason, without this, `isCategorized` and `isSterilized` are
   // typed as `string` and not `"on" | "off"`
   _useless: zu.string().optional(),
-});
+})

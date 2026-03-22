@@ -1,42 +1,43 @@
-import { BaseLink } from "#i/core/base-link";
-import { useFocusTrap } from "#i/core/focus-trap";
-import type { NavGroup } from "#i/core/layout/navigation/shared";
+import { cn } from "@animeaux/core"
+import { useLocation } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
+import { Transition } from "react-transition-group"
+import invariant from "tiny-invariant"
+
+import { BaseLink } from "#i/core/base-link"
+import { useFocusTrap } from "#i/core/focus-trap"
+import type { NavGroup } from "#i/core/layout/navigation/shared"
 import {
   handleEscape,
   navLinkClassName,
-} from "#i/core/layout/navigation/shared";
-import { ShowBanner } from "#i/core/layout/navigation/show-banner";
-import { SocialLinks } from "#i/core/layout/navigation/social-links";
-import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act";
-import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt";
-import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover";
-import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn";
-import { useScrollLock } from "#i/core/scroll-lock";
-import { Icon } from "#i/generated/icon";
-import logo from "#i/images/logo.svg";
-import nameAndLogo from "#i/images/name-and-logo.svg";
-import { cn } from "@animeaux/core";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import { Transition } from "react-transition-group";
-import invariant from "tiny-invariant";
+} from "#i/core/layout/navigation/shared"
+import { ShowBanner } from "#i/core/layout/navigation/show-banner"
+import { SocialLinks } from "#i/core/layout/navigation/social-links"
+import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act"
+import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt"
+import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover"
+import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn"
+import { useScrollLock } from "#i/core/scroll-lock"
+import { Icon } from "#i/generated/icon"
+import logo from "#i/images/logo.svg"
+import nameAndLogo from "#i/images/name-and-logo.svg"
 
 type State =
   | { isOpened: false; openedGroup?: null }
-  | { isOpened: true; openedGroup?: NavGroup | null };
+  | { isOpened: true; openedGroup?: NavGroup | null }
 
 export function SmallNav({
   displayShowBanner,
 }: {
-  displayShowBanner: boolean;
+  displayShowBanner: boolean
 }) {
-  const location = useLocation();
-  const [state, setState] = useState<State>({ isOpened: false });
+  const location = useLocation()
+  const [state, setState] = useState<State>({ isOpened: false })
 
   // Force close on navigation change.
   useEffect(() => {
-    setState({ isOpened: false });
-  }, [location.key]);
+    setState({ isOpened: false })
+  }, [location.key])
 
   // If the page has scrolled just a bit, the header is no longer entirely
   // visible.
@@ -45,23 +46,24 @@ export function SmallNav({
   // Do it before locking scroll so we don't restore the scroll position.
   useEffect(() => {
     if (state.isOpened) {
-      window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0 })
     }
-  });
+  })
 
-  const headerRef = useRef<HTMLElement>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  useScrollLock(navRef, { disabled: !state.isOpened });
-  useFocusTrap(headerRef, { disabled: !state.isOpened });
+  const headerRef = useRef<HTMLElement>(null)
+  const navRef = useRef<HTMLDivElement>(null)
+  useScrollLock(navRef, { disabled: !state.isOpened })
+  useFocusTrap(headerRef, { disabled: !state.isOpened })
 
   return (
     <header
       ref={headerRef}
+      role="presentation"
       className="relative z-10 flex w-full flex-col md:hidden"
       onKeyDown={handleEscape(() => {
         setState((prevState) =>
           state.isOpened ? { isOpened: false } : prevState,
-        );
+        )
       })}
       style={{ "--header-height": displayShowBanner ? "112px" : "56px" }}
     >
@@ -181,7 +183,7 @@ export function SmallNav({
                   </BaseLink>
                 </nav>
               </div>
-            );
+            )
           }}
         </Transition>
 
@@ -206,7 +208,7 @@ export function SmallNav({
         </Transition>
       </div>
     </header>
-  );
+  )
 }
 
 function toggleGroup(group: NavGroup) {
@@ -214,8 +216,8 @@ function toggleGroup(group: NavGroup) {
     return {
       isOpened: true,
       openedGroup: prevState.openedGroup === group ? null : group,
-    };
-  };
+    }
+  }
 }
 
 function NavGroupButton({
@@ -224,7 +226,7 @@ function NavGroupButton({
   className,
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  isActive: boolean;
+  isActive: boolean
 }) {
   return (
     <button
@@ -238,40 +240,40 @@ function NavGroupButton({
         className={cn({ "text-gray-500 group-hover:text-black": !isActive })}
       />
     </button>
-  );
+  )
 }
 
 function SubNav({
   isOpened,
   children,
 }: {
-  isOpened: boolean;
-  children?: React.ReactNode;
+  isOpened: boolean
+  children?: React.ReactNode
 }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const childrenRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null)
+  const childrenRef = useRef<HTMLDivElement>(null)
 
   return (
     <Transition mountOnEnter unmountOnExit in={isOpened} timeout={100}>
       {(transitionState) => {
         // Make sure we always see the top of the children, right away.
         if (containerRef.current != null) {
-          containerRef.current.scrollTop = 0;
+          containerRef.current.scrollTop = 0
         }
 
-        let containerHeight: number | undefined;
+        let containerHeight: number | undefined
         switch (transitionState) {
           case "exiting":
           case "exited": {
-            containerHeight = 0;
-            break;
+            containerHeight = 0
+            break
           }
 
           case "entering":
           case "entered": {
-            invariant(childrenRef.current != null, "childrenRef must be set");
-            containerHeight = childrenRef.current.clientHeight;
-            break;
+            invariant(childrenRef.current != null, "childrenRef must be set")
+            containerHeight = childrenRef.current.clientHeight
+            break
           }
         }
 
@@ -293,8 +295,8 @@ function SubNav({
               {children}
             </div>
           </div>
-        );
+        )
       }}
     </Transition>
-  );
+  )
 }

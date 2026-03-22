@@ -1,18 +1,18 @@
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+} from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
 export class ServiceExhibitorPerksEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,
@@ -32,7 +32,7 @@ export class ServiceExhibitorPerksEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionPerks() {
       return (
@@ -71,7 +71,7 @@ export class ServiceExhibitorPerksEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -111,7 +111,7 @@ export class ServiceExhibitorPerksEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -130,13 +130,13 @@ export class ServiceExhibitorPerksEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.perksStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.perksStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.perksStatus) {
@@ -178,7 +178,7 @@ export class ServiceExhibitorPerksEmail {
                 </EmailHtml.Output.Row>
               </EmailHtml.Output.Table>
             </EmailHtml.Section.Root>
-          );
+          )
         }
 
         return await this.email.send({
@@ -218,14 +218,14 @@ export class ServiceExhibitorPerksEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.perksStatusMessage != null,
           "A perksStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "avantages-traités",
@@ -261,11 +261,11 @@ export class ServiceExhibitorPerksEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.perksStatus satisfies never;
+        return exhibitor.perksStatus satisfies never
       }
     }
   }

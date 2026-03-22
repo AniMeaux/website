@@ -1,5 +1,6 @@
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
-import type { Prisma } from "@animeaux/prisma";
+import type { Prisma } from "@animeaux/prisma"
+
+import { ExhibitorCategory } from "#i/exhibitors/category.js"
 
 export namespace StandSizePrice {
   export function getPrice({
@@ -8,28 +9,28 @@ export namespace StandSizePrice {
   }: {
     standSize: Prisma.ShowStandSizeGetPayload<{
       select: {
-        priceForAssociations: true;
-        priceForServices: true;
-        priceForShops: true;
-      };
-    }>;
-    category: ExhibitorCategory.Enum;
+        priceForAssociations: true
+        priceForServices: true
+        priceForShops: true
+      }
+    }>
+    category: ExhibitorCategory.Enum
   }) {
     switch (category) {
       case ExhibitorCategory.Enum.ASSOCIATION: {
-        return standSize.priceForAssociations;
+        return standSize.priceForAssociations
       }
 
       case ExhibitorCategory.Enum.SERVICE: {
-        return standSize.priceForServices;
+        return standSize.priceForServices
       }
 
       case ExhibitorCategory.Enum.SHOP: {
-        return standSize.priceForShops;
+        return standSize.priceForShops
       }
 
       default: {
-        return category satisfies never;
+        return category satisfies never
       }
     }
   }

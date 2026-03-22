@@ -1,39 +1,39 @@
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { useEffect, useRef, useState } from "react"
+import invariant from "tiny-invariant"
 
 export function usePreviousValue<ValueType>(
   value: ValueType,
 ): ValueType | null {
-  const previousValue = useRef<ValueType | null>(null);
+  const previousValue = useRef<ValueType | null>(null)
 
   useEffect(() => {
-    previousValue.current = value;
-  }, [value]);
+    previousValue.current = value
+  }, [value])
 
-  return previousValue.current;
+  return previousValue.current
 }
 
 export function useWidth<TElement extends HTMLElement>() {
-  const ref = useRef<TElement>(null);
+  const ref = useRef<TElement>(null)
 
   // Use a large number instead of 0 to make sure the line is not visible by
   // default.
-  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER);
+  const [width, setWidth] = useState(Number.MAX_SAFE_INTEGER)
 
   useEffect(() => {
-    invariant(ref.current != null, "ref must be set");
-    const element = ref.current;
+    invariant(ref.current != null, "ref must be set")
+    const element = ref.current
 
     const observer = new ResizeObserver(() => {
-      setWidth(element.clientWidth);
-    });
+      setWidth(element.clientWidth)
+    })
 
-    observer.observe(element);
+    observer.observe(element)
 
     return () => {
-      observer.disconnect();
-    };
-  }, []);
+      observer.disconnect()
+    }
+  }, [])
 
-  return { ref, width };
+  return { ref, width }
 }

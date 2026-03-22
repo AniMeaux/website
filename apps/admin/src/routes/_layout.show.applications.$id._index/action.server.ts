@@ -1,41 +1,43 @@
-import { db } from "#i/core/db.server.js";
-import { NotFoundError } from "#i/core/errors.server.js";
-import { Routes } from "#i/core/navigation.js";
-import { badRequest, notFound } from "#i/core/response.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { catchError } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { RouteParamsSchema } from "./route-params.js";
+import { catchError } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { redirect } from "@remix-run/node"
+
+import { db } from "#i/core/db.server.js"
+import { NotFoundError } from "#i/core/errors.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { badRequest, notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+
+import { RouteParamsSchema } from "./route-params.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   if (request.method.toUpperCase() !== "DELETE") {
-    throw badRequest();
+    throw badRequest()
   }
 
   const [error] = await catchError(() =>
     db.show.exhibitor.application.delete(routeParams.id),
-  );
+  )
 
   if (error != null) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
-    throw error;
+    throw error
   }
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing exhibitor.
-  throw redirect(Routes.show.applications.toString());
+  throw redirect(Routes.show.applications.toString())
 }

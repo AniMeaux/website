@@ -1,15 +1,16 @@
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ShowActivityField } from "@animeaux/prisma";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { ShowActivityField } from "@animeaux/prisma"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
 
 export const ActivityFieldIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
-    activityField: ShowActivityField;
-    variant?: "light" | "solid";
+    activityField: ShowActivityField
+    variant?: "light" | "solid"
   }
 >(function ActivityFieldIcon(
   { activityField, variant = "light", ...props },
@@ -19,8 +20,8 @@ export const ActivityFieldIcon = forwardRef<
     <span {...props} ref={ref} title={ActivityField.translation[activityField]}>
       <Icon href={ICON_BY_ACTIVITY_FIELD[activityField][variant]} />
     </span>
-  );
-});
+  )
+})
 
 const ICON_BY_ACTIVITY_FIELD: Record<
   ShowActivityField,
@@ -86,4 +87,4 @@ const ICON_BY_ACTIVITY_FIELD: Record<
     light: "icon-file-certificate-light",
     solid: "icon-file-certificate-solid",
   },
-};
+}

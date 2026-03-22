@@ -1,10 +1,12 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
-import { getCollectionProps } from "@conform-to/react";
-import { FieldsetId, useFieldsets } from "./form";
+import { getCollectionProps } from "@conform-to/react"
+
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+
+import { FieldsetId, useFieldsets } from "./form"
 
 export function FieldsetSponsorship() {
   return (
@@ -36,13 +38,13 @@ export function FieldsetSponsorship() {
 
       <FieldSponsorshipCategory />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldSponsorshipCategory() {
-  const { fieldsets } = useFieldsets();
-  const field = fieldsets.sponsorshipCategory;
-  const value = field.value as undefined | SponsorshipCategory.Enum;
+  const { fieldsets } = useFieldsets()
+  const field = fieldsets.sponsorshipCategory
+  const value = field.value as undefined | SponsorshipCategory.Enum
 
   return (
     <FormLayout.Field>
@@ -53,7 +55,7 @@ function FieldSponsorshipCategory() {
           type: "radio",
           options: SponsorshipCategory.values,
         }).map((props) => {
-          const category = props.value as SponsorshipCategory.Enum;
+          const category = props.value as SponsorshipCategory.Enum
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -65,7 +67,7 @@ function FieldSponsorshipCategory() {
 
               <FormLayout.Selector.RadioIcon />
             </FormLayout.Selector.Root>
-          );
+          )
         })}
       </FormLayout.Selectors>
 
@@ -79,5 +81,5 @@ function FieldSponsorshipCategory() {
         </FormLayout.Helper>
       ) : null}
     </FormLayout.Field>
-  );
+  )
 }

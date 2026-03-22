@@ -1,6 +1,7 @@
-import { OnOff } from "#i/core/form-elements/field-on-off.js";
-import { Visibility } from "#i/show/visibility";
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
+
+import { OnOff } from "#i/core/form-elements/field-on-off.js"
+import { Visibility } from "#i/show/visibility"
 
 export const actionSchema = zu.object({
   isOrganizer: zu
@@ -38,4 +39,4 @@ export const actionSchema = zu.object({
     .trim()
     .max(16, "Veuillez entrer un numéro plus court")
     .optional(),
-});
+})

@@ -1,27 +1,29 @@
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import { CardDetails } from "./card-details";
-import { CardExhibitorList } from "./card-exhibitor-list";
-import { CardSituation } from "./card-situation";
-import type { loader } from "./loader.server";
+import type { MetaFunction } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 
-export { loader } from "./loader.server";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+
+import { CardDetails } from "./card-details"
+import { CardExhibitorList } from "./card-exhibitor-list"
+import { CardSituation } from "./card-situation"
+import type { loader } from "./loader.server"
+
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
     { title: getPageTitle(data?.dividerType.label ?? getErrorTitle(404)) },
-  ];
-};
+  ]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
@@ -38,15 +40,15 @@ export default function Route() {
         <CardExhibitorList />
       </PageLayout.Content>
     </>
-  );
+  )
 }
 
 export function Header() {
-  const { dividerType } = useLoaderData<typeof loader>();
+  const { dividerType } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root>
       <PageLayout.Header.Title>{dividerType.label}</PageLayout.Header.Title>
     </PageLayout.Header.Root>
-  );
+  )
 }

@@ -1,32 +1,34 @@
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { SponsorFilters } from "#i/show/sponsors/filter-form";
-import { SponsorSearchParams } from "#i/show/sponsors/search-params";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
-import { CardList } from "./card-list";
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
+import invariant from "tiny-invariant"
+
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { notFound } from "#i/core/response.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { SponsorFilters } from "#i/show/sponsors/filter-form"
+import { SponsorSearchParams } from "#i/show/sponsors/search-params"
+
+import { CardList } from "./card-list"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const { sponsors, totalCount } = await db.show.sponsor.findMany({
     page: PageSearchParams.parse(searchParams).page,
@@ -50,18 +52,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
         },
       },
     },
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / SPONSOR_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / SPONSOR_COUNT_PER_PAGE)
 
   return json({
     totalCount,
     pageCount,
     sponsors: sponsors.map(({ exhibitor, logoPath, name, url, ...sponsor }) => {
       if (exhibitor == null) {
-        invariant(logoPath != null, "A logoPath should be defined");
-        invariant(name != null, "A name should be defined");
-        invariant(url != null, "A url should be defined");
+        invariant(logoPath != null, "A logoPath should be defined")
+        invariant(name != null, "A name should be defined")
+        invariant(url != null, "A url should be defined")
 
         return {
           ...sponsor,
@@ -71,13 +73,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
           // Add this for a better type completion.
           exhibitorId: null,
-        };
+        }
       }
 
-      const exhibitorUrl = exhibitor.links[0];
+      const exhibitorUrl = exhibitor.links[0]
 
       if (exhibitorUrl == null) {
-        throw notFound();
+        throw notFound()
       }
 
       return {
@@ -86,19 +88,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
         logoPath: exhibitor.logoPath,
         name: exhibitor.name,
         url: exhibitorUrl,
-      };
+      }
     }),
-  });
+  })
 }
 
-const SPONSOR_COUNT_PER_PAGE = 20;
+const SPONSOR_COUNT_PER_PAGE = 20
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Sponsors") }];
-};
+  return [{ title: getPageTitle("Sponsors") }]
+}
 
 export default function Route() {
-  const { totalCount } = useLoaderData<typeof loader>();
+  const { totalCount } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Content className="grid grid-cols-1">
@@ -124,5 +126,5 @@ export default function Route() {
         <SponsorFilters />
       </SortAndFiltersFloatingAction>
     </PageLayout.Content>
-  );
+  )
 }

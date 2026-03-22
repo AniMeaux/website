@@ -1,56 +1,57 @@
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { catchError } from "@animeaux/core";
-import { render } from "@react-email/render";
-import { Resend } from "resend";
-import type { MergeExclusive } from "type-fest";
+import { catchError } from "@animeaux/core"
+import { render } from "@react-email/render"
+import { Resend } from "resend"
+import type { MergeExclusive } from "type-fest"
+
+import type { ServiceEmail } from "#i/core/email/service.server.js"
 
 export class ServiceEmailResend implements ServiceEmail {
-  private resend: Resend;
+  private resend: Resend
 
   constructor(
     apiKey: string,
     private options: {
-      useTestEmail?: boolean;
+      useTestEmail?: boolean
 
       onError?: (
         error: unknown,
         context: { textBody?: string } & MergeExclusive<
           { template: ServiceEmail.Template; effectiveTo: string[] },
-          {}
+          object
         >,
-      ) => void;
+      ) => void
     },
   ) {
-    this.resend = new Resend(apiKey);
+    this.resend = new Resend(apiKey)
   }
 
   async send(templateParam: ServiceEmail.TemplateParam) {
     const [templateError, template] = await catchError(
       async () => await templateParam,
-    );
+    )
 
     if (templateError != null) {
-      this.options?.onError?.(templateError, {});
+      this.options?.onError?.(templateError, {})
 
-      return;
+      return
     }
 
     if (template == null) {
-      return;
+      return
     }
 
     const effectiveTo = this.options?.useTestEmail
       ? ["delivered@resend.dev"]
-      : template.to;
+      : template.to
 
     const [renderError, textBody] = await catchError(() =>
       render(template.body, { plainText: true }),
-    );
+    )
 
     if (renderError != null) {
-      this.options?.onError?.(renderError, { template, effectiveTo });
+      this.options?.onError?.(renderError, { template, effectiveTo })
 
-      return;
+      return
     }
 
     const { error } = await this.resend.emails.send({
@@ -59,10 +60,10 @@ export class ServiceEmailResend implements ServiceEmail {
       subject: template.subject,
       react: template.body,
       text: textBody,
-    });
+    })
 
     if (error != null) {
-      this.options?.onError?.(error, { template, effectiveTo, textBody });
+      this.options?.onError?.(error, { template, effectiveTo, textBody })
     }
   }
 }

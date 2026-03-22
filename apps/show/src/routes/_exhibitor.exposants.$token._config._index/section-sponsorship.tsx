@@ -1,10 +1,12 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+
+import type { loader } from "./loader.server"
 
 export function SectionSponsorship() {
   return (
@@ -17,11 +19,11 @@ export function SectionSponsorship() {
 
       <FormLayout.SectionSeparator />
     </>
-  );
+  )
 }
 
 function StatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.sponsorship != null) {
     return (
@@ -47,7 +49,7 @@ function StatusHelper() {
           ) : null}
         </p>
       </HelperCard.Root>
-    );
+    )
   }
 
   return (
@@ -61,5 +63,5 @@ function StatusHelper() {
         .
       </p>
     </LightBoardCard>
-  );
+  )
 }

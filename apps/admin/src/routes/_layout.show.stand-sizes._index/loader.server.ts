@@ -1,15 +1,16 @@
-import { db } from "#i/core/db.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
   const standSizes = await db.show.standSize.findManyWithAvailability({
     select: {
@@ -17,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       label: true,
       isVisible: true,
     },
-  });
+  })
 
-  return json({ standSizes });
+  return json({ standSizes })
 }

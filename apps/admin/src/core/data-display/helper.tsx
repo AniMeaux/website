@@ -1,16 +1,17 @@
-import type { ActionColor } from "#i/core/actions";
-import { Action } from "#i/core/actions";
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-type HelperVariant = "error" | "info" | "success" | "warning";
+import type { ActionColor } from "#i/core/actions"
+import { Action } from "#i/core/actions"
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+
+type HelperVariant = "error" | "info" | "success" | "warning"
 
 type BlockHelperProps = {
-  children?: React.ReactNode;
-  icon?: IconName;
-  variant: HelperVariant;
-};
+  children?: React.ReactNode
+  icon?: IconName
+  variant: HelperVariant
+}
 
 export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
   return (
@@ -27,7 +28,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
 
       <p className="text-body-emphasis">{children}</p>
     </section>
-  );
+  )
 }
 
 const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
@@ -35,14 +36,14 @@ const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   info: cn("border-blue-100"),
   success: cn("border-green-100"),
   warning: cn("border-orange-100"),
-};
+}
 
 export type InlineHelperProps = {
-  action?: React.ReactElement;
-  children?: React.ReactNode;
-  icon?: IconName;
-  variant: HelperVariant;
-};
+  action?: React.ReactElement
+  children?: React.ReactNode
+  icon?: IconName
+  variant: HelperVariant
+}
 
 export function InlineHelper({
   action,
@@ -69,7 +70,7 @@ export function InlineHelper({
         </Action>
       ) : null}
     </section>
-  );
+  )
 }
 
 const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
@@ -77,14 +78,14 @@ const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
   info: "blue",
   success: "green",
   warning: "orange",
-};
+}
 
 export type DenseHelperProps = {
-  children?: React.ReactNode;
-  className?: string;
-  icon?: IconName;
-  variant: HelperVariant;
-};
+  children?: React.ReactNode
+  className?: string
+  icon?: IconName
+  variant: HelperVariant
+}
 
 export function DenseHelper({
   children,
@@ -106,7 +107,7 @@ export function DenseHelper({
 
       <p className="text-caption-emphasis">{children}</p>
     </section>
-  );
+  )
 }
 
 const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
@@ -114,11 +115,11 @@ const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   info: cn("bg-blue-50 text-blue-500"),
   success: cn("bg-green-50 text-green-600"),
   warning: cn("bg-orange-50 text-orange-500"),
-};
+}
 
 const VARIANT_ICON: Record<HelperVariant, IconName> = {
   error: "icon-circle-exclamation-solid",
   info: "icon-circle-info-solid",
   success: "icon-circle-check-solid",
   warning: "icon-triangle-exclamation-solid",
-};
+}

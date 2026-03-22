@@ -1,12 +1,14 @@
-import { BaseLink } from "#i/core/base-link.js";
-import { toRoundedRelative } from "#i/core/dates.js";
-import { Routes } from "#i/core/navigation.js";
-import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status.js";
-import type { SerializeFrom } from "@remix-run/node";
-import { DateTime } from "luxon";
-import type { loader } from "./loader.server";
+import type { SerializeFrom } from "@remix-run/node"
+import { DateTime } from "luxon"
 
-type Application = SerializeFrom<typeof loader>["applications"][number];
+import { BaseLink } from "#i/core/base-link.js"
+import { toRoundedRelative } from "#i/core/dates.js"
+import { Routes } from "#i/core/navigation.js"
+import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status.js"
+
+import type { loader } from "./loader.server"
+
+type Application = SerializeFrom<typeof loader>["applications"][number]
 
 export function ApplicationItem({ application }: { application: Application }) {
   return (
@@ -25,5 +27,5 @@ export function ApplicationItem({ application }: { application: Application }) {
         {toRoundedRelative(application.createdAt)}
       </p>
     </BaseLink>
-  );
+  )
 }

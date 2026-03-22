@@ -1,25 +1,24 @@
-import { ProseInlineAction } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { Empty } from "#i/core/data-display/empty";
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import {
-  Markdown,
-  SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown.js";
-import { Card } from "#i/core/layout/card";
-import { Separator } from "#i/core/layout/separator.js";
-import { Routes } from "#i/core/navigation.js";
-import { Icon } from "#i/generated/icon.js";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js";
-import { StandZone } from "#i/show/exhibitors/stand-configuration/stand-zone.js";
-import { joinReactNodes } from "@animeaux/core";
-import type { SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import type { loader } from "./loader.server";
+import { joinReactNodes } from "@animeaux/core"
+import type { SerializeFrom } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Empty } from "#i/core/data-display/empty"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card"
+import { Separator } from "#i/core/layout/separator.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
+import { StandZone } from "#i/show/exhibitors/stand-configuration/stand-zone.js"
+
+import type { loader } from "./loader.server"
 
 export function CardOnStageAnimations() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -44,12 +43,10 @@ export function CardOnStageAnimations() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
-type Animation = SerializeFrom<
-  typeof loader
->["exhibitor"]["animations"][number];
+type Animation = SerializeFrom<typeof loader>["exhibitor"]["animations"][number]
 
 function AnimationListItem({ animation }: { animation: Animation }) {
   return (
@@ -73,16 +70,16 @@ function AnimationListItem({ animation }: { animation: Animation }) {
         </Markdown>
       </p>
     </div>
-  );
+  )
 }
 
 function ItemDates({ animation }: { animation: Animation }) {
-  const startTime = DateTime.fromISO(animation.startTime);
+  const startTime = DateTime.fromISO(animation.startTime)
 
   const duration = DateTime.fromISO(animation.endTime).diff(
     startTime,
     "minutes",
-  );
+  )
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-calendar-day-light" />}>
@@ -96,7 +93,7 @@ function ItemDates({ animation }: { animation: Animation }) {
       {" • "}
       {duration.toHuman({ unitDisplay: "short" })}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemZone({ animation }: { animation: Animation }) {
@@ -104,7 +101,7 @@ function ItemZone({ animation }: { animation: Animation }) {
     <SimpleItem isLightIcon icon={<Icon href="icon-location-dot-light" />}>
       {StandZone.translation[animation.zone]}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemTargets({ animation }: { animation: Animation }) {
@@ -114,18 +111,18 @@ function ItemTargets({ animation }: { animation: Animation }) {
         .map((target) => ActivityTarget.translation[target])
         .join(", ")}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemOtherAnimators({ animation }: { animation: Animation }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const otherAnimators = animation.animators.filter(
     (animator) => animator.id !== exhibitor.id,
-  );
+  )
 
   if (otherAnimators.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -142,12 +139,12 @@ function ItemOtherAnimators({ animation }: { animation: Animation }) {
         ", ",
       )}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemRegistrationUrl({ animation }: { animation: Animation }) {
   if (animation.registrationUrl == null) {
-    return null;
+    return null
   }
 
   return (
@@ -162,5 +159,5 @@ function ItemRegistrationUrl({ animation }: { animation: Animation }) {
         </a>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }

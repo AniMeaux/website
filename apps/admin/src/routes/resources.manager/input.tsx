@@ -1,32 +1,33 @@
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Input } from "#i/core/form-elements/input";
+import { toBooleanAttribute } from "@animeaux/core"
+import type { User } from "@animeaux/prisma"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import type { SerializeFrom } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+import { useCombobox } from "downshift"
+import { createPath } from "history"
+import { forwardRef, useEffect, useState } from "react"
+
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Input } from "#i/core/form-elements/input"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import type { loader } from "#i/routes/resources.manager/route";
-import { UserAvatar } from "#i/users/avatar";
-import { UserSearchParams } from "#i/users/search-params";
-import { toBooleanAttribute } from "@animeaux/core";
-import type { User } from "@animeaux/prisma";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
+} from "#i/core/form-elements/resource-input"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import type { loader } from "#i/routes/resources.manager/route"
+import { UserAvatar } from "#i/users/avatar"
+import { UserSearchParams } from "#i/users/search-params"
 
 type ManagerInputProps = {
-  name: string;
-  defaultValue?: null | Pick<User, "id" | "displayName">;
-  disabled?: boolean;
-  hasError?: boolean;
-};
+  name: string
+  defaultValue?: null | Pick<User, "id" | "displayName">
+  disabled?: boolean
+  hasError?: boolean
+}
 
 export const ManagerInput = forwardRef<
   React.ComponentRef<typeof InputTrigger>,
@@ -35,21 +36,21 @@ export const ManagerInput = forwardRef<
   { name, defaultValue = null, disabled = false, hasError = false },
   ref,
 ) {
-  const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<loader>();
+  const [isOpened, setIsOpened] = useState(false)
+  const fetcher = useFetcher<loader>()
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is
   //   opened.
   // - Make sure we clear any search when the combobox is closed.
-  const load = fetcher.load;
+  const load = fetcher.load
   useEffect(() => {
     if (!isOpened) {
-      load(Routes.resources.manager.toString());
+      load(Routes.resources.manager.toString())
     }
-  }, [load, isOpened]);
+  }, [load, isOpened])
 
-  const [manager, setManager] = useState(defaultValue);
+  const [manager, setManager] = useState(defaultValue)
 
   return (
     <>
@@ -83,27 +84,27 @@ export const ManagerInput = forwardRef<
                   pathname: Routes.resources.manager.toString(),
                   search: UserSearchParams.format({ displayName: value }),
                 }),
-              );
+              )
             }}
             onSelectedItem={(manager) => {
-              setManager(manager);
-              setIsOpened(false);
+              setManager(manager)
+              setIsOpened(false)
             }}
             onClose={() => setIsOpened(false)}
           />
         }
       />
     </>
-  );
-});
+  )
+})
 
 const InputTrigger = forwardRef<
   React.ComponentRef<"button">,
   {
-    disabled: boolean;
-    manager: null | Pick<User, "id" | "displayName">;
-    hasError: boolean;
-    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
+    disabled: boolean
+    manager: null | Pick<User, "id" | "displayName">
+    hasError: boolean
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>
   }
 >(function InputTrigger(
   { disabled, manager, hasError, triggerElement: TriggerElement },
@@ -145,8 +146,8 @@ const InputTrigger = forwardRef<
         }
       />
     </BaseTextInput.Root>
-  );
-});
+  )
+})
 
 function Combobox({
   manager: selectedManager,
@@ -155,28 +156,28 @@ function Combobox({
   onSelectedItem,
   onClose,
 }: {
-  manager: null | Pick<User, "id" | "displayName">;
-  managers: SerializeFrom<typeof loader>["managers"];
-  onInputValueChange: React.Dispatch<string>;
-  onSelectedItem: React.Dispatch<null | Pick<User, "id" | "displayName">>;
-  onClose: () => void;
+  manager: null | Pick<User, "id" | "displayName">
+  managers: SerializeFrom<typeof loader>["managers"]
+  onInputValueChange: React.Dispatch<string>
+  onSelectedItem: React.Dispatch<null | Pick<User, "id" | "displayName">>
+  onClose: () => void
 }) {
   const combobox = useCombobox({
     isOpen: true,
     items: managers,
     itemToString: (manager) => manager?.displayName ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
-      onSelectedItem(selectedItem);
+      onSelectedItem(selectedItem)
     },
     onInputValueChange: ({ inputValue = "" }) => {
-      onInputValueChange(inputValue);
+      onInputValueChange(inputValue)
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
-        onClose();
+        onClose()
       }
     },
-  });
+  })
 
   return (
     <ResourceComboboxLayout
@@ -221,5 +222,5 @@ function Combobox({
         </SuggestionList>
       }
     />
-  );
+  )
 }

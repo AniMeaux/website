@@ -1,18 +1,20 @@
-import { ProseInlineAction } from "#i/core/actions.js";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status";
-import { ImageUrl, getCompleteLocation } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { getCompleteLocation, ImageUrl } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
+
+import { ProseInlineAction } from "#i/core/actions.js"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
+
+import type { loader } from "./loader.server"
 
 export function CardStructure() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -94,5 +96,5 @@ export function CardStructure() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

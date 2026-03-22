@@ -1,15 +1,16 @@
-import { FieldRadios } from "#i/core/form-elements/field-radios.js";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { Visibility } from "#i/show/visibility.js";
-import type { FieldMetadata } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+
+import { FieldRadios } from "#i/core/form-elements/field-radios.js"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+import { Visibility } from "#i/show/visibility.js"
 
 export function FieldsetSituation({
   fields,
 }: {
   fields: {
-    isVisible: FieldMetadata<Visibility.Enum>;
-  };
+    isVisible: FieldMetadata<Visibility.Enum>
+  }
 }) {
   return (
     <Card>
@@ -28,5 +29,5 @@ export function FieldsetSituation({
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

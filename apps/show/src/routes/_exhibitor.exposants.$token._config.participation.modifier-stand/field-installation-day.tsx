@@ -1,19 +1,20 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
+import type { ShowInstallationDay } from "@animeaux/prisma"
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
 import {
   INSTALLATION_DAY_TRANSLATION,
   SORTED_INSTALLATION_DAYS,
-} from "#i/exhibitors/stand-configuration/installation-day";
-import type { ShowInstallationDay } from "@animeaux/prisma";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+} from "#i/exhibitors/stand-configuration/installation-day"
 
 export function FieldInstallationDay({
   field,
   label,
 }: {
-  field: FieldMetadata<ShowInstallationDay>;
-  label: React.ReactNode;
+  field: FieldMetadata<ShowInstallationDay>
+  label: React.ReactNode
 }) {
   return (
     <FormLayout.Field>
@@ -38,5 +39,5 @@ export function FieldInstallationDay({
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

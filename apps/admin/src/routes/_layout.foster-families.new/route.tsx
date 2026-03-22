@@ -1,18 +1,20 @@
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/node";
-import { CardForm } from "./card-form.js";
+import type { MetaFunction } from "@remix-run/node"
 
-export { action } from "./action.server.js";
-export { loader } from "./loader.server.js";
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+
+import { CardForm } from "./card-form.js"
+
+export { action } from "./action.server.js"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Nouvelle famille d’accueil") }];
-};
+  return [{ title: getPageTitle("Nouvelle famille d’accueil") }]
+}
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
@@ -22,5 +24,5 @@ export default function Route() {
         <CardForm />
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

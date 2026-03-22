@@ -1,6 +1,7 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import { DynamicImage } from "#i/core/data-display/image"
 
 export const SponsorsPlaceholderImage = forwardRef<
   React.ComponentRef<typeof DynamicImage>,
@@ -18,5 +19,5 @@ export const SponsorsPlaceholderImage = forwardRef<
       title="Sponsors du Salon des Ani’Meaux."
       aspectRatio="16:9"
     />
-  );
-});
+  )
+})

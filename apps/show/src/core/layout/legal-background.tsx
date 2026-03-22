@@ -1,4 +1,4 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 export function LegalBackground({ className }: { className?: string }) {
   return (
@@ -15,5 +15,5 @@ export function LegalBackground({ className }: { className?: string }) {
         className="fill-prussianBlue"
       />
     </svg>
-  );
+  )
 }

@@ -1,19 +1,20 @@
-import type { IconName } from "#i/generated/icon";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
-import { Visibility } from "#i/show/visibility";
 import {
   ShowActivityField,
   ShowActivityTarget,
   ShowExhibitorApplicationStatus,
-} from "@animeaux/prisma";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
+} from "@animeaux/prisma"
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
+
+import type { IconName } from "#i/generated/icon"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category"
+import { Visibility } from "#i/show/visibility"
 
 export type ExhibitorSearchParams = SearchParamsIO.Infer<
   typeof ExhibitorSearchParams.io
->;
+>
 
 export namespace ExhibitorSearchParams {
   export namespace Animation {
@@ -21,17 +22,17 @@ export namespace ExhibitorSearchParams {
       NONE: "NONE",
       ON_STAGE: "ON_STAGE",
       ON_STAND: "ON_STAND",
-    } as const;
+    } as const
 
-    export type Enum = (typeof Enum)[keyof typeof Enum];
+    export type Enum = (typeof Enum)[keyof typeof Enum]
 
     export const translations: Record<Enum, string> = {
       [Enum.NONE]: "Aucune",
       [Enum.ON_STAGE]: "Sur scène",
       [Enum.ON_STAND]: "Sur stand",
-    };
+    }
 
-    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND];
+    export const values: Enum[] = [Enum.NONE, Enum.ON_STAGE, Enum.ON_STAND]
 
     export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
       [Enum.NONE]: {
@@ -46,7 +47,7 @@ export namespace ExhibitorSearchParams {
         light: "icon-calendar-day-light",
         solid: "icon-calendar-day-solid",
       },
-    };
+    }
   }
 
   export namespace Laureat {
@@ -54,21 +55,21 @@ export namespace ExhibitorSearchParams {
       ORGANIZERS_FAVORITE: "OF",
       RISING_STAR: "RS",
       NONE: "NONE",
-    } as const;
+    } as const
 
-    export type Enum = (typeof Enum)[keyof typeof Enum];
+    export type Enum = (typeof Enum)[keyof typeof Enum]
 
     export const values: Enum[] = [
       Enum.ORGANIZERS_FAVORITE,
       Enum.RISING_STAR,
       Enum.NONE,
-    ];
+    ]
 
     export const translations: Record<Enum, string> = {
       [Enum.ORGANIZERS_FAVORITE]: "Coup de cœur",
       [Enum.RISING_STAR]: "Espoir",
       [Enum.NONE]: "Aucun",
-    };
+    }
 
     export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
       [Enum.ORGANIZERS_FAVORITE]: {
@@ -83,7 +84,7 @@ export namespace ExhibitorSearchParams {
         light: "icon-empty-set-light",
         solid: "icon-empty-set-solid",
       },
-    };
+    }
   }
 
   export namespace Sort {
@@ -91,23 +92,23 @@ export namespace ExhibitorSearchParams {
       NAME: "N",
       UPDATED_AT: "U",
       DIVIDER_COUNT: "D",
-    } as const;
+    } as const
 
-    export type Enum = (typeof Enum)[keyof typeof Enum];
+    export type Enum = (typeof Enum)[keyof typeof Enum]
 
-    export const defaultValue = Enum.UPDATED_AT;
+    export const defaultValue = Enum.UPDATED_AT
 
     export const values: Enum[] = [
       Enum.UPDATED_AT,
       Enum.NAME,
       Enum.DIVIDER_COUNT,
-    ];
+    ]
 
     export const translations: Record<Enum, string> = {
       [Enum.DIVIDER_COUNT]: "Nombre de cloisons",
       [Enum.NAME]: "Alphabétique",
       [Enum.UPDATED_AT]: "Mise à jour",
-    };
+    }
 
     export const icons: Record<Enum, { light: IconName; solid: IconName }> = {
       [Enum.DIVIDER_COUNT]: {
@@ -122,7 +123,7 @@ export namespace ExhibitorSearchParams {
         light: "icon-arrow-down-a-z-light",
         solid: "icon-arrow-down-a-z-solid",
       },
-    };
+    }
   }
 
   export const io = SearchParamsIO.create({
@@ -214,91 +215,91 @@ export namespace ExhibitorSearchParams {
         targets: SearchParamsIO.getValues(searchParams, keys.targets),
 
         visibility: SearchParamsIO.getValues(searchParams, keys.visibility),
-      });
+      })
     },
 
     setFunction: (searchParams, data, keys) => {
-      SearchParamsIO.setValues(searchParams, keys.animations, data.animations);
+      SearchParamsIO.setValues(searchParams, keys.animations, data.animations)
 
       SearchParamsIO.setValues(
         searchParams,
         keys.applicationStatuses,
         data.applicationStatuses,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.descriptionStatuses,
         data.descriptionStatuses,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.dividerTypesId,
         data.dividerTypesId,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.documentsStatuses,
         data.documentsStatuses,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.dogsConfigurationStatuses,
         data.dogsConfigurationStatuses,
-      );
+      )
 
-      SearchParamsIO.setValues(searchParams, keys.fields, data.fields);
+      SearchParamsIO.setValues(searchParams, keys.fields, data.fields)
 
       SearchParamsIO.setValues(
         searchParams,
         keys.invoiceStatuses,
         data.invoiceStatuses,
-      );
+      )
 
-      SearchParamsIO.setValues(searchParams, keys.laureats, data.laureats);
+      SearchParamsIO.setValues(searchParams, keys.laureats, data.laureats)
 
-      SearchParamsIO.setValue(searchParams, keys.name, data.name);
+      SearchParamsIO.setValue(searchParams, keys.name, data.name)
 
       SearchParamsIO.setValues(
         searchParams,
         keys.onStandAnimationsStatuses,
         data.onStandAnimationsStatuses,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.publicProfileStatuses,
         data.publicProfileStatuses,
-      );
+      )
 
-      SearchParamsIO.setValue(searchParams, keys.sort, data.sort);
+      SearchParamsIO.setValue(searchParams, keys.sort, data.sort)
 
       SearchParamsIO.setValues(
         searchParams,
         keys.sponsorshipCategories,
         data.sponsorshipCategories,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.standConfigurationStatuses,
         data.standConfigurationStatuses,
-      );
+      )
 
       SearchParamsIO.setValues(
         searchParams,
         keys.standSizesId,
         data.standSizesId,
-      );
+      )
 
-      SearchParamsIO.setValues(searchParams, keys.targets, data.targets);
+      SearchParamsIO.setValues(searchParams, keys.targets, data.targets)
 
-      SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility);
+      SearchParamsIO.setValues(searchParams, keys.visibility, data.visibility)
     },
-  });
+  })
 
   const schema = zu.object({
     animations: zu.searchParams.set(zu.searchParams.nativeEnum(Animation.Enum)),
@@ -366,5 +367,5 @@ export namespace ExhibitorSearchParams {
     visibility: zu.searchParams.set(
       zu.searchParams.nativeEnum(Visibility.Enum),
     ),
-  });
+  })
 }

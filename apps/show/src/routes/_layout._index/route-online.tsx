@@ -1,22 +1,24 @@
-import { Action } from "#i/core/actions/action";
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { DynamicImage } from "#i/core/data-display/image";
-import { BoardCard } from "#i/core/layout/board-card";
-import { HighLightBackground } from "#i/core/layout/highlight-background";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
-import { ShowDay } from "#i/core/show-day";
-import { Pictogram } from "#i/generated/pictogram";
-import { ProviderItem } from "#i/providers/item";
-import { ProvidersPlaceholderImage } from "#i/providers/placeholder-image";
-import { SponsorItem } from "#i/sponsors/item.js";
-import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js";
-import { cn } from "@animeaux/core";
-import { Link, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import type { loader } from "./route";
+import { cn } from "@animeaux/core"
+import { Link, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { useEffect, useState } from "react"
+
+import { Action } from "#i/core/actions/action"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { DynamicImage } from "#i/core/data-display/image"
+import { BoardCard } from "#i/core/layout/board-card"
+import { HighLightBackground } from "#i/core/layout/highlight-background"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
+import { ShowDay } from "#i/core/show-day"
+import { Pictogram } from "#i/generated/pictogram"
+import { ProviderItem } from "#i/providers/item"
+import { ProvidersPlaceholderImage } from "#i/providers/placeholder-image"
+import { SponsorItem } from "#i/sponsors/item.js"
+import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js"
+
+import type { loader } from "./route"
 
 export function RouteOnline() {
   return (
@@ -31,7 +33,7 @@ export function RouteOnline() {
       <SectionAccess />
       <SectionProviders />
     </>
-  );
+  )
 }
 
 function SectionHero() {
@@ -88,29 +90,26 @@ function SectionHero() {
         </LazyElement>
       </div>
     </Section.Root>
-  );
+  )
 }
 
 function Countdown({ className }: { className?: string }) {
-  const [, forceUpdate] = useState(true);
+  const [, forceUpdate] = useState(true)
 
-  const now = DateTime.now();
-  const diff = ShowDay.openingTime.diff(now, ["days", "hours", "minutes"]);
+  const now = DateTime.now()
+  const diff = ShowDay.openingTime.diff(now, ["days", "hours", "minutes"])
 
   // Force a re-rendering every minutes to recompute the diff.
   useEffect(() => {
-    const interval = setInterval(
-      () => forceUpdate((b) => !b),
-      ONE_MINUTE_IN_MS,
-    );
+    const interval = setInterval(() => forceUpdate((b) => !b), ONE_MINUTE_IN_MS)
 
     return () => {
-      clearInterval(interval);
-    };
-  }, []);
+      clearInterval(interval)
+    }
+  }, [])
 
   if (diff.toMillis() <= 0) {
-    return null;
+    return null
   }
 
   return (
@@ -132,10 +131,10 @@ function Countdown({ className }: { className?: string }) {
         value={Math.floor(diff.minutes)}
       />
     </div>
-  );
+  )
 }
 
-const ONE_MINUTE_IN_MS = 60 * 1000;
+const ONE_MINUTE_IN_MS = 60 * 1000
 
 function CountDownItem({ label, value }: { label: string; value: number }) {
   return (
@@ -146,7 +145,7 @@ function CountDownItem({ label, value }: { label: string; value: number }) {
 
       <span className="text-caption-lowercase-default">{label}</span>
     </div>
-  );
+  )
 }
 
 function SectionComeWithYourDog() {
@@ -187,11 +186,11 @@ function SectionComeWithYourDog() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }
 
 function SectionPresentation() {
-  const { exhibitorCount } = useLoaderData<typeof loader>();
+  const { exhibitorCount } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root width="full" columnCount={1}>
@@ -260,21 +259,21 @@ function SectionPresentation() {
         </section>
       </div>
     </Section.Root>
-  );
+  )
 }
 
 function PresentationItem({
   icon,
   children,
 }: React.PropsWithChildren<{
-  icon: React.ComponentProps<typeof Pictogram>["id"];
+  icon: React.ComponentProps<typeof Pictogram>["id"]
 }>) {
   return (
     <li className="grid min-w-[300px] max-w-sm flex-1 grid-cols-auto-fr items-center gap-2">
       <Pictogram id={icon} className="icon-48" />
       <span>{children}</span>
     </li>
-  );
+  )
 }
 
 function SectionOrigin() {
@@ -314,11 +313,11 @@ function SectionOrigin() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }
 
 function SectionSponsors() {
-  const { sponsors } = useLoaderData<typeof loader>();
+  const { sponsors } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root width="full" columnCount={1}>
@@ -359,11 +358,11 @@ function SectionSponsors() {
         )}
       </section>
     </Section.Root>
-  );
+  )
 }
 
 function SectionExhibitors() {
-  const { exhibitorCount } = useLoaderData<typeof loader>();
+  const { exhibitorCount } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root>
@@ -416,21 +415,21 @@ function SectionExhibitors() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }
 
 function ExhibitorItem({
   icon,
   children,
 }: React.PropsWithChildren<{
-  icon: React.ComponentProps<typeof Pictogram>["id"];
+  icon: React.ComponentProps<typeof Pictogram>["id"]
 }>) {
   return (
     <li className="grid min-w-[130px] flex-1 grid-cols-1 justify-items-center gap-1">
       <Pictogram id={icon} className="icon-48" />
       <span className="w-full text-center">{children}</span>
     </li>
-  );
+  )
 }
 
 function SectionPreviousEditions() {
@@ -493,7 +492,7 @@ function SectionPreviousEditions() {
         </LazyElement>
       </div>
     </Section.Root>
-  );
+  )
 }
 
 function SectionAccess() {
@@ -533,11 +532,11 @@ function SectionAccess() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }
 
 function SectionProviders() {
-  const { providers } = useLoaderData<typeof loader>();
+  const { providers } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root width="full" columnCount={1}>
@@ -578,5 +577,5 @@ function SectionProviders() {
         )}
       </section>
     </Section.Root>
-  );
+  )
 }

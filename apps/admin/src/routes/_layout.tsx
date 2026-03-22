@@ -1,36 +1,37 @@
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { db } from "#i/core/db.server";
-import { SideBar } from "#i/core/layout/side-bar";
-import { TabBar } from "#i/core/layout/tab-bar";
-import { useCurrentUserForMonitoring } from "#i/core/monitoring";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { DropdownSheet } from "#i/core/popovers/dropdown-sheet";
-import { NextSearchParams } from "#i/core/search-params";
-import { getCurrentUserPreferences } from "#i/current-user/preferences.server";
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { theme } from "#i/generated/theme";
-import nameAndLogo from "#i/images/name-and-logo.svg";
-import { GlobalSearch } from "#i/routes/resources.global-search/input";
-import { usePreferencesFetcher } from "#i/routes/resources.preferences/fetcher";
-import { UserAvatar } from "#i/users/avatar";
-import { hasGroups } from "#i/users/groups";
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { User } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import {
   Link,
   Outlet,
   useFetcher,
   useLoaderData,
   useLocation,
-} from "@remix-run/react";
-import { createPath } from "history";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/react"
+import { createPath } from "history"
+import { useEffect, useState } from "react"
+import { promiseHash } from "remix-utils/promise"
+
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { db } from "#i/core/db.server"
+import { SideBar } from "#i/core/layout/side-bar"
+import { TabBar } from "#i/core/layout/tab-bar"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { DropdownSheet } from "#i/core/popovers/dropdown-sheet"
+import { NextSearchParams } from "#i/core/search-params"
+import { getCurrentUserPreferences } from "#i/current-user/preferences.server"
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { theme } from "#i/generated/theme"
+import nameAndLogo from "#i/images/name-and-logo.svg"
+import { GlobalSearch } from "#i/routes/resources.global-search/input"
+import { usePreferencesFetcher } from "#i/routes/resources.preferences/fetcher"
+import { UserAvatar } from "#i/users/avatar"
+import { hasGroups } from "#i/users/groups"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { currentUser, preferences } = await promiseHash({
@@ -43,15 +44,15 @@ export async function loader({ request }: LoaderFunctionArgs) {
         groups: true,
       },
     }),
-  });
+  })
 
-  return json({ currentUser, preferences });
+  return json({ currentUser, preferences })
 }
 
 export default function Route() {
-  const { currentUser } = useLoaderData<typeof loader>();
+  const { currentUser } = useLoaderData<typeof loader>()
 
-  useCurrentUserForMonitoring(currentUser);
+  useCurrentUserForMonitoring(currentUser)
 
   return (
     <div className="grid grid-cols-1 items-start md:grid-cols-[auto,minmax(0px,1fr)]">
@@ -70,31 +71,31 @@ export default function Route() {
         <CurrentUserTabBar />
       </div>
     </div>
-  );
+  )
 }
 
-const MAX_VISIBLE_TAB_BAR_ITEM_COUNT = 5;
+const MAX_VISIBLE_TAB_BAR_ITEM_COUNT = 5
 
 function CurrentUserTabBar() {
-  const { currentUser } = useLoaderData<typeof loader>();
-  const navigationItems = getNavigationItems(currentUser);
+  const { currentUser } = useLoaderData<typeof loader>()
+  const navigationItems = getNavigationItems(currentUser)
 
-  let visibleNavigationItems = navigationItems;
-  let menuNavigationItems: NavigationItem[] = [];
+  let visibleNavigationItems = navigationItems
+  let menuNavigationItems: NavigationItem[] = []
 
   if (visibleNavigationItems.length > MAX_VISIBLE_TAB_BAR_ITEM_COUNT) {
     visibleNavigationItems = navigationItems.slice(
       0,
       MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1,
-    );
+    )
 
     menuNavigationItems = navigationItems.slice(
       MAX_VISIBLE_TAB_BAR_ITEM_COUNT - 1,
-    );
+    )
   }
 
   if (visibleNavigationItems.length < 2) {
-    return <div aria-hidden className="flex pb-safe-0 md:hidden" />;
+    return <div aria-hidden className="flex pb-safe-0 md:hidden" />
   }
 
   return (
@@ -116,25 +117,25 @@ function CurrentUserTabBar() {
         </TabBar.Menu>
       ) : null}
     </TabBar>
-  );
+  )
 }
 
 function CurrentUserSideBar() {
   useEffect(() => {
     // Clean up old local storage usage.
-    localStorage.removeItem("isSideBarCollapsed");
-  }, []);
+    localStorage.removeItem("isSideBarCollapsed")
+  }, [])
 
-  const { currentUser, preferences } = useLoaderData<typeof loader>();
-  const preferencesFetcher = usePreferencesFetcher();
+  const { currentUser, preferences } = useLoaderData<typeof loader>()
+  const preferencesFetcher = usePreferencesFetcher()
 
   // Optimistic UI.
   const isOpened = !(
     preferencesFetcher.formData?.isSideBarCollapsed ??
     preferences.isSideBarCollapsed
-  );
+  )
 
-  const navigationItems = getNavigationItems(currentUser);
+  const navigationItems = getNavigationItems(currentUser)
 
   return (
     <SideBar
@@ -162,20 +163,20 @@ function CurrentUserSideBar() {
         ))}
       </SideBar.Content>
     </SideBar>
-  );
+  )
 }
 
 type NavigationItem = {
-  to: BaseLinkProps["to"];
-  icon: IconName;
-  label: string;
-  authorizedGroups: UserGroup[];
-};
+  to: BaseLinkProps["to"]
+  icon: IconName
+  label: string
+  authorizedGroups: UserGroup[]
+}
 
 function getNavigationItems(currentUser: Pick<User, "groups">) {
   return ALL_NAVIGATION_ITEMS.filter((item) =>
     hasGroups(currentUser, item.authorizedGroups),
-  );
+  )
 }
 
 const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
@@ -248,13 +249,13 @@ const ALL_NAVIGATION_ITEMS: NavigationItem[] = [
     label: "Salon",
     authorizedGroups: [UserGroup.ADMIN, UserGroup.SHOW_ORGANIZER],
   },
-];
+]
 
 function CurrentUserMenu() {
-  const { currentUser } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
-  const location = useLocation();
-  const [isOpened, setIsOpened] = useState(false);
+  const { currentUser } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher()
+  const location = useLocation()
+  const [isOpened, setIsOpened] = useState(false)
 
   return (
     <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
@@ -328,5 +329,5 @@ function CurrentUserMenu() {
         </DropdownSheet.Content>
       </DropdownSheet.Portal>
     </DropdownSheet>
-  );
+  )
 }

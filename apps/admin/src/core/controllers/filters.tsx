@@ -1,12 +1,13 @@
-import { Chip } from "#i/core/data-display/chip";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
-import { cn, joinReactNodes } from "@animeaux/core";
-import { Form, useSubmit } from "@remix-run/react";
-import { Children, createContext, useContext, useMemo, useState } from "react";
+import { cn, joinReactNodes } from "@animeaux/core"
+import { Form, useSubmit } from "@remix-run/react"
+import { Children, createContext, useContext, useMemo, useState } from "react"
+
+import { Chip } from "#i/core/data-display/chip"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
 
 export function Filters({ children }: { children?: React.ReactNode }) {
-  const submit = useSubmit();
+  const submit = useSubmit()
 
   return (
     <Form
@@ -17,34 +18,34 @@ export function Filters({ children }: { children?: React.ReactNode }) {
     >
       {children}
     </Form>
-  );
+  )
 }
 
 Filters.Actions = function FiltersActions({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  return <div className="flex flex-col gap-1">{children}</div>;
-};
+  return <div className="flex flex-col gap-1">{children}</div>
+}
 
 type FiltersContentContextValue = {
-  openedFilter: string | null;
-  setOpenedFilter: React.Dispatch<React.SetStateAction<string | null>>;
-};
+  openedFilter: string | null
+  setOpenedFilter: React.Dispatch<React.SetStateAction<string | null>>
+}
 
 const FiltersContentContext = createContext<FiltersContentContextValue>({
   openedFilter: null,
   setOpenedFilter: () => {},
-});
+})
 
 Filters.Content = function FiltersContent({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const [openedFilter, setOpenedFilter] = useState<string | null>(null);
-  const childrenArray = Children.toArray(children);
+  const [openedFilter, setOpenedFilter] = useState<string | null>(null)
+  const childrenArray = Children.toArray(children)
 
   return (
     <FiltersContentContext.Provider
@@ -57,8 +58,8 @@ Filters.Content = function FiltersContent({
         {joinReactNodes(childrenArray, <Separator />)}
       </div>
     </FiltersContentContext.Provider>
-  );
-};
+  )
+}
 
 Filters.Filter = function Filter({
   value,
@@ -67,14 +68,14 @@ Filters.Filter = function Filter({
   children,
   hiddenContent,
 }: {
-  value: string;
-  label: React.ReactNode;
-  count?: number;
-  children?: React.ReactNode;
-  hiddenContent?: React.ReactNode;
+  value: string
+  label: React.ReactNode
+  count?: number
+  children?: React.ReactNode
+  hiddenContent?: React.ReactNode
 }) {
-  const { openedFilter, setOpenedFilter } = useContext(FiltersContentContext);
-  const isOpened = openedFilter === value;
+  const { openedFilter, setOpenedFilter } = useContext(FiltersContentContext)
+  const isOpened = openedFilter === value
 
   return (
     <div className="flex flex-col">
@@ -134,5 +135,5 @@ Filters.Filter = function Filter({
         {isOpened ? children : null}
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,45 +1,47 @@
-import { Action } from "#i/core/actions.js";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { InlineHelper } from "#i/core/data-display/helper.js";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog.js";
-import { Icon } from "#i/generated/icon.js";
-import { theme } from "#i/generated/theme.js";
-import { SponsorshipCategory } from "#i/show/sponsors/category.js";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { ActionIntent } from "./action";
-import type { action } from "./action.server";
-import { CardBilling } from "./card-billing";
-import { CardContact } from "./card-contact";
-import { CardDescription } from "./card-description";
-import { CardDocuments } from "./card-documents";
-import { CardDogsConfiguration } from "./card-dogs-configuration";
-import { CardOnStageAnimations } from "./card-on-stage-animations";
-import { CardOnStandAnimations } from "./card-on-stand-animations";
-import { CardPerks } from "./card-perks";
-import { CardPrice } from "./card-price";
-import { CardProfile } from "./card-profile";
-import { CardSituation } from "./card-situation";
-import { CardStandConfiguration } from "./card-stand-configuration";
-import { CardStructure } from "./card-structure";
-import type { loader } from "./loader.server";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import type { MetaFunction } from "@remix-run/react"
+import { useFetcher, useLoaderData } from "@remix-run/react"
 
-export { action } from "./action.server";
-export { loader } from "./loader.server";
+import { Action } from "#i/core/actions.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category.js"
+
+import { ActionIntent } from "./action"
+import type { action } from "./action.server"
+import { CardBilling } from "./card-billing"
+import { CardContact } from "./card-contact"
+import { CardDescription } from "./card-description"
+import { CardDocuments } from "./card-documents"
+import { CardDogsConfiguration } from "./card-dogs-configuration"
+import { CardOnStageAnimations } from "./card-on-stage-animations"
+import { CardOnStandAnimations } from "./card-on-stand-animations"
+import { CardPerks } from "./card-perks"
+import { CardPrice } from "./card-price"
+import { CardProfile } from "./card-profile"
+import { CardSituation } from "./card-situation"
+import { CardStandConfiguration } from "./card-stand-configuration"
+import { CardStructure } from "./card-structure"
+import type { loader } from "./loader.server"
+
+export { action } from "./action.server"
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [{ title: getPageTitle(data?.exhibitor.name ?? getErrorTitle(404)) }];
-};
+  return [{ title: getPageTitle(data?.exhibitor.name ?? getErrorTitle(404)) }]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
@@ -68,11 +70,11 @@ export default function Route() {
         </div>
       </PageLayout.Content>
     </>
-  );
+  )
 }
 
 function Header() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root className="grid grid-cols-2-auto justify-between gap-2 md:gap-4">
@@ -80,7 +82,7 @@ function Header() {
 
       <MoreMenu />
     </PageLayout.Header.Root>
-  );
+  )
 }
 
 function MoreMenu() {
@@ -104,7 +106,7 @@ function MoreMenu() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  );
+  )
 }
 
 function DeleteMenuItem() {
@@ -122,12 +124,12 @@ function DeleteMenuItem() {
 
       <DeleteDialogContent />
     </Dialog>
-  );
+  )
 }
 
 function DeleteDialogContent() {
-  const { exhibitor, sponsor } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { exhibitor, sponsor } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <Dialog.Content variant="alert">
@@ -181,5 +183,5 @@ function DeleteDialogContent() {
         </fetcher.Form>
       </Dialog.Actions>
     </Dialog.Content>
-  );
+  )
 }

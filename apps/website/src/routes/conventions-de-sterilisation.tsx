@@ -1,35 +1,36 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section";
+} from "#i/core/layout/bubble-section"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { agreementsImages } from "#i/images/agreements";
-import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { agreementsImages } from "#i/images/agreements"
+import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server"
 
 export async function loader() {
-  return json({ citiesWithAgreements });
+  return json({ citiesWithAgreements })
 }
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Conventions de stérilisation"),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -40,7 +41,7 @@ export default function Route() {
       <LawSection />
       <CitiesSection />
     </main>
-  );
+  )
 }
 
 function Header() {
@@ -59,7 +60,7 @@ function Header() {
         </HeroSectionParagraph>
       </HeroSectionAside>
     </HeroSection>
-  );
+  )
 }
 
 function AlertSection() {
@@ -93,7 +94,7 @@ function AlertSection() {
         </p>
       </div>
     </section>
-  );
+  )
 }
 
 function LawSection() {
@@ -132,7 +133,7 @@ function LawSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function ErrandsSection() {
@@ -187,11 +188,11 @@ function ErrandsSection() {
         </p>
       </div>
     </section>
-  );
+  )
 }
 
 function CitiesSection() {
-  const { citiesWithAgreements } = useLoaderData<typeof loader>();
+  const { citiesWithAgreements } = useLoaderData<typeof loader>()
 
   return (
     <section className="flex flex-col gap-12">
@@ -244,5 +245,5 @@ function CitiesSection() {
         </p>
       )}
     </section>
-  );
+  )
 }

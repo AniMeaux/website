@@ -1,9 +1,9 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 export function PageBackground({
   isExpanded = false,
 }: {
-  isExpanded?: boolean;
+  isExpanded?: boolean
 }) {
   return (
     <svg
@@ -22,5 +22,5 @@ export function PageBackground({
         className="fill-paleBlue"
       />
     </svg>
-  );
+  )
 }

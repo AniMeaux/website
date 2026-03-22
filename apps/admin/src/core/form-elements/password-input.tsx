@@ -1,6 +1,7 @@
-import { Input } from "#i/core/form-elements/input";
-import { Icon } from "#i/generated/icon";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState } from "react"
+
+import { Input } from "#i/core/form-elements/input"
+import { Icon } from "#i/generated/icon"
 
 export const PasswordInput = Object.assign(
   forwardRef<
@@ -10,7 +11,7 @@ export const PasswordInput = Object.assign(
       "type" | "rightAdornment" | "spellCheck"
     >
   >(function PasswordInput(props, ref) {
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
 
     return (
       <Input
@@ -29,10 +30,10 @@ export const PasswordInput = Object.assign(
         // Prevent Spell-jacking passwords.
         spellCheck="false"
       />
-    );
+    )
   }),
   {
     Adornment: Input.Adornment,
     ActionAdornment: Input.ActionAdornment,
   },
-);
+)

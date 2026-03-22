@@ -1,13 +1,14 @@
-import { Action } from "#i/core/actions/action";
-import { SocialLink } from "#i/core/actions/social-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { HighLightBackground } from "#i/core/layout/highlight-background";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
-import { Pictogram } from "#i/generated/pictogram";
-import logoLarge from "#i/images/logo-large.svg";
-import { Link } from "@remix-run/react";
+import { Link } from "@remix-run/react"
+
+import { Action } from "#i/core/actions/action"
+import { SocialLink } from "#i/core/actions/social-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { HighLightBackground } from "#i/core/layout/highlight-background"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
+import { Pictogram } from "#i/generated/pictogram"
+import logoLarge from "#i/images/logo-large.svg"
 
 export function RouteWaiting() {
   return (
@@ -17,7 +18,7 @@ export function RouteWaiting() {
       <SectionPreviousEditions />
       <SectionFollow />
     </>
-  );
+  )
 }
 
 function SectionLogo() {
@@ -29,7 +30,7 @@ function SectionLogo() {
         className="aspect-square w-2/3 md:w-1/2"
       />
     </header>
-  );
+  )
 }
 
 function SectionComeBack() {
@@ -74,7 +75,7 @@ function SectionComeBack() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }
 
 function SectionPreviousEditions() {
@@ -137,7 +138,7 @@ function SectionPreviousEditions() {
         </LazyElement>
       </div>
     </Section.Root>
-  );
+  )
 }
 
 function SectionFollow() {
@@ -167,5 +168,5 @@ function SectionFollow() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }

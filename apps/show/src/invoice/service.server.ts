@@ -1,9 +1,9 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server.js";
-import type { Prisma } from "@animeaux/prisma/server";
+import type { Prisma } from "@animeaux/prisma/server"
+
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
+import { notFound } from "#i/core/response.server.js"
 
 export class ServiceInvoice {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async get<T extends Prisma.ShowInvoiceSelect>(
@@ -13,13 +13,13 @@ export class ServiceInvoice {
     const invoice = await this.prisma.showInvoice.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (invoice == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return invoice;
+    return invoice
   }
 
   async getManyByToken<T extends Prisma.ShowInvoiceSelect>(
@@ -34,36 +34,36 @@ export class ServiceInvoice {
           select: params.select,
         },
       },
-    });
+    })
 
     if (exhibitor?.invoices == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor.invoices;
+    return exhibitor.invoices
   }
 
   async getCountByToken(token: string) {
     const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { token },
       select: { _count: { select: { invoices: {} } } },
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor._count.invoices;
+    return exhibitor._count.invoices
   }
 
   async updateAddress(token: string, data: UpdateData) {
-    await this.prisma.showExhibitor.update({ where: { token }, data });
+    await this.prisma.showExhibitor.update({ where: { token }, data })
 
-    return true;
+    return true
   }
 }
 
 type UpdateData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "billingAddress" | "billingCity" | "billingCountry" | "billingZipCode"
->;
+>

@@ -1,19 +1,20 @@
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import type { ScreenSize } from "#i/generated/theme";
-import { theme } from "#i/generated/theme";
-import { cn } from "@animeaux/core";
-import orderBy from "lodash.orderby";
-import invariant from "tiny-invariant";
+import { cn } from "@animeaux/core"
+import orderBy from "lodash.orderby"
+import invariant from "tiny-invariant"
+
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import type { ScreenSize } from "#i/generated/theme"
+import { theme } from "#i/generated/theme"
 
 // Ordered by decreasing size.
-const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
-type ImageSize = (typeof IMAGE_SIZES)[number];
+const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const
+type ImageSize = (typeof IMAGE_SIZES)[number]
 
 export type ImageDescriptor = {
-  imagesBySize: Partial<Record<ImageSize, string>>;
-  alt: string;
-};
+  imagesBySize: Partial<Record<ImageSize, string>>
+  alt: string
+}
 
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
@@ -28,18 +29,18 @@ const SCREEN_SIZES = orderBy(
   "desc",
 )
   .map(([name]) => name)
-  .concat("default");
+  .concat("default")
 
 export type StaticImageProps = {
-  image: ImageDescriptor;
+  image: ImageDescriptor
   sizes: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
-    default: string;
-  };
-  fallbackSize?: ImageSize;
-  loading?: "lazy" | "eager";
-  className?: string;
-};
+    default: string
+  }
+  fallbackSize?: ImageSize
+  loading?: "lazy" | "eager"
+  className?: string
+}
 
 export function StaticImage({
   image,
@@ -48,21 +49,21 @@ export function StaticImage({
   loading = "lazy",
   className,
 }: StaticImageProps) {
-  invariant(fallbackSize != null, "At least one size should be provided.");
+  invariant(fallbackSize != null, "At least one size should be provided.")
 
   const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizesProp[screen];
+    const width = sizesProp[screen]
 
     if (width != null) {
       sizes.push(
         screen === "default"
           ? width
           : `(min-width: ${theme.screens[screen]}) ${width}`,
-      );
+      )
     }
 
-    return sizes;
-  }, []).join(",");
+    return sizes
+  }, []).join(",")
 
   return (
     <img
@@ -75,15 +76,15 @@ export function StaticImage({
       sizes={sizes}
       className={cn(className, "object-cover")}
     />
-  );
+  )
 }
 
-type ImageBackground = "none" | "gray";
+type ImageBackground = "none" | "gray"
 
 const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
   gray: "bg-gray-100",
   none: "",
-};
+}
 
 export function DynamicImage({
   imageId,
@@ -94,13 +95,13 @@ export function DynamicImage({
   background = "gray",
   className,
 }: {
-  imageId: string;
-  alt: string;
-  sizes: StaticImageProps["sizes"];
-  fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>;
-  loading?: StaticImageProps["loading"];
-  background?: ImageBackground;
-  className?: string;
+  imageId: string
+  alt: string
+  sizes: StaticImageProps["sizes"]
+  fallbackSize: NonNullable<StaticImageProps["fallbackSize"]>
+  loading?: StaticImageProps["loading"]
+  background?: ImageBackground
+  className?: string
 }) {
   const image: StaticImageProps["image"] = {
     alt,
@@ -112,7 +113,7 @@ export function DynamicImage({
         }),
       ]),
     ),
-  };
+  }
 
   return (
     <StaticImage
@@ -122,7 +123,7 @@ export function DynamicImage({
       loading={loading}
       className={cn(className, IMAGE_BACKGROUND_CLASS_NAME[background])}
     />
-  );
+  )
 }
 
 export function createCloudinaryUrl(
@@ -132,8 +133,8 @@ export function createCloudinaryUrl(
     size,
     aspectRatio = "4:3",
   }: {
-    size: ImageSize;
-    aspectRatio?: "4:3" | "16:9";
+    size: ImageSize
+    aspectRatio?: "4:3" | "16:9"
   },
 ) {
   const transformations = [
@@ -153,19 +154,19 @@ export function createCloudinaryUrl(
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
     "f_auto",
-  ];
+  ]
 
-  const transformationsStr = transformations.join(",");
+  const transformationsStr = transformations.join(",")
 
-  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`
 }
 
 export function PlaceholderImage({
   icon,
   className,
 }: {
-  icon: IconProps["id"];
-  className?: string;
+  icon: IconProps["id"]
+  className?: string
 }) {
   return (
     <div
@@ -173,5 +174,5 @@ export function PlaceholderImage({
     >
       <Icon id={icon} height="50%" width="auto" className="text-gray-600" />
     </div>
-  );
+  )
 }

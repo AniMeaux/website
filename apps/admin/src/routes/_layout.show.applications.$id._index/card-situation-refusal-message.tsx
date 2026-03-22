@@ -1,13 +1,15 @@
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+
+import type { loader } from "./loader.server"
 
 export function CardSituationRefusalMessage() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   if (application.refusalMessage == null) {
-    return null;
+    return null
   }
 
   return (
@@ -24,5 +26,5 @@ export function CardSituationRefusalMessage() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,13 +1,15 @@
-import { ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { SponsorshipCategory } from "#i/show/sponsors/category";
-import { Visibility, VisibilityIcon } from "#i/show/visibility";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { useLoaderData } from "@remix-run/react"
+
+import { ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { SponsorshipCategory } from "#i/show/sponsors/category"
+import { Visibility, VisibilityIcon } from "#i/show/visibility"
+
+import type { loader } from "./route"
 
 export function CardSituation() {
   return (
@@ -24,11 +26,11 @@ export function CardSituation() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemCategory() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-award-light" />}>
@@ -37,14 +39,14 @@ function ItemCategory() {
         {SponsorshipCategory.translation[sponsor.category]}
       </strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemExhibitor() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   if (sponsor.exhibitorId == null) {
-    return null;
+    return null
   }
 
   return (
@@ -58,11 +60,11 @@ function ItemExhibitor() {
         </BaseLink>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemVisibility() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -84,5 +86,5 @@ function ItemVisibility() {
         </>
       )}
     </SimpleItem>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
 export const Overlay = forwardRef<
   React.ComponentRef<typeof Primitive.div>,
@@ -18,5 +18,5 @@ export const Overlay = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})

@@ -1,17 +1,17 @@
-import { useLocation } from "@remix-run/react";
+import { useLocation } from "@remix-run/react"
 
-const REFERER_KEY = "_referer";
+const REFERER_KEY = "_referer"
 
 export function RefererInput() {
-  const location = useLocation();
-  return <input type="hidden" name={REFERER_KEY} value={location.pathname} />;
+  const location = useLocation()
+  return <input type="hidden" name={REFERER_KEY} value={location.pathname} />
 }
 
 export function getReferer(formData: FormData) {
-  const referer = formData.get(REFERER_KEY);
+  const referer = formData.get(REFERER_KEY)
   if (typeof referer !== "string" || referer === "") {
-    return null;
+    return null
   }
 
-  return referer;
+  return referer
 }

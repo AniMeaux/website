@@ -1,10 +1,12 @@
-import { Section } from "#i/core/layout/section";
-import { FaqItem, FaqList } from "#i/faq/item";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { Section } from "#i/core/layout/section"
+import { FaqItem, FaqList } from "#i/faq/item"
+
+import type { loader } from "./loader.server"
 
 export function SectionQuestions() {
-  const { questions } = useLoaderData<typeof loader>();
+  const { questions } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root columnCount={1}>
@@ -14,5 +16,5 @@ export function SectionQuestions() {
         ))}
       </FaqList>
     </Section.Root>
-  );
+  )
 }

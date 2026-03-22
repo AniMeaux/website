@@ -1,18 +1,19 @@
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { DateTime } from "luxon";
+import { DateTime } from "luxon"
+
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
 
 export function ArticleItem({
   article,
 }: {
   article: {
-    slug: string;
-    image: string;
-    title: string;
-    publicationDate: string;
-    authorName: string;
-    description: string;
-  };
+    slug: string
+    image: string
+    title: string
+    publicationDate: string
+    authorName: string
+    description: string
+  }
 }) {
   return (
     <li className="flex">
@@ -43,5 +44,5 @@ export function ArticleItem({
         </div>
       </BaseLink>
     </li>
-  );
+  )
 }

@@ -1,39 +1,40 @@
-import { Routes } from "#i/core/navigation";
-import { ShowDay } from "#i/core/show-day";
-import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition";
-import { renderToStaticMarkup } from "react-dom/server";
+import { renderToStaticMarkup } from "react-dom/server"
+
+import { Routes } from "#i/core/navigation"
+import { ShowDay } from "#i/core/show-day"
+import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition"
 
 export async function loader() {
   const urlDefinitions: UrlDefinition[] = [
     { path: Routes.home.toString(), changeFrequency: "weekly" },
-  ];
+  ]
 
   SORTED_PREVIOUS_EDITIONS.forEach((edition) => {
     urlDefinitions.push({
       path: Routes.previousEditions.edition(edition).toString(),
       changeFrequency: "monthly",
-    });
-  });
+    })
+  })
 
   if (process.env.FEATURE_FLAG_SITE_ONLINE === "true") {
     urlDefinitions.push(
       { path: Routes.exhibitors.toString(), changeFrequency: "weekly" },
       { path: Routes.access.toString(), changeFrequency: "weekly" },
       { path: Routes.faq.toString(), changeFrequency: "weekly" },
-    );
+    )
 
     if (process.env.FEATURE_FLAG_SHOW_PROGRAM === "true") {
       ShowDay.values.forEach((day) => {
         urlDefinitions.push({
           path: Routes.program.day(day).toString(),
           changeFrequency: "weekly",
-        });
-      });
+        })
+      })
     } else {
       urlDefinitions.push({
         path: Routes.program.toString(),
         changeFrequency: "weekly",
-      });
+      })
     }
   }
 
@@ -41,7 +42,7 @@ export async function loader() {
     urlDefinitions.push({
       path: Routes.exhibitors.application.toString(),
       changeFrequency: "weekly",
-    });
+    })
   }
 
   const markup = renderToStaticMarkup(
@@ -54,29 +55,29 @@ export async function loader() {
         </url>
       ))}
     </urlset>,
-  );
+  )
 
   return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {
     headers: {
       "Content-Type": "application/xml",
     },
-  });
+  })
 }
 
 type SitemapAttribute = {
-  key?: React.Key;
-  children?: React.ReactNode;
-};
+  key?: React.Key
+  children?: React.ReactNode
+}
 
 // Override JSX interface so we can render XML with React \o/
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      urlset: SitemapAttribute & { xmlns: string };
-      url: SitemapAttribute;
-      loc: SitemapAttribute;
-      changefreq: SitemapAttribute;
-      priority: SitemapAttribute;
+      urlset: SitemapAttribute & { xmlns: string }
+      url: SitemapAttribute
+      loc: SitemapAttribute
+      changefreq: SitemapAttribute
+      priority: SitemapAttribute
     }
   }
 }
@@ -86,7 +87,7 @@ declare global {
  */
 type UrlDefinition = {
   /** Path relative to host. Must start with "/" (e.g. "/", "/adopt"). */
-  path: string;
+  path: string
   changeFrequency:
     | "always"
     | "hourly"
@@ -94,8 +95,8 @@ type UrlDefinition = {
     | "weekly"
     | "monthly"
     | "yearly"
-    | "never";
+    | "never"
 
   /** Number in range [0, 1] */
-  priority?: number;
-};
+  priority?: number
+}

@@ -1,8 +1,8 @@
-import type { Config } from "tailwindcss";
-import defaultColors from "tailwindcss/colors";
-import defaultTheme from "tailwindcss/defaultTheme";
-import plugin from "tailwindcss/plugin";
-import type { CSSRuleObject } from "tailwindcss/types/config";
+import type { Config } from "tailwindcss"
+import defaultColors from "tailwindcss/colors"
+import defaultTheme from "tailwindcss/defaultTheme"
+import plugin from "tailwindcss/plugin"
+import type { CSSRuleObject } from "tailwindcss/types/config"
 
 export const spacing = {
   "0": "0px",
@@ -20,12 +20,12 @@ export const spacing = {
   "10": "120px",
   "12": "144px",
   "14": "168px",
-};
+}
 
 export const screens = {
   xs: "475px",
   ...defaultTheme.screens,
-};
+}
 
 // Don't spread `...defaultColors` to avoid deprecation warnings.
 export const colors = {
@@ -100,19 +100,19 @@ export const colors = {
 
   black: defaultColors.black,
   white: defaultColors.white,
-};
+}
 
 type FontFamily = {
-  family: string;
-  fallback: string;
-  cssUrl: string;
+  family: string
+  fallback: string
+  cssUrl: string
   variants: {
-    style: React.CSSProperties["fontStyle"];
-    weight: React.CSSProperties["fontWeight"];
-    url: string;
-    format: "woff" | "woff2" | "truetype" | "opentype" | "embedded-opentype";
-  }[];
-};
+    style: React.CSSProperties["fontStyle"]
+    weight: React.CSSProperties["fontWeight"]
+    url: string
+    format: "woff" | "woff2" | "truetype" | "opentype" | "embedded-opentype"
+  }[]
+}
 
 export const fonts: { serif: FontFamily; sans: FontFamily } = {
   serif: {
@@ -155,7 +155,7 @@ export const fonts: { serif: FontFamily; sans: FontFamily } = {
       },
     ],
   },
-};
+}
 
 const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -293,9 +293,9 @@ const theme: Config = {
       },
     },
   },
-};
+}
 
-export default theme;
+export default theme
 
 /**
  * Animation plugin inspired from tailwindcss-animate but:
@@ -329,7 +329,7 @@ function pluginAnimation() {
           }),
         },
         { values: theme("height") },
-      );
+      )
 
       matchUtilities(
         {
@@ -342,7 +342,7 @@ function pluginAnimation() {
           }),
         },
         { values: theme("opacity") },
-      );
+      )
 
       matchUtilities(
         {
@@ -351,7 +351,7 @@ function pluginAnimation() {
           }),
         },
         { values: theme("transitionDuration") },
-      );
+      )
 
       matchUtilities(
         {
@@ -367,7 +367,7 @@ function pluginAnimation() {
           values: theme("translate"),
           supportsNegativeValues: true,
         },
-      );
+      )
 
       matchUtilities(
         {
@@ -388,13 +388,13 @@ function pluginAnimation() {
             visible: "visible",
           },
         },
-      );
+      )
 
       // Somehow required for our custom keyframes to be found.
       addUtilities({
         "@keyframes enter": theme("keyframes.enter"),
         "@keyframes exit": theme("keyframes.exit"),
-      });
+      })
 
       addUtilities({
         ".animation-enter": {
@@ -412,7 +412,7 @@ function pluginAnimation() {
           animationName: "exit",
           animationTimingFunction: theme("transitionTimingFunction.in"),
         },
-      });
+      })
     },
     {
       // Keep this here for a better code collocation.
@@ -438,7 +438,7 @@ function pluginAnimation() {
                 "scaleX(var(--tw-scale-x))",
                 "scaleY(var(--tw-scale-y))",
               ].join(" "),
-            } satisfies CSSRuleObject;
+            } satisfies CSSRuleObject
 
             // Current styles that should only be set during the animation
             // (because the animation-fill-mode is `none` by default).
@@ -457,23 +457,23 @@ function pluginAnimation() {
                 "scaleX(var(--tw-scale-x))",
                 "scaleY(var(--tw-scale-y))",
               ].join(" "),
-            } satisfies CSSRuleObject;
+            } satisfies CSSRuleObject
 
             return {
               enter: { from: animationCss, to: currentCss },
               exit: { from: currentCss, to: animationCss },
-            };
+            }
           },
         },
       },
     },
-  );
+  )
 }
 
 function pluginChildren() {
   return plugin(({ addVariant }) => {
-    addVariant("children", "& > *");
-  });
+    addVariant("children", "& > *")
+  })
 }
 
 /**
@@ -498,7 +498,7 @@ function pluginCustomScrollbar() {
               "&::-webkit-scrollbar-track-piece": {
                 "background-color": "transparent",
               },
-            };
+            }
           }
 
           return {
@@ -509,7 +509,7 @@ function pluginCustomScrollbar() {
             "&::-webkit-scrollbar-thumb": {
               "background-color": theme("colors.alabaster.300"),
             },
-          };
+          }
         },
       },
       {
@@ -518,8 +518,8 @@ function pluginCustomScrollbar() {
           custom: "custom",
         },
       },
-    );
-  });
+    )
+  })
 }
 
 function pluginFocus() {
@@ -538,8 +538,8 @@ function pluginFocus() {
         "outline-style": "solid",
         "outline-width": "3px",
       },
-    });
-  });
+    })
+  })
 }
 
 /**
@@ -549,8 +549,8 @@ function pluginFocus() {
  */
 function pluginFocusVisibleWithin() {
   return plugin(({ addVariant }) => {
-    addVariant("focus-visible-within", "&:has(:focus-visible)");
-  });
+    addVariant("focus-visible-within", "&:has(:focus-visible)")
+  })
 }
 
 function pluginGridDynamicColumns() {
@@ -565,8 +565,8 @@ function pluginGridDynamicColumns() {
         values: theme("minWidth"),
         type: ["length"],
       },
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -586,8 +586,8 @@ function pluginIconSizes() {
           "64": "64px",
         },
       },
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -595,8 +595,8 @@ function pluginIconSizes() {
  */
 function pluginMediaHover() {
   return plugin(({ addVariant }) => {
-    addVariant("can-hover", "@media(any-hover:hover){&}");
-  });
+    addVariant("can-hover", "@media(any-hover:hover){&}")
+  })
 }
 
 function pluginSafePadding() {
@@ -623,8 +623,8 @@ function pluginSafePadding() {
         "pl-safe": (value) => createSafePadding("left", value),
       },
       { values: theme("spacing") },
-    );
-  });
+    )
+  })
 }
 
 function createSafePadding(
@@ -636,14 +636,14 @@ function createSafePadding(
     right: "paddingRight",
     bottom: "paddingBottom",
     left: "paddingLeft",
-  }[side];
+  }[side]
 
   const envVariable = {
     top: "safe-area-inset-top",
     right: "safe-area-inset-right",
     bottom: "safe-area-inset-bottom",
     left: "safe-area-inset-left",
-  }[side];
+  }[side]
 
   return {
     [name]: [
@@ -651,7 +651,7 @@ function createSafePadding(
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,
     ],
-  };
+  }
 }
 
 function pluginStrokeDashoffset() {
@@ -659,14 +659,14 @@ function pluginStrokeDashoffset() {
     matchUtilities(
       { "stroke-dashoffset": (value) => ({ "stroke-dashoffset": value }) },
       { values: theme("spacing") },
-    );
-  });
+    )
+  })
 }
 
 function pluginTagSelectors() {
   return plugin(({ addVariant }) => {
-    addVariant("is-link", "&:is(a)");
-  });
+    addVariant("is-link", "&:is(a)")
+  })
 }
 
 /**
@@ -756,6 +756,6 @@ function pluginTextStyles() {
         "line-height": "72px",
         "text-transform": "uppercase",
       },
-    });
-  });
+    })
+  })
 }

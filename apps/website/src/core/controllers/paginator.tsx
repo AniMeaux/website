@@ -1,25 +1,26 @@
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { getPage, setPage } from "#i/core/search-params";
-import { cn } from "@animeaux/core";
-import { useSearchParams } from "@remix-run/react";
-import type { ReactNode } from "react";
+import { cn } from "@animeaux/core"
+import { useSearchParams } from "@remix-run/react"
+import type { ReactNode } from "react"
+
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { getPage, setPage } from "#i/core/search-params"
 
 export function Paginator({
   pageCount,
   className,
 }: {
-  pageCount: number;
-  className: string;
+  pageCount: number
+  className: string
 }) {
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
   if (pageCount < 2) {
-    return null;
+    return null
   }
 
-  const page = getPage(searchParams);
+  const page = getPage(searchParams)
 
-  const items: ReactNode[] = [];
+  const items: ReactNode[] = []
 
   for (let index = 0; index < pageCount; index++) {
     items.push(
@@ -30,7 +31,7 @@ export function Paginator({
       >
         {index + 1}
       </PaginatorItem>,
-    );
+    )
   }
 
   if (pageCount - page >= 4) {
@@ -40,7 +41,7 @@ export function Paginator({
       <PaginatorItem key={pageCount - 2} isEllipsis>
         ...
       </PaginatorItem>,
-    );
+    )
   }
 
   if (page >= 3) {
@@ -50,10 +51,10 @@ export function Paginator({
       <PaginatorItem key={1} isEllipsis>
         ...
       </PaginatorItem>,
-    );
+    )
   }
 
-  return <ul className={cn(className, "flex gap-1 text-gray-500")}>{items}</ul>;
+  return <ul className={cn(className, "flex gap-1 text-gray-500")}>{items}</ul>
 }
 
 function PaginatorItem({
@@ -62,10 +63,10 @@ function PaginatorItem({
   isEllipsis = false,
   children,
 }: {
-  to?: BaseLinkProps["to"];
-  isActive?: boolean;
-  isEllipsis?: boolean;
-  children: React.ReactNode;
+  to?: BaseLinkProps["to"]
+  isActive?: boolean
+  isEllipsis?: boolean
+  children: React.ReactNode
 }) {
   return (
     <li className="flex flex-none">
@@ -86,5 +87,5 @@ function PaginatorItem({
         {children}
       </BaseLink>
     </li>
-  );
+  )
 }

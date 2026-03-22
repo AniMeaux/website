@@ -1,28 +1,29 @@
-import { FieldDate } from "#i/core/form-elements/field-date.js";
-import { FieldDecimal } from "#i/core/form-elements/field-decimal.js";
-import { FieldRadios } from "#i/core/form-elements/field-radios";
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FieldUrl } from "#i/core/form-elements/field-url.js";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input.js";
-import { Card } from "#i/core/layout/card";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon.js";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+import type { FieldMetadata, FormMetadata } from "@conform-to/react"
+
+import { FieldDate } from "#i/core/form-elements/field-date.js"
+import { FieldDecimal } from "#i/core/form-elements/field-decimal.js"
+import { FieldRadios } from "#i/core/form-elements/field-radios"
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FieldUrl } from "#i/core/form-elements/field-url.js"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input.js"
+import { Card } from "#i/core/layout/card"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon.js"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
 
 export function FieldsetInvoice({
   form,
   fields,
 }: {
-  form: { errors: FormMetadata["errors"] };
+  form: { errors: FormMetadata["errors"] }
   fields: {
-    amount: FieldMetadata<number>;
-    dueDate: FieldMetadata<Date>;
-    number: FieldMetadata<string>;
-    status: FieldMetadata<InvoiceStatus.Enum>;
-    url: FieldMetadata<string>;
-  };
+    amount: FieldMetadata<number>
+    dueDate: FieldMetadata<Date>
+    number: FieldMetadata<string>
+    status: FieldMetadata<InvoiceStatus.Enum>
+    url: FieldMetadata<string>
+  }
 }) {
   return (
     <Card>
@@ -73,5 +74,5 @@ export function FieldsetInvoice({
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

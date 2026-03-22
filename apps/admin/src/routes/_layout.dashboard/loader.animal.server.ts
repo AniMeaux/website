@@ -1,21 +1,22 @@
+import type { Prisma, User } from "@animeaux/prisma/server"
+import { UserGroup } from "@animeaux/prisma/server"
+import { DateTime } from "luxon"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
+
 import {
   HAS_UP_COMMING_DIAGNOSE_CONDITIONS,
   HAS_UP_COMMING_STERILISATION_CONDITIONS,
   HAS_UP_COMMING_VACCINATION_CONDITIONS,
-} from "#i/animals/situation/health";
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
-import { prisma } from "#i/core/prisma.server";
-import { hasGroups } from "#i/users/groups";
-import type { Prisma, User } from "@animeaux/prisma/server";
-import { UserGroup } from "@animeaux/prisma/server";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+} from "#i/animals/situation/health"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
+import { prisma } from "#i/core/prisma.server"
+import { hasGroups } from "#i/users/groups"
 
 export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
   const activeAnimalsWhere: Prisma.AnimalWhereInput = {
     status: { in: ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const animalsToSterilizeWhere: Prisma.AnimalWhereInput = {
     birthdate: {
@@ -28,7 +29,7 @@ export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
     isSterilized: HAS_UP_COMMING_STERILISATION_CONDITIONS.isSterilized,
     species: { in: HAS_UP_COMMING_STERILISATION_CONDITIONS.species },
     status: { in: HAS_UP_COMMING_STERILISATION_CONDITIONS.status },
-  };
+  }
 
   const animalsToVaccinateWhere: Prisma.AnimalWhereInput = {
     status: { in: HAS_UP_COMMING_VACCINATION_CONDITIONS.status },
@@ -39,7 +40,7 @@ export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
         })
         .toJSDate(),
     },
-  };
+  }
 
   const dogsToDiagnoseWhere: Prisma.AnimalWhereInput = {
     status: { in: HAS_UP_COMMING_DIAGNOSE_CONDITIONS.status },
@@ -50,16 +51,16 @@ export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
         .minus({ months: HAS_UP_COMMING_DIAGNOSE_CONDITIONS.ageInMonths })
         .toJSDate(),
     },
-  };
+  }
 
   const managedAnimalswhere: Prisma.AnimalWhereInput = {
     managerId: currentUser.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const isCurrentUserManager = hasGroups(currentUser, [
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const data = await promiseHash({
     activeCount: prisma.animal.count({ where: activeAnimalsWhere }),
@@ -166,7 +167,7 @@ export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
           },
         })
       : Promise.resolve(null),
-  });
+  })
 
   return {
     ...data,
@@ -179,9 +180,9 @@ export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
       invariant(
         nextVaccinationDate != null,
         "nextVaccinationDate should be defined",
-      );
+      )
 
-      return { ...animal, nextVaccinationDate };
+      return { ...animal, nextVaccinationDate }
     }),
-  };
+  }
 }

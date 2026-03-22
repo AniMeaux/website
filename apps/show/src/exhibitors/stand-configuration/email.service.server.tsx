@@ -1,20 +1,20 @@
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day.js";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+} from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
+import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day.js"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
 export class ServiceExhibitorStandConfigurationEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,
@@ -42,7 +42,7 @@ export class ServiceExhibitorStandConfigurationEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionStand() {
       return (
@@ -168,7 +168,7 @@ export class ServiceExhibitorStandConfigurationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -208,7 +208,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -235,14 +235,14 @@ export class ServiceExhibitorStandConfigurationEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.standConfigurationStatus ===
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.standConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.standConfigurationStatus) {
@@ -377,7 +377,7 @@ export class ServiceExhibitorStandConfigurationEmail {
                 </EmailHtml.Output.Row>
               </EmailHtml.Output.Table>
             </EmailHtml.Section.Root>
-          );
+          )
         }
 
         return await this.email.send({
@@ -417,14 +417,14 @@ export class ServiceExhibitorStandConfigurationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.standConfigurationStatusMessage != null,
           "A standConfigurationStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "stand-exposant-traité",
@@ -460,11 +460,11 @@ export class ServiceExhibitorStandConfigurationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.standConfigurationStatus satisfies never;
+        return exhibitor.standConfigurationStatus satisfies never
       }
     }
   }

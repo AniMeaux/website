@@ -1,18 +1,20 @@
-import { BaseLink } from "#i/core/base-link";
-import { toRoundedRelative } from "#i/core/dates";
-import { Routes } from "#i/core/navigation";
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon";
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon";
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status";
-import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status";
-import type { SerializeFrom } from "@remix-run/node";
-import { DateTime } from "luxon";
-import type { loader } from "./route";
+import type { SerializeFrom } from "@remix-run/node"
+import { DateTime } from "luxon"
+
+import { BaseLink } from "#i/core/base-link"
+import { toRoundedRelative } from "#i/core/dates"
+import { Routes } from "#i/core/navigation"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
+import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status"
+
+import type { loader } from "./route"
 
 export function ApplicationItem({
   application,
 }: {
-  application: SerializeFrom<typeof loader>["applications"][number];
+  application: SerializeFrom<typeof loader>["applications"][number]
 }) {
   return (
     <BaseLink
@@ -57,5 +59,5 @@ export function ApplicationItem({
         {toRoundedRelative(application.createdAt)}
       </span>
     </BaseLink>
-  );
+  )
 }

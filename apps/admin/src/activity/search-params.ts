@@ -1,12 +1,13 @@
-import { ActivityAction } from "#i/activity/action";
-import { ActivityResource } from "#i/activity/resource";
-import { endOfDay } from "#i/core/dates.js";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
-import { DateTime } from "luxon";
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
+import { DateTime } from "luxon"
+
+import { ActivityAction } from "#i/activity/action"
+import { ActivityResource } from "#i/activity/resource"
+import { endOfDay } from "#i/core/dates.js"
 
 export namespace ActivitySearchParams {
-  export type Value = SearchParamsIO.Infer<typeof io>;
+  export type Value = SearchParamsIO.Infer<typeof io>
 
   export const io = SearchParamsIO.create({
     keys: {
@@ -26,11 +27,11 @@ export namespace ActivitySearchParams {
         resources: SearchParamsIO.getValues(searchParams, keys.resources),
         resourceId: SearchParamsIO.getValue(searchParams, keys.resourceId),
         usersId: SearchParamsIO.getValues(searchParams, keys.usersId),
-      });
+      })
     },
 
     setFunction: (searchParams, data, keys) => {
-      SearchParamsIO.setValues(searchParams, keys.actions, data.actions);
+      SearchParamsIO.setValues(searchParams, keys.actions, data.actions)
 
       SearchParamsIO.setValue(
         searchParams,
@@ -38,7 +39,7 @@ export namespace ActivitySearchParams {
         data.dateEnd == null
           ? undefined
           : DateTime.fromJSDate(data.dateEnd).toISODate(),
-      );
+      )
 
       SearchParamsIO.setValue(
         searchParams,
@@ -46,13 +47,13 @@ export namespace ActivitySearchParams {
         data.dateStart == null
           ? undefined
           : DateTime.fromJSDate(data.dateStart).toISODate(),
-      );
+      )
 
-      SearchParamsIO.setValues(searchParams, keys.resources, data.resources);
-      SearchParamsIO.setValue(searchParams, keys.resourceId, data.resourceId);
-      SearchParamsIO.setValues(searchParams, keys.usersId, data.usersId);
+      SearchParamsIO.setValues(searchParams, keys.resources, data.resources)
+      SearchParamsIO.setValue(searchParams, keys.resourceId, data.resourceId)
+      SearchParamsIO.setValues(searchParams, keys.usersId, data.usersId)
     },
-  });
+  })
 
   const schema = zu.object({
     actions: zu.searchParams.set(
@@ -69,5 +70,5 @@ export namespace ActivitySearchParams {
         .string()
         .pipe(zu.string().uuid().optional().catch(undefined)),
     ),
-  });
+  })
 }

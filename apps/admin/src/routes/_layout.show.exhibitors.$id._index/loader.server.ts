@@ -1,25 +1,27 @@
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { withAllowedCategories } from "#i/show/stand-size/allowed-categories.js";
-import { UserGroup } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
-import { routeParamsSchema } from "./route-params";
+import { UserGroup } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
+
+import { db } from "#i/core/db.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
+import { withAllowedCategories } from "#i/show/stand-size/allowed-categories.js"
+
+import { routeParamsSchema } from "./route-params"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(routeParamsSchema, params);
+  const routeParams = safeParseRouteParam(routeParamsSchema, params)
 
   const { exhibitor, application, files, sponsor } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
@@ -158,7 +160,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         category: true,
       },
     }),
-  });
+  })
 
   return json({
     exhibitor: {
@@ -178,5 +180,5 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
     application,
     sponsor,
-  });
+  })
 }

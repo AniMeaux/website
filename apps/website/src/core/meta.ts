@@ -1,4 +1,4 @@
-import type { MetaDescriptor } from "@remix-run/react";
+import type { MetaDescriptor } from "@remix-run/react"
 
 /**
  * @see https://metatags.io/
@@ -7,27 +7,27 @@ import type { MetaDescriptor } from "@remix-run/react";
  */
 export function createSocialMeta(
   params: {
-    title?: string;
-    description?: string;
-    imageUrl?: string;
+    title?: string
+    description?: string
+    imageUrl?: string
   } & (
     | { type?: "website" }
     | {
-        type: "article";
-        publishedTime: string;
-        author: string;
+        type: "article"
+        publishedTime: string
+        author: string
       }
   ) = {},
 ) {
-  const { type = "website", title, description, imageUrl } = params;
-  const meta: MetaDescriptor[] = [{ property: "og:type", content: type }];
+  const { type = "website", title, description, imageUrl } = params
+  const meta: MetaDescriptor[] = [{ property: "og:type", content: type }]
 
   if (title != null) {
     meta.push(
       { title },
       { property: "og:title", content: title },
       { property: "twitter:title", content: title },
-    );
+    )
   }
 
   if (description != null) {
@@ -35,22 +35,22 @@ export function createSocialMeta(
       { name: "description", content: description },
       { property: "og:description", content: description },
       { property: "twitter:description", content: description },
-    );
+    )
   }
 
   if (imageUrl != null) {
     meta.push(
       { property: "og:image", content: imageUrl },
       { property: "twitter:image", content: imageUrl },
-    );
+    )
   }
 
   if (params.type === "article") {
     meta.push(
       { property: "article:published_time", content: params.publishedTime },
       { property: "article:author", content: params.author },
-    );
+    )
   }
 
-  return meta;
+  return meta
 }

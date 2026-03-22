@@ -1,48 +1,49 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { BlockHelper } from "#i/core/data-display/helper";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { db } from "#i/core/db.server";
-import { NotFoundError } from "#i/core/errors.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { AvatarCard } from "#i/core/layout/avatar-card";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { EventAvatar } from "#i/events/avatar";
-import { Icon } from "#i/generated/icon";
-import { formatDateRange } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { formatDateRange } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { BlockHelper } from "#i/core/data-display/helper"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { db } from "#i/core/db.server"
+import { NotFoundError } from "#i/core/errors.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { AvatarCard } from "#i/core/layout/avatar-card"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { EventAvatar } from "#i/events/avatar"
+import { Icon } from "#i/generated/icon"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const event = await prisma.event.findUnique({
@@ -59,59 +60,59 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       title: true,
       url: true,
     },
-  });
+  })
 
-  assertIsDefined(event);
+  assertIsDefined(event)
 
-  return json({ event });
+  return json({ event })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const event = data?.event;
+  const event = data?.event
   if (event == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(event.title) }];
-};
+  return [{ title: getPageTitle(event.title) }]
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw notFound();
+    throw notFound()
   }
 
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   try {
-    await db.event.delete(paramsResult.data.id);
+    await db.event.delete(paramsResult.data.id)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
-    throw error;
+    throw error
   }
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing foster family.
-  throw redirect(Routes.events.toString());
+  throw redirect(Routes.events.toString())
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -137,11 +138,11 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function HeaderCard() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event } = useLoaderData<typeof loader>()
 
   return (
     <AvatarCard>
@@ -168,11 +169,11 @@ function HeaderCard() {
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
-  );
+  )
 }
 
 function DetailsCard() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -200,11 +201,11 @@ function DetailsCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function DescriptionCard() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -216,11 +217,11 @@ function DescriptionCard() {
         <p>{event.description}</p>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ImageCard() {
-  const { event } = useLoaderData<typeof loader>();
+  const { event } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -238,12 +239,12 @@ function ImageCard() {
         />
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionCard() {
-  const { event } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { event } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <Card>
@@ -284,5 +285,5 @@ function ActionCard() {
         </Dialog>
       </Card.Content>
     </Card>
-  );
+  )
 }

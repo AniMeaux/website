@@ -1,12 +1,13 @@
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
+
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Mentions légales") });
-};
+  return createSocialMeta({ title: getPageTitle("Mentions légales") })
+}
 
 export default function Route() {
   return (
@@ -23,7 +24,7 @@ export default function Route() {
         <Markdown components={ARTICLE_COMPONENTS}>{getContent()}</Markdown>
       </article>
     </main>
-  );
+  )
 }
 
 function getContent() {
@@ -51,5 +52,5 @@ En cas de modification, interruption ou suspension du Site, l’Editeur ne saura
 
 Le site est exempté de déclaration à la Commission Nationale Informatique et Libertés (CNIL) dans la mesure où il ne collecte aucune donnée concernant les utilisateurs.
 
-Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie du Site, sans autorisation de l’Editeur est prohibée et pourra entraînée des actions et poursuites judiciaires telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.`;
+Toute utilisation, reproduction, diffusion, commercialisation, modification de toute ou partie du Site, sans autorisation de l’Editeur est prohibée et pourra entraînée des actions et poursuites judiciaires telles que notamment prévues par le Code de la propriété intellectuelle et le Code civil.`
 }

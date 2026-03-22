@@ -1,35 +1,37 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { FieldCheckboxes } from "#i/core/form-elements/field-checkboxes";
-import { FieldList } from "#i/core/form-elements/field-list";
-import { FieldRadios } from "#i/core/form-elements/field-radios.js";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Card } from "#i/core/layout/card";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import { ImageUrl, ensureArray, withoutKey } from "@animeaux/core";
-import { getInputProps } from "@conform-to/react";
-import { useLoaderData } from "@remix-run/react";
-import { useForm } from "./form";
-import type { loader } from "./route";
+import { ensureArray, ImageUrl, withoutKey } from "@animeaux/core"
+import { getInputProps } from "@conform-to/react"
+import { useLoaderData } from "@remix-run/react"
+
+import { DynamicImage } from "#i/core/data-display/image"
+import { FieldCheckboxes } from "#i/core/form-elements/field-checkboxes"
+import { FieldList } from "#i/core/form-elements/field-list"
+import { FieldRadios } from "#i/core/form-elements/field-radios.js"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Card } from "#i/core/layout/card"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
+
+import { useForm } from "./form"
+import type { loader } from "./route"
 
 export function FieldsetProfile() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-  const { form, fields } = useForm();
+  const { exhibitor } = useLoaderData<typeof loader>()
+  const { form, fields } = useForm()
 
   const selectedActivityFields = ensureArray(
     fields.activityFields.value as
       | undefined
       | ActivityField.Enum
       | ActivityField.Enum[],
-  );
+  )
 
   const inferredCategory = ExhibitorCategory.get({
     legalStatus: exhibitor.application.structureLegalStatus,
     activityFields: selectedActivityFields,
-  });
+  })
 
   return (
     <Card>
@@ -96,11 +98,11 @@ export function FieldsetProfile() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function FieldLogo() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Form.Field>
@@ -117,5 +119,5 @@ function FieldLogo() {
         className="w-full rounded-2 border border-gray-200"
       />
     </Form.Field>
-  );
+  )
 }

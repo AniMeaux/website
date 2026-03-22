@@ -1,43 +1,44 @@
-import { Action } from "#i/core/actions";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Icon } from "#i/generated/icon";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Color } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { Color } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useEffect, useRef } from "react"
+
+import { Action } from "#i/core/actions"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Icon } from "#i/generated/icon"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
     name: zu.string().trim().min(1, "Veuillez entrer un nom"),
   }),
-);
+)
 
 export function ColorForm({
   defaultColor,
   fetcher,
 }: {
-  defaultColor?: SerializeFrom<Pick<Color, "name">>;
+  defaultColor?: SerializeFrom<Pick<Color, "name">>
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const isCreate = defaultColor == null;
-  const nameRef = useRef<HTMLInputElement>(null);
+  const isCreate = defaultColor == null
+  const nameRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.name != null) {
-        nameRef.current?.focus();
+        nameRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <Form asChild hasHeader>
@@ -78,5 +79,5 @@ export function ColorForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

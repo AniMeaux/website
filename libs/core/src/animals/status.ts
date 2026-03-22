@@ -1,4 +1,4 @@
-import { Status } from "@animeaux/prisma";
+import { Status } from "@animeaux/prisma"
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,
@@ -6,8 +6,8 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.RESERVED,
   Status.RETIRED,
   Status.UNAVAILABLE,
-];
+]
 
 export const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
   (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
-);
+)

@@ -1,19 +1,20 @@
-import { Chip } from "#i/core/data-display/chip";
+import type { ShowActivityTarget } from "@animeaux/prisma"
+
+import { Chip } from "#i/core/data-display/chip"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#i/exhibitors/activity-target/activity-target";
-import { Icon } from "#i/generated/icon";
-import type { ShowActivityTarget } from "@animeaux/prisma";
+} from "#i/exhibitors/activity-target/activity-target"
+import { Icon } from "#i/generated/icon"
 
 export function ChipActivityTarget({
   activityTarget,
   isHighlighted = false,
   className,
 }: {
-  activityTarget: ShowActivityTarget;
-  isHighlighted?: boolean;
-  className?: string;
+  activityTarget: ShowActivityTarget
+  isHighlighted?: boolean
+  className?: string
 }) {
   return (
     <Chip.Root isHighlighted={isHighlighted} className={className}>
@@ -27,5 +28,5 @@ export function ChipActivityTarget({
 
       <Chip.Label>{ACTIVITY_TARGET_TRANSLATION[activityTarget]}</Chip.Label>
     </Chip.Root>
-  );
+  )
 }

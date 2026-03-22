@@ -1,52 +1,53 @@
-import { articles } from "#i/blog/data.server";
-import { ArticleItem } from "#i/blog/item";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { DynamicImage, createCloudinaryUrl } from "#i/core/data-display/image";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
+import { cn } from "@animeaux/core"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { articles } from "#i/blog/data.server"
+import { ArticleItem } from "#i/blog/item"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { DonationSection } from "#i/donation/section";
-import { cn } from "@animeaux/core";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+} from "#i/core/layout/related-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { DonationSection } from "#i/donation/section"
 
-const OTHER_ARTICLE_COUNT = 3;
+const OTHER_ARTICLE_COUNT = 3
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const article = articles.find((article) => article.slug === params["slug"]);
+  const article = articles.find((article) => article.slug === params["slug"])
   if (article == null) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404 })
   }
 
   let otherArticles = articles.filter(
     (article) => article.slug !== params["slug"],
-  );
+  )
 
   if (otherArticles.length > OTHER_ARTICLE_COUNT) {
     const startIndex = Math.floor(
       Math.random() * (otherArticles.length - OTHER_ARTICLE_COUNT + 1),
-    );
+    )
 
     otherArticles = otherArticles.slice(
       startIndex,
       startIndex + OTHER_ARTICLE_COUNT,
-    );
+    )
   }
 
-  return json({ article, otherArticles });
+  return json({ article, otherArticles })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const article = data?.article;
+  const article = data?.article
   if (article == null) {
-    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) })
   }
 
   return createSocialMeta({
@@ -63,15 +64,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     ),
     publishedTime: article.publicationDate,
     author: article.authorName,
-  });
-};
+  })
+}
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { article, otherArticles } = useLoaderData<typeof loader>();
+  const { article, otherArticles } = useLoaderData<typeof loader>()
 
   return (
     <>
@@ -122,5 +123,5 @@ export default function Route() {
         </RelatedSectionList>
       </RelatedSection>
     </>
-  );
+  )
 }

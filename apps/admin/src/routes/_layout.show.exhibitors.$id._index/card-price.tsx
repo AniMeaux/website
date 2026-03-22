@@ -1,10 +1,12 @@
-import { Card } from "#i/core/layout/card";
-import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { Card } from "#i/core/layout/card"
+import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js"
+
+import type { loader } from "./loader.server"
 
 export function CardPrice() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -26,5 +28,5 @@ export function CardPrice() {
         />
       </Card.Content>
     </Card>
-  );
+  )
 }

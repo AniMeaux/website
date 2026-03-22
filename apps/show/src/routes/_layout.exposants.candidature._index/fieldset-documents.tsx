@@ -1,14 +1,16 @@
-import { FileItem } from "#i/core/data-display/file-item";
-import { FieldSwitch } from "#i/core/form-elements/field-switch";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { useLoaderData } from "@remix-run/react";
-import { FieldsetId, useFieldsets } from "./form";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { FileItem } from "#i/core/data-display/file-item"
+import { FieldSwitch } from "#i/core/form-elements/field-switch"
+import { FormLayout } from "#i/core/layout/form-layout"
+
+import { FieldsetId, useFieldsets } from "./form"
+import type { loader } from "./loader.server"
 
 export function FieldsetDocuments() {
-  const { files } = useLoaderData<typeof loader>();
-  const { fieldsets } = useFieldsets();
-  const fieldset = fieldsets.documents.getFieldset();
+  const { files } = useLoaderData<typeof loader>()
+  const { fieldsets } = useFieldsets()
+  const fieldset = fieldsets.documents.getFieldset()
 
   return (
     <FormLayout.Section id={FieldsetId.DOCUMENTS}>
@@ -48,5 +50,5 @@ export function FieldsetDocuments() {
         field={fieldset.acceptCharterAndHealthRegulation}
       />
     </FormLayout.Section>
-  );
+  )
 }

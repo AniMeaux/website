@@ -1,32 +1,34 @@
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { FormLayout } from "#i/core/layout/form-layout";
-import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
-import type { LegalStatus } from "#i/exhibitors/application/legal-status.js";
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
-import { FieldStandSize } from "#i/stand-size/field.js";
-import { ensureArray } from "@animeaux/core";
-import type { FieldMetadata } from "@conform-to/react";
-import { useLoaderData } from "@remix-run/react";
-import { FieldsetId, useFieldsets } from "./form";
-import type { loader } from "./loader.server";
+import { ensureArray } from "@animeaux/core"
+import type { FieldMetadata } from "@conform-to/react"
+import { useLoaderData } from "@remix-run/react"
+
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { FormLayout } from "#i/core/layout/form-layout"
+import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import type { LegalStatus } from "#i/exhibitors/application/legal-status.js"
+import { ExhibitorCategory } from "#i/exhibitors/category.js"
+import { FieldStandSize } from "#i/stand-size/field.js"
+
+import { FieldsetId, useFieldsets } from "./form"
+import type { loader } from "./loader.server"
 
 export function FieldsetParticipation() {
-  const { standSizes } = useLoaderData<typeof loader>();
-  const { fieldsets } = useFieldsets();
+  const { standSizes } = useLoaderData<typeof loader>()
+  const { fieldsets } = useFieldsets()
 
-  const fieldset = fieldsets.participation.getFieldset();
-  const fieldsetStructure = fieldsets.structure.getFieldset();
+  const fieldset = fieldsets.participation.getFieldset()
+  const fieldsetStructure = fieldsets.structure.getFieldset()
 
   const selectedLegalStatus = fieldsetStructure.legalStatus.value as
     | undefined
-    | LegalStatus.Enum;
+    | LegalStatus.Enum
 
   const selectedActivityFields = ensureArray(
     fieldsetStructure.activityFields.value as
       | undefined
       | ActivityField.Enum
       | ActivityField.Enum[],
-  );
+  )
 
   const category =
     selectedLegalStatus == null
@@ -34,11 +36,11 @@ export function FieldsetParticipation() {
       : ExhibitorCategory.get({
           legalStatus: selectedLegalStatus,
           activityFields: selectedActivityFields,
-        });
+        })
 
   const standSizesOptions = standSizes.filter((standSize) =>
     standSize.allowedCategories.includes(category),
-  );
+  )
 
   return (
     <FormLayout.Section id={FieldsetId.PARTICIPATION}>
@@ -63,5 +65,5 @@ export function FieldsetParticipation() {
         helper="Sous réserve de disponibilité"
       />
     </FormLayout.Section>
-  );
+  )
 }

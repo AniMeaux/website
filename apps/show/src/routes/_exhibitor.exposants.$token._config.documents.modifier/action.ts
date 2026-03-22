@@ -1,12 +1,12 @@
-import { FILE_SIZE_LIMIT_B, FILE_SIZE_LIMIT_MB } from "@animeaux/file-storage";
-import { zu } from "@animeaux/zod-utils";
+import { FILE_SIZE_LIMIT_B, FILE_SIZE_LIMIT_MB } from "@animeaux/file-storage"
+import { zu } from "@animeaux/zod-utils"
 
 const fileSchema = zu
   .instanceof(File, { message: "Veuillez choisir un fichier" })
   .refine(
     (file) => file.size <= FILE_SIZE_LIMIT_B,
     `Le fichier doit faire moins de ${FILE_SIZE_LIMIT_MB} MB`,
-  );
+  )
 
 export const ActionSchema = zu
   .object({
@@ -42,4 +42,4 @@ export const ActionSchema = zu
       message: "Veuillez choisir un fichier",
       path: ["kbisFile"],
     },
-  );
+  )

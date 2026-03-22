@@ -1,23 +1,24 @@
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
-import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
-import { ShowInstallationDay } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import invariant from "tiny-invariant";
+import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma"
+import { ShowInstallationDay } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import invariant from "tiny-invariant"
+
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js"
 
 export const DividerType = {
   none: "none",
-} as const;
+} as const
 
 export function createActionSchema({
   availableDividerTypes,
   availableStandSizes,
 }: {
   availableDividerTypes: (Pick<ShowDividerType, "id"> &
-    DividerTypeAvailability)[];
+    DividerTypeAvailability)[]
   availableStandSizes: Pick<
     ShowStandSize,
     "id" | "maxBraceletCount" | "maxDividerCount" | "maxTableCount"
-  >[];
+  >[]
 }) {
   return (
     zu
@@ -41,18 +42,18 @@ export function createActionSchema({
             .transform((value, context) => {
               const dividerType = availableDividerTypes.find(
                 (dividerType) => dividerType.id === value,
-              );
+              )
 
               if (dividerType == null) {
                 context.addIssue({
                   code: zu.ZodIssueCode.custom,
                   message: "Veuillez choisir un type de cloisons",
-                });
+                })
 
-                return zu.NEVER;
+                return zu.NEVER
               }
 
-              return dividerType;
+              return dividerType
             }),
         ]),
         hasCorner: zu
@@ -89,18 +90,18 @@ export function createActionSchema({
           .transform((value, context) => {
             const standSize = availableStandSizes.find(
               (standSize) => standSize.id === value,
-            );
+            )
 
             if (standSize == null) {
               context.addIssue({
                 code: zu.ZodIssueCode.custom,
                 message: "Veuillez choisir une taille de stand",
-              });
+              })
 
-              return zu.NEVER;
+              return zu.NEVER
             }
 
-            return standSize;
+            return standSize
           }),
         tableCount: zu.coerce
           .number({
@@ -129,7 +130,7 @@ export function createActionSchema({
           invariant(
             value.dividerType != null,
             "`dividerType` should be defined",
-          );
+          )
 
           return {
             message: `Veuillez entrer un nombre inférieur à ${Math.min(
@@ -137,7 +138,7 @@ export function createActionSchema({
               value.standSize.maxDividerCount,
             )}`,
             path: ["dividerCount"],
-          };
+          }
         },
       )
       .refine(
@@ -165,5 +166,5 @@ export function createActionSchema({
           path: ["chairCount"],
         }),
       )
-  );
+  )
 }

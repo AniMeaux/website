@@ -1,24 +1,26 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { FileItem } from "#i/core/data-display/file-item";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { StatusHelper } from "#i/show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { FileItem } from "#i/core/data-display/file-item"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
+
+import type { loader } from "./loader.server"
 
 export function CardDocuments() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const filesItems = [
     { label: "Pièce d’identité", file: exhibitor.identificationFile },
     { label: "Justificatif d’immatriculation", file: exhibitor.kbisFile },
     { label: "Assurance", file: exhibitor.insuranceFile },
-  ];
+  ]
 
   return (
     <Card>
@@ -77,11 +79,11 @@ export function CardDocuments() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function DocumentsStatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <StatusHelper.Root>
@@ -103,5 +105,5 @@ function DocumentsStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
-  );
+  )
 }

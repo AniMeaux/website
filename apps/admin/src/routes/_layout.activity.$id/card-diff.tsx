@@ -1,44 +1,46 @@
-import { Card } from "#i/core/layout/card.js";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { useLoaderData } from "@remix-run/react";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
-import type { loader } from "./loader.server";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { useLoaderData } from "@remix-run/react"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import { Card } from "#i/core/layout/card.js"
+
+import type { loader } from "./loader.server"
 
 namespace DiffSection {
   export const Root = forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section>
-  >(({ className, ...props }, ref) => {
+  >(function Root({ className, ...props }, ref) {
     return (
       <Primitive.section
         {...props}
         ref={ref}
         className={cn("grid grid-cols-1", className)}
       />
-    );
-  });
+    )
+  })
 
   export const Title = forwardRef<
     React.ComponentRef<typeof Primitive.h3>,
     React.ComponentPropsWithoutRef<typeof Primitive.h3>
-  >(({ className, ...props }, ref) => {
+  >(function Title({ className, ...props }, ref) {
     return (
       <Primitive.h3
         {...props}
         ref={ref}
         className={cn("text-gray-500 text-caption-default", className)}
       />
-    );
-  });
+    )
+  })
 
   export const Code = forwardRef<
     React.ComponentRef<"pre">,
     Except<React.ComponentPropsWithoutRef<"pre">, "children"> & {
-      code?: unknown;
+      code?: unknown
     }
-  >(({ className, code, ...props }, ref) => {
+  >(function Code({ className, code, ...props }, ref) {
     return (
       <pre
         {...props}
@@ -50,12 +52,12 @@ namespace DiffSection {
       >
         <code>{code != null ? JSON.stringify(code, null, 2) : "N/A"}</code>
       </pre>
-    );
-  });
+    )
+  })
 }
 
 export function CardDiff() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -77,5 +79,5 @@ export function CardDiff() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,10 +1,11 @@
-import type { ShowDay } from "#i/core/show-day";
-import type { PreviousEdition } from "#i/previous-editions/previous-edition";
-import type { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import type { Path } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
+import type { Path } from "@remix-run/react"
+import { createPath } from "@remix-run/react"
 
-export type To = string | Partial<Path>;
+import type { ShowDay } from "#i/core/show-day"
+import type { PreviousEdition } from "#i/previous-editions/previous-edition"
+import type { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
+
+export type To = string | Partial<Path>
 
 export const Routes = {
   access: { toString: () => "/acces" as const },
@@ -113,4 +114,4 @@ export const Routes = {
       toString: () => `/programme/${day}` as const,
     }),
   },
-};
+}

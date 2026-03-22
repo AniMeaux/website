@@ -1,11 +1,12 @@
-import { usePreviousValue } from "#i/core/hooks";
-import { createFocusTrap } from "focus-trap";
-import { useEffect, useRef } from "react";
+import { createFocusTrap } from "focus-trap"
+import { useEffect, useRef } from "react"
 
-const FOCUS_TRAP_IGNORE_ATTRIBUTE = "data-focus-trap-ignore";
+import { usePreviousValue } from "#i/core/hooks"
+
+const FOCUS_TRAP_IGNORE_ATTRIBUTE = "data-focus-trap-ignore"
 
 export function getFocusTrapIgnoreAttribute() {
-  return { [FOCUS_TRAP_IGNORE_ATTRIBUTE]: true };
+  return { [FOCUS_TRAP_IGNORE_ATTRIBUTE]: true }
 }
 
 export function useFocusTrap(
@@ -15,14 +16,14 @@ export function useFocusTrap(
     shouldFocusFirstChild = false,
   }: { disabled: boolean; shouldFocusFirstChild?: boolean },
 ) {
-  const elementToReturnFocus = useRef<HTMLElement | null>(null);
+  const elementToReturnFocus = useRef<HTMLElement | null>(null)
 
   // We can't get the active element in an effect because it can change between
   // the render and the effect.
   // So we get it during the render phase.
-  const previousDisabled = usePreviousValue(disabled) ?? false;
+  const previousDisabled = usePreviousValue(disabled) ?? false
   if (previousDisabled && !disabled) {
-    elementToReturnFocus.current = document.activeElement as HTMLElement;
+    elementToReturnFocus.current = document.activeElement as HTMLElement
   }
 
   useEffect(() => {
@@ -48,25 +49,25 @@ export function useFocusTrap(
         allowOutsideClick: (event) => {
           const ancestor = (event.target as HTMLElement).closest(
             `[${FOCUS_TRAP_IGNORE_ATTRIBUTE}]`,
-          );
+          )
           return (
             ancestor != null &&
             ancestor.getAttribute(FOCUS_TRAP_IGNORE_ATTRIBUTE) !== "false"
-          );
+          )
         },
-      });
+      })
 
-      trap.activate();
+      trap.activate()
 
       return () => {
-        trap.deactivate();
+        trap.deactivate()
 
         if (elementToReturnFocus.current != null) {
-          elementToReturnFocus.current.focus();
+          elementToReturnFocus.current.focus()
         }
-      };
+      }
     }
 
-    return undefined;
-  }, [disabled, shouldFocusFirstChild, targetRef]);
+    return undefined
+  }, [disabled, shouldFocusFirstChild, targetRef])
 }

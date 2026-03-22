@@ -1,19 +1,21 @@
-import { ActivityAction } from "#i/activity/action.js";
-import { ActivityActorType } from "#i/activity/actor-type.js";
-import { ActivityResource } from "#i/activity/resource.js";
-import { AnimalAvatar } from "#i/animals/avatar.js";
-import { getAnimalDisplayName } from "#i/animals/profile/name.js";
-import { ProseInlineAction } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import { getShortUuid } from "#i/core/id.js";
-import { Card } from "#i/core/layout/card.js";
-import { Routes } from "#i/core/navigation.js";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar.js";
-import { Icon } from "#i/generated/icon.js";
-import { UserAvatar } from "#i/users/avatar.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ActivityAction } from "#i/activity/action.js"
+import { ActivityActorType } from "#i/activity/actor-type.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import { AnimalAvatar } from "#i/animals/avatar.js"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
+import { ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { getShortUuid } from "#i/core/id.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
+import { Icon } from "#i/generated/icon.js"
+import { UserAvatar } from "#i/users/avatar.js"
+
+import type { loader } from "./loader.server"
 
 export function CardDetails() {
   return (
@@ -30,11 +32,11 @@ export function CardDetails() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemActor() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   if (activity.user != null) {
     return (
@@ -45,7 +47,7 @@ function ItemActor() {
           </BaseLink>
         </ProseInlineAction>
       </SimpleItem>
-    );
+    )
   }
 
   if (activity.actorType === ActivityActorType.Enum.USER) {
@@ -53,26 +55,26 @@ function ItemActor() {
       <SimpleItem icon={<Icon href="icon-user-solid" />}>
         Utilisateur ({getShortUuid(activity.actorId)})
       </SimpleItem>
-    );
+    )
   }
 
   return (
     <SimpleItem icon={<span>🤖</span>}>Cron ({activity.actorId})</SimpleItem>
-  );
+  )
 }
 
 function ItemAction() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem icon={<Icon href={ActivityAction.icon[activity.action]} />}>
       {ActivityAction.translations[activity.action]}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemResource() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   if (activity.animal != null) {
     return (
@@ -83,7 +85,7 @@ function ItemResource() {
           </BaseLink>
         </ProseInlineAction>
       </SimpleItem>
-    );
+    )
   }
 
   if (activity.fosterFamily != null) {
@@ -104,7 +106,7 @@ function ItemResource() {
           </BaseLink>
         </ProseInlineAction>
       </SimpleItem>
-    );
+    )
   }
 
   return (
@@ -112,5 +114,5 @@ function ItemResource() {
       {ActivityResource.translations[activity.resource]} (
       {getShortUuid(activity.resourceId)})
     </SimpleItem>
-  );
+  )
 }

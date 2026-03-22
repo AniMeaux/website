@@ -1,9 +1,10 @@
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server.js";
-import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js";
-import type { Prisma } from "@animeaux/prisma/server";
-import merge from "lodash.merge";
-import type { Simplify } from "type-fest";
+import type { Prisma } from "@animeaux/prisma/server"
+import merge from "lodash.merge"
+import type { Simplify } from "type-fest"
+
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server.js"
+import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js"
 
 export class ShowDividerTypeDbDelegate {
   async findUnique<T extends Prisma.ShowDividerTypeSelect>(
@@ -13,13 +14,13 @@ export class ShowDividerTypeDbDelegate {
     const dividerType = await prisma.showDividerType.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (dividerType == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return dividerType;
+    return dividerType
   }
 
   async findUniqueWithAvailability<T extends Prisma.ShowDividerTypeSelect>(
@@ -27,74 +28,74 @@ export class ShowDividerTypeDbDelegate {
     params: { select: T },
   ) {
     type Selected = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof params.select;
-    }>;
+      select: typeof params.select
+    }>
 
     // Ensure we only use our selected properties.
     const internalSelect = {
       maxCount: true,
       exhibitors: { select: { dividerCount: true } },
-    } satisfies Prisma.ShowDividerTypeSelect;
+    } satisfies Prisma.ShowDividerTypeSelect
 
     type Internal = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof internalSelect;
-    }>;
+      select: typeof internalSelect
+    }>
 
     const dividerType = (await this.findUnique(id, {
       select: merge({}, internalSelect, params.select),
-    })) as Internal;
+    })) as Internal
 
     const usedCount = dividerType.exhibitors.reduce(
       (usedCount, exhibitor) => usedCount + exhibitor.dividerCount,
       0,
-    );
+    )
 
     const ratio =
-      dividerType.maxCount === 0 ? 0 : usedCount / dividerType.maxCount;
+      dividerType.maxCount === 0 ? 0 : usedCount / dividerType.maxCount
 
     const dividerTypeWithAvailability: Internal & ShowDividerTypeAvailability =
       {
         ...dividerType,
         usedCount,
         ratio,
-      };
+      }
 
     return dividerTypeWithAvailability as Simplify<
       Selected & ShowDividerTypeAvailability
-    >;
+    >
   }
 
   async findMany<T extends Prisma.ShowDividerTypeSelect>(params: {
-    select: T;
+    select: T
   }) {
     const dividerTypes = await prisma.showDividerType.findMany({
       select: params.select,
       orderBy: { label: "asc" },
-    });
+    })
 
-    return dividerTypes;
+    return dividerTypes
   }
 
   async findManyWithAvailability<
     T extends Prisma.ShowDividerTypeSelect,
   >(params: { select: T }) {
     type Selected = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof params.select;
-    }>;
+      select: typeof params.select
+    }>
 
     // Ensure we only use our selected properties.
     const internalSelect = {
       maxCount: true,
       exhibitors: { select: { dividerCount: true } },
-    } satisfies Prisma.ShowDividerTypeSelect;
+    } satisfies Prisma.ShowDividerTypeSelect
 
     type Internal = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof internalSelect;
-    }>;
+      select: typeof internalSelect
+    }>
 
     const dividerTypes = (await this.findMany({
       select: merge({}, internalSelect, params.select),
-    })) as Internal[];
+    })) as Internal[]
 
     const dividerTypesWithAvailability = dividerTypes.map<
       Internal & ShowDividerTypeAvailability
@@ -102,16 +103,16 @@ export class ShowDividerTypeDbDelegate {
       const usedCount = dividerType.exhibitors.reduce(
         (usedCount, exhibitor) => usedCount + exhibitor.dividerCount,
         0,
-      );
+      )
 
       const ratio =
-        dividerType.maxCount === 0 ? 0 : usedCount / dividerType.maxCount;
+        dividerType.maxCount === 0 ? 0 : usedCount / dividerType.maxCount
 
-      return { ...dividerType, usedCount, ratio };
-    });
+      return { ...dividerType, usedCount, ratio }
+    })
 
     return dividerTypesWithAvailability as Simplify<
       Selected & ShowDividerTypeAvailability
-    >[];
+    >[]
   }
 }

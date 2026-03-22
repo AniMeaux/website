@@ -1,11 +1,13 @@
-import { FormLayout } from "#i/core/layout/form-layout.js";
-import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server.js";
-import { SectionId } from "./section-id.js";
+import { useLoaderData } from "@remix-run/react"
+
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js"
+
+import type { loader } from "./loader.server.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionPrice() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.PRICE}>
@@ -25,5 +27,5 @@ export function SectionPrice() {
         dividerCount={exhibitor.dividerCount}
       />
     </FormLayout.Section>
-  );
+  )
 }

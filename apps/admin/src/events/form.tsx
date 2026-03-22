@@ -1,29 +1,30 @@
-import { Action } from "#i/core/actions";
-import type { ImageFileOrId } from "#i/core/data-display/image";
+import { toBooleanAttribute } from "@animeaux/core"
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { Event } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useFormAction } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
+import invariant from "tiny-invariant"
+
+import { Action } from "#i/core/actions"
+import type { ImageFileOrId } from "#i/core/data-display/image"
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFile,
-} from "#i/core/data-display/image";
-import { toIsoDateValue } from "#i/core/dates";
-import { Form } from "#i/core/form-elements/form";
-import { ImageInput } from "#i/core/form-elements/image-input";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Switch } from "#i/core/form-elements/switch";
-import { Textarea } from "#i/core/form-elements/textarea";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
-import { toBooleanAttribute } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Event } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFormAction } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+} from "#i/core/data-display/image"
+import { toIsoDateValue } from "#i/core/dates"
+import { Form } from "#i/core/form-elements/form"
+import { ImageInput } from "#i/core/form-elements/image-input"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Switch } from "#i/core/form-elements/switch"
+import { Textarea } from "#i/core/form-elements/textarea"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -46,9 +47,9 @@ export const ActionFormData = FormDataDelegate.create(
       zu.string().url("Veuillez entrer une URL valide"),
     ]),
   }),
-);
+)
 
-type ImageState = "loading" | "error" | { image: undefined | ImageFileOrId };
+type ImageState = "loading" | "error" | { image: undefined | ImageFileOrId }
 
 export function EventForm({
   defaultEvent,
@@ -67,72 +68,72 @@ export function EventForm({
       | "title"
       | "url"
     >
-  >;
+  >
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const isCreate = defaultEvent == null;
-  const action = useFormAction();
+  const isCreate = defaultEvent == null
+  const action = useFormAction()
   const [imageState, setImageState] = useState<ImageState>({
     image: defaultEvent?.image,
-  });
-  const [isFullDay, setisFullDay] = useState(defaultEvent?.isFullDay ?? true);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const endDateRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLInputElement>(null);
-  const locationRef = useRef<HTMLInputElement>(null);
-  const startDateRef = useRef<HTMLInputElement>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<HTMLInputElement>(null);
+  })
+  const [isFullDay, setisFullDay] = useState(defaultEvent?.isFullDay ?? true)
+  const descriptionRef = useRef<HTMLTextAreaElement>(null)
+  const endDateRef = useRef<HTMLInputElement>(null)
+  const imageRef = useRef<HTMLInputElement>(null)
+  const locationRef = useRef<HTMLInputElement>(null)
+  const startDateRef = useRef<HTMLInputElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const urlRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.title != null) {
-        titleRef.current?.focus();
+        titleRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.location != null) {
-        locationRef.current?.focus();
+        locationRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.url != null) {
-        urlRef.current?.focus();
+        urlRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.startDate != null) {
-        startDateRef.current?.focus();
+        startDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.endDate != null) {
-        endDateRef.current?.focus();
+        endDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.description != null) {
-        descriptionRef.current?.focus();
+        descriptionRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   async function handleImageChange() {
-    invariant(imageRef.current != null, "imageRef should be defined");
+    invariant(imageRef.current != null, "imageRef should be defined")
 
-    const [firstFile] = imageRef.current.files ?? [];
+    const [firstFile] = imageRef.current.files ?? []
     if (firstFile != null) {
-      setImageState("loading");
+      setImageState("loading")
 
       try {
-        setImageState({ image: await readFile(firstFile) });
+        setImageState({ image: await readFile(firstFile) })
       } catch (error) {
-        console.error("Could not import image:", error);
-        setImageState("error");
+        console.error("Could not import image:", error)
+        setImageState("error")
       } finally {
         // Clear native input value to make sure the user can select multiple
         // times the same file.
         // https://stackoverflow.com/a/9617756
-        imageRef.current.value = "";
+        imageRef.current.value = ""
       }
     }
   }
 
-  let formErrors = fetcher.data?.errors?.formErrors ?? [];
+  let formErrors = fetcher.data?.errors?.formErrors ?? []
   if (imageState === "error") {
     formErrors = formErrors.concat([
       "Une erreur est survenue lors de l’import d’image.",
-    ]);
+    ])
   }
 
   return (
@@ -142,9 +143,9 @@ export function EventForm({
       onSubmit={(event) => {
         // Because we manually create the FormData to send, we need to manually
         // submit the form.
-        event.preventDefault();
+        event.preventDefault()
 
-        const formData = new FormData(event.currentTarget);
+        const formData = new FormData(event.currentTarget)
 
         if (
           typeof imageState === "object" &&
@@ -153,15 +154,15 @@ export function EventForm({
         ) {
           const value = isImageFile(imageState.image)
             ? imageState.image.file
-            : imageState.image;
-          formData.set(ActionFormData.keys.image, value);
+            : imageState.image
+          formData.set(ActionFormData.keys.image, value)
         }
 
         fetcher.submit(formData, {
           method: "POST",
           encType: "multipart/form-data",
           action,
-        });
+        })
       }}
     >
       <Form.Fields>
@@ -432,5 +433,5 @@ export function EventForm({
         </Action>
       </Form.Action>
     </Form>
-  );
+  )
 }

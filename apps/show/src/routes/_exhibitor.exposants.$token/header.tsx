@@ -1,12 +1,14 @@
-import { Header } from "#i/core/layout/header";
-import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { useLoaderData } from "@remix-run/react"
+
+import { Header } from "#i/core/layout/header"
+import { Routes } from "#i/core/navigation"
+
+import type { loader } from "./route"
 
 export function LayoutHeader() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const routes = Routes.exhibitors.token(exhibitor.token);
+  const routes = Routes.exhibitors.token(exhibitor.token)
 
   return (
     <Header.Root>
@@ -16,5 +18,5 @@ export function LayoutHeader() {
 
       <Header.NavItem to={routes.faq.toString()}>FAQ</Header.NavItem>
     </Header.Root>
-  );
+  )
 }

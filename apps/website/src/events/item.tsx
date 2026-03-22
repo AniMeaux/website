@@ -1,18 +1,19 @@
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { cn, formatDateRange } from "@animeaux/core";
-import type { Event } from "@animeaux/prisma";
-import type { SerializeFrom } from "@remix-run/node";
+import { cn, formatDateRange } from "@animeaux/core"
+import type { Event } from "@animeaux/prisma"
+import type { SerializeFrom } from "@remix-run/node"
+
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export function EventItem({
   isInlined = false,
   isDisabled: isDisabledProp = false,
   event,
 }: {
-  isInlined?: boolean;
-  isDisabled?: boolean;
+  isInlined?: boolean
+  isDisabled?: boolean
   event: SerializeFrom<
     Pick<
       Event,
@@ -26,9 +27,9 @@ export function EventItem({
       | "title"
       | "url"
     >
-  >;
+  >
 }) {
-  const isDisabled = isDisabledProp || event.url == null;
+  const isDisabled = isDisabledProp || event.url == null
 
   return (
     <li className="flex">
@@ -88,15 +89,15 @@ export function EventItem({
         )}
       </BaseLink>
     </li>
-  );
+  )
 }
 
 function DetailsItem({
   icon,
   children,
 }: {
-  icon: IconProps["id"];
-  children: React.ReactNode;
+  icon: IconProps["id"]
+  children: React.ReactNode
 }) {
   return (
     <li className="flex items-start gap-2 text-gray-500">
@@ -106,5 +107,5 @@ function DetailsItem({
 
       <span className="flex-1">{children}</span>
     </li>
-  );
+  )
 }

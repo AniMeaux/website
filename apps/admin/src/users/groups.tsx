@@ -1,8 +1,9 @@
-import type { IconName } from "#i/generated/icon";
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import intersection from "lodash.intersection";
-import orderBy from "lodash.orderby";
+import type { User } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import intersection from "lodash.intersection"
+import orderBy from "lodash.orderby"
+
+import type { IconName } from "#i/generated/icon"
 
 export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "Administrateur",
@@ -12,12 +13,12 @@ export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.SHOW_ORGANIZER]: "Organisateur Salon",
   [UserGroup.VETERINARIAN]: "Vétérinaire",
   [UserGroup.VOLUNTEER]: "Bénévole",
-};
+}
 
 export const SORTED_GROUPS = orderBy(
   Object.values(UserGroup),
   (group) => GROUP_TRANSLATION[group],
-);
+)
 
 export const GROUP_ICON: Record<UserGroup, IconName> = {
   [UserGroup.ADMIN]: "icon-shield-halved-solid",
@@ -27,8 +28,8 @@ export const GROUP_ICON: Record<UserGroup, IconName> = {
   [UserGroup.SHOW_ORGANIZER]: "icon-show-solid",
   [UserGroup.VETERINARIAN]: "icon-stethoscope-solid",
   [UserGroup.VOLUNTEER]: "icon-people-group-solid",
-};
+}
 
 export function hasGroups(user: Pick<User, "groups">, groups: UserGroup[]) {
-  return intersection(user.groups, groups).length > 0;
+  return intersection(user.groups, groups).length > 0
 }

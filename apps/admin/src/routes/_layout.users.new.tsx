@@ -1,54 +1,55 @@
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { EmailAlreadyUsedError } from "#i/core/errors.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { MissingPasswordError } from "#i/users/db.server";
-import { ActionFormData, UserForm } from "#i/users/form";
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@animeaux/prisma"
+import type { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { EmailAlreadyUsedError } from "#i/core/errors.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { MissingPasswordError } from "#i/users/db.server"
+import { ActionFormData, UserForm } from "#i/users/form"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  return new Response("Ok");
+  return new Response("Ok")
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Nouvel utilisateur") }];
-};
+  return [{ title: getPageTitle("Nouvel utilisateur") }]
+}
 
 type ActionData = {
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
@@ -57,9 +58,9 @@ export async function action({ request }: ActionFunctionArgs) {
       email: formData.data.email,
       groups: formData.data.groups,
       temporaryPassword: formData.data.temporaryPassword,
-    });
+    })
 
-    throw redirect(Routes.users.id(userId).toString());
+    throw redirect(Routes.users.id(userId).toString())
   } catch (error) {
     if (error instanceof MissingPasswordError) {
       return json<ActionData>(
@@ -72,7 +73,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof EmailAlreadyUsedError) {
@@ -84,19 +85,19 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const fetcher = useFetcher<typeof action>();
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <PageLayout.Root>
@@ -112,5 +113,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

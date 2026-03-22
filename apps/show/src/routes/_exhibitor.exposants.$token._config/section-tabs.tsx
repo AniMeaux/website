@@ -1,13 +1,15 @@
-import { Tab, Tabs } from "#i/core/controllers/tabs";
-import { Routes } from "#i/core/navigation";
-import { cn } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { cn } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
+
+import { Tab, Tabs } from "#i/core/controllers/tabs"
+import { Routes } from "#i/core/navigation"
+
+import type { loader } from "./route"
 
 export function SectionTabs() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const routes = Routes.exhibitors.token(exhibitor.token);
+  const routes = Routes.exhibitors.token(exhibitor.token)
 
   return (
     <section
@@ -36,5 +38,5 @@ export function SectionTabs() {
         </div>
       </Tabs>
     </section>
-  );
+  )
 }

@@ -1,13 +1,13 @@
-import { DateTime } from "luxon";
+import { DateTime } from "luxon"
 
 export function formatDateRange(
   startDate: string,
   endDate: string,
   { showTime = false }: { showTime?: boolean } = {},
 ) {
-  const start = DateTime.fromISO(startDate);
-  const end = DateTime.fromISO(endDate);
-  const now = DateTime.now();
+  const start = DateTime.fromISO(startDate)
+  const end = DateTime.fromISO(endDate)
+  const now = DateTime.now()
 
   if (showTime) {
     // 2 avril, 09:00 - 19:00
@@ -29,7 +29,7 @@ export function formatDateRange(
           { hour: "numeric", minute: "numeric" },
           { locale: "fr" },
         ),
-      ].join(" ");
+      ].join(" ")
     }
 
     // 2 mars, 09:00 - 3 mars, 10:00
@@ -61,7 +61,7 @@ export function formatDateRange(
         },
         { locale: "fr" },
       ),
-    ].join(" ");
+    ].join(" ")
   }
 
   // if (!showTime)
@@ -75,7 +75,7 @@ export function formatDateRange(
         year: start.hasSame(now, "year") ? undefined : "numeric",
       },
       { locale: "fr" },
-    );
+    )
   }
 
   // 2 - 3 avril
@@ -92,7 +92,7 @@ export function formatDateRange(
         },
         { locale: "fr" },
       ),
-    ].join(" ");
+    ].join(" ")
   }
 
   // 2 mars - 3 avril
@@ -109,7 +109,7 @@ export function formatDateRange(
         },
         { locale: "fr" },
       ),
-    ].join(" ");
+    ].join(" ")
   }
 
   // 2 mars 2021 - 3 avril 2022
@@ -123,5 +123,5 @@ export function formatDateRange(
       { day: "numeric", month: "long", year: "numeric" },
       { locale: "fr" },
     ),
-  ].join(" ");
+  ].join(" ")
 }

@@ -1,13 +1,19 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SearchForm } from "#i/core/controllers/searchForm";
-import type { StaticImageProps } from "#i/core/data-display/image";
-import { StaticImage } from "#i/core/data-display/image";
-import { prisma } from "#i/core/db.server";
+import { cn } from "@animeaux/core"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { promiseHash } from "remix-utils/promise"
+
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SearchForm } from "#i/core/controllers/searchForm"
+import type { StaticImageProps } from "#i/core/data-display/image"
+import { StaticImage } from "#i/core/data-display/image"
+import { prisma } from "#i/core/db.server"
 import {
-  BubbleShape,
   bubbleSectionClassNames,
-} from "#i/core/layout/bubble-section";
+  BubbleShape,
+} from "#i/core/layout/bubble-section"
 import {
   HeroSection,
   HeroSectionAction,
@@ -15,22 +21,17 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { DonationSection } from "#i/donation/section";
-import { EventItem } from "#i/events/item";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { adoptionImages } from "#i/images/adoption";
-import { fosterFamilyLargeImages } from "#i/images/foster-family-large";
-import { fosterFamilySmallImages } from "#i/images/foster-family-small";
-import { heroImages } from "#i/images/hero";
-import { pickUpImages } from "#i/images/pick-up";
-import { volunteerImages } from "#i/images/volunteer";
-import { cn } from "@animeaux/core";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
+} from "#i/core/layout/hero-section"
+import { DonationSection } from "#i/donation/section"
+import { EventItem } from "#i/events/item"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { adoptionImages } from "#i/images/adoption"
+import { fosterFamilyLargeImages } from "#i/images/foster-family-large"
+import { fosterFamilySmallImages } from "#i/images/foster-family-small"
+import { heroImages } from "#i/images/hero"
+import { pickUpImages } from "#i/images/pick-up"
+import { volunteerImages } from "#i/images/volunteer"
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({
@@ -55,13 +56,13 @@ export async function loader() {
         location: true,
       },
     }),
-  });
+  })
 
   return json({
     // Round to nearest lower 50 multiple.
     pickUpCount: Math.floor(pickUpCount / 50) * 50,
     upcomingEvents,
-  });
+  })
 }
 
 export default function Route() {
@@ -142,7 +143,7 @@ export default function Route() {
         </HeroSectionAside>
       </HeroSection>
     </main>
-  );
+  )
 }
 
 function WhoWeAreSection() {
@@ -184,15 +185,15 @@ function WhoWeAreSection() {
         />
       </ul>
     </section>
-  );
+  )
 }
 
 function WhoWeAreItem({
   text,
   image,
 }: {
-  text: string;
-  image: StaticImageProps["image"];
+  text: string
+  image: StaticImageProps["image"]
 }) {
   return (
     <li className="flex w-[200px] flex-col gap-6 text-center">
@@ -204,15 +205,15 @@ function WhoWeAreItem({
 
       <p>{text}</p>
     </li>
-  );
+  )
 }
 
 function NumbersSection() {
-  const { pickUpCount } = useLoaderData<typeof loader>();
+  const { pickUpCount } = useLoaderData<typeof loader>()
 
   const years = DateTime.now()
     .diff(DateTime.fromISO("2018-04-10"), "years")
-    .toHuman({ maximumFractionDigits: 0 });
+    .toHuman({ maximumFractionDigits: 0 })
 
   return (
     <section className={bubbleSectionClassNames.root()}>
@@ -247,7 +248,7 @@ function NumbersSection() {
         />
       </ul>
     </section>
-  );
+  )
 }
 
 function NumberItem({
@@ -256,10 +257,10 @@ function NumberItem({
   label,
   color,
 }: {
-  icon: IconProps["id"];
-  value: React.ReactNode;
-  label: React.ReactNode;
-  color: "green" | "yellow" | "red";
+  icon: IconProps["id"]
+  value: React.ReactNode
+  label: React.ReactNode
+  color: "green" | "yellow" | "red"
 }) {
   return (
     <li className="flex flex-col items-center gap-4 text-center">
@@ -279,13 +280,13 @@ function NumberItem({
         <p>{label}</p>
       </div>
     </li>
-  );
+  )
 }
 
 function UpcomingEventsSection() {
-  const { upcomingEvents } = useLoaderData<typeof loader>();
+  const { upcomingEvents } = useLoaderData<typeof loader>()
   if (upcomingEvents.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -316,5 +317,5 @@ function UpcomingEventsSection() {
         Voir plus
       </BaseLink>
     </section>
-  );
+  )
 }

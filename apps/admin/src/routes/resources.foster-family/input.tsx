@@ -1,32 +1,33 @@
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Input } from "#i/core/form-elements/input";
+import { toBooleanAttribute } from "@animeaux/core"
+import type { FosterFamily } from "@animeaux/prisma"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import type { SerializeFrom } from "@remix-run/node"
+import { useFetcher, useLocation } from "@remix-run/react"
+import { useCombobox } from "downshift"
+import { createPath } from "history"
+import { forwardRef, useEffect, useState } from "react"
+
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Input } from "#i/core/form-elements/input"
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input";
-import { Routes, useNavigate } from "#i/core/navigation";
-import { NextSearchParams } from "#i/core/search-params";
-import { FosterFamilySuggestionItem } from "#i/foster-families/item";
-import { FosterFamilySearchParams } from "#i/foster-families/search-params";
-import { Icon } from "#i/generated/icon";
-import type { loader } from "#i/routes/resources.foster-family/route";
-import { toBooleanAttribute } from "@animeaux/core";
-import type { FosterFamily } from "@animeaux/prisma";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLocation } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
+} from "#i/core/form-elements/resource-input"
+import { Routes, useNavigate } from "#i/core/navigation"
+import { NextSearchParams } from "#i/core/search-params"
+import { FosterFamilySuggestionItem } from "#i/foster-families/item"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params"
+import { Icon } from "#i/generated/icon"
+import type { loader } from "#i/routes/resources.foster-family/route"
 
 type FosterFamilyInputProps = {
-  name: string;
-  defaultValue?: null | Pick<FosterFamily, "id" | "displayName">;
-  disabled?: boolean;
-  hasError?: boolean;
-};
+  name: string
+  defaultValue?: null | Pick<FosterFamily, "id" | "displayName">
+  disabled?: boolean
+  hasError?: boolean
+}
 
 export const FosterFamilyInput = forwardRef<
   React.ComponentRef<typeof InputTrigger>,
@@ -35,21 +36,21 @@ export const FosterFamilyInput = forwardRef<
   { name, defaultValue = null, disabled = false, hasError = false },
   ref,
 ) {
-  const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<loader>();
+  const [isOpened, setIsOpened] = useState(false)
+  const fetcher = useFetcher<loader>()
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is
   //   opened.
   // - Make sure we clear any search when the combobox is closed.
-  const load = fetcher.load;
+  const load = fetcher.load
   useEffect(() => {
     if (!isOpened) {
-      load(Routes.resources.fosterFamily.toString());
+      load(Routes.resources.fosterFamily.toString())
     }
-  }, [load, isOpened]);
+  }, [load, isOpened])
 
-  const [fosterFamily, setFosterFamily] = useState(defaultValue);
+  const [fosterFamily, setFosterFamily] = useState(defaultValue)
 
   return (
     <>
@@ -86,31 +87,31 @@ export const FosterFamilyInput = forwardRef<
                     displayName: value,
                   }),
                 }),
-              );
+              )
             }}
             onSelectedItem={(fosterFamily) => {
-              setFosterFamily(fosterFamily);
-              setIsOpened(false);
+              setFosterFamily(fosterFamily)
+              setIsOpened(false)
             }}
             onClose={() => setIsOpened(false)}
           />
         }
       />
     </>
-  );
-});
+  )
+})
 
 const InputTrigger = forwardRef<
   React.ComponentRef<"button">,
   {
-    disabled: boolean;
-    fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
+    disabled: boolean
+    fosterFamily: null | Pick<FosterFamily, "id" | "displayName">
     setFosterFamily: React.Dispatch<null | Pick<
       FosterFamily,
       "id" | "displayName"
-    >>;
-    hasError: boolean;
-    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
+    >>
+    hasError: boolean
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>
   }
 >(function InputTrigger(
   {
@@ -134,7 +135,7 @@ const InputTrigger = forwardRef<
     <BaseTextInput.Adornment key="caret">
       <Icon href="icon-caret-down-solid" />
     </BaseTextInput.Adornment>,
-  ].filter(Boolean);
+  ].filter(Boolean)
 
   return (
     <BaseTextInput.Root aria-disabled={disabled}>
@@ -168,10 +169,10 @@ const InputTrigger = forwardRef<
         adornment={rightAdornments}
       />
     </BaseTextInput.Root>
-  );
-});
+  )
+})
 
-type FosterFamilyHit = SerializeFrom<typeof loader>["fosterFamilies"][number];
+type FosterFamilyHit = SerializeFrom<typeof loader>["fosterFamilies"][number]
 
 function Combobox({
   fosterFamily: selectedFosterFamily,
@@ -180,22 +181,22 @@ function Combobox({
   onSelectedItem,
   onClose,
 }: {
-  fosterFamily: null | Pick<FosterFamily, "id" | "displayName">;
-  fosterFamilies: FosterFamilyHit[];
-  onInputValueChange: React.Dispatch<string>;
+  fosterFamily: null | Pick<FosterFamily, "id" | "displayName">
+  fosterFamilies: FosterFamilyHit[]
+  onInputValueChange: React.Dispatch<string>
   onSelectedItem: React.Dispatch<null | Pick<
     FosterFamily,
     "id" | "displayName"
-  >>;
-  onClose: () => void;
+  >>
+  onClose: () => void
 }) {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const visibleFosterFamilies: (
     | (FosterFamilyHit & { isAdditional?: undefined })
     | { isAdditional: true }
-  )[] = [...fosterFamilies, { isAdditional: true }];
+  )[] = [...fosterFamilies, { isAdditional: true }]
 
   const combobox = useCombobox({
     isOpen: true,
@@ -211,20 +212,20 @@ function Combobox({
             pathname: Routes.fosterFamilies.new.toString(),
             search: NextSearchParams.format({ next: createPath(location) }),
           }),
-        );
+        )
       } else {
-        onSelectedItem(selectedItem);
+        onSelectedItem(selectedItem)
       }
     },
     onInputValueChange: ({ inputValue = "" }) => {
-      onInputValueChange(inputValue);
+      onInputValueChange(inputValue)
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
-        onClose();
+        onClose()
       }
     },
-  });
+  })
 
   return (
     <ResourceComboboxLayout
@@ -262,7 +263,7 @@ function Combobox({
                   isAdditional
                   label={`Créer une **famille d’accueil**`}
                 />
-              );
+              )
             }
 
             return (
@@ -280,10 +281,10 @@ function Combobox({
                 isValue={selectedFosterFamily?.id === fosterFamily.id}
                 fosterFamily={fosterFamily}
               />
-            );
+            )
           })}
         </SuggestionList>
       }
     />
-  );
+  )
 }

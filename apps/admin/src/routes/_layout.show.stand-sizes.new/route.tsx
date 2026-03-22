@@ -1,33 +1,35 @@
-import { Action } from "#i/core/actions.js";
-import { ErrorPage } from "#i/core/data-display/error-page.js";
-import { PageLayout } from "#i/core/layout/page.js";
-import { getPageTitle } from "#i/core/page-title.js";
-import { FieldsetDetails } from "#i/show/stand-size/fieldset-details.js";
-import { FieldsetIdentification } from "#i/show/stand-size/fieldset-identification.js";
-import { FieldsetPrices } from "#i/show/stand-size/fieldset-prices.js";
-import { FieldsetSituation } from "#i/show/stand-size/fieldset-situation.js";
-import { getFormProps } from "@conform-to/react";
-import type { MetaFunction } from "@remix-run/react";
-import { useFormRoot } from "./form.js";
-import type { loader } from "./loader.server.js";
+import { getFormProps } from "@conform-to/react"
+import type { MetaFunction } from "@remix-run/react"
 
-export { action } from "./action.server.js";
-export { loader } from "./loader.server.js";
+import { Action } from "#i/core/actions.js"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { FieldsetDetails } from "#i/show/stand-size/fieldset-details.js"
+import { FieldsetIdentification } from "#i/show/stand-size/fieldset-identification.js"
+import { FieldsetPrices } from "#i/show/stand-size/fieldset-prices.js"
+import { FieldsetSituation } from "#i/show/stand-size/fieldset-situation.js"
+
+import { useFormRoot } from "./form.js"
+import type { loader } from "./loader.server.js"
+
+export { action } from "./action.server.js"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = () => {
-  return [{ title: getPageTitle("Nouvelle taille de stand") }];
-};
+  return [{ title: getPageTitle("Nouvelle taille de stand") }]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
-  const [form, fields, fetcher] = useFormRoot();
+  const [form, fields, fetcher] = useFormRoot()
 
   return (
     <PageLayout.Content className="grid grid-cols-1 justify-center md:grid-cols-[minmax(0,600px)]">
@@ -50,5 +52,5 @@ export default function Route() {
         </Action>
       </fetcher.Form>
     </PageLayout.Content>
-  );
+  )
 }

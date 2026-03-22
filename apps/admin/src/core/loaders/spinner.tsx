@@ -1,4 +1,4 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 export function Spinner({
   className,
@@ -25,5 +25,5 @@ export function Spinner({
         <circle strokeWidth="8" cx="33" cy="33" r="28" />
       </svg>
     </span>
-  );
+  )
 }

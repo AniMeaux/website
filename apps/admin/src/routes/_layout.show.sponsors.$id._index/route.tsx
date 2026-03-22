@@ -1,30 +1,32 @@
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
-import { CardProfile } from "./card-profile";
-import { CardSituation } from "./card-situation";
+import { UserGroup } from "@animeaux/prisma"
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
+import invariant from "tiny-invariant"
+
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+
+import { CardProfile } from "./card-profile"
+import { CardSituation } from "./card-situation"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const sponsor = await db.show.sponsor.findUnique(routeParams.id, {
     select: {
@@ -45,12 +47,12 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         },
       },
     },
-  });
+  })
 
   if (sponsor.exhibitor == null) {
-    invariant(sponsor.logoPath != null, "A logoPath should be defined");
-    invariant(sponsor.name != null, "A name should be defined");
-    invariant(sponsor.url != null, "A url should be defined");
+    invariant(sponsor.logoPath != null, "A logoPath should be defined")
+    invariant(sponsor.name != null, "A name should be defined")
+    invariant(sponsor.url != null, "A url should be defined")
 
     return json({
       sponsor: {
@@ -62,13 +64,13 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         // Add this for a better type completion.
         exhibitorId: null,
       },
-    });
+    })
   }
 
-  const exhibitorUrl = sponsor.exhibitor.links[0];
+  const exhibitorUrl = sponsor.exhibitor.links[0]
 
   if (exhibitorUrl == null) {
-    throw notFound();
+    throw notFound()
   }
 
   return json({
@@ -79,23 +81,23 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       name: sponsor.exhibitor.name,
       url: exhibitorUrl,
     },
-  });
+  })
 }
 
 const RouteParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [{ title: getPageTitle(data?.sponsor.name ?? getErrorTitle(404)) }];
-};
+  return [{ title: getPageTitle(data?.sponsor.name ?? getErrorTitle(404)) }]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
@@ -111,15 +113,15 @@ export default function Route() {
         <CardProfile />
       </PageLayout.Content>
     </>
-  );
+  )
 }
 
 export function Header() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root>
       <PageLayout.Header.Title>{sponsor.name}</PageLayout.Header.Title>
     </PageLayout.Header.Root>
-  );
+  )
 }

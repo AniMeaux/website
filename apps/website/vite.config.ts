@@ -1,10 +1,10 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { vitePlugin as remix } from "@remix-run/dev"
+import { installGlobals } from "@remix-run/node"
+import { defineConfig } from "vite"
+import tsconfigPaths from "vite-tsconfig-paths"
 
 // Install the web fetch globals for Node.
-installGlobals();
+installGlobals()
 
 export default defineConfig({
   cacheDir: "./node_modules/.cache/vite",
@@ -29,4 +29,4 @@ export default defineConfig({
     // Leverages the `paths` option in tsconfig.json.
     tsconfigPaths(),
   ],
-});
+})

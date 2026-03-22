@@ -1,12 +1,14 @@
-import { HelperCard } from "#i/core/layout/helper-card";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { HelperCard } from "#i/core/layout/helper-card"
+
+import type { loader } from "./loader.server"
 
 export function SectionStandNumber() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.standNumber == null) {
-    return null;
+    return null
   }
 
   return (
@@ -19,5 +21,5 @@ export function SectionStandNumber() {
         néanmoins possibles en fonction des aléas d’organisation.
       </p>
     </HelperCard.Root>
-  );
+  )
 }

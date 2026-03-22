@@ -1,21 +1,22 @@
-import { PrismaErrorCodes } from "#i/core/errors.server";
-import { fileStorage } from "#i/core/file-storage.server";
-import { notifyShowApp } from "#i/core/notification.server";
-import { orderByRank } from "#i/core/order-by-rank.js";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { ShowExhibitorApplicationDbDelegate } from "#i/show/exhibitors/applications/db.server";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
-import { Visibility } from "#i/show/visibility";
-import { catchError } from "@animeaux/core";
-import { Prisma } from "@animeaux/prisma/server";
-import { promiseHash } from "remix-utils/promise";
+import { catchError } from "@animeaux/core"
+import { Prisma } from "@animeaux/prisma/server"
+import { promiseHash } from "remix-utils/promise"
+
+import { PrismaErrorCodes } from "#i/core/errors.server"
+import { fileStorage } from "#i/core/file-storage.server"
+import { notifyShowApp } from "#i/core/notification.server"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { ShowExhibitorApplicationDbDelegate } from "#i/show/exhibitors/applications/db.server"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category"
+import { Visibility } from "#i/show/visibility"
 
 export class ShowExhibitorDbDelegate {
-  readonly application = new ShowExhibitorApplicationDbDelegate();
+  readonly application = new ShowExhibitorApplicationDbDelegate()
 
   async findUnique<T extends Prisma.ShowExhibitorSelect>(
     id: string,
@@ -24,22 +25,22 @@ export class ShowExhibitorDbDelegate {
     const exhibitor = await prisma.showExhibitor.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor;
+    return exhibitor
   }
 
   async findMany<T extends Prisma.ShowExhibitorSelect>(params: {
-    searchParams: ExhibitorSearchParams;
-    pagination?: { page: number; countPerPage: number };
-    select: T;
+    searchParams: ExhibitorSearchParams
+    pagination?: { page: number; countPerPage: number }
+    select: T
   }) {
-    const where: Prisma.ShowExhibitorWhereInput[] = [];
-    const statusesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+    const where: Prisma.ShowExhibitorWhereInput[] = []
+    const statusesWhere: Prisma.ShowExhibitorWhereInput[] = []
 
     if (
       params.searchParams.animations.has(
@@ -49,7 +50,7 @@ export class ShowExhibitorDbDelegate {
       where.push({
         animations: { none: {} },
         onStandAnimations: null,
-      });
+      })
     }
 
     if (
@@ -57,7 +58,7 @@ export class ShowExhibitorDbDelegate {
         ExhibitorSearchParams.Animation.Enum.ON_STAGE,
       )
     ) {
-      where.push({ animations: { some: {} } });
+      where.push({ animations: { some: {} } })
     }
 
     if (
@@ -65,7 +66,7 @@ export class ShowExhibitorDbDelegate {
         ExhibitorSearchParams.Animation.Enum.ON_STAND,
       )
     ) {
-      where.push({ onStandAnimations: { not: null } });
+      where.push({ onStandAnimations: { not: null } })
     }
 
     if (params.searchParams.applicationStatuses.size > 0) {
@@ -73,7 +74,7 @@ export class ShowExhibitorDbDelegate {
         application: {
           status: { in: Array.from(params.searchParams.applicationStatuses) },
         },
-      });
+      })
     }
 
     if (params.searchParams.descriptionStatuses.size > 0) {
@@ -81,7 +82,7 @@ export class ShowExhibitorDbDelegate {
         descriptionStatus: {
           in: Array.from(params.searchParams.descriptionStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.dividerTypesId.size > 0) {
@@ -89,7 +90,7 @@ export class ShowExhibitorDbDelegate {
         dividerType: {
           id: { in: Array.from(params.searchParams.dividerTypesId) },
         },
-      });
+      })
     }
 
     if (params.searchParams.documentsStatuses.size > 0) {
@@ -97,7 +98,7 @@ export class ShowExhibitorDbDelegate {
         documentStatus: {
           in: Array.from(params.searchParams.documentsStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.dogsConfigurationStatuses.size > 0) {
@@ -105,7 +106,7 @@ export class ShowExhibitorDbDelegate {
         dogsConfigurationStatus: {
           in: Array.from(params.searchParams.dogsConfigurationStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.fields.size > 0) {
@@ -113,11 +114,11 @@ export class ShowExhibitorDbDelegate {
         activityFields: {
           hasSome: Array.from(params.searchParams.fields),
         },
-      });
+      })
     }
 
     if (params.searchParams.invoiceStatuses.size > 0) {
-      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = [];
+      const invoicesWhere: Prisma.ShowExhibitorWhereInput[] = []
 
       if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.PAID)) {
         invoicesWhere.push({
@@ -126,27 +127,27 @@ export class ShowExhibitorDbDelegate {
             // Ensure at least 1 invoice exist.
             some: {},
           },
-        });
+        })
       }
 
       if (params.searchParams.invoiceStatuses.has(InvoiceStatus.Enum.TO_PAY)) {
         invoicesWhere.push({
           invoices: { some: { status: InvoiceStatus.Enum.TO_PAY } },
-        });
+        })
       }
 
-      where.push({ OR: invoicesWhere });
+      where.push({ OR: invoicesWhere })
     }
 
     if (params.searchParams.laureats.size > 0) {
-      const laureatWhere: Prisma.ShowExhibitorWhereInput[] = [];
+      const laureatWhere: Prisma.ShowExhibitorWhereInput[] = []
 
       if (
         params.searchParams.laureats.has(
           ExhibitorSearchParams.Laureat.Enum.ORGANIZERS_FAVORITE,
         )
       ) {
-        laureatWhere.push({ isOrganizersFavorite: true });
+        laureatWhere.push({ isOrganizersFavorite: true })
       }
 
       if (
@@ -154,7 +155,7 @@ export class ShowExhibitorDbDelegate {
           ExhibitorSearchParams.Laureat.Enum.RISING_STAR,
         )
       ) {
-        laureatWhere.push({ isRisingStar: true });
+        laureatWhere.push({ isRisingStar: true })
       }
 
       if (
@@ -165,16 +166,16 @@ export class ShowExhibitorDbDelegate {
         laureatWhere.push({
           isOrganizersFavorite: false,
           isRisingStar: false,
-        });
+        })
       }
 
-      where.push({ OR: laureatWhere });
+      where.push({ OR: laureatWhere })
     }
 
     if (params.searchParams.name != null) {
-      const hits = await this.#getHits(params.searchParams.name);
+      const hits = await this.#getHits(params.searchParams.name)
 
-      where.push({ id: { in: hits.map((hit) => hit.id) } });
+      where.push({ id: { in: hits.map((hit) => hit.id) } })
     }
 
     if (params.searchParams.onStandAnimationsStatuses.size > 0) {
@@ -182,7 +183,7 @@ export class ShowExhibitorDbDelegate {
         onStandAnimationsStatus: {
           in: Array.from(params.searchParams.onStandAnimationsStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.publicProfileStatuses.size > 0) {
@@ -190,33 +191,33 @@ export class ShowExhibitorDbDelegate {
         publicProfileStatus: {
           in: Array.from(params.searchParams.publicProfileStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.sponsorshipCategories.size > 0) {
-      const sponsorshipCategoryWhere: Prisma.ShowExhibitorWhereInput[] = [];
+      const sponsorshipCategoryWhere: Prisma.ShowExhibitorWhereInput[] = []
 
       if (
         params.searchParams.sponsorshipCategories.has(
           SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP,
         )
       ) {
-        sponsorshipCategoryWhere.push({ sponsorship: null });
+        sponsorshipCategoryWhere.push({ sponsorship: null })
       }
 
       const sponsorshipCategories = Array.from(
         params.searchParams.sponsorshipCategories,
       )
         .map(SponsorshipOptionalCategory.toDb)
-        .filter(Boolean);
+        .filter(Boolean)
 
       if (sponsorshipCategories.length > 0) {
         sponsorshipCategoryWhere.push({
           sponsorship: { category: { in: sponsorshipCategories } },
-        });
+        })
       }
 
-      where.push({ OR: sponsorshipCategoryWhere });
+      where.push({ OR: sponsorshipCategoryWhere })
     }
 
     if (params.searchParams.standConfigurationStatuses.size > 0) {
@@ -224,13 +225,13 @@ export class ShowExhibitorDbDelegate {
         standConfigurationStatus: {
           in: Array.from(params.searchParams.standConfigurationStatuses),
         },
-      });
+      })
     }
 
     if (params.searchParams.standSizesId.size > 0) {
       where.push({
         size: { id: { in: Array.from(params.searchParams.standSizesId) } },
-      });
+      })
     }
 
     if (params.searchParams.targets.size > 0) {
@@ -238,7 +239,7 @@ export class ShowExhibitorDbDelegate {
         activityTargets: {
           hasSome: Array.from(params.searchParams.targets),
         },
-      });
+      })
     }
 
     if (params.searchParams.visibility.size > 0) {
@@ -246,11 +247,11 @@ export class ShowExhibitorDbDelegate {
         OR: Array.from(params.searchParams.visibility).map((visibility) => ({
           isVisible: Visibility.toBoolean(visibility),
         })),
-      });
+      })
     }
 
     if (statusesWhere.length > 0) {
-      where.push({ OR: statusesWhere });
+      where.push({ OR: statusesWhere })
     }
 
     const { exhibitors, totalCount } = await promiseHash({
@@ -270,9 +271,9 @@ export class ShowExhibitorDbDelegate {
             }
           : null),
       }),
-    });
+    })
 
-    return { exhibitors, totalCount };
+    return { exhibitors, totalCount }
   }
 
   async fuzzySearch<T extends Prisma.ShowExhibitorSelect>(
@@ -282,13 +283,13 @@ export class ShowExhibitorDbDelegate {
       where,
       take,
     }: {
-      select: T;
-      where?: Prisma.ShowExhibitorWhereInput;
-      take?: number;
+      select: T
+      where?: Prisma.ShowExhibitorWhereInput
+      take?: number
     },
   ) {
     // Ensure we only use our selected properties.
-    const internalSelect = { id: true } satisfies Prisma.ShowExhibitorSelect;
+    const internalSelect = { id: true } satisfies Prisma.ShowExhibitorSelect
 
     // When there are no text search, return hits ordered by name.
     if (name == null) {
@@ -297,21 +298,21 @@ export class ShowExhibitorDbDelegate {
         select: { ...select, ...internalSelect },
         orderBy: { name: "asc" },
         take,
-      });
+      })
     }
 
-    const hits = await this.#getHits(name);
+    const hits = await this.#getHits(name)
 
     const exhibitors = (await prisma.showExhibitor.findMany({
       where: { ...where, id: { in: hits.map((hit) => hit.id) } },
       select: { ...select, ...internalSelect },
-    })) as Prisma.ShowExhibitorGetPayload<{ select: typeof internalSelect }>[];
+    })) as Prisma.ShowExhibitorGetPayload<{ select: typeof internalSelect }>[]
 
     return orderByRank(exhibitors, hits, {
       take,
     }) as Prisma.ShowExhibitorGetPayload<{
-      select: typeof select & typeof internalSelect;
-    }>[];
+      select: typeof select & typeof internalSelect
+    }>[]
   }
 
   async #getHits(name: string): Promise<{ id: string; matchRank: number }[]> {
@@ -332,7 +333,7 @@ export class ShowExhibitorDbDelegate {
         "matchRank" < 6.7
       ORDER BY
         "matchRank" ASC
-    `;
+    `
   }
 
   async update(exhibitorId: string, data: ShowExhibitorData) {
@@ -341,37 +342,37 @@ export class ShowExhibitorDbDelegate {
         const previousExhibitor = await prisma.showExhibitor.findUnique({
           where: { id: exhibitorId },
           select: { isVisible: true },
-        });
+        })
 
         if (previousExhibitor == null) {
-          throw notFound();
+          throw notFound()
         }
 
         const exhibitor = await prisma.showExhibitor.update({
           where: { id: exhibitorId },
           data,
           select: { isVisible: true },
-        });
+        })
 
-        return exhibitor.isVisible && !previousExhibitor.isVisible;
+        return exhibitor.isVisible && !previousExhibitor.isVisible
       }),
-    );
+    )
 
     if (error != null) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     if (becameVisible) {
       await notifyShowApp({
         type: "exhibitor-visible",
         exhibitorId,
-      });
+      })
     }
   }
 
@@ -383,138 +384,138 @@ export class ShowExhibitorDbDelegate {
         insuranceFileId: true,
         kbisFileId: true,
       },
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
     return await promiseHash({
       identificationFile: this.#getFileMaybe(exhibitor.identificationFileId),
       insuranceFile: this.#getFileMaybe(exhibitor.insuranceFileId),
       kbisFile: this.#getFileMaybe(exhibitor.kbisFileId),
-    });
+    })
   }
 
   async #getFileMaybe(fileId: null | string) {
     if (fileId == null) {
-      return null;
+      return null
     }
 
-    return fileStorage.getFile(fileId);
+    return fileStorage.getFile(fileId)
   }
 
   async updateDocuments(id: string, data: ShowExhibitorDocumentsData) {
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "documents-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   async updateDogs(id: string, data: ShowExhibitorDogsConfigurationData) {
-    this.#normalizeDogs(data);
+    this.#normalizeDogs(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "dogs-configuration-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizeDogs(data: ShowExhibitorDogsConfigurationData) {
     if (data.dogsConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.dogsConfigurationStatusMessage = null;
+      data.dogsConfigurationStatusMessage = null
     }
   }
 
   async updatePublicProfile(id: string, data: ShowExhibitorPublicProfileData) {
-    this.#normalizePublicProfile(data);
+    this.#normalizePublicProfile(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "public-profile-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizePublicProfile(data: ShowExhibitorPublicProfileData) {
     if (data.publicProfileStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.publicProfileStatusMessage = null;
+      data.publicProfileStatusMessage = null
     }
   }
 
   async updateDescription(id: string, data: ShowExhibitorDescriptionData) {
-    this.#normalizeDescription(data);
+    this.#normalizeDescription(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "description-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizeDescription(data: ShowExhibitorDescriptionData) {
     if (data.descriptionStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.descriptionStatusMessage = null;
+      data.descriptionStatusMessage = null
     }
   }
 
   async updateName(id: string, data: ShowExhibitorNameData) {
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
@@ -522,105 +523,105 @@ export class ShowExhibitorDbDelegate {
     id: string,
     data: ShowExhibitorOnStandAnimationsData,
   ) {
-    this.#normalizeOnStandAnimations(data);
+    this.#normalizeOnStandAnimations(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "on-stand-animations-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizeOnStandAnimations(data: ShowExhibitorOnStandAnimationsData) {
     if (data.onStandAnimationsStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.onStandAnimationsStatusMessage = null;
+      data.onStandAnimationsStatusMessage = null
     }
   }
 
   async updateStand(id: string, data: ShowExhibitorStandConfigurationData) {
-    this.#normalizeStand(data);
+    this.#normalizeStand(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "stand-configuration-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizeStand(data: ShowExhibitorStandConfigurationData) {
     if (data.standConfigurationStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.standConfigurationStatusMessage = null;
+      data.standConfigurationStatusMessage = null
     }
 
     if (data.dividerTypeId == null) {
-      data.dividerCount = 0;
+      data.dividerCount = 0
     }
 
     if (data.tableCount === 0) {
-      data.hasTableCloths = false;
+      data.hasTableCloths = false
     }
   }
 
   async updatePerks(id: string, data: ShowExhibitorPerksData) {
-    this.#normalizePerks(data);
+    this.#normalizePerks(data)
 
     try {
-      await prisma.showExhibitor.update({ where: { id }, data });
+      await prisma.showExhibitor.update({ where: { id }, data })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
 
     await notifyShowApp({
       type: "perks-treated",
       exhibitorId: id,
-    });
+    })
   }
 
   #normalizePerks(data: ShowExhibitorPerksData) {
     if (data.perksStatus !== ExhibitorStatus.Enum.TO_MODIFY) {
-      data.perksStatusMessage = null;
+      data.perksStatusMessage = null
     }
   }
 
   async delete(id: string) {
     try {
-      await prisma.showExhibitor.delete({ where: { id } });
+      await prisma.showExhibitor.delete({ where: { id } })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw notFound();
+          throw notFound()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 }
@@ -635,7 +636,7 @@ const FIND_ORDER_BY_SORT: Record<
   ],
   [ExhibitorSearchParams.Sort.Enum.NAME]: { name: "asc" },
   [ExhibitorSearchParams.Sort.Enum.UPDATED_AT]: { updatedAt: "desc" },
-};
+}
 
 type ShowExhibitorData = Pick<
   Prisma.ShowExhibitorUpdateInput,
@@ -645,17 +646,17 @@ type ShowExhibitorData = Pick<
   | "isVisible"
   | "locationNumber"
   | "standNumber"
->;
+>
 
 type ShowExhibitorDocumentsData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "documentStatus" | "documentStatusMessage"
->;
+>
 
 type ShowExhibitorDogsConfigurationData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "dogsConfigurationStatus" | "dogsConfigurationStatusMessage"
->;
+>
 
 type ShowExhibitorPublicProfileData = Pick<
   Prisma.ShowExhibitorUpdateInput,
@@ -665,21 +666,21 @@ type ShowExhibitorPublicProfileData = Pick<
   | "links"
   | "publicProfileStatus"
   | "publicProfileStatusMessage"
->;
+>
 
 type ShowExhibitorDescriptionData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "description" | "descriptionStatus" | "descriptionStatusMessage"
->;
+>
 
-type ShowExhibitorNameData = Pick<Prisma.ShowExhibitorUpdateInput, "name">;
+type ShowExhibitorNameData = Pick<Prisma.ShowExhibitorUpdateInput, "name">
 
 type ShowExhibitorOnStandAnimationsData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   | "onStandAnimations"
   | "onStandAnimationsStatus"
   | "onStandAnimationsStatusMessage"
->;
+>
 
 type ShowExhibitorPerksData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
@@ -688,7 +689,7 @@ type ShowExhibitorPerksData = Pick<
   | "breakfastPeopleCountSunday"
   | "perksStatus"
   | "perksStatusMessage"
->;
+>
 
 type ShowExhibitorStandConfigurationData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
@@ -704,4 +705,4 @@ type ShowExhibitorStandConfigurationData = Pick<
   | "standConfigurationStatus"
   | "standConfigurationStatusMessage"
   | "tableCount"
->;
+>

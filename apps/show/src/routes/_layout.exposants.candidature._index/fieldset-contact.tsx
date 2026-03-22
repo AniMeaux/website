@@ -1,12 +1,13 @@
-import { FieldEmail } from "#i/core/form-elements/field-email";
-import { FieldPhone } from "#i/core/form-elements/field-phone";
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { FieldsetId, useFieldsets } from "./form";
+import { FieldEmail } from "#i/core/form-elements/field-email"
+import { FieldPhone } from "#i/core/form-elements/field-phone"
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FormLayout } from "#i/core/layout/form-layout"
+
+import { FieldsetId, useFieldsets } from "./form"
 
 export function FieldsetContact() {
-  const { fieldsets } = useFieldsets();
-  const fieldset = fieldsets.contact.getFieldset();
+  const { fieldsets } = useFieldsets()
+  const fieldset = fieldsets.contact.getFieldset()
 
   return (
     <FormLayout.Section id={FieldsetId.CONTACT}>
@@ -20,5 +21,5 @@ export function FieldsetContact() {
       <FieldEmail label="Adresse e-mail" field={fieldset.email} />
       <FieldPhone label="Numéro de téléphone" field={fieldset.phone} />
     </FormLayout.Section>
-  );
+  )
 }

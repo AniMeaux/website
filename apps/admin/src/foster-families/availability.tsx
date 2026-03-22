@@ -1,7 +1,8 @@
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { FosterFamilyAvailability } from "@animeaux/prisma";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { FosterFamilyAvailability } from "@animeaux/prisma"
+import type { Except } from "type-fest"
+
+import { Icon } from "#i/generated/icon"
 
 export const AVAILABILITY_TRANSLATION: Record<
   FosterFamilyAvailability,
@@ -10,20 +11,20 @@ export const AVAILABILITY_TRANSLATION: Record<
   [FosterFamilyAvailability.AVAILABLE]: "Disponible",
   [FosterFamilyAvailability.UNAVAILABLE]: "Indisponible",
   [FosterFamilyAvailability.UNKNOWN]: "Inconnue",
-};
+}
 
 export const SORTED_AVAILABILITIES = [
   FosterFamilyAvailability.UNKNOWN,
   FosterFamilyAvailability.AVAILABLE,
   FosterFamilyAvailability.UNAVAILABLE,
-];
+]
 
 export function AvailabilityIcon({
   availability,
   className,
   ...props
 }: Except<React.ComponentPropsWithoutRef<typeof Icon>, "href"> & {
-  availability: FosterFamilyAvailability;
+  availability: FosterFamilyAvailability
 }) {
   return (
     <Icon
@@ -31,7 +32,7 @@ export function AvailabilityIcon({
       href="icon-status-solid"
       className={cn(ICON_CLASS_NAMES_BY_AVAILABILITY[availability], className)}
     />
-  );
+  )
 }
 
 const ICON_CLASS_NAMES_BY_AVAILABILITY: Record<
@@ -41,4 +42,4 @@ const ICON_CLASS_NAMES_BY_AVAILABILITY: Record<
   [FosterFamilyAvailability.AVAILABLE]: cn("text-green-600"),
   [FosterFamilyAvailability.UNAVAILABLE]: cn("text-red-500"),
   [FosterFamilyAvailability.UNKNOWN]: cn("text-gray-800"),
-};
+}

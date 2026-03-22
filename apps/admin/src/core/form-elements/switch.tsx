@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
 export const Switch = forwardRef<
   React.ComponentRef<"input">,
@@ -19,5 +19,5 @@ export const Switch = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})

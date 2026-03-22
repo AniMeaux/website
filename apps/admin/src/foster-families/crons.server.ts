@@ -1,11 +1,12 @@
-import { ActivityAction } from "#i/activity/action.js";
-import { Activity } from "#i/activity/db.server.js";
-import { ActivityResource } from "#i/activity/resource.js";
-import type { CronDefinition } from "#i/core/crons/shared.server";
-import { prisma } from "#i/core/prisma.server";
-import type { Prisma, PrismaClient } from "@animeaux/prisma/server";
-import { FosterFamilyAvailability } from "@animeaux/prisma/server";
-import { DateTime } from "luxon";
+import type { Prisma, PrismaClient } from "@animeaux/prisma/server"
+import { FosterFamilyAvailability } from "@animeaux/prisma/server"
+import { DateTime } from "luxon"
+
+import { ActivityAction } from "#i/activity/action.js"
+import { Activity } from "#i/activity/db.server.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import type { CronDefinition } from "#i/core/crons/shared.server"
+import { prisma } from "#i/core/prisma.server"
 
 export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
   name: "Expire foster family availability",
@@ -13,7 +14,7 @@ export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
   pattern: "@daily",
 
   async fn() {
-    const today = DateTime.now().startOf("day").toJSDate();
+    const today = DateTime.now().startOf("day").toJSDate()
 
     const count = await prisma.$transaction(async (prisma) => {
       const fosterFamilies = await prisma.fosterFamily.findMany({
@@ -27,32 +28,32 @@ export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
           availabilityExpirationDate: { lt: today },
         },
         select: fosterFamilySelect,
-      });
+      })
 
       await Promise.allSettled(
         fosterFamilies.map((fosterFamily) =>
           toggleAvailability(prisma, fosterFamily),
         ),
-      );
+      )
 
-      return fosterFamilies.length;
-    });
+      return fosterFamilies.length
+    })
 
-    console.log("Updated availability of", count, "foster families");
+    console.log("Updated availability of", count, "foster families")
   },
-};
+}
 
 const fosterFamilySelect = {
   id: true,
   updatedAt: true,
   availability: true,
   availabilityExpirationDate: true,
-} satisfies Prisma.FosterFamilySelect;
+} satisfies Prisma.FosterFamilySelect
 
 async function toggleAvailability(
   prisma: Pick<PrismaClient, "fosterFamily">,
   currentFosterFamily: Prisma.FosterFamilyGetPayload<{
-    select: typeof fosterFamilySelect;
+    select: typeof fosterFamilySelect
   }>,
 ) {
   const newFosterFamily = await prisma.fosterFamily.update({
@@ -66,7 +67,7 @@ async function toggleAvailability(
       availabilityExpirationDate: null,
     },
     select: fosterFamilySelect,
-  });
+  })
 
   await Activity.create({
     cronId: "foster-family-availability",
@@ -75,5 +76,5 @@ async function toggleAvailability(
     resourceId: currentFosterFamily.id,
     before: currentFosterFamily,
     after: newFosterFamily,
-  });
+  })
 }

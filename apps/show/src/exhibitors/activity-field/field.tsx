@@ -1,16 +1,17 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
-import { Icon } from "#i/generated/icon";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { Icon } from "#i/generated/icon"
 
 export function FieldActivityField({
   field,
   label,
 }: {
-  field: FieldMetadata<ActivityField.Enum[]>;
-  label: React.ReactNode;
+  field: FieldMetadata<ActivityField.Enum[]>
+  label: React.ReactNode
 }) {
   return (
     <FormLayout.Field>
@@ -21,7 +22,7 @@ export function FieldActivityField({
           type: "checkbox",
           options: ActivityField.values,
         }).map((props) => {
-          const activityField = props.value as ActivityField.Enum;
+          const activityField = props.value as ActivityField.Enum
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -41,11 +42,11 @@ export function FieldActivityField({
 
               <FormLayout.Selector.CheckboxIcon />
             </FormLayout.Selector.Root>
-          );
+          )
         })}
       </FormLayout.Selectors>
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

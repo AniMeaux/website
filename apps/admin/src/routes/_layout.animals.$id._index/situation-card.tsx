@@ -1,28 +1,4 @@
-import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption";
-import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up";
-import {
-  SCREENING_RESULT_ICON,
-  SCREENING_RESULT_TRANSLATION,
-} from "#i/animals/screening";
-import {
-  formatNextVaccinationDate,
-  getNextVaccinationState,
-  hasUpCommingSterilisation,
-} from "#i/animals/situation/health";
-import { STATUS_TRANSLATION, StatusIcon } from "#i/animals/status";
-import { Action, ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { InlineHelper } from "#i/core/data-display/helper";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { DropdownSheet } from "#i/core/popovers/dropdown-sheet";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar";
-import { Icon } from "#i/generated/icon";
-import { theme } from "#i/generated/theme";
-import { UserAvatar } from "#i/users/avatar";
-import { getLongLocation } from "@animeaux/core";
+import { getLongLocation } from "@animeaux/core"
 import {
   AdoptionOption,
   Diagnosis,
@@ -30,22 +6,48 @@ import {
   ScreeningResult,
   Species,
   Status,
-} from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import type { loader } from "./route";
+} from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+
+import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption"
+import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up"
+import {
+  SCREENING_RESULT_ICON,
+  SCREENING_RESULT_TRANSLATION,
+} from "#i/animals/screening"
+import {
+  formatNextVaccinationDate,
+  getNextVaccinationState,
+  hasUpCommingSterilisation,
+} from "#i/animals/situation/health"
+import { STATUS_TRANSLATION, StatusIcon } from "#i/animals/status"
+import { Action, ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { InlineHelper } from "#i/core/data-display/helper"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { DropdownSheet } from "#i/core/popovers/dropdown-sheet"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar"
+import { Icon } from "#i/generated/icon"
+import { theme } from "#i/generated/theme"
+import { UserAvatar } from "#i/users/avatar"
+
+import type { loader } from "./route"
 
 export function SituationCard() {
   const { canEdit, animal, canSeeFosterFamilyDetails, canSeeManagerDetails } =
-    useLoaderData<loader>();
+    useLoaderData<loader>()
 
-  let vaccinationHelper: React.ReactNode;
+  let vaccinationHelper: React.ReactNode
 
   if (animal.nextVaccinationDate != null) {
     const state = getNextVaccinationState(
       animal.nextVaccinationDate,
       animal.status,
-    );
+    )
 
     switch (state) {
       case "past": {
@@ -56,9 +58,9 @@ export function SituationCard() {
             <br />
             Pensez à mettre à jour la prochaine date.
           </InlineHelper>
-        );
+        )
 
-        break;
+        break
       }
 
       case "up-comming": {
@@ -67,8 +69,8 @@ export function SituationCard() {
             Prochaine vaccination{" "}
             {formatNextVaccinationDate(animal.nextVaccinationDate)}.
           </InlineHelper>
-        );
-        break;
+        )
+        break
       }
     }
   }
@@ -354,18 +356,18 @@ export function SituationCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function DiagnosisItem() {
-  const { animal } = useLoaderData<loader>();
+  const { animal } = useLoaderData<loader>()
 
   if (
     animal.species !== Species.DOG ||
     animal.diagnosis == null ||
     animal.diagnosis == Diagnosis.NOT_APPLICABLE
   ) {
-    return null;
+    return null
   }
 
   return (
@@ -374,7 +376,7 @@ function DiagnosisItem() {
         {DIAGNOSIS_TEXT[animal.diagnosis][animal.gender]}
       </Markdown>
     </SimpleItem>
-  );
+  )
 }
 
 const DIAGNOSIS_ICON: Record<
@@ -388,7 +390,7 @@ const DIAGNOSIS_ICON: Record<
     <Icon href="icon-shield-dog-solid" className="text-green-600" />
   ),
   [Diagnosis.UNKNOWN]: <Icon href="icon-shield-dog-solid" />,
-};
+}
 
 const DIAGNOSIS_TEXT: Record<
   Exclude<Diagnosis, typeof Diagnosis.NOT_APPLICABLE>,
@@ -406,4 +408,4 @@ const DIAGNOSIS_TEXT: Record<
     [Gender.FEMALE]: "Diagnose **à faire**",
     [Gender.MALE]: "Diagnose **à faire**",
   },
-};
+}

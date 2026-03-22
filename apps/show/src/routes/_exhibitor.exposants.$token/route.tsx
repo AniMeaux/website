@@ -1,22 +1,24 @@
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { PageBackground } from "#i/core/layout/page-background";
-import { notFound } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Outlet } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
-import { LayoutFooter } from "./footer";
-import { LayoutHeader } from "./header";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { Outlet } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
+
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { PageBackground } from "#i/core/layout/page-background"
+import { notFound } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
+
+import { LayoutFooter } from "./footer"
+import { LayoutHeader } from "./header"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {
-    throw notFound();
+    throw notFound()
   }
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { application, exhibitor } = await promiseHash({
     application: services.application.getByToken(routeParams.token, {
@@ -26,18 +28,18 @@ export async function loader({ params }: LoaderFunctionArgs) {
     exhibitor: services.exhibitor.getByToken(routeParams.token, {
       select: { name: true, token: true },
     }),
-  });
+  })
 
   // Only validated applications can access these pages.
   if (application.status !== ShowExhibitorApplicationStatus.VALIDATED) {
-    throw notFound();
+    throw notFound()
   }
 
-  return { exhibitor };
+  return { exhibitor }
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
@@ -49,5 +51,5 @@ export default function Route() {
       <Outlet />
       <LayoutFooter />
     </>
-  );
+  )
 }

@@ -1,15 +1,15 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
 export function checkEnv() {
-  const result = processEnvSchema.safeParse(process.env);
+  const result = processEnvSchema.safeParse(process.env)
 
   if (!result.success) {
     console.error(
       "Invalid environment variables:",
       formatErrors(result.error.flatten()),
-    );
+    )
 
-    throw new Error("Invalid envirmonment variables");
+    throw new Error("Invalid envirmonment variables")
   }
 }
 
@@ -18,13 +18,13 @@ function formatErrors(
 ) {
   const payload: Record<string, string[]> = {
     ...errors.fieldErrors,
-  };
-
-  if (errors.formErrors.length > 0) {
-    payload.formErrors = errors.formErrors;
   }
 
-  return JSON.stringify(payload, null, 2);
+  if (errors.formErrors.length > 0) {
+    payload.formErrors = errors.formErrors
+  }
+
+  return JSON.stringify(payload, null, 2)
 }
 
 /**
@@ -55,16 +55,16 @@ export function getClientEnv() {
     TEAMING_URL: process.env.TEAMING_URL,
     TWITTER_URL: process.env.TWITTER_URL,
     VOLUNTEER_FORM_URL: process.env.VOLUNTEER_FORM_URL,
-  };
+  }
 }
 
-type CLIENT_ENV = ReturnType<typeof getClientEnv>;
+type CLIENT_ENV = ReturnType<typeof getClientEnv>
 
 declare global {
-  var CLIENT_ENV: CLIENT_ENV;
+  var CLIENT_ENV: CLIENT_ENV
 
   interface Window {
-    CLIENT_ENV: CLIENT_ENV;
+    CLIENT_ENV: CLIENT_ENV
   }
 
   namespace NodeJS {
@@ -91,4 +91,4 @@ const processEnvSchema = zu.object({
   TEAMING_URL: zu.string(),
   TWITTER_URL: zu.string(),
   VOLUNTEER_FORM_URL: zu.string(),
-});
+})

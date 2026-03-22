@@ -1,16 +1,11 @@
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-export type ChipVariant = "primary" | "secondary";
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
-export type ChipColor =
-  | "black"
-  | "blue"
-  | "green"
-  | "orange"
-  | "red"
-  | "yellow";
+export type ChipVariant = "primary" | "secondary"
+
+export type ChipColor = "black" | "blue" | "green" | "orange" | "red" | "yellow"
 
 export function Chip({
   variant,
@@ -20,12 +15,12 @@ export function Chip({
   children,
   className,
 }: {
-  variant: ChipVariant;
-  color: ChipColor;
-  icon?: IconName;
-  title?: string;
-  children?: React.ReactNode;
-  className?: string;
+  variant: ChipVariant
+  color: ChipColor
+  icon?: IconName
+  title?: string
+  children?: React.ReactNode
+  className?: string
 }) {
   return (
     <span
@@ -39,7 +34,7 @@ export function Chip({
       {icon != null ? <Icon href={icon} className="text-[14px]" /> : null}
       {children}
     </span>
-  );
+  )
 }
 
 const COLOR_CLASS_NAME: Record<ChipVariant, Record<ChipColor, string>> = {
@@ -60,4 +55,4 @@ const COLOR_CLASS_NAME: Record<ChipVariant, Record<ChipColor, string>> = {
     red: cn("bg-red-50 text-red-500"),
     yellow: cn("bg-yellow-50 text-yellow-700"),
   },
-};
+}

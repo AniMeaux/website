@@ -1,21 +1,22 @@
-import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm";
-import { Species } from "@animeaux/prisma";
-import { renderToStaticMarkup } from "react-dom/server";
+import { Species } from "@animeaux/prisma"
+import { renderToStaticMarkup } from "react-dom/server"
+
+import { SPECIES_TO_PATH } from "#i/core/controllers/searchForm"
 
 type SitemapAttribute = {
-  key?: React.Key;
-  children?: React.ReactNode;
-};
+  key?: React.Key
+  children?: React.ReactNode
+}
 
 // Override JSX interface so we can render XML with React \o/
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      urlset: SitemapAttribute & { xmlns: string };
-      url: SitemapAttribute;
-      loc: SitemapAttribute;
-      changefreq: SitemapAttribute;
-      priority: SitemapAttribute;
+      urlset: SitemapAttribute & { xmlns: string }
+      url: SitemapAttribute
+      loc: SitemapAttribute
+      changefreq: SitemapAttribute
+      priority: SitemapAttribute
     }
   }
 }
@@ -25,7 +26,7 @@ declare global {
  */
 type UrlDefinition = {
   /** Path relative to host. Must start with "/" (e.g. "/", "/adopt"). */
-  path: string;
+  path: string
   changeFrequency:
     | "always"
     | "hourly"
@@ -33,11 +34,11 @@ type UrlDefinition = {
     | "weekly"
     | "monthly"
     | "yearly"
-    | "never";
+    | "never"
 
   /** Number in range [0, 1] */
-  priority?: number;
-};
+  priority?: number
+}
 
 const urlDefinitions: UrlDefinition[] = [
   { path: "/", changeFrequency: "weekly" },
@@ -58,14 +59,14 @@ const urlDefinitions: UrlDefinition[] = [
   { path: "/partenaires", changeFrequency: "monthly" },
   { path: "/sauves", changeFrequency: "weekly" },
   { path: "/signaler-un-animal-errant", changeFrequency: "monthly" },
-];
+]
 
 Object.values(Species).forEach((species) => {
   urlDefinitions.push({
     path: `/adoption/${SPECIES_TO_PATH[species]}`,
     changeFrequency: "weekly",
-  });
-});
+  })
+})
 
 export async function loader() {
   const markup = renderToStaticMarkup(
@@ -78,11 +79,11 @@ export async function loader() {
         </url>
       ))}
     </urlset>,
-  );
+  )
 
   return new Response('<?xml version="1.0" encoding="UTF-8"?>' + markup, {
     headers: {
       "Content-Type": "application/xml",
     },
-  });
+  })
 }

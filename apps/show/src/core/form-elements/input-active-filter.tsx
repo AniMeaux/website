@@ -1,8 +1,9 @@
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import { Icon } from "#i/generated/icon"
 
 export const InputActiveFilter = {
   Root: forwardRef<
@@ -18,7 +19,7 @@ export const InputActiveFilter = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Input: forwardRef<
@@ -46,7 +47,7 @@ export const InputActiveFilter = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Icon: forwardRef<
@@ -69,7 +70,7 @@ export const InputActiveFilter = {
           className="hidden flex-none text-white icon-24 can-hover:group-hover/selector:block"
         />
       </>
-    );
+    )
   }),
 
   Label: forwardRef<
@@ -85,12 +86,12 @@ export const InputActiveFilter = {
           className,
         )}
       />
-    );
+    )
   }),
 
   RemoveIcon: function InputActiveFilterRemoveIcon() {
     return (
       <Icon id="x-mark-light" className="text-white icon-24 can-hover:hidden" />
-    );
+    )
   },
-};
+}

@@ -1,6 +1,7 @@
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
+
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export enum AgreementValue {
   TRUE = "TRUE",
@@ -12,24 +13,24 @@ export const AGREEMENT_TRANSLATION: Record<AgreementValue, string> = {
   [AgreementValue.TRUE]: "Oui",
   [AgreementValue.FALSE]: "Non",
   [AgreementValue.UNKNOWN]: "Inconnu",
-};
+}
 
 export const SORTED_AGREEMENTS = [
   AgreementValue.TRUE,
   AgreementValue.FALSE,
   AgreementValue.UNKNOWN,
-];
+]
 
-type Entity = "babies" | "cats" | "dogs";
+type Entity = "babies" | "cats" | "dogs"
 
 export function AgreementItem({
   entity,
   value,
 }: {
-  entity: Entity;
-  value: boolean | null;
+  entity: Entity
+  value: boolean | null
 }) {
-  const agreement = agreementFromBoolean(value);
+  const agreement = agreementFromBoolean(value)
 
   return (
     <li
@@ -43,14 +44,14 @@ export function AgreementItem({
         {AGREEMENT_TRANSLATION[agreement]}
       </span>
     </li>
-  );
+  )
 }
 
 const AGREEMENT_CLASS_NAMES: Record<AgreementValue, string> = {
   [AgreementValue.TRUE]: "bg-green-50 text-green-600",
   [AgreementValue.FALSE]: "bg-red-50 text-red-500",
   [AgreementValue.UNKNOWN]: "bg-gray-100 text-gray-700",
-};
+}
 
 const ICONS: Record<Entity, Record<AgreementValue, IconName>> = {
   babies: {
@@ -68,16 +69,16 @@ const ICONS: Record<Entity, Record<AgreementValue, IconName>> = {
     [AgreementValue.FALSE]: "icon-dog-circle-x-mark-solid",
     [AgreementValue.UNKNOWN]: "icon-dog-circle-question-solid",
   },
-};
+}
 
 export function agreementToBoolean(value: AgreementValue) {
   const values: Record<AgreementValue, boolean | null> = {
     [AgreementValue.TRUE]: true,
     [AgreementValue.FALSE]: false,
     [AgreementValue.UNKNOWN]: null,
-  };
+  }
 
-  return values[value];
+  return values[value]
 }
 
 export function agreementFromBoolean(value: boolean | null) {
@@ -85,5 +86,5 @@ export function agreementFromBoolean(value: boolean | null) {
     ? AgreementValue.UNKNOWN
     : value
       ? AgreementValue.TRUE
-      : AgreementValue.FALSE;
+      : AgreementValue.FALSE
 }

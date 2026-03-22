@@ -1,28 +1,29 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Routes } from "#i/core/navigation";
 import {
   isRouteErrorResponse,
   useLocation,
   useRouteError,
-} from "@remix-run/react";
-import { captureRemixErrorBoundaryError } from "@sentry/remix";
-import { useEffect } from "react";
+} from "@remix-run/react"
+import { captureRemixErrorBoundaryError } from "@sentry/remix"
+import { useEffect } from "react"
+
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Routes } from "#i/core/navigation"
 
 export function ErrorPage() {
-  const error = useRouteError();
-  console.error("ErrorBoundary error", error);
+  const error = useRouteError()
+  console.error("ErrorBoundary error", error)
 
   useEffect(() => {
-    captureRemixErrorBoundaryError(error);
-  }, [error]);
+    captureRemixErrorBoundaryError(error)
+  }, [error])
 
   const status = isRouteErrorResponse(error)
     ? asStatusCode(error.status)
-    : DEFAULT_STATUS_CODE;
+    : DEFAULT_STATUS_CODE
 
-  const meta = STATUS_CODE_ERROR_META_DATA[status];
+  const meta = STATUS_CODE_ERROR_META_DATA[status]
 
   return (
     <SimpleEmpty
@@ -32,30 +33,30 @@ export function ErrorPage() {
       message={meta.message}
       action={<meta.action />}
     />
-  );
+  )
 }
 
 export function getErrorTitle(status: number): string {
-  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
+  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title
 }
 
 type ErrorMetaData = {
-  title: string;
-  message: string;
-  icon: string;
-  action: React.ElementType;
-};
+  title: string
+  message: string
+  icon: string
+  action: React.ElementType
+}
 
 function GoHomeAction() {
   return (
     <Action asChild>
       <BaseLink to={Routes.home.toString()}>Page d’accueil</BaseLink>
     </Action>
-  );
+  )
 }
 
 function RefreshAction() {
-  const location = useLocation();
+  const location = useLocation()
 
   return (
     <Action asChild>
@@ -63,19 +64,19 @@ function RefreshAction() {
         Rafraichir
       </BaseLink>
     </Action>
-  );
+  )
 }
 
-const STATUS_CODE = [403, 404, 500] as const;
-type StatusCode = (typeof STATUS_CODE)[number];
-const DEFAULT_STATUS_CODE = 500 satisfies StatusCode;
+const STATUS_CODE = [403, 404, 500] as const
+type StatusCode = (typeof STATUS_CODE)[number]
+const DEFAULT_STATUS_CODE = 500 satisfies StatusCode
 
 function isStatusCode(status: number): status is StatusCode {
-  return STATUS_CODE.includes(status as StatusCode);
+  return STATUS_CODE.includes(status as StatusCode)
 }
 
 function asStatusCode(status: number) {
-  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE;
+  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE
 }
 
 const STATUS_CODE_ERROR_META_DATA: Record<StatusCode, ErrorMetaData> = {
@@ -97,4 +98,4 @@ const STATUS_CODE_ERROR_META_DATA: Record<StatusCode, ErrorMetaData> = {
     icon: "🤦‍♀️",
     action: RefreshAction,
   },
-};
+}

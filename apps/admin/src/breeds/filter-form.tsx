@@ -1,27 +1,28 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species";
+} from "#i/animals/species"
 import {
   BREED_DEFAULT_SORT,
   BreedSearchParams,
   BreedSort,
-} from "#i/breeds/search-params";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
+} from "#i/breeds/search-params"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
 
 export function BreedFilterForm() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const breedSearchParams = BreedSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const breedSearchParams = BreedSearchParams.parse(searchParams)
 
   return (
     <Filters>
@@ -130,8 +131,8 @@ export function BreedFilterForm() {
                           ...breedSearchParams,
                           name: undefined,
                         }),
-                      );
-                    });
+                      )
+                    })
                   }}
                 >
                   <Icon href="icon-x-mark-solid" />
@@ -142,5 +143,5 @@ export function BreedFilterForm() {
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }

@@ -1,9 +1,10 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Textarea } from "#i/core/form-elements/textarea";
-import type { FieldMetadata } from "@conform-to/react";
-import { getTextareaProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getTextareaProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Textarea } from "#i/core/form-elements/textarea"
 
 export function FieldTextarea({
   field,
@@ -13,10 +14,10 @@ export function FieldTextarea({
   React.ComponentPropsWithoutRef<"textarea">,
   "placeholder" | "required" | "rows"
 > & {
-  field: FieldMetadata<string>;
-  label: React.ReactNode;
+  field: FieldMetadata<string>
+  label: React.ReactNode
 }) {
-  const textareaProps = getTextareaProps(field);
+  const textareaProps = getTextareaProps(field)
 
   return (
     <Form.Field>
@@ -34,5 +35,5 @@ export function FieldTextarea({
         </Form.HelperMessage>
       ) : null}
     </Form.Field>
-  );
+  )
 }

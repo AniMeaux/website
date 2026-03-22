@@ -1,22 +1,24 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+} from "#i/animals/species"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
+} from "#i/core/form-elements/toggle-input"
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
   SORTED_AVAILABILITIES,
-} from "#i/foster-families/availability";
+} from "#i/foster-families/availability"
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -24,18 +26,17 @@ import {
   ICON_BY_HOUSING,
   SORTED_GARDEN,
   SORTED_HOUSING,
-} from "#i/foster-families/housing";
-import { FosterFamilySearchParams } from "#i/foster-families/search-params";
-import { Icon } from "#i/generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+} from "#i/foster-families/housing"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params"
+import { Icon } from "#i/generated/icon"
 
 export function FosterFamilyFilters({
   possibleCities,
 }: {
-  possibleCities: string[];
+  possibleCities: string[]
 }) {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams)
 
   return (
     <Filters>
@@ -76,7 +77,7 @@ export function FosterFamilyFilters({
                           ...fosterFamilySearchParams,
                           displayName: undefined,
                         }),
-                      );
+                      )
                     })
                   }
                 >
@@ -251,7 +252,7 @@ export function FosterFamilyFilters({
                           ...fosterFamilySearchParams,
                           zipCode: undefined,
                         }),
-                      );
+                      )
                     })
                   }
                 >
@@ -294,12 +295,12 @@ export function FosterFamilyFilters({
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }
 
 function HousingFilter() {
-  const [searchParams] = useOptimisticSearchParams();
-  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -371,5 +372,5 @@ function HousingFilter() {
         </Form.Field>
       </Form.Fields>
     </Filters.Filter>
-  );
+  )
 }

@@ -1,10 +1,9 @@
-import { EmailHtml } from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
 
 export class ServiceExhibitorVisibilityEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private application: ServiceApplication,
@@ -13,7 +12,7 @@ export class ServiceExhibitorVisibilityEmail {
   async isVisible(exhibitorId: string) {
     const application = await this.application.getByExhibitor(exhibitorId, {
       select: { contactEmail: true },
-    });
+    })
 
     await this.email.send({
       name: "exposant-visible",
@@ -49,6 +48,6 @@ export class ServiceExhibitorVisibilityEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 }

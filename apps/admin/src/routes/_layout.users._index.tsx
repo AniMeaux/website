@@ -1,50 +1,51 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { Chip } from "#i/core/data-display/chip";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { toRoundedRelative } from "#i/core/dates";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { Icon } from "#i/generated/icon";
-import { UserAvatar } from "#i/users/avatar";
-import { UserFilterForm } from "#i/users/filter-form";
-import { GROUP_ICON } from "#i/users/groups";
-import { UserSearchParams } from "#i/users/search-params";
-import { cn } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { cn } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 import type {
   LoaderFunctionArgs,
   MetaFunction,
   SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-const USER_COUNT_PER_PAGE = 20;
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { Chip } from "#i/core/data-display/chip"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { toRoundedRelative } from "#i/core/dates"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { Icon } from "#i/generated/icon"
+import { UserAvatar } from "#i/users/avatar"
+import { UserFilterForm } from "#i/users/filter-form"
+import { GROUP_ICON } from "#i/users/groups"
+import { UserSearchParams } from "#i/users/search-params"
+
+const USER_COUNT_PER_PAGE = 20
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
-  const userSearchParams = UserSearchParams.parse(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const pageSearchParams = PageSearchParams.parse(searchParams)
+  const userSearchParams = UserSearchParams.parse(searchParams)
 
   const { where, orderBy } =
-    await db.user.createFindManyParams(userSearchParams);
+    await db.user.createFindManyParams(userSearchParams)
 
   const { userCount, users } = await promiseHash({
     userCount: prisma.user.count({ where }),
@@ -62,20 +63,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
         lastActivityAt: true,
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(userCount / USER_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(userCount / USER_COUNT_PER_PAGE)
 
-  return json({ pageCount, userCount, users });
+  return json({ pageCount, userCount, users })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Utilisateurs") }];
-};
+  return [{ title: getPageTitle("Utilisateurs") }]
+}
 
 export default function Route() {
-  const { pageCount, userCount, users } = useLoaderData<typeof loader>();
-  const [searchParams] = useOptimisticSearchParams();
+  const { pageCount, userCount, users } = useLoaderData<typeof loader>()
+  const [searchParams] = useOptimisticSearchParams()
 
   return (
     <PageLayout.Root>
@@ -149,15 +150,15 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function UserItem({
   user,
   className,
 }: {
-  user: SerializeFrom<typeof loader>["users"][number];
-  className?: string;
+  user: SerializeFrom<typeof loader>["users"][number]
+  className?: string
 }) {
   return (
     <BaseLink
@@ -197,5 +198,5 @@ function UserItem({
         ))}
       </span>
     </BaseLink>
-  );
+  )
 }

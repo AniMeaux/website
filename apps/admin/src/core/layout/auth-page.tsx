@@ -1,9 +1,9 @@
-import { getPageTitle } from "#i/core/page-title";
-import backgroundPattern from "#i/images/background-pattern.svg";
-import nameAndLogo from "#i/images/name-and-logo.svg";
+import { getPageTitle } from "#i/core/page-title"
+import backgroundPattern from "#i/images/background-pattern.svg"
+import nameAndLogo from "#i/images/name-and-logo.svg"
 
 export const AuthPage = {
-  Main: function AuthPageMain({ children }: React.PropsWithChildren<{}>) {
+  Main: function AuthPageMain({ children }: React.PropsWithChildren) {
     return (
       <main className="grid w-full grid-cols-[minmax(0px,500px)] justify-center justify-items-center md:min-h-screen md:grid-cols-[1fr_minmax(500px,1fr)]">
         <section
@@ -23,14 +23,14 @@ export const AuthPage = {
           </section>
         </section>
       </main>
-    );
+    )
   },
 
-  Title: function AuthPageTitle({ children }: React.PropsWithChildren<{}>) {
+  Title: function AuthPageTitle({ children }: React.PropsWithChildren) {
     return (
       <h1 className="text-title-hero-small md:text-title-hero-large">
         {children}
       </h1>
-    );
+    )
   },
-};
+}

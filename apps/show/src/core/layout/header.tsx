@@ -1,14 +1,15 @@
-import { createImageMedia } from "#i/core/data-display/image";
-import type { To } from "#i/core/navigation";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import logoMedium from "#i/images/logo-medium.svg";
-import logoSmall from "#i/images/logo-small.svg";
-import { cn } from "@animeaux/core";
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { Link, NavLink, createPath, useLocation } from "@remix-run/react";
-import { Children, forwardRef, isValidElement } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import * as NavigationMenu from "@radix-ui/react-navigation-menu"
+import { createPath, Link, NavLink, useLocation } from "@remix-run/react"
+import { Children, forwardRef, isValidElement } from "react"
+import type { Except } from "type-fest"
+
+import { createImageMedia } from "#i/core/data-display/image"
+import type { To } from "#i/core/navigation"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import logoMedium from "#i/images/logo-medium.svg"
+import logoSmall from "#i/images/logo-small.svg"
 
 export const Header = {
   Root: function HeaderRoot(props: React.PropsWithChildren<{ toHome?: To }>) {
@@ -17,7 +18,7 @@ export const Header = {
         <HeaderRootSmall {...props} />
         <HeaderRootLarge {...props} />
       </>
-    );
+    )
   },
 
   NavItem: forwardRef<
@@ -28,7 +29,7 @@ export const Header = {
         "prefetch" | "role" | "className" | "children"
       >
     > & {
-      exclude?: string;
+      exclude?: string
     }
   >(function HeaderNavItem(
     {
@@ -41,14 +42,14 @@ export const Header = {
     },
     ref,
   ) {
-    const location = useLocation();
+    const location = useLocation()
 
     function isReallyActive({ isActive }: { isActive: boolean }) {
       if (exclude == null) {
-        return isActive;
+        return isActive
       }
 
-      return isActive && !location.pathname.startsWith(exclude);
+      return isActive && !location.pathname.startsWith(exclude)
     }
 
     return (
@@ -82,9 +83,9 @@ export const Header = {
           </span>
         )}
       </NavLink>
-    );
+    )
   }),
-};
+}
 
 function HeaderRootSmall({ children }: React.PropsWithChildren) {
   const navItems = Children.toArray(children).filter(
@@ -94,9 +95,9 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
         isValidElement<object>(child) &&
         "to" in child.props &&
         child.props.to != null
-      );
+      )
     },
-  );
+  )
 
   return (
     <header className="relative z-header grid w-full grid-cols-1 md:hidden">
@@ -153,7 +154,7 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
         />
       </NavigationMenu.Root>
     </header>
-  );
+  )
 }
 
 function HeaderRootLarge({ children }: React.PropsWithChildren) {
@@ -169,7 +170,7 @@ function HeaderRootLarge({ children }: React.PropsWithChildren) {
         ) : null}
       </nav>
     </header>
-  );
+  )
 }
 
 function NavItemHome() {
@@ -188,5 +189,5 @@ function NavItemHome() {
         />
       </picture>
     </Link>
-  );
+  )
 }

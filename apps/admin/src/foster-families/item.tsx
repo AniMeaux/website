@@ -1,8 +1,9 @@
-import { SuggestionItem } from "#i/core/form-elements/resource-input";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar";
-import { getShortLocation } from "@animeaux/core";
-import type { FosterFamilyAvailability } from "@animeaux/prisma";
-import { forwardRef } from "react";
+import { getShortLocation } from "@animeaux/core"
+import type { FosterFamilyAvailability } from "@animeaux/prisma"
+import { forwardRef } from "react"
+
+import { SuggestionItem } from "#i/core/form-elements/resource-input"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar"
 
 export const FosterFamilySuggestionItem = forwardRef<
   React.ComponentRef<typeof SuggestionItem>,
@@ -11,12 +12,12 @@ export const FosterFamilySuggestionItem = forwardRef<
     "leftAdornment" | "label" | "secondaryLabel"
   > & {
     fosterFamily: {
-      id: string;
-      displayName: string;
-      availability: FosterFamilyAvailability;
-      city: string;
-      zipCode: string;
-    };
+      id: string
+      displayName: string
+      availability: FosterFamilyAvailability
+      city: string
+      zipCode: string
+    }
   }
 >(function FosterFamilySuggestionItem({ fosterFamily, ...rest }, ref) {
   return (
@@ -32,5 +33,5 @@ export const FosterFamilySuggestionItem = forwardRef<
       label={fosterFamily.displayName}
       secondaryLabel={getShortLocation(fosterFamily)}
     />
-  );
-});
+  )
+})

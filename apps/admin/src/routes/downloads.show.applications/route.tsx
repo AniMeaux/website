@@ -1,14 +1,15 @@
-import { db } from "#i/core/db.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js";
-import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js";
-import { SponsorshipCategory } from "#i/show/sponsors/category.js";
-import { getCompleteLocation } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { csvFormatRows } from "d3-dsv";
+import { getCompleteLocation } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { csvFormatRows } from "d3-dsv"
+
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category.js"
 
 const applicationSelect = {
   comments: true,
@@ -24,21 +25,21 @@ const applicationSelect = {
   structureName: true,
   structureUrl: true,
   structureZipCode: true,
-} satisfies Prisma.ShowExhibitorApplicationSelect;
+} satisfies Prisma.ShowExhibitorApplicationSelect
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const { applications } = await db.show.exhibitor.application.findMany({
     searchParams: ApplicationSearchParams.parse(searchParams),
     select: applicationSelect,
-  });
+  })
 
   return new Response(
     csvFormatRows([
@@ -48,17 +49,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
         columns.map((column) => column.accessor(application)),
       ),
     ]),
-  );
+  )
 }
 
 type ColumnDefinition = {
-  label: string;
+  label: string
   accessor: (
     application: Prisma.ShowExhibitorApplicationGetPayload<{
-      select: typeof applicationSelect;
+      select: typeof applicationSelect
     }>,
-  ) => string;
-};
+  ) => string
+}
 
 const columns: ColumnDefinition[] = [
   {
@@ -117,4 +118,4 @@ const columns: ColumnDefinition[] = [
     label: "Remarques",
     accessor: (application) => application.comments ?? "",
   },
-];
+]

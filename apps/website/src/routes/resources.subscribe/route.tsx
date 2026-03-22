@@ -1,33 +1,34 @@
-import { ActionFormData } from "#i/routes/resources.subscribe/input";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import type { z } from "zod";
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import type { z } from "zod"
+
+import { ActionFormData } from "#i/routes/resources.subscribe/input"
 
 export async function loader() {
   // Nothing to render here.
-  return redirect("/");
+  return redirect("/")
 }
 
 type ActionData =
   | { type: "success" }
   | {
-      type: "error";
-      errors: z.inferFlattenedErrors<typeof ActionFormData.schema>;
-    };
+      type: "error"
+      errors: z.inferFlattenedErrors<typeof ActionFormData.schema>
+    }
 
-export type action = typeof action;
+export type action = typeof action
 
 export async function action({ request }: ActionFunctionArgs) {
-  const rawFormData = await request.formData();
+  const rawFormData = await request.formData()
   const formData = ActionFormData.schema.safeParse(
     Object.fromEntries(rawFormData.entries()),
-  );
+  )
 
   if (!formData.success) {
     return json<ActionData>(
       { type: "error", errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   if (process.env.SENDINBLUE_API_KEY != null) {
@@ -40,11 +41,9 @@ export async function action({ request }: ActionFunctionArgs) {
           "api-key": process.env.SENDINBLUE_API_KEY,
         },
         body: JSON.stringify(formData.data),
-      });
-    } catch (error) {
-      // TODO: Capture error?
-    }
+      })
+    } catch (_error) {}
   }
 
-  return json<ActionData>({ type: "success" });
+  return json<ActionData>({ type: "success" })
 }

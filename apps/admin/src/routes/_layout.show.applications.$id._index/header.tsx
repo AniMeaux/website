@@ -1,17 +1,19 @@
-import { Action } from "#i/core/actions.js";
-import { InlineHelper } from "#i/core/data-display/helper.js";
-import { PageLayout } from "#i/core/layout/page";
-import { Dialog } from "#i/core/popovers/dialog.js";
-import { Icon } from "#i/generated/icon.js";
-import { theme } from "#i/generated/theme.js";
-import { SponsorshipCategory } from "#i/show/sponsors/category.js";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import type { action } from "./action.server";
-import type { loader } from "./loader.server";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions.js"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { PageLayout } from "#i/core/layout/page"
+import { Dialog } from "#i/core/popovers/dialog.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category.js"
+
+import type { action } from "./action.server"
+import type { loader } from "./loader.server"
 
 export function Header() {
-  const { application, canDelete } = useLoaderData<typeof loader>();
+  const { application, canDelete } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root className="grid grid-cols-2-auto justify-between gap-2 md:gap-4">
@@ -21,7 +23,7 @@ export function Header() {
 
       {canDelete ? <MoreMenu /> : null}
     </PageLayout.Header.Root>
-  );
+  )
 }
 
 function MoreMenu() {
@@ -45,7 +47,7 @@ function MoreMenu() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  );
+  )
 }
 
 function DeleteMenuItem() {
@@ -63,12 +65,12 @@ function DeleteMenuItem() {
 
       <DeleteDialogContent />
     </Dialog>
-  );
+  )
 }
 
 function DeleteDialogContent() {
-  const { application } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { application } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <Dialog.Content variant="alert">
@@ -101,14 +103,14 @@ function DeleteDialogContent() {
         </fetcher.Form>
       </Dialog.Actions>
     </Dialog.Content>
-  );
+  )
 }
 
 function HelperIsExhibitor() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   if (application.exhibitor == null) {
-    return null;
+    return null
   }
 
   return (
@@ -118,14 +120,14 @@ function HelperIsExhibitor() {
       La suppression de la candidature entraînera aussi la suppression de
       l’exposant.
     </InlineHelper>
-  );
+  )
 }
 
 function HelperIsSponsor() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   if (application.exhibitor?.sponsorship == null) {
-    return null;
+    return null
   }
 
   return (
@@ -140,16 +142,16 @@ function HelperIsSponsor() {
       La suppression de la candidature entraînera aussi la suppression de son
       sponsoring.
     </InlineHelper>
-  );
+  )
 }
 
 function HelperHasAnimations() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
-  const animationCount = application.exhibitor?.animations.length ?? 0;
+  const animationCount = application.exhibitor?.animations.length ?? 0
 
   if (animationCount === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -160,5 +162,5 @@ function HelperHasAnimations() {
       La suppression de la candidature n’affectera pas{" "}
       {animationCount > 1 ? "ces animations" : "cette animation"}.
     </InlineHelper>
-  );
+  )
 }

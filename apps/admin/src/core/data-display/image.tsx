@@ -1,25 +1,26 @@
-import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#i/core/cloudinary";
-import { generateId } from "#i/core/id";
-import type { ScreenSize } from "#i/generated/theme";
-import { theme } from "#i/generated/theme";
-import { cn } from "@animeaux/core";
-import orderBy from "lodash.orderby";
-import { forwardRef } from "react";
-import type { Merge } from "type-fest";
+import { cn } from "@animeaux/core"
+import orderBy from "lodash.orderby"
+import { forwardRef } from "react"
+import type { Merge } from "type-fest"
 
-export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB;
+import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#i/core/cloudinary"
+import { generateId } from "#i/core/id"
+import type { ScreenSize } from "#i/generated/theme"
+import { theme } from "#i/generated/theme"
+
+export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB
 export const IMAGE_SIZE_LIMIT_B =
   IMAGE_SIZE_LIMIT_MB *
   // 1024 * 1024 B
-  1048576;
+  1048576
 
 export function isImageOverSize(image: ImageFileOrId) {
-  return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B;
+  return isImageFile(image) && image.file.size > IMAGE_SIZE_LIMIT_B
 }
 
 // Ordered by decreasing size.
-const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
-export type ImageSize = (typeof IMAGE_SIZES)[number];
+const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const
+export type ImageSize = (typeof IMAGE_SIZES)[number]
 
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
@@ -34,40 +35,40 @@ const SCREEN_SIZES = orderBy(
   "desc",
 )
   .map(([name]) => name)
-  .concat("default");
+  .concat("default")
 
-type AspectRatio = "none" | "1:1" | "4:3";
+type AspectRatio = "none" | "1:1" | "4:3"
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "1:1": "aspect-square",
   "4:3": "aspect-4/3",
   none: "",
-};
+}
 
-type ImageBackground = "none" | "gray";
+type ImageBackground = "none" | "gray"
 
 const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
   gray: "bg-gray-100",
   none: "",
-};
+}
 
-type ObjectFit = "cover" | "contain";
+type ObjectFit = "cover" | "contain"
 
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
   contain: "object-contain",
   cover: "object-cover",
-};
+}
 
 export type DynamicImageProps = React.ComponentPropsWithoutRef<
   typeof BaseImage
 > & {
-  fallbackSize: ImageSize;
-  imageId: string;
+  fallbackSize: ImageSize
+  imageId: string
   sizeMapping: Partial<Record<ScreenSize, string>> & {
     // `default` is mandatory.
-    default: string;
-  };
-};
+    default: string
+  }
+}
 
 export function DynamicImage({
   imageId,
@@ -80,24 +81,24 @@ export function DynamicImage({
     const url = createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
       size,
       aspectRatio,
-    });
+    })
 
-    return `${url} ${size}w`;
-  }).join(",");
+    return `${url} ${size}w`
+  }).join(",")
 
   const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizeMapping[screen];
+    const width = sizeMapping[screen]
 
     if (width != null) {
       sizes.push(
         screen === "default"
           ? width
           : `(min-width: ${theme.screens[screen]}) ${width}`,
-      );
+      )
     }
 
-    return sizes;
-  }, []).join(",");
+    return sizes
+  }, []).join(",")
 
   return (
     <BaseImage
@@ -110,7 +111,7 @@ export function DynamicImage({
       srcSet={srcSet}
       sizes={sizes}
     />
-  );
+  )
 }
 
 export function createCloudinaryUrl(
@@ -121,9 +122,9 @@ export function createCloudinaryUrl(
     format = "auto",
     size,
   }: {
-    aspectRatio: AspectRatio;
-    format?: "auto" | "jpg";
-    size?: ImageSize;
+    aspectRatio: AspectRatio
+    format?: "auto" | "jpg"
+    size?: ImageSize
   },
 ) {
   const transformations = [
@@ -136,10 +137,10 @@ export function createCloudinaryUrl(
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
     format === "auto" ? "f_auto" : "f_jpg",
-  ];
+  ]
 
   if (size != null) {
-    transformations.push(`w_${size}`);
+    transformations.push(`w_${size}`)
   }
 
   if (aspectRatio !== "none") {
@@ -150,28 +151,28 @@ export function createCloudinaryUrl(
       "c_pad",
       // https://cloudinary.com/documentation/transformation_reference#b_auto
       "b_auto",
-    );
+    )
   }
 
-  const transformationsStr = transformations.join(",");
+  const transformationsStr = transformations.join(",")
 
-  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`
 }
 
 export type ImageFile = {
-  dataUrl: string;
-  file: File;
-  id: string;
-};
+  dataUrl: string
+  file: File
+  id: string
+}
 
-export type ImageFileOrId = string | ImageFile;
+export type ImageFileOrId = string | ImageFile
 
 export function isImageFile(image: ImageFileOrId): image is ImageFile {
-  return typeof image !== "string";
+  return typeof image !== "string"
 }
 
 export function getImageId(image: ImageFileOrId) {
-  return isImageFile(image) ? image.id : image;
+  return isImageFile(image) ? image.id : image
 }
 
 export function DataUrlOrDynamicImage({
@@ -181,10 +182,10 @@ export function DataUrlOrDynamicImage({
   ...rest
 }: Omit<React.ComponentPropsWithoutRef<typeof DataUrlImage>, "imageFile"> &
   Omit<DynamicImageProps, "imageId"> & {
-    image: ImageFileOrId;
+    image: ImageFileOrId
   }) {
   if (isImageFile(image)) {
-    return <DataUrlImage {...rest} imageFile={image} />;
+    return <DataUrlImage {...rest} imageFile={image} />
   }
 
   return (
@@ -194,40 +195,40 @@ export function DataUrlOrDynamicImage({
       fallbackSize={fallbackSize}
       sizeMapping={sizes}
     />
-  );
+  )
 }
 
 function DataUrlImage({
   imageFile,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof BaseImage> & {
-  imageFile: ImageFile;
+  imageFile: ImageFile
 }) {
-  return <BaseImage {...rest} src={imageFile.dataUrl} />;
+  return <BaseImage {...rest} src={imageFile.dataUrl} />
 }
 
 export async function readFiles(fileList: FileList): Promise<ImageFile[]> {
-  const files: Promise<ImageFile>[] = [];
+  const files: Promise<ImageFile>[] = []
   for (const file of fileList) {
-    files.push(readFile(file));
+    files.push(readFile(file))
   }
 
-  return await Promise.all(files);
+  return await Promise.all(files)
 }
 
 export async function readFile(file: File): Promise<ImageFile> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
 
     reader.onload = (loadEvent) => {
-      const dataUrl = loadEvent.target!.result as string;
-      const id = generateId();
-      return resolve({ dataUrl, file, id });
-    };
+      const dataUrl = loadEvent.target!.result as string
+      const id = generateId()
+      return resolve({ dataUrl, file, id })
+    }
 
-    reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file);
-  });
+    reader.onerror = (error) => reject(error)
+    reader.readAsDataURL(file)
+  })
 }
 
 export const BaseImage = forwardRef<
@@ -235,12 +236,12 @@ export const BaseImage = forwardRef<
   Merge<
     React.ComponentPropsWithoutRef<"img">,
     {
-      aspectRatio?: AspectRatio;
-      background?: ImageBackground;
-      objectFit?: ObjectFit;
+      aspectRatio?: AspectRatio
+      background?: ImageBackground
+      objectFit?: ObjectFit
 
       // Make it required.
-      alt: string;
+      alt: string
     }
   >
 >(function BaseImage(
@@ -268,5 +269,5 @@ export const BaseImage = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})

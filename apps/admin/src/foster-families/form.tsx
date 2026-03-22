@@ -1,42 +1,43 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { toIsoDateValue } from "#i/core/dates";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import {
-  CheckboxInput,
-  CheckboxInputList,
-  RadioInput,
-  RadioInputList,
-} from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Textarea } from "#i/core/form-elements/textarea";
-import { Separator } from "#i/core/layout/separator";
-import {
-  AVAILABILITY_TRANSLATION,
-  SORTED_AVAILABILITIES,
-} from "#i/foster-families/availability";
-import {
-  GARDEN_TRANSLATION,
-  HOUSING_TRANSLATION,
-  SORTED_GARDEN,
-  SORTED_HOUSING,
-} from "#i/foster-families/housing";
-import { Icon } from "#i/generated/icon";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { FosterFamily } from "@animeaux/prisma";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { FosterFamily } from "@animeaux/prisma"
 import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
-} from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useRef, useState } from "react";
+} from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useLocation } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { useEffect, useRef, useState } from "react"
+
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species"
+import { Action } from "#i/core/actions"
+import { toIsoDateValue } from "#i/core/dates"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import {
+  CheckboxInput,
+  CheckboxInputList,
+  RadioInput,
+  RadioInputList,
+} from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Textarea } from "#i/core/form-elements/textarea"
+import { Separator } from "#i/core/layout/separator"
+import {
+  AVAILABILITY_TRANSLATION,
+  SORTED_AVAILABILITIES,
+} from "#i/foster-families/availability"
+import {
+  GARDEN_TRANSLATION,
+  HOUSING_TRANSLATION,
+  SORTED_GARDEN,
+  SORTED_HOUSING,
+} from "#i/foster-families/housing"
+import { Icon } from "#i/generated/icon"
 
 const actionSchema = zu.object({
   address: zu.string().trim().min(1, "Veuillez entrer une adresse"),
@@ -62,15 +63,15 @@ const actionSchema = zu.object({
     .string()
     .trim()
     .regex(/^\d{5}$/, "Veuillez entrer un code postal valide"),
-});
+})
 
-export const ActionFormData = FormDataDelegate.create(actionSchema);
+export const ActionFormData = FormDataDelegate.create(actionSchema)
 
 export const ActionFormDataForUpdate = FormDataDelegate.create(
   actionSchema.omit({ availability: true }).extend({
     availability: actionSchema.shape.availability.optional(),
   }),
-);
+)
 
 type DefaultFosterFamily = null | SerializeFrom<
   Pick<
@@ -90,71 +91,71 @@ type DefaultFosterFamily = null | SerializeFrom<
     | "speciesToHost"
     | "zipCode"
   >
->;
+>
 
 export function FosterFamilyForm({
   defaultFosterFamily,
   fetcher,
 }: {
-  defaultFosterFamily?: DefaultFosterFamily;
+  defaultFosterFamily?: DefaultFosterFamily
   fetcher: FetcherWithComponents<{
     errors?:
       | zu.inferFlattenedErrors<typeof ActionFormData.schema>
-      | zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>;
-  }>;
+      | zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>
+  }>
 }) {
-  const isCreate = defaultFosterFamily == null;
-  const addressRef = useRef<HTMLInputElement>(null);
-  const availabilityDateRef = useRef<HTMLInputElement>(null);
-  const cityRef = useRef<HTMLInputElement>(null);
-  const commentsRef = useRef<HTMLTextAreaElement>(null);
-  const displayNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const phoneRef = useRef<HTMLInputElement>(null);
-  const speciesToHostRef = useRef<HTMLInputElement>(null);
-  const zipCodeRef = useRef<HTMLInputElement>(null);
+  const isCreate = defaultFosterFamily == null
+  const addressRef = useRef<HTMLInputElement>(null)
+  const availabilityDateRef = useRef<HTMLInputElement>(null)
+  const cityRef = useRef<HTMLInputElement>(null)
+  const commentsRef = useRef<HTMLTextAreaElement>(null)
+  const displayNameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const phoneRef = useRef<HTMLInputElement>(null)
+  const speciesToHostRef = useRef<HTMLInputElement>(null)
+  const zipCodeRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.displayName != null) {
-        displayNameRef.current?.focus();
+        displayNameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.phone != null) {
-        phoneRef.current?.focus();
+        phoneRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.email != null) {
-        emailRef.current?.focus();
+        emailRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.address != null) {
-        addressRef.current?.focus();
+        addressRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.zipCode != null) {
-        zipCodeRef.current?.focus();
+        zipCodeRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.city != null) {
-        cityRef.current?.focus();
+        cityRef.current?.focus()
       } else if (
         fetcher.data.errors.fieldErrors.availabilityExpirationDate != null
       ) {
-        availabilityDateRef.current?.focus();
+        availabilityDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.speciesToHost != null) {
-        speciesToHostRef.current?.focus();
+        speciesToHostRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
-  const { hash } = useLocation();
+  const { hash } = useLocation()
   useEffect(() => {
-    const key = hash.replace("#", "");
+    const key = hash.replace("#", "")
     if (key === ActionFormData.keys.comments) {
-      commentsRef.current?.focus();
+      commentsRef.current?.focus()
     }
-  }, [hash]);
+  }, [hash])
 
   const [availabilityState, setAvailabilityState] = useState(
     defaultFosterFamily?.availability ?? FosterFamilyAvailability.UNKNOWN,
-  );
+  )
 
   const [availabilityExpirationDateState, setAvailabilityExpirationDateState] =
-    useState(toIsoDateValue(defaultFosterFamily?.availabilityExpirationDate));
+    useState(toIsoDateValue(defaultFosterFamily?.availabilityExpirationDate))
 
   return (
     <Form asChild hasHeader>
@@ -509,13 +510,13 @@ export function FosterFamilyForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }
 
 function HousingField({
   defaultFosterFamily,
 }: {
-  defaultFosterFamily?: DefaultFosterFamily;
+  defaultFosterFamily?: DefaultFosterFamily
 }) {
   return (
     <Form.Field>
@@ -538,13 +539,13 @@ function HousingField({
         ))}
       </RadioInputList>
     </Form.Field>
-  );
+  )
 }
 
 function GardenField({
   defaultFosterFamily,
 }: {
-  defaultFosterFamily?: DefaultFosterFamily;
+  defaultFosterFamily?: DefaultFosterFamily
 }) {
   return (
     <Form.Field>
@@ -567,5 +568,5 @@ function GardenField({
         ))}
       </RadioInputList>
     </Form.Field>
-  );
+  )
 }

@@ -1,50 +1,51 @@
-import { createActionData } from "#i/core/schemas";
-import { Icon } from "#i/generated/icon";
-import type { action } from "#i/routes/resources.subscribe/route";
-import { cn } from "@animeaux/core";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
-import invariant from "tiny-invariant";
-import { z } from "zod";
+import { cn } from "@animeaux/core"
+import { useFetcher } from "@remix-run/react"
+import { useEffect, useRef } from "react"
+import invariant from "tiny-invariant"
+import { z } from "zod"
 
-const RESOURCE_PATHNAME = "/resources/subscribe";
+import { createActionData } from "#i/core/schemas"
+import { Icon } from "#i/generated/icon"
+import type { action } from "#i/routes/resources.subscribe/route"
+
+const RESOURCE_PATHNAME = "/resources/subscribe"
 
 export const ActionFormData = createActionData(
   z.object({
     email: z.string().email("L’adresse email est invalide"),
   }),
-);
+)
 
 export function SubscriptionForm() {
-  const fetcher = useFetcher<action>();
-  const formRef = useRef<HTMLFormElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const fetcher = useFetcher<action>()
+  const formRef = useRef<HTMLFormElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(
     () => {
       if (fetcher.data?.type === "success") {
-        invariant(formRef.current != null, "formRef must be set");
-        formRef.current.reset();
+        invariant(formRef.current != null, "formRef must be set")
+        formRef.current.reset()
       }
     },
     // Use `fetcher.data` instead of `isSuccess` to distinguish 2 successive
     // success.
     [fetcher.data],
-  );
+  )
 
   useEffect(
     () => {
       if (fetcher.data?.type === "error") {
-        invariant(inputRef.current != null, "inputRef must be set");
-        inputRef.current.focus();
+        invariant(inputRef.current != null, "inputRef must be set")
+        inputRef.current.focus()
       }
     },
     // Use `fetcher.data` instead of `isError` to distinguish 2 successive errors.
     [fetcher.data],
-  );
+  )
 
-  const isSuccess = fetcher.data?.type === "success";
-  const isError = fetcher.data?.type === "error";
+  const isSuccess = fetcher.data?.type === "success"
+  const isError = fetcher.data?.type === "error"
 
   return (
     <div
@@ -98,5 +99,5 @@ export function SubscriptionForm() {
         </p>
       )}
     </div>
-  );
+  )
 }

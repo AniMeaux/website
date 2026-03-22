@@ -1,15 +1,16 @@
-import { readFile } from "node:fs/promises";
-import { relative } from "path/posix";
+import { readFile } from "node:fs/promises"
+
+import { relative } from "path/posix"
 
 export async function safelyReadFile(path: string) {
-  let content: undefined | string;
+  let content: undefined | string
   try {
-    content = await readFile(path, "utf-8");
-  } catch (error) {}
+    content = await readFile(path, "utf-8")
+  } catch (_error) {}
 
-  return content;
+  return content
 }
 
 export function relativeToCwd(filePath: string): string {
-  return relative(process.cwd(), filePath);
+  return relative(process.cwd(), filePath)
 }

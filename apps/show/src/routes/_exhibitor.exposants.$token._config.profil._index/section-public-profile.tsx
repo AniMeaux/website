@@ -1,21 +1,23 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { ChipList } from "#i/core/data-display/chip";
-import { DynamicImage } from "#i/core/data-display/image";
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { ImageData } from "#i/core/image/data.js";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { Routes } from "#i/core/navigation";
-import { ChipActivityField } from "#i/exhibitors/activity-field/chip";
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip";
-import { Icon } from "#i/generated/icon";
-import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./route";
+import { joinReactNodes } from "@animeaux/core"
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { ChipList } from "#i/core/data-display/chip"
+import { DynamicImage } from "#i/core/data-display/image"
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { ImageData } from "#i/core/image/data.js"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { Routes } from "#i/core/navigation"
+import { ChipActivityField } from "#i/exhibitors/activity-field/chip"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip"
+import { Icon } from "#i/generated/icon"
+
+import type { loader } from "./route"
 
 export function SectionPublicProfile() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section>
@@ -107,14 +109,14 @@ export function SectionPublicProfile() {
         </FormLayout.Output>
       </FormLayout.Field>
     </FormLayout.Section>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -123,7 +125,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validé",
     } satisfies Record<typeof exhibitor.publicProfileStatus, string>
-  )[exhibitor.publicProfileStatus];
+  )[exhibitor.publicProfileStatus]
 
   const content = (
     {
@@ -135,7 +137,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "Votre profil public est complété et validé par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.publicProfileStatus, string>
-  )[exhibitor.publicProfileStatus];
+  )[exhibitor.publicProfileStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -145,5 +147,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

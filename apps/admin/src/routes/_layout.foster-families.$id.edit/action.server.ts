@@ -1,41 +1,43 @@
-import { db } from "#i/core/db.server";
-import { EmailAlreadyUsedError, NotFoundError } from "#i/core/errors.server";
-import { Routes } from "#i/core/navigation";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { zu } from "@animeaux/zod-utils"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+
+import { db } from "#i/core/db.server"
+import { EmailAlreadyUsedError, NotFoundError } from "#i/core/errors.server"
+import { Routes } from "#i/core/navigation"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
-} from "#i/foster-families/db.server";
-import { ActionFormDataForUpdate } from "#i/foster-families/form";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { routeParamsSchema } from "./route-params";
+} from "#i/foster-families/db.server"
+import { ActionFormDataForUpdate } from "#i/foster-families/form"
+
+import { routeParamsSchema } from "./route-params"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const paramsResult = routeParamsSchema.safeParse(params);
+  const paramsResult = routeParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
-  const rawFormData = await request.formData();
-  const formData = ActionFormDataForUpdate.safeParse(rawFormData);
+  const rawFormData = await request.formData()
+  const formData = ActionFormDataForUpdate.safeParse(rawFormData)
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
@@ -58,7 +60,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         zipCode: formData.data.zipCode,
       },
       currentUser,
-    );
+    )
   } catch (error) {
     if (error instanceof NotFoundError) {
       return json<ActionData>(
@@ -69,7 +71,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 404 },
-      );
+      )
     }
 
     if (error instanceof EmailAlreadyUsedError) {
@@ -81,7 +83,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof MissingSpeciesToHostError) {
@@ -95,7 +97,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof InvalidAvailabilityDateError) {
@@ -109,18 +111,18 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   return json<ActionData>({
     redirectTo: Routes.fosterFamilies.id(paramsResult.data.id).toString(),
-  });
+  })
 }
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormDataForUpdate.schema>
+}

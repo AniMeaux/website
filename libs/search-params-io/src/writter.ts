@@ -1,59 +1,62 @@
 export interface SearchParamsWritter<
-  TKeys extends Record<string, string>,
-  TInput,
+  TKeys extends Record<string, string> = Record<string, string>,
+  TInput extends object = object,
 > {
-  keys: TKeys;
+  keys: TKeys
 
-  set(searchParams: URLSearchParams, data: TInput): URLSearchParams;
+  set: (searchParams: URLSearchParams, data: TInput) => URLSearchParams
 
   /**
    * Alias for `writter.set(new URLSearchParams(), data)`.
    */
-  create(data: TInput): URLSearchParams;
+  create: (data: TInput) => URLSearchParams
 
   /**
    * Alias for `writter.set(new URLSearchParams(), data).toString()`.
    */
-  format(data: TInput): string;
+  format: (data: TInput) => string
 
-  clear(searchParams: URLSearchParams): URLSearchParams;
+  clear: (searchParams: URLSearchParams) => URLSearchParams
 }
 
 export namespace SearchParamsWritter {
-  export function create<TKeys extends Record<string, string>, TInput>({
+  export function create<
+    TKeys extends Record<string, string>,
+    TInput extends object,
+  >({
     keys,
     setFunction,
   }: {
-    keys: TKeys;
-    setFunction: SearchParamsWritter.SetFunction<TKeys, TInput>;
+    keys: TKeys
+    setFunction: SearchParamsWritter.SetFunction<TKeys, TInput>
   }): SearchParamsWritter<TKeys, TInput> {
     const set: SearchParamsWritter<TKeys, TInput>["set"] = (
       searchParams,
       data,
     ) => {
-      setFunction(searchParams, data, keys);
-      return searchParams;
-    };
+      setFunction(searchParams, data, keys)
+      return searchParams
+    }
 
     const create: SearchParamsWritter<TKeys, TInput>["create"] = (data) => {
-      return set(new URLSearchParams(), data);
-    };
+      return set(new URLSearchParams(), data)
+    }
 
     const format: SearchParamsWritter<TKeys, TInput>["format"] = (data) => {
-      return create(data).toString();
-    };
+      return create(data).toString()
+    }
 
     const clear: SearchParamsWritter<TKeys, TInput>["clear"] = (
       searchParams,
     ) => {
       Object.values(keys).forEach((key) => {
-        searchParams.delete(key);
-      });
+        searchParams.delete(key)
+      })
 
-      return searchParams;
-    };
+      return searchParams
+    }
 
-    return { keys, set, create, format, clear };
+    return { keys, set, create, format, clear }
   }
 
   /**
@@ -65,11 +68,11 @@ export namespace SearchParamsWritter {
     value?: null | string,
   ) {
     if (value == null) {
-      searchParams.delete(key);
-      return;
+      searchParams.delete(key)
+      return
     }
 
-    searchParams.set(key, value);
+    searchParams.set(key, value)
   }
 
   /**
@@ -80,19 +83,20 @@ export namespace SearchParamsWritter {
     key: string,
     values?: null | string[] | Set<string>,
   ) {
-    searchParams.delete(key);
+    searchParams.delete(key)
 
     values?.forEach((value) => {
-      searchParams.append(key, value);
-    });
+      searchParams.append(key, value)
+    })
   }
 
-  export type Infer<TWritter extends SearchParamsWritter<any, any>> =
-    TWritter extends SearchParamsWritter<any, infer TInput> ? TInput : never;
+  export type Infer<TWritter extends SearchParamsWritter> =
+    TWritter extends SearchParamsWritter<Record<string, string>, infer TInput>
+      ? TInput
+      : never
 
-  export type SetFunction<TKeys extends Record<string, string>, TInput> = (
-    searchParams: URLSearchParams,
-    data: TInput,
-    keys: TKeys,
-  ) => void;
+  export type SetFunction<
+    TKeys extends Record<string, string>,
+    TInput extends object,
+  > = (searchParams: URLSearchParams, data: TInput, keys: TKeys) => void
 }

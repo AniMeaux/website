@@ -1,12 +1,13 @@
-import { FieldRadios } from "#i/core/form-elements/field-radios";
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { useForm } from "./form";
+import { FieldRadios } from "#i/core/form-elements/field-radios"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+
+import { useForm } from "./form"
 
 export function FieldsetStatus() {
-  const { form, fields } = useForm();
+  const { form, fields } = useForm()
 
   return (
     <Card>
@@ -36,5 +37,5 @@ export function FieldsetStatus() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function SectionHelper() {
   return (
@@ -29,5 +29,5 @@ export function SectionHelper() {
         .
       </p>
     </FormLayout.AsideHelper.Root>
-  );
+  )
 }

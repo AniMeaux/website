@@ -1,4 +1,4 @@
-import type { Prisma } from "#i/generated/client.js";
+import type { Prisma } from "#i/generated/client.js"
 
 /**
  * Primsa doesn't return a real Promise. This function wraps it in a real
@@ -12,5 +12,5 @@ import type { Prisma } from "#i/generated/client.js";
 export async function fromPrismaPromise<TData>(
   promise: Prisma.PrismaPromise<TData>,
 ) {
-  return promise;
+  return promise
 }

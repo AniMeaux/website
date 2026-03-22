@@ -1,15 +1,17 @@
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FieldYesNo } from "#i/core/form-elements/field-yes-no";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper";
-import { Gender } from "@animeaux/prisma";
-import { Fragment } from "react";
-import { FieldDogGender } from "./field-dog-gender";
-import { useForm } from "./form";
+import { Gender } from "@animeaux/prisma"
+import { Fragment } from "react"
+
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper"
+
+import { FieldDogGender } from "./field-dog-gender"
+import { useForm } from "./form"
 
 export function FieldsetDogs() {
-  const { form, fields } = useForm();
-  const fieldsDogs = fields.dogs.getFieldList();
+  const { form, fields } = useForm()
+  const fieldsDogs = fields.dogs.getFieldList()
 
   return (
     <FormLayout.Section>
@@ -18,9 +20,9 @@ export function FieldsetDogs() {
       <DogsHelper />
 
       {fieldsDogs.map((fieldDog, index) => {
-        const fieldsetDog = fieldDog.getFieldset();
+        const fieldsetDog = fieldDog.getFieldset()
 
-        const gender = fieldsetDog.gender.value as undefined | Gender;
+        const gender = fieldsetDog.gender.value as undefined | Gender
 
         return (
           <Fragment key={fieldDog.key}>
@@ -70,7 +72,7 @@ export function FieldsetDogs() {
 
             <FormLayout.FieldSeparator />
           </Fragment>
-        );
+        )
       })}
 
       <FormLayout.InputList.Action
@@ -79,5 +81,5 @@ export function FieldsetDogs() {
         Ajouter un chien
       </FormLayout.InputList.Action>
     </FormLayout.Section>
-  );
+  )
 }

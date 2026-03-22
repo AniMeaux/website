@@ -1,13 +1,13 @@
-import { DateTime } from "luxon";
+import { DateTime } from "luxon"
 
 export namespace ShowDay {
-  export type Enum = (typeof Enum)[keyof typeof Enum];
+  export type Enum = (typeof Enum)[keyof typeof Enum]
   export const Enum = {
     SATURDAY: "samedi",
     SUNDAY: "dimanche",
-  } as const;
+  } as const
 
-  export const values = [Enum.SATURDAY, Enum.SUNDAY];
+  export const values = [Enum.SATURDAY, Enum.SUNDAY]
 
   export const schedules: Record<Enum, { start: DateTime; end: DateTime }> = {
     [Enum.SATURDAY]: {
@@ -19,7 +19,7 @@ export namespace ShowDay {
       start: DateTime.fromISO("2026-06-07T10:00:00.000+02:00"),
       end: DateTime.fromISO("2026-06-07T18:00:00.000+02:00"),
     },
-  };
+  }
 
   export const intervals: Record<Enum, DateTime[]> = {
     [Enum.SATURDAY]: [
@@ -44,12 +44,12 @@ export namespace ShowDay {
       DateTime.fromISO("2026-06-07T17:00:00.000+02:00"),
       DateTime.fromISO("2026-06-07T18:00:00.000+02:00"),
     ],
-  };
+  }
 
-  export const openingTime = schedules[Enum.SATURDAY].start;
-  export const closingTime = schedules[Enum.SUNDAY].end;
+  export const openingTime = schedules[Enum.SATURDAY].start
+  export const closingTime = schedules[Enum.SUNDAY].end
 
   export function hasShowEnded() {
-    return DateTime.now() >= closingTime;
+    return DateTime.now() >= closingTime
   }
 }

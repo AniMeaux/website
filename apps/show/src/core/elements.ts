@@ -1,35 +1,35 @@
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { useEffect, useRef, useState } from "react"
+import invariant from "tiny-invariant"
 
 type ElementSize = {
-  width: number;
-  height: number;
-};
+  width: number
+  height: number
+}
 
 export function useElementSize<TElement extends HTMLElement | SVGElement>() {
-  const ref = useRef<TElement>(null);
+  const ref = useRef<TElement>(null)
 
   // Use a large number instead of 0 to make sure the line is not visible by
   // default.
-  const [size, setSize] = useState<undefined | ElementSize>();
+  const [size, setSize] = useState<undefined | ElementSize>()
 
   useEffect(() => {
-    invariant(ref.current != null, "ref must be set");
-    const element = ref.current;
+    invariant(ref.current != null, "ref must be set")
+    const element = ref.current
 
     const observer = new ResizeObserver(() => {
       setSize({
         width: element.clientWidth,
         height: element.clientHeight,
-      });
-    });
+      })
+    })
 
-    observer.observe(element);
+    observer.observe(element)
 
     return () => {
-      observer.disconnect();
-    };
-  }, []);
+      observer.disconnect()
+    }
+  }, [])
 
-  return { ref, size };
+  return { ref, size }
 }

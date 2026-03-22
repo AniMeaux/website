@@ -1,9 +1,10 @@
-import { Checkbox } from "#i/core/form-elements/checkbox";
-import { Radio } from "#i/core/form-elements/radio";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
+
+import { Checkbox } from "#i/core/form-elements/checkbox"
+import { Radio } from "#i/core/form-elements/radio"
+import { RequiredStar } from "#i/core/form-elements/required-star"
 
 export const InputsChoices = forwardRef<
   React.ComponentRef<typeof Primitive.div>,
@@ -15,14 +16,14 @@ export const InputsChoices = forwardRef<
       ref={ref}
       className={cn(className, "flex flex-wrap gap-2 py-1")}
     />
-  );
-});
+  )
+})
 
 /** @deprecated */
-export const RadioInputList = InputsChoices;
+export const RadioInputList = InputsChoices
 
 /** @deprecated */
-export const CheckboxInputList = InputsChoices;
+export const CheckboxInputList = InputsChoices
 
 export const InputChoice = {
   Root: forwardRef<
@@ -38,20 +39,20 @@ export const InputChoice = {
           "grid grid-cols-[auto_minmax(min-content,1fr)] items-center gap-0.5 has-[input:enabled]:cursor-pointer has-[input:disabled]:opacity-disabled",
         )}
       />
-    );
+    )
   }),
 
   Radio,
   Checkbox,
 
   Label: Primitive.span,
-};
+}
 
 /** @deprecated */
 export const RadioInput = forwardRef<
   React.ComponentRef<typeof InputChoice.Radio>,
   React.ComponentPropsWithoutRef<typeof InputChoice.Radio> & {
-    label: React.ReactNode;
+    label: React.ReactNode
   }
 >(function RadioInput({ label, required = false, className, ...props }, ref) {
   return (
@@ -62,14 +63,14 @@ export const RadioInput = forwardRef<
         {label} {required ? <RequiredStar /> : null}
       </InputChoice.Label>
     </InputChoice.Root>
-  );
-});
+  )
+})
 
 /** @deprecated */
 export const CheckboxInput = forwardRef<
   React.ComponentRef<typeof InputChoice.Checkbox>,
   React.ComponentPropsWithoutRef<typeof InputChoice.Checkbox> & {
-    label: React.ReactNode;
+    label: React.ReactNode
   }
 >(function CheckboxInput(
   { label, required = false, className, ...props },
@@ -83,5 +84,5 @@ export const CheckboxInput = forwardRef<
         {label} {required ? <RequiredStar /> : null}
       </InputChoice.Label>
     </InputChoice.Root>
-  );
-});
+  )
+})

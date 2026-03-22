@@ -1,5 +1,6 @@
-import { PrismaClient as PrismaClientBase } from "#i/generated/client.js";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaPg } from "@prisma/adapter-pg"
+
+import { PrismaClient as PrismaClientBase } from "#i/generated/client.js"
 
 /**
  * Abstract Prisma adapter for PostgreSQL.
@@ -12,6 +13,6 @@ export class PrismaClient extends PrismaClientBase {
       adapter: new PrismaPg({
         connectionString: process.env.DATABASE_URL,
       }),
-    });
+    })
   }
 }

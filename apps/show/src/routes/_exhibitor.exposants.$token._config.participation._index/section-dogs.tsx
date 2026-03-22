@@ -1,19 +1,21 @@
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Routes } from "#i/core/navigation";
-import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender";
-import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper";
-import { Icon } from "#i/generated/icon";
-import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server.js";
-import { SectionId } from "./section-id.js";
+import { joinReactNodes } from "@animeaux/core"
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Routes } from "#i/core/navigation"
+import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender"
+import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper"
+import { Icon } from "#i/generated/icon"
+
+import type { loader } from "./loader.server.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionDogs() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.DOGS}>
@@ -51,18 +53,18 @@ export function SectionDogs() {
         )
       )}
     </FormLayout.Section>
-  );
+  )
 }
 
 function SectionDog({
   dog,
 }: {
   dog: {
-    gender: Gender;
-    idNumber: string;
-    isCategorized: boolean;
-    isSterilized: boolean;
-  };
+    gender: Gender
+    idNumber: string
+    isCategorized: boolean
+    isSterilized: boolean
+  }
 }) {
   return (
     <>
@@ -114,14 +116,14 @@ function SectionDog({
         </FormLayout.Field>
       </FormLayout.Row>
     </>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -130,7 +132,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validé",
     } satisfies Record<typeof exhibitor.dogsConfigurationStatus, string>
-  )[exhibitor.dogsConfigurationStatus];
+  )[exhibitor.dogsConfigurationStatus]
 
   const content = (
     {
@@ -142,7 +144,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "Le profil des chiens sur votre stand est validé par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.dogsConfigurationStatus, string>
-  )[exhibitor.dogsConfigurationStatus];
+  )[exhibitor.dogsConfigurationStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -152,5 +154,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { createContext, useContext, useMemo } from "react";
-import invariant from "tiny-invariant";
+import { createContext, useContext, useMemo } from "react"
+import invariant from "tiny-invariant"
 
 /**
  * Creates a React Context and return:
@@ -12,7 +12,7 @@ import invariant from "tiny-invariant";
 export function createStrictContext<TValue extends object>(
   defaultContextValue?: TValue,
 ) {
-  const Context = createContext<undefined | TValue>(defaultContextValue);
+  const Context = createContext<undefined | TValue>(defaultContextValue)
 
   function StrictContextProvider({
     children,
@@ -24,23 +24,23 @@ export function createStrictContext<TValue extends object>(
       // Only re-memoize when prop values change
       // eslint-disable-next-line react-hooks/exhaustive-deps
       Object.values(contextValue),
-    );
+    )
 
-    return <Context.Provider value={value}>{children}</Context.Provider>;
+    return <Context.Provider value={value}>{children}</Context.Provider>
   }
 
   function useStrictContextValue() {
-    const context = useContext(Context);
+    const context = useContext(Context)
 
     invariant(
       context != null,
       '"useStrictContextValue" must be used within "StrictContextProvider".',
-    );
+    )
 
-    return context;
+    return context
   }
 
-  return [StrictContextProvider, useStrictContextValue] as const;
+  return [StrictContextProvider, useStrictContextValue] as const
 }
 
 /**
@@ -56,20 +56,20 @@ export function createHookContext<TValue extends object, TProps extends object>(
   defaultContextValue?: TValue,
 ) {
   const [StrictContextProvider, useStrictContextValue] =
-    createStrictContext<TValue>(defaultContextValue);
+    createStrictContext<TValue>(defaultContextValue)
 
   function HookContextProvider({
     children,
     ...props
   }: React.PropsWithChildren<TProps>) {
-    const contextValue = hookFunction(props as TProps);
+    const contextValue = hookFunction(props as TProps)
 
     return (
       <StrictContextProvider {...contextValue}>
         {children}
       </StrictContextProvider>
-    );
+    )
   }
 
-  return [HookContextProvider, useStrictContextValue] as const;
+  return [HookContextProvider, useStrictContextValue] as const
 }

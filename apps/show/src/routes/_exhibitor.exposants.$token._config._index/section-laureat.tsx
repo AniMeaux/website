@@ -1,15 +1,17 @@
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+
+import type { loader } from "./loader.server"
 
 export function SectionLaureat() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const isLaureat = exhibitor.isOrganizersFavorite || exhibitor.isRisingStar;
+  const isLaureat = exhibitor.isOrganizersFavorite || exhibitor.isRisingStar
 
   if (!isLaureat) {
-    return null;
+    return null
   }
 
   return (
@@ -23,14 +25,14 @@ export function SectionLaureat() {
 
       <FormLayout.SectionSeparator />
     </>
-  );
+  )
 }
 
 function HelperOrganizersFavorite() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (!exhibitor.isOrganizersFavorite) {
-    return null;
+    return null
   }
 
   return (
@@ -46,14 +48,14 @@ function HelperOrganizersFavorite() {
         participation.
       </p>
     </HelperCard.Root>
-  );
+  )
 }
 
 function HelperRisingStar() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (!exhibitor.isRisingStar) {
-    return null;
+    return null
   }
 
   return (
@@ -68,5 +70,5 @@ function HelperRisingStar() {
         documents dans votre espace exposant pour valider votre inscription.
       </p>
     </HelperCard.Root>
-  );
+  )
 }

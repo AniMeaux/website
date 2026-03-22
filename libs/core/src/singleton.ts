@@ -1,5 +1,5 @@
 declare global {
-  var __singletons: undefined | Record<string, any>;
+  var __singletons: undefined | Record<string, unknown>
 }
 
 /**
@@ -13,8 +13,8 @@ declare global {
  * @see https://github.com/jenseng/abuse-the-platform/blob/2993a7e846c95ace693ce61626fa072174c8d9c7/app/utils/singleton.ts
  */
 export function singleton<TValue>(name: string, factory: () => TValue): TValue {
-  const yolo = global;
-  yolo.__singletons ??= {};
-  yolo.__singletons[name] ??= factory();
-  return yolo.__singletons[name];
+  const yolo = global
+  yolo.__singletons ??= {}
+  yolo.__singletons[name] ??= factory()
+  return yolo.__singletons[name] as TValue
 }

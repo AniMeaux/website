@@ -1,13 +1,14 @@
-import { ErrorsInlineHelper } from "#i/core/data-display/errors";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+
+import { ErrorsInlineHelper } from "#i/core/data-display/errors"
 
 export function Form({
   className,
   hasHeader = false,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof Primitive.form> & {
-  hasHeader?: boolean;
+  hasHeader?: boolean
 }) {
   return (
     <Primitive.form
@@ -18,7 +19,7 @@ export function Form({
         className,
       )}
     />
-  );
+  )
 }
 
 Form.Action = function FormAction({
@@ -31,8 +32,8 @@ Form.Action = function FormAction({
       type="submit"
       className={cn("w-full md:w-auto", className)}
     />
-  );
-};
+  )
+}
 
 Form.Fields = function FormFields({
   className,
@@ -43,8 +44,8 @@ Form.Fields = function FormFields({
       {...rest}
       className={cn("flex w-full flex-col gap-2", className)}
     />
-  );
-};
+  )
+}
 
 Form.Row = function FormRow({
   className,
@@ -55,15 +56,15 @@ Form.Row = function FormRow({
       {...rest}
       className={cn("grid auto-cols-fr gap-2 md:grid-flow-col", className)}
     />
-  );
-};
+  )
+}
 
 Form.Field = function FormField({
   className,
   isInline = false,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-  isInline?: boolean;
+  isInline?: boolean
 }) {
   return (
     <Primitive.div
@@ -75,15 +76,15 @@ Form.Field = function FormField({
         className,
       )}
     />
-  );
-};
+  )
+}
 
 Form.Label = function FormLabel({
   htmlFor,
   className,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Primitive.label>) {
-  const Component = htmlFor == null ? Primitive.span : Primitive.label;
+  const Component = htmlFor == null ? Primitive.span : Primitive.label
 
   return (
     <Component
@@ -95,8 +96,8 @@ Form.Label = function FormLabel({
         className,
       )}
     />
-  );
-};
+  )
+}
 
 Form.ErrorMessage = function FormErrorMessage({
   className,
@@ -107,8 +108,8 @@ Form.ErrorMessage = function FormErrorMessage({
       {...rest}
       className={cn("text-red-500 text-caption-default", className)}
     />
-  );
-};
+  )
+}
 
 Form.HelperMessage = function FormHelperMessage({
   className,
@@ -119,7 +120,7 @@ Form.HelperMessage = function FormHelperMessage({
       {...rest}
       className={cn("text-gray-500 text-caption-default", className)}
     />
-  );
-};
+  )
+}
 
-Form.Errors = ErrorsInlineHelper;
+Form.Errors = ErrorsInlineHelper

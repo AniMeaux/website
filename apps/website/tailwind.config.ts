@@ -1,7 +1,7 @@
-import type { Config } from "tailwindcss";
-import defaultColors from "tailwindcss/colors";
-import defaultTheme from "tailwindcss/defaultTheme";
-import plugin from "tailwindcss/plugin";
+import type { Config } from "tailwindcss"
+import defaultColors from "tailwindcss/colors"
+import defaultTheme from "tailwindcss/defaultTheme"
+import plugin from "tailwindcss/plugin"
 
 // Color gradiants generated from Material Design.
 // https://material.io/design/color/the-color-system.html#tools-for-picking-colors
@@ -18,7 +18,7 @@ const brandBlue = {
   // Closest to primary #0078bf.
   800: "#0079bf",
   900: "#00599d",
-};
+}
 
 const brandGreen = {
   50: "#e7f6e9",
@@ -32,7 +32,7 @@ const brandGreen = {
   700: "#1b933a",
   800: "#0c822f",
   900: "#00631a",
-};
+}
 
 const brandYellow = {
   50: "#fff8e2",
@@ -46,7 +46,7 @@ const brandYellow = {
   700: "#fea213",
   800: "#fe9112",
   900: "#fd720f",
-};
+}
 
 const brandRed = {
   50: "#ffeaed",
@@ -60,7 +60,7 @@ const brandRed = {
   700: "#db1c20",
   800: "#ce1019",
   900: "#c00008",
-};
+}
 
 const brandCyan = {
   50: "#def4f5",
@@ -74,12 +74,12 @@ const brandCyan = {
   700: "#00837d",
   800: "#00736d",
   900: "#00574e",
-};
+}
 
 export const screens = {
   xs: "475px",
   ...defaultTheme.screens,
-};
+}
 
 export const colors = {
   gray: defaultColors.gray,
@@ -114,7 +114,7 @@ export const colors = {
   instagram: "#ad3d7a",
   linkedin: "#2c66bc",
   twitter: "#499be9",
-};
+}
 
 const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -165,9 +165,9 @@ const theme: Config = {
     pluginSafePadding(),
     pluginTextStyles(),
   ],
-};
+}
 
-export default theme;
+export default theme
 
 /**
  * Override hover to make sure it's only applied on supported devices.
@@ -176,9 +176,9 @@ export default theme;
  */
 function pluginHover() {
   return plugin(({ addVariant }) => {
-    addVariant("hover", "@media(any-hover:hover){&:hover}");
-    addVariant("group-hover", "@media(any-hover:hover){.group:hover &}");
-  });
+    addVariant("hover", "@media(any-hover:hover){&:hover}")
+    addVariant("group-hover", "@media(any-hover:hover){.group:hover &}")
+  })
 }
 
 /**
@@ -246,8 +246,8 @@ function pluginTextStyles() {
         "font-size": "20px",
         "line-height": "24px",
       },
-    });
-  });
+    })
+  })
 }
 
 function pluginSafePadding() {
@@ -274,8 +274,8 @@ function pluginSafePadding() {
         "pl-safe": (value) => createSafePadding("left", value),
       },
       { values: theme("spacing") },
-    );
-  });
+    )
+  })
 }
 
 function pluginBubble() {
@@ -301,8 +301,8 @@ function pluginBubble() {
           xl: [theme("spacing.24"), theme("spacing.12")],
         },
       },
-    );
-  });
+    )
+  })
 }
 
 function pluginCustomScrollbar() {
@@ -321,8 +321,8 @@ function pluginCustomScrollbar() {
         }),
       },
       { values: { none: "none" } },
-    );
-  });
+    )
+  })
 }
 
 function createSafePadding(
@@ -334,14 +334,14 @@ function createSafePadding(
     right: "paddingRight",
     bottom: "paddingBottom",
     left: "paddingLeft",
-  }[side];
+  }[side]
 
   const envVariable = {
     top: "safe-area-inset-top",
     right: "safe-area-inset-right",
     bottom: "safe-area-inset-bottom",
     left: "safe-area-inset-left",
-  }[side];
+  }[side]
 
   return {
     [name]: [
@@ -349,5 +349,5 @@ function createSafePadding(
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,
     ],
-  };
+  }
 }

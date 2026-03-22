@@ -1,16 +1,18 @@
-import { Routes } from "#i/core/navigation.js";
-import { badRequest } from "#i/core/response.server.js";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
-import { actionSchema } from "./action";
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import { parseWithZod } from "@conform-to/zod"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
+
+import { Routes } from "#i/core/navigation.js"
+import { badRequest } from "#i/core/response.server.js"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
+
+import { actionSchema } from "./action"
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { invoiceCount, application } = await promiseHash({
     invoiceCount: services.invoice.getCountByToken(routeParams.token),
@@ -23,18 +25,18 @@ export async function action({ request, params }: ActionFunctionArgs) {
         structureCountry: true,
       },
     }),
-  });
+  })
 
   if (invoiceCount > 0) {
-    throw badRequest();
+    throw badRequest()
   }
 
-  const formData = await request.formData();
+  const formData = await request.formData()
 
-  const submission = parseWithZod(formData, { schema: actionSchema });
+  const submission = parseWithZod(formData, { schema: actionSchema })
 
   if (submission.status !== "success") {
-    return json(submission.reply(), { status: 400 });
+    return json(submission.reply(), { status: 400 })
   }
 
   await services.invoice.updateAddress(
@@ -52,9 +54,9 @@ export async function action({ request, params }: ActionFunctionArgs) {
           billingCity: submission.value.city,
           billingCountry: submission.value.country,
         },
-  );
+  )
 
-  services.invoiceEmail.billingAddressChanged(routeParams.token);
+  void services.invoiceEmail.billingAddressChanged(routeParams.token)
 
-  throw redirect(Routes.exhibitors.token(routeParams.token).invoice.toString());
+  throw redirect(Routes.exhibitors.token(routeParams.token).invoice.toString())
 }

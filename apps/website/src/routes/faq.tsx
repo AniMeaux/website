@@ -1,27 +1,28 @@
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
+
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { questionsImages } from "#i/images/questions";
-import { socialImages } from "#i/images/social";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { questionsImages } from "#i/images/questions"
+import { socialImages } from "#i/images/social"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Foire aux questions"),
     imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.faq.imagesBySize[1024]}`,
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -66,15 +67,15 @@ export default function Route() {
         </ul>
       </section>
     </main>
-  );
+  )
 }
 
 type Faq = {
-  icon: IconProps["id"];
-  color: "blue" | "green" | "yellow" | "red" | "cyan";
-  question: string;
-  answer: React.ReactNode;
-};
+  icon: IconProps["id"]
+  color: "blue" | "green" | "yellow" | "red" | "cyan"
+  question: string
+  answer: React.ReactNode
+}
 
 const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
   blue: "bg-brandBlue-lightest text-brandBlue",
@@ -82,7 +83,7 @@ const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
   green: "bg-brandGreen-lightest text-brandGreen",
   red: "bg-brandRed-lightest text-brandRed",
   yellow: "bg-brandYellow-lightest text-brandYellow-darker",
-};
+}
 
 const FAQ: Faq[] = [
   {
@@ -255,4 +256,4 @@ const FAQ: Faq[] = [
       </>
     ),
   },
-];
+]

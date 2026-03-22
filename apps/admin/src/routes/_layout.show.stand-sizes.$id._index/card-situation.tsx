@@ -1,10 +1,12 @@
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import { Card } from "#i/core/layout/card.js";
-import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
-import { formatBooking } from "#i/show/stand-size/booking.js";
-import { Visibility, VisibilityIcon } from "#i/show/visibility.js";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
+import { formatBooking } from "#i/show/stand-size/booking.js"
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
+
+import type { loader } from "./loader.server"
 
 export function CardSituation() {
   return (
@@ -20,11 +22,11 @@ export function CardSituation() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemBooking() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -34,11 +36,11 @@ function ItemBooking() {
       Remplissage :{" "}
       <strong className="text-body-emphasis">{formatBooking(standSize)}</strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemVisibility() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -61,5 +63,5 @@ function ItemVisibility() {
         </>
       )}
     </SimpleItem>
-  );
+  )
 }

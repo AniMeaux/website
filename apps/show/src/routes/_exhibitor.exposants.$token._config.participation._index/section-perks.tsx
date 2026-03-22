@@ -1,16 +1,18 @@
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { Routes } from "#i/core/navigation";
-import { PerksHelper } from "#i/exhibitors/perks/helper.js";
-import { Icon } from "#i/generated/icon";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server.js";
-import { SectionId } from "./section-id.js";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
+
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { Routes } from "#i/core/navigation"
+import { PerksHelper } from "#i/exhibitors/perks/helper.js"
+import { Icon } from "#i/generated/icon"
+
+import type { loader } from "./loader.server.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionPerks() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.PERKS}>
@@ -42,11 +44,11 @@ export function SectionPerks() {
 
       <FieldAppetizerPeopleCount />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldAppetizerPeopleCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -56,11 +58,11 @@ function FieldAppetizerPeopleCount() {
 
       <FormLayout.Output>{exhibitor.appetizerPeopleCount}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldBreakfastPeopleCountSaturday() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -72,11 +74,11 @@ function FieldBreakfastPeopleCountSaturday() {
         {exhibitor.breakfastPeopleCountSaturday}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldBreakfastPeopleCountSunday() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -88,14 +90,14 @@ function FieldBreakfastPeopleCountSunday() {
         {exhibitor.breakfastPeopleCountSunday}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.perksStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -104,7 +106,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validée",
     } satisfies Record<typeof exhibitor.perksStatus, string>
-  )[exhibitor.perksStatus];
+  )[exhibitor.perksStatus]
 
   const content = (
     {
@@ -116,7 +118,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "Les avantages que vous avez sélectionnés sont validés par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.perksStatus, string>
-  )[exhibitor.perksStatus];
+  )[exhibitor.perksStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -126,5 +128,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

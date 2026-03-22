@@ -1,10 +1,11 @@
-import type { ChipColor } from "#i/core/data-display/chip";
-import { Chip } from "#i/core/data-display/chip";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { Status } from "@animeaux/prisma";
-import difference from "lodash.difference";
-import orderBy from "lodash.orderby";
+import { cn } from "@animeaux/core"
+import { Status } from "@animeaux/prisma"
+import difference from "lodash.difference"
+import orderBy from "lodash.orderby"
+
+import type { ChipColor } from "#i/core/data-display/chip"
+import { Chip } from "#i/core/data-display/chip"
+import { Icon } from "#i/generated/icon"
 
 export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.ADOPTED]: "Adopté",
@@ -18,12 +19,12 @@ export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.RETURNED]: "Restitué",
   [Status.UNAVAILABLE]: "Indisponible",
   [Status.TRANSFERRED]: "Transféré",
-};
+}
 
 export const SORTED_STATUS = orderBy(
   Object.values(Status),
   (status) => STATUS_TRANSLATION[status],
-);
+)
 
 export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.OPEN_TO_ADOPTION,
@@ -31,19 +32,19 @@ export const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.RESERVED,
   Status.RETIRED,
   Status.UNAVAILABLE,
-];
+]
 
 export const NON_ACTIVE_ANIMAL_STATUS = difference(
   SORTED_STATUS,
   ACTIVE_ANIMAL_STATUS,
-);
+)
 
 export function StatusBadge({
   status,
   className,
 }: {
-  status: Status;
-  className?: string;
+  status: Status
+  className?: string
 }) {
   return (
     <Chip
@@ -53,7 +54,7 @@ export function StatusBadge({
     >
       {STATUS_TRANSLATION[status]}
     </Chip>
-  );
+  )
 }
 
 const STATUS_CHIP_COLOR: Record<Status, ChipColor> = {
@@ -68,14 +69,14 @@ const STATUS_CHIP_COLOR: Record<Status, ChipColor> = {
   [Status.RETURNED]: "black",
   [Status.UNAVAILABLE]: "red",
   [Status.TRANSFERRED]: "black",
-};
+}
 
 export function StatusIcon({
   status,
   className,
 }: {
-  status: Status;
-  className?: string;
+  status: Status
+  className?: string
 }) {
   return (
     <Icon
@@ -85,7 +86,7 @@ export function StatusIcon({
         CHIP_COLOR_STATUS_ICON_CLASS_NAMES[STATUS_CHIP_COLOR[status]],
       )}
     />
-  );
+  )
 }
 
 const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
@@ -95,4 +96,4 @@ const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
   blue: cn("text-blue-500"),
   yellow: cn("text-yellow-400"),
   orange: cn("text-orange-500"),
-};
+}

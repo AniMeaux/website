@@ -1,23 +1,23 @@
+import { joinReactNodes } from "@animeaux/core"
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Img } from "@react-email/components"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import { createImageUrl } from "#i/core/data-display/image.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { ImageData } from "#i/core/image/data.js";
-import { Routes } from "#i/core/navigation.js";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
-import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Img } from "@react-email/components";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+} from "#i/core/data-display/email-html.server.js"
+import { createImageUrl } from "#i/core/data-display/image.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { ImageData } from "#i/core/image/data.js"
+import { Routes } from "#i/core/navigation.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
 
 export class ServiceExhibitorPublicProfileEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,
@@ -39,7 +39,7 @@ export class ServiceExhibitorPublicProfileEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionPublicProfile() {
       return (
@@ -103,7 +103,7 @@ export class ServiceExhibitorPublicProfileEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -144,7 +144,7 @@ export class ServiceExhibitorPublicProfileEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -165,14 +165,14 @@ export class ServiceExhibitorPublicProfileEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.publicProfileStatus ===
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.publicProfileStatus) {
@@ -239,7 +239,7 @@ export class ServiceExhibitorPublicProfileEmail {
                 </EmailHtml.Output.Row>
               </EmailHtml.Output.Table>
             </EmailHtml.Section.Root>
-          );
+          )
         }
 
         return await this.email.send({
@@ -280,14 +280,14 @@ export class ServiceExhibitorPublicProfileEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.publicProfileStatusMessage != null,
           "A publicProfileStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "profil-public-exposant-traité",
@@ -323,18 +323,17 @@ export class ServiceExhibitorPublicProfileEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.publicProfileStatus satisfies never;
+        return exhibitor.publicProfileStatus satisfies never
       }
     }
   }
 }
 
 export class ServiceExhibitorDescriptionEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,
@@ -350,7 +349,7 @@ export class ServiceExhibitorDescriptionEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionDescription() {
       return (
@@ -366,7 +365,7 @@ export class ServiceExhibitorDescriptionEmail {
             <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
           )}
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -407,7 +406,7 @@ export class ServiceExhibitorDescriptionEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -424,13 +423,13 @@ export class ServiceExhibitorDescriptionEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.descriptionStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.descriptionStatus) {
@@ -449,7 +448,7 @@ export class ServiceExhibitorDescriptionEmail {
                 <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
               )}
             </EmailHtml.Section.Root>
-          );
+          )
         }
 
         return await this.email.send({
@@ -489,14 +488,14 @@ export class ServiceExhibitorDescriptionEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.descriptionStatusMessage != null,
           "A descriptionStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "description-exposant-traité",
@@ -532,11 +531,11 @@ export class ServiceExhibitorDescriptionEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.descriptionStatus satisfies never;
+        return exhibitor.descriptionStatus satisfies never
       }
     }
   }

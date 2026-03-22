@@ -1,17 +1,19 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { SponsorSearchParams } from "#i/show/sponsors/search-params";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { useLoaderData } from "@remix-run/react";
-import { SponsorItem } from "./item";
-import type { loader } from "./route";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+import { useLoaderData } from "@remix-run/react"
+
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { SponsorSearchParams } from "#i/show/sponsors/search-params"
+
+import { SponsorItem } from "./item"
+import type { loader } from "./route"
 
 export function CardList() {
-  const { totalCount, pageCount, sponsors } = useLoaderData<typeof loader>();
-  const [searchParams] = useOptimisticSearchParams();
+  const { totalCount, pageCount, sponsors } = useLoaderData<typeof loader>()
+  const [searchParams] = useOptimisticSearchParams()
 
   return (
     <Card>
@@ -53,5 +55,5 @@ export function CardList() {
         </Card.Footer>
       ) : null}
     </Card>
-  );
+  )
 }

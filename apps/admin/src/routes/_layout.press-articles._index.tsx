@@ -1,45 +1,46 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { DynamicImage } from "#i/core/data-display/image";
-import { db } from "#i/core/db.server";
-import { NotFoundError } from "#i/core/errors.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog";
-import { prisma } from "#i/core/prisma.server";
-import { badRequest, notFound } from "#i/core/response.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { cn } from "@animeaux/core"
+import { FormDataDelegate } from "@animeaux/form-data"
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
   SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { promiseHash } from "remix-utils/promise"
 
-const PRESS_ARTICLES_COUNT_PER_PAGE = 20;
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { DynamicImage } from "#i/core/data-display/image"
+import { db } from "#i/core/db.server"
+import { NotFoundError } from "#i/core/errors.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog"
+import { prisma } from "#i/core/prisma.server"
+import { badRequest, notFound } from "#i/core/response.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+
+const PRESS_ARTICLES_COUNT_PER_PAGE = 20
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const pageSearchParams = PageSearchParams.parse(searchParams)
 
   const { pressArticles, totalCount } = await promiseHash({
     totalCount: prisma.pressArticle.count(),
@@ -57,55 +58,55 @@ export async function loader({ request }: LoaderFunctionArgs) {
         url: true,
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / PRESS_ARTICLES_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / PRESS_ARTICLES_COUNT_PER_PAGE)
 
-  return json({ totalCount, pageCount, pressArticles });
+  return json({ totalCount, pageCount, pressArticles })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Articles de presse") }];
-};
+  return [{ title: getPageTitle("Articles de presse") }]
+}
 
 const DeleteActionFormData = FormDataDelegate.create(
   zu.object({
     id: zu.string().uuid(),
   }),
-);
+)
 
 export async function action({ request }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw notFound();
+    throw notFound()
   }
 
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const formData = DeleteActionFormData.safeParse(await request.formData());
+  const formData = DeleteActionFormData.safeParse(await request.formData())
   if (!formData.success) {
-    throw badRequest();
+    throw badRequest()
   }
 
   try {
-    await db.pressArticle.delete(formData.data.id);
+    await db.pressArticle.delete(formData.data.id)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
-    throw error;
+    throw error
   }
 
-  return new Response("OK");
+  return new Response("OK")
 }
 
 export default function Route() {
   const { totalCount, pageCount, pressArticles } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -157,7 +158,7 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function PressArticleItem({
@@ -165,13 +166,13 @@ function PressArticleItem({
   imageLoading,
   className,
 }: {
-  pressArticle: SerializeFrom<typeof loader>["pressArticles"][number];
+  pressArticle: SerializeFrom<typeof loader>["pressArticles"][number]
   imageLoading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
-  >;
-  className?: string;
+  >
+  className?: string
 }) {
-  const fetcher = useFetcher<typeof action>();
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <BaseLink
@@ -203,6 +204,7 @@ function PressArticleItem({
 
         <Dialog>
           <span
+            role="presentation"
             onClick={(event) => event.preventDefault()}
             className="absolute bottom-0.5 right-0.5 flex"
           >
@@ -260,5 +262,5 @@ function PressArticleItem({
         <p className="text-body-default">{pressArticle.title}</p>
       </div>
     </BaseLink>
-  );
+  )
 }

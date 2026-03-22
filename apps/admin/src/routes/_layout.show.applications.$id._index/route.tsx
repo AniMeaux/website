@@ -1,22 +1,24 @@
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
-import { CardActivityDescription } from "./card-activity-description";
-import { CardComments } from "./card-comments";
-import { CardContact } from "./card-contact";
-import { CardDiscoverySource } from "./card-discovery-source";
-import { CardMotivation } from "./card-motivation";
-import { CardParticipation } from "./card-participation";
-import { CardSituation } from "./card-situation";
-import { CardSituationRefusalMessage } from "./card-situation-refusal-message";
-import { CardSponsorship } from "./card-sponsorship";
-import { CardStructure } from "./card-structure";
-import { Header } from "./header";
-import type { loader } from "./loader.server";
+import type { MetaFunction } from "@remix-run/react"
 
-export { action } from "./action.server";
-export { loader } from "./loader.server";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+
+import { CardActivityDescription } from "./card-activity-description"
+import { CardComments } from "./card-comments"
+import { CardContact } from "./card-contact"
+import { CardDiscoverySource } from "./card-discovery-source"
+import { CardMotivation } from "./card-motivation"
+import { CardParticipation } from "./card-participation"
+import { CardSituation } from "./card-situation"
+import { CardSituationRefusalMessage } from "./card-situation-refusal-message"
+import { CardSponsorship } from "./card-sponsorship"
+import { CardStructure } from "./card-structure"
+import { Header } from "./header"
+import type { loader } from "./loader.server"
+
+export { action } from "./action.server"
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -27,15 +29,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
           : getErrorTitle(404),
       ),
     },
-  ];
-};
+  ]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
@@ -65,5 +67,5 @@ export default function Route() {
         </div>
       </PageLayout.Content>
     </>
-  );
+  )
 }

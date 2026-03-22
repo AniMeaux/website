@@ -1,16 +1,16 @@
-import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js";
-import { ImageData } from "#i/core/image/data.js";
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import { notFound } from "#i/core/response.server.js";
-import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
-import type { FileStorage } from "@animeaux/file-storage/server";
-import type { Prisma, ShowExhibitor } from "@animeaux/prisma/server";
-import { ShowExhibitorStatus } from "@animeaux/prisma/server";
-import { captureException } from "@sentry/remix";
-import { promiseHash } from "remix-utils/promise";
+import type { FileStorage } from "@animeaux/file-storage/server"
+import type { Prisma, ShowExhibitor } from "@animeaux/prisma/server"
+import { ShowExhibitorStatus } from "@animeaux/prisma/server"
+import { captureException } from "@sentry/remix"
+import { promiseHash } from "remix-utils/promise"
+
+import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js"
+import { ImageData } from "#i/core/image/data.js"
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js"
 
 export class ServiceExhibitor {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private prisma: ServicePrisma,
     private fileStorage: FileStorage,
@@ -24,13 +24,13 @@ export class ServiceExhibitor {
     const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor;
+    return exhibitor
   }
 
   async getByToken<T extends Prisma.ShowExhibitorSelect>(
@@ -40,31 +40,31 @@ export class ServiceExhibitor {
     const exhibitor = await this.prisma.showExhibitor.findUnique({
       where: { token },
       select: params.select,
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor;
+    return exhibitor
   }
 
   async getCount() {
-    return await this.prisma.showExhibitor.count();
+    return await this.prisma.showExhibitor.count()
   }
 
   async findManyVisible<T extends Prisma.ShowExhibitorSelect>(params: {
-    searchParams: ExhibitorSearchParams;
-    select: T;
+    searchParams: ExhibitorSearchParams
+    select: T
   }) {
-    const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }];
+    const where: Prisma.ShowExhibitorWhereInput[] = [{ isVisible: true }]
 
     if (
       params.searchParams.eventTypes.has(
         ExhibitorSearchParams.EventType.Enum.ON_STAGE,
       )
     ) {
-      where.push({ animations: { some: { isVisible: true } } });
+      where.push({ animations: { some: { isVisible: true } } })
     }
 
     if (
@@ -75,40 +75,40 @@ export class ServiceExhibitor {
       where.push({
         onStandAnimationsStatus: ShowExhibitorStatus.VALIDATED,
         onStandAnimations: { not: null },
-      });
+      })
     }
 
     if (params.searchParams.fields.size > 0) {
       where.push({
         activityFields: { hasSome: Array.from(params.searchParams.fields) },
-      });
+      })
     }
 
     if (params.searchParams.isOrganizersFavorite) {
-      where.push({ isOrganizersFavorite: true });
+      where.push({ isOrganizersFavorite: true })
     }
 
     if (params.searchParams.isRisingStar) {
-      where.push({ isRisingStar: true });
+      where.push({ isRisingStar: true })
     }
 
     if (params.searchParams.isSponsor) {
       where.push({
         OR: [{ sponsorship: { isVisible: true } }, { isOrganizer: true }],
-      });
+      })
     }
 
     if (params.searchParams.targets.size > 0) {
       where.push({
         activityTargets: { hasSome: Array.from(params.searchParams.targets) },
-      });
+      })
     }
 
     return await this.prisma.showExhibitor.findMany({
       where: { AND: where },
       orderBy: { name: "asc" },
       select: params.select,
-    });
+    })
   }
 
   async getFilesByToken(token: string) {
@@ -119,13 +119,13 @@ export class ServiceExhibitor {
         insuranceFileId: true,
         kbisFileId: true,
       },
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return await this.#getFiles(exhibitor);
+    return await this.#getFiles(exhibitor)
   }
 
   async getFilesByExhibitor(exhibitorId: string) {
@@ -136,13 +136,13 @@ export class ServiceExhibitor {
         insuranceFileId: true,
         kbisFileId: true,
       },
-    });
+    })
 
     if (exhibitor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return await this.#getFiles(exhibitor);
+    return await this.#getFiles(exhibitor)
   }
 
   async #getFiles(
@@ -155,15 +155,15 @@ export class ServiceExhibitor {
       identificationFile: this.#getFileMaybe(exhibitor.identificationFileId),
       insuranceFile: this.#getFileMaybe(exhibitor.insuranceFileId),
       kbisFile: this.#getFileMaybe(exhibitor.kbisFileId),
-    });
+    })
   }
 
   async #getFileMaybe(fileId: null | string) {
     if (fileId == null) {
-      return null;
+      return null
     }
 
-    return this.fileStorage.getFile(fileId);
+    return this.fileStorage.getFile(fileId)
   }
 
   async updateDocuments(token: string, data: DocumentsData) {
@@ -174,9 +174,9 @@ export class ServiceExhibitor {
 
         documentStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 
   async updateDogs(token: string, data: ExhibitorDogData[]) {
@@ -187,11 +187,11 @@ export class ServiceExhibitor {
           dogsConfigurationStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
         },
         select: { id: true },
-      });
+      })
 
       await prisma.showExhibitorDog.deleteMany({
         where: { exhibitorId: exhibitor.id },
-      });
+      })
 
       await prisma.showExhibitorDog.createMany({
         data: data.map((dog) => ({
@@ -199,23 +199,23 @@ export class ServiceExhibitor {
 
           exhibitorId: exhibitor.id,
         })),
-      });
+      })
 
-      return true;
-    });
+      return true
+    })
   }
 
   async updatePublicProfile(token: string, data: ExhibitorPublicProfileData) {
     const logoPath =
-      typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set;
+      typeof data.logoPath === "string" ? data.logoPath : data.logoPath?.set
 
     if (logoPath != null) {
       try {
-        const blurhash = await this.blurhash.create(logoPath);
-        data.logoPath = ImageData.stringify({ id: logoPath, blurhash });
+        const blurhash = await this.blurhash.create(logoPath)
+        data.logoPath = ImageData.stringify({ id: logoPath, blurhash })
       } catch (error) {
-        console.error(error);
-        captureException(error, { extra: { logoPath } });
+        console.error(error)
+        captureException(error, { extra: { logoPath } })
       }
     }
 
@@ -226,9 +226,9 @@ export class ServiceExhibitor {
 
         publicProfileStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 
   async updateDescription(token: string, data: ExhibitorDescriptionData) {
@@ -239,9 +239,9 @@ export class ServiceExhibitor {
 
         descriptionStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 
   async updateOnStandAnimations(
@@ -255,13 +255,13 @@ export class ServiceExhibitor {
 
         onStandAnimationsStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 
   async updateStand(token: string, data: ExhibitorStandConfigurationData) {
-    this.#normalizeStand(data);
+    this.#normalizeStand(data)
 
     await this.prisma.showExhibitor.update({
       where: { token },
@@ -270,18 +270,18 @@ export class ServiceExhibitor {
 
         standConfigurationStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 
   #normalizeStand(data: ExhibitorStandConfigurationData) {
     if (data.dividerTypeId == null) {
-      data.dividerCount = 0;
+      data.dividerCount = 0
     }
 
     if (data.tableCount === 0) {
-      data.hasTableCloths = false;
+      data.hasTableCloths = false
     }
   }
 
@@ -293,36 +293,36 @@ export class ServiceExhibitor {
 
         perksStatus: ShowExhibitorStatus.AWAITING_VALIDATION,
       },
-    });
+    })
 
-    return true;
+    return true
   }
 }
 
 type DocumentsData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "identificationFileId" | "insuranceFileId" | "kbisFileId"
->;
+>
 
 type ExhibitorDogData = Pick<
   Prisma.ShowExhibitorDogCreateManyInput,
   "gender" | "idNumber" | "isCategorized" | "isSterilized"
->;
+>
 
 type ExhibitorPublicProfileData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "activityFields" | "activityTargets" | "links" | "logoPath"
->;
+>
 
 type ExhibitorDescriptionData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "description"
->;
+>
 
 type ExhibitorOnStandAnimationsData = Pick<
   Prisma.ShowExhibitorUpdateInput,
   "onStandAnimations"
->;
+>
 
 type ExhibitorStandConfigurationData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
@@ -337,11 +337,11 @@ type ExhibitorStandConfigurationData = Pick<
   | "placementComment"
   | "sizeId"
   | "tableCount"
->;
+>
 
 type ExhibitorPerksData = Pick<
   Prisma.ShowExhibitorUncheckedUpdateInput,
   | "appetizerPeopleCount"
   | "breakfastPeopleCountSaturday"
   | "breakfastPeopleCountSunday"
->;
+>

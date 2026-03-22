@@ -1,13 +1,14 @@
-import { createStrictContext } from "@animeaux/core";
-import { useForm as useFormBase } from "@conform-to/react";
-import { getZodConstraint, parseWithZod } from "@conform-to/zod";
-import { useActionData, useLoaderData } from "@remix-run/react";
-import { actionSchema } from "./action";
-import type { action, loader } from "./route";
+import { createStrictContext } from "@animeaux/core"
+import { useForm as useFormBase } from "@conform-to/react"
+import { getZodConstraint, parseWithZod } from "@conform-to/zod"
+import { useActionData, useLoaderData } from "@remix-run/react"
+
+import { actionSchema } from "./action"
+import type { action, loader } from "./route"
 
 export function useFormRoot() {
-  const { exhibitor, application } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const { exhibitor, application } = useLoaderData<typeof loader>()
+  const actionData = useActionData<typeof action>()
 
   const [form, fields] = useFormBase({
     id: "exhibitor-billing",
@@ -32,15 +33,15 @@ export function useFormRoot() {
 
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: actionSchema }),
-  });
+  })
 
-  return [form, fields] as const;
+  return [form, fields] as const
 }
 
-type Form = ReturnType<typeof useFormRoot>[0];
-type Fields = ReturnType<typeof useFormRoot>[1];
+type Form = ReturnType<typeof useFormRoot>[0]
+type Fields = ReturnType<typeof useFormRoot>[1]
 
 export const [FormProvider, useForm] = createStrictContext<{
-  form: Form;
-  fields: Fields;
-}>();
+  form: Form
+  fields: Fields
+}>()

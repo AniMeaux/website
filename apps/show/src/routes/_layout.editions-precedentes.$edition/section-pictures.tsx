@@ -1,25 +1,27 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { Tab, Tabs } from "#i/core/controllers/tabs";
-import { DynamicImage } from "#i/core/data-display/image";
-import type { ServiceImage } from "#i/core/image/service.server.js";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
-import { PicturesLocationState } from "#i/previous-editions/pictures-location-state";
+import { cn } from "@animeaux/core"
+import type { SerializeFrom } from "@remix-run/node"
+import { Await, Link, useLoaderData, useLocation } from "@remix-run/react"
+import { Suspense } from "react"
+
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { Tab, Tabs } from "#i/core/controllers/tabs"
+import { DynamicImage } from "#i/core/data-display/image"
+import type { ServiceImage } from "#i/core/image/service.server.js"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration"
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state"
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   SORTED_PREVIOUS_EDITIONS,
-} from "#i/previous-editions/previous-edition";
-import { cn } from "@animeaux/core";
-import type { SerializeFrom } from "@remix-run/node";
-import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
-import { Suspense } from "react";
-import type { loader } from "./route";
+} from "#i/previous-editions/previous-edition"
+
+import type { loader } from "./route"
 
 export function SectionPictures() {
-  const { pictures, edition } = useLoaderData<typeof loader>();
+  const { pictures, edition } = useLoaderData<typeof loader>()
 
-  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition]
 
   return (
     <Section.Root columnCount={1}>
@@ -74,24 +76,24 @@ export function SectionPictures() {
         </Suspense>
       </ul>
     </Section.Root>
-  );
+  )
 }
 
 function PictureItem({
   picture,
   index,
 }: {
-  picture: SerializeFrom<ServiceImage.Image>;
-  index: number;
+  picture: SerializeFrom<ServiceImage.Image>
+  index: number
 }) {
-  const { edition } = useLoaderData<typeof loader>();
-  const isCover = index === 0;
+  const { edition } = useLoaderData<typeof loader>()
+  const isCover = index === 0
 
-  const location = useLocation();
+  const location = useLocation()
   const { scrollRestorationLocationKey = location.key } =
-    ScrollRestorationLocationState.parse(location.state);
+    ScrollRestorationLocationState.parse(location.state)
 
-  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition]
 
   return (
     <li
@@ -130,5 +132,5 @@ function PictureItem({
         />
       </Link>
     </li>
-  );
+  )
 }

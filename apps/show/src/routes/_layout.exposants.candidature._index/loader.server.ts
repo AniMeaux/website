@@ -1,12 +1,14 @@
-import { notFound } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
-import { getStandSizesData } from "./stand-sizes.server";
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
+
+import { notFound } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+
+import { getStandSizesData } from "./stand-sizes.server"
 
 export async function loader() {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {
-    throw notFound();
+    throw notFound()
   }
 
   const { files, standSizes } = await promiseHash({
@@ -15,7 +17,7 @@ export async function loader() {
     ),
 
     standSizes: getStandSizesData(),
-  });
+  })
 
   return json({
     files,
@@ -23,5 +25,5 @@ export async function loader() {
     availableStandSizes: standSizes.filter(
       (standSize) => standSize.isAvailable,
     ),
-  });
+  })
 }

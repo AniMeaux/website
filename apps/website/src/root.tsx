@@ -1,15 +1,8 @@
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { Footer } from "#i/core/layout/footer";
-import { Header } from "#i/core/layout/header";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle, pageDescription } from "#i/core/page-title";
-import { theme } from "#i/generated/theme";
-import appleTouchIcon from "#i/images/apple-touch-icon.png";
-import favicon from "#i/images/favicon.svg";
-import { socialImages } from "#i/images/social";
-import { cn } from "@animeaux/core";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import "#i/tailwind.css"
+
+import { cn } from "@animeaux/core"
+import type { LinksFunction, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import {
   Links,
   Meta,
@@ -18,24 +11,32 @@ import {
   ScrollRestoration,
   useLoaderData,
   useLocation,
-} from "@remix-run/react";
-import { Settings } from "luxon";
+} from "@remix-run/react"
+import { Settings } from "luxon"
 
-import "#i/tailwind.css";
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { Footer } from "#i/core/layout/footer"
+import { Header } from "#i/core/layout/header"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle, pageDescription } from "#i/core/page-title"
+import { theme } from "#i/generated/theme"
+import appleTouchIcon from "#i/images/apple-touch-icon.png"
+import favicon from "#i/images/favicon.svg"
+import { socialImages } from "#i/images/social"
 
 // Display dates in French.
-Settings.defaultLocale = "fr";
+Settings.defaultLocale = "fr"
 
 // All "day dates" should be inferred as in Paris time zone.
 // Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
-Settings.defaultZone = "Europe/Paris";
+Settings.defaultZone = "Europe/Paris"
 
 // We're not supposed to have invalid date objects.
 // Use null or undefined instead.
-Settings.throwOnInvalid = true;
+Settings.throwOnInvalid = true
 declare module "luxon" {
   interface TSSettings {
-    throwOnInvalid: true;
+    throwOnInvalid: true
   }
 }
 
@@ -62,31 +63,31 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&display=swap",
     },
-  ];
-};
+  ]
+}
 
 export async function loader() {
-  return json({ CLIENT_ENV: global.CLIENT_ENV });
+  return json({ CLIENT_ENV: global.CLIENT_ENV })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   // The data can be null in case of error.
-  const CLIENT_ENV = data?.CLIENT_ENV;
+  const CLIENT_ENV = data?.CLIENT_ENV
 
-  let imageUrl: string | undefined = undefined;
+  let imageUrl: string | undefined = undefined
   if (CLIENT_ENV != null) {
-    imageUrl = `${CLIENT_ENV.PUBLIC_HOST}${socialImages.default.imagesBySize[1024]}`;
+    imageUrl = `${CLIENT_ENV.PUBLIC_HOST}${socialImages.default.imagesBySize[1024]}`
   }
 
   return createSocialMeta({
     title: getPageTitle(),
     description: pageDescription,
     imageUrl,
-  });
-};
+  })
+}
 
 export default function App() {
-  const { CLIENT_ENV } = useLoaderData<typeof loader>();
+  const { CLIENT_ENV } = useLoaderData<typeof loader>()
 
   return (
     <Document
@@ -99,7 +100,7 @@ export default function App() {
 
       <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
-  );
+  )
 }
 
 export function ErrorBoundary() {
@@ -109,7 +110,7 @@ export function ErrorBoundary() {
 
       <GlobalClientEnv />
     </Document>
-  );
+  )
 }
 
 function Document({
@@ -117,15 +118,15 @@ function Document({
   googleTagManagerId,
   publicHost,
 }: {
-  children: React.ReactNode;
-  googleTagManagerId?: string;
-  publicHost?: string;
+  children: React.ReactNode
+  googleTagManagerId?: string
+  publicHost?: string
 }) {
-  const location = useLocation();
+  const location = useLocation()
 
-  let url = publicHost;
+  let url = publicHost
   if (url != null && location.pathname !== "/") {
-    url = `${url}${location.pathname}`;
+    url = `${url}${location.pathname}`
   }
 
   return (
@@ -178,21 +179,17 @@ function Document({
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
-function GlobalClientEnv({
-  clientEnv = {},
-}: {
-  clientEnv?: Record<string, any>;
-}) {
+function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
   return (
     <script
       dangerouslySetInnerHTML={{
         __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
       }}
     />
-  );
+  )
 }
 
 function GoogleTagManagerScript({ id }: { id: string }) {
@@ -202,7 +199,7 @@ function GoogleTagManagerScript({ id }: { id: string }) {
         __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');`,
       }}
     />
-  );
+  )
 }
 
 function GoogleTagManagerIframe({ id }: { id: string }) {
@@ -216,5 +213,5 @@ function GoogleTagManagerIframe({ id }: { id: string }) {
         style={{ display: "none", visibility: "hidden" }}
       />
     </noscript>
-  );
+  )
 }

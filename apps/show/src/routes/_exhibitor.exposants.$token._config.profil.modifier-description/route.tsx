@@ -1,28 +1,30 @@
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { createSocialMeta } from "#i/core/meta";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { badRequest } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
-import { ActionSchema } from "./action";
-import { SectionForm } from "./section-form";
-import { SectionHelper } from "./section-helper";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import { parseWithZod } from "@conform-to/zod"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { createPath } from "@remix-run/react"
+
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { createSocialMeta } from "#i/core/meta"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { badRequest } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
+
+import { ActionSchema } from "./action"
+import { SectionForm } from "./section-form"
+import { SectionHelper } from "./section-helper"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: { description: true, descriptionStatus: true, name: true },
-  });
+  })
 
   if (exhibitor.descriptionStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
@@ -30,10 +32,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
         pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
         hash: "description",
       }),
-    );
+    )
   }
 
-  return { exhibitor };
+  return { exhibitor }
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -43,40 +45,40 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         ? ["Modifier la description", data.exhibitor.name]
         : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: { descriptionStatus: true },
-  });
+  })
 
   if (exhibitor.descriptionStatus === ShowExhibitorStatus.VALIDATED) {
-    throw badRequest();
+    throw badRequest()
   }
 
-  const formData = await request.formData();
+  const formData = await request.formData()
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, { schema: ActionSchema })
 
   if (submission.status !== "success") {
-    return json(submission.reply(), { status: 400 });
+    return json(submission.reply(), { status: 400 })
   }
 
   await services.exhibitor.updateDescription(routeParams.token, {
     description: submission.value.description || null,
-  });
+  })
 
-  services.exhibitorEmail.description.submitted(routeParams.token);
+  void services.exhibitorEmail.description.submitted(routeParams.token)
 
   throw redirect(
     createPath({
       pathname: Routes.exhibitors.token(routeParams.token).profile.toString(),
       hash: "description",
     }),
-  );
+  )
 }
 
 export default function Route() {
@@ -85,5 +87,5 @@ export default function Route() {
       <SectionForm />
       <SectionHelper />
     </FormLayout.Root>
-  );
+  )
 }

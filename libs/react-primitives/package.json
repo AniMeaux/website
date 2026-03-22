@@ -20,15 +20,23 @@
     "dev:paths": "pnpm build:paths --watch",
     "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
-    "lint:types": "tsc --noEmit"
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:prettier": "prettier --list-different .",
+    "lint:tsc": "tsc --noEmit",
+    "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:prettier": "prettier --write ."
   },
   "dependencies": {
     "@radix-ui/react-slot": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {
+    "@animeaux/dev-tools": "workspace:*",
     "@types/react": "catalog:",
+    "eslint": "catalog:",
     "npm-run-all": "catalog:",
+    "prettier": "catalog:",
     "tsc-alias": "catalog:",
     "typescript": "catalog:"
   }

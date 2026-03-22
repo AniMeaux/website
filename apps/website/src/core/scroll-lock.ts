@@ -1,7 +1,7 @@
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { useEffect } from "react";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock"
+import { useEffect } from "react"
 
-const IGNORE_SCROLL_LOCK_ATTRIBUTE = "data-body-scroll-lock-ignore";
+const IGNORE_SCROLL_LOCK_ATTRIBUTE = "data-body-scroll-lock-ignore"
 
 /**
  * Block all HTML elements from scrolling exept for the targeted ref.
@@ -15,10 +15,10 @@ export function useScrollLock(
   { disabled }: { disabled: boolean },
 ) {
   useEffect(() => {
-    const initialScrollY = window.scrollY;
+    const initialScrollY = window.scrollY
 
     if (!disabled && targetRef.current != null) {
-      const target = targetRef.current;
+      const target = targetRef.current
       disableBodyScroll(target, {
         reserveScrollBarGap: true,
 
@@ -26,25 +26,25 @@ export function useScrollLock(
         // SCROLL_LOCK_IGNORE_ATTRIBUTE.
         // https://github.com/willmcpo/body-scroll-lock#allowtouchmove
         allowTouchMove: (element) => {
-          const ancestor = element.closest(`[${IGNORE_SCROLL_LOCK_ATTRIBUTE}]`);
+          const ancestor = element.closest(`[${IGNORE_SCROLL_LOCK_ATTRIBUTE}]`)
 
           return (
             ancestor != null &&
             ancestor.getAttribute(IGNORE_SCROLL_LOCK_ATTRIBUTE) !== "false"
-          );
+          )
         },
-      });
+      })
 
       return () => {
-        enableBodyScroll(target);
+        enableBodyScroll(target)
 
         // Make sure the scroll gets back to its position.
         // Scrolls can happen on iOS when the keyboard is openned, the scroll
         // lock only block touch events.
-        window.scrollTo({ top: initialScrollY });
-      };
+        window.scrollTo({ top: initialScrollY })
+      }
     }
 
-    return undefined;
-  }, [disabled, targetRef]);
+    return undefined
+  }, [disabled, targetRef])
 }

@@ -1,18 +1,20 @@
-import { BaseLink } from "#i/core/base-link.js";
-import { SimpleEmpty } from "#i/core/data-display/empty.js";
-import { Card } from "#i/core/layout/card.js";
-import { Routes } from "#i/core/navigation.js";
-import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js";
-import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
-import type { SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import type { loader } from "./loader.server";
+import type { SerializeFrom } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js"
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
+
+import type { loader } from "./loader.server"
 
 export function CardStandSizeBooking() {
-  const { show } = useLoaderData<typeof loader>();
+  const { show } = useLoaderData<typeof loader>()
 
   if (show == null) {
-    return null;
+    return null
   }
 
   return (
@@ -40,7 +42,7 @@ export function CardStandSizeBooking() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function StandSizeItem({
@@ -48,7 +50,7 @@ function StandSizeItem({
 }: {
   standSize: NonNullable<
     SerializeFrom<typeof loader>["show"]
-  >["standSizes"][number];
+  >["standSizes"][number]
 }) {
   return (
     <BaseLink
@@ -63,5 +65,5 @@ function StandSizeItem({
         <StandSizeBookingChip standSize={standSize} />
       </div>
     </BaseLink>
-  );
+  )
 }

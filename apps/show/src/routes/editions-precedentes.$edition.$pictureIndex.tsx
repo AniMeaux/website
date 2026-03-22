@@ -1,83 +1,84 @@
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { DynamicImage } from "#i/core/data-display/image";
-import { useElementSize } from "#i/core/elements";
-import type { RouteHandle } from "#i/core/handles";
-import { createSocialMeta } from "#i/core/meta";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
-import { services } from "#i/core/services.server.js";
-import { Icon } from "#i/generated/icon";
-import { PicturesLocationState } from "#i/previous-editions/pictures-location-state";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react"
+import { forwardRef } from "react"
+
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { DynamicImage } from "#i/core/data-display/image"
+import { useElementSize } from "#i/core/elements"
+import type { RouteHandle } from "#i/core/handles"
+import { createSocialMeta } from "#i/core/meta"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { notFound } from "#i/core/response.server"
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration"
+import { services } from "#i/core/services.server.js"
+import { Icon } from "#i/generated/icon"
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state"
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
-} from "#i/previous-editions/previous-edition";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { forwardRef } from "react";
+} from "#i/previous-editions/previous-edition"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-black"),
   isFullHeight: true,
-};
+}
 
 const ParamsSchema = zu.object({
   edition: zu.nativeEnum(PreviousEdition),
   pictureIndex: zu.searchParams.number().pipe(zu.number().int().min(0)),
-});
+})
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(ParamsSchema, params);
+  const routeParams = safeParseRouteParam(ParamsSchema, params)
 
-  const pictures = await services.image.getAllImages(routeParams.edition);
+  const pictures = await services.image.getAllImages(routeParams.edition)
 
-  const picture = pictures[routeParams.pictureIndex];
+  const picture = pictures[routeParams.pictureIndex]
   if (picture == null) {
-    throw notFound();
+    throw notFound()
   }
 
   return json({
     edition: routeParams.edition,
     picture,
     pictureCount: pictures.length,
-  });
+  })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  let title = getErrorTitle(404);
+  let title = getErrorTitle(404)
 
   if (data != null) {
-    const photograph = PREVIOUS_EDITION_PHOTOGRAPH[data.edition];
+    const photograph = PREVIOUS_EDITION_PHOTOGRAPH[data.edition]
 
     title =
       photograph == null
         ? `Photo du salon ${data.edition}.`
-        : `Photo du salon ${data.edition} par ${photograph.name}.`;
+        : `Photo du salon ${data.edition} par ${photograph.name}.`
   }
 
-  return createSocialMeta({ title: getPageTitle(title) });
-};
+  return createSocialMeta({ title: getPageTitle(title) })
+}
 
 export default function Route() {
-  const { pictureIndex } = ParamsSchema.parse(useParams());
-  const { edition, picture, pictureCount } = useLoaderData<typeof loader>();
+  const { pictureIndex } = ParamsSchema.parse(useParams())
+  const { edition, picture, pictureCount } = useLoaderData<typeof loader>()
   const { galleryLocationKey } = PicturesLocationState.parse(
     useLocation().state,
-  );
-  const { ref, size } = useElementSize<React.ComponentRef<"div">>();
+  )
+  const { ref, size } = useElementSize<React.ComponentRef<"div">>()
 
   const width =
     size == null
       ? undefined
-      : Math.min(size.width, (size.height * picture.width) / picture.height);
+      : Math.min(size.width, (size.height * picture.width) / picture.height)
 
-  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition];
+  const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition]
 
   return (
     <main className="grid h-full max-h-full w-full grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px] overflow-hidden px-safe-0 py-safe-0">
@@ -150,7 +151,7 @@ export default function Route() {
         </PictureAction>
       ) : null}
     </main>
-  );
+  )
 }
 
 const PictureAction = forwardRef<
@@ -166,5 +167,5 @@ const PictureAction = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})

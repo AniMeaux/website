@@ -1,28 +1,29 @@
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import type { Location } from "history";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import type { Location } from "history"
+import { forwardRef } from "react"
 
-export type NavGroup = "act" | "adopt" | "discover" | "warn";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+
+export type NavGroup = "act" | "adopt" | "discover" | "warn"
 
 export const navLinkClassName = ({
   isActive = false,
 }: {
-  isActive?: boolean;
+  isActive?: boolean
 } = {}) =>
   cn("flex items-center justify-between gap-1 px-3 py-2", {
     "text-black": isActive,
     "text-gray-700 hover:text-black": !isActive,
-  });
+  })
 
 export type SubNavComponent = React.FC & {
-  isActive(location: Location): boolean;
-};
+  isActive: (location: Location) => boolean
+}
 
-type SubNavItemColor = "blue" | "cyan" | "green" | "red" | "yellow";
+type SubNavItemColor = "blue" | "cyan" | "green" | "red" | "yellow"
 
 const subNavItemBgColorClassName: Record<SubNavItemColor, string> = {
   blue: "bg-brandBlue-lightest",
@@ -30,7 +31,7 @@ const subNavItemBgColorClassName: Record<SubNavItemColor, string> = {
   green: "bg-brandGreen-lightest",
   red: "bg-brandRed-lightest",
   yellow: "bg-brandYellow-lightest",
-};
+}
 
 const subNavItemTextColorClassName: Record<SubNavItemColor, string> = {
   blue: "text-brandBlue",
@@ -38,16 +39,16 @@ const subNavItemTextColorClassName: Record<SubNavItemColor, string> = {
   green: "text-brandGreen",
   red: "text-brandRed",
   yellow: "text-brandYellow-darker",
-};
+}
 
 export const SubNavItem = forwardRef<
   HTMLAnchorElement,
   {
-    to: BaseLinkProps["to"];
-    icon: IconProps["id"];
-    children: string;
-    isMultiline?: boolean;
-    color: SubNavItemColor;
+    to: BaseLinkProps["to"]
+    icon: IconProps["id"]
+    children: string
+    isMultiline?: boolean
+    color: SubNavItemColor
   }
 >(function SubNavItem({ to, icon, children, color, isMultiline = false }, ref) {
   return (
@@ -89,14 +90,14 @@ export const SubNavItem = forwardRef<
         />
       )}
     </BaseLink>
-  );
-});
+  )
+})
 
 export function handleEscape(callback: () => void) {
   return (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape" && !event.isDefaultPrevented()) {
-      event.preventDefault();
-      callback();
+      event.preventDefault()
+      callback()
     }
-  };
+  }
 }

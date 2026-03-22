@@ -1,12 +1,12 @@
-import { cn, createHookContext } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn, createHookContext } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
 export const Empty = {
   Root: forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section> & {
-      isCompact?: boolean;
+      isCompact?: boolean
     }
   >(function EmptyRoot({ isCompact = false, className, ...props }, ref) {
     return (
@@ -20,14 +20,14 @@ export const Empty = {
           )}
         />
       </ContextProvider>
-    );
+    )
   }),
 
   Icon: forwardRef<
     React.ComponentRef<typeof Primitive.span>,
     React.ComponentPropsWithoutRef<typeof Primitive.span>
   >(function EmptyIcon({ className, ...props }, ref) {
-    const { isCompact } = useContext();
+    const { isCompact } = useContext()
 
     return (
       <Primitive.span
@@ -39,7 +39,7 @@ export const Empty = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Content: forwardRef<
@@ -55,14 +55,14 @@ export const Empty = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
     React.ComponentRef<typeof Primitive.h1>,
     React.ComponentPropsWithoutRef<typeof Primitive.h1>
   >(function EmptyTitle({ className, ...props }, ref) {
-    const { isCompact } = useContext();
+    const { isCompact } = useContext()
 
     return (
       <Primitive.h1
@@ -74,15 +74,15 @@ export const Empty = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Message: Primitive.p,
-};
+}
 
 const [ContextProvider, useContext] = createHookContext(
   ({ isCompact }: { isCompact: boolean }) => ({ isCompact }),
-);
+)
 
 export function SimpleEmpty({
   icon,
@@ -94,14 +94,14 @@ export function SimpleEmpty({
   titleElementType: TitleElementType = "h1",
   className,
 }: {
-  icon: string;
-  iconAlt: string;
-  title: string;
-  message: React.ReactNode;
-  action?: React.ReactNode;
-  isCompact?: boolean;
-  titleElementType?: React.ElementType;
-  className?: string;
+  icon: string
+  iconAlt: string
+  title: string
+  message: React.ReactNode
+  action?: React.ReactNode
+  isCompact?: boolean
+  titleElementType?: React.ElementType
+  className?: string
 }) {
   return (
     <Empty.Root isCompact={isCompact} className={className}>
@@ -119,5 +119,5 @@ export function SimpleEmpty({
 
       {action}
     </Empty.Root>
-  );
+  )
 }

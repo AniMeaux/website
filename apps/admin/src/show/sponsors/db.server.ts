@@ -1,9 +1,10 @@
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { SponsorSearchParamsN } from "#i/show/sponsors/search-params";
-import { Visibility } from "#i/show/visibility";
-import type { Prisma } from "@animeaux/prisma/server";
-import { promiseHash } from "remix-utils/promise";
+import type { Prisma } from "@animeaux/prisma/server"
+import { promiseHash } from "remix-utils/promise"
+
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { SponsorSearchParamsN } from "#i/show/sponsors/search-params"
+import { Visibility } from "#i/show/visibility"
 
 export class ShowSponsorDbDelegate {
   async findUnique<T extends Prisma.ShowSponsorSelect>(
@@ -13,13 +14,13 @@ export class ShowSponsorDbDelegate {
     const sponsor = await prisma.showSponsor.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (sponsor == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return sponsor;
+    return sponsor
   }
 
   async findUniqueByExhibitor<T extends Prisma.ShowSponsorSelect>(
@@ -29,21 +30,21 @@ export class ShowSponsorDbDelegate {
     return await prisma.showSponsor.findUnique({
       where: { exhibitorId },
       select: params.select,
-    });
+    })
   }
 
   async findMany<T extends Prisma.ShowSponsorSelect>(params: {
-    searchParams: SponsorSearchParamsN.Value;
-    page: number;
-    countPerPage: number;
-    select: T;
+    searchParams: SponsorSearchParamsN.Value
+    page: number
+    countPerPage: number
+    select: T
   }) {
-    const where: Prisma.ShowSponsorWhereInput[] = [];
+    const where: Prisma.ShowSponsorWhereInput[] = []
 
     if (params.searchParams.categories.size > 0) {
       where.push({
         category: { in: Array.from(params.searchParams.categories) },
-      });
+      })
     }
 
     if (params.searchParams.exhibitor.size === 1) {
@@ -53,7 +54,7 @@ export class ShowSponsorDbDelegate {
         )
           ? { not: null }
           : null,
-      });
+      })
     }
 
     if (params.searchParams.name != null) {
@@ -69,7 +70,7 @@ export class ShowSponsorDbDelegate {
             },
           },
         ],
-      });
+      })
     }
 
     if (params.searchParams.visibility.size > 0) {
@@ -77,7 +78,7 @@ export class ShowSponsorDbDelegate {
         OR: Array.from(params.searchParams.visibility).map((visibility) => ({
           isVisible: Visibility.toBoolean(visibility),
         })),
-      });
+      })
     }
 
     const { sponsors, totalCount } = await promiseHash({
@@ -92,8 +93,8 @@ export class ShowSponsorDbDelegate {
         orderBy: { name: "asc" },
         select: params.select,
       }),
-    });
+    })
 
-    return { sponsors, totalCount };
+    return { sponsors, totalCount }
   }
 }

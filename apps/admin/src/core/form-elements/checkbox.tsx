@@ -1,7 +1,8 @@
-import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
+
+import { Icon } from "#i/generated/icon"
 
 export const Checkbox = forwardRef<
   React.ComponentRef<"input">,
@@ -21,5 +22,5 @@ export const Checkbox = forwardRef<
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white icon-10"
       />
     </span>
-  );
-});
+  )
+})

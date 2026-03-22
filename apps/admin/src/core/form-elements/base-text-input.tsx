@@ -1,18 +1,19 @@
-import { ensureArray } from "#i/core/collections";
-import { cn, fromBooleanAttribute } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { createElement, forwardRef } from "react";
+import { cn, fromBooleanAttribute } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { createElement, forwardRef } from "react"
 
-type BaseTextInputVariant = "outlined" | "search" | "transparent";
+import { ensureArray } from "#i/core/collections"
+
+type BaseTextInputVariant = "outlined" | "search" | "transparent"
 
 export const BaseTextInput = Object.assign(
   forwardRef<
     React.ComponentRef<typeof Primitive.input>,
     React.ComponentPropsWithoutRef<typeof Primitive.input> & {
-      variant?: BaseTextInputVariant;
-      leftAdornmentCount: number;
-      rightAdornmentCount: number;
-      hideFocusRing?: boolean;
+      variant?: BaseTextInputVariant
+      leftAdornmentCount: number
+      rightAdornmentCount: number
+      hideFocusRing?: boolean
     }
   >(function BaseTextInput(
     {
@@ -47,7 +48,7 @@ export const BaseTextInput = Object.assign(
           className,
         )}
       />
-    );
+    )
   }),
   {
     Root: forwardRef<
@@ -66,7 +67,7 @@ export const BaseTextInput = Object.assign(
             className,
           )}
         />
-      );
+      )
     }),
 
     AdornmentContainer: forwardRef<
@@ -75,16 +76,16 @@ export const BaseTextInput = Object.assign(
         React.ComponentPropsWithoutRef<typeof Primitive.span>,
         "children"
       > & {
-        side: "left" | "right";
-        adornment: React.ReactNode | React.ReactNode[];
+        side: "left" | "right"
+        adornment: React.ReactNode | React.ReactNode[]
       }
     >(function BaseTextInputAdornmentContainer(
       { side, adornment, className, ...rest },
       ref,
     ) {
-      const adornments = ensureArray(adornment);
+      const adornments = ensureArray(adornment)
       if (adornments.length === 0) {
-        return null;
+        return null
       }
 
       // Use `createElement` instead of JSX so we can spread `adornments` as
@@ -101,7 +102,7 @@ export const BaseTextInput = Object.assign(
           ),
         },
         ...adornments,
-      );
+      )
     }),
 
     Adornment: forwardRef<
@@ -117,7 +118,7 @@ export const BaseTextInput = Object.assign(
             className,
           )}
         />
-      );
+      )
     }),
 
     ActionAdornment: forwardRef<
@@ -136,13 +137,13 @@ export const BaseTextInput = Object.assign(
             )}
           />
         </BaseTextInput.Adornment>
-      );
+      )
     }),
   },
-);
+)
 
 const INPUT_VARIANT_CLASS_NAMES: Record<BaseTextInputVariant, string> = {
   outlined: "ring-gray-200 bg-transparent",
   search: "ring-gray-100 bg-gray-100",
   transparent: "ring-transparent bg-transparent",
-};
+}

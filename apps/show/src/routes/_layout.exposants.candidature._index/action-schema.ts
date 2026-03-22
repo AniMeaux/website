@@ -1,15 +1,16 @@
-import { Enums } from "#i/core/enums.js";
-import { ImageLimits } from "#i/core/image/limits.js";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
-import { LegalStatus } from "#i/exhibitors/application/legal-status";
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
-import type { StandSizeAllowedCategories } from "#i/stand-size/allowed-categories.js";
-import type { ShowStandSize } from "@animeaux/prisma";
-import { ShowActivityTarget } from "@animeaux/prisma";
-import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils";
-import invariant from "tiny-invariant";
+import type { ShowStandSize } from "@animeaux/prisma"
+import { ShowActivityTarget } from "@animeaux/prisma"
+import { normalizeLineBreaks, simpleUrl, zu } from "@animeaux/zod-utils"
+import invariant from "tiny-invariant"
+
+import { Enums } from "#i/core/enums.js"
+import { ImageLimits } from "#i/core/image/limits.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
+import { LegalStatus } from "#i/exhibitors/application/legal-status"
+import { ExhibitorCategory } from "#i/exhibitors/category.js"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import type { StandSizeAllowedCategories } from "#i/stand-size/allowed-categories.js"
 
 export function createActionSchema(
   availableStandSizes: (Pick<ShowStandSize, "id"> &
@@ -155,10 +156,10 @@ export function createActionSchema(
                 if (
                   issue.code === zu.ZodIssueCode.invalid_union_discriminator
                 ) {
-                  return { message: "Veuillez choisir une forme juridique" };
+                  return { message: "Veuillez choisir une forme juridique" }
                 }
 
-                return { message: context.defaultError };
+                return { message: context.defaultError }
               },
             },
           ),
@@ -239,10 +240,10 @@ export function createActionSchema(
                 if (
                   issue.code === zu.ZodIssueCode.invalid_union_discriminator
                 ) {
-                  return { message: "Veuillez choisir une option" };
+                  return { message: "Veuillez choisir une option" }
                 }
 
-                return { message: context.defaultError };
+                return { message: context.defaultError }
               },
             },
           ),
@@ -264,20 +265,20 @@ export function createActionSchema(
         const standSize = availableStandSizes.find(
           (availableStandSize) =>
             availableStandSize.id === value.participation.desiredStandSizeId,
-        );
+        )
 
-        invariant(standSize != null, "`standSize` should be defined");
+        invariant(standSize != null, "`standSize` should be defined")
 
         const category = ExhibitorCategory.get({
           legalStatus: value.structure.legalStatus,
           activityFields: value.structure.activityFields,
-        });
+        })
 
-        return standSize.allowedCategories.includes(category);
+        return standSize.allowedCategories.includes(category)
       },
       {
         message: "Veuillez choisir une taille de stand",
         path: ["participation", "desiredStandSizeId"],
       },
-    );
+    )
 }

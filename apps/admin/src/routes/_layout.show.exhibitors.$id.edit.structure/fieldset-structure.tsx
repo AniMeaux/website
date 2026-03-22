@@ -1,10 +1,11 @@
-import { FieldText } from "#i/core/form-elements/field-text";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { useForm } from "./form";
+import { FieldText } from "#i/core/form-elements/field-text"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+
+import { useForm } from "./form"
 
 export function FieldsetStructure() {
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   return (
     <Card>
@@ -18,5 +19,5 @@ export function FieldsetStructure() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,81 +1,85 @@
-import { AnimalItem } from "#i/animals/item";
-import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
+import type { AnimalAge } from "@animeaux/core"
+import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core"
+import type { Prisma, Species } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData, useParams } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
+
+import { AnimalItem } from "#i/animals/item"
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status"
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
-  SPECIES_TO_PATH,
   SearchForm,
-} from "#i/core/controllers/searchForm";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { getPage } from "#i/core/search-params";
+  SPECIES_TO_PATH,
+} from "#i/core/controllers/searchForm"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { prisma } from "#i/core/db.server"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { getPage } from "#i/core/search-params"
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
-} from "#i/core/translations";
-import type { AnimalAge } from "@animeaux/core";
-import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
-import type { Prisma, Species } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+} from "#i/core/translations"
 
 type PageParams = {
-  species?: Species;
-  age?: AnimalAge;
-};
+  species?: Species
+  age?: AnimalAge
+}
 
-const PATH_TO_PAGE_PARAMS = createPathToPageParams();
+const PATH_TO_PAGE_PARAMS = createPathToPageParams()
 function createPathToPageParams() {
-  const map = new Map<string, PageParams>();
+  const map = new Map<string, PageParams>()
 
   // All species.
-  map.set("", {});
+  map.set("", {})
 
-  (Object.entries(ANIMAL_AGES_BY_SPECIES) as [Species, AnimalAge[]][]).forEach(
-    ([species, ages]) => {
-      const speciesPath = SPECIES_TO_PATH[species];
+  const agesEntries = Object.entries(ANIMAL_AGES_BY_SPECIES) as [
+    Species,
+    AnimalAge[],
+  ][]
 
-      // All ages for a species.
-      map.set(speciesPath, { species });
+  agesEntries.forEach(([species, ages]) => {
+    const speciesPath = SPECIES_TO_PATH[species]
 
-      ages.forEach((age) => {
-        // An age for a species.
-        map.set(`${speciesPath}/${AGES_TO_PATH[age]}`, { species, age });
-      });
-    },
-  );
+    // All ages for a species.
+    map.set(speciesPath, { species })
 
-  return map;
+    ages.forEach((age) => {
+      // An age for a species.
+      map.set(`${speciesPath}/${AGES_TO_PATH[age]}`, { species, age })
+    })
+  })
+
+  return map
 }
 
 // Multiple of 2 and 3 to be nicely displayed.
-const ANIMAL_COUNT_PER_PAGE = 18;
+const ANIMAL_COUNT_PER_PAGE = 18
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
+  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "")
   if (pageParams == null) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404 })
   }
 
   const where: Prisma.AnimalWhereInput = {
     status: { in: ADOPTABLE_ANIMAL_STATUS },
     species: pageParams.species,
     birthdate: getAgeRangeSearchFilter(pageParams.species, pageParams.age),
-  };
+  }
 
-  const searchParams = new URL(request.url).searchParams;
-  const page = getPage(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const page = getPage(searchParams)
 
   const { totalCount, animals } = await promiseHash({
     totalCount: prisma.animal.count({ where }),
@@ -95,11 +99,11 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         color: { select: { name: true } },
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE)
 
-  return json({ totalCount, pageCount, animals });
+  return json({ totalCount, pageCount, animals })
 }
 
 function getAgeRangeSearchFilter(
@@ -107,75 +111,73 @@ function getAgeRangeSearchFilter(
   age?: AnimalAge,
 ): NonNullable<Prisma.AnimalWhereInput["birthdate"]> | undefined {
   if (species == null || age == null) {
-    return undefined;
+    return undefined
   }
 
-  const speciesAgeRanges = ANIMAL_AGE_RANGE_BY_SPECIES[species];
+  const speciesAgeRanges = ANIMAL_AGE_RANGE_BY_SPECIES[species]
   if (speciesAgeRanges == null) {
-    return undefined;
+    return undefined
   }
 
-  const ageRange = speciesAgeRanges[age];
+  const ageRange = speciesAgeRanges[age]
   if (ageRange == null) {
-    return undefined;
+    return undefined
   }
 
-  const now = DateTime.now();
+  const now = DateTime.now()
 
   return {
     gt: now.minus({ months: ageRange.maxMonths }).toJSDate(),
     lte: now.minus({ months: ageRange.minMonths }).toJSDate(),
-  };
+  }
 }
 
 export const meta: MetaFunction = ({ params }) => {
-  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
+  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "")
   if (pageParams == null) {
-    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) })
   }
 
   const pageParamsTranslation = getPageParamsTranslation(pageParams, {
     isPlural: true,
-  });
+  })
 
   return createSocialMeta({
     title: getPageTitle(`${pageParamsTranslation} à l’adoption`),
-  });
-};
+  })
+}
 
 function getPageParamsTranslation(
   pageParams: PageParams,
   { isPlural = false }: { isPlural?: boolean } = {},
 ) {
   if (pageParams.species == null) {
-    return isPlural ? "animaux" : "animal";
+    return isPlural ? "animaux" : "animal"
   }
 
-  const speciesMap = isPlural
-    ? SPECIES_PLURAL_TRANSLATION
-    : SPECIES_TRANSLATION;
+  const speciesMap = isPlural ? SPECIES_PLURAL_TRANSLATION : SPECIES_TRANSLATION
 
-  const ageMap = isPlural ? AGE_PLURAL_TRANSLATION : AGE_TRANSLATION;
+  const ageMap = isPlural ? AGE_PLURAL_TRANSLATION : AGE_TRANSLATION
 
-  let translation = speciesMap[pageParams.species];
+  let translation = speciesMap[pageParams.species]
 
   if (pageParams.age != null) {
-    translation = `${translation} ${ageMap[pageParams.age].toLowerCase()}`;
+    translation = `${translation} ${ageMap[pageParams.age].toLowerCase()}`
   }
 
-  return translation;
+  return translation
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const params = useParams();
-  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "");
-  invariant(pageParams != null, "pageParams should exists");
+  const params = useParams()
+  const pageParams = PATH_TO_PAGE_PARAMS.get(params["*"] ?? "")
+  invariant(pageParams != null, "pageParams should exists")
 
-  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -252,5 +254,5 @@ export default function Route() {
 
       <Paginator pageCount={pageCount} className="self-center" />
     </main>
-  );
+  )
 }

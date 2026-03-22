@@ -1,19 +1,20 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
+import type { Gender } from "@animeaux/prisma"
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
 import {
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#i/exhibitors/dogs-configuration/gender";
-import type { Gender } from "@animeaux/prisma";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+} from "#i/exhibitors/dogs-configuration/gender"
 
 export function FieldDogGender({
   field,
   label,
 }: {
-  field: FieldMetadata<Gender>;
-  label: React.ReactNode;
+  field: FieldMetadata<Gender>
+  label: React.ReactNode
 }) {
   return (
     <FormLayout.Field>
@@ -38,5 +39,5 @@ export function FieldDogGender({
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

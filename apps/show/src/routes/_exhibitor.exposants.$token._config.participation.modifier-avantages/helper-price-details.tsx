@@ -1,21 +1,23 @@
-import { HelperCard } from "#i/core/layout/helper-card.js";
-import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js";
-import { useLoaderData } from "@remix-run/react";
-import { useForm } from "./form";
-import type { loader } from "./loader.server";
+import { useLoaderData } from "@remix-run/react"
+
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js"
+
+import { useForm } from "./form"
+import type { loader } from "./loader.server"
 
 export function HelperPriceDetails() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   const breakfastPeopleCountSaturday = Number(
     fields.breakfastPeopleCountSaturday.value,
-  );
+  )
 
   const breakfastPeopleCountSunday = Number(
     fields.breakfastPeopleCountSunday.value,
-  );
+  )
 
   return (
     <HelperCard.Root color="alabaster">
@@ -32,5 +34,5 @@ export function HelperPriceDetails() {
         peopleCount={exhibitor.peopleCount}
       />
     </HelperCard.Root>
-  );
+  )
 }

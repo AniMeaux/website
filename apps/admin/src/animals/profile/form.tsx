@@ -1,35 +1,36 @@
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { AnimalDraft, Breed, Color } from "@animeaux/prisma"
+import { Gender, Species } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useLocation } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
+
 import {
   AGREEMENT_TRANSLATION,
-  AgreementValue,
-  SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
-} from "#i/animals/agreements";
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender";
+  AgreementValue,
+  SORTED_AGREEMENTS,
+} from "#i/animals/agreements"
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender"
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { toIsoDateValue } from "#i/core/dates";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Textarea } from "#i/core/form-elements/textarea";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
-import { BreedInput } from "#i/routes/resources.breed/input";
-import { ColorInput } from "#i/routes/resources.color/input";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { AnimalDraft, Breed, Color } from "@animeaux/prisma";
-import { Gender, Species } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+} from "#i/animals/species"
+import { Action } from "#i/core/actions"
+import { toIsoDateValue } from "#i/core/dates"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Textarea } from "#i/core/form-elements/textarea"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
+import { BreedInput } from "#i/routes/resources.breed/input"
+import { ColorInput } from "#i/routes/resources.color/input"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -65,14 +66,14 @@ export const ActionFormData = FormDataDelegate.create(
       required_error: "Veuillez choisir une espèce",
     }),
   }),
-);
+)
 
 export function AnimalProfileForm({
   isCreate = false,
   defaultAnimal,
   fetcher,
 }: {
-  isCreate?: boolean;
+  isCreate?: boolean
   defaultAnimal?: null | SerializeFrom<
     Pick<
       AnimalDraft,
@@ -87,60 +88,60 @@ export function AnimalProfileForm({
       | "name"
       | "species"
     > & {
-      breed?: null | Pick<Breed, "id" | "name">;
-      color?: null | Pick<Color, "id" | "name">;
+      breed?: null | Pick<Breed, "id" | "name">
+      color?: null | Pick<Color, "id" | "name">
     }
-  >;
+  >
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const [speciesState, setSpeciesState] = useState(defaultAnimal?.species);
+  const [speciesState, setSpeciesState] = useState(defaultAnimal?.species)
 
-  const speciesRef = useRef<HTMLInputElement>(null);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const birthdateRef = useRef<HTMLInputElement>(null);
-  const genderRef = useRef<HTMLInputElement>(null);
-  const breedRef = useRef<HTMLButtonElement>(null);
-  const colorRef = useRef<HTMLButtonElement>(null);
-  const isOkCatsRef = useRef<HTMLInputElement>(null);
-  const isOkChildrenRef = useRef<HTMLInputElement>(null);
-  const isOkDogsRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const speciesRef = useRef<HTMLInputElement>(null)
+  const nameRef = useRef<HTMLInputElement>(null)
+  const birthdateRef = useRef<HTMLInputElement>(null)
+  const genderRef = useRef<HTMLInputElement>(null)
+  const breedRef = useRef<HTMLButtonElement>(null)
+  const colorRef = useRef<HTMLButtonElement>(null)
+  const isOkCatsRef = useRef<HTMLInputElement>(null)
+  const isOkChildrenRef = useRef<HTMLInputElement>(null)
+  const isOkDogsRef = useRef<HTMLInputElement>(null)
+  const descriptionRef = useRef<HTMLTextAreaElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.species != null) {
-        speciesRef.current?.focus();
+        speciesRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.name != null) {
-        nameRef.current?.focus();
+        nameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.birthdate != null) {
-        birthdateRef.current?.focus();
+        birthdateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.gender != null) {
-        genderRef.current?.focus();
+        genderRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.breedId != null) {
-        breedRef.current?.focus();
+        breedRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.colorId != null) {
-        colorRef.current?.focus();
+        colorRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.isOkCats != null) {
-        isOkCatsRef.current?.focus();
+        isOkCatsRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.isOkDogs != null) {
-        isOkDogsRef.current?.focus();
+        isOkDogsRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.isOkChildren != null) {
-        isOkChildrenRef.current?.focus();
+        isOkChildrenRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
-  const { hash } = useLocation();
+  const { hash } = useLocation()
   useEffect(() => {
     if (hash === `#${ActionFormData.keys.description}`) {
-      descriptionRef.current?.focus();
+      descriptionRef.current?.focus()
     }
-  }, [hash]);
+  }, [hash])
 
   return (
     <Form asChild hasHeader>
@@ -448,5 +449,5 @@ export function AnimalProfileForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

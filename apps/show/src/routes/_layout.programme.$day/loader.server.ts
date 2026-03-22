@@ -1,19 +1,21 @@
-import { notFound } from "#i/core/response.server.js";
-import { services } from "#i/core/services.server.js";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import groupBy from "lodash.groupby";
-import { routeParamsSchema } from "./route-params.js";
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import groupBy from "lodash.groupby"
+
+import { notFound } from "#i/core/response.server.js"
+import { services } from "#i/core/services.server.js"
+
+import { routeParamsSchema } from "./route-params.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   if (
     process.env.FEATURE_FLAG_SITE_ONLINE !== "true" ||
     process.env.FEATURE_FLAG_SHOW_PROGRAM !== "true"
   ) {
-    throw notFound();
+    throw notFound()
   }
 
-  const routeParams = safeParseRouteParam(routeParamsSchema, params);
+  const routeParams = safeParseRouteParam(routeParamsSchema, params)
 
   const animations = await services.animation.getManyVisibleByDay(
     routeParams.day,
@@ -44,7 +46,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         },
       },
     },
-  );
+  )
 
   return {
     day: routeParams.day,
@@ -53,10 +55,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
         ...animation,
 
         animators: animation.animators.map(({ links, ...animator }) => {
-          const url = links[0];
+          const url = links[0]
 
           if (url == null) {
-            throw notFound();
+            throw notFound()
           }
 
           return {
@@ -67,10 +69,10 @@ export async function loader({ params }: LoaderFunctionArgs) {
             isSponsor:
               process.env.FEATURE_FLAG_SHOW_SPONSORS === "true" &&
               (animator.sponsorship?.isVisible ?? false),
-          };
+          }
         }),
       })),
       (animation) => animation.zone,
     ),
-  };
+  }
 }
