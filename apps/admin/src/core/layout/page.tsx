@@ -1,13 +1,13 @@
-import { cn } from "@animeaux/core";
-import { Children, isValidElement } from "react";
+import { cn } from "@animeaux/core"
+import { Children, isValidElement } from "react"
 
-import { BaseLink } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link"
 
 export const PageLayout = {
   Root: function PageLayoutRoot({ children }: React.PropsWithChildren) {
     const hasTabs = Children.toArray(children).some(
       (child) => isValidElement(child) && child.type === PageLayout.Tabs,
-    );
+    )
 
     return (
       <section
@@ -16,7 +16,7 @@ export const PageLayout = {
       >
         {children}
       </section>
-    );
+    )
   },
 
   Tabs: function PageLayoutTabs(props: React.PropsWithChildren) {
@@ -25,7 +25,7 @@ export const PageLayout = {
         {...props}
         className="grid auto-cols-max grid-flow-col justify-start gap-0.5 overflow-auto bg-white py-0.5 scrollbars-none md:sticky md:top-6 md:z-20 md:gap-1 md:border-l md:border-gray-50 md:py-1"
       />
-    );
+    )
   },
 
   Tab: function PageLayoutTab(
@@ -38,7 +38,7 @@ export const PageLayout = {
           className="flex rounded-0.5 px-1 py-0.5 text-gray-500 transition-[color,background-color,transform] duration-100 text-body-emphasis active:scale-95 aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:focus-spaced-blue-400 hover:bg-gray-100 hover:aria-[current=page]:bg-blue-50"
         />
       </span>
-    );
+    )
   },
 
   Header: {
@@ -51,7 +51,7 @@ export const PageLayout = {
           {...props}
           className={cn("bg-white px-1.5 py-2 md:px-2 md:py-4", className)}
         />
-      );
+      )
     },
 
     Title: function PageLayoutHeaderTitle({
@@ -66,7 +66,7 @@ export const PageLayout = {
             className,
           )}
         />
-      );
+      )
     },
   },
 
@@ -74,8 +74,6 @@ export const PageLayout = {
     className,
     ...props
   }: React.PropsWithChildren<{ className?: string }>) {
-    return (
-      <main {...props} className={cn("my-1 md:my-2 md:px-2", className)} />
-    );
+    return <main {...props} className={cn("my-1 md:my-2 md:px-2", className)} />
   },
-};
+}

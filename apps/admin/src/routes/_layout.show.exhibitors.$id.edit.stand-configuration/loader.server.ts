@@ -1,25 +1,25 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { UserGroup } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { db } from "#i/core/db.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-import { RouteParamsSchema } from "./route-params.js";
+import { RouteParamsSchema } from "./route-params.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { exhibitor, standSizes, dividerTypes } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
@@ -57,7 +57,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     dividerTypes: db.show.dividerType.findManyWithAvailability({
       select: { id: true, label: true },
     }),
-  });
+  })
 
-  return json({ exhibitor, standSizes, dividerTypes });
+  return json({ exhibitor, standSizes, dividerTypes })
 }

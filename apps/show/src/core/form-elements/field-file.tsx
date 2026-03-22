@@ -1,10 +1,10 @@
-import type { FileStorage } from "@animeaux/file-storage/server";
-import type { FieldMetadata } from "@conform-to/react";
-import { getInputProps } from "@conform-to/react";
+import type { FileStorage } from "@animeaux/file-storage/server"
+import type { FieldMetadata } from "@conform-to/react"
+import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { InputFile } from "#i/core/form-elements/input-file";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { InputFile } from "#i/core/form-elements/input-file"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function FieldFile({
   field,
@@ -13,11 +13,11 @@ export function FieldFile({
   defaultFile,
   helper,
 }: {
-  field: FieldMetadata<undefined | File>;
-  label: React.ReactNode;
-  currentIdField: FieldMetadata<string>;
-  defaultFile?: null | FileStorage.File;
-  helper?: React.ReactNode;
+  field: FieldMetadata<undefined | File>
+  label: React.ReactNode
+  currentIdField: FieldMetadata<string>
+  defaultFile?: null | FileStorage.File
+  helper?: React.ReactNode
 }) {
   return (
     <FormLayout.Field>
@@ -38,5 +38,5 @@ export function FieldFile({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </FormLayout.Field>
-  );
+  )
 }

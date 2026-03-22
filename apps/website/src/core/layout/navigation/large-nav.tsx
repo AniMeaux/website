@@ -1,41 +1,41 @@
-import { cn } from "@animeaux/core";
-import { useLocation } from "@remix-run/react";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { Transition } from "react-transition-group";
+import { cn } from "@animeaux/core"
+import { useLocation } from "@remix-run/react"
+import { forwardRef, useEffect, useRef, useState } from "react"
+import { Transition } from "react-transition-group"
 
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#i/core/focus-trap";
-import { useWidth } from "#i/core/hooks";
-import { LineShapeHorizontal } from "#i/core/layout/line-shape";
-import type { NavGroup } from "#i/core/layout/navigation/shared";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#i/core/focus-trap"
+import { useWidth } from "#i/core/hooks"
+import { LineShapeHorizontal } from "#i/core/layout/line-shape"
+import type { NavGroup } from "#i/core/layout/navigation/shared"
 import {
   handleEscape,
   navLinkClassName,
-} from "#i/core/layout/navigation/shared";
-import { ShowBanner } from "#i/core/layout/navigation/show-banner";
-import { SocialLinks } from "#i/core/layout/navigation/social-links";
-import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act";
-import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt";
-import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover";
-import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn";
-import { useScrollLock } from "#i/core/scroll-lock";
-import nameAndLogo from "#i/images/name-and-logo.svg";
+} from "#i/core/layout/navigation/shared"
+import { ShowBanner } from "#i/core/layout/navigation/show-banner"
+import { SocialLinks } from "#i/core/layout/navigation/social-links"
+import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act"
+import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt"
+import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover"
+import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn"
+import { useScrollLock } from "#i/core/scroll-lock"
+import nameAndLogo from "#i/images/name-and-logo.svg"
 
-type State = NavGroup | null;
+type State = NavGroup | null
 
 export function LargeNav({
   displayShowBanner,
 }: {
-  displayShowBanner: boolean;
+  displayShowBanner: boolean
 }) {
-  const location = useLocation();
-  const [openedGroup, setOpenedGroup] = useState<State>(null);
+  const location = useLocation()
+  const [openedGroup, setOpenedGroup] = useState<State>(null)
 
   // Force close on navigation change.
   useEffect(() => {
-    setOpenedGroup(null);
-  }, [location.key]);
+    setOpenedGroup(null)
+  }, [location.key])
 
   // If the page has scrolled just a bit, the header is no longer entirely
   // visible.
@@ -43,16 +43,16 @@ export function LargeNav({
   // Do it before locking scroll so we don't restore the scroll position.
   useEffect(() => {
     if (openedGroup != null) {
-      window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0 })
     }
-  }, [openedGroup]);
+  }, [openedGroup])
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  useScrollLock(dropdownRef, { disabled: openedGroup == null });
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  useScrollLock(dropdownRef, { disabled: openedGroup == null })
   useFocusTrap(dropdownRef, {
     shouldFocusFirstChild: true,
     disabled: openedGroup == null,
-  });
+  })
 
   return (
     <header
@@ -134,13 +134,13 @@ export function LargeNav({
         </div>
       </div>
     </header>
-  );
+  )
 }
 
 function toggleGroup(group: NavGroup) {
   return (prevState: State): State | null => {
-    return prevState === group ? null : group;
-  };
+    return prevState === group ? null : group
+  }
 }
 
 function NavGroupButton({
@@ -149,9 +149,9 @@ function NavGroupButton({
   className,
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  isActive: boolean;
+  isActive: boolean
 }) {
-  const { ref, width } = useWidth<HTMLButtonElement>();
+  const { ref, width } = useWidth<HTMLButtonElement>()
 
   return (
     <button
@@ -183,7 +183,7 @@ function NavGroupButton({
         )}
       </Transition>
     </button>
-  );
+  )
 }
 
 function NavLink({
@@ -191,11 +191,11 @@ function NavLink({
   children,
   forceNotActive = false,
 }: {
-  to: BaseLinkProps["to"];
-  children: BaseLinkProps["children"];
-  forceNotActive: boolean;
+  to: BaseLinkProps["to"]
+  children: BaseLinkProps["children"]
+  forceNotActive: boolean
 }) {
-  const { ref, width } = useWidth<HTMLAnchorElement>();
+  const { ref, width } = useWidth<HTMLAnchorElement>()
 
   return (
     <BaseLink
@@ -238,24 +238,24 @@ function NavLink({
         </>
       )}
     </BaseLink>
-  );
+  )
 }
 
 const Dropdown = forwardRef<
   HTMLDivElement,
   {
-    isOpened: boolean;
-    onClose: () => void;
-    children?: React.ReactNode;
+    isOpened: boolean
+    onClose: () => void
+    children?: React.ReactNode
   }
 >(function Dropdown({ isOpened, onClose, children }, ref) {
-  const childrenRef = useRef<HTMLDivElement>(null);
-  const [childrenHeight, setChildrenHeight] = useState(0);
+  const childrenRef = useRef<HTMLDivElement>(null)
+  const [childrenHeight, setChildrenHeight] = useState(0)
   useEffect(() => {
     if (childrenRef.current != null) {
-      setChildrenHeight(childrenRef.current.clientHeight);
+      setChildrenHeight(childrenRef.current.clientHeight)
     }
-  }, [children]);
+  }, [children])
 
   return (
     <>
@@ -299,5 +299,5 @@ const Dropdown = forwardRef<
         />
       )}
     </>
-  );
-});
+  )
+})

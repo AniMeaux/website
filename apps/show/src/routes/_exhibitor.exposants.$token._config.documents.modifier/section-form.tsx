@@ -1,24 +1,24 @@
-import { getFormProps, useForm as useFormBase } from "@conform-to/react";
-import { getZodConstraint, parseWithZod } from "@conform-to/zod";
+import { getFormProps, useForm as useFormBase } from "@conform-to/react"
+import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import {
   Form,
   useActionData,
   useFormAction,
   useLoaderData,
   useNavigation,
-} from "@remix-run/react";
+} from "@remix-run/react"
 
-import { FieldFile } from "#i/core/form-elements/field-file";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldFile } from "#i/core/form-elements/field-file"
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import { ActionSchema } from "./action";
-import type { action, loader } from "./route";
+import { ActionSchema } from "./action"
+import type { action, loader } from "./route"
 
 export function SectionForm() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-  const formAction = useFormAction();
-  const navigation = useNavigation();
-  const [form, fieldset] = useForm();
+  const { exhibitor } = useLoaderData<typeof loader>()
+  const formAction = useFormAction()
+  const navigation = useNavigation()
+  const [form, fieldset] = useForm()
 
   return (
     <FormLayout.Form asChild>
@@ -65,12 +65,12 @@ export function SectionForm() {
         </FormLayout.Action>
       </Form>
     </FormLayout.Form>
-  );
+  )
 }
 
 function useForm() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const { exhibitor } = useLoaderData<typeof loader>()
+  const actionData = useActionData<typeof action>()
 
   const [form, fields] = useFormBase({
     id: "exhibitor-profile",
@@ -86,7 +86,7 @@ function useForm() {
 
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: ActionSchema }),
-  });
+  })
 
-  return [form, fields] as const;
+  return [form, fields] as const
 }

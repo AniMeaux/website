@@ -3,9 +3,9 @@ import {
   FosterFamilyGarden,
   FosterFamilyHousing,
   Species,
-} from "@animeaux/prisma";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
+} from "@animeaux/prisma"
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
 
 export const FosterFamilySearchParams = SearchParamsIO.create({
   keys: {
@@ -37,45 +37,41 @@ export const FosterFamilySearchParams = SearchParamsIO.create({
       ),
       speciesToHost: SearchParamsIO.getValue(searchParams, keys.speciesToHost),
       zipCode: SearchParamsIO.getValue(searchParams, keys.zipCode),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValues(
-      searchParams,
-      keys.availability,
-      data.availability,
-    );
+    SearchParamsIO.setValues(searchParams, keys.availability, data.availability)
 
-    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
+    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName)
 
-    SearchParamsIO.setValues(searchParams, keys.garden, data.garden);
+    SearchParamsIO.setValues(searchParams, keys.garden, data.garden)
 
-    SearchParamsIO.setValues(searchParams, keys.housing, data.housing);
+    SearchParamsIO.setValues(searchParams, keys.housing, data.housing)
 
-    SearchParamsIO.setValues(searchParams, keys.cities, data.cities);
+    SearchParamsIO.setValues(searchParams, keys.cities, data.cities)
 
     SearchParamsIO.setValues(
       searchParams,
       keys.speciesAlreadyPresent,
       data.speciesAlreadyPresent,
-    );
+    )
 
     SearchParamsIO.setValues(
       searchParams,
       keys.speciesToAvoid,
       data.speciesToAvoid,
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
       keys.speciesToHost,
       data.speciesToHost,
-    );
+    )
 
-    SearchParamsIO.setValue(searchParams, keys.zipCode, data.zipCode);
+    SearchParamsIO.setValue(searchParams, keys.zipCode, data.zipCode)
   },
-});
+})
 
 const Schema = zu.object({
   availability: zu.searchParams.set(
@@ -93,4 +89,4 @@ const Schema = zu.object({
   zipCode: zu.searchParams
     .string()
     .pipe(zu.string().regex(/^\d+$/).optional().catch(undefined)),
-});
+})

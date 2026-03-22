@@ -1,5 +1,5 @@
-import { SearchParamsReader } from "#i/reader.js";
-import { SearchParamsWritter } from "#i/writter.js";
+import { SearchParamsReader } from "#i/reader.js"
+import { SearchParamsWritter } from "#i/writter.js"
 
 export interface SearchParamsIO<
   TKeys extends Record<string, string> = Record<string, string>,
@@ -9,16 +9,16 @@ export interface SearchParamsIO<
   set: (
     searchParams: URLSearchParams,
     data: Partial<TData> | ((data: TData) => Partial<TData>),
-  ) => URLSearchParams;
+  ) => URLSearchParams
 
-  copy: (from: URLSearchParams, to: URLSearchParams) => URLSearchParams;
+  copy: (from: URLSearchParams, to: URLSearchParams) => URLSearchParams
 }
 
 export namespace SearchParamsIO {
-  export const getValue = SearchParamsReader.getValue;
-  export const getValues = SearchParamsReader.getValues;
-  export const setValue = SearchParamsWritter.setValue;
-  export const setValues = SearchParamsWritter.setValues;
+  export const getValue = SearchParamsReader.getValue
+  export const getValues = SearchParamsReader.getValues
+  export const setValue = SearchParamsWritter.setValue
+  export const setValues = SearchParamsWritter.setValues
 
   export function create<
     TKeys extends Record<string, string>,
@@ -28,28 +28,28 @@ export namespace SearchParamsIO {
     parseFunction,
     setFunction,
   }: {
-    keys: TKeys;
-    parseFunction: SearchParamsReader.ParseFunction<TKeys, TData>;
-    setFunction: SearchParamsWritter.SetFunction<TKeys, Partial<TData>>;
+    keys: TKeys
+    parseFunction: SearchParamsReader.ParseFunction<TKeys, TData>
+    setFunction: SearchParamsWritter.SetFunction<TKeys, Partial<TData>>
   }): SearchParamsIO<TKeys, TData> {
-    const reader = SearchParamsReader.create({ keys, parseFunction });
-    const writter = SearchParamsWritter.create({ keys, setFunction });
+    const reader = SearchParamsReader.create({ keys, parseFunction })
+    const writter = SearchParamsWritter.create({ keys, setFunction })
 
     const set: SearchParamsIO<TKeys, TData>["set"] = (searchParams, data) => {
       if (typeof data === "function") {
-        data = data(reader.parse(searchParams));
+        data = data(reader.parse(searchParams))
       }
 
-      return writter.set(searchParams, data);
-    };
+      return writter.set(searchParams, data)
+    }
 
     const copy: SearchParamsIO<TKeys, TData>["copy"] = (from, to) => {
-      return set(to, reader.parse(from));
-    };
+      return set(to, reader.parse(from))
+    }
 
-    return { ...reader, ...writter, set, copy };
+    return { ...reader, ...writter, set, copy }
   }
 
   export type Infer<TSearchParamsIO extends SearchParamsIO> =
-    SearchParamsReader.Infer<TSearchParamsIO>;
+    SearchParamsReader.Infer<TSearchParamsIO>
 }

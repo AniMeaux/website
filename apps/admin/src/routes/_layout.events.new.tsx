@@ -1,61 +1,61 @@
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@animeaux/prisma"
+import type { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
+} from "@remix-run/node"
 import {
   json,
   redirect,
   unstable_composeUploadHandlers,
   unstable_createMemoryUploadHandler,
   unstable_parseMultipartFormData,
-} from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+} from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
 
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#i/core/cloudinary.server";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { InvalidDateRangeError } from "#i/events/db.server";
-import { ActionFormData, EventForm } from "#i/events/form";
+} from "#i/core/cloudinary.server"
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { InvalidDateRangeError } from "#i/events/db.server"
+import { ActionFormData, EventForm } from "#i/events/form"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  return new Response("Ok");
+  return new Response("Ok")
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Nouvel évènement") }];
-};
+  return [{ title: getPageTitle("Nouvel évènement") }]
+}
 
 type ActionData = {
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
   const cloudinaryUploadHandler = createCloudinaryUploadHandler({
     filter: ({ name }) => name === ActionFormData.keys.image,
-  });
+  })
 
   try {
     const rawFormData = await unstable_parseMultipartFormData(
@@ -66,15 +66,15 @@ export async function action({ request }: ActionFunctionArgs) {
           filter: ({ contentType }) => contentType == null,
         }),
       ),
-    );
+    )
 
-    const formData = ActionFormData.safeParse(rawFormData);
+    const formData = ActionFormData.safeParse(rawFormData)
     if (!formData.success) {
-      await cloudinaryUploadHandler.revert();
+      await cloudinaryUploadHandler.revert()
       return json<ActionData>(
         { errors: formData.error.flatten() },
         { status: 400 },
-      );
+      )
     }
 
     const eventId = await db.event.create({
@@ -87,12 +87,12 @@ export async function action({ request }: ActionFunctionArgs) {
       startDate: formData.data.startDate,
       title: formData.data.title,
       url: formData.data.url || null,
-    });
+    })
 
-    throw redirect(Routes.events.id(eventId).toString());
+    throw redirect(Routes.events.id(eventId).toString())
   } catch (error) {
     if (error instanceof Error) {
-      await cloudinaryUploadHandler.revert();
+      await cloudinaryUploadHandler.revert()
     }
 
     if (error instanceof CloudinaryUploadApiError) {
@@ -104,7 +104,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: error.status },
-      );
+      )
     }
 
     if (error instanceof InvalidDateRangeError) {
@@ -120,19 +120,19 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const fetcher = useFetcher<typeof action>();
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <PageLayout.Root>
@@ -148,5 +148,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

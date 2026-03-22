@@ -1,4 +1,4 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
 export function createActionSchema({ peopleCount }: { peopleCount: number }) {
   return zu.object({
@@ -19,5 +19,5 @@ export function createActionSchema({ peopleCount }: { peopleCount: number }) {
       .int({ message: "Veuillez entrer un nombre entier" })
       .min(0, "Veuillez entrer un nombre supérieur positif")
       .max(peopleCount, `Veuillez entrer un nombre inférieur à ${peopleCount}`),
-  });
+  })
 }

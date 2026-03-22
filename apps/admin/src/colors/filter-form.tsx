@@ -1,23 +1,23 @@
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
 import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
   ColorSort,
-} from "#i/colors/search-params";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
+} from "#i/colors/search-params"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
 
 export function ColorFilterForm() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const colorSearchParams = ColorSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const colorSearchParams = ColorSearchParams.parse(searchParams)
 
   return (
     <Filters>
@@ -95,8 +95,8 @@ export function ColorFilterForm() {
                           ...colorSearchParams,
                           name: undefined,
                         }),
-                      );
-                    });
+                      )
+                    })
                   }}
                 >
                   <Icon href="icon-x-mark-solid" />
@@ -107,5 +107,5 @@ export function ColorFilterForm() {
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }

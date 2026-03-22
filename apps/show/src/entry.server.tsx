@@ -1,21 +1,21 @@
-import { PassThrough } from "node:stream";
+import { PassThrough } from "node:stream"
 
-import type { EntryContext } from "@remix-run/node";
-import { createReadableStreamFromReadable } from "@remix-run/node";
-import { RemixServer } from "@remix-run/react";
-import { sentryHandleError } from "@sentry/remix";
-import { isbot } from "isbot";
-import type { RenderToPipeableStreamOptions } from "react-dom/server";
-import { renderToPipeableStream } from "react-dom/server";
+import type { EntryContext } from "@remix-run/node"
+import { createReadableStreamFromReadable } from "@remix-run/node"
+import { RemixServer } from "@remix-run/react"
+import { sentryHandleError } from "@sentry/remix"
+import { isbot } from "isbot"
+import type { RenderToPipeableStreamOptions } from "react-dom/server"
+import { renderToPipeableStream } from "react-dom/server"
 
-import { checkEnv, getClientEnv } from "#i/core/env.server";
-import { initMonitoring } from "#i/core/monitoring.server";
+import { checkEnv, getClientEnv } from "#i/core/env.server"
+import { initMonitoring } from "#i/core/monitoring.server"
 
-checkEnv();
-global.CLIENT_ENV = getClientEnv();
-initMonitoring();
+checkEnv()
+global.CLIENT_ENV = getClientEnv()
+initMonitoring()
 
-const ABORT_DELAY_MS = 60_000;
+const ABORT_DELAY_MS = 60_000
 
 export default function handleRequest(
   request: Request,
@@ -29,16 +29,16 @@ export default function handleRequest(
   ) {
     // We don't want it to be index by search engines.
     // See https://developers.google.com/search/docs/advanced/crawling/block-indexing
-    responseHeaders.set("X-Robots-Tag", "noindex");
+    responseHeaders.set("X-Robots-Tag", "noindex")
   }
 
   const callbackName: keyof Pick<
     RenderToPipeableStreamOptions,
     "onAllReady" | "onShellReady"
-  > = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady";
+  > = isbot(request.headers.get("user-agent")) ? "onAllReady" : "onShellReady"
 
   return new Promise((resolve, reject) => {
-    let didError = false;
+    let didError = false
 
     const { pipe, abort } = renderToPipeableStream(
       <RemixServer
@@ -48,32 +48,32 @@ export default function handleRequest(
       />,
       {
         [callbackName]() {
-          const body = new PassThrough();
-          responseHeaders.set("Content-Type", "text/html");
+          const body = new PassThrough()
+          responseHeaders.set("Content-Type", "text/html")
 
           resolve(
             new Response(createReadableStreamFromReadable(body), {
               headers: responseHeaders,
               status: didError ? 500 : responseStatusCode,
             }),
-          );
+          )
 
-          pipe(body);
+          pipe(body)
         },
 
         onShellError(error) {
-          reject(error);
+          reject(error)
         },
 
         onError(error) {
-          didError = true;
-          console.error(error);
+          didError = true
+          console.error(error)
         },
       },
-    );
+    )
 
-    setTimeout(abort, ABORT_DELAY_MS);
-  });
+    setTimeout(abort, ABORT_DELAY_MS)
+  })
 }
 
-export const handleError = sentryHandleError;
+export const handleError = sentryHandleError

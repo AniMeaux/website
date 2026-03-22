@@ -1,15 +1,15 @@
-import { getCompleteLocation } from "@animeaux/core";
-import { promiseHash } from "remix-utils/promise";
+import { getCompleteLocation } from "@animeaux/core"
+import { promiseHash } from "remix-utils/promise"
 
 import {
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import type { ServiceInvoice } from "#i/invoice/service.server";
+} from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
+import type { ServiceInvoice } from "#i/invoice/service.server"
 
 export class ServiceInvoiceEmail {
   constructor(
@@ -34,7 +34,7 @@ export class ServiceInvoiceEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionBilling() {
       return (
@@ -59,7 +59,7 @@ export class ServiceInvoiceEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -99,7 +99,7 @@ export class ServiceInvoiceEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async newInvoice(exhibitorId: string) {
@@ -111,7 +111,7 @@ export class ServiceInvoiceEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     await this.email.send({
       name: "exposant-nouvelle-facture",
@@ -155,7 +155,7 @@ export class ServiceInvoiceEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async paid(exhibitorId: string, invoiceId: string) {
@@ -171,7 +171,7 @@ export class ServiceInvoiceEmail {
       invoice: this.invoice.get(invoiceId, {
         select: { number: true },
       }),
-    });
+    })
 
     await this.email.send({
       name: "exposant-facture-payee",
@@ -223,6 +223,6 @@ export class ServiceInvoiceEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 }

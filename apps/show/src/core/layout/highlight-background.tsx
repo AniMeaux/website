@@ -1,13 +1,13 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-type HighLightColor = "alabaster" | "paleBlue";
+type HighLightColor = "alabaster" | "paleBlue"
 
 export function HighLightBackground({
   className,
   color,
 }: {
-  className?: string;
-  color: HighLightColor;
+  className?: string
+  color: HighLightColor
 }) {
   return (
     <svg
@@ -20,15 +20,15 @@ export function HighLightBackground({
     >
       <path d={COLOR_PATH[color]} className={COLOR_CLASS_NAME[color]} />
     </svg>
-  );
+  )
 }
 
 const COLOR_CLASS_NAME: Record<HighLightColor, string> = {
   alabaster: cn("fill-alabaster"),
   paleBlue: cn("fill-paleBlue"),
-};
+}
 
 const COLOR_PATH: Record<HighLightColor, string> = {
   alabaster: "M0 400V-20C300 -10 724 -10 1024 0V420C724 410 300 410 0 400Z",
   paleBlue: "M0 420V0C300 -10 724 -10 1024 -20V400C724 410 300 410 0 420Z",
-};
+}

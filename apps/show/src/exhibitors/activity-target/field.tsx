@@ -1,22 +1,22 @@
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+import type { ShowActivityTarget } from "@animeaux/prisma"
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#i/exhibitors/activity-target/activity-target";
-import { Icon } from "#i/generated/icon";
+} from "#i/exhibitors/activity-target/activity-target"
+import { Icon } from "#i/generated/icon"
 
 export function FieldActivityTarget({
   field,
   label,
 }: {
-  field: FieldMetadata<ShowActivityTarget[]>;
-  label: React.ReactNode;
+  field: FieldMetadata<ShowActivityTarget[]>
+  label: React.ReactNode
 }) {
   return (
     <FormLayout.Field>
@@ -27,7 +27,7 @@ export function FieldActivityTarget({
           type: "checkbox",
           options: SORTED_ACTIVITY_TARGETS,
         }).map((props) => {
-          const activityTarget = props.value as ShowActivityTarget;
+          const activityTarget = props.value as ShowActivityTarget
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -47,11 +47,11 @@ export function FieldActivityTarget({
 
               <FormLayout.Selector.CheckboxIcon />
             </FormLayout.Selector.Root>
-          );
+          )
         })}
       </FormLayout.Selectors>
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

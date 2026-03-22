@@ -1,32 +1,32 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Animal } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFormAction } from "@remix-run/react";
-import { useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { Animal } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useFormAction } from "@remix-run/react"
+import { useRef, useState } from "react"
+import invariant from "tiny-invariant"
 
-import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures";
+import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures"
 import {
   DragAndDropContextProvider,
   PictureItemPreview,
   useDragItem,
   useDropContainer,
-} from "#i/animals/pictures/drag-and-drop";
-import { Action } from "#i/core/actions";
-import { InlineHelper } from "#i/core/data-display/helper";
-import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image";
+} from "#i/animals/pictures/drag-and-drop"
+import { Action } from "#i/core/actions"
+import { InlineHelper } from "#i/core/data-display/helper"
+import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image"
 import {
   getImageId,
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFiles,
-} from "#i/core/data-display/image";
-import { Form } from "#i/core/form-elements/form";
-import { ImageInput } from "#i/core/form-elements/image-input";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/data-display/image"
+import { Form } from "#i/core/form-elements/form"
+import { ImageInput } from "#i/core/form-elements/image-input"
+import { Icon } from "#i/generated/icon"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -34,40 +34,40 @@ export const ActionFormData = FormDataDelegate.create(
       zu.array(zu.string()).min(1, "Veuillez ajouter au moins une photo"),
     ),
   }),
-);
+)
 
 export function AnimalPicturesForm({
   defaultAnimal,
   fetcher,
 }: {
-  defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>;
+  defaultAnimal?: null | SerializeFrom<Pick<Animal, "avatar" | "pictures">>
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const isCreate = defaultAnimal == null;
-  const action = useFormAction();
+  const isCreate = defaultAnimal == null
+  const action = useFormAction()
 
   const [pictures, setPictures] = useState<ImageFileOrId[]>(
     defaultAnimal == null ? [] : getAllAnimalPictures(defaultAnimal),
-  );
-  const [pendingPictureCount, setPendingPictureCount] = useState(0);
-  const [hasImageImportError, setHasImageImportError] = useState(false);
+  )
+  const [pendingPictureCount, setPendingPictureCount] = useState(0)
+  const [hasImageImportError, setHasImageImportError] = useState(false)
 
-  let formErrors = fetcher.data?.errors?.formErrors ?? [];
+  let formErrors = fetcher.data?.errors?.formErrors ?? []
 
   // Errors on the `pictures` field are displayed as form errors.
   if (fetcher.data?.errors?.fieldErrors.pictures != null) {
-    formErrors = formErrors.concat(fetcher.data.errors.fieldErrors.pictures);
+    formErrors = formErrors.concat(fetcher.data.errors.fieldErrors.pictures)
   }
 
   if (hasImageImportError) {
     formErrors = formErrors.concat([
       "Une erreur est survenue lors de l’import d’image.",
-    ]);
+    ])
   }
 
-  const overSizedPictureCount = pictures.filter(isImageOverSize).length;
+  const overSizedPictureCount = pictures.filter(isImageOverSize).length
   if (overSizedPictureCount > 0) {
     formErrors = formErrors.concat([
       `${
@@ -75,7 +75,7 @@ export function AnimalPicturesForm({
           ? "1 image est trop grande."
           : `${overSizedPictureCount} images sont trop grandes.`
       } La taille maximum est de ${IMAGE_SIZE_LIMIT_MB} MiB.`,
-    ]);
+    ])
   }
 
   return (
@@ -85,33 +85,33 @@ export function AnimalPicturesForm({
       onSubmit={(event) => {
         // Because we manually create the FormData to send, we need to manually
         // submit the form.
-        event.preventDefault();
+        event.preventDefault()
 
         if (overSizedPictureCount > 0) {
-          return;
+          return
         }
 
-        const formData = new FormData();
+        const formData = new FormData()
 
         pictures.forEach((picture) => {
           if (!isImageOverSize(picture)) {
-            const value = isImageFile(picture) ? picture.file : picture;
-            formData.append(ActionFormData.keys.pictures, value);
+            const value = isImageFile(picture) ? picture.file : picture
+            formData.append(ActionFormData.keys.pictures, value)
           }
-        });
+        })
 
         if (pictures.length === 0) {
           // Because there may be no image, the FormData might be empty.
           // For some reason, submitting an empty FormData crash with a
           // "Failed to fetch" error.
-          formData.set("useless", "");
+          formData.set("useless", "")
         }
 
         fetcher.submit(formData, {
           method: "POST",
           encType: "multipart/form-data",
           action,
-        });
+        })
       }}
     >
       <Form.Fields>
@@ -140,7 +140,7 @@ export function AnimalPicturesForm({
         </Action>
       </Form.Action>
     </Form>
-  );
+  )
 }
 
 function ImagesInput({
@@ -151,18 +151,18 @@ function ImagesInput({
   onImportImagesFailed,
   hasError,
 }: {
-  images: ImageFileOrId[];
-  setImages: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>;
-  pendingImageCount: number;
-  setPendingImageCount: React.Dispatch<React.SetStateAction<number>>;
-  onImportImagesFailed: React.Dispatch<void>;
-  hasError: boolean;
+  images: ImageFileOrId[]
+  setImages: React.Dispatch<React.SetStateAction<ImageFileOrId[]>>
+  pendingImageCount: number
+  setPendingImageCount: React.Dispatch<React.SetStateAction<number>>
+  onImportImagesFailed: React.Dispatch<void>
+  hasError: boolean
 }) {
-  const listRef = useRef<HTMLUListElement>(null);
+  const listRef = useRef<HTMLUListElement>(null)
   const { pendingDropIndex } = useDropContainer({
     containerRef: listRef,
     setItems: setImages,
-  });
+  })
 
   const imagesElement = images.map((image, index) => (
     <ImageItem
@@ -175,7 +175,7 @@ function ImagesInput({
         )
       }
     />
-  ));
+  ))
 
   // Display a placeholder at the drop index.
   if (pendingDropIndex != null) {
@@ -183,7 +183,7 @@ function ImagesInput({
       pendingDropIndex,
       0,
       <ImageItemPlaceholder key="placeholder" />,
-    );
+    )
   }
 
   return (
@@ -215,7 +215,7 @@ function ImagesInput({
         hasError={hasError}
       />
     </ul>
-  );
+  )
 }
 
 function ImageItem({
@@ -223,18 +223,18 @@ function ImageItem({
   index,
   onRemove,
 }: {
-  image: ImageFileOrId;
-  index: number;
-  onRemove: () => void;
+  image: ImageFileOrId
+  index: number
+  onRemove: () => void
 }) {
-  const itemRef = useRef<HTMLLIElement>(null);
-  const handleRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLLIElement>(null)
+  const handleRef = useRef<HTMLDivElement>(null)
   const { isDragging, isDisabled } = useDragItem({
     data: image,
     index,
     itemRef,
     handleRef,
-  });
+  })
 
   return (
     <ImageInput.Preview asChild>
@@ -268,11 +268,11 @@ function ImageItem({
         </ImageInput.PreviewAction>
       </li>
     </ImageInput.Preview>
-  );
+  )
 }
 
 function ImageItemPlaceholder() {
-  return <li className="aspect-4/3 rounded-1 bg-gray-100" />;
+  return <li className="aspect-4/3 rounded-1 bg-gray-100" />
 }
 
 function ImageItemInput({
@@ -282,34 +282,34 @@ function ImageItemInput({
   onImportImagesStart,
   hasError,
 }: {
-  onImportImages: React.Dispatch<ImageFile[]>;
-  onImportImagesEnd: React.Dispatch<number>;
-  onImportImagesFailed: React.Dispatch<void>;
-  onImportImagesStart: React.Dispatch<number>;
-  hasError: boolean;
+  onImportImages: React.Dispatch<ImageFile[]>
+  onImportImagesEnd: React.Dispatch<number>
+  onImportImagesFailed: React.Dispatch<void>
+  onImportImagesStart: React.Dispatch<number>
+  hasError: boolean
 }) {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
 
   async function handleChange() {
-    invariant(inputRef.current != null, "inputRef should be defined");
+    invariant(inputRef.current != null, "inputRef should be defined")
 
     if (inputRef.current.files != null) {
-      const imageCount = inputRef.current.files.length;
-      onImportImagesStart(imageCount);
+      const imageCount = inputRef.current.files.length
+      onImportImagesStart(imageCount)
 
       try {
-        const images = await readFiles(inputRef.current.files);
-        onImportImages(images);
+        const images = await readFiles(inputRef.current.files)
+        onImportImages(images)
       } catch (error) {
-        console.error("Could not import images:", error);
-        onImportImagesFailed();
+        console.error("Could not import images:", error)
+        onImportImagesFailed()
       } finally {
-        onImportImagesEnd(imageCount);
+        onImportImagesEnd(imageCount)
 
         // Clear native input value to make sure the user can select multiple
         // times the same file.
         // https://stackoverflow.com/a/9617756
-        inputRef.current.value = "";
+        inputRef.current.value = ""
       }
     }
   }
@@ -326,5 +326,5 @@ function ImageItemInput({
         className="w-full"
       />
     </li>
-  );
+  )
 }

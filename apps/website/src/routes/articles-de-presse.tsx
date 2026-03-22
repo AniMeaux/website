@@ -1,15 +1,15 @@
-import { cn } from "@animeaux/core";
-import type { PressArticle } from "@animeaux/prisma";
-import type { MetaFunction, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { cn } from "@animeaux/core"
+import type { PressArticle } from "@animeaux/prisma"
+import type { MetaFunction, SerializeFrom } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { prisma } from "#i/core/db.server"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 
 export async function loader() {
   const pressArticles = await prisma.pressArticle.findMany({
@@ -22,17 +22,17 @@ export async function loader() {
       title: true,
       url: true,
     },
-  });
+  })
 
-  return json({ pressArticles });
+  return json({ pressArticles })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Articles de presse") });
-};
+  return createSocialMeta({ title: getPageTitle("Articles de presse") })
+}
 
 export default function Route() {
-  const { pressArticles } = useLoaderData<typeof loader>();
+  const { pressArticles } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -72,7 +72,7 @@ export default function Route() {
         </p>
       )}
     </main>
-  );
+  )
 }
 
 function PressArticleItem({
@@ -83,7 +83,7 @@ function PressArticleItem({
       PressArticle,
       "id" | "image" | "publicationDate" | "publisherName" | "title" | "url"
     >
-  >;
+  >
 }) {
   return (
     <li className="flex">
@@ -124,5 +124,5 @@ function PressArticleItem({
         </div>
       </BaseLink>
     </li>
-  );
+  )
 }

@@ -1,19 +1,16 @@
-import { catchError } from "@animeaux/core";
-import type { ShowExhibitorApplication } from "@animeaux/prisma/server";
-import {
-  Prisma,
-  ShowExhibitorApplicationStatus,
-} from "@animeaux/prisma/server";
-import { promiseHash } from "remix-utils/promise";
+import { catchError } from "@animeaux/core"
+import type { ShowExhibitorApplication } from "@animeaux/prisma/server"
+import { Prisma, ShowExhibitorApplicationStatus } from "@animeaux/prisma/server"
+import { promiseHash } from "remix-utils/promise"
 
-import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server";
-import { fileStorage } from "#i/core/file-storage.server";
-import { notifyShowApp } from "#i/core/notification.server";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { ApplicationSearchParamsN } from "#i/show/exhibitors/applications/search-params";
-import { ExhibitorCategory } from "#i/show/exhibitors/category";
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js";
+import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server"
+import { fileStorage } from "#i/core/file-storage.server"
+import { notifyShowApp } from "#i/core/notification.server"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { ApplicationSearchParamsN } from "#i/show/exhibitors/applications/search-params"
+import { ExhibitorCategory } from "#i/show/exhibitors/category"
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js"
 
 export class MissingRefusalMessageError extends Error {}
 
@@ -25,13 +22,13 @@ export class ShowExhibitorApplicationDbDelegate {
     const application = await prisma.showExhibitorApplication.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (application == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return application;
+    return application
   }
 
   async findUniqueByExhibitor<T extends Prisma.ShowExhibitorApplicationSelect>(
@@ -41,47 +38,47 @@ export class ShowExhibitorApplicationDbDelegate {
     const exhibitor = await prisma.showExhibitor.findUnique({
       where: { id: exhibitorId },
       select: { application: { select: params.select } },
-    });
+    })
 
     if (exhibitor?.application == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return exhibitor.application;
+    return exhibitor.application
   }
 
   async findMany<T extends Prisma.ShowExhibitorApplicationSelect>(params: {
-    searchParams: ApplicationSearchParamsN.Value;
-    pagination?: { page: number; countPerPage: number };
-    select: T;
+    searchParams: ApplicationSearchParamsN.Value
+    pagination?: { page: number; countPerPage: number }
+    select: T
   }) {
-    const where: Prisma.ShowExhibitorApplicationWhereInput[] = [];
+    const where: Prisma.ShowExhibitorApplicationWhereInput[] = []
 
     if (params.searchParams.sponsorshipCategories.size > 0) {
       const sponsorshipCategoryWhere: Prisma.ShowExhibitorApplicationWhereInput[] =
-        [];
+        []
 
       if (
         params.searchParams.sponsorshipCategories.has(
           SponsorshipOptionalCategory.Enum.NO_SPONSORSHIP,
         )
       ) {
-        sponsorshipCategoryWhere.push({ sponsorshipCategory: null });
+        sponsorshipCategoryWhere.push({ sponsorshipCategory: null })
       }
 
       const sponsorshipCategories = Array.from(
         params.searchParams.sponsorshipCategories,
       )
         .map(SponsorshipOptionalCategory.toDb)
-        .filter(Boolean);
+        .filter(Boolean)
 
       if (sponsorshipCategories.length > 0) {
         sponsorshipCategoryWhere.push({
           sponsorshipCategory: { in: sponsorshipCategories },
-        });
+        })
       }
 
-      where.push({ OR: sponsorshipCategoryWhere });
+      where.push({ OR: sponsorshipCategoryWhere })
     }
 
     if (params.searchParams.name != null) {
@@ -90,7 +87,7 @@ export class ShowExhibitorApplicationDbDelegate {
           contains: params.searchParams.name,
           mode: "insensitive",
         },
-      });
+      })
     }
 
     if (params.searchParams.standSizesId.size > 0) {
@@ -98,11 +95,11 @@ export class ShowExhibitorApplicationDbDelegate {
         desiredStandSize: {
           id: { in: Array.from(params.searchParams.standSizesId) },
         },
-      });
+      })
     }
 
     if (params.searchParams.statuses.size > 0) {
-      where.push({ status: { in: Array.from(params.searchParams.statuses) } });
+      where.push({ status: { in: Array.from(params.searchParams.statuses) } })
     }
 
     if (params.searchParams.targets.size > 0) {
@@ -110,7 +107,7 @@ export class ShowExhibitorApplicationDbDelegate {
         structureActivityTargets: {
           hasSome: Array.from(params.searchParams.targets),
         },
-      });
+      })
     }
 
     if (params.searchParams.fields.size > 0) {
@@ -118,7 +115,7 @@ export class ShowExhibitorApplicationDbDelegate {
         structureActivityFields: {
           hasSome: Array.from(params.searchParams.fields),
         },
-      });
+      })
     }
 
     const { applications, totalCount } = await promiseHash({
@@ -138,25 +135,25 @@ export class ShowExhibitorApplicationDbDelegate {
             }
           : null),
       }),
-    });
+    })
 
-    return { applications, totalCount };
+    return { applications, totalCount }
   }
 
   async update(
     id: ShowExhibitorApplication["id"],
     data: ShowExhibitorApplicationData,
   ) {
-    this.validate(data);
-    this.normalize(data);
+    this.validate(data)
+    this.normalize(data)
 
     await prisma.$transaction(async (prisma) => {
       let application: Prisma.ShowExhibitorApplicationGetPayload<{
         include: {
-          exhibitor: { select: { id: true } };
-          desiredStandSize: { select: { id: true; maxTableCount: true } };
-        };
-      }>;
+          exhibitor: { select: { id: true } }
+          desiredStandSize: { select: { id: true; maxTableCount: true } }
+        }
+      }>
 
       try {
         application = await prisma.showExhibitorApplication.update({
@@ -166,15 +163,15 @@ export class ShowExhibitorApplicationDbDelegate {
             exhibitor: { select: { id: true } },
             desiredStandSize: { select: { id: true, maxTableCount: true } },
           },
-        });
+        })
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === PrismaErrorCodes.NOT_FOUND) {
-            throw new NotFoundError();
+            throw new NotFoundError()
           }
         }
 
-        throw error;
+        throw error
       }
 
       if (
@@ -184,7 +181,7 @@ export class ShowExhibitorApplicationDbDelegate {
         const folder = await fileStorage.createFolder(
           application.structureName,
           { parentFolderId: process.env.GOOGLE_DRIVE_ROOT_FOLDER_ID },
-        );
+        )
 
         await prisma.showExhibitor.create({
           data: {
@@ -217,14 +214,14 @@ export class ShowExhibitorApplicationDbDelegate {
             name: application.structureName,
             tableCount: application.desiredStandSize.maxTableCount,
           },
-        });
+        })
       }
-    });
+    })
 
     await notifyShowApp({
       type: "application-status-updated",
       applicationId: id,
-    });
+    })
   }
 
   private validate(newData: ShowExhibitorApplicationData) {
@@ -232,29 +229,29 @@ export class ShowExhibitorApplicationDbDelegate {
       newData.status === ShowExhibitorApplicationStatus.REFUSED &&
       newData.refusalMessage == null
     ) {
-      throw new MissingRefusalMessageError();
+      throw new MissingRefusalMessageError()
     }
   }
 
   normalize(data: ShowExhibitorApplicationData) {
     if (data.status !== ShowExhibitorApplicationStatus.REFUSED) {
-      data.refusalMessage = null;
+      data.refusalMessage = null
     }
   }
 
   async delete(id: string) {
     const [error] = await catchError(() =>
       prisma.showExhibitorApplication.delete({ where: { id } }),
-    );
+    )
 
     if (error != null) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
+          throw new NotFoundError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 }
@@ -262,7 +259,7 @@ export class ShowExhibitorApplicationDbDelegate {
 type ShowExhibitorApplicationData = Pick<
   ShowExhibitorApplication,
   "status" | "refusalMessage"
->;
+>
 
 const FIND_ORDER_BY_SORT: Record<
   ApplicationSearchParamsN.Sort,
@@ -270,4 +267,4 @@ const FIND_ORDER_BY_SORT: Record<
 > = {
   [ApplicationSearchParamsN.Sort.CREATED_AT]: { createdAt: "desc" },
   [ApplicationSearchParamsN.Sort.NAME]: { structureName: "asc" },
-};
+}

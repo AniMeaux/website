@@ -1,14 +1,14 @@
-import * as Collapsible from "@radix-ui/react-collapsible";
-import chunk from "lodash.chunk";
-import { Children } from "react";
+import * as Collapsible from "@radix-ui/react-collapsible"
+import chunk from "lodash.chunk"
+import { Children } from "react"
 
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import type { Faq } from "#i/faq/faq";
-import { Icon } from "#i/generated/icon";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import type { Faq } from "#i/faq/faq"
+import { Icon } from "#i/generated/icon"
 
 export function FaqList({ children }: React.PropsWithChildren) {
-  const childrenElements = Children.toArray(children);
+  const childrenElements = Children.toArray(children)
 
   return (
     <>
@@ -34,7 +34,7 @@ export function FaqList({ children }: React.PropsWithChildren) {
         )}
       </ul>
     </>
-  );
+  )
 }
 
 export function FaqItem({ faq }: { faq: Faq }) {
@@ -62,5 +62,5 @@ export function FaqItem({ faq }: { faq: Faq }) {
         </Collapsible.Root>
       </li>
     </LazyElement>
-  );
+  )
 }

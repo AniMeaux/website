@@ -1,16 +1,16 @@
-import { cn, joinReactNodes } from "@animeaux/core";
-import { cloneElement } from "react";
+import { cn, joinReactNodes } from "@animeaux/core"
+import { cloneElement } from "react"
 
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { Icon } from "#i/generated/icon";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { Icon } from "#i/generated/icon"
 
 export function Steps({
   activeIndex,
   children,
 }: {
-  activeIndex: number;
-  children: React.ReactElement<StepProps>[];
+  activeIndex: number
+  children: React.ReactElement<StepProps>[]
 }) {
   const steps = children.map((child, index) =>
     cloneElement(child, {
@@ -18,7 +18,7 @@ export function Steps({
       stepIndex: index + 1,
       isActive: index <= activeIndex,
     }),
-  );
+  )
 
   return (
     <nav className="flex items-center gap-1">
@@ -27,15 +27,15 @@ export function Steps({
         <Icon href="icon-angle-right-solid" className="text-gray-200" />,
       )}
     </nav>
-  );
+  )
 }
 
 type StepProps = {
-  children?: React.ReactNode;
-  isActive?: boolean;
-  stepIndex?: number;
-  to: NonNullable<BaseLinkProps["to"]>;
-};
+  children?: React.ReactNode
+  isActive?: boolean
+  stepIndex?: number
+  to: NonNullable<BaseLinkProps["to"]>
+}
 
 Steps.Step = function Step({
   children,
@@ -43,10 +43,10 @@ Steps.Step = function Step({
   stepIndex = 0,
   to,
 }: {
-  children?: React.ReactNode;
-  isActive?: boolean;
-  stepIndex?: number;
-  to: NonNullable<BaseLinkProps["to"]>;
+  children?: React.ReactNode
+  isActive?: boolean
+  stepIndex?: number
+  to: NonNullable<BaseLinkProps["to"]>
 }) {
   return (
     <BaseLink
@@ -75,5 +75,5 @@ Steps.Step = function Step({
         {children}
       </span>
     </BaseLink>
-  );
-};
+  )
+}

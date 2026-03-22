@@ -1,23 +1,23 @@
-import type { MetaFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { ActivityFilters } from "#i/activity/filter-form.js";
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
+import { ActivityFilters } from "#i/activity/filter-form.js"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
 
-import { CardList } from "./card-list";
-import type { loader } from "./loader.server";
+import { CardList } from "./card-list"
+import type { loader } from "./loader.server"
 
-export { loader } from "./loader.server";
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Activité") }];
-};
+  return [{ title: getPageTitle("Activité") }]
+}
 
 export default function Route() {
-  const { users, totalCount } = useLoaderData<typeof loader>();
+  const { users, totalCount } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -45,5 +45,5 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

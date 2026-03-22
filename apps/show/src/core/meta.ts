@@ -1,4 +1,4 @@
-import type { MetaDescriptor } from "@remix-run/react";
+import type { MetaDescriptor } from "@remix-run/react"
 
 /**
  * @see https://metatags.io/
@@ -10,7 +10,7 @@ export function createSocialMeta({ title }: { title: string }) {
     { title },
     { property: "og:title", content: title },
     { property: "twitter:title", content: title },
-  ];
+  ]
 
-  return meta;
+  return meta
 }

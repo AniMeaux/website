@@ -1,4 +1,4 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
 export namespace FormDataDelegate {
   export function create<TSchema extends zu.ZodObject<zu.ZodRawShape>>(
@@ -9,28 +9,28 @@ export namespace FormDataDelegate {
       keys: zu.getObjectKeys(schema),
 
       parse(formData: FormData) {
-        return schema.parse(toObject(formData)) as TSchema["_output"];
+        return schema.parse(toObject(formData)) as TSchema["_output"]
       },
 
       safeParse(formData: FormData) {
         return schema.safeParse(toObject(formData)) as zu.SafeParseReturnType<
           TSchema["_input"],
           TSchema["_output"]
-        >;
+        >
       },
-    };
+    }
   }
 
   function toObject(data: FormData | URLSearchParams) {
-    const map = new Map<string, unknown[]>();
+    const map = new Map<string, unknown[]>()
 
     for (const [key, value] of data) {
-      const currentValue = map.get(key);
+      const currentValue = map.get(key)
 
       if (currentValue == null) {
-        map.set(key, [value]);
+        map.set(key, [value])
       } else {
-        currentValue.push(value);
+        currentValue.push(value)
       }
     }
 
@@ -39,6 +39,6 @@ export namespace FormDataDelegate {
         key,
         value.length === 1 ? value[0] : value,
       ]),
-    );
+    )
   }
 }

@@ -1,8 +1,8 @@
-import { useLocation, useNavigation, useSearchParams } from "@remix-run/react";
-import { useCallback, useMemo } from "react";
+import { useLocation, useNavigation, useSearchParams } from "@remix-run/react"
+import { useCallback, useMemo } from "react"
 
 // Not exported from @remix-run/react.
-type SetURLSearchParams = ReturnType<typeof useSearchParams>[1];
+type SetURLSearchParams = ReturnType<typeof useSearchParams>[1]
 
 // Add explicit return type to fix:
 // > The inferred type of 'useOptimisticSearchParams' cannot be named without a
@@ -13,23 +13,23 @@ export function useOptimisticSearchParams(): readonly [
   URLSearchParams,
   SetURLSearchParams,
 ] {
-  const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigation = useNavigation();
+  const location = useLocation()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const navigation = useNavigation()
 
   const nextSearchParams = useMemo(() => {
     if (navigation.location?.pathname === location.pathname) {
-      return new URLSearchParams(navigation.location.search);
+      return new URLSearchParams(navigation.location.search)
     }
 
-    return undefined;
+    return undefined
   }, [
     location.pathname,
     navigation.location?.pathname,
     navigation.location?.search,
-  ]);
+  ])
 
-  const optimisticSearchParams = nextSearchParams ?? searchParams;
+  const optimisticSearchParams = nextSearchParams ?? searchParams
 
   // When the set state function is called with a function, it needs to recieve
   // the optimistic search parameters.
@@ -40,10 +40,10 @@ export function useOptimisticSearchParams(): readonly [
           ? nextInit(optimisticSearchParams)
           : nextInit,
         navigateOpts,
-      );
+      )
     },
     [optimisticSearchParams, setSearchParams],
-  );
+  )
 
-  return [optimisticSearchParams, setOptimisticSearchParams];
+  return [optimisticSearchParams, setOptimisticSearchParams]
 }

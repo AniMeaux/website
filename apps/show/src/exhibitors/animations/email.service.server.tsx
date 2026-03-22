@@ -1,17 +1,17 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
 
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+} from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
 export class ServiceExhibitorOnStandAnimationEmail {
   constructor(
@@ -29,7 +29,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     await this.email.send({
       name: "animation-sur-stand-exposant-mis-a-jour",
@@ -86,7 +86,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -103,14 +103,14 @@ export class ServiceExhibitorOnStandAnimationEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.onStandAnimationsStatus ===
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.onStandAnimationsStatus) {
@@ -170,14 +170,14 @@ export class ServiceExhibitorOnStandAnimationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.onStandAnimationsStatusMessage != null,
           "A onStandAnimationsStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "animation-sur-stand-exposant-traité",
@@ -213,11 +213,11 @@ export class ServiceExhibitorOnStandAnimationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.onStandAnimationsStatus satisfies never;
+        return exhibitor.onStandAnimationsStatus satisfies never
       }
     }
   }

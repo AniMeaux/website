@@ -1,21 +1,21 @@
-import { createStrictContext } from "@animeaux/core";
-import { useForm as useFormBase } from "@conform-to/react";
-import { getZodConstraint, parseWithZod } from "@conform-to/zod";
-import { useActionData, useLoaderData } from "@remix-run/react";
-import { useMemo } from "react";
+import { createStrictContext } from "@animeaux/core"
+import { useForm as useFormBase } from "@conform-to/react"
+import { getZodConstraint, parseWithZod } from "@conform-to/zod"
+import { useActionData, useLoaderData } from "@remix-run/react"
+import { useMemo } from "react"
 
-import type { action } from "./action.server";
-import { createActionSchema } from "./action-schema";
-import type { loader } from "./loader.server";
+import type { action } from "./action.server"
+import { createActionSchema } from "./action-schema"
+import type { loader } from "./loader.server"
 
 export function useForm() {
-  const { availableStandSizes } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const { availableStandSizes } = useLoaderData<typeof loader>()
+  const actionData = useActionData<typeof action>()
 
   const schema = useMemo(
     () => createActionSchema(availableStandSizes),
     [availableStandSizes],
-  );
+  )
 
   return useFormBase({
     id: "exhibitor-application",
@@ -24,14 +24,14 @@ export function useForm() {
     lastResult: actionData,
 
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
-  });
+  })
 }
 
 export const [FieldsetsProvider, useFieldsets] = createStrictContext<{
-  fieldsets: Fieldsets;
-}>();
+  fieldsets: Fieldsets
+}>()
 
-type Fieldsets = ReturnType<typeof useForm>[1];
+type Fieldsets = ReturnType<typeof useForm>[1]
 
 export const FieldsetId = {
   DOCUMENTS: "documents",
@@ -41,4 +41,4 @@ export const FieldsetId = {
   SPONSORSHIP: "sponsorship",
   COMMENTS: "comments",
   PERSONAL_DATA: "personal-data",
-} as const;
+} as const

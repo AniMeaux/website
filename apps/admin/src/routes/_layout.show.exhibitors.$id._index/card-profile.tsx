@@ -1,25 +1,25 @@
-import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { ImageUrl, joinReactNodes } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
 
-import { Action, ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { StatusHelper } from "#i/show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
+import { Action, ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardProfile() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -57,11 +57,11 @@ export function CardProfile() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemActivityFields() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-tags-light" />}>
@@ -69,11 +69,11 @@ function ItemActivityFields() {
         .map((field) => ActivityField.translation[field])
         .join(", ")}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemActivityTargets() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-bullseye-arrow-light" />}>
@@ -81,21 +81,21 @@ function ItemActivityTargets() {
         .map((target) => ActivityTarget.translation[target])
         .join(", ")}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemCategory() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-tag-light" />}>
       {ExhibitorCategory.translation[exhibitor.category]}
     </SimpleItem>
-  );
+  )
 }
 
 function PublicProfileStatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <StatusHelper.Root>
@@ -117,11 +117,11 @@ function PublicProfileStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
-  );
+  )
 }
 
 function ItemLinks() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
@@ -136,5 +136,5 @@ function ItemLinks() {
         <br />,
       )}
     </SimpleItem>
-  );
+  )
 }

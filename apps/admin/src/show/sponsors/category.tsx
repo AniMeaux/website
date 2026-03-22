@@ -1,53 +1,53 @@
-import { ShowSponsorshipCategory } from "@animeaux/prisma";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { ShowSponsorshipCategory } from "@animeaux/prisma"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export namespace SponsorshipCategory {
-  export const Enum = ShowSponsorshipCategory;
-  export type Enum = ShowSponsorshipCategory;
+  export const Enum = ShowSponsorshipCategory
+  export type Enum = ShowSponsorshipCategory
 
   export const translation: Record<Enum, string> = {
     [Enum.POLLEN]: "Pollen",
     [Enum.BRONZE]: "Pott de bronze",
     [Enum.SILVER]: "Pott d’argent",
     [Enum.GOLD]: "Pott d’or",
-  };
+  }
 
-  export const values = [Enum.POLLEN, Enum.BRONZE, Enum.SILVER, Enum.GOLD];
+  export const values = [Enum.POLLEN, Enum.BRONZE, Enum.SILVER, Enum.GOLD]
 }
 
 export namespace SponsorshipOptionalCategory {
   export const Enum = {
     ...SponsorshipCategory.Enum,
     NO_SPONSORSHIP: "NO_SPONSORSHIP",
-  } as const;
+  } as const
 
-  export type Enum = (typeof Enum)[keyof typeof Enum];
+  export type Enum = (typeof Enum)[keyof typeof Enum]
 
   export const translation: Record<Enum, string> = {
     ...SponsorshipCategory.translation,
     [Enum.NO_SPONSORSHIP]: "Malheureusement ce n’est pas possible",
-  };
+  }
 
-  export const values = [...SponsorshipCategory.values, Enum.NO_SPONSORSHIP];
+  export const values = [...SponsorshipCategory.values, Enum.NO_SPONSORSHIP]
 
   export function toDb(category: Enum): undefined | ShowSponsorshipCategory {
-    return category === Enum.NO_SPONSORSHIP ? undefined : category;
+    return category === Enum.NO_SPONSORSHIP ? undefined : category
   }
 
   export function fromDb(category: null | ShowSponsorshipCategory): Enum {
-    return category == null ? Enum.NO_SPONSORSHIP : category;
+    return category == null ? Enum.NO_SPONSORSHIP : category
   }
 }
 
 export const SponsorshipCategoryIcon = forwardRef<
   React.ComponentRef<"span">,
   Except<React.ComponentPropsWithoutRef<"span">, "title"> & {
-    category: SponsorshipOptionalCategory.Enum;
-    variant?: "light" | "solid";
+    category: SponsorshipOptionalCategory.Enum
+    variant?: "light" | "solid"
   }
 >(function SponsorshipCategoryIcon(
   { category, variant = "light", ...props },
@@ -61,8 +61,8 @@ export const SponsorshipCategoryIcon = forwardRef<
     >
       <Icon href={SPONSORSHIP_CATEGORY_ICON[category][variant]} />
     </span>
-  );
-});
+  )
+})
 
 const SPONSORSHIP_CATEGORY_ICON: Record<
   SponsorshipOptionalCategory.Enum,
@@ -88,4 +88,4 @@ const SPONSORSHIP_CATEGORY_ICON: Record<
     light: "icon-award-slash-light",
     solid: "icon-award-slash-solid",
   },
-};
+}

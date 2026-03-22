@@ -1,7 +1,7 @@
-import { LazyFile } from "@mjackson/lazy-file";
-import { v4 as uuid } from "uuid";
+import { LazyFile } from "@mjackson/lazy-file"
+import { v4 as uuid } from "uuid"
 
-import type { ServiceImage } from "#i/core/image/service.server.js";
+import type { ServiceImage } from "#i/core/image/service.server.js"
 
 export class ServiceImageMock implements ServiceImage {
   createReversibleUpload() {
@@ -10,19 +10,19 @@ export class ServiceImageMock implements ServiceImage {
         {
           byteLength: fileUpload.size,
           stream: () => {
-            throw new Error("Not supported");
+            throw new Error("Not supported")
           },
         },
         params.imageId,
         { type: fileUpload.type },
-      );
-    };
+      )
+    }
 
     const revert: ServiceImage.Reverter = async () => {
-      return undefined;
-    };
+      return undefined
+    }
 
-    return { upload, revert };
+    return { upload, revert }
   }
 
   async getAllImages() {
@@ -30,7 +30,7 @@ export class ServiceImageMock implements ServiceImage {
       id: uuid(),
       width: 8000,
       height: 8000,
-    }));
+    }))
   }
 
   async setBlurhash() {}

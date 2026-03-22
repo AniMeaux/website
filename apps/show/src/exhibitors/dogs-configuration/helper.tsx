@@ -1,4 +1,4 @@
-import { HelperCard } from "#i/core/layout/helper-card";
+import { HelperCard } from "#i/core/layout/helper-card"
 
 export function DogsHelper() {
   return (
@@ -30,5 +30,5 @@ export function DogsHelper() {
         2026.
       </p>
     </HelperCard.Root>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { exhibitor, files } = await promiseHash({
     exhibitor: services.exhibitor.getByToken(routeParams.token, {
@@ -34,7 +34,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
     files: services.fileStorage.getFiles(
       process.env.GOOGLE_DRIVE_SHARED_FOLDER_ID,
     ),
-  });
+  })
 
-  return { exhibitor, files };
+  return { exhibitor, files }
 }

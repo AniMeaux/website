@@ -1,46 +1,46 @@
-import { cn, formatDateRange } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
+import { cn, formatDateRange } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
 import type {
   LoaderFunctionArgs,
   MetaFunction,
   SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { Chip } from "#i/core/data-display/chip";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import type { DynamicImageProps } from "#i/core/data-display/image";
-import { DynamicImage } from "#i/core/data-display/image";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { Chip } from "#i/core/data-display/chip"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import type { DynamicImageProps } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-const EVENT_COUNT_PER_PAGE = 20;
+const EVENT_COUNT_PER_PAGE = 20
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const pageSearchParams = PageSearchParams.parse(searchParams)
 
   const where: Prisma.EventWhereInput = {
     endDate: { gte: new Date() },
-  };
+  }
 
   const { events, totalCount } = await promiseHash({
     totalCount: prisma.event.count({ where }),
@@ -66,19 +66,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
         title: true,
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE)
 
-  return json({ totalCount, pageCount, events });
+  return json({ totalCount, pageCount, events })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Événements") }];
-};
+  return [{ title: getPageTitle("Événements") }]
+}
 
 export default function Route() {
-  const { totalCount, pageCount, events } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, events } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -129,7 +129,7 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function EventItem({
@@ -138,10 +138,10 @@ function EventItem({
   imageLoading,
   className,
 }: {
-  event: SerializeFrom<typeof loader>["events"][number];
-  imageSizeMapping: DynamicImageProps["sizeMapping"];
-  imageLoading?: DynamicImageProps["loading"];
-  className?: string;
+  event: SerializeFrom<typeof loader>["events"][number]
+  imageSizeMapping: DynamicImageProps["sizeMapping"]
+  imageLoading?: DynamicImageProps["loading"]
+  className?: string
 }) {
   return (
     <BaseLink
@@ -185,5 +185,5 @@ function EventItem({
         <p className="text-gray-500 text-caption-default">{event.location}</p>
       </div>
     </BaseLink>
-  );
+  )
 }

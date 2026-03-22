@@ -1,17 +1,17 @@
-import { getFormProps } from "@conform-to/react";
-import type { MetaFunction } from "@remix-run/react";
+import { getFormProps } from "@conform-to/react"
+import type { MetaFunction } from "@remix-run/react"
 
-import { Action } from "#i/core/actions.js";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js";
-import { PageLayout } from "#i/core/layout/page.js";
-import { getPageTitle } from "#i/core/page-title.js";
-import { FieldsetInvoice } from "#i/show/invoice/fieldset-invoice.js";
+import { Action } from "#i/core/actions.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { FieldsetInvoice } from "#i/show/invoice/fieldset-invoice.js"
 
-import { useFormRoot } from "./form";
-import type { loader } from "./loader.server";
+import { useFormRoot } from "./form"
+import type { loader } from "./loader.server"
 
-export { action } from "./action.server";
-export { loader } from "./loader.server";
+export { action } from "./action.server"
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -25,19 +25,19 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
           : getErrorTitle(404),
       ),
     },
-  ];
-};
+  ]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
-  const [form, fields, fetcher] = useFormRoot();
+  const [form, fields, fetcher] = useFormRoot()
 
   return (
     <PageLayout.Content className="grid grid-cols-1 justify-center md:grid-cols-[minmax(0,600px)]">
@@ -54,5 +54,5 @@ export default function Route() {
         </Action>
       </fetcher.Form>
     </PageLayout.Content>
-  );
+  )
 }

@@ -1,26 +1,24 @@
-import { Link } from "@remix-run/react";
+import { Link } from "@remix-run/react"
 import type {
   ExtraProps,
   Options as ReactMarkdownOptions,
-} from "react-markdown";
-import ReactMarkdown from "react-markdown";
-import breaks from "remark-breaks";
-import gfm from "remark-gfm";
+} from "react-markdown"
+import ReactMarkdown from "react-markdown"
+import breaks from "remark-breaks"
+import gfm from "remark-gfm"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
 
-export type MarkdownComponents = NonNullable<
-  ReactMarkdownOptions["components"]
->;
+export type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>
 
 export function Markdown({
   content,
   components,
   className,
 }: {
-  content: string;
-  components: MarkdownComponents;
-  className?: string;
+  content: string
+  components: MarkdownComponents
+  className?: string
 }) {
   return (
     <ReactMarkdown
@@ -30,7 +28,7 @@ export function Markdown({
       unwrapDisallowed
       allowElement={(element) => {
         // Only allow elements defined in the `components`.
-        return components[element.tagName as keyof MarkdownComponents] != null;
+        return components[element.tagName as keyof MarkdownComponents] != null
       }}
       components={components}
       remarkPlugins={REMARK_PLUGINS}
@@ -38,7 +36,7 @@ export function Markdown({
     >
       {content}
     </ReactMarkdown>
-  );
+  )
 }
 
 export const SENTENCE_COMPONENTS: MarkdownComponents = {
@@ -46,7 +44,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
 
   a: ({ children, href, title }) => {
     if (href == null) {
-      return <span title={title}>children</span>;
+      return <span title={title}>children</span>
     }
 
     return (
@@ -55,7 +53,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
           {children}
         </Link>
       </ProseInlineAction>
-    );
+    )
   },
 
   em: (props) => <em {...withoutNode(props)} />,
@@ -63,7 +61,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
   strong: (props) => (
     <strong {...withoutNode(props)} className="text-body-lowercase-emphasis" />
   ),
-};
+}
 
 export const PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ...SENTENCE_COMPONENTS,
@@ -87,14 +85,14 @@ export const PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ),
 
   li: (props) => <li {...withoutNode(props)} />,
-};
+}
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.
   breaks,
   // Allow autolink literals, strikethrough, table and task list.
   gfm,
-];
+]
 
 /**
  * Remove `node` from props object because we don't want to have
@@ -104,5 +102,5 @@ export function withoutNode<TProps extends ExtraProps>({
   node,
   ...props
 }: TProps): Omit<TProps, "node"> {
-  return props;
+  return props
 }

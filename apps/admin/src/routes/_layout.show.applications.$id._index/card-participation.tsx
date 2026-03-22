@@ -1,16 +1,16 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation.js";
-import { Icon } from "#i/generated/icon";
+import { ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardParticipation() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -43,5 +43,5 @@ export function CardParticipation() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

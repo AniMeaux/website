@@ -1,13 +1,13 @@
-import { cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
+import { cn } from "@animeaux/core"
+import { Species } from "@animeaux/prisma"
 
-import { SPECIES_ICON } from "#i/animals/species";
+import { SPECIES_ICON } from "#i/animals/species"
 import {
   LineShapeHorizontal,
   LineShapeVertical,
-} from "#i/core/layout/line-shape";
-import type { SubNavComponent } from "#i/core/layout/navigation/shared";
-import { SubNavItem } from "#i/core/layout/navigation/shared";
+} from "#i/core/layout/line-shape"
+import type { SubNavComponent } from "#i/core/layout/navigation/shared"
+import { SubNavItem } from "#i/core/layout/navigation/shared"
 
 export const SubNavAdopt: SubNavComponent = () => {
   return (
@@ -96,11 +96,11 @@ export const SubNavAdopt: SubNavComponent = () => {
         </SubNavItem>
       </div>
     </div>
-  );
-};
+  )
+}
 
 SubNavAdopt.isActive = (location) => {
-  const pathname = location.pathname.toLowerCase();
+  const pathname = location.pathname.toLowerCase()
 
   return [
     "/animal",
@@ -108,5 +108,5 @@ SubNavAdopt.isActive = (location) => {
     "/sauves",
     "/conditions-d-adoption",
     "/nommez-votre-animal",
-  ].some((path) => pathname.startsWith(path));
-};
+  ].some((path) => pathname.startsWith(path))
+}

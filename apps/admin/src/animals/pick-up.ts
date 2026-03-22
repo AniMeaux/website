@@ -1,7 +1,7 @@
-import { PickUpReason } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
+import { PickUpReason } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon";
+import type { IconName } from "#i/generated/icon"
 
 export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.ABANDONMENT]: "Abandon",
@@ -10,7 +10,7 @@ export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.MISTREATMENT]: "Maltraitance",
   [PickUpReason.STRAY_ANIMAL]: "Errance",
   [PickUpReason.OTHER]: "Autre raison",
-};
+}
 
 export const PICK_UP_REASON_ICON: Record<PickUpReason, IconName> = {
   [PickUpReason.ABANDONMENT]: "icon-heart-crack-solid",
@@ -19,9 +19,9 @@ export const PICK_UP_REASON_ICON: Record<PickUpReason, IconName> = {
   [PickUpReason.MISTREATMENT]: "icon-siren-on-solid",
   [PickUpReason.STRAY_ANIMAL]: "icon-cat-tree-solid",
   [PickUpReason.OTHER]: "icon-circle-question-solid",
-};
+}
 
 export const SORTED_PICK_UP_REASON = orderBy(
   Object.values(PickUpReason),
   (pickUpReason) => PICK_UP_REASON_TRANSLATION[pickUpReason],
-);
+)

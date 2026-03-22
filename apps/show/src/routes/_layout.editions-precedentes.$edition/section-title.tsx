@@ -1,6 +1,6 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
+import { DynamicImage } from "#i/core/data-display/image"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
 
 export function SectionTitle() {
   return (
@@ -34,5 +34,5 @@ export function SectionTitle() {
         </Section.TextAside>
       </LazyElement>
     </Section.Root>
-  );
+  )
 }

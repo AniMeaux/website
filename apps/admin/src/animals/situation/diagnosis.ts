@@ -1,11 +1,11 @@
-import { Diagnosis, Gender } from "@animeaux/prisma";
+import { Diagnosis, Gender } from "@animeaux/prisma"
 
 export const SORTED_DIAGNOSIS = [
   Diagnosis.UNKNOWN,
   Diagnosis.NOT_APPLICABLE,
   Diagnosis.CATEGORIZED,
   Diagnosis.UNCATEGORIZED,
-];
+]
 
 export const DIAGNOSIS_TRANSLATION: Record<
   Diagnosis,
@@ -27,4 +27,4 @@ export const DIAGNOSIS_TRANSLATION: Record<
     [Gender.FEMALE]: "À faire",
     [Gender.MALE]: "À faire",
   },
-};
+}

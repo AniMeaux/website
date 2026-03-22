@@ -1,44 +1,44 @@
-import { cn, formatAge } from "@animeaux/core";
-import { Gender, ScreeningResult, Species } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useRef, useState } from "react";
-import invariant from "tiny-invariant";
-import { z } from "zod";
+import { cn, formatAge } from "@animeaux/core"
+import { Gender, ScreeningResult, Species } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { useRef, useState } from "react"
+import invariant from "tiny-invariant"
+import { z } from "zod"
 
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#i/animals/screening";
-import { SPECIES_ICON } from "#i/animals/species";
-import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
-import type { MarkdownProps } from "#i/core/data-display/markdown";
-import { Markdown } from "#i/core/data-display/markdown";
-import { prisma } from "#i/core/db.server";
-import { isDefined } from "#i/core/is-defined";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
+} from "#i/animals/screening"
+import { SPECIES_ICON } from "#i/animals/species"
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status"
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
+import type { MarkdownProps } from "#i/core/data-display/markdown"
+import { Markdown } from "#i/core/data-display/markdown"
+import { prisma } from "#i/core/db.server"
+import { isDefined } from "#i/core/is-defined"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 import {
   GENDER_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#i/core/translations";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/translations"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
-const UuidSchema = z.string().uuid();
+const UuidSchema = z.string().uuid()
 
-const UUID_LENGTH = 36;
+const UUID_LENGTH = 36
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const result = UuidSchema.safeParse(params["slug"]?.slice(-UUID_LENGTH));
+  const result = UuidSchema.safeParse(params["slug"]?.slice(-UUID_LENGTH))
   if (!result.success) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404 })
   }
 
   const animal = await prisma.animal.findFirst({
@@ -66,19 +66,19 @@ export async function loader({ params }: LoaderFunctionArgs) {
       screeningFiv: true,
       species: true,
     },
-  });
+  })
 
   if (animal == null) {
-    throw new Response("Not found", { status: 404 });
+    throw new Response("Not found", { status: 404 })
   }
 
-  return json({ animal });
+  return json({ animal })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
+  const animal = data?.animal
   if (animal == null) {
-    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
+    return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) })
   }
 
   return createSocialMeta({
@@ -91,15 +91,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         aspectRatio: "16:9",
       },
     ),
-  });
-};
+  })
+}
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -152,7 +152,7 @@ export default function Route() {
         <Actions />
       </div>
     </main>
-  );
+  )
 }
 
 function Actions() {
@@ -172,14 +172,14 @@ function Actions() {
         Je l’adopte
       </BaseLink>
     </>
-  );
+  )
 }
 
 function ImageSection({ className }: { className: string }) {
-  const { animal } = useLoaderData<typeof loader>();
-  const allPictures = [animal.avatar].concat(animal.pictures);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [visibleIndex, setVisibleIndex] = useState(0);
+  const { animal } = useLoaderData<typeof loader>()
+  const allPictures = [animal.avatar].concat(animal.pictures)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [visibleIndex, setVisibleIndex] = useState(0)
 
   return (
     <section className={cn(className, "flex flex-col gap-6")}>
@@ -190,7 +190,7 @@ function ImageSection({ className }: { className: string }) {
             Math.round(
               event.currentTarget.scrollLeft / event.currentTarget.clientWidth,
             ),
-          );
+          )
         }}
         className={cn(
           "flex min-w-0 snap-x snap-mandatory overflow-auto scroll-smooth rounded-bubble-md scrollbars-none",
@@ -219,12 +219,12 @@ function ImageSection({ className }: { className: string }) {
               invariant(
                 scrollContainerRef.current != null,
                 "scrollContainerRef should be set",
-              );
+              )
 
               scrollContainerRef.current.scrollTo(
                 index * scrollContainerRef.current.clientWidth,
                 0,
-              );
+              )
             }}
           >
             <DynamicImage
@@ -245,11 +245,11 @@ function ImageSection({ className }: { className: string }) {
         ))}
       </div>
     </section>
-  );
+  )
 }
 
 function InfoSection({ className }: { className: string }) {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   const speciesLabels = [
     SPECIES_TRANSLATION_STANDALONE[animal.species],
@@ -257,7 +257,7 @@ function InfoSection({ className }: { className: string }) {
     animal.color?.name,
   ]
     .filter(isDefined)
-    .join(" • ");
+    .join(" • ")
 
   return (
     <section className={cn(className, "flex flex-col")}>
@@ -316,7 +316,7 @@ function InfoSection({ className }: { className: string }) {
         ) : null}
       </ul>
     </section>
-  );
+  )
 }
 
 function Item({
@@ -324,9 +324,9 @@ function Item({
   color = "default",
   children,
 }: {
-  icon: IconProps["id"];
-  color?: "pink" | "blue" | "default" | "red" | "green";
-  children: React.ReactNode;
+  icon: IconProps["id"]
+  color?: "pink" | "blue" | "default" | "red" | "green"
+  children: React.ReactNode
 }) {
   return (
     <li className="flex items-start gap-2">
@@ -342,11 +342,11 @@ function Item({
       />
       <span className="flex-1">{children}</span>
     </li>
-  );
+  )
 }
 
 function AggrementsSection({ className }: { className: string }) {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   return (
     <div className={cn(className, "flex flex-col gap-6")}>
@@ -365,15 +365,15 @@ function AggrementsSection({ className }: { className: string }) {
         <Agreement entity="dogs" value={animal.isOkDogs} />
       </ul>
     </div>
-  );
+  )
 }
 
 function Agreement({
   entity,
   value,
 }: {
-  entity: "babies" | "cats" | "dogs";
-  value: boolean | null;
+  entity: "babies" | "cats" | "dogs"
+  value: boolean | null
 }) {
   const icon: IconProps["id"] =
     entity === "babies"
@@ -392,7 +392,7 @@ function Agreement({
           ? "dog-circle-question"
           : value
             ? "dog-circle-check"
-            : "dog-circle-x-mark";
+            : "dog-circle-x-mark"
 
   return (
     <li
@@ -410,7 +410,7 @@ function Agreement({
         {value == null ? "Inconnu" : value ? "Oui" : "Non"}
       </span>
     </li>
-  );
+  )
 }
 
 const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
@@ -443,10 +443,10 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
     </ol>
   ),
   li: ({ children }) => <li>{children}</li>,
-};
+}
 
 function DescriptionSection({ className }: { className: string }) {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   return (
     <section className={cn(className, "flex flex-col gap-6")}>
@@ -469,5 +469,5 @@ function DescriptionSection({ className }: { className: string }) {
         )}
       </article>
     </section>
-  );
+  )
 }

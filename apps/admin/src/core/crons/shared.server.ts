@@ -1,9 +1,9 @@
 export type CronDefinition = {
-  name: string;
+  name: string
 
   // https://crontab.guru/
   // https://croner.56k.guru/usage/pattern/
-  pattern: string;
+  pattern: string
 
-  fn: () => Promise<void>;
-};
+  fn: () => Promise<void>
+}

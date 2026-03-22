@@ -1,10 +1,10 @@
-import orderBy from "lodash.orderby";
+import orderBy from "lodash.orderby"
 
 export type CityWithAgreements = {
-  id: string;
-  name: string;
-  image: string;
-};
+  id: string
+  name: string
+  image: string
+}
 
 export const citiesWithAgreements: CityWithAgreements[] = orderBy(
   [
@@ -31,4 +31,4 @@ export const citiesWithAgreements: CityWithAgreements[] = orderBy(
     },
   ],
   (city) => city.name.toLowerCase(),
-);
+)

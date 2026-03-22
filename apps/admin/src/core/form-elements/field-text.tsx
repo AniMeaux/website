@@ -1,10 +1,10 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getInputProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
 
 export function FieldText({
   field,
@@ -15,10 +15,10 @@ export function FieldText({
   React.ComponentPropsWithoutRef<"input">,
   "inputMode" | "pattern" | "placeholder" | "required"
 > & {
-  field: FieldMetadata<string | number>;
-  label: React.ReactNode;
-  helper?: React.ReactNode;
-  leftAdornment?: React.ComponentProps<typeof Input>["leftAdornment"];
+  field: FieldMetadata<string | number>
+  label: React.ReactNode
+  helper?: React.ReactNode
+  leftAdornment?: React.ComponentProps<typeof Input>["leftAdornment"]
 }) {
   return (
     <Form.Field>
@@ -30,5 +30,5 @@ export function FieldText({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

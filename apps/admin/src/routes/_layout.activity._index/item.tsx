@@ -1,25 +1,25 @@
-import type { SerializeFrom } from "@remix-run/node";
-import { DateTime } from "luxon";
+import type { SerializeFrom } from "@remix-run/node"
+import { DateTime } from "luxon"
 
-import { ActivityAction } from "#i/activity/action.js";
-import { ActivityActorType } from "#i/activity/actor-type.js";
-import { ActivityResource } from "#i/activity/resource.js";
-import { AnimalAvatar } from "#i/animals/avatar.js";
-import { getAnimalDisplayName } from "#i/animals/profile/name.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { toRoundedRelative } from "#i/core/dates.js";
-import { getShortUuid } from "#i/core/id.js";
-import { Routes } from "#i/core/navigation.js";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar.js";
-import { Icon } from "#i/generated/icon.js";
-import { UserAvatar } from "#i/users/avatar.js";
+import { ActivityAction } from "#i/activity/action.js"
+import { ActivityActorType } from "#i/activity/actor-type.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import { AnimalAvatar } from "#i/animals/avatar.js"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { toRoundedRelative } from "#i/core/dates.js"
+import { getShortUuid } from "#i/core/id.js"
+import { Routes } from "#i/core/navigation.js"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
+import { Icon } from "#i/generated/icon.js"
+import { UserAvatar } from "#i/users/avatar.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function ActivityItem({
   activity,
 }: {
-  activity: SerializeFrom<typeof loader>["activities"][number];
+  activity: SerializeFrom<typeof loader>["activities"][number]
 }) {
   return (
     <BaseLink
@@ -85,5 +85,5 @@ export function ActivityItem({
         {toRoundedRelative(activity.createdAt)}
       </span>
     </BaseLink>
-  );
+  )
 }

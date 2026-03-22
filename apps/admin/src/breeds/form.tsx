@@ -1,18 +1,18 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Breed } from "@animeaux/prisma";
-import { Species } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { Breed } from "@animeaux/prisma"
+import { Species } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Icon } from "#i/generated/icon";
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species"
+import { Action } from "#i/core/actions"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Icon } from "#i/generated/icon"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -21,33 +21,33 @@ export const ActionFormData = FormDataDelegate.create(
       required_error: "Veuillez choisir une espèce",
     }),
   }),
-);
+)
 
 export function BreedForm({
   defaultBreed,
   fetcher,
 }: {
-  defaultBreed?: SerializeFrom<Pick<Breed, "name" | "species">>;
+  defaultBreed?: SerializeFrom<Pick<Breed, "name" | "species">>
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const isCreate = defaultBreed == null;
-  const nameRef = useRef<HTMLInputElement>(null);
-  const speciesRef = useRef<HTMLInputElement>(null);
+  const isCreate = defaultBreed == null
+  const nameRef = useRef<HTMLInputElement>(null)
+  const speciesRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.name != null) {
-        nameRef.current?.focus();
+        nameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.species != null) {
-        speciesRef.current?.focus();
+        speciesRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <Form asChild hasHeader>
@@ -114,5 +114,5 @@ export function BreedForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

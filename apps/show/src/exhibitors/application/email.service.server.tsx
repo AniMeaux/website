@@ -1,25 +1,25 @@
-import { getCompleteLocation } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
-import { Img } from "@react-email/components";
-import invariant from "tiny-invariant";
+import { getCompleteLocation } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma"
+import { Img } from "@react-email/components"
+import invariant from "tiny-invariant"
 
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server";
-import { createImageUrl } from "#i/core/data-display/image";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { ImageData } from "#i/core/image/data.js";
-import { Routes } from "#i/core/navigation";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
-import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target";
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
-import { LegalStatus } from "#i/exhibitors/application/legal-status";
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
+} from "#i/core/data-display/email-html.server"
+import { createImageUrl } from "#i/core/data-display/image"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { ImageData } from "#i/core/image/data.js"
+import { Routes } from "#i/core/navigation"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
+import { LegalStatus } from "#i/exhibitors/application/legal-status"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
 
-import type { ServiceApplication } from "./service.server";
+import type { ServiceApplication } from "./service.server"
 
 export class ServiceApplicationEmail {
   constructor(
@@ -29,7 +29,7 @@ export class ServiceApplicationEmail {
 
   async submitted(
     application: Prisma.ShowExhibitorApplicationGetPayload<{
-      include: { desiredStandSize: { select: { label: true } } };
+      include: { desiredStandSize: { select: { label: true } } }
     }>,
   ) {
     function SectionInformation() {
@@ -52,7 +52,7 @@ export class ServiceApplicationEmail {
             nous contacter en répondant à cet e-mail.
           </EmailHtml.Paragraph>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     function SectionContact() {
@@ -96,7 +96,7 @@ export class ServiceApplicationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     function SectionStructure() {
@@ -215,7 +215,7 @@ export class ServiceApplicationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     function SectionParticipation() {
@@ -245,7 +245,7 @@ export class ServiceApplicationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     function SectionSponsorship() {
@@ -267,7 +267,7 @@ export class ServiceApplicationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     function SectionComments() {
@@ -306,7 +306,7 @@ export class ServiceApplicationEmail {
             </EmailHtml.Output.Row>
           </EmailHtml.Output.Table>
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -333,7 +333,7 @@ export class ServiceApplicationEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(applicationId: string) {
@@ -346,10 +346,10 @@ export class ServiceApplicationEmail {
           select: { token: true },
         },
       },
-    });
+    })
 
     if (application.status === ShowExhibitorApplicationStatus.UNTREATED) {
-      return;
+      return
     }
 
     switch (application.status) {
@@ -357,7 +357,7 @@ export class ServiceApplicationEmail {
         invariant(
           application.refusalMessage != null,
           "A refusalMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "candidature-exposant-refusee",
@@ -380,11 +380,11 @@ export class ServiceApplicationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorApplicationStatus.VALIDATED: {
-        invariant(application.exhibitor != null, "An exhibitor should exists");
+        invariant(application.exhibitor != null, "An exhibitor should exists")
 
         return await this.email.send({
           name: "candidature-exposant-validee",
@@ -482,7 +482,7 @@ export class ServiceApplicationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorApplicationStatus.WAITING_LIST: {
@@ -537,11 +537,11 @@ export class ServiceApplicationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return application.status satisfies never;
+        return application.status satisfies never
       }
     }
   }

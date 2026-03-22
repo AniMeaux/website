@@ -1,45 +1,45 @@
-import { toBooleanAttribute } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { ShowExhibitorApplicationStatus, UserGroup } from "@animeaux/prisma";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import { toBooleanAttribute } from "@animeaux/core"
+import { FormDataDelegate } from "@animeaux/form-data"
+import { ShowExhibitorApplicationStatus, UserGroup } from "@animeaux/prisma"
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
 
-import { Action } from "#i/core/actions";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { NotFoundError } from "#i/core/errors.server";
-import { Form } from "#i/core/form-elements/form";
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Textarea } from "#i/core/form-elements/textarea";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { MissingRefusalMessageError } from "#i/show/exhibitors/applications/db.server";
+import { Action } from "#i/core/actions"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { NotFoundError } from "#i/core/errors.server"
+import { Form } from "#i/core/form-elements/form"
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Textarea } from "#i/core/form-elements/textarea"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes, useBackIfPossible } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { MissingRefusalMessageError } from "#i/show/exhibitors/applications/db.server"
 import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status";
+} from "#i/show/exhibitors/applications/status"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const application = await db.show.exhibitor.application.findUnique(
     routeParams.id,
@@ -50,16 +50,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         structureName: true,
       },
     },
-  );
+  )
 
-  assertIsDefined(application);
+  assertIsDefined(application)
 
-  return json({ application });
+  return json({ application })
 }
 
 const RouteParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -70,50 +70,50 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
           : getErrorTitle(404),
       ),
     },
-  ];
-};
+  ]
+}
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
     status: zu.nativeEnum(ShowExhibitorApplicationStatus),
     refusalMessage: zu.string().trim().optional(),
   }),
-);
+)
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = RouteParamsSchema.safeParse(params);
+  const routeParams = RouteParamsSchema.safeParse(params)
   if (!routeParams.success) {
-    throw notFound();
+    throw notFound()
   }
 
-  const rawFormData = await request.formData();
-  const formData = ActionFormData.safeParse(rawFormData);
+  const rawFormData = await request.formData()
+  const formData = ActionFormData.safeParse(rawFormData)
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
     await db.show.exhibitor.application.update(routeParams.data.id, {
       status: formData.data.status,
       refusalMessage: formData.data.refusalMessage || null,
-    });
+    })
   } catch (error) {
     if (error instanceof NotFoundError) {
       return json<ActionData>(
@@ -124,7 +124,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 404 },
-      );
+      )
     }
 
     if (error instanceof MissingRefusalMessageError) {
@@ -138,23 +138,23 @@ export async function action({ request, params }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   return json<ActionData>({
     redirectTo: Routes.show.applications.id(routeParams.data.id).toString(),
-  });
+  })
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Content className="flex flex-col items-center">
@@ -170,28 +170,28 @@ export default function Route() {
         </Card.Content>
       </Card>
     </PageLayout.Content>
-  );
+  )
 }
 
 function ApplicationForm() {
-  const { application } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  const { application } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
-  const refusalMessageRef = useRef<HTMLTextAreaElement>(null);
+  const refusalMessageRef = useRef<HTMLTextAreaElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.refusalMessage != null) {
-        refusalMessageRef.current?.focus();
+        refusalMessageRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
-  const [statusState, setStatusState] = useState(application.status);
+  const [statusState, setStatusState] = useState(application.status)
 
   return (
     <Form asChild hasHeader>
@@ -261,5 +261,5 @@ function ApplicationForm() {
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

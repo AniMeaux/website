@@ -1,9 +1,9 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
-import type { Merge } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
+import type { Merge } from "type-fest"
 
-export type AvatarSize = "sm" | "md" | "lg";
+export type AvatarSize = "sm" | "md" | "lg"
 
 export type AvatarColor =
   | "blue"
@@ -15,15 +15,15 @@ export type AvatarColor =
   | "red"
   | "red-light"
   | "yellow"
-  | "yellow-light";
+  | "yellow-light"
 
 export const Avatar = forwardRef<
   React.ComponentRef<typeof Primitive.span>,
   Merge<
     React.ComponentPropsWithoutRef<typeof Primitive.span>,
     {
-      color?: AvatarColor;
-      size: AvatarSize;
+      color?: AvatarColor
+      size: AvatarSize
     }
   >
 >(function Avatar({ color, size, className, ...props }, ref) {
@@ -38,14 +38,14 @@ export const Avatar = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})
 
 const CLASS_NAME_BY_SIZE: Record<AvatarSize, string> = {
   sm: cn("h-2 w-2 rounded-0.5 text-[14px]"),
   md: cn("h-4 w-4 rounded-0.5 text-[28px]"),
   lg: cn("h-8 w-8 rounded-1 text-[56px]"),
-};
+}
 
 const CLASS_NAME_BY_COLOR: Record<AvatarColor, string> = {
   blue: cn("bg-blue-600 text-white"),
@@ -58,4 +58,4 @@ const CLASS_NAME_BY_COLOR: Record<AvatarColor, string> = {
   "red-light": cn("bg-red-100 text-red-500"),
   yellow: cn("bg-yellow-600 text-white"),
   "yellow-light": cn("bg-yellow-100 text-yellow-600"),
-};
+}

@@ -1,23 +1,23 @@
-import { Readable } from "node:stream";
-import type { ReadableStream } from "node:stream/web";
+import { Readable } from "node:stream"
+import type { ReadableStream } from "node:stream/web"
 
-import { catchError } from "@animeaux/core";
-import { safeParse, zu } from "@animeaux/zod-utils";
-import type { FileUpload } from "@mjackson/form-data-parser";
-import { captureException } from "@sentry/remix";
-import type { drive_v3 } from "googleapis";
-import { google } from "googleapis";
+import { catchError } from "@animeaux/core"
+import { safeParse, zu } from "@animeaux/zod-utils"
+import type { FileUpload } from "@mjackson/form-data-parser"
+import { captureException } from "@sentry/remix"
+import type { drive_v3 } from "googleapis"
+import { google } from "googleapis"
 
-import { FileStorage } from "#i/file-storage.server.js";
+import { FileStorage } from "#i/file-storage.server.js"
 
 /**
  * @see https://developers.google.com/drive/api
  */
 export class FileStorageGoogleDrive extends FileStorage {
-  readonly #drive: drive_v3.Drive;
+  readonly #drive: drive_v3.Drive
 
   constructor(credentials: { clientEmail: string; privateKey: string }) {
-    super();
+    super()
 
     const auth = new google.auth.GoogleAuth({
       scopes: ["https://www.googleapis.com/auth/drive"],
@@ -29,9 +29,9 @@ export class FileStorageGoogleDrive extends FileStorage {
           // See https://stackoverflow.com/questions/74131595/error-error1e08010cdecoder-routinesunsupported-with-google-auth-library
           .replace(/\\n/g, "\n"),
       },
-    });
+    })
 
-    this.#drive = google.drive({ version: "v3", auth });
+    this.#drive = google.drive({ version: "v3", auth })
   }
 
   async getFile(fileId: string) {
@@ -40,18 +40,18 @@ export class FileStorageGoogleDrive extends FileStorage {
         fileId,
         fields: Object.values(fileSchema.keyof().enum).join(","),
       }),
-    );
+    )
 
     if (error != null) {
-      captureException(error, { extra: { fileId } });
-      throw error;
+      captureException(error, { extra: { fileId } })
+      throw error
     }
 
     return safeParse(
       fileSchema,
       response.data,
       "Could not parse Google Drive file",
-    );
+    )
   }
 
   async getFiles(folderId: string) {
@@ -61,18 +61,18 @@ export class FileStorageGoogleDrive extends FileStorage {
         fields: `files(${Object.values(fileSchema.keyof().enum).join(",")})`,
         orderBy: "name_natural",
       }),
-    );
+    )
 
     if (error != null) {
-      captureException(error, { extra: { folderId } });
-      throw error;
+      captureException(error, { extra: { folderId } })
+      throw error
     }
 
     return safeParse(
       zu.array(fileSchema),
       response.data.files,
       "Could not parse Google Drive files",
-    );
+    )
   }
 
   async createFolder(folderName: string, params: { parentFolderId: string }) {
@@ -85,21 +85,21 @@ export class FileStorageGoogleDrive extends FileStorage {
         },
         fields: createFileOrFolderSchema.keyof().enum.id,
       }),
-    );
+    )
 
     if (error != null) {
       captureException(error, {
         extra: { folderName, parentFolderId: params.parentFolderId },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
     return safeParse(
       createFileOrFolderSchema,
       response.data,
       "Could not parse Google Drive created folder",
-    );
+    )
   }
 
   async createFile(fileUpload: FileUpload, params: { parentFolderId: string }) {
@@ -119,34 +119,34 @@ export class FileStorageGoogleDrive extends FileStorage {
         },
         fields: createFileOrFolderSchema.keyof().enum.id,
       }),
-    );
+    )
 
     if (error != null) {
       captureException(error, {
         extra: { parentFolderId: params.parentFolderId },
-      });
+      })
 
-      throw error;
+      throw error
     }
 
     const file = safeParse(
       createFileOrFolderSchema,
       response.data,
       "Could not parse Google Drive created file",
-    );
+    )
 
-    return await this.getFile(file.id);
+    return await this.getFile(file.id)
   }
 
   async deleteFile(fileId: string) {
     const [error, response] = await catchError(() =>
       this.#drive.files.delete({ fileId }),
-    );
+    )
 
     if (error != null) {
-      captureException(error, { extra: { fileId } });
+      captureException(error, { extra: { fileId } })
 
-      return false;
+      return false
     }
 
     if (response.status !== 204) {
@@ -156,18 +156,18 @@ export class FileStorageGoogleDrive extends FileStorage {
           status: response.status,
           statusText: response.statusText,
         },
-      });
+      })
 
-      return false;
+      return false
     }
 
-    return true;
+    return true
   }
 }
 
 const createFileOrFolderSchema = zu.object({
   id: zu.string(),
-});
+})
 
 const fileSchema = zu.object({
   id: zu.string(),
@@ -178,4 +178,4 @@ const fileSchema = zu.object({
   // Not sure how long it takes for Google Drive to create it.
   thumbnailLink: zu.string().optional(),
   webViewLink: zu.string(),
-});
+})

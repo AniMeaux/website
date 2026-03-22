@@ -1,25 +1,25 @@
-import { joinReactNodes } from "@animeaux/core";
-import { Gender } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import { joinReactNodes } from "@animeaux/core"
+import { Gender } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender.js";
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { Empty } from "#i/core/data-display/empty.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js";
-import { Card } from "#i/core/layout/card.js";
-import { Separator } from "#i/core/layout/separator.js";
-import { Routes } from "#i/core/navigation.js";
-import { Icon } from "#i/generated/icon.js";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { StatusHelper } from "#i/show/exhibitors/status-helper.js";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
+import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Empty } from "#i/core/data-display/empty.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { StatusHelper } from "#i/show/exhibitors/status-helper.js"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardDogsConfiguration() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -54,11 +54,11 @@ export function CardDogsConfiguration() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function DogsConfigurationStatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <StatusHelper.Root>
@@ -80,19 +80,19 @@ function DogsConfigurationStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
-  );
+  )
 }
 
 function DogItem({
   dog,
 }: {
   dog: {
-    id: string;
-    gender: Gender;
-    idNumber: string;
-    isCategorized: boolean;
-    isSterilized: boolean;
-  };
+    id: string
+    gender: Gender
+    idNumber: string
+    isCategorized: boolean
+    isSterilized: boolean
+  }
 }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 md:gap-2">
@@ -113,7 +113,7 @@ function DogItem({
         />
       </ItemList>
     </div>
-  );
+  )
 }
 
 function ItemGender({ gender }: { gender: Gender }) {
@@ -124,7 +124,7 @@ function ItemGender({ gender }: { gender: Gender }) {
         {GENDER_TRANSLATION[gender]}
       </strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemIdentification({ idNumber }: { idNumber: string }) {
@@ -133,15 +133,15 @@ function ItemIdentification({ idNumber }: { idNumber: string }) {
       Identification :{" "}
       <strong className="text-body-emphasis">{idNumber}</strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemSterilisation({
   isSterilized,
   gender,
 }: {
-  isSterilized: boolean;
-  gender: Gender;
+  isSterilized: boolean
+  gender: Gender
 }) {
   return (
     <SimpleItem
@@ -170,15 +170,15 @@ function ItemSterilisation({
         </>
       )}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemCategorization({
   isCategorized,
   gender,
 }: {
-  isCategorized: boolean;
-  gender: Gender;
+  isCategorized: boolean
+  gender: Gender
 }) {
   return (
     <SimpleItem
@@ -207,5 +207,5 @@ function ItemCategorization({
         </>
       )}
     </SimpleItem>
-  );
+  )
 }

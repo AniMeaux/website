@@ -1,11 +1,11 @@
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { csvFormatRows } from "d3-dsv";
+import type { Prisma } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { csvFormatRows } from "d3-dsv"
 
-import { db } from "#i/core/db.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
 
 const exhibitorSelect = {
   appetizerPeopleCount: true,
@@ -18,21 +18,21 @@ const exhibitorSelect = {
   hasTableCloths: true,
   name: true,
   tableCount: true,
-} satisfies Prisma.ShowExhibitorSelect;
+} satisfies Prisma.ShowExhibitorSelect
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const { exhibitors } = await db.show.exhibitor.findMany({
     searchParams: ExhibitorSearchParams.io.parse(searchParams),
     select: exhibitorSelect,
-  });
+  })
 
   return new Response(
     csvFormatRows([
@@ -42,17 +42,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
         columns.map((column) => column.accessor(exhibitors)),
       ),
     ]),
-  );
+  )
 }
 
 type ColumnDefinition = {
-  label: string;
+  label: string
   accessor: (
     exhibitors: Prisma.ShowExhibitorGetPayload<{
-      select: typeof exhibitorSelect;
+      select: typeof exhibitorSelect
     }>,
-  ) => string;
-};
+  ) => string
+}
 
 const columns: ColumnDefinition[] = [
   {
@@ -95,4 +95,4 @@ const columns: ColumnDefinition[] = [
     label: "Nombre d’apéro",
     accessor: (exhibitor) => String(exhibitor.appetizerPeopleCount),
   },
-];
+]

@@ -1,28 +1,28 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { db } from "#i/core/db.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-import { routeParamsSchema } from "./route-params";
+import { routeParamsSchema } from "./route-params"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const paramsResult = routeParamsSchema.safeParse(params);
+  const paramsResult = routeParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const fosterFamily = await prisma.fosterFamily.findUnique({
@@ -43,9 +43,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       speciesToHost: true,
       zipCode: true,
     },
-  });
+  })
 
-  assertIsDefined(fosterFamily);
+  assertIsDefined(fosterFamily)
 
-  return json({ fosterFamily });
+  return json({ fosterFamily })
 }

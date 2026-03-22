@@ -1,16 +1,16 @@
-import { UserGroup } from "@animeaux/prisma";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
-import { DateTime } from "luxon";
+import { UserGroup } from "@animeaux/prisma"
+import { SearchParamsIO } from "@animeaux/search-params-io"
+import { zu } from "@animeaux/zod-utils"
+import { DateTime } from "luxon"
 
-import { endOfDay } from "#i/core/dates";
+import { endOfDay } from "#i/core/dates"
 
 export enum UserSort {
   LAST_ACTIVITY = "L",
   NAME = "N",
 }
 
-export const USER_DEFAULT_SORT = UserSort.NAME;
+export const USER_DEFAULT_SORT = UserSort.NAME
 
 export const UserSearchParams = SearchParamsIO.create({
   keys: {
@@ -36,13 +36,13 @@ export const UserSearchParams = SearchParamsIO.create({
       ),
       noActivity: SearchParamsIO.getValue(searchParams, keys.noActivity),
       sort: SearchParamsIO.getValue(searchParams, keys.sort),
-    });
+    })
   },
 
   setFunction: (searchParams, data, keys) => {
-    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName);
+    SearchParamsIO.setValue(searchParams, keys.displayName, data.displayName)
 
-    SearchParamsIO.setValues(searchParams, keys.groups, data.groups);
+    SearchParamsIO.setValues(searchParams, keys.groups, data.groups)
 
     SearchParamsIO.setValue(
       searchParams,
@@ -50,7 +50,7 @@ export const UserSearchParams = SearchParamsIO.create({
       data.lastActivityEnd == null
         ? undefined
         : DateTime.fromJSDate(data.lastActivityEnd).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
@@ -58,21 +58,21 @@ export const UserSearchParams = SearchParamsIO.create({
       data.lastActivityStart == null
         ? undefined
         : DateTime.fromJSDate(data.lastActivityStart).toISODate(),
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
       keys.noActivity,
       data.noActivity ? "on" : undefined,
-    );
+    )
 
     SearchParamsIO.setValue(
       searchParams,
       keys.sort,
       data.sort === USER_DEFAULT_SORT ? undefined : data.sort,
-    );
+    )
   },
-});
+})
 
 const Schema = zu.object({
   displayName: zu.searchParams.string(),
@@ -81,4 +81,4 @@ const Schema = zu.object({
   lastActivityStart: zu.searchParams.date(),
   noActivity: zu.searchParams.boolean(),
   sort: zu.searchParams.nativeEnum(UserSort).default(USER_DEFAULT_SORT),
-});
+})

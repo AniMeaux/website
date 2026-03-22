@@ -1,16 +1,16 @@
-import { cn } from "@animeaux/core";
-import type { Event } from "@animeaux/prisma";
-import type { SerializeFrom } from "@remix-run/node";
-import { DateTime } from "luxon";
+import { cn } from "@animeaux/core"
+import type { Event } from "@animeaux/prisma"
+import type { SerializeFrom } from "@remix-run/node"
+import { DateTime } from "luxon"
 
-import { Avatar } from "#i/core/data-display/avatar";
+import { Avatar } from "#i/core/data-display/avatar"
 
 export function EventAvatar({
   event,
   className,
 }: {
-  event: SerializeFrom<Pick<Event, "startDate">>;
-  className?: string;
+  event: SerializeFrom<Pick<Event, "startDate">>
+  className?: string
 }) {
   return (
     <Avatar
@@ -43,5 +43,5 @@ export function EventAvatar({
         </span>
       </span>
     </Avatar>
-  );
+  )
 }

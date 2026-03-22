@@ -1,22 +1,22 @@
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
 
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#i/core/data-display/markdown";
+} from "#i/core/data-display/markdown"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { WarnItem } from "#i/warn/item";
+} from "#i/core/layout/related-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { WarnItem } from "#i/warn/item"
 
-const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
+const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
@@ -25,8 +25,8 @@ export const meta: MetaFunction = () => {
       size: "1024",
       aspectRatio: "16:9",
     }),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -77,7 +77,7 @@ export default function Route() {
         </RelatedSectionList>
       </RelatedSection>
     </>
-  );
+  )
 }
 
 const CONTENT = `Vous avez trouvé un animal dans la rue et vous ne savez pas comment agir ?
@@ -98,4 +98,4 @@ Dans le cas où l’animal semble mal en point ou blessé, n’attendez pas et c
 Dans tous les cas, vous pouvez remplir [ce formulaire](${MarkdownLink.PICK_UP_FORM}) en étant le plus précis possible.
 
 Notre équipe prendra contact avec vous dans les meilleurs délais, en fonction de l’urgence de la situation.
-N’hésitez pas également à nous contacter par mail à [contact@animeaux.org](mailto:contact@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`;
+N’hésitez pas également à nous contacter par mail à [contact@animeaux.org](mailto:contact@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`

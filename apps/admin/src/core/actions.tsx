@@ -1,27 +1,21 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
-import { Spinner } from "#i/core/loaders/spinner";
-import { Icon } from "#i/generated/icon";
+import { Spinner } from "#i/core/loaders/spinner"
+import { Icon } from "#i/generated/icon"
 
-type ActionVariant = "primary" | "secondary" | "text" | "translucid";
+type ActionVariant = "primary" | "secondary" | "text" | "translucid"
 
-export type ActionColor =
-  | "black"
-  | "blue"
-  | "gray"
-  | "green"
-  | "orange"
-  | "red";
+export type ActionColor = "black" | "blue" | "gray" | "green" | "orange" | "red"
 
 export type ActionProps = React.ComponentPropsWithoutRef<
   typeof Primitive.button
 > & {
-  color?: ActionColor;
-  isIconOnly?: boolean;
-  variant?: ActionVariant;
-};
+  color?: ActionColor
+  isIconOnly?: boolean
+  variant?: ActionVariant
+}
 
 export const Action = Object.assign(
   forwardRef<React.ComponentRef<typeof Primitive.button>, ActionProps>(
@@ -46,7 +40,7 @@ export const Action = Object.assign(
             className,
           )}
         />
-      );
+      )
     },
   ),
   {
@@ -60,17 +54,17 @@ export const Action = Object.assign(
         >
           <Spinner className="text-[20px]" />
         </span>
-      );
+      )
     },
 
     Icon: function ActionIcon({
       className,
       ...props
     }: React.ComponentPropsWithoutRef<typeof Icon>) {
-      return <Icon {...props} className={cn("text-[20px]", className)} />;
+      return <Icon {...props} className={cn("text-[20px]", className)} />
     },
   },
-);
+)
 
 const VARIANT_CLASS_NAME: Record<
   ActionVariant,
@@ -95,7 +89,7 @@ const VARIANT_CLASS_NAME: Record<
       "h-4 min-w-[40px] rounded-0.5 bg-opacity-50 transition-[background-color,transform] text-body-emphasis hover:bg-opacity-70",
       isIconOnly ? "px-1" : "px-2",
     ),
-};
+}
 
 const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
   primary: {
@@ -130,12 +124,12 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
     orange: cn(""),
     red: cn(""),
   },
-};
+}
 
 export const ProseInlineAction = forwardRef<
   React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button> & {
-    variant?: ProseInlineActionVariant;
+    variant?: ProseInlineActionVariant
   }
 >(function ProseInlineAction({ variant = "normal", className, ...rest }, ref) {
   return (
@@ -148,12 +142,12 @@ export const ProseInlineAction = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})
 
-type ProseInlineActionVariant = "subtle" | "normal";
+type ProseInlineActionVariant = "subtle" | "normal"
 
 const CLASS_NAME_BY_VARIANT: Record<ProseInlineActionVariant, string> = {
   normal: cn("text-body-emphasis hover:after:border-b-2"),
   subtle: cn("text-body-default after:opacity-0 hover:after:opacity-100"),
-};
+}

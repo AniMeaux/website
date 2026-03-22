@@ -1,9 +1,9 @@
-import { simpleUrl, zu } from "@animeaux/zod-utils";
+import { simpleUrl, zu } from "@animeaux/zod-utils"
 
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
 
 export const ActionSchema = zu
   .object({
@@ -49,4 +49,4 @@ export const ActionSchema = zu
       message: "Veuillez entrer un message",
       path: ["statusMessage"],
     },
-  );
+  )

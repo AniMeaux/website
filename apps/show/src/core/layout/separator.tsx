@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-type SeparatorColor = "alabaster" | "mystic" | "prussianBlue";
+type SeparatorColor = "alabaster" | "mystic" | "prussianBlue"
 
 export function VerticalSeparator({ color }: { color: SeparatorColor }) {
   return (
@@ -26,15 +26,15 @@ export function VerticalSeparator({ color }: { color: SeparatorColor }) {
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }
 
 export function HorizontalSeparator({
   color,
   className,
 }: {
-  color: SeparatorColor;
-  className?: string;
+  color: SeparatorColor
+  className?: string
 }) {
   return (
     <svg
@@ -60,11 +60,11 @@ export function HorizontalSeparator({
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }
 
 const COLOR_CLASS_NAMES: Record<SeparatorColor, string> = {
   alabaster: cn("text-alabaster"),
   mystic: cn("text-mystic"),
   prussianBlue: cn("text-prussianBlue"),
-};
+}

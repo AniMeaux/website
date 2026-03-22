@@ -1,7 +1,7 @@
-import { callFactory, cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { NavLink } from "@remix-run/react";
-import { forwardRef } from "react";
+import { callFactory, cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { NavLink } from "@remix-run/react"
+import { forwardRef } from "react"
 
 export const Tabs = forwardRef<
   React.ComponentRef<typeof Primitive.div>,
@@ -13,8 +13,8 @@ export const Tabs = forwardRef<
       ref={ref}
       className={cn("grid grid-flow-col justify-start gap-0.5", className)}
     />
-  );
-});
+  )
+})
 
 export function Tab({
   children,
@@ -38,5 +38,5 @@ export function Tab({
     >
       {children}
     </NavLink>
-  );
+  )
 }

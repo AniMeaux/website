@@ -1,42 +1,42 @@
-import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { InvoiceIcon } from "#i/show/invoice/icon.js";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
+} from "#i/show/exhibitors/applications/status"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
+import { InvoiceIcon } from "#i/show/invoice/icon.js"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#i/show/sponsors/category";
-import { Visibility, VisibilityIcon } from "#i/show/visibility";
+} from "#i/show/sponsors/category"
+import { Visibility, VisibilityIcon } from "#i/show/visibility"
 
 export function ExhibitorFilters({
   dividerTypes,
   standSizes,
 }: {
-  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
-  standSizes: Pick<ShowStandSize, "id" | "label">[];
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[]
+  standSizes: Pick<ShowStandSize, "id" | "label">[]
 }) {
   return (
     <Filters>
@@ -62,12 +62,12 @@ export function ExhibitorFilters({
         <FilterDividerType dividerTypes={dividerTypes} />
       </Filters.Content>
     </Filters>
-  );
+  )
 }
 
 function FilterActivity() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -145,12 +145,12 @@ function FilterActivity() {
         </Form.Field>
       </Form.Fields>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterAnimations() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -192,16 +192,16 @@ function FilterAnimations() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterDividerType({
   dividerTypes,
 }: {
-  dividerTypes: Pick<ShowDividerType, "id" | "label">[];
+  dividerTypes: Pick<ShowDividerType, "id" | "label">[]
 }) {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -235,12 +235,12 @@ function FilterDividerType({
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterName() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -271,7 +271,7 @@ function FilterName() {
                       ...exhibitorSearchParams,
                       name: undefined,
                     }),
-                  );
+                  )
                 })
               }
             >
@@ -281,12 +281,12 @@ function FilterName() {
         }
       />
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterLaureates() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -324,12 +324,12 @@ function FilterLaureates() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterSponsorship() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -367,12 +367,12 @@ function FilterSponsorship() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterInvoiceStatuses() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -405,12 +405,12 @@ function FilterInvoiceStatuses() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterSort() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -450,16 +450,16 @@ function FilterSort() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterStandSize({
   standSizes,
 }: {
-  standSizes: Pick<ShowStandSize, "id" | "label">[];
+  standSizes: Pick<ShowStandSize, "id" | "label">[]
 }) {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -493,12 +493,12 @@ function FilterStandSize({
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterStatuses() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -735,12 +735,12 @@ function FilterStatuses() {
         </Form.Field>
       </Form.Fields>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterVisibility() {
-  const [searchParams] = useOptimisticSearchParams();
-  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const exhibitorSearchParams = ExhibitorSearchParams.io.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -776,5 +776,5 @@ function FilterVisibility() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }

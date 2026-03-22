@@ -1,79 +1,76 @@
-import { cn } from "@animeaux/core";
-import type { User } from "@animeaux/prisma";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFetcher, useNavigation } from "@remix-run/react";
-import type {
-  UseComboboxState,
-  UseComboboxStateChangeOptions,
-} from "downshift";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { useEffect, useState } from "react";
+import { cn } from "@animeaux/core"
+import type { User } from "@animeaux/prisma"
+import * as Dialog from "@radix-ui/react-dialog"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useFetcher, useNavigation } from "@remix-run/react"
+import type { UseComboboxState, UseComboboxStateChangeOptions } from "downshift"
+import { useCombobox } from "downshift"
+import { createPath } from "history"
+import { useEffect, useState } from "react"
 
-import { AnimalSuggestionItem } from "#i/animals/item";
-import { getAnimalDisplayName } from "#i/animals/profile/name";
-import { AnimalSearchParams } from "#i/animals/search-params";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Input } from "#i/core/form-elements/input";
+import { AnimalSuggestionItem } from "#i/animals/item"
+import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { AnimalSearchParams } from "#i/animals/search-params"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Input } from "#i/core/form-elements/input"
 import {
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input";
-import { useRouteHandles } from "#i/core/handles";
-import { Routes, useNavigate } from "#i/core/navigation";
-import { Overlay } from "#i/core/popovers/overlay";
-import { FosterFamilySuggestionItem } from "#i/foster-families/item";
-import { FosterFamilySearchParams } from "#i/foster-families/search-params";
-import { Icon } from "#i/generated/icon";
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
+} from "#i/core/form-elements/resource-input"
+import { useRouteHandles } from "#i/core/handles"
+import { Routes, useNavigate } from "#i/core/navigation"
+import { Overlay } from "#i/core/popovers/overlay"
+import { FosterFamilySuggestionItem } from "#i/foster-families/item"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params"
+import { Icon } from "#i/generated/icon"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
 
-import { Entity } from "./entity";
-import { ItemExhibitor } from "./item-exhibitor";
-import type { loader } from "./route";
-import { GlobalSearchParams } from "./search-params";
+import { Entity } from "./entity"
+import { ItemExhibitor } from "./item-exhibitor"
+import type { loader } from "./route"
+import { GlobalSearchParams } from "./search-params"
 
 export function GlobalSearch({
   currentUser,
 }: {
-  currentUser: Pick<User, "groups">;
+  currentUser: Pick<User, "groups">
 }) {
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(false)
 
-  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser);
+  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser)
 
   const suggestedEntity = useRouteHandles()
     .map((handle) => handle.globalSearchEntity)
-    .find(Boolean);
+    .find(Boolean)
 
   const defaultSelectedEntity =
     // Ensure `suggestedEntity` is possible
     possibleEntities.find((entity) => entity === suggestedEntity) ??
-    possibleEntities[0];
+    possibleEntities[0]
 
-  const [entity, setEntity] = useState(defaultSelectedEntity);
+  const [entity, setEntity] = useState(defaultSelectedEntity)
 
   // Reset to the default selected entity when the combobox is closed.
   useEffect(() => {
     if (defaultSelectedEntity != null && !isOpened) {
-      setEntity(defaultSelectedEntity);
+      setEntity(defaultSelectedEntity)
     }
-  }, [defaultSelectedEntity, isOpened]);
+  }, [defaultSelectedEntity, isOpened])
 
-  const navigate = useNavigate();
-  const navigation = useNavigation();
+  const navigate = useNavigate()
+  const navigation = useNavigation()
   const isNavigating =
-    navigation.state === "loading" && navigation.formData == null;
+    navigation.state === "loading" && navigation.formData == null
 
   // We don't close the search (change state) at the same time as we navigate
   // (also change state) to ensure the states change in order.
   useEffect(() => {
     if (isOpened && isNavigating) {
-      setIsOpened(false);
+      setIsOpened(false)
     }
-  }, [isNavigating, isOpened]);
+  }, [isNavigating, isOpened])
 
   useEffect(() => {
     if (!isOpened) {
@@ -85,23 +82,23 @@ export function GlobalSearch({
           ) &&
           event.key === "/"
         ) {
-          event.preventDefault();
-          setIsOpened(true);
+          event.preventDefault()
+          setIsOpened(true)
         }
       }
 
-      document.addEventListener("keydown", handleKeyDown);
-      return () => document.removeEventListener("keydown", handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown)
+      return () => document.removeEventListener("keydown", handleKeyDown)
     }
 
-    return undefined;
-  }, [isOpened]);
+    return undefined
+  }, [isOpened])
 
-  const fetcher = useFetcher<loader>();
+  const fetcher = useFetcher<loader>()
 
   // Make sure we clear any search when the combobox is closed.
   // We can't load during a navigation or it will cancel the navigation.
-  const load = fetcher.load;
+  const load = fetcher.load
   useEffect(() => {
     if (!isOpened && !isNavigating) {
       load(
@@ -109,16 +106,16 @@ export function GlobalSearch({
           pathname: Routes.resources.globalSearch.toString(),
           search: GlobalSearchParams.format({ entity }),
         }),
-      );
+      )
     }
-  }, [load, isOpened, isNavigating, entity]);
+  }, [load, isOpened, isNavigating, entity])
 
   return (
     <Dialog.Root
       open={isOpened}
       onOpenChange={(isOpened) => {
         // Only open the search if we have a type.
-        setIsOpened(isOpened && entity != null);
+        setIsOpened(isOpened && entity != null)
       }}
     >
       <BaseTextInput.Root>
@@ -162,23 +159,23 @@ export function GlobalSearch({
               onSelectedItemChange={(item) => {
                 switch (entity) {
                   case Entity.Enum.ANIMAL: {
-                    return navigate(Routes.animals.id(item.id).toString());
+                    return navigate(Routes.animals.id(item.id).toString())
                   }
 
                   case Entity.Enum.EXHIBITOR: {
                     return navigate(
                       Routes.show.exhibitors.id(item.id).toString(),
-                    );
+                    )
                   }
 
                   case Entity.Enum.FOSTER_FAMILY: {
                     return navigate(
                       Routes.fosterFamilies.id(item.id).toString(),
-                    );
+                    )
                   }
 
                   default: {
-                    return entity satisfies never;
+                    return entity satisfies never
                   }
                 }
               }}
@@ -192,7 +189,7 @@ export function GlobalSearch({
                           nameOrAlias: search,
                         }),
                       }),
-                    );
+                    )
                   }
 
                   case Entity.Enum.EXHIBITOR: {
@@ -203,7 +200,7 @@ export function GlobalSearch({
                           name: search,
                         }),
                       }),
-                    );
+                    )
                   }
 
                   case Entity.Enum.FOSTER_FAMILY: {
@@ -214,11 +211,11 @@ export function GlobalSearch({
                           displayName: search,
                         }),
                       }),
-                    );
+                    )
                   }
 
                   default: {
-                    return entity satisfies never;
+                    return entity satisfies never
                   }
                 }
               }}
@@ -227,7 +224,7 @@ export function GlobalSearch({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
+  )
 }
 
 function stateReducer<TItem>(
@@ -239,10 +236,10 @@ function stateReducer<TItem>(
     actionAndChanges.type === useCombobox.stateChangeTypes.InputBlur &&
     actionAndChanges.selectItem
   ) {
-    return state;
+    return state
   }
 
-  return actionAndChanges.changes;
+  return actionAndChanges.changes
 }
 
 function Combobox({
@@ -254,27 +251,27 @@ function Combobox({
   onSelectSearch,
   onClose,
 }: {
-  entity: Entity.Enum;
-  setEntity: React.Dispatch<Entity.Enum>;
-  fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>;
-  possibleEntities: Entity.Enum[];
+  entity: Entity.Enum
+  setEntity: React.Dispatch<Entity.Enum>
+  fetcher: FetcherWithComponents<SerializeFrom<typeof loader>>
+  possibleEntities: Entity.Enum[]
   onSelectedItemChange: React.Dispatch<
     SerializeFrom<typeof loader>["items"][number]
-  >;
-  onSelectSearch: React.Dispatch<string>;
-  onClose: () => void;
+  >
+  onSelectSearch: React.Dispatch<string>
+  onClose: () => void
 }) {
-  const [inputValue, setInputValue] = useState("");
-  const cleanedInputValue = inputValue.trim();
-  const items = fetcher.data?.items ?? [];
+  const [inputValue, setInputValue] = useState("")
+  const cleanedInputValue = inputValue.trim()
+  const items = fetcher.data?.items ?? []
 
   let visibleItems: (
     | "search-item"
     | SerializeFrom<typeof loader>["items"][number]
-  )[] = items;
+  )[] = items
 
   if (cleanedInputValue !== "") {
-    visibleItems = ["search-item", ...items];
+    visibleItems = ["search-item", ...items]
   }
 
   const combobox = useCombobox({
@@ -284,47 +281,47 @@ function Combobox({
     stateReducer,
     itemToString: (item) => {
       if (item === null) {
-        return "";
+        return ""
       }
 
       if (item === "search-item") {
-        return item;
+        return item
       }
 
       switch (item.type) {
         case Entity.Enum.ANIMAL: {
-          return getAnimalDisplayName(item);
+          return getAnimalDisplayName(item)
         }
 
         case Entity.Enum.EXHIBITOR: {
-          return item.name;
+          return item.name
         }
 
         case Entity.Enum.FOSTER_FAMILY: {
-          return item.displayName;
+          return item.displayName
         }
 
         default: {
-          return item satisfies never;
+          return item satisfies never
         }
       }
     },
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem != null) {
         if (selectedItem === "search-item") {
-          onSelectSearch(cleanedInputValue);
+          onSelectSearch(cleanedInputValue)
         } else {
-          onSelectedItemChange(selectedItem);
+          onSelectedItemChange(selectedItem)
         }
       }
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
-        onClose();
+        onClose()
       }
     },
     onInputValueChange: ({ inputValue = "" }) => {
-      setInputValue(inputValue);
+      setInputValue(inputValue)
     },
     onStateChange: ({ type, selectedItem }) => {
       if (
@@ -332,10 +329,10 @@ function Combobox({
         cleanedInputValue !== "" &&
         selectedItem == null
       ) {
-        onSelectSearch(cleanedInputValue);
+        onSelectSearch(cleanedInputValue)
       }
     },
-  });
+  })
 
   return (
     <fetcher.Form
@@ -402,7 +399,7 @@ function Combobox({
                   leftAdornment={<Icon href="icon-magnifying-glass-solid" />}
                   label={`Rechercher : ${cleanedInputValue}`}
                 />
-              );
+              )
             }
 
             switch (item.type) {
@@ -413,7 +410,7 @@ function Combobox({
                     {...combobox.getItemProps({ item, index })}
                     animal={item}
                   />
-                );
+                )
               }
 
               case Entity.Enum.EXHIBITOR: {
@@ -423,7 +420,7 @@ function Combobox({
                     {...combobox.getItemProps({ item, index })}
                     exhibitor={item}
                   />
-                );
+                )
               }
 
               case Entity.Enum.FOSTER_FAMILY: {
@@ -433,18 +430,18 @@ function Combobox({
                     {...combobox.getItemProps({ item, index })}
                     fosterFamily={item}
                   />
-                );
+                )
               }
 
               default: {
-                return item satisfies never;
+                return item satisfies never
               }
             }
           })}
         </SuggestionList>
       </section>
     </fetcher.Form>
-  );
+  )
 }
 
 function EntityInput({
@@ -452,12 +449,12 @@ function EntityInput({
   setEntity,
   possibleEntities,
 }: {
-  entity: Entity.Enum;
-  setEntity: React.Dispatch<Entity.Enum>;
-  possibleEntities: Entity.Enum[];
+  entity: Entity.Enum
+  setEntity: React.Dispatch<Entity.Enum>
+  possibleEntities: Entity.Enum[]
 }) {
   if (possibleEntities.length < 2) {
-    return null;
+    return null
   }
 
   return (
@@ -481,15 +478,15 @@ function EntityInput({
         </span>
       ))}
     </Tabs>
-  );
+  )
 }
 
 function Tabs({
   children,
   className,
 }: {
-  children?: React.ReactNode;
-  className?: string;
+  children?: React.ReactNode
+  className?: string
 }) {
   return (
     <div
@@ -500,7 +497,7 @@ function Tabs({
     >
       {children}
     </div>
-  );
+  )
 }
 
 function Tab({ children }: { children?: React.ReactNode }) {
@@ -508,7 +505,7 @@ function Tab({ children }: { children?: React.ReactNode }) {
     <label className="group/tab relative z-0 flex cursor-pointer rounded-0.5 focus-within:z-10">
       {children}
     </label>
-  );
+  )
 }
 
 function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
@@ -517,7 +514,7 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
       {...props}
       className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:focus-spaced-blue-400 can-hover:group-hover/tab:bg-gray-100 can-hover:group-hover/tab:checked:bg-blue-50"
     />
-  );
+  )
 }
 
 function TabLabel({ children }: { children?: React.ReactNode }) {
@@ -525,5 +522,5 @@ function TabLabel({ children }: { children?: React.ReactNode }) {
     <span className="px-1 py-0.5 text-gray-500 text-body-emphasis peer-checked:text-blue-500">
       {children}
     </span>
-  );
+  )
 }

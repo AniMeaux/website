@@ -1,19 +1,19 @@
-import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+import { joinReactNodes } from "@animeaux/core"
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
 
-import type { IsFirstProps } from "#i/core/data-display/email-html.server.js";
+import type { IsFirstProps } from "#i/core/data-display/email-html.server.js"
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server.js";
-import type { ServiceEmail } from "#i/core/email/service.server.js";
-import { Routes } from "#i/core/navigation.js";
-import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
-import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender.js";
-import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+} from "#i/core/data-display/email-html.server.js"
+import type { ServiceEmail } from "#i/core/email/service.server.js"
+import { Routes } from "#i/core/navigation.js"
+import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender.js"
+import type { ServiceExhibitor } from "#i/exhibitors/service.server.js"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
 export class ServiceExhibitorDogConfigurationEmail {
   constructor(
@@ -41,13 +41,13 @@ export class ServiceExhibitorDogConfigurationEmail {
       application: this.application.getByToken(token, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     function SectionDog({
       dog,
       _isFirst,
     }: IsFirstProps & {
-      dog: (typeof exhibitor.dogs)[number];
+      dog: (typeof exhibitor.dogs)[number]
     }) {
       return (
         <>
@@ -91,7 +91,7 @@ export class ServiceExhibitorDogConfigurationEmail {
             </EmailHtml.Output.Value>
           </EmailHtml.Output.Row>
         </>
-      );
+      )
     }
 
     function SectionDogs() {
@@ -114,7 +114,7 @@ export class ServiceExhibitorDogConfigurationEmail {
             </EmailHtml.Output.Table>
           )}
         </EmailHtml.Section.Root>
-      );
+      )
     }
 
     await this.email.send({
@@ -154,7 +154,7 @@ export class ServiceExhibitorDogConfigurationEmail {
           <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
         </EmailHtml.Root>
       ),
-    });
+    })
   }
 
   async treated(exhibitorId: string) {
@@ -180,14 +180,14 @@ export class ServiceExhibitorDogConfigurationEmail {
       application: this.application.getByExhibitor(exhibitorId, {
         select: { contactEmail: true },
       }),
-    });
+    })
 
     if (
       exhibitor.dogsConfigurationStatus ===
         ShowExhibitorStatus.AWAITING_VALIDATION ||
       exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED
     ) {
-      return;
+      return
     }
 
     switch (exhibitor.dogsConfigurationStatus) {
@@ -196,7 +196,7 @@ export class ServiceExhibitorDogConfigurationEmail {
           dog,
           _isFirst,
         }: IsFirstProps & {
-          dog: (typeof exhibitor.dogs)[number];
+          dog: (typeof exhibitor.dogs)[number]
         }) {
           return (
             <>
@@ -240,7 +240,7 @@ export class ServiceExhibitorDogConfigurationEmail {
                 </EmailHtml.Output.Value>
               </EmailHtml.Output.Row>
             </>
-          );
+          )
         }
 
         function SectionDogs() {
@@ -265,7 +265,7 @@ export class ServiceExhibitorDogConfigurationEmail {
                 </EmailHtml.Output.Table>
               )}
             </EmailHtml.Section.Root>
-          );
+          )
         }
 
         return await this.email.send({
@@ -305,14 +305,14 @@ export class ServiceExhibitorDogConfigurationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       case ShowExhibitorStatus.TO_MODIFY: {
         invariant(
           exhibitor.dogsConfigurationStatusMessage != null,
           "A dogsConfigurationStatusMessage should exists",
-        );
+        )
 
         return await this.email.send({
           name: "chiens-exposant-traité",
@@ -348,11 +348,11 @@ export class ServiceExhibitorDogConfigurationEmail {
               <EmailHtml.Footer>Salon des Ani’Meaux</EmailHtml.Footer>
             </EmailHtml.Root>
           ),
-        });
+        })
       }
 
       default: {
-        return exhibitor.dogsConfigurationStatus satisfies never;
+        return exhibitor.dogsConfigurationStatus satisfies never
       }
     }
   }

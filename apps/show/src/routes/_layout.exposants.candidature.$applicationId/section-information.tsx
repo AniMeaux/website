@@ -1,14 +1,14 @@
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { BoardCard } from "#i/core/layout/board-card";
-import { Section } from "#i/core/layout/section";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { BoardCard } from "#i/core/layout/board-card"
+import { Section } from "#i/core/layout/section"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function SectionInformation() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Section.Root columnCount={1}>
@@ -51,5 +51,5 @@ export function SectionInformation() {
         </BoardCard>
       </Section.TextAside>
     </Section.Root>
-  );
+  )
 }

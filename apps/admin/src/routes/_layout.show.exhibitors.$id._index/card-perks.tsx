@@ -1,30 +1,30 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { InlineHelper } from "#i/core/data-display/helper.js";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation.js";
-import { Icon } from "#i/generated/icon";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
-import { StatusHelper } from "#i/show/exhibitors/status-helper";
-import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardPerks() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const hasTooManyPeopleForBreakfastSaturday =
-    exhibitor.breakfastPeopleCountSaturday > exhibitor.peopleCount;
+    exhibitor.breakfastPeopleCountSaturday > exhibitor.peopleCount
 
   const hasTooManyPeopleForBreakfastSunday =
-    exhibitor.breakfastPeopleCountSunday > exhibitor.peopleCount;
+    exhibitor.breakfastPeopleCountSunday > exhibitor.peopleCount
 
   const hasTooManyPeopleForAppetizer =
-    exhibitor.appetizerPeopleCount > exhibitor.peopleCount;
+    exhibitor.appetizerPeopleCount > exhibitor.peopleCount
 
   return (
     <Card>
@@ -76,11 +76,11 @@ export function CardPerks() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function PerksStatusHelper() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <StatusHelper.Root>
@@ -102,11 +102,11 @@ function PerksStatusHelper() {
         </StatusHelper.Content>
       ) : null}
     </StatusHelper.Root>
-  );
+  )
 }
 
 function ItemAppetizerPeopleCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-champagne-glasses-light" />}>
@@ -117,11 +117,11 @@ function ItemAppetizerPeopleCount() {
       {exhibitor.appetizerPeopleCount > 1 ? "s" : null} pour le verre de
       l’amitié
     </SimpleItem>
-  );
+  )
 }
 
 function ItemBreakfastPeopleCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-croissant-light" />}>
@@ -137,20 +137,20 @@ function ItemBreakfastPeopleCount() {
         peopleCount={exhibitor.breakfastPeopleCountSunday}
       />
     </SimpleItem>
-  );
+  )
 }
 
 function BreakfastPeopleCountDay({
   peopleCount,
   day,
 }: {
-  peopleCount: number;
-  day: string;
+  peopleCount: number
+  day: string
 }) {
   return (
     <>
       <strong className="text-body-emphasis">{peopleCount}</strong> personne
       {peopleCount > 1 ? "s" : null} {day}
     </>
-  );
+  )
 }

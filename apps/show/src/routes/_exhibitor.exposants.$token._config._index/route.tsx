@@ -1,22 +1,22 @@
-import type { MetaFunction } from "@remix-run/react";
+import type { MetaFunction } from "@remix-run/react"
 
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 
-import type { loader } from "./loader.server";
-import { SectionAwaitingValidation } from "./section-awaiting-validation";
-import { SectionDocuments } from "./section-documents";
-import { SectionHelper } from "./section-helper";
-import { SectionLaureat } from "./section-laureat";
-import { SectionPayment } from "./section-payment";
-import { SectionSponsorship } from "./section-sponsorship";
-import { SectionStandNumber } from "./section-stand-number";
-import { SectionToComplete } from "./section-to-complete";
-import { SectionValidated } from "./section-validated";
+import type { loader } from "./loader.server"
+import { SectionAwaitingValidation } from "./section-awaiting-validation"
+import { SectionDocuments } from "./section-documents"
+import { SectionHelper } from "./section-helper"
+import { SectionLaureat } from "./section-laureat"
+import { SectionPayment } from "./section-payment"
+import { SectionSponsorship } from "./section-sponsorship"
+import { SectionStandNumber } from "./section-stand-number"
+import { SectionToComplete } from "./section-to-complete"
+import { SectionValidated } from "./section-validated"
 
-export { loader } from "./loader.server";
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
@@ -25,8 +25,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         ? ["Tableau de bord", data.exhibitor.name]
         : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -50,5 +50,5 @@ export default function Route() {
 
       <SectionHelper />
     </FormLayout.Root>
-  );
+  )
 }

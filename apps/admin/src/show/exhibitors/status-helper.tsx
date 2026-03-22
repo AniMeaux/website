@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
 export const StatusHelper = {
   Root: forwardRef<
@@ -16,7 +16,7 @@ export const StatusHelper = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Header: forwardRef<
@@ -29,7 +29,7 @@ export const StatusHelper = {
         ref={ref}
         className={cn("grid grid-cols-auto-fr items-center gap-1", className)}
       />
-    );
+    )
   }),
 
   Icon: forwardRef<
@@ -42,7 +42,7 @@ export const StatusHelper = {
         ref={ref}
         className={cn("icon-20", className)}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
@@ -55,8 +55,8 @@ export const StatusHelper = {
         ref={ref}
         className={cn("text-body-emphasis", className)}
       />
-    );
+    )
   }),
 
   Content: Primitive.div,
-};
+}

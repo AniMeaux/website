@@ -1,7 +1,7 @@
-import { cn, createHookContext } from "@animeaux/core";
-import { forwardRef, useState } from "react";
+import { cn, createHookContext } from "@animeaux/core"
+import { forwardRef, useState } from "react"
 
-import { FileItem } from "#i/core/data-display/file-item";
+import { FileItem } from "#i/core/data-display/file-item"
 
 export const InputFile = {
   Root: forwardRef<
@@ -12,28 +12,28 @@ export const InputFile = {
       <ContextProvider>
         <FileItem.Root {...props} ref={ref} />
       </ContextProvider>
-    );
+    )
   }),
 
   Input: forwardRef<
     React.ComponentRef<"input">,
     React.ComponentPropsWithoutRef<"input">
   >(function InputFileInput({ className, onChange, ...props }, ref) {
-    const { setState } = useContext();
+    const { setState } = useContext()
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      onChange?.(event);
+      onChange?.(event)
 
-      const [firstFile] = event.currentTarget.files ?? [];
+      const [firstFile] = event.currentTarget.files ?? []
 
       // Handle native file input reset.
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#detecting_cancellations
       if (firstFile == null) {
-        setState({ type: "empty" });
-        return;
+        setState({ type: "empty" })
+        return
       }
 
-      setState({ type: "filled", file: firstFile });
+      setState({ type: "filled", file: firstFile })
     }
 
     return (
@@ -46,14 +46,14 @@ export const InputFile = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Icon: forwardRef<
     React.ComponentRef<typeof FileItem.Icon>,
     React.ComponentPropsWithoutRef<typeof FileItem.Icon>
   >(function InputFileIcon({ className, ...props }, ref) {
-    const { state } = useContext();
+    const { state } = useContext()
 
     return (
       <FileItem.Icon
@@ -69,17 +69,17 @@ export const InputFile = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Thumbnail: forwardRef<
     React.ComponentRef<typeof FileItem.Thumbnail>,
     React.ComponentPropsWithoutRef<typeof FileItem.Thumbnail>
   >(function InputFilePreview({ className, ...props }, ref) {
-    const { state } = useContext();
+    const { state } = useContext()
 
     if (state.type === "filled") {
-      return null;
+      return null
     }
 
     return (
@@ -91,14 +91,14 @@ export const InputFile = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Filename: forwardRef<
     React.ComponentRef<typeof FileItem.Filename>,
     React.ComponentPropsWithRef<typeof FileItem.Filename>
   >(function InputFileFilename({ children, className, ...props }, ref) {
-    const { state } = useContext();
+    const { state } = useContext()
 
     return (
       <FileItem.Filename
@@ -108,14 +108,14 @@ export const InputFile = {
       >
         {state.type === "filled" ? state.file.name : children}
       </FileItem.Filename>
-    );
+    )
   }),
-};
+}
 
 const [ContextProvider, useContext] = createHookContext(() => {
   const [state, setState] = useState<
     { type: "empty" } | { type: "filled"; file: File }
-  >({ type: "empty" });
+  >({ type: "empty" })
 
-  return { state, setState };
-});
+  return { state, setState }
+})

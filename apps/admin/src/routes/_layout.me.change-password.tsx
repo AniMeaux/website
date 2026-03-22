@@ -1,69 +1,69 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { FormDataDelegate } from "@animeaux/form-data"
+import { zu } from "@animeaux/zod-utils"
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions";
-import { db } from "#i/core/db.server";
-import { Form } from "#i/core/form-elements/form";
-import { PasswordInput } from "#i/core/form-elements/password-input";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { db } from "#i/core/db.server"
+import { Form } from "#i/core/form-elements/form"
+import { PasswordInput } from "#i/core/form-elements/password-input"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes, useBackIfPossible } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Icon } from "#i/generated/icon"
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Changer de mot de passe") }];
-};
+  return [{ title: getPageTitle("Changer de mot de passe") }]
+}
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
     password: zu.string().min(1, "Veuillez entrer un mot de passe"),
   }),
-);
+)
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true },
-  });
+  })
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
-  await db.currentUser.updatePassword(currentUser.id, formData.data.password);
+  await db.currentUser.updatePassword(currentUser.id, formData.data.password)
 
-  return json<ActionData>({ redirectTo: Routes.me.toString() });
+  return json<ActionData>({ redirectTo: Routes.me.toString() })
 }
 
 export default function Route() {
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  const fetcher = useFetcher<typeof action>()
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   // Focus the field if it has an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.password != null) {
-        passwordRef.current?.focus();
+        passwordRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <PageLayout.Root>
@@ -118,5 +118,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

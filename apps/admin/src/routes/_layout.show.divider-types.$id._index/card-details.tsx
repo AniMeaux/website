@@ -1,10 +1,10 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
-import { Card } from "#i/core/layout/card.js";
-import { Icon } from "#i/generated/icon.js";
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardDetails() {
   return (
@@ -19,11 +19,11 @@ export function CardDetails() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemMaxCount() {
-  const { dividerType } = useLoaderData<typeof loader>();
+  const { dividerType } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fence-light" />}>
@@ -32,5 +32,5 @@ function ItemMaxCount() {
       </strong>{" "}
       maximum
     </SimpleItem>
-  );
+  )
 }

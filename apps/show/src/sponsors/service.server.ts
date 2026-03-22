@@ -1,7 +1,7 @@
-import orderBy from "lodash.orderby";
-import invariant from "tiny-invariant";
+import orderBy from "lodash.orderby"
+import invariant from "tiny-invariant"
 
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
 
 export class ServiceSponsor {
   constructor(private prisma: ServicePrisma) {}
@@ -26,33 +26,33 @@ export class ServiceSponsor {
           },
         },
       },
-    });
+    })
 
     const sponsors = sponsorsRaw.map((sponsor) => {
       if (sponsor.exhibitor != null) {
-        const [url] = sponsor.exhibitor.links;
-        invariant(url != null, "exhibitor should have at least one link");
+        const [url] = sponsor.exhibitor.links
+        invariant(url != null, "exhibitor should have at least one link")
 
         return {
           id: sponsor.id,
           logoPath: sponsor.exhibitor.logoPath,
           name: sponsor.exhibitor.name,
           url,
-        };
+        }
       }
 
-      invariant(sponsor.logoPath != null, "sponsor should have a logo");
-      invariant(sponsor.name != null, "sponsor should have a name");
-      invariant(sponsor.url != null, "sponsor should have an URL");
+      invariant(sponsor.logoPath != null, "sponsor should have a logo")
+      invariant(sponsor.name != null, "sponsor should have a name")
+      invariant(sponsor.url != null, "sponsor should have an URL")
 
       return {
         id: sponsor.id,
         logoPath: sponsor.logoPath,
         name: sponsor.name,
         url: sponsor.url,
-      };
-    });
+      }
+    })
 
-    return orderBy(sponsors, (sponsor) => sponsor.name, "asc");
+    return orderBy(sponsors, (sponsor) => sponsor.name, "asc")
   }
 }

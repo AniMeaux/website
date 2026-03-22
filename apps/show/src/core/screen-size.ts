@@ -1,33 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 
 export function useScreenSizeCondition(
   conditionFunction: (screenSize: number) => boolean,
 ) {
-  const [result, setResult] = useState(() =>
-    conditionFunction(getScreenSize()),
-  );
+  const [result, setResult] = useState(() => conditionFunction(getScreenSize()))
 
   useEffect(() => {
     function onResize() {
-      setResult(conditionFunction(getScreenSize()));
+      setResult(conditionFunction(getScreenSize()))
     }
 
-    onResize();
+    onResize()
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", onResize)
 
     return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  });
+      window.removeEventListener("resize", onResize)
+    }
+  })
 
-  return result;
+  return result
 }
 
 function getScreenSize() {
   if (typeof document === "undefined") {
-    return 0;
+    return 0
   }
 
-  return window.innerWidth;
+  return window.innerWidth
 }

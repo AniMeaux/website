@@ -1,17 +1,17 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
-import { notFound } from "#i/core/response.server";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
+import { notFound } from "#i/core/response.server"
 
 export async function loader() {
-  throw notFound();
+  throw notFound()
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle(getErrorTitle(404)) }];
-};
+  return [{ title: getPageTitle(getErrorTitle(404)) }]
+}
 
 /**
  * By using a splat route we can still use the root's loader data in a 404 page.
@@ -24,9 +24,9 @@ export function ErrorBoundary() {
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
-  return null;
+  return null
 }

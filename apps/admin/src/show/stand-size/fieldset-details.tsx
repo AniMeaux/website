@@ -1,24 +1,24 @@
-import type { FieldMetadata } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
 
-import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input.js";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon.js";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input.js"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon.js"
 
 export function FieldsetDetails({
   bookedCount,
   fields,
 }: {
-  bookedCount?: number;
+  bookedCount?: number
   fields: {
-    area: FieldMetadata<number>;
-    maxCount: FieldMetadata<number>;
-    maxDividerCount: FieldMetadata<number>;
-    maxPeopleCountAdditional: FieldMetadata<number>;
-    maxPeopleCountIncluded: FieldMetadata<number>;
-    maxTableCount: FieldMetadata<number>;
-  };
+    area: FieldMetadata<number>
+    maxCount: FieldMetadata<number>
+    maxDividerCount: FieldMetadata<number>
+    maxPeopleCountAdditional: FieldMetadata<number>
+    maxPeopleCountIncluded: FieldMetadata<number>
+    maxTableCount: FieldMetadata<number>
+  }
 }) {
   return (
     <Card>
@@ -113,5 +113,5 @@ export function FieldsetDetails({
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import { cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
-import type { MetaFunction } from "@remix-run/node";
-import { useState } from "react";
+import { cn } from "@animeaux/core"
+import { Species } from "@animeaux/prisma"
+import type { MetaFunction } from "@remix-run/node"
+import { useState } from "react"
 
-import { SPECIES_ICON } from "#i/animals/species";
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Tab } from "#i/core/controllers/tabs";
+import { SPECIES_ICON } from "#i/animals/species"
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Tab } from "#i/core/controllers/tabs"
 import {
   OptionCard,
   OptionDescription,
@@ -15,32 +15,32 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#i/core/data-display/options";
-import { Timeline, TimelineItem } from "#i/core/data-display/timeline";
+} from "#i/core/data-display/options"
+import { Timeline, TimelineItem } from "#i/core/data-display/timeline"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section";
+} from "#i/core/layout/bubble-section"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { Icon } from "#i/generated/icon";
-import { adoptImages } from "#i/images/adopt";
-import { questionsImages } from "#i/images/questions";
-import { socialImages } from "#i/images/social";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { Icon } from "#i/generated/icon"
+import { adoptImages } from "#i/images/adopt"
+import { questionsImages } from "#i/images/questions"
+import { socialImages } from "#i/images/social"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Conditions d’adoption"),
     imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.adoptionConditions.imagesBySize[1024]}`,
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -85,11 +85,11 @@ export default function Route() {
         </HeroSectionAside>
       </HeroSection>
     </main>
-  );
+  )
 }
 
 function StepsSection() {
-  const [tab, setTab] = useState<"adoption" | "booking">("adoption");
+  const [tab, setTab] = useState<"adoption" | "booking">("adoption")
 
   return (
     <section className="flex flex-col gap-12">
@@ -167,11 +167,11 @@ function StepsSection() {
         </TimelineItem>
       </Timeline>
     </section>
-  );
+  )
 }
 
 function CostsSection() {
-  const [tab, setTab] = useState<"cats" | "dogs" | "newPets">("cats");
+  const [tab, setTab] = useState<"cats" | "dogs" | "newPets">("cats")
 
   return (
     <section className="flex flex-col gap-12">
@@ -438,5 +438,5 @@ function CostsSection() {
         </OptionList>
       ) : null}
     </section>
-  );
+  )
 }

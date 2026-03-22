@@ -1,13 +1,13 @@
-import { zu } from "@animeaux/zod-utils";
-import cachified from "@epic-web/cachified";
-import { LazyFile } from "@mjackson/lazy-file";
-import { writeReadableStreamToWritable } from "@remix-run/node";
-import { captureException } from "@sentry/remix";
-import { v2 as cloudinaryClient } from "cloudinary";
+import { zu } from "@animeaux/zod-utils"
+import cachified from "@epic-web/cachified"
+import { LazyFile } from "@mjackson/lazy-file"
+import { writeReadableStreamToWritable } from "@remix-run/node"
+import { captureException } from "@sentry/remix"
+import { v2 as cloudinaryClient } from "cloudinary"
 
-import type { ServiceCache } from "#i/core/cache.service.server.js";
-import type { ServiceImage } from "#i/core/image/service.server.js";
-import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
+import type { ServiceCache } from "#i/core/cache.service.server.js"
+import type { ServiceImage } from "#i/core/image/service.server.js"
+import type { PreviousEdition } from "#i/previous-editions/previous-edition.js"
 
 export class ServiceImageCloudinary implements ServiceImage {
   constructor(private cache: ServiceCache) {
@@ -15,11 +15,11 @@ export class ServiceImageCloudinary implements ServiceImage {
       cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
       api_key: process.env.CLOUDINARY_API_KEY,
       api_secret: process.env.CLOUDINARY_API_SECRET,
-    });
+    })
   }
 
   createReversibleUpload() {
-    const uploadedPublicIds: string[] = [];
+    const uploadedPublicIds: string[] = []
 
     const upload: ServiceImage.Uploader = async (fileUpload, params) => {
       return await new Promise<File>((resolve, reject) => {
@@ -27,52 +27,52 @@ export class ServiceImageCloudinary implements ServiceImage {
           { public_id: params.imageId },
           (error, result) => {
             if (error != null || result == null) {
-              reject(error ?? new Error("No result nor errors"));
+              reject(error ?? new Error("No result nor errors"))
 
-              return;
+              return
             }
 
-            uploadedPublicIds.push(result.public_id);
+            uploadedPublicIds.push(result.public_id)
 
             resolve(
               new LazyFile(
                 {
                   byteLength: result.bytes,
                   stream: () => {
-                    throw new Error("Not supported");
+                    throw new Error("Not supported")
                   },
                 },
                 result.public_id,
                 { type: fileUpload.type },
               ),
-            );
+            )
           },
-        );
+        )
 
-        void writeReadableStreamToWritable(fileUpload.stream(), uploadStream);
-      });
-    };
+        void writeReadableStreamToWritable(fileUpload.stream(), uploadStream)
+      })
+    }
 
     const revert: ServiceImage.Reverter = async () => {
       const results = await Promise.all(
         uploadedPublicIds.map((imageId) => this.safeDeleteImage(imageId)),
-      );
+      )
 
-      const errors = results.filter(Boolean);
+      const errors = results.filter(Boolean)
 
-      return errors.length > 0 ? errors : undefined;
-    };
+      return errors.length > 0 ? errors : undefined
+    }
 
-    return { upload, revert };
+    return { upload, revert }
   }
 
   private async safeDeleteImage(imageId: string) {
     try {
-      await cloudinaryClient.uploader.destroy(imageId);
+      await cloudinaryClient.uploader.destroy(imageId)
 
-      return undefined;
+      return undefined
     } catch (error) {
-      return { imageId, error };
+      return { imageId, error }
     }
   }
 
@@ -84,8 +84,8 @@ export class ServiceImageCloudinary implements ServiceImage {
       ttl: Infinity,
 
       getFreshValue: async () => {
-        let nextCursor: undefined | string;
-        let allPictures: ServiceImage.Image[] = [];
+        let nextCursor: undefined | string
+        let allPictures: ServiceImage.Image[] = []
 
         try {
           do {
@@ -97,18 +97,18 @@ export class ServiceImageCloudinary implements ServiceImage {
                 prefix: `show/gallery/${edition}/`,
                 type: "upload",
               }),
-            );
+            )
 
             allPictures = allPictures.concat(
               response.pictures
                 // It looks like deleted pictures are still listed but have 0 bytes.
                 .filter((picture) => picture.bytes > 0),
-            );
+            )
 
-            nextCursor = response.nextCursor;
-          } while (nextCursor != null);
+            nextCursor = response.nextCursor
+          } while (nextCursor != null)
         } catch (error) {
-          console.error(`Could not get images for ${edition} edition:`, error);
+          console.error(`Could not get images for ${edition} edition:`, error)
 
           captureException(error, {
             extra: {
@@ -116,22 +116,22 @@ export class ServiceImageCloudinary implements ServiceImage {
               allPicturesCount: allPictures.length,
               nextCursor,
             },
-          });
+          })
 
           // We want all images or none.
-          allPictures = [];
+          allPictures = []
         }
 
-        return allPictures;
+        return allPictures
       },
-    });
+    })
   }
 
   async setBlurhash(imageId: string, blurhash: string) {
     await cloudinaryClient.uploader.add_context(
       ["blurhash", encodeURIComponent(blurhash)].join("="),
       [imageId],
-    );
+    )
   }
 }
 
@@ -160,7 +160,7 @@ const resourcesApiResponseSchema = zu.object({
         .optional(),
     })
     .array(),
-});
+})
 
 const apiResponseSchema = resourcesApiResponseSchema.transform((response) => ({
   nextCursor: response.next_cursor,
@@ -171,4 +171,4 @@ const apiResponseSchema = resourcesApiResponseSchema.transform((response) => ({
     width: resource.width,
     height: resource.height,
   })),
-}));
+}))

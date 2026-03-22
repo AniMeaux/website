@@ -1,33 +1,33 @@
-import type { Prisma } from "@animeaux/prisma";
+import type { Prisma } from "@animeaux/prisma"
 
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
+import { ExhibitorCategory } from "#i/exhibitors/category.js"
 
 export type StandSizeAllowedCategories = {
-  allowedCategories: ExhibitorCategory.Enum[];
-};
+  allowedCategories: ExhibitorCategory.Enum[]
+}
 
 export function withAllowedCategories<
   TStandSize extends Prisma.ShowStandSizeGetPayload<{
     select: {
-      priceForAssociations: true;
-      priceForServices: true;
-      priceForShops: true;
-    };
+      priceForAssociations: true
+      priceForServices: true
+      priceForShops: true
+    }
   }>,
 >(standSize: TStandSize): TStandSize & StandSizeAllowedCategories {
-  const allowedCategories: ExhibitorCategory.Enum[] = [];
+  const allowedCategories: ExhibitorCategory.Enum[] = []
 
   if (standSize.priceForAssociations != null) {
-    allowedCategories.push(ExhibitorCategory.Enum.ASSOCIATION);
+    allowedCategories.push(ExhibitorCategory.Enum.ASSOCIATION)
   }
 
   if (standSize.priceForServices != null) {
-    allowedCategories.push(ExhibitorCategory.Enum.SERVICE);
+    allowedCategories.push(ExhibitorCategory.Enum.SERVICE)
   }
 
   if (standSize.priceForShops != null) {
-    allowedCategories.push(ExhibitorCategory.Enum.SHOP);
+    allowedCategories.push(ExhibitorCategory.Enum.SHOP)
   }
 
-  return { ...standSize, allowedCategories };
+  return { ...standSize, allowedCategories }
 }

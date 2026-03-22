@@ -1,4 +1,4 @@
-import plugin from "tailwindcss/plugin";
+import plugin from "tailwindcss/plugin"
 
 export const tailwindAnimation = plugin(
   ({ matchUtilities, addUtilities, theme }) => {
@@ -6,17 +6,17 @@ export const tailwindAnimation = plugin(
     matchUtilities(
       { opacity: (value) => ({ "--tw-opacity": value }) },
       { values: theme("opacity") },
-    );
+    )
 
     matchUtilities(
       { "animation-opacity": (value) => ({ "--tw-animation-opacity": value }) },
       { values: theme("opacity") },
-    );
+    )
 
     matchUtilities(
       { "animation-duration": (value) => ({ animationDuration: value }) },
       { values: theme("transitionDuration") },
-    );
+    )
 
     matchUtilities(
       {
@@ -28,13 +28,13 @@ export const tailwindAnimation = plugin(
         values: theme("translate"),
         supportsNegativeValues: true,
       },
-    );
+    )
 
     // Somehow required for our custom keyframes to be found.
     addUtilities({
       "@keyframes enter": theme("keyframes.enter"),
       "@keyframes exit": theme("keyframes.exit"),
-    });
+    })
 
     addUtilities({
       ".animation-enter": {
@@ -45,7 +45,7 @@ export const tailwindAnimation = plugin(
         animationName: "exit",
         animationTimingFunction: theme("transitionTimingFunction.in"),
       },
-    });
+    })
   },
   {
     theme: {
@@ -71,4 +71,4 @@ export const tailwindAnimation = plugin(
       },
     },
   },
-);
+)

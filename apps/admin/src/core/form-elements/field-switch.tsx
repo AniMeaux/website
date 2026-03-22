@@ -1,10 +1,10 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getInputProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Switch } from "#i/core/form-elements/switch";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Switch } from "#i/core/form-elements/switch"
 
 export function FieldSwitch({
   field,
@@ -12,9 +12,9 @@ export function FieldSwitch({
   helper,
   ...props
 }: Pick<React.ComponentPropsWithoutRef<typeof Switch>, "required"> & {
-  field: FieldMetadata<undefined | boolean>;
-  label: React.ReactNode;
-  helper?: React.ReactNode;
+  field: FieldMetadata<undefined | boolean>
+  label: React.ReactNode
+  helper?: React.ReactNode
 }) {
   return (
     <Form.Field isInline>
@@ -26,5 +26,5 @@ export function FieldSwitch({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

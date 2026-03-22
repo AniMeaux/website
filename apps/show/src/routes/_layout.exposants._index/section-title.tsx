@@ -1,4 +1,4 @@
-import { Section } from "#i/core/layout/section";
+import { Section } from "#i/core/layout/section"
 
 export function SectionTitle() {
   return (
@@ -7,5 +7,5 @@ export function SectionTitle() {
         <h1>Exposants</h1>
       </Section.Title>
     </Section.Root>
-  );
+  )
 }

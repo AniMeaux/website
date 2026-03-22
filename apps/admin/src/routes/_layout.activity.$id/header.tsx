@@ -1,12 +1,12 @@
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { PageLayout } from "#i/core/layout/page.js";
+import { PageLayout } from "#i/core/layout/page.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function Header() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root>
@@ -17,5 +17,5 @@ export function Header() {
         )}
       </PageLayout.Header.Title>
     </PageLayout.Header.Root>
-  );
+  )
 }

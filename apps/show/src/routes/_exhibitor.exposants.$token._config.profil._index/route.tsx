@@ -1,20 +1,20 @@
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
 
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
 
-import { SectionDescription } from "./section-description";
-import { SectionHelper } from "./section-helper";
-import { SectionPublicProfile } from "./section-public-profile";
+import { SectionDescription } from "./section-description"
+import { SectionHelper } from "./section-helper"
+import { SectionPublicProfile } from "./section-public-profile"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
@@ -30,9 +30,9 @@ export async function loader({ params }: LoaderFunctionArgs) {
       publicProfileStatus: true,
       publicProfileStatusMessage: true,
     },
-  });
+  })
 
-  return { exhibitor };
+  return { exhibitor }
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -40,8 +40,8 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     title: getPageTitle(
       data != null ? ["Profil", data.exhibitor.name] : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -56,5 +56,5 @@ export default function Route() {
 
       <SectionHelper />
     </FormLayout.Root>
-  );
+  )
 }

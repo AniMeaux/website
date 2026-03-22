@@ -1,10 +1,10 @@
 export function getPageTitle(title?: string | string[]) {
-  let pageTitle = "Admin";
+  let pageTitle = "Admin"
 
-  title = Array.isArray(title) ? title.join(" • ") : title;
+  title = Array.isArray(title) ? title.join(" • ") : title
   if (title) {
-    pageTitle = title;
+    pageTitle = title
   }
 
-  return pageTitle;
+  return pageTitle
 }

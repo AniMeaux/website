@@ -1,9 +1,9 @@
-import { withoutKey } from "@animeaux/core";
-import type { FieldMetadata } from "@conform-to/react";
-import { getTextareaProps } from "@conform-to/react";
+import { withoutKey } from "@animeaux/core"
+import type { FieldMetadata } from "@conform-to/react"
+import { getTextareaProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function FieldTextarea({
   field,
@@ -13,14 +13,14 @@ export function FieldTextarea({
   hideCaracterCount = false,
   helper,
 }: {
-  field: FieldMetadata<string>;
-  label: React.ReactNode;
-  rows?: number;
-  placeholder?: string;
-  hideCaracterCount?: boolean;
-  helper?: string;
+  field: FieldMetadata<string>
+  label: React.ReactNode
+  rows?: number
+  placeholder?: string
+  hideCaracterCount?: boolean
+  helper?: string
 }) {
-  const textareaProps = withoutKey(getTextareaProps(field));
+  const textareaProps = withoutKey(getTextareaProps(field))
 
   return (
     <FormLayout.Field>
@@ -44,5 +44,5 @@ export function FieldTextarea({
         </FormLayout.Helper>
       ) : null}
     </FormLayout.Field>
-  );
+  )
 }

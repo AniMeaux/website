@@ -1,10 +1,10 @@
-import { toBooleanAttribute } from "@animeaux/core";
-import type { FieldMetadata } from "@conform-to/react";
-import { useInputControl } from "@conform-to/react";
+import { toBooleanAttribute } from "@animeaux/core"
+import type { FieldMetadata } from "@conform-to/react"
+import { useInputControl } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { InputStepper } from "#i/core/form-elements/input-stepper";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { InputStepper } from "#i/core/form-elements/input-stepper"
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function FieldStepper({
   field,
@@ -13,13 +13,13 @@ export function FieldStepper({
   maxValue,
   helper,
 }: {
-  field: FieldMetadata<number>;
-  label: React.ReactNode;
-  minValue?: number;
-  maxValue?: number;
-  helper?: React.ReactNode;
+  field: FieldMetadata<number>
+  label: React.ReactNode
+  minValue?: number
+  maxValue?: number
+  helper?: React.ReactNode
 }) {
-  const fieldControl = useInputControl(field);
+  const fieldControl = useInputControl(field)
 
   return (
     <FormLayout.Field>
@@ -48,5 +48,5 @@ export function FieldStepper({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </FormLayout.Field>
-  );
+  )
 }

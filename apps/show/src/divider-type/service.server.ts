@@ -1,31 +1,31 @@
-import type { Prisma } from "@animeaux/prisma/server";
-import type { Simplify } from "type-fest";
+import type { Prisma } from "@animeaux/prisma/server"
+import type { Simplify } from "type-fest"
 
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js"
 
 export class ServiceDividerType {
   constructor(private prisma: ServicePrisma) {}
 
   async getMany<T extends Prisma.ShowDividerTypeSelect>(params: { select: T }) {
     type Selected = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof params.select;
-    }>;
+      select: typeof params.select
+    }>
 
     // Ensure we only use our selected properties.
     const internalSelect = {
       maxCount: true,
       exhibitors: { select: { dividerCount: true } },
-    } satisfies Prisma.ShowDividerTypeSelect;
+    } satisfies Prisma.ShowDividerTypeSelect
 
     type Internal = Prisma.ShowDividerTypeGetPayload<{
-      select: typeof internalSelect;
-    }>;
+      select: typeof internalSelect
+    }>
 
     const dividerTypes = (await this.prisma.showDividerType.findMany({
       select: { ...params.select, ...internalSelect },
       orderBy: { label: "asc" },
-    })) as Internal[];
+    })) as Internal[]
 
     const dividerTypesWithAvailability = dividerTypes.map<
       Internal & DividerTypeAvailability
@@ -33,19 +33,19 @@ export class ServiceDividerType {
       const usedCount = dividerType.exhibitors.reduce(
         (usedCount, exhibitor) => usedCount + exhibitor.dividerCount,
         0,
-      );
+      )
 
-      let availableCount = dividerType.maxCount - usedCount;
+      let availableCount = dividerType.maxCount - usedCount
 
       if (availableCount < 0) {
-        availableCount = 0;
+        availableCount = 0
       }
 
-      return { ...dividerType, availableCount };
-    });
+      return { ...dividerType, availableCount }
+    })
 
     return dividerTypesWithAvailability as Simplify<
       Selected & DividerTypeAvailability
-    >[];
+    >[]
   }
 }

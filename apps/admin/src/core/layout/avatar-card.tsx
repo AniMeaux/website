@@ -1,20 +1,20 @@
-import { cn } from "@animeaux/core";
-import { cloneElement } from "react";
+import { cn } from "@animeaux/core"
+import { cloneElement } from "react"
 
-import type { AvatarColor } from "#i/core/data-display/avatar";
-import { createCloudinaryUrl } from "#i/core/data-display/image";
-import { Card } from "#i/core/layout/card";
+import type { AvatarColor } from "#i/core/data-display/avatar"
+import { createCloudinaryUrl } from "#i/core/data-display/image"
+import { Card } from "#i/core/layout/card"
 
 export function AvatarCard({ children }: { children?: React.ReactNode }) {
-  return <Card>{children}</Card>;
+  return <Card>{children}</Card>
 }
 
 AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
   imageId,
   imageAlt,
 }: {
-  imageId: string;
-  imageAlt: string;
+  imageId: string
+  imageAlt: string
 }) {
   return (
     <div className="relative z-0 flex h-6 md:h-10">
@@ -29,13 +29,13 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
         className="h-full w-full object-cover object-top"
       />
     </div>
-  );
-};
+  )
+}
 
 AvatarCard.BackgroundColor = function AvatarCardBackgroundColor({
   color,
 }: {
-  color: AvatarColor;
+  color: AvatarColor
 }) {
   return (
     <div
@@ -44,8 +44,8 @@ AvatarCard.BackgroundColor = function AvatarCardBackgroundColor({
         BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR[color],
       )}
     />
-  );
-};
+  )
+}
 
 const BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR: Record<AvatarColor, string> = {
   blue: cn("bg-blue-50"),
@@ -58,24 +58,24 @@ const BACKGROUND_CLASS_NAME_BY_AVATAR_COLOR: Record<AvatarColor, string> = {
   "red-light": cn("bg-red-50"),
   yellow: cn("bg-yellow-50"),
   "yellow-light": cn("bg-yellow-50"),
-};
+}
 
 AvatarCard.Content = function AvatarCardContent({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <div className="z-0 flex items-center gap-1 px-1.5 py-2 md:gap-2 md:px-2">
       {children}
     </div>
-  );
-};
+  )
+}
 
 AvatarCard.Avatar = function AvatarCardAvatar({
   children,
 }: {
-  children: React.ReactElement<{ className?: string }>;
+  children: React.ReactElement<{ className?: string }>
 }) {
   return (
     <span className="flex h-[45px] flex-none items-end self-start">
@@ -83,36 +83,36 @@ AvatarCard.Avatar = function AvatarCardAvatar({
         className: cn("ring-5 ring-white", children.props.className),
       })}
     </span>
-  );
-};
+  )
+}
 
 AvatarCard.Lines = function AvatarCardLines({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  return <div className="flex min-w-0 flex-1 flex-col gap-0.5">{children}</div>;
-};
+  return <div className="flex min-w-0 flex-1 flex-col gap-0.5">{children}</div>
+}
 
 AvatarCard.FirstLine = function AvatarCardFirstLine({
   children,
 }: {
-  children: React.ReactElement<{ className?: string }>;
+  children: React.ReactElement<{ className?: string }>
 }) {
   return cloneElement(children, {
     className: cn(
       "text-title-section-small md:text-title-section-large",
       children.props.className,
     ),
-  });
-};
+  })
+}
 
 AvatarCard.SecondLine = function AvatarCardSecondLine({
   children,
 }: {
-  children: React.ReactElement<{ className?: string }>;
+  children: React.ReactElement<{ className?: string }>
 }) {
   return cloneElement(children, {
     className: cn("text-gray-500 text-body-emphasis", children.props.className),
-  });
-};
+  })
+}

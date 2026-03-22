@@ -1,23 +1,23 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-import { Activity } from "#i/activity/db.server.js";
-import { ActivitySearchParams } from "#i/activity/search-params.js";
-import { db } from "#i/core/db.server";
-import { prisma } from "#i/core/prisma.server.js";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { Activity } from "#i/activity/db.server.js"
+import { ActivitySearchParams } from "#i/activity/search-params.js"
+import { db } from "#i/core/db.server"
+import { prisma } from "#i/core/prisma.server.js"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const searchParams = new URL(request.url).searchParams;
+  const searchParams = new URL(request.url).searchParams
 
   const {
     users,
@@ -46,16 +46,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
         fosterFamily: { select: { displayName: true, availability: true } },
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / ACTIVITY_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / ACTIVITY_COUNT_PER_PAGE)
 
   return json({
     users,
     activities,
     totalCount,
     pageCount,
-  });
+  })
 }
 
-const ACTIVITY_COUNT_PER_PAGE = 20;
+const ACTIVITY_COUNT_PER_PAGE = 20

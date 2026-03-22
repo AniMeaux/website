@@ -1,21 +1,21 @@
-import { withoutKey } from "@animeaux/core";
-import { getInputProps } from "@conform-to/react";
-import { useLoaderData } from "@remix-run/react";
+import { withoutKey } from "@animeaux/core"
+import { getInputProps } from "@conform-to/react"
+import { useLoaderData } from "@remix-run/react"
 
-import { ActionIcon } from "#i/core/actions/action";
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { FieldActivityField } from "#i/exhibitors/activity-field/field";
-import { FieldActivityTarget } from "#i/exhibitors/activity-target/field";
-import { FieldLogo } from "#i/exhibitors/field-logo";
-import { Icon } from "#i/generated/icon";
+import { ActionIcon } from "#i/core/actions/action"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldActivityField } from "#i/exhibitors/activity-field/field"
+import { FieldActivityTarget } from "#i/exhibitors/activity-target/field"
+import { FieldLogo } from "#i/exhibitors/field-logo"
+import { Icon } from "#i/generated/icon"
 
-import { useForm } from "./form";
-import type { loader } from "./route";
+import { useForm } from "./form"
+import type { loader } from "./route"
 
 export function FieldsetPublicProfile() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-  const { fields } = useForm();
+  const { exhibitor } = useLoaderData<typeof loader>()
+  const { fields } = useForm()
 
   return (
     <FormLayout.Section>
@@ -36,12 +36,12 @@ export function FieldsetPublicProfile() {
 
       <FieldLinks />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldLinks() {
-  const { form, fields } = useForm();
-  const fieldsLinks = fields.links.getFieldList();
+  const { form, fields } = useForm()
+  const fieldsLinks = fields.links.getFieldList()
 
   return (
     <FormLayout.Field>
@@ -81,5 +81,5 @@ function FieldLinks() {
 
       <FieldErrorHelper field={fields.links} />
     </FormLayout.Field>
-  );
+  )
 }

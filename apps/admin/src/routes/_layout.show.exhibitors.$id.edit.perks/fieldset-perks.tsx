@@ -1,11 +1,11 @@
-import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
 
-import { useForm } from "./form";
+import { useForm } from "./form"
 
 export function FieldsetPerks() {
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   return (
     <Card>
@@ -32,5 +32,5 @@ export function FieldsetPerks() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
-import { Icon } from "#i/generated/icon";
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
+import { Icon } from "#i/generated/icon"
 
 export function CardAnimationsOnStand({
   onStandAnimations,
 }: {
-  onStandAnimations: string;
+  onStandAnimations: string
 }) {
   return (
     <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 py-1">
@@ -21,5 +21,5 @@ export function CardAnimationsOnStand({
         />
       </p>
     </div>
-  );
+  )
 }

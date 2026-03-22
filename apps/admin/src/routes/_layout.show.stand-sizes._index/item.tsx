@@ -1,14 +1,14 @@
-import type { SerializeFrom } from "@remix-run/node";
+import type { SerializeFrom } from "@remix-run/node"
 
-import { BaseLink } from "#i/core/base-link.js";
-import { Chip } from "#i/core/data-display/chip.js";
-import { Routes } from "#i/core/navigation.js";
-import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js";
-import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
+import { BaseLink } from "#i/core/base-link.js"
+import { Chip } from "#i/core/data-display/chip.js"
+import { Routes } from "#i/core/navigation.js"
+import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js"
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
-type StandSize = SerializeFrom<typeof loader>["standSizes"][number];
+type StandSize = SerializeFrom<typeof loader>["standSizes"][number]
 
 export function StandSizeItem({ standSize }: { standSize: StandSize }) {
   return (
@@ -30,5 +30,5 @@ export function StandSizeItem({ standSize }: { standSize: StandSize }) {
         <StandSizeBookingChip standSize={standSize} />
       </div>
     </BaseLink>
-  );
+  )
 }

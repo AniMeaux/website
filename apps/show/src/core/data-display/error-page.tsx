@@ -1,30 +1,30 @@
-import { cn } from "@animeaux/core";
-import { isRouteErrorResponse, Link, useRouteError } from "@remix-run/react";
-import { captureRemixErrorBoundaryError } from "@sentry/remix";
-import { useEffect } from "react";
+import { cn } from "@animeaux/core"
+import { isRouteErrorResponse, Link, useRouteError } from "@remix-run/react"
+import { captureRemixErrorBoundaryError } from "@sentry/remix"
+import { useEffect } from "react"
 
-import { Action } from "#i/core/actions/action";
-import { DynamicImage } from "#i/core/data-display/image";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
+import { Action } from "#i/core/actions/action"
+import { DynamicImage } from "#i/core/data-display/image"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
 
 export function getErrorTitle(status: number): string {
-  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
+  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title
 }
 
 export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
-  const error = useRouteError();
+  const error = useRouteError()
 
   useEffect(() => {
-    captureRemixErrorBoundaryError(error);
-  }, [error]);
+    captureRemixErrorBoundaryError(error)
+  }, [error])
 
   const status = isRouteErrorResponse(error)
     ? asStatusCode(error.status)
-    : DEFAULT_STATUS_CODE;
+    : DEFAULT_STATUS_CODE
 
-  const meta = STATUS_CODE_ERROR_META_DATA[status];
+  const meta = STATUS_CODE_ERROR_META_DATA[status]
 
   return (
     <main
@@ -67,27 +67,27 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
         </Section.Root>
       </div>
     </main>
-  );
+  )
 }
 
-const STATUS_CODE = [404, 500] as const;
-type StatusCode = (typeof STATUS_CODE)[number];
-const DEFAULT_STATUS_CODE = 500 satisfies StatusCode;
+const STATUS_CODE = [404, 500] as const
+type StatusCode = (typeof STATUS_CODE)[number]
+const DEFAULT_STATUS_CODE = 500 satisfies StatusCode
 
 function isStatusCode(status: number): status is StatusCode {
-  return STATUS_CODE.includes(status as StatusCode);
+  return STATUS_CODE.includes(status as StatusCode)
 }
 
 function asStatusCode(status: number) {
-  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE;
+  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE
 }
 
 const STATUS_CODE_ERROR_META_DATA: Record<
   StatusCode,
   {
-    title: string;
-    message: string;
-    action: React.ReactNode;
+    title: string
+    message: string
+    action: React.ReactNode
   }
 > = {
   404: {
@@ -116,4 +116,4 @@ const STATUS_CODE_ERROR_META_DATA: Record<
       </Section.Action>
     ),
   },
-};
+}

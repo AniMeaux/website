@@ -1,11 +1,11 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getInputProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Icon } from "#i/generated/icon.js";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Icon } from "#i/generated/icon.js"
 
 export function FieldDate({
   field,
@@ -13,14 +13,14 @@ export function FieldDate({
   helper,
   hasTime = false,
 }: {
-  field: FieldMetadata<Date>;
-  label: React.ReactNode;
-  helper?: React.ReactNode;
-  hasTime?: boolean;
+  field: FieldMetadata<Date>
+  label: React.ReactNode
+  helper?: React.ReactNode
+  hasTime?: boolean
 }) {
   const inputProps = getInputProps(field, {
     type: hasTime ? "datetime-local" : "date",
-  });
+  })
 
   return (
     <Form.Field>
@@ -45,5 +45,5 @@ export function FieldDate({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

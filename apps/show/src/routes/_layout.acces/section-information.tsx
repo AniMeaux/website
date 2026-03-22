@@ -1,7 +1,7 @@
-import { HighLightBackground } from "#i/core/layout/highlight-background";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
-import { Pictogram } from "#i/generated/pictogram";
+import { HighLightBackground } from "#i/core/layout/highlight-background"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
+import { Pictogram } from "#i/generated/pictogram"
 
 export function SectionInformation() {
   return (
@@ -43,7 +43,7 @@ export function SectionInformation() {
         </div>
       </Section.Root>
     </LazyElement>
-  );
+  )
 }
 
 function HighLightItem({
@@ -51,8 +51,8 @@ function HighLightItem({
   title,
   children,
 }: React.PropsWithChildren<{
-  icon: React.ComponentProps<typeof Pictogram>["id"];
-  title: string;
+  icon: React.ComponentProps<typeof Pictogram>["id"]
+  title: string
 }>) {
   return (
     <li className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
@@ -62,5 +62,5 @@ function HighLightItem({
         <p>{children}</p>
       </div>
     </li>
-  );
+  )
 }

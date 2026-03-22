@@ -1,4 +1,4 @@
-import type { ServicePrisma } from "#i/core/prisma.service.server.js";
+import type { ServicePrisma } from "#i/core/prisma.service.server.js"
 
 export class ServiceProvider {
   constructor(private prisma: ServicePrisma) {}
@@ -13,6 +13,6 @@ export class ServiceProvider {
         name: true,
         url: true,
       },
-    });
+    })
   }
 }

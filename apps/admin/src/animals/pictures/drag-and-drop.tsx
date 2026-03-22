@@ -1,26 +1,26 @@
-import type { ImageFileOrId } from "#i/core/data-display/image";
-import { DataUrlOrDynamicImage } from "#i/core/data-display/image";
-import { createDragAndDropContext } from "#i/core/drag-and-drop";
+import type { ImageFileOrId } from "#i/core/data-display/image"
+import { DataUrlOrDynamicImage } from "#i/core/data-display/image"
+import { createDragAndDropContext } from "#i/core/drag-and-drop"
 
 const {
   DragAndDropContextProvider,
   useDragItem,
   useDragPreview,
   useDropContainer,
-} = createDragAndDropContext<ImageFileOrId>();
+} = createDragAndDropContext<ImageFileOrId>()
 
 export {
   DragAndDropContextProvider,
   useDragItem,
   useDragPreview,
   useDropContainer,
-};
+}
 
 export function PictureItemPreview() {
-  const preview = useDragPreview();
+  const preview = useDragPreview()
 
   if (!preview.isVisible) {
-    return null;
+    return null
   }
 
   return (
@@ -33,5 +33,5 @@ export function PictureItemPreview() {
       className="overflow-hidden rounded-1 shadow-popover-sm"
       style={preview.style}
     />
-  );
+  )
 }

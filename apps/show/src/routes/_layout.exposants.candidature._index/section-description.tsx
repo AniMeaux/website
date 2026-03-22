@@ -1,6 +1,6 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Section } from "#i/core/layout/section";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Section } from "#i/core/layout/section"
 
 export function SectionDescription() {
   return (
@@ -31,5 +31,5 @@ export function SectionDescription() {
         </LightBoardCard>
       </Section.TextAside>
     </Section.Root>
-  );
+  )
 }

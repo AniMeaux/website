@@ -1,12 +1,12 @@
-import { cn } from "@animeaux/core";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
+import { cn } from "@animeaux/core"
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import { useState } from "react"
 
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
-import { theme } from "#i/generated/theme";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
+import { theme } from "#i/generated/theme"
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (
@@ -24,15 +24,15 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
         {children}
       </nav>
     </>
-  );
+  )
 }
 
 TabBar.Item = function TabBarItem({
   icon,
   to,
 }: {
-  icon: IconName;
-  to: BaseLinkProps["to"];
+  icon: IconName
+  to: BaseLinkProps["to"]
 }) {
   return (
     <BaseLink
@@ -50,17 +50,17 @@ TabBar.Item = function TabBarItem({
     >
       <Icon href={icon} />
     </BaseLink>
-  );
-};
+  )
+}
 
 TabBar.Menu = function TabBarMenu({
   icon,
   children,
 }: {
-  icon: IconName;
-  children?: React.ReactNode;
+  icon: IconName
+  children?: React.ReactNode
 }) {
-  const [isOpened, setIsOpened] = useState(false);
+  const [isOpened, setIsOpened] = useState(false)
 
   return (
     <DropdownMenu.Root open={isOpened} onOpenChange={setIsOpened}>
@@ -84,17 +84,17 @@ TabBar.Menu = function TabBarMenu({
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  );
-};
+  )
+}
 
 TabBar.MenuItem = function TabBarMenuItem({
   icon,
   label,
   to,
 }: {
-  icon: IconName;
-  label: string;
-  to: BaseLinkProps["to"];
+  icon: IconName
+  label: string
+  to: BaseLinkProps["to"]
 }) {
   return (
     <DropdownMenu.Item asChild>
@@ -119,5 +119,5 @@ TabBar.MenuItem = function TabBarMenuItem({
         )}
       </BaseLink>
     </DropdownMenu.Item>
-  );
-};
+  )
+}

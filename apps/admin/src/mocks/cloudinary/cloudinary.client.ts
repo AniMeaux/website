@@ -1,8 +1,8 @@
-import type { HttpResponseResolver, StrictResponse } from "msw";
-import { http, HttpResponse } from "msw";
-import invariant from "tiny-invariant";
+import type { HttpResponseResolver, StrictResponse } from "msw"
+import { http, HttpResponse } from "msw"
+import invariant from "tiny-invariant"
 
-import { simpleHash } from "#i/core/simple-hash";
+import { simpleHash } from "#i/core/simple-hash"
 
 const SVGS = [
   // Cat
@@ -13,24 +13,24 @@ const SVGS = [
   '<svg fill="none" height="3000" viewBox="0 0 40 30" width="4000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h40v30h-40z" fill="#bfdbfe"/><path d="m20.393 13.5058 5.857 2.0931v8.5386c0 .1659-.0658.3249-.1831.4422-.1172.1173-.2761.1832-.4419.1832h-2.5c-.1658 0-.3247-.0659-.4419-.1832-.1173-.1173-.1831-.2763-.1831-.4422v-4.3778h-6.25v4.3778c0 .1659-.0658.3249-.1831.4422-.1172.1173-.2761.1832-.4419.1832h-2.5c-.1658 0-.3247-.0659-.4419-.1832-.1173-.1173-.1831-.2763-.1831-.4422v-8.3611c-1.4516-.5179-2.5-1.893-2.5-3.5214 0-.3317.1317-.6498.3661-.8844s.5524-.3663.8839-.3663.6495.1317.8839.3663.3661.5527.3661.8844c.0006.3316.1325.6494.3668.8838s.5519.3664.8832.367zm9.607-4.37772v1.25082c0 .6634-.2634 1.2997-.7322 1.7688-.4689.4692-1.1048.7327-1.7678.7327h-1.25v1.3907l-5-1.7866v-5.85799c0-.55699.6727-.83607 1.0668-.44207l1.0656 1.06746h2.0949c.4262 0 .9278.30957 1.118.69145l.2797.55934h2.5c.1658 0 .3247.06589.4419.18317.1173.11728.1831.27635.1831.44222zm-4.375 0c0-.12369-.0367-.24461-.1053-.34745-.0687-.10285-.1663-.183-.2805-.23034-.1142-.04733-.2399-.05972-.3611-.03559-.1213.02413-.2326.0837-.32.17116-.0875.08746-.147.1989-.1711.32021s-.0117.24706.0356.36134c.0473.11427.1274.21194.2302.28066.1027.06872.2236.1054.3472.1054.1658 0 .3247-.06589.4419-.18317.1173-.11729.1831-.27636.1831-.44222z" fill="#1f2937"/></svg>',
   // Frog
   '<svg fill="none" height="3000" viewBox="0 0 40 30" width="4000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h40v30h-40z" fill="#bbf7d0"/><path d="m25.5045 9.27187c-.2382-1.29166-1.3659-2.27187-2.7267-2.27187-1.3622 0-2.4903.98229-2.7271 2.27569-5.6496.53541-10.06801 5.29791-10.0506 11.09161.0038 1.2125 1.0097 2.1882 2.2222 2.1882h10.5555c.3069 0 .5556-.2486.5556-.5555 0-.6136-.4976-1.1111-1.1112-1.1111h-2.76l1.243-1.6782c.8382-1.258.3594-3.0652-1.1705-3.7013-.8295-.3448-1.7899-.1615-2.5083.3777l-1.1375.8538c-.2451.1844-.5934.1358-.7781-.1107-.184-.2458-.1347-.5941.1108-.7781l1.2076-.9059c1.2792-.9605 3.0653-.9591 4.3448 0 .3774.2829 1.5927 1.3562 1.4166 3.2364l4.1157 4.3729h3.1381c.307 0 .5556-.2486.5556-.5555 0-.6136-.4976-1.1111-1.1111-1.1111h-1.8622l-3.4208-3.6348 5.3625-3.0086c.3129-.1755.5734-.4312.7548-.7408.1813-.3096.2768-.6619.2768-1.0207 0-.743-.4069-1.4219-1.0583-1.7788-1.4084-.77153-3.4372-1.43333-3.4372-1.43333zm-2.7267 1.33923c-.4604 0-.8333-.3733-.8333-.83333 0-.46042.3729-.83333.8333-.83333.4601 0 .8333.37291.8333.83333 0 .46003-.3732.83333-.8333.83333z" fill="#1f2937"/></svg>',
-];
+]
 
 const resolver: HttpResponseResolver = async ({ params }) => {
-  invariant(typeof params[0] === "string", "An id is required");
-  const svg = SVGS[simpleHash(params[0]) % SVGS.length];
-  invariant(svg != null, "An SVG should exists");
+  invariant(typeof params[0] === "string", "An id is required")
+  const svg = SVGS[simpleHash(params[0]) % SVGS.length]
+  invariant(svg != null, "An SVG should exists")
 
   return new HttpResponse(svg, {
     headers: {
       "Content-Length": String(svg.length),
       "Content-Type": "image/svg+xml",
     },
-  }) as StrictResponse<string>;
-};
+  }) as StrictResponse<string>
+}
 
 export const cloudinaryHandlers = [
   http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/*",
     resolver,
   ),
-];
+]

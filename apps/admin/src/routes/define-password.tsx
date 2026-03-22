@@ -1,31 +1,31 @@
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { cn } from "@animeaux/core"
+import { FormDataDelegate } from "@animeaux/form-data"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions";
-import { InlineHelper } from "#i/core/data-display/helper";
-import { db } from "#i/core/db.server";
-import { Form } from "#i/core/form-elements/form";
-import { PasswordInput } from "#i/core/form-elements/password-input";
-import type { RouteHandle } from "#i/core/handles";
-import { AuthPage } from "#i/core/layout/auth-page";
-import { useCurrentUserForMonitoring } from "#i/core/monitoring";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { NextSearchParams } from "#i/core/search-params";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { InlineHelper } from "#i/core/data-display/helper"
+import { db } from "#i/core/db.server"
+import { Form } from "#i/core/form-elements/form"
+import { PasswordInput } from "#i/core/form-elements/password-input"
+import type { RouteHandle } from "#i/core/handles"
+import { AuthPage } from "#i/core/layout/auth-page"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { NextSearchParams } from "#i/core/search-params"
+import { Icon } from "#i/generated/icon"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white"),
-};
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(
@@ -40,68 +40,68 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
     },
     { skipPasswordChangeCheck: true },
-  );
+  )
 
   if (!currentUser.shouldChangePassword) {
-    const url = new URL(request.url);
+    const url = new URL(request.url)
     const { next = Routes.home.toString() } = NextSearchParams.parse(
       url.searchParams,
-    );
-    throw redirect(next);
+    )
+    throw redirect(next)
   }
 
-  return json({ currentUser });
+  return json({ currentUser })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Définir un mot de passe") }];
-};
+  return [{ title: getPageTitle("Définir un mot de passe") }]
+}
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
     password: zu.string().min(1, "Veuillez entrer un mot de passe"),
   }),
-);
+)
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(
     request,
     { select: { id: true } },
     { skipPasswordChangeCheck: true },
-  );
+  )
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
-    return json({ errors: formData.error.flatten() }, { status: 400 });
+    return json({ errors: formData.error.flatten() }, { status: 400 })
   }
 
-  await db.currentUser.updatePassword(currentUser.id, formData.data.password);
+  await db.currentUser.updatePassword(currentUser.id, formData.data.password)
 
-  const url = new URL(request.url);
+  const url = new URL(request.url)
   const { next = Routes.home.toString() } = NextSearchParams.parse(
     url.searchParams,
-  );
-  throw redirect(next);
+  )
+  throw redirect(next)
 }
 
 export default function Route() {
-  const { currentUser } = useLoaderData<typeof loader>();
+  const { currentUser } = useLoaderData<typeof loader>()
 
-  useCurrentUserForMonitoring(currentUser);
+  useCurrentUserForMonitoring(currentUser)
 
-  const fetcher = useFetcher<typeof action>();
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const fetcher = useFetcher<typeof action>()
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.password != null) {
-        passwordRef.current?.focus();
+        passwordRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <AuthPage.Main>
@@ -145,5 +145,5 @@ export default function Route() {
         <Action type="submit">Enregistrer</Action>
       </fetcher.Form>
     </AuthPage.Main>
-  );
+  )
 }

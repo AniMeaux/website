@@ -1,46 +1,46 @@
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+import type { Prisma } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { AnimalItem } from "#i/animals/item";
-import { AnimalSearchParams } from "#i/animals/search-params";
+import { AnimalItem } from "#i/animals/item"
+import { AnimalSearchParams } from "#i/animals/search-params"
 import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
-} from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { inferInstanceColor } from "#i/core/data-display/instance-color";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { db } from "#i/core/db.server";
-import { AvatarCard } from "#i/core/layout/avatar-card";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { Icon } from "#i/generated/icon";
-import { UserAvatar } from "#i/users/avatar";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups";
+} from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { inferInstanceColor } from "#i/core/data-display/instance-color"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { db } from "#i/core/db.server"
+import { AvatarCard } from "#i/core/layout/avatar-card"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { Icon } from "#i/generated/icon"
+import { UserAvatar } from "#i/users/avatar"
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, displayName: true, email: true, groups: true },
-  });
+  })
 
   const managedAnimalsWhere: Prisma.AnimalWhereInput = {
     managerId: currentUser.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const nonActiveManagedAnimalsWhere: Prisma.AnimalWhereInput = {
     managerId: currentUser.id,
     status: { in: NON_ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const {
     managedAnimalCount,
@@ -89,7 +89,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         status: true,
       },
     }),
-  });
+  })
 
   return json({
     currentUser,
@@ -97,12 +97,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
     managedAnimals,
     nonActiveManagedAnimalCount,
     nonActiveManagedAnimals,
-  });
+  })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Mon profil") }];
-};
+  return [{ title: getPageTitle("Mon profil") }]
+}
 
 export default function Route() {
   return (
@@ -130,11 +130,11 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function HeaderCard() {
-  const { currentUser } = useLoaderData<typeof loader>();
+  const { currentUser } = useLoaderData<typeof loader>()
 
   return (
     <AvatarCard>
@@ -159,11 +159,11 @@ function HeaderCard() {
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
-  );
+  )
 }
 
 function GroupCard() {
-  const { currentUser } = useLoaderData<typeof loader>();
+  const { currentUser } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -181,7 +181,7 @@ function GroupCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionsCard() {
@@ -199,13 +199,13 @@ function ActionsCard() {
         </Action>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ManagedAnimalsCard() {
   const { currentUser, managedAnimalCount, managedAnimals } =
-    useLoaderData<typeof loader>();
-  const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
+    useLoaderData<typeof loader>()
+  const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
 
   return (
     <Card>
@@ -275,13 +275,13 @@ function ManagedAnimalsCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function NonActiveManagedAnimalsCard() {
   const { currentUser, nonActiveManagedAnimalCount, nonActiveManagedAnimals } =
-    useLoaderData<typeof loader>();
-  const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER]);
+    useLoaderData<typeof loader>()
+  const isManager = hasGroups(currentUser, [UserGroup.ANIMAL_MANAGER])
 
   return (
     <Card>
@@ -351,5 +351,5 @@ function NonActiveManagedAnimalsCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,30 +1,30 @@
-import { joinReactNodes } from "@animeaux/core";
+import { joinReactNodes } from "@animeaux/core"
 import {
   FosterFamilyAvailability,
   FosterFamilyGarden,
   FosterFamilyHousing,
-} from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+} from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { SPECIES_TRANSLATION } from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
+import { SPECIES_TRANSLATION } from "#i/animals/species"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
-} from "#i/foster-families/availability";
-import { ICON_BY_HOUSING } from "#i/foster-families/housing";
-import { Icon } from "#i/generated/icon";
+} from "#i/foster-families/availability"
+import { ICON_BY_HOUSING } from "#i/foster-families/housing"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function SituationCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { fosterFamily } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -118,7 +118,7 @@ export function SituationCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 const TEXT_BY_HOUSING: Record<FosterFamilyHousing, string> = {
@@ -126,10 +126,10 @@ const TEXT_BY_HOUSING: Record<FosterFamilyHousing, string> = {
   [FosterFamilyHousing.HOUSE]: "Vit en **maison**",
   [FosterFamilyHousing.OTHER]: "**Autre** type de logement",
   [FosterFamilyHousing.UNKNOWN]: "Type de logement **inconnu**",
-};
+}
 
 const TEXT_BY_GARDEN: Record<FosterFamilyGarden, string> = {
   [FosterFamilyGarden.NO]: ", sans **jardin**",
   [FosterFamilyGarden.UNKNOWN]: "",
   [FosterFamilyGarden.YES]: ", avec **jardin**",
-};
+}

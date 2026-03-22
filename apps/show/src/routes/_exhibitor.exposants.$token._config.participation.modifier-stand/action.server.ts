@@ -1,22 +1,22 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { ShowExhibitorStatus } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import { parseWithZod } from "@conform-to/zod"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-import { Routes } from "#i/core/navigation";
-import { badRequest } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+import { Routes } from "#i/core/navigation"
+import { badRequest } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
-import { createActionSchema } from "./action-schema";
-import { getDividerTypesData } from "./divider-types.server";
-import { getStandSizesData } from "./stand-sizes.server";
+import { createActionSchema } from "./action-schema"
+import { getDividerTypesData } from "./divider-types.server"
+import { getStandSizesData } from "./stand-sizes.server"
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
@@ -26,10 +26,10 @@ export async function action({ request, params }: ActionFunctionArgs) {
       standConfigurationStatus: true,
       size: { select: { id: true } },
     },
-  });
+  })
 
   if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
-    throw badRequest();
+    throw badRequest()
   }
 
   const {
@@ -38,16 +38,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
   } = await promiseHash({
     standSizesData: getStandSizesData(exhibitor),
     dividerTypesData: getDividerTypesData(exhibitor),
-  });
+  })
 
-  const formData = await request.formData();
+  const formData = await request.formData()
 
   const submission = parseWithZod(formData, {
     schema: createActionSchema({ availableStandSizes, availableDividerTypes }),
-  });
+  })
 
   if (submission.status !== "success") {
-    return json(submission.reply(), { status: 400 });
+    return json(submission.reply(), { status: 400 })
   }
 
   await services.exhibitor.updateStand(routeParams.token, {
@@ -62,13 +62,13 @@ export async function action({ request, params }: ActionFunctionArgs) {
     placementComment: submission.value.placementComment || null,
     sizeId: submission.value.standSize.id,
     tableCount: submission.value.tableCount,
-  });
+  })
 
-  void services.exhibitorEmail.standConfiguration.submitted(routeParams.token);
+  void services.exhibitorEmail.standConfiguration.submitted(routeParams.token)
 
   throw redirect(
     Routes.exhibitors
       .token(routeParams.token)
       .participation.toString(SectionId.STAND),
-  );
+  )
 }

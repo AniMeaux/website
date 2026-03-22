@@ -1,12 +1,12 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
 export function ItemList({
   className,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof Primitive.ul>) {
-  return <Primitive.ul {...rest} className={cn("flex flex-col", className)} />;
+  return <Primitive.ul {...rest} className={cn("flex flex-col", className)} />
 }
 
 export const Item = {
@@ -23,7 +23,7 @@ export const Item = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Icon: function ItemIcon({
@@ -38,7 +38,7 @@ export const Item = {
           className,
         )}
       />
-    );
+    )
   },
 
   Content: function ItemContent({
@@ -50,18 +50,18 @@ export const Item = {
         {...rest}
         className={cn("py-1 first:pl-1 last:pr-1", className)}
       />
-    );
+    )
   },
-};
+}
 
 export function SimpleItem({
   icon,
   isLightIcon = false,
   children,
 }: {
-  icon: React.ReactNode;
-  isLightIcon?: boolean;
-  children?: React.ReactNode;
+  icon: React.ReactNode
+  isLightIcon?: boolean
+  children?: React.ReactNode
 }) {
   return (
     <Item.Root>
@@ -70,5 +70,5 @@ export function SimpleItem({
       </Item.Icon>
       <Item.Content>{children}</Item.Content>
     </Item.Root>
-  );
+  )
 }

@@ -1,13 +1,13 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
 
-import { DividerTypeItem } from "./item";
-import type { loader } from "./loader.server";
+import { DividerTypeItem } from "./item"
+import type { loader } from "./loader.server"
 
 export function CardList() {
-  const { dividerTypes } = useLoaderData<typeof loader>();
+  const { dividerTypes } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -37,5 +37,5 @@ export function CardList() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

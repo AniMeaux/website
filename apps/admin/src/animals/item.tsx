@@ -1,26 +1,26 @@
-import { cn } from "@animeaux/core";
-import type { Animal, Species, User } from "@animeaux/prisma";
-import { Gender } from "@animeaux/prisma";
-import type { SerializeFrom } from "@remix-run/node";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import type { Animal, Species, User } from "@animeaux/prisma"
+import { Gender } from "@animeaux/prisma"
+import type { SerializeFrom } from "@remix-run/node"
+import { forwardRef } from "react"
 
-import { AnimalAvatar } from "#i/animals/avatar";
-import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender";
-import { getAnimalDisplayName } from "#i/animals/profile/name";
+import { AnimalAvatar } from "#i/animals/avatar"
+import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender"
+import { getAnimalDisplayName } from "#i/animals/profile/name"
 import {
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#i/animals/situation/health";
-import { getSpeciesLabels } from "#i/animals/species";
-import { StatusBadge } from "#i/animals/status";
-import { BaseLink } from "#i/core/base-link";
-import { Chip } from "#i/core/data-display/chip";
-import type { DynamicImageProps } from "#i/core/data-display/image";
-import { DynamicImage } from "#i/core/data-display/image";
-import type { SuggestionItemProps } from "#i/core/form-elements/resource-input";
-import { SuggestionItem } from "#i/core/form-elements/resource-input";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
+} from "#i/animals/situation/health"
+import { getSpeciesLabels } from "#i/animals/species"
+import { StatusBadge } from "#i/animals/status"
+import { BaseLink } from "#i/core/base-link"
+import { Chip } from "#i/core/data-display/chip"
+import type { DynamicImageProps } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image"
+import type { SuggestionItemProps } from "#i/core/form-elements/resource-input"
+import { SuggestionItem } from "#i/core/form-elements/resource-input"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
 
 export function AnimalItem({
   animal,
@@ -46,20 +46,20 @@ export function AnimalItem({
           "isSterilizationMandatory" | "isSterilized" | "nextVaccinationDate"
         >
       > & {
-        manager?: null | Pick<User, "displayName">;
+        manager?: null | Pick<User, "displayName">
       }
-  >;
-  imageSizeMapping: DynamicImageProps["sizeMapping"];
-  imageLoading?: DynamicImageProps["loading"];
-  className?: string;
+  >
+  imageSizeMapping: DynamicImageProps["sizeMapping"]
+  imageLoading?: DynamicImageProps["loading"]
+  className?: string
 }) {
-  let vaccinationChip: React.ReactNode;
+  let vaccinationChip: React.ReactNode
 
   if (animal.nextVaccinationDate != null) {
     const state = getNextVaccinationState(
       animal.nextVaccinationDate,
       animal.status,
-    );
+    )
 
     switch (state) {
       case "past": {
@@ -70,9 +70,9 @@ export function AnimalItem({
             icon="icon-syringe-solid"
             title="Date de vaccination passée"
           />
-        );
+        )
 
-        break;
+        break
       }
 
       case "up-comming": {
@@ -83,8 +83,8 @@ export function AnimalItem({
             icon="icon-syringe-solid"
             title="Vaccination prévue"
           />
-        );
-        break;
+        )
+        break
       }
     }
   }
@@ -151,7 +151,7 @@ export function AnimalItem({
         ) : null}
       </div>
     </BaseLink>
-  );
+  )
 }
 
 export function AnimalSmallItem({
@@ -161,14 +161,11 @@ export function AnimalSmallItem({
   hasError = false,
   className,
 }: {
-  animal: Pick<
-    Animal,
-    "id" | "name" | "alias" | "gender" | "avatar" | "status"
-  >;
-  secondaryLabel: React.ReactNode;
-  imageLoading?: DynamicImageProps["loading"];
-  hasError?: boolean;
-  className?: string;
+  animal: Pick<Animal, "id" | "name" | "alias" | "gender" | "avatar" | "status">
+  secondaryLabel: React.ReactNode
+  imageLoading?: DynamicImageProps["loading"]
+  hasError?: boolean
+  className?: string
 }) {
   return (
     <BaseLink
@@ -213,21 +210,21 @@ export function AnimalSmallItem({
 
       <StatusBadge status={animal.status} />
     </BaseLink>
-  );
+  )
 }
 
 export const AnimalSuggestionItem = forwardRef<
   React.ComponentRef<typeof SuggestionItem>,
   Omit<SuggestionItemProps, "leftAdornment" | "label" | "secondaryLabel"> & {
     animal: {
-      avatar: string;
-      alias: string | null;
-      name: string;
-      id: string;
-      species: Species;
-      breed: null | { name: string };
-      color: null | { name: string };
-    };
+      avatar: string
+      alias: string | null
+      name: string
+      id: string
+      species: Species
+      breed: null | { name: string }
+      color: null | { name: string }
+    }
   }
 >(function AnimalSuggestionItem({ animal, ...rest }, ref) {
   return (
@@ -241,5 +238,5 @@ export const AnimalSuggestionItem = forwardRef<
       })}
       secondaryLabel={getSpeciesLabels(animal)}
     />
-  );
-});
+  )
+})

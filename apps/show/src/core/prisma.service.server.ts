@@ -1,9 +1,9 @@
-import { PrismaClient } from "@animeaux/prisma/server";
+import { PrismaClient } from "@animeaux/prisma/server"
 
 export class ServicePrisma extends PrismaClient {
   constructor() {
-    super();
-    void this.$connect();
+    super()
+    void this.$connect()
   }
 }
 
@@ -16,5 +16,5 @@ export namespace ServicePrisma {
 
     // https://www.prisma.io/docs/orm/reference/error-reference#p2002
     UNIQUE_CONSTRAINT_FAILED: "P2002",
-  } as const;
+  } as const
 }

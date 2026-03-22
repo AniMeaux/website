@@ -1,17 +1,17 @@
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { Card } from "#i/core/layout/card";
-import { useBackIfPossible } from "#i/core/navigation";
-import { FosterFamilyForm } from "#i/foster-families/form";
+import { Card } from "#i/core/layout/card"
+import { useBackIfPossible } from "#i/core/navigation"
+import { FosterFamilyForm } from "#i/foster-families/form"
 
-import type { action } from "./action.server.js";
-import type { loader } from "./loader.server.js";
+import type { action } from "./action.server.js"
+import type { loader } from "./loader.server.js"
 
 export function CardForm() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { fosterFamily } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
   return (
     <Card className="w-full md:max-w-[600px]">
@@ -26,5 +26,5 @@ export function CardForm() {
         />
       </Card.Content>
     </Card>
-  );
+  )
 }

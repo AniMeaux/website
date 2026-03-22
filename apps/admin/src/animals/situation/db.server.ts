@@ -1,14 +1,14 @@
-import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server";
-import { Status, UserGroup } from "@animeaux/prisma/server";
-import { redirect } from "@remix-run/node";
+import type { Animal, AnimalDraft, Prisma } from "@animeaux/prisma/server"
+import { Status, UserGroup } from "@animeaux/prisma/server"
+import { redirect } from "@remix-run/node"
 
-import { ActivityAction } from "#i/activity/action.js";
-import { Activity } from "#i/activity/db.server.js";
-import { ActivityResource } from "#i/activity/resource.js";
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
-import { NotFoundError } from "#i/core/errors.server";
-import { Routes } from "#i/core/navigation";
-import { prisma } from "#i/core/prisma.server";
+import { ActivityAction } from "#i/activity/action.js"
+import { Activity } from "#i/activity/db.server.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
+import { NotFoundError } from "#i/core/errors.server"
+import { Routes } from "#i/core/navigation"
+import { prisma } from "#i/core/prisma.server"
 
 type SituationKeys =
   | "adoptionDate"
@@ -26,10 +26,10 @@ type SituationKeys =
   | "pickUpReason"
   | "screeningFelv"
   | "screeningFiv"
-  | "status";
+  | "status"
 
-export type AnimalSituation = Pick<Animal, SituationKeys>;
-type AnimalDraftSituation = Pick<AnimalDraft, SituationKeys>;
+export type AnimalSituation = Pick<Animal, SituationKeys>
+type AnimalDraftSituation = Pick<AnimalDraft, SituationKeys>
 
 export class MissingAdoptionDateError extends Error {}
 export class MissingAdoptionOptionError extends Error {}
@@ -47,16 +47,16 @@ export class AnimalSituationDbDelegate {
     await prisma.$transaction(async (prisma) => {
       const currentAnimal = await prisma.animal.findUnique({
         where: { id },
-      });
+      })
 
       if (currentAnimal == null) {
-        throw new NotFoundError();
+        throw new NotFoundError()
       }
 
-      await this.validate(prisma, data, currentAnimal);
-      this.normalize(data);
+      await this.validate(prisma, data, currentAnimal)
+      this.normalize(data)
 
-      const newAnimal = await prisma.animal.update({ where: { id }, data });
+      const newAnimal = await prisma.animal.update({ where: { id }, data })
 
       await Activity.create({
         currentUser,
@@ -65,16 +65,16 @@ export class AnimalSituationDbDelegate {
         resourceId: id,
         before: currentAnimal,
         after: newAnimal,
-      });
-    });
+      })
+    })
   }
 
   async updateDraft(ownerId: AnimalDraft["ownerId"], data: AnimalSituation) {
     await prisma.$transaction(async (prisma) => {
-      await this.validate(prisma, data);
-      this.normalize(data);
-      await prisma.animalDraft.update({ where: { ownerId }, data });
-    });
+      await this.validate(prisma, data)
+      this.normalize(data)
+      await prisma.animalDraft.update({ where: { ownerId }, data })
+    })
   }
 
   async validate(
@@ -87,10 +87,10 @@ export class AnimalSituationDbDelegate {
   ) {
     if (newData.status === Status.ADOPTED) {
       if (newData.adoptionDate == null) {
-        throw new MissingAdoptionDateError();
+        throw new MissingAdoptionDateError()
       }
       if (newData.adoptionOption == null) {
-        throw new MissingAdoptionOptionError();
+        throw new MissingAdoptionOptionError()
       }
     }
 
@@ -98,7 +98,7 @@ export class AnimalSituationDbDelegate {
       // Allow old animals (without a manager) to be updated without setting
       // one. But we can't unset a manager.
       if (currentData == null || currentData.managerId != null) {
-        throw new MissingManagerError();
+        throw new MissingManagerError()
       }
     } else {
       // Only check the manager if it has changed.
@@ -111,10 +111,10 @@ export class AnimalSituationDbDelegate {
             isDisabled: false,
             groups: { has: UserGroup.ANIMAL_MANAGER },
           },
-        });
+        })
 
         if (manager == null) {
-          throw new NotManagerError();
+          throw new NotManagerError()
         }
       }
     }
@@ -125,7 +125,7 @@ export class AnimalSituationDbDelegate {
       newData.pickUpLocation == null &&
       (currentData == null || currentData?.pickUpLocation != null)
     ) {
-      throw new MissingPickUpLocationError();
+      throw new MissingPickUpLocationError()
     }
 
     // Once a vaccination date is set, we cannot stop vaccinating the animal.
@@ -134,34 +134,34 @@ export class AnimalSituationDbDelegate {
       newData.nextVaccinationDate == null &&
       currentData?.nextVaccinationDate != null
     ) {
-      throw new MissingNextVaccinationError();
+      throw new MissingNextVaccinationError()
     }
   }
 
   normalize(data: AnimalSituation) {
     if (data.status !== Status.ADOPTED) {
-      data.adoptionDate = null;
-      data.adoptionOption = null;
+      data.adoptionDate = null
+      data.adoptionOption = null
     }
 
     if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {
-      data.fosterFamilyId = null;
+      data.fosterFamilyId = null
     }
 
     if (!data.isVaccinationMandatory) {
-      data.nextVaccinationDate = null;
+      data.nextVaccinationDate = null
     }
   }
 
   async assertDraftIsValid(draft?: null | AnimalDraftSituation) {
     if (!this.draftHasSituation(draft)) {
-      throw redirect(Routes.animals.new.situation.toString());
+      throw redirect(Routes.animals.new.situation.toString())
     }
 
     try {
-      await this.validate(prisma, draft);
+      await this.validate(prisma, draft)
     } catch (_error) {
-      throw redirect(Routes.animals.new.situation.toString());
+      throw redirect(Routes.animals.new.situation.toString())
     }
   }
 
@@ -181,6 +181,6 @@ export class AnimalSituationDbDelegate {
       draft.screeningFelv != null &&
       draft.screeningFiv != null &&
       draft.status != null
-    );
+    )
   }
 }

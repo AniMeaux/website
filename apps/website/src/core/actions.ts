@@ -1,12 +1,12 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-type ActionColor = "blue" | "yellow" | "gray";
+type ActionColor = "blue" | "yellow" | "gray"
 
 const STANDALONE_ACTION_COLOR_CLASS_NAME: Record<ActionColor, string> = {
   blue: "bg-brandBlue text-white hover:bg-brandBlue-lighter",
   yellow: "bg-brandYellow text-black hover:bg-brandYellow-darker",
   gray: "bg-gray-100 hover:bg-gray-200",
-};
+}
 
 export const actionClassNames = {
   standalone: ({ color = "blue" }: { color?: ActionColor } = {}) =>
@@ -16,4 +16,4 @@ export const actionClassNames = {
     ),
   proseInline: () =>
     "border-b text-body-emphasis border-b-brandBlue hover:border-b-2",
-};
+}

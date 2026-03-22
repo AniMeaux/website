@@ -1,34 +1,34 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { OnOff } from "#i/core/form-elements/field-on-off.js";
-import { Card } from "#i/core/layout/card.js";
-import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js";
+import { OnOff } from "#i/core/form-elements/field-on-off.js"
+import { Card } from "#i/core/layout/card.js"
+import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js"
 
-import { useForm } from "./form";
-import type { loader } from "./loader.server.js";
+import { useForm } from "./form"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetPriceDetails() {
-  const { exhibitor, standSizes } = useLoaderData<typeof loader>();
+  const { exhibitor, standSizes } = useLoaderData<typeof loader>()
 
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   const selectedStandSize = standSizes.find(
     (standSize) => standSize.id === fields.sizeId.value,
-  );
+  )
 
-  const tableCount = Number(fields.tableCount.value);
+  const tableCount = Number(fields.tableCount.value)
   const hasTableCloths = OnOff.toBoolean(
     fields.hasTableCloths.value as OnOff.Enum,
-  );
+  )
 
-  const hasCorner = OnOff.toBoolean(fields.hasCorner.value as OnOff.Enum);
+  const hasCorner = OnOff.toBoolean(fields.hasCorner.value as OnOff.Enum)
 
-  const peopleCount = Number(fields.peopleCount.value);
+  const peopleCount = Number(fields.peopleCount.value)
 
   const dividerCount =
     fields.dividerCount.value == null
       ? undefined
-      : Number(fields.dividerCount.value);
+      : Number(fields.dividerCount.value)
 
   return (
     <Card>
@@ -50,5 +50,5 @@ export function FieldsetPriceDetails() {
         />
       </Card.Content>
     </Card>
-  );
+  )
 }

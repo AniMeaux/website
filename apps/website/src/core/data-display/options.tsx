@@ -1,6 +1,6 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-import { Icon } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon"
 
 export function OptionList({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +18,7 @@ export function OptionList({ children }: { children: React.ReactNode }) {
     >
       {children}
     </div>
-  );
+  )
 }
 
 export function OptionCard({ children }: { children: React.ReactNode }) {
@@ -41,23 +41,23 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
         {children}
       </div>
     </section>
-  );
+  )
 }
 
 export function OptionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-title-item">{children}</h3>;
+  return <h3 className="text-title-item">{children}</h3>
 }
 
 export function OptionDescription({ children }: { children: React.ReactNode }) {
-  return <p>{children}</p>;
+  return <p>{children}</p>
 }
 
 export function OptionPrice({
   children,
   suffix,
 }: {
-  children: React.ReactNode;
-  suffix?: string;
+  children: React.ReactNode
+  suffix?: string
 }) {
   return (
     <p>
@@ -72,19 +72,19 @@ export function OptionPrice({
 
       {suffix != null && <span> {suffix}</span>}
     </p>
-  );
+  )
 }
 
 export function OptionFeatureList({ children }: { children: React.ReactNode }) {
-  return <ul className="flex flex-col">{children}</ul>;
+  return <ul className="flex flex-col">{children}</ul>
 }
 
 export function OptionFeature({
   isIncluded = false,
   children,
 }: {
-  isIncluded?: boolean;
-  children: React.ReactNode;
+  isIncluded?: boolean
+  children: React.ReactNode
 }) {
   return (
     <li className="flex items-start gap-2">
@@ -97,5 +97,5 @@ export function OptionFeature({
 
       {children}
     </li>
-  );
+  )
 }

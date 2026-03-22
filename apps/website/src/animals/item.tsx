@@ -1,32 +1,32 @@
-import { cn, formatAge } from "@animeaux/core";
-import type { Species } from "@animeaux/prisma";
-import { Gender } from "@animeaux/prisma";
+import { cn, formatAge } from "@animeaux/core"
+import type { Species } from "@animeaux/prisma"
+import { Gender } from "@animeaux/prisma"
 
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { isDefined } from "#i/core/is-defined";
-import { toSlug } from "#i/core/slugs";
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { isDefined } from "#i/core/is-defined"
+import { toSlug } from "#i/core/slugs"
 import {
   GENDER_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#i/core/translations";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/translations"
+import { Icon } from "#i/generated/icon"
 
 export function AnimalItem({
   isDisabled = false,
   animal,
 }: {
-  isDisabled?: boolean;
+  isDisabled?: boolean
   animal: {
-    id: string;
-    species: Species;
-    name: string;
-    birthdate: string;
-    gender: Gender;
-    breed: { name: string } | null;
-    color: { name: string } | null;
-    avatar: string;
-  };
+    id: string
+    species: Species
+    name: string
+    birthdate: string
+    gender: Gender
+    breed: { name: string } | null
+    color: { name: string } | null
+    avatar: string
+  }
 }) {
   const speciesLabels = [
     SPECIES_TRANSLATION_STANDALONE[animal.species],
@@ -34,7 +34,7 @@ export function AnimalItem({
     animal.color?.name,
   ]
     .filter(isDefined)
-    .join(" • ");
+    .join(" • ")
 
   return (
     <li className="flex">
@@ -86,5 +86,5 @@ export function AnimalItem({
         </div>
       </BaseLink>
     </li>
-  );
+  )
 }

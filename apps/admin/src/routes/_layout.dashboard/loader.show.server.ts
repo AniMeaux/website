@@ -1,11 +1,11 @@
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/server";
-import { promiseHash } from "remix-utils/promise";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/server"
+import { promiseHash } from "remix-utils/promise"
 
-import { db } from "#i/core/db.server";
+import { db } from "#i/core/db.server"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#i/show/exhibitors/applications/search-params.js";
+} from "#i/show/exhibitors/applications/search-params.js"
 
 export async function loaderShow() {
   return await promiseHash({
@@ -29,5 +29,5 @@ export async function loaderShow() {
     standSizes: db.show.standSize.findManyWithAvailability({
       select: { id: true, label: true },
     }),
-  });
+  })
 }

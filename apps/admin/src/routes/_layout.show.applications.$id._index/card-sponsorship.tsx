@@ -1,16 +1,16 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#i/show/sponsors/category";
+} from "#i/show/sponsors/category"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardSponsorship() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -37,5 +37,5 @@ export function CardSponsorship() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

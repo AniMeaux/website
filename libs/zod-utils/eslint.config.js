@@ -1,1 +1,1 @@
-export { default } from "@animeaux/dev-tools/eslint";
+export { default } from "@animeaux/dev-tools/eslint"

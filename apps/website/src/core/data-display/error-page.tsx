@@ -1,8 +1,8 @@
-import { cn } from "@animeaux/core";
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
+import { cn } from "@animeaux/core"
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
 import {
   HeroSection,
   HeroSectionAction,
@@ -10,26 +10,26 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { errorImages } from "#i/images/error";
+} from "#i/core/layout/hero-section"
+import { errorImages } from "#i/images/error"
 
-const STATUS_CODE = [404, 500] as const;
-type StatusCode = (typeof STATUS_CODE)[number];
-const DEFAULT_STATUS_CODE = 500 satisfies StatusCode;
+const STATUS_CODE = [404, 500] as const
+type StatusCode = (typeof STATUS_CODE)[number]
+const DEFAULT_STATUS_CODE = 500 satisfies StatusCode
 
 function isStatusCode(status: number): status is StatusCode {
-  return STATUS_CODE.includes(status as StatusCode);
+  return STATUS_CODE.includes(status as StatusCode)
 }
 
 function asStatusCode(status: number) {
-  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE;
+  return isStatusCode(status) ? status : DEFAULT_STATUS_CODE
 }
 
 type ErrorMetaData = {
-  title: string;
-  message: string;
-  action: React.ReactNode;
-};
+  title: string
+  message: string
+  action: React.ReactNode
+}
 
 const STATUS_CODE_ERROR_META_DATA: Record<StatusCode, ErrorMetaData> = {
   404: {
@@ -50,25 +50,25 @@ const STATUS_CODE_ERROR_META_DATA: Record<StatusCode, ErrorMetaData> = {
       </BaseLink>
     ),
   },
-};
+}
 
 export function getErrorTitle(status: number): string {
-  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title;
+  return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title
 }
 
 export function ErrorPage({
   isStandAlone = false,
 }: {
-  isStandAlone?: boolean;
+  isStandAlone?: boolean
 }) {
-  const error = useRouteError();
-  console.error("ErrorBoundary error", error);
+  const error = useRouteError()
+  console.error("ErrorBoundary error", error)
 
   const status = isRouteErrorResponse(error)
     ? asStatusCode(error.status)
-    : DEFAULT_STATUS_CODE;
+    : DEFAULT_STATUS_CODE
 
-  const meta = STATUS_CODE_ERROR_META_DATA[status];
+  const meta = STATUS_CODE_ERROR_META_DATA[status]
 
   return (
     <main
@@ -87,5 +87,5 @@ export function ErrorPage({
         </HeroSectionAside>
       </HeroSection>
     </main>
-  );
+  )
 }

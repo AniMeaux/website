@@ -1,12 +1,12 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { useLoaderData } from "@remix-run/react";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { useLoaderData } from "@remix-run/react"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
-import { Card } from "#i/core/layout/card.js";
+import { Card } from "#i/core/layout/card.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 namespace DiffSection {
   export const Root = forwardRef<
@@ -19,8 +19,8 @@ namespace DiffSection {
         ref={ref}
         className={cn("grid grid-cols-1", className)}
       />
-    );
-  });
+    )
+  })
 
   export const Title = forwardRef<
     React.ComponentRef<typeof Primitive.h3>,
@@ -32,13 +32,13 @@ namespace DiffSection {
         ref={ref}
         className={cn("text-gray-500 text-caption-default", className)}
       />
-    );
-  });
+    )
+  })
 
   export const Code = forwardRef<
     React.ComponentRef<"pre">,
     Except<React.ComponentPropsWithoutRef<"pre">, "children"> & {
-      code?: unknown;
+      code?: unknown
     }
   >(function Code({ className, code, ...props }, ref) {
     return (
@@ -52,12 +52,12 @@ namespace DiffSection {
       >
         <code>{code != null ? JSON.stringify(code, null, 2) : "N/A"}</code>
       </pre>
-    );
-  });
+    )
+  })
 }
 
 export function CardDiff() {
-  const { activity } = useLoaderData<typeof loader>();
+  const { activity } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -79,5 +79,5 @@ export function CardDiff() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

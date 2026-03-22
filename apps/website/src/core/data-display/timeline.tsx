@@ -1,10 +1,10 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export function Timeline({ children }: { children: React.ReactNode }) {
-  return <ul className={cn("flex flex-col pt-4", "md:pt-1")}>{children}</ul>;
+  return <ul className={cn("flex flex-col pt-4", "md:pt-1")}>{children}</ul>
 }
 
 export function TimelineItem({
@@ -13,10 +13,10 @@ export function TimelineItem({
   children,
   action,
 }: {
-  title: string;
-  icon: IconProps["id"];
-  children: React.ReactNode;
-  action?: React.ReactNode;
+  title: string
+  icon: IconProps["id"]
+  children: React.ReactNode
+  action?: React.ReactNode
 }) {
   return (
     <li
@@ -72,7 +72,7 @@ export function TimelineItem({
         )}
       </div>
     </li>
-  );
+  )
 }
 
 function TopLine({ className }: { className: string }) {
@@ -94,7 +94,7 @@ function TopLine({ className }: { className: string }) {
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }
 
 function BottomLine({ className }: { className: string }) {
@@ -116,5 +116,5 @@ function BottomLine({ className }: { className: string }) {
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }

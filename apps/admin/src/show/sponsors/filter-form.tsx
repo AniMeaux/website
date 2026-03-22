@@ -1,23 +1,23 @@
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#i/show/sponsors/category";
+} from "#i/show/sponsors/category"
 import {
   SponsorSearchParams,
   SponsorSearchParamsN,
-} from "#i/show/sponsors/search-params";
-import { Visibility, VisibilityIcon } from "#i/show/visibility";
+} from "#i/show/sponsors/search-params"
+import { Visibility, VisibilityIcon } from "#i/show/visibility"
 
 export function SponsorFilters() {
   return (
@@ -37,12 +37,12 @@ export function SponsorFilters() {
         <FilterExhibitor />
       </Filters.Content>
     </Filters>
-  );
+  )
 }
 
 function FilterCategory() {
-  const [searchParams] = useOptimisticSearchParams();
-  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -80,12 +80,12 @@ function FilterCategory() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterExhibitor() {
-  const [searchParams] = useOptimisticSearchParams();
-  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -127,12 +127,12 @@ function FilterExhibitor() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterName() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -163,7 +163,7 @@ function FilterName() {
                       ...sponsorSearchParams,
                       name: undefined,
                     }),
-                  );
+                  )
                 })
               }
             >
@@ -173,12 +173,12 @@ function FilterName() {
         }
       />
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterVisibility() {
-  const [searchParams] = useOptimisticSearchParams();
-  const sponsorSearchParams = SponsorSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const sponsorSearchParams = SponsorSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -214,5 +214,5 @@ function FilterVisibility() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }

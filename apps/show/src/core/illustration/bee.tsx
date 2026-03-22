@@ -1,17 +1,17 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 type Direction =
   | "left-to-right"
   | "right-to-left"
   | "top-to-bottom-right"
-  | "top-to-bottom-left";
+  | "top-to-bottom-left"
 
 export function BeeIllustration({
   direction,
   className,
 }: {
-  direction: Direction;
-  className?: string;
+  direction: Direction
+  className?: string
 }) {
   return (
     <svg
@@ -27,7 +27,7 @@ export function BeeIllustration({
     >
       {DIRECTION_PATHS[direction]}
     </svg>
-  );
+  )
 }
 
 const DIRECTION_PATHS: Record<Direction, React.ReactNode> = {
@@ -94,4 +94,4 @@ const DIRECTION_PATHS: Record<Direction, React.ReactNode> = {
       />
     </g>
   ),
-};
+}

@@ -1,12 +1,12 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import importX from "eslint-plugin-import-x";
-import jsxA11y from "eslint-plugin-jsx-a11y";
-import react from "eslint-plugin-react";
-import reactHooks from "eslint-plugin-react-hooks";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
-import unusedImports from "eslint-plugin-unused-imports";
-import globals from "globals";
-import typescript from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config"
+import importX from "eslint-plugin-import-x"
+import jsxA11y from "eslint-plugin-jsx-a11y"
+import react from "eslint-plugin-react"
+import reactHooks from "eslint-plugin-react-hooks"
+import simpleImportSort from "eslint-plugin-simple-import-sort"
+import unusedImports from "eslint-plugin-unused-imports"
+import globals from "globals"
+import typescript from "typescript-eslint"
 
 /**
  * @see https://eslint.org/docs/latest/use/configure/rules#rule-severities
@@ -32,7 +32,7 @@ export const Severity = {
    * @alias 0
    */
   OFF: "off",
-};
+}
 
 export default defineConfig([
   // Applies to all configurations.
@@ -695,4 +695,4 @@ export default defineConfig([
       "jsx-a11y/tabindex-no-positive": Severity.WARN,
     },
   },
-]);
+])

@@ -1,23 +1,23 @@
-import type { NavLinkProps } from "@remix-run/react";
-import { Link, NavLink } from "@remix-run/react";
-import { forwardRef } from "react";
+import type { NavLinkProps } from "@remix-run/react"
+import { Link, NavLink } from "@remix-run/react"
+import { forwardRef } from "react"
 
-import type { LocationState } from "#i/core/location-state";
-import { useLocationState } from "#i/core/location-state";
+import type { LocationState } from "#i/core/location-state"
+import { useLocationState } from "#i/core/location-state"
 
 export type BaseLinkProps = {
-  children?: NavLinkProps["children"];
-  className?: NavLinkProps["className"];
-  download?: string | boolean;
-  isNavLink?: boolean;
-  prefetch?: NavLinkProps["prefetch"];
-  reloadDocument?: NavLinkProps["reloadDocument"];
-  replace?: NavLinkProps["replace"];
-  shouldOpenInNewTarget?: boolean;
-  style?: NavLinkProps["style"];
-  title?: string;
-  to?: NavLinkProps["to"] | null;
-};
+  children?: NavLinkProps["children"]
+  className?: NavLinkProps["className"]
+  download?: string | boolean
+  isNavLink?: boolean
+  prefetch?: NavLinkProps["prefetch"]
+  reloadDocument?: NavLinkProps["reloadDocument"]
+  replace?: NavLinkProps["replace"]
+  shouldOpenInNewTarget?: boolean
+  style?: NavLinkProps["style"]
+  title?: string
+  to?: NavLinkProps["to"] | null
+}
 
 export const BaseLink = forwardRef<
   React.ComponentRef<typeof Link>,
@@ -45,7 +45,7 @@ export const BaseLink = forwardRef<
   },
   ref,
 ) {
-  const { fromApp } = useLocationState();
+  const { fromApp } = useLocationState()
 
   const commonProps: React.AnchorHTMLAttributes<HTMLAnchorElement> &
     React.RefAttributes<HTMLAnchorElement> = {
@@ -53,7 +53,7 @@ export const BaseLink = forwardRef<
     download,
     title,
     ref,
-  };
+  }
 
   if (to == null) {
     return (
@@ -64,12 +64,12 @@ export const BaseLink = forwardRef<
         style={defaultCallProp(style)}
         children={defaultCallProp(children)}
       />
-    );
+    )
   }
 
   if (shouldOpenInNewTarget) {
-    commonProps.target = "_blank";
-    commonProps.rel = "noopener noreferrer";
+    commonProps.target = "_blank"
+    commonProps.rel = "noopener noreferrer"
   }
 
   const internalCommonProps: Omit<
@@ -81,7 +81,7 @@ export const BaseLink = forwardRef<
     prefetch,
     reloadDocument,
     replace,
-  };
+  }
 
   if (isNavLink) {
     return (
@@ -92,7 +92,7 @@ export const BaseLink = forwardRef<
         style={style}
         children={children}
       />
-    );
+    )
   }
 
   return (
@@ -103,8 +103,8 @@ export const BaseLink = forwardRef<
       style={defaultCallProp(style)}
       children={defaultCallProp(children)}
     />
-  );
-});
+  )
+})
 
 function defaultCallProp<
   TValue extends string | React.CSSProperties | React.ReactNode,
@@ -113,14 +113,14 @@ function defaultCallProp<
     | undefined
     | TValue
     | ((arg: {
-        isActive: boolean;
-        isPending: boolean;
-        isTransitioning: boolean;
+        isActive: boolean
+        isPending: boolean
+        isTransitioning: boolean
       }) => undefined | TValue),
 ) {
   if (typeof prop === "function") {
-    return prop({ isActive: false, isPending: false, isTransitioning: false });
+    return prop({ isActive: false, isPending: false, isTransitioning: false })
   }
 
-  return prop;
+  return prop
 }

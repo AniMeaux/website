@@ -1,9 +1,9 @@
-import type { z } from "zod";
+import type { z } from "zod"
 
 export function createActionData<TSchema extends z.ZodObject<z.ZodRawShape>>(
   schema: TSchema,
 ) {
-  return { schema, keys: getSchemaKeys(schema) };
+  return { schema, keys: getSchemaKeys(schema) }
 }
 
 function getSchemaKeys<TSchema extends z.ZodObject<z.ZodRawShape>>(
@@ -11,9 +11,9 @@ function getSchemaKeys<TSchema extends z.ZodObject<z.ZodRawShape>>(
 ) {
   const keys = Object.fromEntries(
     Object.keys(schema.shape).map((key) => [key, key]),
-  );
+  )
 
   return keys as {
-    [key in keyof Required<z.infer<TSchema>>]: string;
-  };
+    [key in keyof Required<z.infer<TSchema>>]: string
+  }
 }

@@ -1,9 +1,9 @@
-import { ShowActivityTarget } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
+import { ShowActivityTarget } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
 
 export namespace ActivityTarget {
-  export const Enum = ShowActivityTarget;
-  export type Enum = ShowActivityTarget;
+  export const Enum = ShowActivityTarget
+  export type Enum = ShowActivityTarget
 
   export const translation: Record<Enum, string> = {
     [Enum.CATS]: "Chats",
@@ -13,10 +13,10 @@ export namespace ActivityTarget {
     [Enum.NACS]: "NACs",
     [Enum.RABBITS]: "Lapins",
     [Enum.WILDLIFE]: "Faune sauvage",
-  };
+  }
 
   export const values = orderBy(
     Object.values(Enum),
     (field) => translation[field],
-  );
+  )
 }

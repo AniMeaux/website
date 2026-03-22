@@ -1,9 +1,9 @@
-import { Gender } from "@animeaux/prisma";
+import { Gender } from "@animeaux/prisma"
 
 export type AnimalName = {
-  label: string;
-  gender?: Gender;
-};
+  label: string
+  gender?: Gender
+}
 
 export const animalNames: AnimalName[] = [
   { label: "Aaden", gender: Gender.FEMALE },
@@ -3235,4 +3235,4 @@ export const animalNames: AnimalName[] = [
   { label: "Zouzou", gender: Gender.MALE },
   { label: "Zozo", gender: Gender.FEMALE },
   { label: "Zut", gender: Gender.MALE },
-];
+]

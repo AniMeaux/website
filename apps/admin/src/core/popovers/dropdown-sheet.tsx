@@ -1,14 +1,14 @@
-import { cn } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Popover from "@radix-ui/react-popover";
-import { createContext, forwardRef, useContext } from "react";
-import invariant from "tiny-invariant";
+import { cn } from "@animeaux/core"
+import * as Dialog from "@radix-ui/react-dialog"
+import * as Popover from "@radix-ui/react-popover"
+import { createContext, forwardRef, useContext } from "react"
+import invariant from "tiny-invariant"
 
-import { Overlay } from "#i/core/popovers/overlay";
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
+import { Overlay } from "#i/core/popovers/overlay"
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size"
 
-type Component = "popover" | "dialog";
-const DropdownSheetContext = createContext<undefined | Component>(undefined);
+type Component = "popover" | "dialog"
+const DropdownSheetContext = createContext<undefined | Component>(undefined)
 
 export function DropdownSheet(
   props: React.ComponentProps<typeof Dialog.Root> &
@@ -16,10 +16,10 @@ export function DropdownSheet(
 ) {
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= ScreenSizeValue.md,
-  );
+  )
 
-  const component = isMedium ? "popover" : "dialog";
-  const Root = component === "dialog" ? Dialog.Root : Popover.Root;
+  const component = isMedium ? "popover" : "dialog"
+  const Root = component === "dialog" ? Dialog.Root : Popover.Root
 
   return (
     // Use a context instead of computing the value in each component to avoid
@@ -27,7 +27,7 @@ export function DropdownSheet(
     <DropdownSheetContext.Provider value={component}>
       <Root {...props} />
     </DropdownSheetContext.Provider>
-  );
+  )
 }
 
 DropdownSheet.Trigger = forwardRef<
@@ -35,17 +35,17 @@ DropdownSheet.Trigger = forwardRef<
   React.ComponentPropsWithoutRef<typeof Dialog.Trigger> &
     React.ComponentPropsWithoutRef<typeof Popover.Trigger>
 >(function DropdownSheetTrigger(props, ref) {
-  const component = useDropdownSheetContext("DropdownSheet.Trigger");
-  const Trigger = component === "dialog" ? Dialog.Trigger : Popover.Trigger;
-  return <Trigger {...props} ref={ref} />;
-});
+  const component = useDropdownSheetContext("DropdownSheet.Trigger")
+  const Trigger = component === "dialog" ? Dialog.Trigger : Popover.Trigger
+  return <Trigger {...props} ref={ref} />
+})
 
 DropdownSheet.Portal = function DropdownSheetPortal({
   children,
   ...rest
 }: React.ComponentProps<typeof Dialog.Portal> &
   React.ComponentProps<typeof Popover.Portal>) {
-  const component = useDropdownSheetContext("DropdownSheet.Portal");
+  const component = useDropdownSheetContext("DropdownSheet.Portal")
 
   if (component === "dialog") {
     return (
@@ -56,11 +56,11 @@ DropdownSheet.Portal = function DropdownSheetPortal({
 
         {children}
       </Dialog.Portal>
-    );
+    )
   }
 
-  return <Popover.Portal {...rest}>{children}</Popover.Portal>;
-};
+  return <Popover.Portal {...rest}>{children}</Popover.Portal>
+}
 
 DropdownSheet.Content = forwardRef<
   React.ComponentRef<typeof Dialog.Content>,
@@ -85,7 +85,7 @@ DropdownSheet.Content = forwardRef<
   },
   ref,
 ) {
-  const component = useDropdownSheetContext("DropdownSheet.Content");
+  const component = useDropdownSheetContext("DropdownSheet.Content")
 
   if (component === "dialog") {
     return (
@@ -113,7 +113,7 @@ DropdownSheet.Content = forwardRef<
           {children}
         </div>
       </Dialog.Content>
-    );
+    )
   }
 
   return (
@@ -152,16 +152,16 @@ DropdownSheet.Content = forwardRef<
         {children}
       </div>
     </Popover.Content>
-  );
-});
+  )
+})
 
 function useDropdownSheetContext(functionCallerName: string) {
-  const context = useContext(DropdownSheetContext);
+  const context = useContext(DropdownSheetContext)
 
   invariant(
     context != null,
     `${functionCallerName} can only be used inside a DropdownSheet.`,
-  );
+  )
 
-  return context;
+  return context
 }

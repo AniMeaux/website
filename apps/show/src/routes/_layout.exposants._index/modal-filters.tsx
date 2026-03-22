@@ -1,25 +1,25 @@
-import { cn } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
-import { useLoaderData } from "@remix-run/react";
-import { forwardRef, useLayoutEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
+import { cn } from "@animeaux/core"
+import * as Dialog from "@radix-ui/react-dialog"
+import { useLoaderData } from "@remix-run/react"
+import { forwardRef, useLayoutEffect, useRef, useState } from "react"
+import invariant from "tiny-invariant"
 
-import { Action } from "#i/core/actions/action";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field";
+import { Action } from "#i/core/actions/action"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#i/exhibitors/activity-target/activity-target";
+} from "#i/exhibitors/activity-target/activity-target"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params";
-import { Icon } from "#i/generated/icon";
+} from "#i/exhibitors/search-params"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./loader.server";
-import { SearchParamsForm } from "./search-params-form";
+import type { loader } from "./loader.server"
+import { SearchParamsForm } from "./search-params-form"
 
 export const ModalFilters = {
   Root: Dialog.Root,
@@ -28,10 +28,10 @@ export const ModalFilters = {
 
   Card: forwardRef<React.ComponentRef<typeof Dialog.Overlay>, object>(
     function ModalFiltersCard(props, ref) {
-      const { exhibitors } = useLoaderData<typeof loader>();
+      const { exhibitors } = useLoaderData<typeof loader>()
 
       const { elementRef, isStickyBottom, isStickyTop } =
-        useScrollState<React.ComponentRef<"div">>();
+        useScrollState<React.ComponentRef<"div">>()
 
       return (
         <Dialog.Overlay
@@ -100,57 +100,57 @@ export const ModalFilters = {
             </section>
           </Dialog.Content>
         </Dialog.Overlay>
-      );
+      )
     },
   ),
-};
+}
 
 function useScrollState<TELement extends HTMLElement>() {
-  const elementRef = useRef<TELement>(null);
-  const [isStickyTop, setIsStickyTop] = useState(false);
-  const [isStickyBottom, setIsStickyBottom] = useState(false);
+  const elementRef = useRef<TELement>(null)
+  const [isStickyTop, setIsStickyTop] = useState(false)
+  const [isStickyBottom, setIsStickyBottom] = useState(false)
 
   useLayoutEffect(() => {
-    invariant(elementRef.current != null, "elementRef.current must be defined");
-    const sectionElement = elementRef.current;
+    invariant(elementRef.current != null, "elementRef.current must be defined")
+    const sectionElement = elementRef.current
 
     function checkStickyState() {
-      setIsStickyTop(sectionElement.scrollTop > 0);
+      setIsStickyTop(sectionElement.scrollTop > 0)
 
       setIsStickyBottom(
         // Use `Math.ceil` because of decimal values.
         Math.ceil(sectionElement.scrollTop + sectionElement.clientHeight) <
           sectionElement.scrollHeight,
-      );
+      )
     }
 
-    checkStickyState();
+    checkStickyState()
 
-    sectionElement.addEventListener("scroll", checkStickyState);
+    sectionElement.addEventListener("scroll", checkStickyState)
 
     return () => {
-      sectionElement.removeEventListener("scroll", checkStickyState);
-    };
-  }, [elementRef]);
+      sectionElement.removeEventListener("scroll", checkStickyState)
+    }
+  }, [elementRef])
 
-  return { elementRef, isStickyTop, isStickyBottom };
+  return { elementRef, isStickyTop, isStickyBottom }
 }
 
 function FieldAnimations() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
-  const values: ExhibitorSearchParams.EventType.Enum[] = [];
+  const values: ExhibitorSearchParams.EventType.Enum[] = []
 
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_PROGRAM === "true") {
-    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAGE);
+    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAGE)
   }
 
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS === "true") {
-    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAND);
+    values.push(ExhibitorSearchParams.EventType.Enum.ON_STAND)
   }
 
   if (values.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -189,11 +189,11 @@ function FieldAnimations() {
         ))}
       </FormLayout.Selectors>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldFields() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return (
     <FormLayout.Field>
@@ -227,11 +227,11 @@ function FieldFields() {
         ))}
       </FormLayout.Selectors>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldSponsorshipAndLaureats() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return (
     <FormLayout.Field>
@@ -305,11 +305,11 @@ function FieldSponsorshipAndLaureats() {
         </FormLayout.Selector.Root>
       </FormLayout.Selectors>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldTargets() {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return (
     <FormLayout.Field>
@@ -343,5 +343,5 @@ function FieldTargets() {
         ))}
       </FormLayout.Selectors>
     </FormLayout.Field>
-  );
+  )
 }

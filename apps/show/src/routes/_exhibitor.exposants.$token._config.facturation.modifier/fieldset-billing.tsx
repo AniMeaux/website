@@ -1,12 +1,12 @@
-import { FieldNumeric } from "#i/core/form-elements/field-numeric";
-import { FieldSwitch } from "#i/core/form-elements/field-switch";
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric"
+import { FieldSwitch } from "#i/core/form-elements/field-switch"
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import { useForm } from "./form";
+import { useForm } from "./form"
 
 export function FieldsetBilling() {
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   return (
     <FormLayout.Section>
@@ -29,5 +29,5 @@ export function FieldsetBilling() {
         </FormLayout.Row>
       ) : null}
     </FormLayout.Section>
-  );
+  )
 }

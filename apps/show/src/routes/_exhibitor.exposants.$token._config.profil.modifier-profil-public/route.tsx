@@ -1,28 +1,28 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { parseWithZod } from "@conform-to/zod";
-import { parseFormData } from "@mjackson/form-data-parser";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { captureException } from "@sentry/remix";
-import { v4 as uuid } from "uuid";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import { parseWithZod } from "@conform-to/zod"
+import { parseFormData } from "@mjackson/form-data-parser"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { captureException } from "@sentry/remix"
+import { v4 as uuid } from "uuid"
 
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { createSocialMeta } from "#i/core/meta";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { badRequest } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { createSocialMeta } from "#i/core/meta"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { badRequest } from "#i/core/response.server"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
 
-import { ActionSchema } from "./action";
-import { SectionForm } from "./section-form";
-import { SectionHelper } from "./section-helper";
+import { ActionSchema } from "./action"
+import { SectionForm } from "./section-form"
+import { SectionHelper } from "./section-helper"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: {
@@ -33,15 +33,15 @@ export async function loader({ params }: LoaderFunctionArgs) {
       name: true,
       publicProfileStatus: true,
     },
-  });
+  })
 
   if (exhibitor.publicProfileStatus === ShowExhibitorStatus.VALIDATED) {
     throw redirect(
       Routes.exhibitors.token(routeParams.token).profile.toString(),
-    );
+    )
   }
 
-  return { exhibitor };
+  return { exhibitor }
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -51,24 +51,24 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
         ? ["Modifier le profil public", data.exhibitor.name]
         : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const exhibitor = await services.exhibitor.getByToken(routeParams.token, {
     select: { publicProfileStatus: true },
-  });
+  })
 
   if (exhibitor.publicProfileStatus === ShowExhibitorStatus.VALIDATED) {
-    throw badRequest();
+    throw badRequest()
   }
 
-  const reversibleUpload = services.image.createReversibleUpload();
+  const reversibleUpload = services.image.createReversibleUpload()
 
   async function revertUpload() {
-    const errors = await reversibleUpload.revert();
+    const errors = await reversibleUpload.revert()
 
     if (errors != null) {
       captureException(new Error("Could not delete exhibitor logo"), {
@@ -78,32 +78,32 @@ export async function action({ request, params }: ActionFunctionArgs) {
             error: error instanceof Error ? error.message : String(error),
           })),
         },
-      });
+      })
     }
   }
 
   const formData = await parseFormData(request, async (fileUpload) => {
     if (fileUpload.fieldName !== "logo" || fileUpload.name === "") {
-      return undefined;
+      return undefined
     }
 
     try {
       return await reversibleUpload.upload(fileUpload, {
         imageId: `show/exhibitors-logo/${uuid()}`,
-      });
+      })
     } catch (error) {
-      captureException(error);
+      captureException(error)
 
-      return undefined;
+      return undefined
     }
-  });
+  })
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, { schema: ActionSchema })
 
   if (submission.status !== "success") {
-    await revertUpload();
+    await revertUpload()
 
-    return json(submission.reply(), { status: 400 });
+    return json(submission.reply(), { status: 400 })
   }
 
   try {
@@ -112,16 +112,16 @@ export async function action({ request, params }: ActionFunctionArgs) {
       activityFields: submission.value.activityFields,
       links: submission.value.links,
       logoPath: submission.value.logo?.name,
-    });
+    })
   } catch (error) {
-    await revertUpload();
+    await revertUpload()
 
-    throw error;
+    throw error
   }
 
-  void services.exhibitorEmail.publicProfile.submitted(routeParams.token);
+  void services.exhibitorEmail.publicProfile.submitted(routeParams.token)
 
-  throw redirect(Routes.exhibitors.token(routeParams.token).profile.toString());
+  throw redirect(Routes.exhibitors.token(routeParams.token).profile.toString())
 }
 
 export default function Route() {
@@ -130,5 +130,5 @@ export default function Route() {
       <SectionForm />
       <SectionHelper />
     </FormLayout.Root>
-  );
+  )
 }

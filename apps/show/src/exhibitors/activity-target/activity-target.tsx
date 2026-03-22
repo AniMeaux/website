@@ -1,7 +1,7 @@
-import { ShowActivityTarget } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
+import { ShowActivityTarget } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon";
+import type { IconName } from "#i/generated/icon"
 
 export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {
   [ShowActivityTarget.CATS]: "Chats",
@@ -11,12 +11,12 @@ export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {
   [ShowActivityTarget.NACS]: "NACs",
   [ShowActivityTarget.RABBITS]: "Lapins",
   [ShowActivityTarget.WILDLIFE]: "Faune sauvage",
-};
+}
 
 export const SORTED_ACTIVITY_TARGETS = orderBy(
   Object.values(ShowActivityTarget),
   (field) => ACTIVITY_TARGET_TRANSLATION[field],
-);
+)
 
 export const ACTIVITY_TARGET_ICON: Record<
   ShowActivityTarget,
@@ -50,4 +50,4 @@ export const ACTIVITY_TARGET_ICON: Record<
     light: "squirrel-light",
     solid: "squirrel-solid",
   },
-};
+}

@@ -1,5 +1,5 @@
-const path = require("node:path");
-const fs = require("node:fs");
+const path = require("node:path")
+const fs = require("node:fs")
 
 module.exports = {
   apps: [
@@ -20,10 +20,10 @@ module.exports = {
       }),
     ),
   ],
-};
+}
 
 function createApp(config) {
-  const logFile = `${__dirname}/logs/${config.name}.log`;
+  const logFile = `${__dirname}/logs/${config.name}.log`
 
   return {
     instances: 1,
@@ -37,12 +37,12 @@ function createApp(config) {
 
     // Allow dot files (env) to be watched.
     ignore_watch: ["node_modules/", ...(config.ignore_watch ?? [])],
-  };
+  }
 }
 
 function getPackagesNamesInDir(dir) {
   return fs
     .readdirSync(path.resolve(__dirname, dir), { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
+    .map((entry) => entry.name)
 }

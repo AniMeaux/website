@@ -1,22 +1,22 @@
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server";
-import { forbidden } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { db } from "#i/core/db.server"
+import { forbidden } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-import { Entity } from "./entity";
-import { GlobalSearchParams } from "./search-params";
+import { Entity } from "./entity"
+import { GlobalSearchParams } from "./search-params"
 
-const MAX_HIT_COUNT = 6;
+const MAX_HIT_COUNT = 6
 
-export type loader = typeof loader;
+export type loader = typeof loader
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
@@ -24,21 +24,21 @@ export async function loader({ request }: LoaderFunctionArgs) {
     UserGroup.SHOW_ORGANIZER,
     UserGroup.VETERINARIAN,
     UserGroup.VOLUNTEER,
-  ]);
+  ])
 
   const searchParams = GlobalSearchParams.parse(
     new URL(request.url).searchParams,
-  );
+  )
 
-  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser);
-  const entity = searchParams.entity ?? possibleEntities[0];
+  const possibleEntities = Entity.getPossibleValuesForCurrentUser(currentUser)
+  const entity = searchParams.entity ?? possibleEntities[0]
 
   if (entity == null || !possibleEntities.includes(entity)) {
-    throw forbidden();
+    throw forbidden()
   }
 
   if (searchParams.text == null) {
-    return json({ items: [] });
+    return json({ items: [] })
   }
 
   switch (entity) {
@@ -56,14 +56,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
           status: true,
         },
         take: MAX_HIT_COUNT,
-      });
+      })
 
       const items = animals.map((animal) => ({
         type: Entity.Enum.ANIMAL,
         ...animal,
-      }));
+      }))
 
-      return json({ items });
+      return json({ items })
     }
 
     case Entity.Enum.EXHIBITOR: {
@@ -81,14 +81,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
           },
           take: MAX_HIT_COUNT,
         },
-      );
+      )
 
       const items = exhibitors.map((exhibitor) => ({
         type: Entity.Enum.EXHIBITOR,
         ...exhibitor,
-      }));
+      }))
 
-      return json({ items });
+      return json({ items })
     }
 
     case Entity.Enum.FOSTER_FAMILY: {
@@ -103,18 +103,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
           },
           take: MAX_HIT_COUNT,
         },
-      );
+      )
 
       const items = fosterFamilies.map((fosterFamily) => ({
         type: Entity.Enum.FOSTER_FAMILY,
         ...fosterFamily,
-      }));
+      }))
 
-      return json({ items });
+      return json({ items })
     }
 
     default: {
-      return entity satisfies never;
+      return entity satisfies never
     }
   }
 }

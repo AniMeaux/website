@@ -1,5 +1,5 @@
-import type { SubNavComponent } from "#i/core/layout/navigation/shared";
-import { SubNavItem } from "#i/core/layout/navigation/shared";
+import type { SubNavComponent } from "#i/core/layout/navigation/shared"
+import { SubNavItem } from "#i/core/layout/navigation/shared"
 
 export const SubNavAct: SubNavComponent = () => {
   return (
@@ -20,15 +20,15 @@ export const SubNavAct: SubNavComponent = () => {
         Faire un don
       </SubNavItem>
     </div>
-  );
-};
+  )
+}
 
 SubNavAct.isActive = (location) => {
-  const pathname = location.pathname.toLowerCase();
+  const pathname = location.pathname.toLowerCase()
 
   return [
     "/devenir-famille-d-accueil",
     "/devenir-benevole",
     "/faire-un-don",
-  ].some((path) => pathname.startsWith(path));
-};
+  ].some((path) => pathname.startsWith(path))
+}

@@ -1,38 +1,38 @@
-import type { ShowStandSize } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type { ShowStandSize } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field";
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon";
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target";
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#i/show/exhibitors/applications/search-params";
+} from "#i/show/exhibitors/applications/search-params"
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status";
+} from "#i/show/exhibitors/applications/status"
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#i/show/sponsors/category";
+} from "#i/show/sponsors/category"
 
 export function ApplicationFilters({
   standSizes,
 }: {
-  standSizes: Pick<ShowStandSize, "id" | "label">[];
+  standSizes: Pick<ShowStandSize, "id" | "label">[]
 }) {
   return (
     <Filters>
@@ -53,12 +53,12 @@ export function ApplicationFilters({
         <FilterStandSize standSizes={standSizes} />
       </Filters.Content>
     </Filters>
-  );
+  )
 }
 
 function FilterActivity() {
-  const [searchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -138,12 +138,12 @@ function FilterActivity() {
         </Form.Field>
       </Form.Fields>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterName() {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -174,7 +174,7 @@ function FilterName() {
                       ...applicationSearchParams,
                       name: undefined,
                     }),
-                  );
+                  )
                 })
               }
             >
@@ -184,12 +184,12 @@ function FilterName() {
         }
       />
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterSort() {
-  const [searchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -240,12 +240,12 @@ function FilterSort() {
         />
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterSponsorship() {
-  const [searchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -285,16 +285,16 @@ function FilterSponsorship() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterStandSize({
   standSizes,
 }: {
-  standSizes: Pick<ShowStandSize, "id" | "label">[];
+  standSizes: Pick<ShowStandSize, "id" | "label">[]
 }) {
-  const [searchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -328,12 +328,12 @@ function FilterStandSize({
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }
 
 function FilterStatus() {
-  const [searchParams] = useOptimisticSearchParams();
-  const applicationSearchParams = ApplicationSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const applicationSearchParams = ApplicationSearchParams.parse(searchParams)
 
   return (
     <Filters.Filter
@@ -366,5 +366,5 @@ function FilterStatus() {
         ))}
       </ToggleInputList>
     </Filters.Filter>
-  );
+  )
 }

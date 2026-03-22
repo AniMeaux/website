@@ -1,5 +1,5 @@
-import type { SubNavComponent } from "#i/core/layout/navigation/shared";
-import { SubNavItem } from "#i/core/layout/navigation/shared";
+import type { SubNavComponent } from "#i/core/layout/navigation/shared"
+import { SubNavItem } from "#i/core/layout/navigation/shared"
 
 export const SubNavWarn: SubNavComponent = () => {
   return (
@@ -24,15 +24,15 @@ export const SubNavWarn: SubNavComponent = () => {
         Abandonner votre animal
       </SubNavItem>
     </div>
-  );
-};
+  )
+}
 
 SubNavWarn.isActive = (location) => {
-  const pathname = location.pathname.toLowerCase();
+  const pathname = location.pathname.toLowerCase()
 
   return [
     "/signaler-un-animal-errant",
     "/informer-d-un-acte-de-maltraitance",
     "/abandonner-votre-animal",
-  ].some((path) => pathname.startsWith(path));
-};
+  ].some((path) => pathname.startsWith(path))
+}

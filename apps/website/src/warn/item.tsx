@@ -1,6 +1,6 @@
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
 
 export function WarnItem({
   to,
@@ -8,10 +8,10 @@ export function WarnItem({
   title,
   description,
 }: {
-  to: BaseLinkProps["to"];
-  image: string;
-  title: string;
-  description: string;
+  to: BaseLinkProps["to"]
+  image: string
+  title: string
+  description: string
 }) {
   return (
     <li className="flex">
@@ -35,5 +35,5 @@ export function WarnItem({
         </div>
       </BaseLink>
     </li>
-  );
+  )
 }

@@ -1,51 +1,49 @@
-import type { PressArticle } from "@animeaux/prisma/server";
-import { Prisma } from "@animeaux/prisma/server";
-import { DateTime } from "luxon";
+import type { PressArticle } from "@animeaux/prisma/server"
+import { Prisma } from "@animeaux/prisma/server"
+import { DateTime } from "luxon"
 
-import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server";
-import { prisma } from "#i/core/prisma.server";
+import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server"
+import { prisma } from "#i/core/prisma.server"
 
 export class UrlAlreadyUsedError extends Error {}
 export class InvalidPublicationDateError extends Error {}
 
 export class PressArticleDbDelegate {
   async create(data: PressArticleData) {
-    this.validatePressArticle(data);
+    this.validatePressArticle(data)
 
     try {
-      await prisma.pressArticle.create({ data, select: { id: true } });
+      await prisma.pressArticle.create({ data, select: { id: true } })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-          throw new UrlAlreadyUsedError();
+          throw new UrlAlreadyUsedError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   async delete(id: PressArticle["id"]) {
     try {
-      await prisma.pressArticle.delete({ where: { id } });
+      await prisma.pressArticle.delete({ where: { id } })
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
+          throw new NotFoundError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   private validatePressArticle(data: PressArticleData) {
-    const now = DateTime.now().toMillis();
-    const publicationDate = DateTime.fromJSDate(
-      data.publicationDate,
-    ).toMillis();
+    const now = DateTime.now().toMillis()
+    const publicationDate = DateTime.fromJSDate(data.publicationDate).toMillis()
     if (now < publicationDate) {
-      throw new InvalidPublicationDateError();
+      throw new InvalidPublicationDateError()
     }
   }
 }
@@ -53,4 +51,4 @@ export class PressArticleDbDelegate {
 type PressArticleData = Pick<
   PressArticle,
   "image" | "publicationDate" | "publisherName" | "title" | "url"
->;
+>

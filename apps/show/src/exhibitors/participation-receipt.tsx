@@ -1,9 +1,9 @@
-import type { Prisma } from "@animeaux/prisma";
+import type { Prisma } from "@animeaux/prisma"
 
-import { Receipt } from "#i/core/data-display/receipt.js";
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
-import { Price } from "#i/price/price.js";
-import { StandSizePrice } from "#i/stand-size/price.js";
+import { Receipt } from "#i/core/data-display/receipt.js"
+import { ExhibitorCategory } from "#i/exhibitors/category.js"
+import { Price } from "#i/price/price.js"
+import { StandSizePrice } from "#i/stand-size/price.js"
 
 export function ParticipationReceipt({
   standSize,
@@ -18,21 +18,21 @@ export function ParticipationReceipt({
 }: {
   standSize?: Prisma.ShowStandSizeGetPayload<{
     select: {
-      label: true;
-      maxPeopleCount: true;
-      priceForAssociations: true;
-      priceForServices: true;
-      priceForShops: true;
-    };
-  }>;
-  exhibitorCategory: ExhibitorCategory.Enum;
-  hasCorner: boolean;
-  tableCount: number;
-  hasTableCloths: boolean;
-  breakfastPeopleCountSaturday: number;
-  breakfastPeopleCountSunday: number;
-  peopleCount: number;
-  dividerCount?: number;
+      label: true
+      maxPeopleCount: true
+      priceForAssociations: true
+      priceForServices: true
+      priceForShops: true
+    }
+  }>
+  exhibitorCategory: ExhibitorCategory.Enum
+  hasCorner: boolean
+  tableCount: number
+  hasTableCloths: boolean
+  breakfastPeopleCountSaturday: number
+  breakfastPeopleCountSunday: number
+  peopleCount: number
+  dividerCount?: number
 }) {
   const priceStandSize =
     standSize != null
@@ -40,28 +40,28 @@ export function ParticipationReceipt({
           standSize,
           category: exhibitorCategory,
         })
-      : null;
+      : null
 
-  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS);
+  const priceTableCloths = Number(CLIENT_ENV.PRICE_TABLE_CLOTHS)
   const totalPriceTableCloths =
-    tableCount > 0 && hasTableCloths ? tableCount * priceTableCloths : null;
+    tableCount > 0 && hasTableCloths ? tableCount * priceTableCloths : null
 
-  const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null;
+  const priceCorner = hasCorner ? Number(CLIENT_ENV.PRICE_CORNER_STAND) : null
 
-  const priceBreakfast = Number(CLIENT_ENV.PRICE_BREAKFAST_PER_PERSON_PER_DAY);
+  const priceBreakfast = Number(CLIENT_ENV.PRICE_BREAKFAST_PER_PERSON_PER_DAY)
   const breakfastPeopleCount =
-    breakfastPeopleCountSaturday + breakfastPeopleCountSunday;
-  const totalPriceBreakfast = breakfastPeopleCount * priceBreakfast;
+    breakfastPeopleCountSaturday + breakfastPeopleCountSunday
+  const totalPriceBreakfast = breakfastPeopleCount * priceBreakfast
 
-  const priceAdditionalBracelet = Number(CLIENT_ENV.PRICE_ADDITIONAL_BRACELET);
+  const priceAdditionalBracelet = Number(CLIENT_ENV.PRICE_ADDITIONAL_BRACELET)
   const additionalPeopleCount =
-    standSize != null ? Math.max(0, peopleCount - standSize.maxPeopleCount) : 0;
+    standSize != null ? Math.max(0, peopleCount - standSize.maxPeopleCount) : 0
   const totalPriceAdditionalBracelet =
-    additionalPeopleCount * priceAdditionalBracelet;
+    additionalPeopleCount * priceAdditionalBracelet
 
-  const priceDivider = Number(CLIENT_ENV.PRICE_DIVIDER);
+  const priceDivider = Number(CLIENT_ENV.PRICE_DIVIDER)
   const totalPriceDivider =
-    dividerCount != null ? dividerCount * priceDivider : null;
+    dividerCount != null ? dividerCount * priceDivider : null
 
   const totalPrice = [
     priceStandSize,
@@ -72,7 +72,7 @@ export function ParticipationReceipt({
     totalPriceDivider,
   ]
     .filter(Boolean)
-    .reduce((sum, price) => sum + price, 0);
+    .reduce((sum, price) => sum + price, 0)
 
   return (
     <Receipt.Root>
@@ -165,5 +165,5 @@ export function ParticipationReceipt({
         <Receipt.TotalPrice>{Price.format(totalPrice)}</Receipt.TotalPrice>
       </Receipt.Total>
     </Receipt.Root>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { Routes } from "#i/core/navigation";
-import type { Faq } from "#i/faq/faq";
+import { Routes } from "#i/core/navigation"
+import type { Faq } from "#i/faq/faq"
 
 export const QUESTIONS: Faq[] = [
   {
@@ -92,4 +92,4 @@ Non, aucune garderie n’est prévue sur le salon. Merci d’anticiper votre vis
 Oui, le programme des animations est disponible sur la page [Programme](${Routes.program.toString()}). Nous vous réservons des animations variées et ludiques destinées aux familles.
 `.trim(),
   },
-];
+]

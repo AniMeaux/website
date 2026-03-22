@@ -1,1 +1,1 @@
-export { default } from "@animeaux/dev-tools/prettier";
+export { default } from "@animeaux/dev-tools/prettier"

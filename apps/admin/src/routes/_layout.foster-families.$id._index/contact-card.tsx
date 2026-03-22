@@ -1,17 +1,17 @@
-import { getLongLocation } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { getLongLocation } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function ContactCard() {
-  const { fosterFamily } = useLoaderData<loader>();
+  const { fosterFamily } = useLoaderData<loader>()
 
   return (
     <Card>
@@ -43,5 +43,5 @@ export function ContactCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

@@ -1,30 +1,30 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getFormProps, useForm as useFormBase } from "@conform-to/react";
-import { getZodConstraint, parseWithZod } from "@conform-to/zod";
+import type { FieldMetadata } from "@conform-to/react"
+import { getFormProps, useForm as useFormBase } from "@conform-to/react"
+import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import {
   Form,
   useActionData,
   useFormAction,
   useLoaderData,
   useNavigation,
-} from "@remix-run/react";
+} from "@remix-run/react"
 
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
 
-import { ActionSchema } from "./action";
-import type { action, loader } from "./route";
+import { ActionSchema } from "./action"
+import type { action, loader } from "./route"
 
 export function SectionForm() {
-  const formAction = useFormAction();
-  const navigation = useNavigation();
-  const [form, fieldset] = useForm();
+  const formAction = useFormAction()
+  const navigation = useNavigation()
+  const [form, fieldset] = useForm()
 
   const fieldsetOnStandAnimations = fieldset.onStandAnimations as FieldMetadata<
     undefined | string
-  >;
+  >
 
   return (
     <FormLayout.Form asChild>
@@ -81,12 +81,12 @@ export function SectionForm() {
         </FormLayout.Action>
       </Form>
     </FormLayout.Form>
-  );
+  )
 }
 
 function useForm() {
-  const { exhibitor } = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
+  const { exhibitor } = useLoaderData<typeof loader>()
+  const actionData = useActionData<typeof action>()
 
   const [form, fields] = useFormBase({
     id: "exhibitor-animation-on-stand",
@@ -100,7 +100,7 @@ function useForm() {
 
     onValidate: ({ formData }) =>
       parseWithZod(formData, { schema: ActionSchema }),
-  });
+  })
 
-  return [form, fields] as const;
+  return [form, fields] as const
 }

@@ -12,5 +12,5 @@ export function withoutKey<TObject extends { key?: string }>({
   key,
   ...props
 }: TObject): Omit<TObject, "key"> {
-  return { ...props };
+  return { ...props }
 }

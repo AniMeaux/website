@@ -1,23 +1,23 @@
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@animeaux/prisma"
+import type { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { AnimalCreationSteps } from "#i/animals/creation-steps";
-import { BreedNotForSpeciesError } from "#i/animals/profile/db.server";
-import { ActionFormData, AnimalProfileForm } from "#i/animals/profile/form";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { AnimalCreationSteps } from "#i/animals/creation-steps"
+import { BreedNotForSpeciesError } from "#i/animals/profile/db.server"
+import { ActionFormData, AnimalProfileForm } from "#i/animals/profile/form"
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -30,40 +30,40 @@ export async function loader({ request }: LoaderFunctionArgs) {
         },
       },
     },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  return json({ draft: currentUser.draft });
+  return json({ draft: currentUser.draft })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle(["Nouvel animal", "Profil"]) }];
-};
+  return [{ title: getPageTitle(["Nouvel animal", "Profil"]) }]
+}
 
 type ActionData = {
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
@@ -80,7 +80,7 @@ export async function action({ request }: ActionFunctionArgs) {
       isOkCats: formData.data.isOkCats,
       isOkChildren: formData.data.isOkChildren,
       isOkDogs: formData.data.isOkDogs,
-    });
+    })
   } catch (error) {
     if (error instanceof BreedNotForSpeciesError) {
       return json<ActionData>(
@@ -93,22 +93,22 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
-  throw redirect(Routes.animals.new.situation.toString());
+  throw redirect(Routes.animals.new.situation.toString())
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { draft } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { draft } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <PageLayout.Root>
@@ -129,5 +129,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

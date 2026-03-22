@@ -1,42 +1,42 @@
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import type { StaticImageProps } from "#i/core/data-display/image";
-import { StaticImage } from "#i/core/data-display/image";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import type { StaticImageProps } from "#i/core/data-display/image"
+import { StaticImage } from "#i/core/data-display/image"
 import {
   OptionCard,
   OptionDescription,
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#i/core/data-display/options";
+} from "#i/core/data-display/options"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { missionAccountingImages } from "#i/images/mission-accounting";
-import { missionCarpoolImages } from "#i/images/mission-carpool";
-import { missionCommunicationImages } from "#i/images/mission-communication";
-import { missionEventImages } from "#i/images/mission-event";
-import { missionFieldImages } from "#i/images/mission-field";
-import { missionFoodCollectionImages } from "#i/images/mission-food-collection";
-import { missionInterventionImages } from "#i/images/mission-intervention";
-import { socialImages } from "#i/images/social";
-import { volunteerImages } from "#i/images/volunteer";
+} from "#i/core/layout/hero-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { missionAccountingImages } from "#i/images/mission-accounting"
+import { missionCarpoolImages } from "#i/images/mission-carpool"
+import { missionCommunicationImages } from "#i/images/mission-communication"
+import { missionEventImages } from "#i/images/mission-event"
+import { missionFieldImages } from "#i/images/mission-field"
+import { missionFoodCollectionImages } from "#i/images/mission-food-collection"
+import { missionInterventionImages } from "#i/images/mission-intervention"
+import { socialImages } from "#i/images/social"
+import { volunteerImages } from "#i/images/volunteer"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
     title: getPageTitle("Devenez bénévole"),
     imageUrl: `${CLIENT_ENV.PUBLIC_HOST}${socialImages.volunteer.imagesBySize[1024]}`,
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -61,7 +61,7 @@ export default function Route() {
       <OptionsSection />
       <VolunteerSection />
     </main>
-  );
+  )
 }
 
 function OptionsSection() {
@@ -112,7 +112,7 @@ function OptionsSection() {
         Adhérer sur Helloasso
       </BaseLink>
     </section>
-  );
+  )
 }
 
 function VolunteerSection() {
@@ -190,7 +190,7 @@ function VolunteerSection() {
         </MissionItem>
       </ul>
     </section>
-  );
+  )
 }
 
 function MissionItem({
@@ -198,9 +198,9 @@ function MissionItem({
   title,
   children,
 }: {
-  image: StaticImageProps["image"];
-  title: string;
-  children: React.ReactNode;
+  image: StaticImageProps["image"]
+  title: string
+  children: React.ReactNode
 }) {
   return (
     <li className="flex flex-col gap-6">
@@ -212,5 +212,5 @@ function MissionItem({
       <h3 className="text-title-item">{title}</h3>
       <p>{children}</p>
     </li>
-  );
+  )
 }

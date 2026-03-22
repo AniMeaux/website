@@ -1,18 +1,18 @@
-import { cn } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
+import { cn } from "@animeaux/core"
+import * as Dialog from "@radix-ui/react-dialog"
 
-import { Action } from "#i/core/actions";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon"
 
 export function SortAndFiltersFloatingAction({
   totalCount,
   hasSort = false,
   children,
 }: {
-  totalCount: number;
-  hasSort?: boolean;
-  children?: React.ReactNode;
+  totalCount: number
+  hasSort?: boolean
+  children?: React.ReactNode
 }) {
   return (
     <Dialog.Root>
@@ -57,5 +57,5 @@ export function SortAndFiltersFloatingAction({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
+  )
 }

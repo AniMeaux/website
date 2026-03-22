@@ -3,7 +3,7 @@ export function simpleHash(value: string) {
     .split("")
     .map((char) => char.charCodeAt(0).toString(16).padStart(2, "0"))
     .join("")
-    .substring(0, 8);
+    .substring(0, 8)
 
-  return Number(`0x${hexValue}`);
+  return Number(`0x${hexValue}`)
 }

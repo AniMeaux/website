@@ -1,26 +1,26 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { PageLayout } from "#i/core/layout/page";
-import { getPageTitle } from "#i/core/page-title";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { PageLayout } from "#i/core/layout/page"
+import { getPageTitle } from "#i/core/page-title"
 
-import { CardForm } from "./card-form.js";
-import type { loader } from "./loader.server.js";
+import { CardForm } from "./card-form.js"
+import type { loader } from "./loader.server.js"
 
-export { action } from "./action.server.js";
-export { loader } from "./loader.server.js";
+export { action } from "./action.server.js"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const fosterFamily = data?.fosterFamily;
+  const fosterFamily = data?.fosterFamily
   if (fosterFamily == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(`Modifier ${fosterFamily.displayName}`) }];
-};
+  return [{ title: getPageTitle(`Modifier ${fosterFamily.displayName}`) }]
+}
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
@@ -30,5 +30,5 @@ export default function Route() {
         <CardForm />
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

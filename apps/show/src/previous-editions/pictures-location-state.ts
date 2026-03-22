@@ -1,6 +1,6 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
-import { createLocationState } from "#i/core/location-state";
+import { createLocationState } from "#i/core/location-state"
 
 export const PicturesLocationState = createLocationState(
   zu
@@ -8,4 +8,4 @@ export const PicturesLocationState = createLocationState(
       galleryLocationKey: zu.string().optional().catch(undefined),
     })
     .catch({}),
-);
+)

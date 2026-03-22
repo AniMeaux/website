@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState } from "react"
 
-import type { InputProps } from "#i/core/form-elements/input";
-import { Input } from "#i/core/form-elements/input";
-import { useLayoutEffect } from "#i/core/use-layout-effect";
+import type { InputProps } from "#i/core/form-elements/input"
+import { Input } from "#i/core/form-elements/input"
+import { useLayoutEffect } from "#i/core/use-layout-effect"
 
 /**
  * Input component to use when the value needs to be controlled by an external
@@ -16,25 +16,25 @@ export const ControlledInput = Object.assign(
     onChange: onChangeProp,
     ...rest
   }: Omit<InputProps, "value"> & Required<Pick<InputProps, "value">>) {
-    const [value, setValue] = useState(valueProp);
+    const [value, setValue] = useState(valueProp)
 
     useLayoutEffect(() => {
-      setValue(valueProp);
-    }, [valueProp]);
+      setValue(valueProp)
+    }, [valueProp])
 
     return (
       <Input
         {...rest}
         value={value}
         onChange={(event) => {
-          setValue(event.target.value);
-          onChangeProp?.(event);
+          setValue(event.target.value)
+          onChangeProp?.(event)
         }}
       />
-    );
+    )
   },
   {
     Adornment: Input.Adornment,
     ActionAdornment: Input.ActionAdornment,
   },
-);
+)

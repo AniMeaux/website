@@ -1,19 +1,19 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
 
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { Routes } from "#i/core/navigation";
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand";
-import { Icon } from "#i/generated/icon";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { Routes } from "#i/core/navigation"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./route";
-import { SectionId } from "./section-id";
+import type { loader } from "./route"
+import { SectionId } from "./section-id"
 
 export function SectionOnStandAnimations() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.ON_STAND_ANIMATIONS}>
@@ -76,14 +76,14 @@ export function SectionOnStandAnimations() {
         </FormLayout.Row>
       )}
     </FormLayout.Section>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -92,7 +92,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validée",
     } satisfies Record<typeof exhibitor.onStandAnimationsStatus, string>
-  )[exhibitor.onStandAnimationsStatus];
+  )[exhibitor.onStandAnimationsStatus]
 
   const content = (
     {
@@ -104,7 +104,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "La description de vos animations sur stand est complétée et validée par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.onStandAnimationsStatus, string>
-  )[exhibitor.onStandAnimationsStatus];
+  )[exhibitor.onStandAnimationsStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -114,5 +114,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

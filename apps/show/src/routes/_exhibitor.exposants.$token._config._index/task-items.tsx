@@ -1,17 +1,17 @@
-import type { Extends } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import type { Extends } from "@animeaux/core"
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { TaskItem } from "#i/core/data-display/task-item";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { TaskItem } from "#i/core/data-display/task-item"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function TaskItemDocument({ status }: { status: ShowExhibitorStatus }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -24,7 +24,7 @@ export function TaskItemDocument({ status }: { status: ShowExhibitorStatus }) {
       [ShowExhibitorStatus.VALIDATED]:
         "Vos documents justificatifs ont été validés.",
     } satisfies Record<ShowExhibitorStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -44,11 +44,11 @@ export function TaskItemDocument({ status }: { status: ShowExhibitorStatus }) {
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 export function TaskItemStand({ status }: { status: ShowExhibitorStatus }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -61,7 +61,7 @@ export function TaskItemStand({ status }: { status: ShowExhibitorStatus }) {
       [ShowExhibitorStatus.VALIDATED]:
         "Les éléments de votre stand ont été validés.",
     } satisfies Record<ShowExhibitorStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -83,15 +83,15 @@ export function TaskItemStand({ status }: { status: ShowExhibitorStatus }) {
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 export function TaskItemDescription({
   status,
 }: {
-  status: ShowExhibitorStatus;
+  status: ShowExhibitorStatus
 }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -101,7 +101,7 @@ export function TaskItemDescription({
       [ShowExhibitorStatus.TO_MODIFY]: "Votre description est à modifier.",
       [ShowExhibitorStatus.VALIDATED]: "Votre description a été validée.",
     } satisfies Record<ShowExhibitorStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -124,16 +124,16 @@ export function TaskItemDescription({
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 type TaskItemDogsStatus = Extends<
   ShowExhibitorStatus,
   "TO_MODIFY" | "AWAITING_VALIDATION" | "VALIDATED"
->;
+>
 
 export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -144,7 +144,7 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
       [ShowExhibitorStatus.VALIDATED]:
         "Le profil des chiens sur votre stand a été validé.",
     } satisfies Record<TaskItemDogsStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -166,11 +166,11 @@ export function TaskItemDogs({ status }: { status: TaskItemDogsStatus }) {
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 export function TaskItemPerks({ status }: { status: ShowExhibitorStatus }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -180,7 +180,7 @@ export function TaskItemPerks({ status }: { status: ShowExhibitorStatus }) {
       [ShowExhibitorStatus.TO_MODIFY]: "Vos avantages sont à modifier.",
       [ShowExhibitorStatus.VALIDATED]: "Vos avantages ont été validés.",
     } satisfies Record<ShowExhibitorStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -202,20 +202,20 @@ export function TaskItemPerks({ status }: { status: ShowExhibitorStatus }) {
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 type TaskItemPublicProfileStatus = Extends<
   ShowExhibitorStatus,
   "TO_MODIFY" | "AWAITING_VALIDATION" | "VALIDATED"
->;
+>
 
 export function TaskItemPublicProfile({
   status,
 }: {
-  status: TaskItemPublicProfileStatus;
+  status: TaskItemPublicProfileStatus
 }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -224,7 +224,7 @@ export function TaskItemPublicProfile({
       [ShowExhibitorStatus.TO_MODIFY]: "Votre profil public est à modifier.",
       [ShowExhibitorStatus.VALIDATED]: "Votre profil public a été validé.",
     } satisfies Record<TaskItemDogsStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -244,15 +244,15 @@ export function TaskItemPublicProfile({
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
 
 export function TaskItemOnStandAnimations({
   status,
 }: {
-  status: TaskItemPublicProfileStatus;
+  status: TaskItemPublicProfileStatus
 }) {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   const description = (
     {
@@ -263,7 +263,7 @@ export function TaskItemOnStandAnimations({
       [ShowExhibitorStatus.VALIDATED]:
         "La description des animations sur stand a été validée.",
     } satisfies Record<TaskItemDogsStatus, string>
-  )[status];
+  )[status]
 
   return (
     <TaskItem.Root
@@ -285,5 +285,5 @@ export function TaskItemOnStandAnimations({
 
       <TaskItem.ChevronIcon />
     </TaskItem.Root>
-  );
+  )
 }
