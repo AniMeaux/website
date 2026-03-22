@@ -33,6 +33,7 @@ FROM base AS packages-json
 
 COPY package.json ./
 COPY libs/core/package.json libs/core/
+COPY libs/dev-tools/package.json libs/dev-tools/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/search-params-io/package.json libs/search-params-io/
 COPY libs/zod-utils/package.json libs/zod-utils/
@@ -47,8 +48,8 @@ COPY --from=packages-json /workspace ./
 
 RUN pnpm install --frozen-lockfile --offline
 
-COPY tsconfig.base.json tsconfig.libs.json ./
 COPY libs/core libs/core
+COPY libs/dev-tools libs/dev-tools
 COPY libs/prisma libs/prisma
 COPY libs/search-params-io libs/search-params-io
 COPY libs/zod-utils libs/zod-utils

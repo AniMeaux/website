@@ -11,12 +11,10 @@
     "target": "ES2022",
     "verbatimModuleSyntax": true,
 
-    // Not transpiling with TypeScript.
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "noEmit": true,
 
-    // Options for a more strict type checking.
+    // Strictness.
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,

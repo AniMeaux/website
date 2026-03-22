@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.base.json",
+
+  "compilerOptions": {
+    // We are not transpiling with TypeScript.
+    "noEmit": true
+  }
+}

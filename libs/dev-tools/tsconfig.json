@@ -1,0 +1,12 @@
+{
+  "extends": ["./tsconfig.lib.json"],
+
+  "include": ["./**/*.ts"],
+  "exclude": ["./node_modules"],
+
+  "compilerOptions": {
+    "rootDir": "./",
+
+    "types": ["./reset.d.ts"]
+  }
+}

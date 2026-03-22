@@ -57,7 +57,6 @@
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
     "@remix-run/dev": "catalog:",
-    "@total-typescript/ts-reset": "catalog:",
     "@types/body-scroll-lock": "catalog:",
     "@types/lodash.orderby": "catalog:",
     "@types/luxon": "catalog:",

@@ -6,7 +6,10 @@
   "type": "module",
   "exports": {
     "./eslint": "./eslint.config.js",
-    "./prettier": "./prettier.config.js"
+    "./prettier": "./prettier.config.js",
+    "./reset": "./reset.d.ts",
+    "./tsconfig.app": "./tsconfig.app.json",
+    "./tsconfig.lib": "./tsconfig.lib.json"
   },
   "scripts": {
     "lint": "run-p --continue-on-error --print-label lint:*",
@@ -20,6 +23,7 @@
     "prettier-plugin-tailwindcss": "catalog:"
   },
   "dependencies": {
+    "@total-typescript/ts-reset": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-import-x": "catalog:",
     "eslint-plugin-jsx-a11y": "catalog:",

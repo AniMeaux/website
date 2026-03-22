@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.libs.json",
+  "extends": "@animeaux/dev-tools/tsconfig.lib",
 
   "include": ["./**/*.ts"],
   "exclude": ["./node_modules", "./build"],
@@ -7,6 +7,8 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
-    "paths": { "#i/*": ["./src/*"] }
+    "paths": { "#i/*": ["./src/*"] },
+
+    "types": ["node", "@animeaux/dev-tools/reset"]
   }
 }
