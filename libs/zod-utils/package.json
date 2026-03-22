@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
-    "@total-typescript/ts-reset": "catalog:",
     "@types/luxon": "catalog:",
     "eslint": "catalog:",
     "npm-run-all": "catalog:",

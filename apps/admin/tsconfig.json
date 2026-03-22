@@ -1,11 +1,13 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@animeaux/dev-tools/tsconfig.app",
 
   "include": ["./env.d.ts", "./**/*.ts", "./**/*.tsx"],
   "exclude": ["./node_modules"],
 
   "compilerOptions": {
     "rootDir": "./",
-    "paths": { "#i/*": ["./src/*"] }
+    "paths": { "#i/*": ["./src/*"] },
+
+    "types": ["@animeaux/dev-tools/reset"]
   }
 }

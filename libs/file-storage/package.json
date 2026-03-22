@@ -50,7 +50,6 @@
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
-    "@total-typescript/ts-reset": "catalog:",
     "@types/node": "catalog:",
     "@types/uuid": "catalog:",
     "eslint": "catalog:",

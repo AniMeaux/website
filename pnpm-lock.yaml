@@ -95,8 +95,8 @@ catalogs:
       specifier: ^0.1.1
       version: 0.1.1
     '@total-typescript/ts-reset':
-      specifier: ^0.5.1
-      version: 0.5.1
+      specifier: ^0.6.1
+      version: 0.6.1
     '@types/autosize':
       specifier: ^4.0.1
       version: 4.0.3
@@ -613,9 +613,6 @@ importers:
       '@tailwindcss/container-queries':
         specifier: 'catalog:'
         version: 0.1.1(tailwindcss@3.4.3)
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       '@types/autosize':
         specifier: 'catalog:'
         version: 4.0.3
@@ -860,9 +857,6 @@ importers:
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       '@types/compression':
         specifier: 'catalog:'
         version: 1.7.5
@@ -1014,9 +1008,6 @@ importers:
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       '@types/body-scroll-lock':
         specifier: 'catalog:'
         version: 3.1.2
@@ -1135,6 +1126,9 @@ importers:
 
   libs/dev-tools:
     dependencies:
+      '@total-typescript/ts-reset':
+        specifier: 'catalog:'
+        version: 0.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1225,9 +1219,6 @@ importers:
       '@animeaux/dev-tools':
         specifier: workspace:*
         version: link:../dev-tools
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1545,9 +1536,6 @@ importers:
       '@animeaux/dev-tools':
         specifier: workspace:*
         version: link:../dev-tools
-      '@total-typescript/ts-reset':
-        specifier: 'catalog:'
-        version: 0.5.1
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -3439,8 +3427,8 @@ packages:
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
-  '@total-typescript/ts-reset@0.5.1':
-    resolution: {integrity: sha512-AqlrT8YA1o7Ff5wPfMOL0pvL+1X+sw60NN6CcOCqs658emD6RfiXhF7Gu9QcfKBH7ELY2nInLhKSCWVoNL70MQ==}
+  '@total-typescript/ts-reset@0.6.1':
+    resolution: {integrity: sha512-cka47fVSo6lfQDIATYqb/vO1nvFfbPw7uWLayIXIhGETj0wcOOlrlkobOMDNQOFr9QOafegUPq13V2+6vtD7yg==}
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -10506,7 +10494,7 @@ snapshots:
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
-  '@total-typescript/ts-reset@0.5.1': {}
+  '@total-typescript/ts-reset@0.6.1': {}
 
   '@tybys/wasm-util@0.10.1':
     dependencies:

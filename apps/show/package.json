@@ -88,7 +88,6 @@
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
     "@remix-run/dev": "catalog:",
-    "@total-typescript/ts-reset": "catalog:",
     "@types/compression": "catalog:",
     "@types/express": "catalog:",
     "@types/lodash.chunk": "catalog:",
