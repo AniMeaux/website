@@ -1,14 +1,17 @@
 import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { Link, useLoaderData } from "@remix-run/react"
 
-import { FileItem } from "#i/core/data-display/file-item"
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+import { FileItem } from "#i/core/data-display/file-item.js"
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+} from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SectionDocuments() {
   const { exhibitor } = useLoaderData<typeof loader>()

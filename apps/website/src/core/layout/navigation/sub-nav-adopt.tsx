@@ -1,13 +1,13 @@
 import { cn } from "@animeaux/core"
 import { Species } from "@animeaux/prisma"
 
-import { SPECIES_ICON } from "#i/animals/species"
+import { SPECIES_ICON } from "#i/animals/species.js"
 import {
   LineShapeHorizontal,
   LineShapeVertical,
-} from "#i/core/layout/line-shape"
-import type { SubNavComponent } from "#i/core/layout/navigation/shared"
-import { SubNavItem } from "#i/core/layout/navigation/shared"
+} from "#i/core/layout/line-shape.js"
+import type { SubNavComponent } from "#i/core/layout/navigation/shared.js"
+import { SubNavItem } from "#i/core/layout/navigation/shared.js"
 
 export const SubNavAdopt: SubNavComponent = () => {
   return (

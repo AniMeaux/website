@@ -5,10 +5,10 @@ import { promiseHash } from "remix-utils/promise"
 
 import { Activity } from "#i/activity/db.server.js"
 import { ActivitySearchParams } from "#i/activity/search-params.js"
-import { db } from "#i/core/db.server"
+import { db } from "#i/core/db.server.js"
 import { prisma } from "#i/core/prisma.server.js"
-import { PageSearchParams } from "#i/core/search-params"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { PageSearchParams } from "#i/core/search-params.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

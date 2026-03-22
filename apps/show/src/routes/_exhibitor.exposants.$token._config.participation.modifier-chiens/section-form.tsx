@@ -1,10 +1,10 @@
 import { getFormProps } from "@conform-to/react"
 import { Form, useFormAction, useNavigation } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import { FieldsetDogs } from "./fieldset-dogs"
-import { FormProvider, useFormRoot } from "./form"
+import { FieldsetDogs } from "./fieldset-dogs.js"
+import { FormProvider, useFormRoot } from "./form.js"
 
 export function SectionForm() {
   const formAction = useFormAction()

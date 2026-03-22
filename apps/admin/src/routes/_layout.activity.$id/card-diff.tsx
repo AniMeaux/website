@@ -6,7 +6,7 @@ import type { Except } from "type-fest"
 
 import { Card } from "#i/core/layout/card.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 namespace DiffSection {
   export const Root = forwardRef<

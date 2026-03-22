@@ -1,9 +1,9 @@
 import type { ServiceEmail } from "#i/core/email/service.server.js"
-import { ServiceExhibitorOnStandAnimationEmail } from "#i/exhibitors/animations/email.service.server"
+import { ServiceExhibitorOnStandAnimationEmail } from "#i/exhibitors/animations/email.service.server.js"
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
 import { ServiceExhibitorDocumentEmail } from "#i/exhibitors/documents/email.service.server.js"
 import { ServiceExhibitorDogConfigurationEmail } from "#i/exhibitors/dogs-configuration/email.service.server.js"
-import { ServiceExhibitorPerksEmail } from "#i/exhibitors/perks/email.service.server"
+import { ServiceExhibitorPerksEmail } from "#i/exhibitors/perks/email.service.server.js"
 import {
   ServiceExhibitorDescriptionEmail,
   ServiceExhibitorPublicProfileEmail,

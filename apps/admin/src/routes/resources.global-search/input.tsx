@@ -10,27 +10,27 @@ import { useCombobox } from "downshift"
 import { createPath } from "history"
 import { useEffect, useState } from "react"
 
-import { AnimalSuggestionItem } from "#i/animals/item"
-import { getAnimalDisplayName } from "#i/animals/profile/name"
-import { AnimalSearchParams } from "#i/animals/search-params"
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Input } from "#i/core/form-elements/input"
+import { AnimalSuggestionItem } from "#i/animals/item.js"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
+import { AnimalSearchParams } from "#i/animals/search-params.js"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input"
-import { useRouteHandles } from "#i/core/handles"
-import { Routes, useNavigate } from "#i/core/navigation"
-import { Overlay } from "#i/core/popovers/overlay"
-import { FosterFamilySuggestionItem } from "#i/foster-families/item"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/resource-input.js"
+import { useRouteHandles } from "#i/core/handles.js"
+import { Routes, useNavigate } from "#i/core/navigation.js"
+import { Overlay } from "#i/core/popovers/overlay.js"
+import { FosterFamilySuggestionItem } from "#i/foster-families/item.js"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import { Icon } from "#i/generated/icon.js"
 import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
 
-import { Entity } from "./entity"
-import { ItemExhibitor } from "./item-exhibitor"
-import type { loader } from "./route"
-import { GlobalSearchParams } from "./search-params"
+import { Entity } from "./entity.js"
+import { ItemExhibitor } from "./item-exhibitor.js"
+import type { loader } from "./route.js"
+import { GlobalSearchParams } from "./search-params.js"
 
 export function GlobalSearch({
   currentUser,

@@ -5,12 +5,12 @@ import {
   Markdown,
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { Routes } from "#i/core/navigation"
-import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { Routes } from "#i/core/navigation.js"
+import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day.js"
+import { Icon } from "#i/generated/icon.js"
 
 import type { loader } from "./loader.server.js"
 import { SectionId } from "./section-id.js"

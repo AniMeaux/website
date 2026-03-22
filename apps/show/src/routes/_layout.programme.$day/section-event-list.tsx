@@ -17,7 +17,7 @@ import { ImageData } from "#i/core/image/data.js"
 import { Section } from "#i/core/layout/section.js"
 import { HorizontalSeparator } from "#i/core/layout/separator.js"
 import { Routes } from "#i/core/navigation.js"
-import { ShowDay } from "#i/core/show-day"
+import { ShowDay } from "#i/core/show-day.js"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
@@ -26,7 +26,7 @@ import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
 import { Icon } from "#i/generated/icon.js"
 import { theme } from "#i/generated/theme.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionEventList() {
   const { animations } = useLoaderData<typeof loader>()

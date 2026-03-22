@@ -6,10 +6,10 @@ import {
 import { captureRemixErrorBoundaryError } from "@sentry/remix"
 import { useEffect } from "react"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Routes } from "#i/core/navigation"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Routes } from "#i/core/navigation.js"
 
 export function ErrorPage() {
   const error = useRouteError()

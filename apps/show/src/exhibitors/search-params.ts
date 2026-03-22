@@ -7,8 +7,8 @@ import {
 import { zu } from "@animeaux/zod-utils"
 import { useMemo } from "react"
 
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import type { IconName } from "#i/generated/icon"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import type { IconName } from "#i/generated/icon.js"
 
 export type ExhibitorSearchParams = SearchParamsReader.Infer<
   typeof ExhibitorSearchParams.io

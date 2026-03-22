@@ -2,7 +2,7 @@ import { cn, fromBooleanAttribute } from "@animeaux/core"
 import { Primitive } from "@animeaux/react-primitives"
 import { createElement, forwardRef } from "react"
 
-import { ensureArray } from "#i/core/collections"
+import { ensureArray } from "#i/core/collections.js"
 
 type BaseTextInputVariant = "outlined" | "search" | "transparent"
 

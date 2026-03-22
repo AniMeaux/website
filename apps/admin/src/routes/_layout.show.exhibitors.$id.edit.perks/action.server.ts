@@ -6,9 +6,9 @@ import type { ActionFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import type { MergeExclusive } from "type-fest"
 
-import { db } from "#i/core/db.server"
-import { Routes } from "#i/core/navigation"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 import { ActionSchema } from "./action-schema.js"
 import { RouteParamsSchema } from "./route-params.js"

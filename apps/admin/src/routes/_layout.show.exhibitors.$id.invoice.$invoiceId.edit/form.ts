@@ -3,9 +3,9 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 
 import { toIsoDateValue } from "#i/core/dates.js"
-import { useBackIfPossible } from "#i/core/navigation"
+import { useBackIfPossible } from "#i/core/navigation.js"
 
-import { actionSchema } from "./action"
+import { actionSchema } from "./action.js"
 import type { action } from "./action.server.js"
 import type { loader } from "./loader.server.js"
 

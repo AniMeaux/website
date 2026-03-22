@@ -2,8 +2,8 @@ import { cn } from "@animeaux/core"
 import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 
-import { Spinner } from "#i/core/loaders/spinner"
-import { Icon } from "#i/generated/icon"
+import { Spinner } from "#i/core/loaders/spinner.js"
+import { Icon } from "#i/generated/icon.js"
 
 type ActionVariant = "primary" | "secondary" | "text" | "translucid"
 

@@ -1,21 +1,21 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import { questionsImages } from "#i/images/questions"
-import { socialImages } from "#i/images/social"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import { questionsImages } from "#i/images/questions.js"
+import { socialImages } from "#i/images/social.js"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

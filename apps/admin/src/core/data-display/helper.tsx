@@ -1,9 +1,9 @@
 import { cn } from "@animeaux/core"
 
-import type { ActionColor } from "#i/core/actions"
-import { Action } from "#i/core/actions"
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { ActionColor } from "#i/core/actions.js"
+import { Action } from "#i/core/actions.js"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 type HelperVariant = "error" | "info" | "success" | "warning"
 

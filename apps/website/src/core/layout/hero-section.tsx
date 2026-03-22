@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 
-import type { StaticImageProps } from "#i/core/data-display/image"
-import { StaticImage } from "#i/core/data-display/image"
+import type { StaticImageProps } from "#i/core/data-display/image.js"
+import { StaticImage } from "#i/core/data-display/image.js"
 
 export function HeroSection({
   isReversed = false,

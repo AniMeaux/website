@@ -3,12 +3,12 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { DateTime } from "luxon"
 
-import { db } from "#i/core/db.server"
-import { scrapUrl } from "#i/core/metascraper.server"
-import { badRequest } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { scrapUrl } from "#i/core/metascraper.server.js"
+import { badRequest } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { ScrapUrlSearchParams } from "./shared"
+import { ScrapUrlSearchParams } from "./shared.js"
 
 export type loader = typeof loader
 

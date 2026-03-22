@@ -1,11 +1,11 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { Card } from "#i/core/layout/card"
-import { Icon } from "#i/generated/icon"
-import { DiscoverySource } from "#i/show/exhibitors/applications/discovery-source"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
+import { Icon } from "#i/generated/icon.js"
+import { DiscoverySource } from "#i/show/exhibitors/applications/discovery-source.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardDiscoverySource() {
   const { application } = useLoaderData<typeof loader>()

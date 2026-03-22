@@ -3,10 +3,10 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { Outlet } from "@remix-run/react"
 
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
-import { SectionTabs } from "./section-tabs"
-import { SectionTitle } from "./section-title"
+import { SectionTabs } from "./section-tabs.js"
+import { SectionTitle } from "./section-title.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

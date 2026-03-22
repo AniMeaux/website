@@ -5,7 +5,7 @@ import difference from "lodash.difference"
 import { DateTime } from "luxon"
 import type { SetNonNullable } from "type-fest"
 
-import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#i/animals/status"
+import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#i/animals/status.js"
 
 export const HAS_UP_COMMING_STERILISATION_CONDITIONS = {
   isSterilizationMandatory: true,

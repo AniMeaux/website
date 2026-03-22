@@ -8,28 +8,28 @@ import { DateTime } from "luxon"
 import { promiseHash } from "remix-utils/promise"
 import invariant from "tiny-invariant"
 
-import { AnimalItem } from "#i/animals/item"
-import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status"
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Paginator } from "#i/core/controllers/paginator"
+import { AnimalItem } from "#i/animals/item.js"
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status.js"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Paginator } from "#i/core/controllers/paginator.js"
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
   SearchForm,
   SPECIES_TO_PATH,
-} from "#i/core/controllers/searchForm"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { prisma } from "#i/core/db.server"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { getPage } from "#i/core/search-params"
+} from "#i/core/controllers/searchForm.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { prisma } from "#i/core/db.server.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { getPage } from "#i/core/search-params.js"
 import {
   AGE_PLURAL_TRANSLATION,
   AGE_TRANSLATION,
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
-} from "#i/core/translations"
+} from "#i/core/translations.js"
 
 type PageParams = {
   species?: Species

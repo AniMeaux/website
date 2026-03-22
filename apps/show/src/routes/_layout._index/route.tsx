@@ -2,14 +2,14 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { promiseHash } from "remix-utils/promise"
 
-import { ErrorPage } from "#i/core/data-display/error-page"
-import type { RouteHandle } from "#i/core/handles"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import type { RouteHandle } from "#i/core/handles.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 import { services } from "#i/core/services.server.js"
 
-import { RouteOnline } from "./route-online"
-import { RouteWaiting } from "./route-waiting"
+import { RouteOnline } from "./route-online.js"
+import { RouteWaiting } from "./route-waiting.js"
 
 export const handle: RouteHandle = {
   hasExpandedPageBackground: true,

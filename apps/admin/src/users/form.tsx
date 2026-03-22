@@ -6,18 +6,18 @@ import type { SerializeFrom } from "@remix-run/node"
 import type { FetcherWithComponents } from "@remix-run/react"
 import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
+import { Action } from "#i/core/actions.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#i/core/form-elements/input-choice"
-import { PasswordInput } from "#i/core/form-elements/password-input"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Separator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
-import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups"
+} from "#i/core/form-elements/input-choice.js"
+import { PasswordInput } from "#i/core/form-elements/password-input.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
+import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

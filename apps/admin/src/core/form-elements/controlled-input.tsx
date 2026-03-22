@@ -1,8 +1,8 @@
 import { useState } from "react"
 
-import type { InputProps } from "#i/core/form-elements/input"
-import { Input } from "#i/core/form-elements/input"
-import { useLayoutEffect } from "#i/core/use-layout-effect"
+import type { InputProps } from "#i/core/form-elements/input.js"
+import { Input } from "#i/core/form-elements/input.js"
+import { useLayoutEffect } from "#i/core/use-layout-effect.js"
 
 /**
  * Input component to use when the value needs to be controlled by an external

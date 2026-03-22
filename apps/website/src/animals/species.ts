@@ -1,6 +1,6 @@
 import { Species } from "@animeaux/prisma"
 
-import type { IconProps } from "#i/generated/icon"
+import type { IconProps } from "#i/generated/icon.js"
 
 export const SPECIES_ICON: Record<Species, IconProps["id"]> = {
   [Species.BIRD]: "bird",

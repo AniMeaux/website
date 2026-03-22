@@ -3,10 +3,10 @@ import { Species } from "@animeaux/prisma"
 import type { MetaFunction } from "@remix-run/node"
 import { useState } from "react"
 
-import { SPECIES_ICON } from "#i/animals/species"
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Tab } from "#i/core/controllers/tabs"
+import { SPECIES_ICON } from "#i/animals/species.js"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Tab } from "#i/core/controllers/tabs.js"
 import {
   OptionCard,
   OptionDescription,
@@ -15,25 +15,25 @@ import {
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#i/core/data-display/options"
-import { Timeline, TimelineItem } from "#i/core/data-display/timeline"
+} from "#i/core/data-display/options.js"
+import { Timeline, TimelineItem } from "#i/core/data-display/timeline.js"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section"
+} from "#i/core/layout/bubble-section.js"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { Icon } from "#i/generated/icon"
-import { adoptImages } from "#i/images/adopt"
-import { questionsImages } from "#i/images/questions"
-import { socialImages } from "#i/images/social"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { Icon } from "#i/generated/icon.js"
+import { adoptImages } from "#i/images/adopt.js"
+import { questionsImages } from "#i/images/questions.js"
+import { socialImages } from "#i/images/social.js"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

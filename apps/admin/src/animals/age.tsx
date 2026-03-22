@@ -1,7 +1,7 @@
 import { AnimalAge } from "@animeaux/core"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
 
 export const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
   age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2,

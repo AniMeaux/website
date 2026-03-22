@@ -7,26 +7,26 @@ import { useFormAction } from "@remix-run/react"
 import { useRef, useState } from "react"
 import invariant from "tiny-invariant"
 
-import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures"
+import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures.js"
 import {
   DragAndDropContextProvider,
   PictureItemPreview,
   useDragItem,
   useDropContainer,
-} from "#i/animals/pictures/drag-and-drop"
-import { Action } from "#i/core/actions"
-import { InlineHelper } from "#i/core/data-display/helper"
-import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image"
+} from "#i/animals/pictures/drag-and-drop.js"
+import { Action } from "#i/core/actions.js"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import type { ImageFile, ImageFileOrId } from "#i/core/data-display/image.js"
 import {
   getImageId,
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFiles,
-} from "#i/core/data-display/image"
-import { Form } from "#i/core/form-elements/form"
-import { ImageInput } from "#i/core/form-elements/image-input"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/data-display/image.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { ImageInput } from "#i/core/form-elements/image-input.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

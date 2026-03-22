@@ -6,7 +6,7 @@ import { Icon } from "#i/generated/icon.js"
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
 import { Price } from "#i/show/price.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardPrices() {
   return (

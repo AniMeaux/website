@@ -1,7 +1,7 @@
 import { Cron } from "croner"
 import { DateTime } from "luxon"
 
-import { ExpireFosterFamilyAvailabilityCron } from "#i/foster-families/crons.server"
+import { ExpireFosterFamilyAvailabilityCron } from "#i/foster-families/crons.server.js"
 
 const ALL_CRONS_DEFINITIONS = [ExpireFosterFamilyAvailabilityCron]
 

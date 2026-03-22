@@ -2,19 +2,22 @@ import { joinReactNodes } from "@animeaux/core"
 import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { Link, useLoaderData } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { ChipList } from "#i/core/data-display/chip"
-import { DynamicImage } from "#i/core/data-display/image"
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { ChipList } from "#i/core/data-display/chip.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+} from "#i/core/data-display/markdown.js"
 import { ImageData } from "#i/core/image/data.js"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { Routes } from "#i/core/navigation"
-import { ChipActivityField } from "#i/exhibitors/activity-field/chip"
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip"
-import { Icon } from "#i/generated/icon"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { Routes } from "#i/core/navigation.js"
+import { ChipActivityField } from "#i/exhibitors/activity-field/chip.js"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SectionPublicProfile() {
   const { exhibitor } = useLoaderData<typeof loader>()

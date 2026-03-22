@@ -4,13 +4,13 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 import { promiseHash } from "remix-utils/promise"
 
-import { Routes } from "#i/core/navigation"
+import { Routes } from "#i/core/navigation.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
-import { getDividerTypesData } from "./divider-types.server"
-import { getStandSizesData } from "./stand-sizes.server"
+import { getDividerTypesData } from "./divider-types.server.js"
+import { getStandSizesData } from "./stand-sizes.server.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

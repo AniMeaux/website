@@ -12,8 +12,8 @@ import { HTML5Backend } from "react-dnd-html5-backend"
 import { TouchBackend } from "react-dnd-touch-backend"
 import invariant from "tiny-invariant"
 
-import { generateId } from "#i/core/id"
-import { useIsTouchScreen } from "#i/core/touch-screen"
+import { generateId } from "#i/core/id.js"
+import { useIsTouchScreen } from "#i/core/touch-screen.js"
 
 export enum DragAndDropDirection {
   HORIZONTAL,

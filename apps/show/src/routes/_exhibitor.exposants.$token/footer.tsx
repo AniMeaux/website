@@ -1,4 +1,4 @@
-import { Footer } from "#i/core/layout/footer"
+import { Footer } from "#i/core/layout/footer.js"
 
 export function LayoutFooter() {
   return (

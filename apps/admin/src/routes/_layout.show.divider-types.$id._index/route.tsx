@@ -1,16 +1,16 @@
 import type { MetaFunction } from "@remix-run/react"
 import { useLoaderData } from "@remix-run/react"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
-import { CardDetails } from "./card-details"
-import { CardExhibitorList } from "./card-exhibitor-list"
-import { CardSituation } from "./card-situation"
-import type { loader } from "./loader.server"
+import { CardDetails } from "./card-details.js"
+import { CardExhibitorList } from "./card-exhibitor-list.js"
+import { CardSituation } from "./card-situation.js"
+import type { loader } from "./loader.server.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [

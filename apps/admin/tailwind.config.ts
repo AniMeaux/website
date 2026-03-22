@@ -1,10 +1,10 @@
 import { tailwindAnimation } from "@animeaux/tailwind-animation"
 import containerQueries from "@tailwindcss/container-queries"
 import type { Config } from "tailwindcss"
-import defaultColors from "tailwindcss/colors"
-import defaultTheme from "tailwindcss/defaultTheme"
-import plugin from "tailwindcss/plugin"
-import type { CSSRuleObject } from "tailwindcss/types/config"
+import defaultColors from "tailwindcss/colors.js"
+import defaultTheme from "tailwindcss/defaultTheme.js"
+import plugin from "tailwindcss/plugin.js"
+import type { CSSRuleObject } from "tailwindcss/types/config.js"
 
 export const spacing = {
   0: "0px",

@@ -3,7 +3,7 @@ import { DateTime } from "luxon"
 
 import { PageLayout } from "#i/core/layout/page.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function Header() {
   const { activity } = useLoaderData<typeof loader>()

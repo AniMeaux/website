@@ -1,8 +1,8 @@
 import { zu } from "@animeaux/zod-utils"
 
-import { OnOff } from "#i/core/form-elements/field-on-off"
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { OnOff } from "#i/core/form-elements/field-on-off.js"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 
 export const DividerType = {
   none: "none",

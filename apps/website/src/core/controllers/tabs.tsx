@@ -1,8 +1,8 @@
 import { cn } from "@animeaux/core"
 import { Transition } from "react-transition-group"
 
-import { useWidth } from "#i/core/hooks"
-import { LineShapeHorizontal } from "#i/core/layout/line-shape"
+import { useWidth } from "#i/core/hooks.js"
+import { LineShapeHorizontal } from "#i/core/layout/line-shape.js"
 
 export function Tab({
   onSelect,

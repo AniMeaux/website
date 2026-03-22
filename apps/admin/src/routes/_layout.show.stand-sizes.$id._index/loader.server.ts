@@ -4,15 +4,15 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { promiseHash } from "remix-utils/promise"
 
-import { db } from "#i/core/db.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#i/show/exhibitors/applications/search-params.js"
 import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
 
-import { RouteParamsSchema } from "./route-params"
+import { RouteParamsSchema } from "./route-params.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

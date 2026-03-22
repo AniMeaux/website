@@ -1,8 +1,8 @@
 import type { Path } from "@remix-run/react"
 import { createPath } from "@remix-run/react"
 
-import type { ShowDay } from "#i/core/show-day"
-import type { PreviousEdition } from "#i/previous-editions/previous-edition"
+import type { ShowDay } from "#i/core/show-day.js"
+import type { PreviousEdition } from "#i/previous-editions/previous-edition.js"
 import type { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
 export type To = string | Partial<Path>

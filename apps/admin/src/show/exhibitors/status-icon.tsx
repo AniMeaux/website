@@ -1,8 +1,8 @@
 import { cn } from "@animeaux/core"
 
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 
 export function ExhibitorStatusIcon({
   status,

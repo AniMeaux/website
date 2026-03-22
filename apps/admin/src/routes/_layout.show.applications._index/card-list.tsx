@@ -1,16 +1,16 @@
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Paginator } from "#i/core/controllers/paginator"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Paginator } from "#i/core/controllers/paginator.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
 import { DownloadApplicationsTrigger } from "#i/routes/downloads.show.applications/trigger.js"
-import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params"
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js"
 
-import { ApplicationItem } from "./item"
-import type { loader } from "./route"
+import { ApplicationItem } from "./item.js"
+import type { loader } from "./route.js"
 
 export function CardList() {
   const { totalCount, pageCount, applications, canExport } =

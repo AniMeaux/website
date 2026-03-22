@@ -5,12 +5,12 @@ import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
 import { PageLayout } from "#i/core/layout/page.js"
 import { getPageTitle } from "#i/core/page-title.js"
 
-import { CardDetails } from "./card-details"
-import { CardDiff } from "./card-diff"
-import { Header } from "./header"
-import type { loader } from "./loader.server"
+import { CardDetails } from "./card-details.js"
+import { CardDiff } from "./card-diff.js"
+import { Header } from "./header.js"
+import type { loader } from "./loader.server.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [

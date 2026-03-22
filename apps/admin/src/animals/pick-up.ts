@@ -1,7 +1,7 @@
 import { PickUpReason } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
 
 export const PICK_UP_REASON_TRANSLATION: Record<PickUpReason, string> = {
   [PickUpReason.ABANDONMENT]: "Abandon",

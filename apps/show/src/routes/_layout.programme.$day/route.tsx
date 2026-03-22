@@ -5,9 +5,9 @@ import { createSocialMeta } from "#i/core/meta.js"
 import { getPageTitle } from "#i/core/page-title.js"
 
 import type { loader } from "./loader.server.js"
-import { SectionEventList } from "./section-event-list"
-import { SectionOnStandEvents } from "./section-on-stand-events"
-import { SectionTitle } from "./section-title"
+import { SectionEventList } from "./section-event-list.js"
+import { SectionOnStandEvents } from "./section-on-stand-events.js"
+import { SectionTitle } from "./section-title.js"
 
 export { loader } from "./loader.server.js"
 

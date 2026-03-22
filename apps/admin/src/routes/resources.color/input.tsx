@@ -7,20 +7,20 @@ import { useCombobox } from "downshift"
 import { createPath } from "history"
 import { forwardRef, useEffect, useState } from "react"
 
-import { ColorSearchParams } from "#i/colors/search-params"
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Input } from "#i/core/form-elements/input"
+import { ColorSearchParams } from "#i/colors/search-params.js"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/resource-input.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 type ColorInputProps = {
   name: string

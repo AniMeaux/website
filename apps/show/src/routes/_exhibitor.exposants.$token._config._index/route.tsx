@@ -1,22 +1,22 @@
 import type { MetaFunction } from "@remix-run/react"
 
-import { getErrorTitle } from "#i/core/data-display/error-page"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
-import type { loader } from "./loader.server"
-import { SectionAwaitingValidation } from "./section-awaiting-validation"
-import { SectionDocuments } from "./section-documents"
-import { SectionHelper } from "./section-helper"
-import { SectionLaureat } from "./section-laureat"
-import { SectionPayment } from "./section-payment"
-import { SectionSponsorship } from "./section-sponsorship"
-import { SectionStandNumber } from "./section-stand-number"
-import { SectionToComplete } from "./section-to-complete"
-import { SectionValidated } from "./section-validated"
+import type { loader } from "./loader.server.js"
+import { SectionAwaitingValidation } from "./section-awaiting-validation.js"
+import { SectionDocuments } from "./section-documents.js"
+import { SectionHelper } from "./section-helper.js"
+import { SectionLaureat } from "./section-laureat.js"
+import { SectionPayment } from "./section-payment.js"
+import { SectionSponsorship } from "./section-sponsorship.js"
+import { SectionStandNumber } from "./section-stand-number.js"
+import { SectionToComplete } from "./section-to-complete.js"
+import { SectionValidated } from "./section-validated.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({

@@ -1,12 +1,12 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section"
+} from "#i/core/layout/bubble-section.js"
 import {
   HeroSection,
   HeroSectionAction,
@@ -14,15 +14,15 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import { donationImages } from "#i/images/donation"
-import { helloassoImages } from "#i/images/helloasso"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import { donationImages } from "#i/images/donation.js"
+import { helloassoImages } from "#i/images/helloasso.js"
 import paypalImage from "#i/images/paypal.png"
-import { socialImages } from "#i/images/social"
+import { socialImages } from "#i/images/social.js"
 import teamingImage from "#i/images/teaming.png"
 
 export const meta: MetaFunction = () => {

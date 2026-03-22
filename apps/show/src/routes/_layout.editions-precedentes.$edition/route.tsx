@@ -2,14 +2,14 @@ import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { defer } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 import { services } from "#i/core/services.server.js"
-import { PreviousEdition } from "#i/previous-editions/previous-edition"
+import { PreviousEdition } from "#i/previous-editions/previous-edition.js"
 
-import { SectionPictures } from "./section-pictures"
-import { SectionTitle } from "./section-title"
+import { SectionPictures } from "./section-pictures.js"
+import { SectionTitle } from "./section-title.js"
 
 const ParamsSchema = zu.object({
   edition: zu.nativeEnum(PreviousEdition),

@@ -1,9 +1,9 @@
 import type { FieldMetadata } from "@conform-to/react"
 
 import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
-import { Form } from "#i/core/form-elements/form"
+import { Form } from "#i/core/form-elements/form.js"
 import { Input } from "#i/core/form-elements/input.js"
-import { Card } from "#i/core/layout/card"
+import { Card } from "#i/core/layout/card.js"
 import { Icon } from "#i/generated/icon.js"
 
 export function FieldsetDetails({

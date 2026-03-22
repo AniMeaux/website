@@ -1,8 +1,8 @@
 import type { MetaFunction } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 import { CardForm } from "./card-form.js"
 import type { loader } from "./loader.server.js"

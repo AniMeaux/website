@@ -1,12 +1,12 @@
 import { FieldOnOff } from "#i/core/form-elements/field-on-off.js"
-import { FieldRadios } from "#i/core/form-elements/field-radios"
-import { FieldText } from "#i/core/form-elements/field-text"
-import { Form } from "#i/core/form-elements/form"
-import { Card } from "#i/core/layout/card"
-import { Separator } from "#i/core/layout/separator"
-import { Visibility } from "#i/show/visibility"
+import { FieldRadios } from "#i/core/form-elements/field-radios.js"
+import { FieldText } from "#i/core/form-elements/field-text.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Card } from "#i/core/layout/card.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Visibility } from "#i/show/visibility.js"
 
-import { useForm } from "./form"
+import { useForm } from "./form.js"
 
 export function FieldsetSituation() {
   const { form, fields } = useForm()

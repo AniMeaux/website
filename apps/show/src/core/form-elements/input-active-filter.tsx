@@ -3,7 +3,7 @@ import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const InputActiveFilter = {
   Root: forwardRef<

@@ -3,11 +3,11 @@ import { isRouteErrorResponse, Link, useRouteError } from "@remix-run/react"
 import { captureRemixErrorBoundaryError } from "@sentry/remix"
 import { useEffect } from "react"
 
-import { Action } from "#i/core/actions/action"
-import { DynamicImage } from "#i/core/data-display/image"
-import { LazyElement } from "#i/core/layout/lazy-element"
-import { Section } from "#i/core/layout/section"
-import { Routes } from "#i/core/navigation"
+import { Action } from "#i/core/actions/action.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { LazyElement } from "#i/core/layout/lazy-element.js"
+import { Section } from "#i/core/layout/section.js"
+import { Routes } from "#i/core/navigation.js"
 
 export function getErrorTitle(status: number): string {
   return STATUS_CODE_ERROR_META_DATA[asStatusCode(status)].title

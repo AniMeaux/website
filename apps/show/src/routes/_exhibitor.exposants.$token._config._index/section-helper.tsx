@@ -1,5 +1,5 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
 export function SectionHelper() {
   return (

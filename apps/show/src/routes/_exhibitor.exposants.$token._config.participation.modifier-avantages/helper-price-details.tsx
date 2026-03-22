@@ -3,8 +3,8 @@ import { useLoaderData } from "@remix-run/react"
 import { HelperCard } from "#i/core/layout/helper-card.js"
 import { ParticipationReceipt } from "#i/exhibitors/participation-receipt.js"
 
-import { useForm } from "./form"
-import type { loader } from "./loader.server"
+import { useForm } from "./form.js"
+import type { loader } from "./loader.server.js"
 
 export function HelperPriceDetails() {
   const { exhibitor } = useLoaderData<typeof loader>()

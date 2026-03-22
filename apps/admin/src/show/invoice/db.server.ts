@@ -1,11 +1,11 @@
 import { catchError } from "@animeaux/core"
 import { Prisma } from "@animeaux/prisma/server"
 
-import { AlreadyExistError, PrismaErrorCodes } from "#i/core/errors.server"
+import { AlreadyExistError, PrismaErrorCodes } from "#i/core/errors.server.js"
 import { notifyShowApp } from "#i/core/notification.server.js"
-import { prisma } from "#i/core/prisma.server"
-import { notFound } from "#i/core/response.server"
-import { InvoiceStatus } from "#i/show/invoice/status"
+import { prisma } from "#i/core/prisma.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
 
 export class ShowInvoiceDbDelegate {
   async create(data: CreateData) {

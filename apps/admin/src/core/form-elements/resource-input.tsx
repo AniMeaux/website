@@ -4,13 +4,16 @@ import * as Popover from "@radix-ui/react-popover"
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import { forwardRef } from "react"
 
-import { Item } from "#i/core/data-display/item"
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Card } from "#i/core/layout/card"
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size"
-import { Icon } from "#i/generated/icon"
-import { theme } from "#i/generated/theme"
+import { Item } from "#i/core/data-display/item.js"
+import {
+  HIGHLIGHT_COMPONENTS,
+  Markdown,
+} from "#i/core/data-display/markdown.js"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Card } from "#i/core/layout/card.js"
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
 
 type ResourceInputLayoutProps = {
   isOpened: boolean

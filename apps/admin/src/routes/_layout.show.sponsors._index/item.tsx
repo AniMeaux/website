@@ -1,13 +1,13 @@
 import { ImageUrl } from "@animeaux/core"
 import type { SerializeFrom } from "@remix-run/node"
 
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import { Routes } from "#i/core/navigation"
-import { SponsorshipCategory } from "#i/show/sponsors/category"
-import { Visibility, VisibilityIcon } from "#i/show/visibility"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { Routes } from "#i/core/navigation.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SponsorItem({
   sponsor,

@@ -2,9 +2,9 @@ import { cn, joinReactNodes } from "@animeaux/core"
 import { Form, useSubmit } from "@remix-run/react"
 import { Children, createContext, useContext, useMemo, useState } from "react"
 
-import { Chip } from "#i/core/data-display/chip"
-import { Separator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
+import { Chip } from "#i/core/data-display/chip.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function Filters({ children }: { children?: React.ReactNode }) {
   const submit = useSubmit()

@@ -1,8 +1,8 @@
 import type { FieldMetadata } from "@conform-to/react"
 import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
 export function FieldUrl({
   field,

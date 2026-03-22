@@ -4,23 +4,23 @@ import { Gender } from "@animeaux/prisma"
 import type { SerializeFrom } from "@remix-run/node"
 import { forwardRef } from "react"
 
-import { AnimalAvatar } from "#i/animals/avatar"
-import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender"
-import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { AnimalAvatar } from "#i/animals/avatar.js"
+import { GENDER_ICON, GENDER_TRANSLATION } from "#i/animals/gender.js"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
 import {
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#i/animals/situation/health"
-import { getSpeciesLabels } from "#i/animals/species"
-import { StatusBadge } from "#i/animals/status"
-import { BaseLink } from "#i/core/base-link"
-import { Chip } from "#i/core/data-display/chip"
-import type { DynamicImageProps } from "#i/core/data-display/image"
-import { DynamicImage } from "#i/core/data-display/image"
-import type { SuggestionItemProps } from "#i/core/form-elements/resource-input"
-import { SuggestionItem } from "#i/core/form-elements/resource-input"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+} from "#i/animals/situation/health.js"
+import { getSpeciesLabels } from "#i/animals/species.js"
+import { StatusBadge } from "#i/animals/status.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Chip } from "#i/core/data-display/chip.js"
+import type { DynamicImageProps } from "#i/core/data-display/image.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import type { SuggestionItemProps } from "#i/core/form-elements/resource-input.js"
+import { SuggestionItem } from "#i/core/form-elements/resource-input.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function AnimalItem({
   animal,

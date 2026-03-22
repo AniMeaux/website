@@ -2,12 +2,12 @@ import type { Gender } from "@animeaux/prisma"
 import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import {
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#i/exhibitors/dogs-configuration/gender"
+} from "#i/exhibitors/dogs-configuration/gender.js"
 
 export function FieldDogGender({
   field,

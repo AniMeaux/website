@@ -2,15 +2,15 @@ import { ensureArray } from "@animeaux/core"
 import type { FieldMetadata } from "@conform-to/react"
 import { useLoaderData } from "@remix-run/react"
 
-import { FieldTextarea } from "#i/core/form-elements/field-textarea"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
 import type { LegalStatus } from "#i/exhibitors/application/legal-status.js"
 import { ExhibitorCategory } from "#i/exhibitors/category.js"
 import { FieldStandSize } from "#i/stand-size/field.js"
 
-import { FieldsetId, useFieldsets } from "./form"
-import type { loader } from "./loader.server"
+import { FieldsetId, useFieldsets } from "./form.js"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetParticipation() {
   const { standSizes } = useLoaderData<typeof loader>()

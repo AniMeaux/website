@@ -2,16 +2,16 @@ import { withoutKey } from "@animeaux/core"
 import { getInputProps } from "@conform-to/react"
 import { useLoaderData } from "@remix-run/react"
 
-import { ActionIcon } from "#i/core/actions/action"
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { FieldActivityField } from "#i/exhibitors/activity-field/field"
-import { FieldActivityTarget } from "#i/exhibitors/activity-target/field"
-import { FieldLogo } from "#i/exhibitors/field-logo"
-import { Icon } from "#i/generated/icon"
+import { ActionIcon } from "#i/core/actions/action.js"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { FieldActivityField } from "#i/exhibitors/activity-field/field.js"
+import { FieldActivityTarget } from "#i/exhibitors/activity-target/field.js"
+import { FieldLogo } from "#i/exhibitors/field-logo.js"
+import { Icon } from "#i/generated/icon.js"
 
-import { useForm } from "./form"
-import type { loader } from "./route"
+import { useForm } from "./form.js"
+import type { loader } from "./route.js"
 
 export function FieldsetPublicProfile() {
   const { exhibitor } = useLoaderData<typeof loader>()

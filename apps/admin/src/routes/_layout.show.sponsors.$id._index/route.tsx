@@ -6,15 +6,15 @@ import type { MetaFunction } from "@remix-run/react"
 import { useLoaderData } from "@remix-run/react"
 import invariant from "tiny-invariant"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { CardProfile } from "./card-profile"
-import { CardSituation } from "./card-situation"
+import { CardProfile } from "./card-profile.js"
+import { CardSituation } from "./card-situation.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

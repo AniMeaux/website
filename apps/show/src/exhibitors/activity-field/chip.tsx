@@ -1,6 +1,6 @@
-import { Chip } from "#i/core/data-display/chip"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import { Icon } from "#i/generated/icon"
+import { Chip } from "#i/core/data-display/chip.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function ChipActivityField({
   activityField,

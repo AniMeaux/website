@@ -1,9 +1,9 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { Header } from "#i/core/layout/header"
-import { Routes } from "#i/core/navigation"
+import { Header } from "#i/core/layout/header.js"
+import { Routes } from "#i/core/navigation.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function LayoutHeader() {
   const { exhibitor } = useLoaderData<typeof loader>()

@@ -5,17 +5,17 @@ import { DateTime } from "luxon"
 
 import { ProseInlineAction } from "#i/core/actions.js"
 import { BaseLink } from "#i/core/base-link.js"
-import { Empty } from "#i/core/data-display/empty"
+import { Empty } from "#i/core/data-display/empty.js"
 import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
 import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
-import { Card } from "#i/core/layout/card"
+import { Card } from "#i/core/layout/card.js"
 import { Separator } from "#i/core/layout/separator.js"
 import { Routes } from "#i/core/navigation.js"
 import { Icon } from "#i/generated/icon.js"
 import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
 import { StandZone } from "#i/show/exhibitors/stand-configuration/stand-zone.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardOnStageAnimations() {
   const { exhibitor } = useLoaderData<typeof loader>()

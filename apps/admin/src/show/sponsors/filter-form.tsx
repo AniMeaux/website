@@ -1,23 +1,23 @@
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
 import {
   SponsorshipCategory,
   SponsorshipCategoryIcon,
-} from "#i/show/sponsors/category"
+} from "#i/show/sponsors/category.js"
 import {
   SponsorSearchParams,
   SponsorSearchParamsN,
-} from "#i/show/sponsors/search-params"
-import { Visibility, VisibilityIcon } from "#i/show/visibility"
+} from "#i/show/sponsors/search-params.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
 export function SponsorFilters() {
   return (

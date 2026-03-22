@@ -8,18 +8,18 @@ import type { MetaFunction } from "@remix-run/react"
 import { captureException } from "@sentry/remix"
 import { v4 as uuid } from "uuid"
 
-import { getErrorTitle } from "#i/core/data-display/error-page"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { createSocialMeta } from "#i/core/meta"
-import { Routes } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { badRequest } from "#i/core/response.server"
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { badRequest } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
-import { ActionSchema } from "./action"
-import { SectionForm } from "./section-form"
-import { SectionHelper } from "./section-helper"
+import { ActionSchema } from "./action.js"
+import { SectionForm } from "./section-form.js"
+import { SectionHelper } from "./section-helper.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

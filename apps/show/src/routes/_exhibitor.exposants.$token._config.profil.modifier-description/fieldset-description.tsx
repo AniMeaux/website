@@ -1,10 +1,10 @@
 import type { FieldMetadata } from "@conform-to/react"
 
-import { FieldTextarea } from "#i/core/form-elements/field-textarea"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 
-import { useForm } from "./form"
+import { useForm } from "./form.js"
 
 export function FieldsetDescription() {
   const { fields } = useForm()

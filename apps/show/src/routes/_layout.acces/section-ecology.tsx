@@ -1,6 +1,6 @@
-import { BoardCard } from "#i/core/layout/board-card"
-import { LazyElement } from "#i/core/layout/lazy-element"
-import { Section } from "#i/core/layout/section"
+import { BoardCard } from "#i/core/layout/board-card.js"
+import { LazyElement } from "#i/core/layout/lazy-element.js"
+import { Section } from "#i/core/layout/section.js"
 
 export function SectionEcology() {
   return (

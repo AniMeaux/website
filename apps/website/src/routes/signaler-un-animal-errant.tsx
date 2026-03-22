@@ -1,20 +1,23 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
+import {
+  createCloudinaryUrl,
+  DynamicImage,
+} from "#i/core/data-display/image.js"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#i/core/data-display/markdown"
+} from "#i/core/data-display/markdown.js"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { WarnItem } from "#i/warn/item"
+} from "#i/core/layout/related-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { WarnItem } from "#i/warn/item.js"
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3"
 

@@ -2,7 +2,7 @@ import { cn } from "@animeaux/core"
 import { FosterFamilyAvailability } from "@animeaux/prisma"
 import type { Except } from "type-fest"
 
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const AVAILABILITY_TRANSLATION: Record<
   FosterFamilyAvailability,

@@ -3,14 +3,14 @@ import { Primitive } from "@animeaux/react-primitives"
 import type { SerializeFrom } from "@remix-run/node"
 import { forwardRef } from "react"
 
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import { Routes } from "#i/core/navigation"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { Routes } from "#i/core/navigation.js"
 import { Icon } from "#i/generated/icon.js"
 import { SponsorshipCategory } from "#i/show/sponsors/category.js"
-import { Visibility, VisibilityIcon } from "#i/show/visibility"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export const Rows = forwardRef<
   React.ComponentRef<typeof Primitive.div>,

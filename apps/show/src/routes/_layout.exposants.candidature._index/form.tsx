@@ -4,9 +4,9 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import { useActionData, useLoaderData } from "@remix-run/react"
 import { useMemo } from "react"
 
-import type { action } from "./action.server"
-import { createActionSchema } from "./action-schema"
-import type { loader } from "./loader.server"
+import type { action } from "./action.server.js"
+import { createActionSchema } from "./action-schema.js"
+import type { loader } from "./loader.server.js"
 
 export function useForm() {
   const { availableStandSizes } = useLoaderData<typeof loader>()

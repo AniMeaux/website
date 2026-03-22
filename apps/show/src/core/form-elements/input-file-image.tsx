@@ -5,9 +5,9 @@ import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef, useState } from "react"
 import type { Except } from "type-fest"
 
-import { DynamicImage } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image.js"
 import { ImageData } from "#i/core/image/data.js"
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const InputFileImage = {
   Root: forwardRef<

@@ -3,18 +3,18 @@ import type { zu } from "@animeaux/zod-utils"
 import type { ActionFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { EmailAlreadyUsedError, NotFoundError } from "#i/core/errors.server"
-import { Routes } from "#i/core/navigation"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { EmailAlreadyUsedError, NotFoundError } from "#i/core/errors.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
-} from "#i/foster-families/db.server"
-import { ActionFormDataForUpdate } from "#i/foster-families/form"
+} from "#i/foster-families/db.server.js"
+import { ActionFormDataForUpdate } from "#i/foster-families/form.js"
 
-import { routeParamsSchema } from "./route-params"
+import { routeParamsSchema } from "./route-params.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

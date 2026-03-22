@@ -6,7 +6,7 @@ import { formatBooking } from "#i/show/stand-size/booking.js"
 import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
 import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardSituation() {
   return (

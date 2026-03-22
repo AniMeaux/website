@@ -1,9 +1,9 @@
 import { cn } from "@animeaux/core"
 
-import type { BaseLinkProps } from "#i/core/base-link"
-import { BaseLink } from "#i/core/base-link"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { BaseLinkProps } from "#i/core/base-link.js"
+import { BaseLink } from "#i/core/base-link.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function SocialLinks({ className }: { className?: string }) {
   return (

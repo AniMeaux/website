@@ -3,13 +3,13 @@ import type { MetaFunction, SerializeFrom } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import type { MarkdownProps } from "#i/core/data-display/markdown"
-import { Markdown } from "#i/core/data-display/markdown"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { partners } from "#i/partners/data.server"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import type { MarkdownProps } from "#i/core/data-display/markdown.js"
+import { Markdown } from "#i/core/data-display/markdown.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { partners } from "#i/partners/data.server.js"
 
 export async function loader() {
   return json({ partners })

@@ -4,15 +4,15 @@ import { ShowStandZone } from "@animeaux/prisma"
 import { Link, useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
 import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
 import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
 
-import type { loader } from "./route"
-import { SectionId } from "./section-id"
+import type { loader } from "./route.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionOnStageAnimations() {
   const { exhibitor, animations } = useLoaderData<typeof loader>()

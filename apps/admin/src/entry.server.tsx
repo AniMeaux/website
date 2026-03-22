@@ -8,10 +8,10 @@ import { isbot } from "isbot"
 import type { RenderToPipeableStreamOptions } from "react-dom/server"
 import { renderToPipeableStream } from "react-dom/server"
 
-import { checkEnv, getClientEnv } from "#i/core/env.server"
-import { initMonitoring } from "#i/core/monitoring.server"
-import { extendCurrentUserPreferences } from "#i/current-user/preferences.server"
-import { extendCurrentUserSession } from "#i/current-user/session.server"
+import { checkEnv, getClientEnv } from "#i/core/env.server.js"
+import { initMonitoring } from "#i/core/monitoring.server.js"
+import { extendCurrentUserPreferences } from "#i/current-user/preferences.server.js"
+import { extendCurrentUserSession } from "#i/current-user/session.server.js"
 
 checkEnv()
 global.CLIENT_ENV = getClientEnv()
@@ -20,11 +20,11 @@ initMonitoring()
 const ABORT_DELAY_MS = 5000
 
 if (process.env.NODE_ENV === "development") {
-  void import("#i/mocks/mocks.server").then((module) => module.startWorker())
+  void import("#i/mocks/mocks.server.js").then((module) => module.startWorker())
 }
 
 if (process.env.ENABLE_CRONS === "true") {
-  void import("#i/core/crons/crons.server").then((module) =>
+  void import("#i/core/crons/crons.server.js").then((module) =>
     module.startCrons(),
   )
 }

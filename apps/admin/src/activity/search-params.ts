@@ -2,8 +2,8 @@ import { SearchParamsIO } from "@animeaux/search-params-io"
 import { zu } from "@animeaux/zod-utils"
 import { DateTime } from "luxon"
 
-import { ActivityAction } from "#i/activity/action"
-import { ActivityResource } from "#i/activity/resource"
+import { ActivityAction } from "#i/activity/action.js"
+import { ActivityResource } from "#i/activity/resource.js"
 import { endOfDay } from "#i/core/dates.js"
 
 export namespace ActivitySearchParams {

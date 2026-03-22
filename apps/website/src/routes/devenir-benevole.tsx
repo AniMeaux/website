@@ -1,35 +1,35 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import type { StaticImageProps } from "#i/core/data-display/image"
-import { StaticImage } from "#i/core/data-display/image"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import type { StaticImageProps } from "#i/core/data-display/image.js"
+import { StaticImage } from "#i/core/data-display/image.js"
 import {
   OptionCard,
   OptionDescription,
   OptionList,
   OptionPrice,
   OptionTitle,
-} from "#i/core/data-display/options"
+} from "#i/core/data-display/options.js"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { missionAccountingImages } from "#i/images/mission-accounting"
-import { missionCarpoolImages } from "#i/images/mission-carpool"
-import { missionCommunicationImages } from "#i/images/mission-communication"
-import { missionEventImages } from "#i/images/mission-event"
-import { missionFieldImages } from "#i/images/mission-field"
-import { missionFoodCollectionImages } from "#i/images/mission-food-collection"
-import { missionInterventionImages } from "#i/images/mission-intervention"
-import { socialImages } from "#i/images/social"
-import { volunteerImages } from "#i/images/volunteer"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { missionAccountingImages } from "#i/images/mission-accounting.js"
+import { missionCarpoolImages } from "#i/images/mission-carpool.js"
+import { missionCommunicationImages } from "#i/images/mission-communication.js"
+import { missionEventImages } from "#i/images/mission-event.js"
+import { missionFieldImages } from "#i/images/mission-field.js"
+import { missionFoodCollectionImages } from "#i/images/mission-food-collection.js"
+import { missionInterventionImages } from "#i/images/mission-intervention.js"
+import { socialImages } from "#i/images/social.js"
+import { volunteerImages } from "#i/images/volunteer.js"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

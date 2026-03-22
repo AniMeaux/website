@@ -1,7 +1,7 @@
 import { getPixels } from "@unpic/pixels"
 import { encode } from "blurhash"
 
-import { createImageUrl } from "#i/core/data-display/image"
+import { createImageUrl } from "#i/core/data-display/image.js"
 
 export class ServiceBlurhash {
   async create(imageId: string) {

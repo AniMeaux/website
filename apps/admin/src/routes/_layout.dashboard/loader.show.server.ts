@@ -1,7 +1,7 @@
 import { ShowExhibitorApplicationStatus } from "@animeaux/prisma/server"
 import { promiseHash } from "remix-utils/promise"
 
-import { db } from "#i/core/db.server"
+import { db } from "#i/core/db.server.js"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,

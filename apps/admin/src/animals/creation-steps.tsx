@@ -1,5 +1,5 @@
-import { Steps } from "#i/core/controllers/steps"
-import { Routes } from "#i/core/navigation"
+import { Steps } from "#i/core/controllers/steps.js"
+import { Routes } from "#i/core/navigation.js"
 
 const STEPS = ["profile", "situation", "pictures"] as const
 type ActiveStep = (typeof STEPS)[number]

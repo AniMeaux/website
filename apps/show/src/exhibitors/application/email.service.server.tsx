@@ -8,18 +8,18 @@ import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
   EmailHtml,
-} from "#i/core/data-display/email-html.server"
-import { createImageUrl } from "#i/core/data-display/image"
+} from "#i/core/data-display/email-html.server.js"
+import { createImageUrl } from "#i/core/data-display/image.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { ImageData } from "#i/core/image/data.js"
-import { Routes } from "#i/core/navigation"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target"
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
-import { LegalStatus } from "#i/exhibitors/application/legal-status"
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import { Routes } from "#i/core/navigation.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target.js"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source.js"
+import { LegalStatus } from "#i/exhibitors/application/legal-status.js"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category.js"
 
-import type { ServiceApplication } from "./service.server"
+import type { ServiceApplication } from "./service.server.js"
 
 export class ServiceApplicationEmail {
   constructor(

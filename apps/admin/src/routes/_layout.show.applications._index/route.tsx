@@ -5,18 +5,18 @@ import type { MetaFunction } from "@remix-run/react"
 import { useLoaderData } from "@remix-run/react"
 import { promiseHash } from "remix-utils/promise"
 
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
-import { db } from "#i/core/db.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
-import { PageSearchParams } from "#i/core/search-params"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { ApplicationFilters } from "#i/show/exhibitors/applications/filter-form"
-import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action.js"
+import { db } from "#i/core/db.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { PageSearchParams } from "#i/core/search-params.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { ApplicationFilters } from "#i/show/exhibitors/applications/filter-form.js"
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js"
 import { hasGroups } from "#i/users/groups.js"
 
-import { CardList } from "./card-list"
+import { CardList } from "./card-list.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -9,13 +9,13 @@ import {
   useNavigation,
 } from "@remix-run/react"
 
-import { FieldTextarea } from "#i/core/form-elements/field-textarea"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand.js"
 
-import { ActionSchema } from "./action"
-import type { action, loader } from "./route"
+import { ActionSchema } from "./action.js"
+import type { action, loader } from "./route.js"
 
 export function SectionForm() {
   const formAction = useFormAction()

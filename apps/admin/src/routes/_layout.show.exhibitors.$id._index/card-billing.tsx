@@ -9,7 +9,7 @@ import { BaseLink } from "#i/core/base-link.js"
 import { Empty } from "#i/core/data-display/empty.js"
 import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
 import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
-import { Card } from "#i/core/layout/card"
+import { Card } from "#i/core/layout/card.js"
 import { Separator } from "#i/core/layout/separator.js"
 import { Routes } from "#i/core/navigation.js"
 import { Dialog } from "#i/core/popovers/dialog.js"
@@ -18,9 +18,9 @@ import { theme } from "#i/generated/theme.js"
 import { InvoiceIcon } from "#i/show/invoice/icon.js"
 import { InvoiceStatus } from "#i/show/invoice/status.js"
 
-import { ActionIntent } from "./action"
-import type { action } from "./action.server"
-import type { loader } from "./loader.server"
+import { ActionIntent } from "./action.js"
+import type { action } from "./action.server.js"
+import type { loader } from "./loader.server.js"
 
 export function CardBilling() {
   const { exhibitor } = useLoaderData<typeof loader>()

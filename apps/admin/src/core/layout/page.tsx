@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 import { Children, isValidElement } from "react"
 
-import { BaseLink } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link.js"
 
 export const PageLayout = {
   Root: function PageLayoutRoot({ children }: React.PropsWithChildren) {

@@ -2,19 +2,19 @@ import { cn } from "@animeaux/core"
 import type { ShowActivityTarget } from "@animeaux/prisma"
 import { Link } from "@remix-run/react"
 
-import { Chip } from "#i/core/data-display/chip"
-import { IconInline } from "#i/core/data-display/icon-inline"
-import { DynamicImage } from "#i/core/data-display/image"
+import { Chip } from "#i/core/data-display/chip.js"
+import { IconInline } from "#i/core/data-display/icon-inline.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
 import { ImageData } from "#i/core/image/data.js"
-import type { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import { ChipActivityField } from "#i/exhibitors/activity-field/chip"
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip"
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
+import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { ChipActivityField } from "#i/exhibitors/activity-field/chip.js"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand.js"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params"
-import { Icon } from "#i/generated/icon"
+} from "#i/exhibitors/search-params.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function ExhibitorItem({
   exhibitor,

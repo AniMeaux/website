@@ -2,13 +2,16 @@ import type { Extends } from "@animeaux/core"
 import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { useLoaderData } from "@remix-run/react"
 
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
-import { TaskItem } from "#i/core/data-display/task-item"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+} from "#i/core/data-display/markdown.js"
+import { TaskItem } from "#i/core/data-display/task-item.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function TaskItemDocument({ status }: { status: ShowExhibitorStatus }) {
   const { exhibitor } = useLoaderData<typeof loader>()

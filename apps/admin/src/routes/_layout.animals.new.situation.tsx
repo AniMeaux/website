@@ -8,21 +8,24 @@ import type {
 import { json, redirect } from "@remix-run/node"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { AnimalCreationSteps } from "#i/animals/creation-steps"
+import { AnimalCreationSteps } from "#i/animals/creation-steps.js"
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingPickUpLocationError,
   NotManagerError,
-} from "#i/animals/situation/db.server"
-import { ActionFormData, AnimalSituationForm } from "#i/animals/situation/form"
-import { ErrorPage } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+} from "#i/animals/situation/db.server.js"
+import {
+  ActionFormData,
+  AnimalSituationForm,
+} from "#i/animals/situation/form.js"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { draft, ...currentUser } = await db.currentUser.get(request, {

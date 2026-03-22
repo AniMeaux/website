@@ -1,15 +1,15 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createSocialMeta } from "#i/core/meta"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { createSocialMeta } from "#i/core/meta.js"
 import { Routes } from "#i/core/navigation.js"
-import { getPageTitle } from "#i/core/page-title"
-import { notFound } from "#i/core/response.server"
-import { ShowDay } from "#i/core/show-day"
+import { getPageTitle } from "#i/core/page-title.js"
+import { notFound } from "#i/core/response.server.js"
+import { ShowDay } from "#i/core/show-day.js"
 
-import { SectionTitle } from "./section-title"
-import { SectionWaitingHelper } from "./section-waiting-helper"
+import { SectionTitle } from "./section-title.js"
+import { SectionWaitingHelper } from "./section-waiting-helper.js"
 
 export async function loader() {
   if (process.env.FEATURE_FLAG_SITE_ONLINE !== "true") {
