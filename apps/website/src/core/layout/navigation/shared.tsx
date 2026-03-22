@@ -1,10 +1,11 @@
+import { cn } from "@animeaux/core";
+import type { Location } from "history";
+import { forwardRef } from "react";
+
 import type { BaseLinkProps } from "#i/core/base-link";
 import { BaseLink } from "#i/core/base-link";
 import type { IconProps } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import type { Location } from "history";
-import { forwardRef } from "react";
 
 export type NavGroup = "act" | "adopt" | "discover" | "warn";
 
@@ -19,7 +20,7 @@ export const navLinkClassName = ({
   });
 
 export type SubNavComponent = React.FC & {
-  isActive(location: Location): boolean;
+  isActive: (location: Location) => boolean;
 };
 
 type SubNavItemColor = "blue" | "cyan" | "green" | "red" | "yellow";

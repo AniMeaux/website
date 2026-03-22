@@ -1,3 +1,7 @@
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import type { MetaFunction } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions.js";
 import { BaseLink } from "#i/core/base-link.js";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
@@ -8,9 +12,7 @@ import { getPageTitle } from "#i/core/page-title";
 import { Dialog } from "#i/core/popovers/dialog.js";
 import { Icon } from "#i/generated/icon.js";
 import { theme } from "#i/generated/theme.js";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import type { action } from "./action.server.js";
 import { CardApplicationList } from "./card-application-list";
 import { CardDetails } from "./card-details";

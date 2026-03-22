@@ -1,8 +1,9 @@
+import { cn } from "@animeaux/core";
+import { cloneElement } from "react";
+
 import type { AvatarColor } from "#i/core/data-display/avatar";
 import { createCloudinaryUrl } from "#i/core/data-display/image";
 import { Card } from "#i/core/layout/card";
-import { cn } from "@animeaux/core";
-import { cloneElement } from "react";
 
 export function AvatarCard({ children }: { children?: React.ReactNode }) {
   return <Card>{children}</Card>;

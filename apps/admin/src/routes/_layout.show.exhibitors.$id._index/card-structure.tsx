@@ -1,3 +1,6 @@
+import { getCompleteLocation } from "@animeaux/core";
+import { useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { ItemList, SimpleItem } from "#i/core/data-display/item";
@@ -6,8 +9,7 @@ import { Card } from "#i/core/layout/card";
 import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon";
 import { LegalStatus } from "#i/show/exhibitors/applications/legal-status";
-import { getCompleteLocation } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardStructure() {

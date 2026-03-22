@@ -1,10 +1,11 @@
-import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
-import { Routes } from "#i/core/navigation";
-import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js";
 import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 import { createPath } from "history";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
+import { Routes } from "#i/core/navigation";
+import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js";
 
 export const DownloadApplicationsTrigger = forwardRef<
   React.ComponentRef<typeof DownloadTrigger>,

@@ -195,7 +195,7 @@ export function fromBooleanAttribute(value: BooleanAttribute) {
  */
 export function callFactory<
   // Don't allow functions.
-  TData extends undefined | null | string | number | boolean | Object,
+  TData extends undefined | null | string | number | boolean | object,
   TParams,
 >(factory: TData | ((args: TParams) => TData), getParams: () => TParams) {
   if (typeof factory === "function") {

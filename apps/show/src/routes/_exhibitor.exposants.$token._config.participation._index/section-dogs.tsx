@@ -1,3 +1,7 @@
+import { joinReactNodes } from "@animeaux/core";
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
+import { Link, useLoaderData } from "@remix-run/react";
+
 import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
 import { FormLayout } from "#i/core/layout/form-layout";
 import { HelperCard } from "#i/core/layout/helper-card";
@@ -6,9 +10,7 @@ import { Routes } from "#i/core/navigation";
 import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender";
 import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper";
 import { Icon } from "#i/generated/icon";
-import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server.js";
 import { SectionId } from "./section-id.js";
 

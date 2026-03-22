@@ -1,9 +1,10 @@
+import { cn } from "@animeaux/core";
+import { forwardRef } from "react";
+
 import { useElementSize } from "#i/core/elements";
 import { BeeIllustration } from "#i/core/illustration/bee";
 import { useScreenSizeCondition } from "#i/core/screen-size";
 import { theme } from "#i/generated/theme";
-import { cn } from "@animeaux/core";
-import { forwardRef } from "react";
 
 export const LightBoardCard = forwardRef<
   React.ComponentRef<"div">,

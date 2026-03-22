@@ -1,13 +1,14 @@
+import { UserGroup } from "@animeaux/prisma/server";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { promiseHash } from "remix-utils/promise";
+
 import { Activity } from "#i/activity/db.server.js";
 import { ActivitySearchParams } from "#i/activity/search-params.js";
 import { db } from "#i/core/db.server";
 import { prisma } from "#i/core/prisma.server.js";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

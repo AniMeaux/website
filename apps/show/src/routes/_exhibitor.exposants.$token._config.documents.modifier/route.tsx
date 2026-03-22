@@ -1,11 +1,3 @@
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { createSocialMeta } from "#i/core/meta";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { badRequest } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
 import { ShowExhibitorStatus } from "@animeaux/prisma";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
@@ -15,6 +7,16 @@ import { json, redirect } from "@remix-run/node";
 import type { MetaFunction } from "@remix-run/react";
 import { captureException } from "@sentry/remix";
 import { promiseHash } from "remix-utils/promise";
+
+import { getErrorTitle } from "#i/core/data-display/error-page";
+import { FormLayout } from "#i/core/layout/form-layout";
+import { createSocialMeta } from "#i/core/meta";
+import { Routes } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { badRequest } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params";
+
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -112,7 +114,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     throw error;
   }
 
-  services.exhibitorEmail.document.submitted(routeParams.token);
+  void services.exhibitorEmail.document.submitted(routeParams.token);
 
   throw redirect(
     Routes.exhibitors.token(routeParams.token).documents.toString(),

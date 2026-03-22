@@ -1,3 +1,9 @@
+import { joinReactNodes } from "@animeaux/core";
+import type { ShowActivityTarget } from "@animeaux/prisma";
+import { ShowStandZone } from "@animeaux/prisma";
+import { Link, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
 import {
   Markdown,
@@ -7,11 +13,7 @@ import { FormLayout } from "#i/core/layout/form-layout";
 import { HelperCard } from "#i/core/layout/helper-card";
 import { LightBoardCard } from "#i/core/layout/light-board-card";
 import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
-import { joinReactNodes } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { ShowStandZone } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./route";
 import { SectionId } from "./section-id";
 

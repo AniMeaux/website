@@ -1,8 +1,10 @@
-import { watch } from "chokidar";
-import { parse } from "node-html-parser";
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { watch } from "chokidar";
+import { parse } from "node-html-parser";
+
 import { oneAtTheTime, relativeToCwd, safelyReadFile } from "./shared";
 
 const FILENAME = fileURLToPath(import.meta.url);
@@ -165,7 +167,7 @@ ${svgDescriptors.map((icon) => `  | "${icon.name}"`).join("\n")};
 async function generateSpriteFile(svgDescriptors: SvgDescriptor[]) {
   const contents = await Promise.all(svgDescriptors.map(generateSymbolForSvg));
 
-  let sprite = [
+  const sprite = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">',
     // Don't wrap `symbol` elements in a `defs` as browser handle them

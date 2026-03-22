@@ -1,12 +1,14 @@
-import { FileStorage } from "#i/file-storage.server.js";
+import { Readable } from "node:stream";
+import type { ReadableStream } from "node:stream/web";
+
 import { catchError } from "@animeaux/core";
 import { safeParse, zu } from "@animeaux/zod-utils";
 import type { FileUpload } from "@mjackson/form-data-parser";
 import { captureException } from "@sentry/remix";
 import type { drive_v3 } from "googleapis";
 import { google } from "googleapis";
-import { Readable } from "node:stream";
-import type { ReadableStream } from "node:stream/web";
+
+import { FileStorage } from "#i/file-storage.server.js";
 
 /**
  * @see https://developers.google.com/drive/api
@@ -112,7 +114,7 @@ export class FileStorageGoogleDrive extends FileStorage {
           body: Readable.fromWeb(
             // Cast to Node's version of `ReadableStream` because the native one
             // is missing the properties: `values`, `[Symbol.asyncIterator]`.
-            fileUpload.stream() as ReadableStream<any>,
+            fileUpload.stream() as ReadableStream,
           ),
         },
         fields: createFileOrFolderSchema.keyof().enum.id,

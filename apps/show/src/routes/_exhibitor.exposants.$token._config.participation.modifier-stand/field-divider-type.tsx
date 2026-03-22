@@ -1,11 +1,13 @@
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
-import { Price } from "#i/price/price.js";
 import type { Prisma } from "@animeaux/prisma";
 import type { FieldMetadata } from "@conform-to/react";
 import { getCollectionProps } from "@conform-to/react";
 import type { Simplify } from "type-fest";
+
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
+import { FormLayout } from "#i/core/layout/form-layout";
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
+import { Price } from "#i/price/price.js";
+
 import { DividerType } from "./action-schema";
 
 export function FieldDividerType({

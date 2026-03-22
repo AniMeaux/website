@@ -1,3 +1,8 @@
+import { cn } from "@animeaux/core";
+import type { SerializeFrom } from "@remix-run/node";
+import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
+import { Suspense } from "react";
+
 import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
 import { Tab, Tabs } from "#i/core/controllers/tabs";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -10,10 +15,7 @@ import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   SORTED_PREVIOUS_EDITIONS,
 } from "#i/previous-editions/previous-edition";
-import { cn } from "@animeaux/core";
-import type { SerializeFrom } from "@remix-run/node";
-import { Await, Link, useLoaderData, useLocation } from "@remix-run/react";
-import { Suspense } from "react";
+
 import type { loader } from "./route";
 
 export function SectionPictures() {

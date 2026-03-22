@@ -1,12 +1,3 @@
-import { ActionFormData, ColorForm } from "#i/colors/form";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { AlreadyExistError } from "#i/core/errors.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { zu } from "@animeaux/zod-utils";
 import type {
@@ -16,6 +7,16 @@ import type {
 } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
+
+import { ActionFormData, ColorForm } from "#i/colors/form";
+import { ErrorPage } from "#i/core/data-display/error-page";
+import { db } from "#i/core/db.server";
+import { AlreadyExistError } from "#i/core/errors.server";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,8 +1,10 @@
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
 import { BoardCard } from "#i/core/layout/board-card";
 import { Section } from "#i/core/layout/section";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./loader.server";
 
 export function SectionInformation() {

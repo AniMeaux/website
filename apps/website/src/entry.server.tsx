@@ -1,11 +1,13 @@
-import { checkEnv, getClientEnv } from "#i/core/env.server";
+import { PassThrough } from "node:stream";
+
 import type { EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
-import { PassThrough } from "node:stream";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
+
+import { checkEnv, getClientEnv } from "#i/core/env.server";
 
 checkEnv();
 global.CLIENT_ENV = getClientEnv();

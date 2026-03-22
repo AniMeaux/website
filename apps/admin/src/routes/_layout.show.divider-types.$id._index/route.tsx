@@ -1,8 +1,10 @@
+import type { MetaFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { PageLayout } from "#i/core/layout/page";
 import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
-import { useLoaderData } from "@remix-run/react";
+
 import { CardDetails } from "./card-details";
 import { CardExhibitorList } from "./card-exhibitor-list";
 import { CardSituation } from "./card-situation";

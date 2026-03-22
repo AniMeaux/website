@@ -1,3 +1,18 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { FosterFamily } from "@animeaux/prisma";
+import {
+  FosterFamilyAvailability,
+  FosterFamilyGarden,
+  FosterFamilyHousing,
+  Species,
+} from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { useEffect, useRef, useState } from "react";
+
 import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
 import { Action } from "#i/core/actions";
 import { toIsoDateValue } from "#i/core/dates";
@@ -23,20 +38,6 @@ import {
   SORTED_HOUSING,
 } from "#i/foster-families/housing";
 import { Icon } from "#i/generated/icon";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { FosterFamily } from "@animeaux/prisma";
-import {
-  FosterFamilyAvailability,
-  FosterFamilyGarden,
-  FosterFamilyHousing,
-  Species,
-} from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useRef, useState } from "react";
 
 const actionSchema = zu.object({
   address: zu.string().trim().min(1, "Veuillez entrer une adresse"),

@@ -1,10 +1,11 @@
-import type { ChipColor } from "#i/core/data-display/chip";
-import { Chip } from "#i/core/data-display/chip";
-import { Icon } from "#i/generated/icon";
 import { cn } from "@animeaux/core";
 import { Status } from "@animeaux/prisma";
 import difference from "lodash.difference";
 import orderBy from "lodash.orderby";
+
+import type { ChipColor } from "#i/core/data-display/chip";
+import { Chip } from "#i/core/data-display/chip";
+import { Icon } from "#i/generated/icon";
 
 export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.ADOPTED]: "Adopté",

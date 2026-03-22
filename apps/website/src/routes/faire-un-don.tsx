@@ -1,8 +1,11 @@
+import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
+
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import {
-  BubbleShape,
   bubbleSectionClassNames,
+  BubbleShape,
 } from "#i/core/layout/bubble-section";
 import {
   HeroSection,
@@ -21,8 +24,6 @@ import { helloassoImages } from "#i/images/helloasso";
 import paypalImage from "#i/images/paypal.png";
 import { socialImages } from "#i/images/social";
 import teamingImage from "#i/images/teaming.png";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

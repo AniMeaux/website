@@ -1,8 +1,9 @@
-import { endOfDay } from "#i/core/dates";
 import { UserGroup } from "@animeaux/prisma";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import { DateTime } from "luxon";
+
+import { endOfDay } from "#i/core/dates";
 
 export enum UserSort {
   LAST_ACTIVITY = "L",

@@ -1,3 +1,5 @@
+import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+
 import { FieldDate } from "#i/core/form-elements/field-date.js";
 import { FieldDecimal } from "#i/core/form-elements/field-decimal.js";
 import { FieldRadios } from "#i/core/form-elements/field-radios";
@@ -9,7 +11,6 @@ import { Card } from "#i/core/layout/card";
 import { Separator } from "#i/core/layout/separator";
 import { Icon } from "#i/generated/icon.js";
 import { InvoiceStatus } from "#i/show/invoice/status.js";
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
 
 export function FieldsetInvoice({
   form,

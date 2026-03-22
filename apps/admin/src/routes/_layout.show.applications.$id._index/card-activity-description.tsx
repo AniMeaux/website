@@ -1,6 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
 import { Card } from "#i/core/layout/card";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardActivityDescription() {

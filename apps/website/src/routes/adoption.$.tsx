@@ -1,3 +1,13 @@
+import type { AnimalAge } from "@animeaux/core";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
+import type { Prisma, Species } from "@animeaux/prisma";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData, useParams } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import { AnimalItem } from "#i/animals/item";
 import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status";
 import { actionClassNames } from "#i/core/actions";
@@ -6,8 +16,8 @@ import { Paginator } from "#i/core/controllers/paginator";
 import {
   AGES_TO_PATH,
   ANIMAL_AGES_BY_SPECIES,
-  SPECIES_TO_PATH,
   SearchForm,
+  SPECIES_TO_PATH,
 } from "#i/core/controllers/searchForm";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { prisma } from "#i/core/db.server";
@@ -20,15 +30,6 @@ import {
   SPECIES_PLURAL_TRANSLATION,
   SPECIES_TRANSLATION,
 } from "#i/core/translations";
-import type { AnimalAge } from "@animeaux/core";
-import { ANIMAL_AGE_RANGE_BY_SPECIES, cn } from "@animeaux/core";
-import type { Prisma, Species } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData, useParams } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 type PageParams = {
   species?: Species;

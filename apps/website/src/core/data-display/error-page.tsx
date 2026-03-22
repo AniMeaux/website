@@ -1,3 +1,6 @@
+import { cn } from "@animeaux/core";
+import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
+
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import {
@@ -9,8 +12,6 @@ import {
   HeroSectionTitle,
 } from "#i/core/layout/hero-section";
 import { errorImages } from "#i/images/error";
-import { cn } from "@animeaux/core";
-import { isRouteErrorResponse, useRouteError } from "@remix-run/react";
 
 const STATUS_CODE = [404, 500] as const;
 type StatusCode = (typeof STATUS_CODE)[number];

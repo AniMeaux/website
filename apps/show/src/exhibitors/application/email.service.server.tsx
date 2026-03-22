@@ -1,3 +1,9 @@
+import { getCompleteLocation } from "@animeaux/core";
+import type { Prisma } from "@animeaux/prisma";
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
+import { Img } from "@react-email/components";
+import invariant from "tiny-invariant";
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EMAIL_SENTENCE_COMPONENTS,
@@ -12,15 +18,10 @@ import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activ
 import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
 import { LegalStatus } from "#i/exhibitors/application/legal-status";
 import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category";
-import { getCompleteLocation } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
-import { Img } from "@react-email/components";
-import invariant from "tiny-invariant";
+
 import type { ServiceApplication } from "./service.server";
 
 export class ServiceApplicationEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private application: ServiceApplication,

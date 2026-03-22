@@ -1,8 +1,9 @@
+import { Link } from "@remix-run/react";
+
 import { Action } from "#i/core/actions/action";
 import { DynamicImage } from "#i/core/data-display/image";
 import { LazyElement } from "#i/core/layout/lazy-element";
 import { Section } from "#i/core/layout/section";
-import { Link } from "@remix-run/react";
 
 export function SectionTitle() {
   return (

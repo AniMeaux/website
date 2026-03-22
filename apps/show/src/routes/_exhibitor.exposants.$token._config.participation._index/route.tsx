@@ -1,8 +1,10 @@
+import type { MetaFunction } from "@remix-run/react";
+
 import { getErrorTitle } from "#i/core/data-display/error-page";
 import { FormLayout } from "#i/core/layout/form-layout";
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/react";
+
 import type { loader } from "./loader.server.js";
 import { SectionDogs } from "./section-dogs";
 import { SectionHelper } from "./section-helper";

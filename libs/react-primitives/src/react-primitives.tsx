@@ -25,7 +25,7 @@ export const Primitive = ELEMENT_TYPES.reduce((primitive, elementType) => {
     React.ComponentRef<typeof elementType>,
     React.ComponentPropsWithoutRef<typeof elementType> & AsChildProp
   >(({ asChild, ...rest }, ref) => {
-    const Component: any = asChild ? Slot : elementType;
+    const Component: React.ElementType = asChild ? Slot : elementType;
     return <Component {...rest} ref={ref} />;
   });
 

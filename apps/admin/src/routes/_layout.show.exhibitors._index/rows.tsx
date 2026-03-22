@@ -1,13 +1,15 @@
+import { cn, ImageUrl } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
+import type { SerializeFrom } from "@remix-run/node";
+import { forwardRef } from "react";
+
 import { BaseLink } from "#i/core/base-link";
 import { DynamicImage } from "#i/core/data-display/image";
 import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon.js";
 import { SponsorshipCategory } from "#i/show/sponsors/category.js";
 import { Visibility, VisibilityIcon } from "#i/show/visibility";
-import { ImageUrl, cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import type { SerializeFrom } from "@remix-run/node";
-import { forwardRef } from "react";
+
 import type { loader } from "./loader.server";
 
 export const Rows = forwardRef<

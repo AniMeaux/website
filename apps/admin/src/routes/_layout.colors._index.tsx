@@ -1,3 +1,18 @@
+import { cn } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import { UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { ColorFilterForm } from "#i/colors/filter-form";
 import { ColorSearchParams } from "#i/colors/search-params";
 import { Action } from "#i/core/actions";
@@ -17,20 +32,6 @@ import { badRequest, notFound } from "#i/core/response.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 const COLOR_COUNT_PER_PAGE = 20;
 

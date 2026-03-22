@@ -1,3 +1,18 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { FosterFamily } from "@animeaux/prisma";
+import { FosterFamilyAvailability, UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
+import { promiseHash } from "remix-utils/promise";
+
 import { AnimalItem } from "#i/animals/item";
 import { AnimalSearchParams } from "#i/animals/search-params";
 import { Action } from "#i/core/actions";
@@ -24,20 +39,7 @@ import {
   FosterFamilyAvatar,
 } from "#i/foster-families/avatar";
 import { ActionFormData } from "#i/foster-families/form";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { FosterFamily } from "@animeaux/prisma";
-import { FosterFamilyAvailability, UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
+
 import { ContactCard } from "./contact-card";
 import { SituationCard } from "./situation-card";
 

@@ -1,3 +1,6 @@
+import type { Animal } from "@animeaux/prisma/server";
+import difference from "lodash.difference";
+
 import { ActivityAction } from "#i/activity/action.js";
 import { Activity } from "#i/activity/db.server.js";
 import { ActivityResource } from "#i/activity/resource.js";
@@ -5,8 +8,6 @@ import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures";
 import { deleteImage } from "#i/core/cloudinary.server";
 import { NotFoundError } from "#i/core/errors.server";
 import { prisma } from "#i/core/prisma.server";
-import type { Animal } from "@animeaux/prisma/server";
-import difference from "lodash.difference";
 
 export type AnimalPictures = Pick<Animal, "avatar" | "pictures">;
 

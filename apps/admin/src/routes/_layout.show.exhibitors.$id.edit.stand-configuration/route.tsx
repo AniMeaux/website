@@ -1,9 +1,11 @@
+import { getFormProps } from "@conform-to/react";
+import type { MetaFunction } from "@remix-run/react";
+
 import { Action } from "#i/core/actions";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { PageLayout } from "#i/core/layout/page";
 import { getPageTitle } from "#i/core/page-title";
-import { getFormProps } from "@conform-to/react";
-import type { MetaFunction } from "@remix-run/react";
+
 import { FieldsetConfiguration } from "./fieldset-configuration";
 import { FieldsetPriceDetails } from "./fieldset-price-details";
 import { FieldsetStatus } from "./fieldset-status";

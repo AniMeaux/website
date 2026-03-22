@@ -1,3 +1,13 @@
+import { toBooleanAttribute } from "@animeaux/core";
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { Event } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFormAction } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
+
 import { Action } from "#i/core/actions";
 import type { ImageFileOrId } from "#i/core/data-display/image";
 import {
@@ -15,15 +25,6 @@ import { Switch } from "#i/core/form-elements/switch";
 import { Textarea } from "#i/core/form-elements/textarea";
 import { Separator } from "#i/core/layout/separator";
 import { Icon } from "#i/generated/icon";
-import { toBooleanAttribute } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Event } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFormAction } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

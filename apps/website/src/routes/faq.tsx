@@ -1,3 +1,6 @@
+import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
+
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import {
@@ -13,8 +16,6 @@ import type { IconProps } from "#i/generated/icon";
 import { Icon } from "#i/generated/icon";
 import { questionsImages } from "#i/images/questions";
 import { socialImages } from "#i/images/social";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

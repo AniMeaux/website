@@ -1,3 +1,13 @@
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { BreedNotForSpeciesError } from "#i/animals/profile/db.server";
 import { ActionFormData, AnimalProfileForm } from "#i/animals/profile/form";
 import { getAnimalDisplayName } from "#i/animals/profile/name";
@@ -12,15 +22,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { prisma } from "#i/core/prisma.server";
 import { notFound } from "#i/core/response.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

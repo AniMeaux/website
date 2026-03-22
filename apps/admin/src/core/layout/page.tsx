@@ -1,9 +1,10 @@
-import { BaseLink } from "#i/core/base-link";
 import { cn } from "@animeaux/core";
 import { Children, isValidElement } from "react";
 
+import { BaseLink } from "#i/core/base-link";
+
 export const PageLayout = {
-  Root: function PageLayoutRoot({ children }: React.PropsWithChildren<{}>) {
+  Root: function PageLayoutRoot({ children }: React.PropsWithChildren) {
     const hasTabs = Children.toArray(children).some(
       (child) => isValidElement(child) && child.type === PageLayout.Tabs,
     );
@@ -18,7 +19,7 @@ export const PageLayout = {
     );
   },
 
-  Tabs: function PageLayoutTabs(props: React.PropsWithChildren<{}>) {
+  Tabs: function PageLayoutTabs(props: React.PropsWithChildren) {
     return (
       <nav
         {...props}

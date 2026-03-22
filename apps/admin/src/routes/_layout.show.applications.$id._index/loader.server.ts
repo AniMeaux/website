@@ -1,11 +1,13 @@
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
-import { hasGroups } from "#i/users/groups.js";
 import { UserGroup } from "@animeaux/prisma/server";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
+import { hasGroups } from "#i/users/groups.js";
+
 import { RouteParamsSchema } from "./route-params";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {

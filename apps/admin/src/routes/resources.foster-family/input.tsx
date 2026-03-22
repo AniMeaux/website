@@ -1,3 +1,12 @@
+import { toBooleanAttribute } from "@animeaux/core";
+import type { FosterFamily } from "@animeaux/prisma";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import type { SerializeFrom } from "@remix-run/node";
+import { useFetcher, useLocation } from "@remix-run/react";
+import { useCombobox } from "downshift";
+import { createPath } from "history";
+import { forwardRef, useEffect, useState } from "react";
+
 import { BaseTextInput } from "#i/core/form-elements/base-text-input";
 import { Input } from "#i/core/form-elements/input";
 import {
@@ -12,14 +21,6 @@ import { FosterFamilySuggestionItem } from "#i/foster-families/item";
 import { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import { Icon } from "#i/generated/icon";
 import type { loader } from "#i/routes/resources.foster-family/route";
-import { toBooleanAttribute } from "@animeaux/core";
-import type { FosterFamily } from "@animeaux/prisma";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher, useLocation } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
 
 type FosterFamilyInputProps = {
   name: string;

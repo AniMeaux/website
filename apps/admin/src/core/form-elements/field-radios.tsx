@@ -1,9 +1,10 @@
+import type { FieldMetadata } from "@conform-to/react";
+import { getCollectionProps } from "@conform-to/react";
+
 import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
 import { Form } from "#i/core/form-elements/form";
 import { InputChoice, InputsChoices } from "#i/core/form-elements/input-choice";
 import { RequiredStar } from "#i/core/form-elements/required-star";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
 
 export function FieldRadios<TValue extends string>({
   field,

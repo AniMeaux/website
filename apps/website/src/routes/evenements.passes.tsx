@@ -1,3 +1,10 @@
+import { cn } from "@animeaux/core";
+import type { Prisma } from "@animeaux/prisma";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { actionClassNames } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Paginator } from "#i/core/controllers/paginator";
@@ -6,12 +13,6 @@ import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
 import { getPage } from "#i/core/search-params";
 import { EventItem } from "#i/events/item";
-import { cn } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 // Multiple of 2 and 3 to be nicely displayed.
 const EVENT_COUNT_PER_PAGE = 18;

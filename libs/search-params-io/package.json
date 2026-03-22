@@ -20,7 +20,10 @@
     "dev:paths": "pnpm build:paths --watch",
     "dev:src": "pnpm build:src --watch",
     "lint": "run-p --continue-on-error --print-label lint:*",
-    "lint:types": "tsc --noEmit"
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:tsc": "tsc --noEmit",
+    "lint-fix": "run-s --print-label lint-fix:eslint",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
   },
   "dependencies": {
     "@remix-run/react": "catalog:",
@@ -28,8 +31,10 @@
     "react": "catalog:"
   },
   "devDependencies": {
+    "@animeaux/dev-tools": "workspace:*",
     "@types/lodash.isequal": "catalog:",
     "@types/react": "catalog:",
+    "eslint": "catalog:",
     "npm-run-all": "catalog:",
     "tsc-alias": "catalog:",
     "typescript": "catalog:"

@@ -1,3 +1,8 @@
+import { joinReactNodes } from "@animeaux/core";
+import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import type { IsFirstProps } from "#i/core/data-display/email-html.server.js";
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
@@ -9,13 +14,8 @@ import type { ServiceApplication } from "#i/exhibitors/application/service.serve
 import { GENDER_TRANSLATION } from "#i/exhibitors/dogs-configuration/gender.js";
 import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
 import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js";
-import { joinReactNodes } from "@animeaux/core";
-import { Gender, ShowExhibitorStatus } from "@animeaux/prisma";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 export class ServiceExhibitorDogConfigurationEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,

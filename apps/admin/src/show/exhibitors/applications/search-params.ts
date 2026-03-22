@@ -1,4 +1,3 @@
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
 import {
   ShowActivityField,
   ShowActivityTarget,
@@ -6,6 +5,8 @@ import {
 } from "@animeaux/prisma";
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
+
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category";
 
 export const ApplicationSearchParams = SearchParamsIO.create({
   keys: {

@@ -1,7 +1,3 @@
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Routes } from "#i/core/navigation";
 import {
   isRouteErrorResponse,
   useLocation,
@@ -9,6 +5,11 @@ import {
 } from "@remix-run/react";
 import { captureRemixErrorBoundaryError } from "@sentry/remix";
 import { useEffect } from "react";
+
+import { Action } from "#i/core/actions";
+import { BaseLink } from "#i/core/base-link";
+import { SimpleEmpty } from "#i/core/data-display/empty";
+import { Routes } from "#i/core/navigation";
 
 export function ErrorPage() {
   const error = useRouteError();

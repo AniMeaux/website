@@ -1,5 +1,6 @@
-import { Icon } from "#i/generated/icon";
 import { FosterFamilyGarden, FosterFamilyHousing } from "@animeaux/prisma";
+
+import { Icon } from "#i/generated/icon";
 
 export const SORTED_HOUSING = [
   FosterFamilyHousing.HOUSE,

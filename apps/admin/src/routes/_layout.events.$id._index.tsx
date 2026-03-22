@@ -1,3 +1,14 @@
+import { formatDateRange } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
@@ -18,16 +29,6 @@ import { notFound } from "#i/core/response.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { EventAvatar } from "#i/events/avatar";
 import { Icon } from "#i/generated/icon";
-import { formatDateRange } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

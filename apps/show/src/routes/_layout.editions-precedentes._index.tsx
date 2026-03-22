@@ -1,7 +1,8 @@
-import { Routes } from "#i/core/navigation";
-import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition";
 import { redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
+
+import { Routes } from "#i/core/navigation";
+import { SORTED_PREVIOUS_EDITIONS } from "#i/previous-editions/previous-edition";
 
 export async function loader() {
   const latestEdition = SORTED_PREVIOUS_EDITIONS[0];

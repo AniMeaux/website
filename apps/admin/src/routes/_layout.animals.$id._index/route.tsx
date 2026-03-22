@@ -1,10 +1,22 @@
+import { cn, formatAge } from "@animeaux/core";
+import { Gender, UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { AgreementItem } from "#i/animals/agreements";
 import { AnimalAvatar } from "#i/animals/avatar";
 import { GENDER_ICON } from "#i/animals/gender";
 import { ActionFormData as ProfileActionFormData } from "#i/animals/profile/form";
 import { getAnimalDisplayName } from "#i/animals/profile/name";
 import { ActionFormData as SituationActionFormData } from "#i/animals/situation/form";
-import { SPECIES_ICON, getSpeciesLabels } from "#i/animals/species";
+import { getSpeciesLabels, SPECIES_ICON } from "#i/animals/species";
 import { StatusBadge } from "#i/animals/status";
 import { Action } from "#i/core/actions";
 import type { BaseLinkProps } from "#i/core/base-link";
@@ -28,17 +40,7 @@ import { notFound } from "#i/core/response.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { Icon } from "#i/generated/icon";
 import { hasGroups } from "#i/users/groups";
-import { cn, formatAge } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import { SituationCard } from "./situation-card";
 
 const ParamsSchema = zu.object({

@@ -1,8 +1,9 @@
+import { SearchParamsIO } from "@animeaux/search-params-io";
+import { zu } from "@animeaux/zod-utils";
+
 import type { IconName } from "#i/generated/icon.js";
 import { SponsorshipCategory } from "#i/show/sponsors/category";
 import { Visibility } from "#i/show/visibility";
-import { SearchParamsIO } from "@animeaux/search-params-io";
-import { zu } from "@animeaux/zod-utils";
 
 export const SponsorSearchParams = SearchParamsIO.create({
   keys: {

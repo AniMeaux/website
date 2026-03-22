@@ -1,7 +1,6 @@
 import type { ServicePrisma } from "#i/core/prisma.service.server.js";
 
 export class ServiceProvider {
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prisma: ServicePrisma) {}
 
   async getManyVisible() {

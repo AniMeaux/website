@@ -1,3 +1,11 @@
+import { cn } from "@animeaux/core";
+import { Primitive } from "@animeaux/react-primitives";
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
+import { forwardRef } from "react";
+
 import { getErrorTitle } from "#i/core/data-display/error-page";
 import { DynamicImage } from "#i/core/data-display/image";
 import { useElementSize } from "#i/core/elements";
@@ -14,13 +22,6 @@ import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
 } from "#i/previous-editions/previous-edition";
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { forwardRef } from "react";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-black"),

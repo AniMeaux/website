@@ -1,3 +1,18 @@
+import type { User } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import {
+  Link,
+  Outlet,
+  useFetcher,
+  useLoaderData,
+  useLocation,
+} from "@remix-run/react";
+import { createPath } from "history";
+import { useEffect, useState } from "react";
+import { promiseHash } from "remix-utils/promise";
+
 import type { BaseLinkProps } from "#i/core/base-link";
 import { BaseLink } from "#i/core/base-link";
 import { db } from "#i/core/db.server";
@@ -17,20 +32,6 @@ import { GlobalSearch } from "#i/routes/resources.global-search/input";
 import { usePreferencesFetcher } from "#i/routes/resources.preferences/fetcher";
 import { UserAvatar } from "#i/users/avatar";
 import { hasGroups } from "#i/users/groups";
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import {
-  Link,
-  Outlet,
-  useFetcher,
-  useLoaderData,
-  useLocation,
-} from "@remix-run/react";
-import { createPath } from "history";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { currentUser, preferences } = await promiseHash({

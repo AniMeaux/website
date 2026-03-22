@@ -18,5 +18,5 @@ if (process.env.NODE_ENV === "production") {
   }
 
   prisma = global.__db__;
-  prisma.$connect();
+  void prisma.$connect();
 }

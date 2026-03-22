@@ -1,9 +1,11 @@
+import type { SerializeFrom } from "@remix-run/node";
+
 import { BaseLink } from "#i/core/base-link.js";
 import { Chip } from "#i/core/data-display/chip.js";
 import { Routes } from "#i/core/navigation.js";
 import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js";
 import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
-import type { SerializeFrom } from "@remix-run/node";
+
 import type { loader } from "./route";
 
 type StandSize = SerializeFrom<typeof loader>["standSizes"][number];

@@ -1,5 +1,6 @@
-import { Visibility } from "#i/show/visibility.js";
 import { zu } from "@animeaux/zod-utils";
+
+import { Visibility } from "#i/show/visibility.js";
 
 export const actionSchema = zu.object({
   area: zu.coerce

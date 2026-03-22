@@ -1,12 +1,14 @@
-import { Routes } from "#i/core/navigation.js";
-import { badRequest } from "#i/core/response.server.js";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import { parseWithZod } from "@conform-to/zod";
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";
+
+import { Routes } from "#i/core/navigation.js";
+import { badRequest } from "#i/core/response.server.js";
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
+
 import { actionSchema } from "./action";
 
 export async function action({ request, params }: ActionFunctionArgs) {
@@ -54,7 +56,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
         },
   );
 
-  services.invoiceEmail.billingAddressChanged(routeParams.token);
+  void services.invoiceEmail.billingAddressChanged(routeParams.token);
 
   throw redirect(Routes.exhibitors.token(routeParams.token).invoice.toString());
 }

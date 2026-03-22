@@ -1,6 +1,8 @@
+import type { MetaFunction } from "@remix-run/node";
+
 import { PageLayout } from "#i/core/layout/page";
 import { getPageTitle } from "#i/core/page-title";
-import type { MetaFunction } from "@remix-run/node";
+
 import { CardActiveAnimals } from "./card-active-animals";
 import { CardAnimalsToSterilize } from "./card-animals-to-sterilize";
 import { CardAnimalsToVaccinate } from "./card-animals-to-vaccinate";

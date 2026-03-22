@@ -1,3 +1,8 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+
 import { Action } from "#i/core/actions";
 import { Form } from "#i/core/form-elements/form";
 import { Input } from "#i/core/form-elements/input";
@@ -7,10 +12,6 @@ import { Separator } from "#i/core/layout/separator";
 import { Spinner } from "#i/core/loaders/spinner";
 import { Icon } from "#i/generated/icon";
 import { useScrapUrlFetcher } from "#i/routes/resources.scrap-url/hook";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

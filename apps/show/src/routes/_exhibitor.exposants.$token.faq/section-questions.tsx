@@ -1,6 +1,8 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { Section } from "#i/core/layout/section";
 import { FaqItem, FaqList } from "#i/faq/item";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function SectionQuestions() {

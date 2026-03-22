@@ -1,3 +1,5 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
@@ -12,7 +14,6 @@ import {
   ToggleInputList,
 } from "#i/core/form-elements/toggle-input";
 import { Icon } from "#i/generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function ColorFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams();

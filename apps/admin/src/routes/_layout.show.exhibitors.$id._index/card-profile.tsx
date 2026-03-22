@@ -1,3 +1,6 @@
+import { ImageUrl, joinReactNodes } from "@animeaux/core";
+import { useLoaderData } from "@remix-run/react";
+
 import { Action, ProseInlineAction } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -12,8 +15,7 @@ import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
 import { ExhibitorStatus } from "#i/show/exhibitors/status";
 import { StatusHelper } from "#i/show/exhibitors/status-helper";
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js";
-import { ImageUrl, joinReactNodes } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardProfile() {

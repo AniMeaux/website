@@ -1,10 +1,3 @@
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
-import { Action } from "#i/core/actions";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import type { Breed } from "@animeaux/prisma";
 import { Species } from "@animeaux/prisma";
@@ -12,6 +5,14 @@ import { zu } from "@animeaux/zod-utils";
 import type { SerializeFrom } from "@remix-run/node";
 import type { FetcherWithComponents } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species";
+import { Action } from "#i/core/actions";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice";
+import { RequiredStar } from "#i/core/form-elements/required-star";
+import { Icon } from "#i/generated/icon";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

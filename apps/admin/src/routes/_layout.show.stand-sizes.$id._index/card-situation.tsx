@@ -1,9 +1,11 @@
+import { useLoaderData } from "@remix-run/react";
+
 import { ItemList, SimpleItem } from "#i/core/data-display/item.js";
 import { Card } from "#i/core/layout/card.js";
-import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
 import { formatBooking } from "#i/show/stand-size/booking.js";
+import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js";
 import { Visibility, VisibilityIcon } from "#i/show/visibility.js";
-import { useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function CardSituation() {

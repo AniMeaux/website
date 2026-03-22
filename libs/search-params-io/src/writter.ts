@@ -1,26 +1,29 @@
 export interface SearchParamsWritter<
-  TKeys extends Record<string, string>,
-  TInput,
+  TKeys extends Record<string, string> = Record<string, string>,
+  TInput extends object = object,
 > {
   keys: TKeys;
 
-  set(searchParams: URLSearchParams, data: TInput): URLSearchParams;
+  set: (searchParams: URLSearchParams, data: TInput) => URLSearchParams;
 
   /**
    * Alias for `writter.set(new URLSearchParams(), data)`.
    */
-  create(data: TInput): URLSearchParams;
+  create: (data: TInput) => URLSearchParams;
 
   /**
    * Alias for `writter.set(new URLSearchParams(), data).toString()`.
    */
-  format(data: TInput): string;
+  format: (data: TInput) => string;
 
-  clear(searchParams: URLSearchParams): URLSearchParams;
+  clear: (searchParams: URLSearchParams) => URLSearchParams;
 }
 
 export namespace SearchParamsWritter {
-  export function create<TKeys extends Record<string, string>, TInput>({
+  export function create<
+    TKeys extends Record<string, string>,
+    TInput extends object,
+  >({
     keys,
     setFunction,
   }: {
@@ -87,12 +90,13 @@ export namespace SearchParamsWritter {
     });
   }
 
-  export type Infer<TWritter extends SearchParamsWritter<any, any>> =
-    TWritter extends SearchParamsWritter<any, infer TInput> ? TInput : never;
+  export type Infer<TWritter extends SearchParamsWritter> =
+    TWritter extends SearchParamsWritter<Record<string, string>, infer TInput>
+      ? TInput
+      : never;
 
-  export type SetFunction<TKeys extends Record<string, string>, TInput> = (
-    searchParams: URLSearchParams,
-    data: TInput,
-    keys: TKeys,
-  ) => void;
+  export type SetFunction<
+    TKeys extends Record<string, string>,
+    TInput extends object,
+  > = (searchParams: URLSearchParams, data: TInput, keys: TKeys) => void;
 }

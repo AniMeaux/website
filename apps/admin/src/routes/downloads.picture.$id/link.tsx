@@ -1,7 +1,8 @@
-import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
-import { Routes } from "#i/core/navigation";
 import { forwardRef } from "react";
 import type { Except } from "type-fest";
+
+import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
+import { Routes } from "#i/core/navigation";
 
 export const DownloadPictureLink = forwardRef<
   React.ComponentRef<typeof DownloadTrigger>,

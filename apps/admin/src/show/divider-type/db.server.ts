@@ -1,9 +1,10 @@
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server.js";
-import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js";
 import type { Prisma } from "@animeaux/prisma/server";
 import merge from "lodash.merge";
 import type { Simplify } from "type-fest";
+
+import { prisma } from "#i/core/prisma.server";
+import { notFound } from "#i/core/response.server.js";
+import type { ShowDividerTypeAvailability } from "#i/show/divider-type/availability.js";
 
 export class ShowDividerTypeDbDelegate {
   async findUnique<T extends Prisma.ShowDividerTypeSelect>(

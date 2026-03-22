@@ -1,3 +1,6 @@
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { Action, ProseInlineAction } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { ItemList, SimpleItem } from "#i/core/data-display/item";
@@ -8,8 +11,7 @@ import {
   ApplicationStatusIcon,
   TRANSLATION_BY_APPLICATION_STATUS,
 } from "#i/show/exhibitors/applications/status";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./loader.server";
 
 export function CardSituation() {

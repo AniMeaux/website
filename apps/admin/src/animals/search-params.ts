@@ -1,4 +1,3 @@
-import { endOfDay } from "#i/core/dates";
 import { AnimalAge } from "@animeaux/core";
 import {
   AdoptionOption,
@@ -12,6 +11,8 @@ import {
 import { SearchParamsIO } from "@animeaux/search-params-io";
 import { zu } from "@animeaux/zod-utils";
 import { DateTime } from "luxon";
+
+import { endOfDay } from "#i/core/dates";
 
 export enum AnimalSort {
   BIRTHDATE = "B",

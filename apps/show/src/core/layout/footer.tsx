@@ -1,3 +1,6 @@
+import { cn } from "@animeaux/core";
+import { Link } from "@remix-run/react";
+
 import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
 import { SocialLink } from "#i/core/actions/social-link";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -6,11 +9,9 @@ import { Section } from "#i/core/layout/section";
 import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon";
 import { Pictogram } from "#i/generated/pictogram";
-import { cn } from "@animeaux/core";
-import { Link } from "@remix-run/react";
 
 export const Footer = {
-  Root: function FooterRoot({ children }: React.PropsWithChildren<{}>) {
+  Root: function FooterRoot({ children }: React.PropsWithChildren) {
     return <footer className="grid grid-cols-1">{children}</footer>;
   },
 

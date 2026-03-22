@@ -1,23 +1,26 @@
 import isEqual from "lodash.isequal";
 
 export interface SearchParamsReader<
-  TKeys extends Record<string, string>,
-  TOutput,
+  TKeys extends Record<string, string> = Record<string, string>,
+  TOutput extends object = object,
 > {
   keys: TKeys;
 
-  parse(searchParams: URLSearchParams): TOutput;
+  parse: (searchParams: URLSearchParams) => TOutput;
 
-  areEqual(a: URLSearchParams, b: URLSearchParams): boolean;
+  areEqual: (a: URLSearchParams, b: URLSearchParams) => boolean;
 
   /**
    * Alias for `reader.areEqual(searchParams, new URLSearchParams())`.
    */
-  isEmpty(searchParams: URLSearchParams): boolean;
+  isEmpty: (searchParams: URLSearchParams) => boolean;
 }
 
 export namespace SearchParamsReader {
-  export function create<TKeys extends Record<string, string>, TOutput>({
+  export function create<
+    TKeys extends Record<string, string>,
+    TOutput extends object,
+  >({
     keys,
     parseFunction,
   }: {
@@ -59,11 +62,13 @@ export namespace SearchParamsReader {
     return searchParams.getAll(key);
   }
 
-  export type Infer<TReader extends SearchParamsReader<any, any>> =
-    TReader extends SearchParamsReader<any, infer TOutput> ? TOutput : never;
+  export type Infer<TReader extends SearchParamsReader> =
+    TReader extends SearchParamsReader<Record<string, string>, infer TOutput>
+      ? TOutput
+      : never;
 
-  export type ParseFunction<TKeys extends Record<string, string>, TOutput> = (
-    searchParams: URLSearchParams,
-    keys: TKeys,
-  ) => TOutput;
+  export type ParseFunction<
+    TKeys extends Record<string, string>,
+    TOutput extends object,
+  > = (searchParams: URLSearchParams, keys: TKeys) => TOutput;
 }

@@ -1,3 +1,5 @@
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
@@ -27,7 +29,6 @@ import {
 } from "#i/foster-families/housing";
 import { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import { Icon } from "#i/generated/icon";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
 
 export function FosterFamilyFilters({
   possibleCities,

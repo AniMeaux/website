@@ -1,3 +1,9 @@
+import { generatePasswordHash } from "@animeaux/password";
+import type { User } from "@animeaux/prisma/server";
+import { Prisma, UserGroup } from "@animeaux/prisma/server";
+import type { SearchParamsIO } from "@animeaux/search-params-io";
+import { DateTime } from "luxon";
+
 import {
   EmailAlreadyUsedError,
   NotFoundError,
@@ -8,11 +14,6 @@ import { orderByRank } from "#i/core/order-by-rank";
 import { prisma } from "#i/core/prisma.server";
 import type { UserSearchParams } from "#i/users/search-params";
 import { UserSort } from "#i/users/search-params";
-import { generatePasswordHash } from "@animeaux/password";
-import type { User } from "@animeaux/prisma/server";
-import { Prisma, UserGroup } from "@animeaux/prisma/server";
-import type { SearchParamsIO } from "@animeaux/search-params-io";
-import { DateTime } from "luxon";
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}

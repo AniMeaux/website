@@ -1,3 +1,6 @@
+import { cn } from "@animeaux/core";
+import type { MetaFunction } from "@remix-run/node";
+
 import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
 import {
   ARTICLE_COMPONENTS,
@@ -12,8 +15,6 @@ import {
 import { createSocialMeta } from "#i/core/meta";
 import { getPageTitle } from "#i/core/page-title";
 import { WarnItem } from "#i/warn/item";
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
 
 const IMAGE_ID = "blog/a2bf3ad2-a475-4c63-8f30-fd29928c8fa3";
 

@@ -1,7 +1,9 @@
-import { Tab, Tabs } from "#i/core/controllers/tabs";
-import { Routes } from "#i/core/navigation";
 import { cn } from "@animeaux/core";
 import { useLoaderData } from "@remix-run/react";
+
+import { Tab, Tabs } from "#i/core/controllers/tabs";
+import { Routes } from "#i/core/navigation";
+
 import type { loader } from "./route";
 
 export function SectionTabs() {

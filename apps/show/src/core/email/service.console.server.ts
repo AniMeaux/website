@@ -1,5 +1,6 @@
-import type { ServiceEmail } from "#i/core/email/service.server.js";
 import { render } from "@react-email/render";
+
+import type { ServiceEmail } from "#i/core/email/service.server.js";
 
 export class ServiceEmailConsole implements ServiceEmail {
   async send(template: ServiceEmail.TemplateParam) {

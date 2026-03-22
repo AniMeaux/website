@@ -1,12 +1,13 @@
-import { DynamicImage } from "#i/core/data-display/image";
-import { ImageData } from "#i/core/image/data.js";
-import { Icon } from "#i/generated/icon";
 import { cn, createHookContext, useIsMounted } from "@animeaux/core";
 import type { DataUrlFile } from "@animeaux/files-io";
 import { readFile } from "@animeaux/files-io";
 import { Primitive } from "@animeaux/react-primitives";
 import { forwardRef, useState } from "react";
 import type { Except } from "type-fest";
+
+import { DynamicImage } from "#i/core/data-display/image";
+import { ImageData } from "#i/core/image/data.js";
+import { Icon } from "#i/generated/icon";
 
 export const InputFileImage = {
   Root: forwardRef<

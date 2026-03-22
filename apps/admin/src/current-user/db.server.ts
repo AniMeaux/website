@@ -1,3 +1,9 @@
+import { generatePasswordHash, isSamePassword } from "@animeaux/password";
+import type { User } from "@animeaux/prisma/server";
+import { Prisma, UserGroup } from "@animeaux/prisma/server";
+import { redirect } from "@remix-run/node";
+import { createPath } from "history";
+
 import { EmailAlreadyUsedError, PrismaErrorCodes } from "#i/core/errors.server";
 import { setCurrentUserForMonitoring } from "#i/core/monitoring.server";
 import { Routes } from "#i/core/navigation";
@@ -8,11 +14,6 @@ import {
   getCurrentUserSession,
 } from "#i/current-user/session.server";
 import { hasGroups } from "#i/users/groups";
-import { generatePasswordHash, isSamePassword } from "@animeaux/password";
-import type { User } from "@animeaux/prisma/server";
-import { Prisma, UserGroup } from "@animeaux/prisma/server";
-import { redirect } from "@remix-run/node";
-import { createPath } from "history";
 
 export class CurrentUserDbDelegate {
   async get<T extends Prisma.UserSelect>(

@@ -1,8 +1,9 @@
-import { db } from "#i/core/db.server";
-import { Routes } from "#i/core/navigation";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+
+import { db } from "#i/core/db.server";
+import { Routes } from "#i/core/navigation";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

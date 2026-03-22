@@ -1,9 +1,10 @@
-import { BreedSearchParams } from "#i/breeds/search-params";
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { UserGroup } from "@animeaux/prisma";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
+
+import { BreedSearchParams } from "#i/breeds/search-params";
+import { db } from "#i/core/db.server";
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 
 export type loader = typeof loader;
 

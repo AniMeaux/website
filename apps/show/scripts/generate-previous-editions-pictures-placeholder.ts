@@ -1,7 +1,8 @@
-import { services } from "#i/core/services.server.js";
-import { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";
+
+import { services } from "#i/core/services.server.js";
+import { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 
 for (const edition of Object.values(PreviousEdition)) {
   console.log(`📆 Edition ${edition}:`);

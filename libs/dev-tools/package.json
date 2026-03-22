@@ -1,0 +1,30 @@
+{
+  "name": "@animeaux/dev-tools",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./eslint": "./eslint.config.js"
+  },
+  "scripts": {
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint-fix": "run-s --print-label lint-fix:eslint",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix ."
+  },
+  "dependencies": {
+    "eslint": "catalog:",
+    "eslint-plugin-import-x": "catalog:",
+    "eslint-plugin-jsx-a11y": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "eslint-plugin-simple-import-sort": "catalog:",
+    "eslint-plugin-unused-imports": "catalog:",
+    "globals": "catalog:",
+    "typescript-eslint": "catalog:"
+  },
+  "devDependencies": {
+    "npm-run-all": "catalog:"
+  }
+}

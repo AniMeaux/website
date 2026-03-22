@@ -3,9 +3,9 @@ import { totalTtl } from "@epic-web/cachified";
 import { LRUCache } from "lru-cache";
 
 export class ServiceCache implements Cache {
-  private lruCache = new LRUCache<string, CacheEntry<unknown>>({ max: 10 });
+  private lruCache = new LRUCache<string, CacheEntry>({ max: 10 });
 
-  set(key: string, value: CacheEntry<any>) {
+  set(key: string, value: CacheEntry) {
     const ttl = totalTtl(value?.metadata);
 
     return this.lruCache.set(key, value, {

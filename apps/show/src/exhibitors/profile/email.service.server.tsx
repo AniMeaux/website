@@ -1,3 +1,9 @@
+import { joinReactNodes } from "@animeaux/core";
+import { ShowExhibitorStatus } from "@animeaux/prisma";
+import { Img } from "@react-email/components";
+import { promiseHash } from "remix-utils/promise";
+import invariant from "tiny-invariant";
+
 import {
   EMAIL_PARAGRAPH_COMPONENTS,
   EmailHtml,
@@ -10,14 +16,8 @@ import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
 import { ACTIVITY_TARGET_TRANSLATION } from "#i/exhibitors/activity-target/activity-target.js";
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
 import type { ServiceExhibitor } from "#i/exhibitors/service.server.js";
-import { joinReactNodes } from "@animeaux/core";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Img } from "@react-email/components";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
 
 export class ServiceExhibitorPublicProfileEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,
@@ -334,7 +334,6 @@ export class ServiceExhibitorPublicProfileEmail {
 }
 
 export class ServiceExhibitorDescriptionEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private exhibitor: ServiceExhibitor,

@@ -1,3 +1,13 @@
+import { UserGroup } from "@animeaux/prisma";
+import type { zu } from "@animeaux/zod-utils";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useFetcher, useLoaderData } from "@remix-run/react";
+
 import { AnimalCreationSteps } from "#i/animals/creation-steps";
 import {
   MissingAdoptionDateError,
@@ -13,15 +23,6 @@ import { PageLayout } from "#i/core/layout/page";
 import { Routes } from "#i/core/navigation";
 import { getPageTitle } from "#i/core/page-title";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
-import type {
-  ActionFunctionArgs,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { draft, ...currentUser } = await db.currentUser.get(request, {

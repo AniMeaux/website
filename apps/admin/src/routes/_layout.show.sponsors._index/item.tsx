@@ -1,10 +1,12 @@
+import { ImageUrl } from "@animeaux/core";
+import type { SerializeFrom } from "@remix-run/node";
+
 import { BaseLink } from "#i/core/base-link";
 import { DynamicImage } from "#i/core/data-display/image";
 import { Routes } from "#i/core/navigation";
 import { SponsorshipCategory } from "#i/show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#i/show/visibility";
-import { ImageUrl } from "@animeaux/core";
-import type { SerializeFrom } from "@remix-run/node";
+
 import type { loader } from "./route";
 
 export function SponsorItem({

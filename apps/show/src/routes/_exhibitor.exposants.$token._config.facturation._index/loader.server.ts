@@ -1,8 +1,9 @@
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
 import { safeParseRouteParam } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { promiseHash } from "remix-utils/promise";
+
+import { services } from "#i/core/services.server.js";
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params);

@@ -1,8 +1,9 @@
-import type { IconName } from "#i/generated/icon";
 import type { User } from "@animeaux/prisma";
 import { UserGroup } from "@animeaux/prisma";
 import intersection from "lodash.intersection";
 import orderBy from "lodash.orderby";
+
+import type { IconName } from "#i/generated/icon";
 
 export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.ADMIN]: "Administrateur",

@@ -1,11 +1,13 @@
+import type { MetaFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+
 import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
 import { createSocialMeta } from "#i/core/meta";
 import { Routes } from "#i/core/navigation.js";
 import { getPageTitle } from "#i/core/page-title";
 import { notFound } from "#i/core/response.server";
 import { ShowDay } from "#i/core/show-day";
-import type { MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+
 import { SectionTitle } from "./section-title";
 import { SectionWaitingHelper } from "./section-waiting-helper";
 

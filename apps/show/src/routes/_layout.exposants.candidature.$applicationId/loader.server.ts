@@ -1,7 +1,8 @@
-import { notFound } from "#i/core/response.server";
-import { services } from "#i/core/services.server.js";
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
 import type { LoaderFunctionArgs } from "@remix-run/node";
+
+import { notFound } from "#i/core/response.server";
+import { services } from "#i/core/services.server.js";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {

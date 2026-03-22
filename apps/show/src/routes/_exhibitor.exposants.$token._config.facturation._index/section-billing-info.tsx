@@ -1,3 +1,6 @@
+import { getCompleteLocation } from "@animeaux/core";
+import { Link, useLoaderData } from "@remix-run/react";
+
 import {
   Markdown,
   SENTENCE_COMPONENTS,
@@ -5,8 +8,7 @@ import {
 import { FormLayout } from "#i/core/layout/form-layout";
 import { Routes } from "#i/core/navigation.js";
 import { Icon } from "#i/generated/icon.js";
-import { getCompleteLocation } from "@animeaux/core";
-import { Link, useLoaderData } from "@remix-run/react";
+
 import type { loader } from "./loader.server";
 
 export function SectionBillingInfo() {

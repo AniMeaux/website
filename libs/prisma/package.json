@@ -28,7 +28,10 @@
     "dev:src": "pnpm build:src --watch",
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
-    "lint:types": "tsc --noEmit",
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:tsc": "tsc --noEmit",
+    "lint-fix": "run-s --print-label lint-fix:eslint",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
     "migrate": "yarn prisma-env migrate dev",
     "prisma-env": "node -r dotenv-flow/config ./node_modules/.bin/prisma",
     "reset": "yarn prisma-env migrate reset -f",
@@ -43,6 +46,7 @@
     "prisma": "catalog:"
   },
   "devDependencies": {
+    "@animeaux/dev-tools": "workspace:*",
     "@animeaux/password": "workspace:*",
     "@faker-js/faker": "catalog:",
     "@types/d3-dsv": "catalog:",
@@ -52,6 +56,7 @@
     "chokidar-cli": "catalog:",
     "d3-dsv": "catalog:",
     "dotenv-flow": "catalog:",
+    "eslint": "catalog:",
     "luxon": "catalog:",
     "npm-run-all": "catalog:",
     "pg": "catalog:",

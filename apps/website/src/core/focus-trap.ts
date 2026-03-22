@@ -1,6 +1,7 @@
-import { usePreviousValue } from "#i/core/hooks";
 import { createFocusTrap } from "focus-trap";
 import { useEffect, useRef } from "react";
+
+import { usePreviousValue } from "#i/core/hooks";
 
 const FOCUS_TRAP_IGNORE_ATTRIBUTE = "data-focus-trap-ignore";
 

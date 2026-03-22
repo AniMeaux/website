@@ -1,3 +1,7 @@
+import { cn } from "@animeaux/core";
+import type { ShowActivityTarget } from "@animeaux/prisma";
+import { Link } from "@remix-run/react";
+
 import { Chip } from "#i/core/data-display/chip";
 import { IconInline } from "#i/core/data-display/icon-inline";
 import { DynamicImage } from "#i/core/data-display/image";
@@ -11,9 +15,6 @@ import {
   useExhibitorSearchParams,
 } from "#i/exhibitors/search-params";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { Link } from "@remix-run/react";
 
 export function ExhibitorItem({
   exhibitor,

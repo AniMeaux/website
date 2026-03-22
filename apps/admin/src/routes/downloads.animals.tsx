@@ -1,3 +1,16 @@
+import { cn } from "@animeaux/core";
+import { Gender, UserGroup } from "@animeaux/prisma";
+import { fromPrismaPromise } from "@animeaux/prisma/server";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { defer } from "@remix-run/node";
+import { Await, useLoaderData } from "@remix-run/react";
+import chunk from "lodash.chunk";
+import { Suspense } from "react";
+
 import { GENDER_ICON } from "#i/animals/gender";
 import {
   AnimalSearchParams,
@@ -15,18 +28,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { prisma } from "#i/core/prisma.server";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
 import { Icon } from "#i/generated/icon";
-import { cn } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { fromPrismaPromise } from "@animeaux/prisma/server";
-import type {
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { defer } from "@remix-run/node";
-import { Await, useLoaderData } from "@remix-run/react";
-import chunk from "lodash.chunk";
-import { Suspense } from "react";
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-gray-50 print:bg-white"),

@@ -1,3 +1,11 @@
+import { catchError } from "@animeaux/core";
+import type { ShowExhibitorApplication } from "@animeaux/prisma/server";
+import {
+  Prisma,
+  ShowExhibitorApplicationStatus,
+} from "@animeaux/prisma/server";
+import { promiseHash } from "remix-utils/promise";
+
 import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server";
 import { fileStorage } from "#i/core/file-storage.server";
 import { notifyShowApp } from "#i/core/notification.server";
@@ -6,13 +14,6 @@ import { notFound } from "#i/core/response.server";
 import { ApplicationSearchParamsN } from "#i/show/exhibitors/applications/search-params";
 import { ExhibitorCategory } from "#i/show/exhibitors/category";
 import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js";
-import { catchError } from "@animeaux/core";
-import type { ShowExhibitorApplication } from "@animeaux/prisma/server";
-import {
-  Prisma,
-  ShowExhibitorApplicationStatus,
-} from "@animeaux/prisma/server";
-import { promiseHash } from "remix-utils/promise";
 
 export class MissingRefusalMessageError extends Error {}
 

@@ -1,9 +1,18 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { AnimalDraft, Breed, Color } from "@animeaux/prisma";
+import { Gender, Species } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useLocation } from "@remix-run/react";
+import { useEffect, useRef, useState } from "react";
+
 import {
   AGREEMENT_TRANSLATION,
-  AgreementValue,
-  SORTED_AGREEMENTS,
   agreementFromBoolean,
   agreementToBoolean,
+  AgreementValue,
+  SORTED_AGREEMENTS,
 } from "#i/animals/agreements";
 import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender";
 import {
@@ -22,14 +31,6 @@ import { Separator } from "#i/core/layout/separator";
 import { Icon } from "#i/generated/icon";
 import { BreedInput } from "#i/routes/resources.breed/input";
 import { ColorInput } from "#i/routes/resources.color/input";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { AnimalDraft, Breed, Color } from "@animeaux/prisma";
-import { Gender, Species } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useLocation } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

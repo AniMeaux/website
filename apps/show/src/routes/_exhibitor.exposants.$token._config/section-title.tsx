@@ -1,5 +1,7 @@
-import { Section } from "#i/core/layout/section";
 import { useLoaderData } from "@remix-run/react";
+
+import { Section } from "#i/core/layout/section";
+
 import type { loader } from "./route";
 
 export function SectionTitle() {

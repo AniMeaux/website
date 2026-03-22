@@ -1,3 +1,11 @@
+import { ShowExhibitorStatus } from "@animeaux/prisma";
+import { safeParseRouteParam } from "@animeaux/zod-utils";
+import { parseWithZod } from "@conform-to/zod";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/react";
+import { createPath } from "@remix-run/react";
+
 import { getErrorTitle } from "#i/core/data-display/error-page";
 import { FormLayout } from "#i/core/layout/form-layout";
 import { createSocialMeta } from "#i/core/meta";
@@ -6,13 +14,7 @@ import { getPageTitle } from "#i/core/page-title";
 import { badRequest } from "#i/core/response.server";
 import { services } from "#i/core/services.server.js";
 import { RouteParamsSchema } from "#i/exhibitors/route-params";
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { createPath } from "@remix-run/react";
+
 import { ActionSchema } from "./action";
 import { SectionForm } from "./section-form";
 import { SectionHelper } from "./section-helper";
@@ -69,7 +71,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
     description: submission.value.description || null,
   });
 
-  services.exhibitorEmail.description.submitted(routeParams.token);
+  void services.exhibitorEmail.description.submitted(routeParams.token);
 
   throw redirect(
     createPath({

@@ -1,3 +1,15 @@
+import { cn, formatDateRange } from "@animeaux/core";
+import type { Prisma } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Paginator } from "#i/core/controllers/paginator";
@@ -13,17 +25,6 @@ import { getPageTitle } from "#i/core/page-title";
 import { prisma } from "#i/core/prisma.server";
 import { PageSearchParams } from "#i/core/search-params";
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { cn, formatDateRange } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type {
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 const EVENT_COUNT_PER_PAGE = 20;
 

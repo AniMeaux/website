@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 
 import "#i/env.js";
+
 import { ImageUrl } from "@animeaux/core";
 import { getPixels } from "@unpic/pixels";
 import { encode } from "blurhash";

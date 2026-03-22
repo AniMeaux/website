@@ -1,3 +1,10 @@
+import type { Prisma } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { AnimalItem } from "#i/animals/item";
 import { AnimalSearchParams } from "#i/animals/search-params";
 import {
@@ -19,12 +26,6 @@ import { prisma } from "#i/core/prisma.server";
 import { Icon } from "#i/generated/icon";
 import { UserAvatar } from "#i/users/avatar";
 import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups";
-import type { Prisma } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

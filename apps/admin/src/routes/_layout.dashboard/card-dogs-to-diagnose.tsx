@@ -1,3 +1,6 @@
+import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+
 import { AnimalSmallItem } from "#i/animals/item";
 import {
   AnimalSearchParams,
@@ -10,8 +13,7 @@ import { BaseLink } from "#i/core/base-link";
 import { SimpleEmpty } from "#i/core/data-display/empty";
 import { Card } from "#i/core/layout/card";
 import { Routes } from "#i/core/navigation";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+
 import type { loader } from "./loader.server";
 
 export function CardDogsToDiagnose() {

@@ -1,8 +1,9 @@
-import { Avatar } from "#i/core/data-display/avatar";
-import { inferInstanceColor } from "#i/core/data-display/instance-color";
 import type { User } from "@animeaux/prisma";
 import invariant from "tiny-invariant";
 import type { Except } from "type-fest";
+
+import { Avatar } from "#i/core/data-display/avatar";
+import { inferInstanceColor } from "#i/core/data-display/instance-color";
 
 export function UserAvatar({
   user,

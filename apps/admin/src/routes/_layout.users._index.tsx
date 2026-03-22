@@ -1,3 +1,15 @@
+import { cn } from "@animeaux/core";
+import { UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type {
+  LoaderFunctionArgs,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { promiseHash } from "remix-utils/promise";
+
 import { Action } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { Paginator } from "#i/core/controllers/paginator";
@@ -18,17 +30,6 @@ import { UserAvatar } from "#i/users/avatar";
 import { UserFilterForm } from "#i/users/filter-form";
 import { GROUP_ICON } from "#i/users/groups";
 import { UserSearchParams } from "#i/users/search-params";
-import { cn } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type {
-  LoaderFunctionArgs,
-  MetaFunction,
-  SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
 
 const USER_COUNT_PER_PAGE = 20;
 

@@ -1,3 +1,18 @@
+import { cn } from "@animeaux/core";
+import type { User } from "@animeaux/prisma";
+import * as Dialog from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useFetcher, useNavigation } from "@remix-run/react";
+import type {
+  UseComboboxState,
+  UseComboboxStateChangeOptions,
+} from "downshift";
+import { useCombobox } from "downshift";
+import { createPath } from "history";
+import { useEffect, useState } from "react";
+
 import { AnimalSuggestionItem } from "#i/animals/item";
 import { getAnimalDisplayName } from "#i/animals/profile/name";
 import { AnimalSearchParams } from "#i/animals/search-params";
@@ -14,20 +29,7 @@ import { FosterFamilySuggestionItem } from "#i/foster-families/item";
 import { FosterFamilySearchParams } from "#i/foster-families/search-params";
 import { Icon } from "#i/generated/icon";
 import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js";
-import { cn } from "@animeaux/core";
-import type { User } from "@animeaux/prisma";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useFetcher, useNavigation } from "@remix-run/react";
-import type {
-  UseComboboxState,
-  UseComboboxStateChangeOptions,
-} from "downshift";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { useEffect, useState } from "react";
+
 import { Entity } from "./entity";
 import { ItemExhibitor } from "./item-exhibitor";
 import type { loader } from "./route";

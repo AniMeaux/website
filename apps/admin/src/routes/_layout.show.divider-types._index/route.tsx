@@ -1,6 +1,8 @@
+import type { MetaFunction } from "@remix-run/react";
+
 import { PageLayout } from "#i/core/layout/page.js";
 import { getPageTitle } from "#i/core/page-title.js";
-import type { MetaFunction } from "@remix-run/react";
+
 import { CardList } from "./card-list";
 
 export { loader } from "./loader.server";

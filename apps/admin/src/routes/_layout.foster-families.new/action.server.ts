@@ -1,3 +1,8 @@
+import { UserGroup } from "@animeaux/prisma/server";
+import type { zu } from "@animeaux/zod-utils";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+
 import { db } from "#i/core/db.server";
 import { EmailAlreadyUsedError } from "#i/core/errors.server";
 import { Routes } from "#i/core/navigation";
@@ -8,10 +13,6 @@ import {
   MissingSpeciesToHostError,
 } from "#i/foster-families/db.server";
 import { ActionFormData } from "#i/foster-families/form";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

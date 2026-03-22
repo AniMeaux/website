@@ -1,8 +1,9 @@
-import { ensureArray } from "#i/core/collections";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
 import { toBooleanAttribute } from "@animeaux/core";
 import { forwardRef } from "react";
 import type { SetRequired } from "type-fest";
+
+import { ensureArray } from "#i/core/collections";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input";
 
 export type InputProps = Omit<
   React.ComponentPropsWithoutRef<typeof BaseTextInput>,

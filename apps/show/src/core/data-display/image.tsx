@@ -1,10 +1,11 @@
-import type { ImageData } from "#i/core/image/data.js";
-import type { ScreenSize } from "#i/generated/theme";
-import { theme } from "#i/generated/theme";
 import { cn } from "@animeaux/core";
 import { blurhashToDataUri } from "@unpic/placeholder";
 import orderBy from "lodash.orderby";
 import { forwardRef } from "react";
+
+import type { ImageData } from "#i/core/image/data.js";
+import type { ScreenSize } from "#i/generated/theme";
+import { theme } from "#i/generated/theme";
 
 export const DynamicImage = forwardRef<
   React.ComponentRef<"img">,

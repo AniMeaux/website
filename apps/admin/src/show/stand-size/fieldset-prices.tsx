@@ -1,3 +1,5 @@
+import type { FieldMetadata } from "@conform-to/react";
+
 import { InlineHelper } from "#i/core/data-display/helper.js";
 import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
 import { Form } from "#i/core/form-elements/form";
@@ -5,7 +7,6 @@ import { Input } from "#i/core/form-elements/input.js";
 import { Card } from "#i/core/layout/card";
 import { Icon } from "#i/generated/icon.js";
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
-import type { FieldMetadata } from "@conform-to/react";
 
 export function FieldsetPrices({
   fields,

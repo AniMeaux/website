@@ -1,3 +1,11 @@
+import { toBooleanAttribute } from "@animeaux/core";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import type { SerializeFrom } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+import { useCombobox } from "downshift";
+import { createPath } from "history";
+import { forwardRef, useEffect, useState } from "react";
+
 import { PickUpLocationSearchParams } from "#i/animals/search-params";
 import { BaseTextInput } from "#i/core/form-elements/base-text-input";
 import { Input } from "#i/core/form-elements/input";
@@ -12,13 +20,6 @@ import { Routes } from "#i/core/navigation";
 import { Icon } from "#i/generated/icon";
 import type { loader } from "#i/routes/resources.pick-up-location/route";
 import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared";
-import { toBooleanAttribute } from "@animeaux/core";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
 
 type PickUpLocationInputProps = {
   name: string;

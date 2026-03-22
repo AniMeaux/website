@@ -1,10 +1,11 @@
-import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#i/animals/status";
 import type { Animal } from "@animeaux/prisma";
 import { Diagnosis, Species, Status } from "@animeaux/prisma";
 import type { SerializeFrom } from "@remix-run/node";
 import difference from "lodash.difference";
 import { DateTime } from "luxon";
 import type { SetNonNullable } from "type-fest";
+
+import { ACTIVE_ANIMAL_STATUS, SORTED_STATUS } from "#i/animals/status";
 
 export const HAS_UP_COMMING_STERILISATION_CONDITIONS = {
   isSterilizationMandatory: true,

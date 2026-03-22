@@ -4,7 +4,6 @@ import { Routes } from "#i/core/navigation.js";
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js";
 
 export class ServiceExhibitorVisibilityEmail {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
     private email: ServiceEmail,
     private application: ServiceApplication,

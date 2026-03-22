@@ -1,12 +1,13 @@
-import type { ServiceCache } from "#i/core/cache.service.server.js";
-import type { ServiceImage } from "#i/core/image/service.server.js";
-import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 import { zu } from "@animeaux/zod-utils";
 import cachified from "@epic-web/cachified";
 import { LazyFile } from "@mjackson/lazy-file";
 import { writeReadableStreamToWritable } from "@remix-run/node";
 import { captureException } from "@sentry/remix";
 import { v2 as cloudinaryClient } from "cloudinary";
+
+import type { ServiceCache } from "#i/core/cache.service.server.js";
+import type { ServiceImage } from "#i/core/image/service.server.js";
+import type { PreviousEdition } from "#i/previous-editions/previous-edition.js";
 
 export class ServiceImageCloudinary implements ServiceImage {
   constructor(private cache: ServiceCache) {
@@ -48,7 +49,7 @@ export class ServiceImageCloudinary implements ServiceImage {
           },
         );
 
-        writeReadableStreamToWritable(fileUpload.stream(), uploadStream);
+        void writeReadableStreamToWritable(fileUpload.stream(), uploadStream);
       });
     };
 

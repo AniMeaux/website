@@ -1,8 +1,10 @@
-import { Routes } from "#i/core/navigation";
 import { zu } from "@animeaux/zod-utils";
 import { useFetcher } from "@remix-run/react";
 import { createPath } from "history";
 import { useEffect, useMemo } from "react";
+
+import { Routes } from "#i/core/navigation";
+
 import type { loader } from "./route";
 import { ScrapUrlSearchParams } from "./shared";
 

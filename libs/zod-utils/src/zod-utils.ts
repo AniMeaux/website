@@ -2,12 +2,14 @@ import { DateTime } from "luxon";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
+export type {
+  infer,
+  inferFlattenedErrors,
+  SafeParseReturnType,
+  ZodRawShape,
+  ZodTypeAny,
+} from "zod";
 export {
-  NEVER,
-  ZodIssueCode,
-  ZodNumber,
-  ZodObject,
-  ZodType,
   array,
   boolean,
   discriminatedUnion,
@@ -15,18 +17,17 @@ export {
   instanceof,
   literal,
   nativeEnum,
+  NEVER,
   number,
   object,
   preprocess,
   string,
   undefined,
   union,
-} from "zod";
-export type {
-  SafeParseReturnType,
-  ZodTypeAny,
-  infer,
-  inferFlattenedErrors,
+  ZodIssueCode,
+  ZodNumber,
+  ZodObject,
+  ZodType,
 } from "zod";
 export { checkbox, repeatable, text } from "zod-form-data";
 
@@ -68,7 +69,7 @@ export const searchParams = {
   },
 };
 
-export function getObjectKeys<TSchema extends z.ZodObject<any>>(
+export function getObjectKeys<TSchema extends z.ZodObject<z.ZodRawShape>>(
   schema: TSchema,
 ) {
   const keys = Object.fromEntries(
@@ -99,7 +100,7 @@ class ZodDateTime extends z.ZodDate {
     if (this._def.coerce) {
       try {
         input.data = DateTime.fromISO(input.data).toJSDate();
-      } catch (error) {}
+      } catch (_error) {}
     }
 
     return super._parse(input);

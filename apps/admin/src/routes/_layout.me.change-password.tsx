@@ -1,3 +1,10 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import { zu } from "@animeaux/zod-utils";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useFetcher } from "@remix-run/react";
+import { useEffect, useRef } from "react";
+
 import { Action } from "#i/core/actions";
 import { db } from "#i/core/db.server";
 import { Form } from "#i/core/form-elements/form";
@@ -7,12 +14,6 @@ import { PageLayout } from "#i/core/layout/page";
 import { Routes, useBackIfPossible } from "#i/core/navigation";
 import { getPageTitle } from "#i/core/page-title";
 import { Icon } from "#i/generated/icon";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Changer de mot de passe") }];

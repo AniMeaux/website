@@ -1,3 +1,8 @@
+import type { FosterFamily, User } from "@animeaux/prisma";
+import { Gender, UserGroup } from "@animeaux/prisma";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type { SerializeFrom } from "@remix-run/node";
+
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
@@ -57,10 +62,6 @@ import { FosterFamilyAvatar } from "#i/foster-families/avatar";
 import { Icon } from "#i/generated/icon";
 import { UserAvatar } from "#i/users/avatar";
 import { hasGroups } from "#i/users/groups";
-import type { FosterFamily, User } from "@animeaux/prisma";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { SerializeFrom } from "@remix-run/node";
 
 export function AnimalFilters({
   currentUser,

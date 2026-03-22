@@ -1,13 +1,3 @@
-import { Action } from "#i/core/actions";
-import { db } from "#i/core/db.server";
-import { EmailAlreadyUsedError } from "#i/core/errors.server";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Icon } from "#i/generated/icon";
 import { FormDataDelegate } from "@animeaux/form-data";
 import { zu } from "@animeaux/zod-utils";
 import type {
@@ -18,6 +8,17 @@ import type {
 import { json } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { useEffect, useRef } from "react";
+
+import { Action } from "#i/core/actions";
+import { db } from "#i/core/db.server";
+import { EmailAlreadyUsedError } from "#i/core/errors.server";
+import { Form } from "#i/core/form-elements/form";
+import { Input } from "#i/core/form-elements/input";
+import { Card } from "#i/core/layout/card";
+import { PageLayout } from "#i/core/layout/page";
+import { Routes, useBackIfPossible } from "#i/core/navigation";
+import { getPageTitle } from "#i/core/page-title";
+import { Icon } from "#i/generated/icon";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,3 +1,11 @@
+import { cn } from "@animeaux/core";
+import type { ShowActivityTarget } from "@animeaux/prisma";
+import { ShowStandZone } from "@animeaux/prisma";
+import * as Popover from "@radix-ui/react-popover";
+import { Link, useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
+import { forwardRef, useEffect, useState } from "react";
+
 import { Action } from "#i/core/actions/action.js";
 import { Tab, Tabs } from "#i/core/controllers/tabs.js";
 import { IconInline } from "#i/core/data-display/icon-inline.js";
@@ -20,13 +28,7 @@ import {
 import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
 import { Icon } from "#i/generated/icon.js";
 import { theme } from "#i/generated/theme.js";
-import { cn } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { ShowStandZone } from "@animeaux/prisma";
-import * as Popover from "@radix-ui/react-popover";
-import { Link, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { forwardRef, useEffect, useState } from "react";
+
 import type { loader } from "./loader.server";
 
 export function SectionEventList() {

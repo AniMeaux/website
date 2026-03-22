@@ -1,5 +1,6 @@
 import { cn } from "@animeaux/core";
 import { Children } from "react";
+
 import { LineShapeHorizontal } from "./line-shape";
 
 export function RelatedSection({ children }: { children: React.ReactNode }) {

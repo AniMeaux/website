@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { colors, fonts, screens, spacing } from "../tailwind.config";
 import { relativeToCwd, safelyReadFile } from "./shared";
 
@@ -41,7 +42,7 @@ if (currentContent === content) {
 await writeFile(DEST_FILE, content);
 console.info(`Built theme (${relativeToCwd(DEST_FILE)})`);
 
-function toNumberRecord<TObject extends Record<string, any>>(object: TObject) {
+function toNumberRecord<TObject extends object>(object: TObject) {
   return Object.fromEntries(
     Object.entries(object)
       .filter(([_, value]) => typeof value === "string")

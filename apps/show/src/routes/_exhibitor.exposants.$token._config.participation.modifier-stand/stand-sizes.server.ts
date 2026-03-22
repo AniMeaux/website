@@ -1,6 +1,7 @@
+import type { Prisma } from "@animeaux/prisma/server";
+
 import { services } from "#i/core/services.server.js";
 import { withAllowedCategories } from "#i/stand-size/allowed-categories.js";
-import type { Prisma } from "@animeaux/prisma/server";
 
 export async function getStandSizesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{

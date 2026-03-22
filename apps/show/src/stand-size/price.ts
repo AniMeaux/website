@@ -1,5 +1,6 @@
-import { ExhibitorCategory } from "#i/exhibitors/category.js";
 import type { Prisma } from "@animeaux/prisma";
+
+import { ExhibitorCategory } from "#i/exhibitors/category.js";
 
 export namespace StandSizePrice {
   export function getPrice({

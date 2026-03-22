@@ -1,3 +1,7 @@
+import { joinReactNodes } from "@animeaux/core";
+import { useLoaderData } from "@remix-run/react";
+import { Fragment } from "react/jsx-runtime";
+
 import { Action, ProseInlineAction } from "#i/core/actions";
 import { BaseLink } from "#i/core/base-link";
 import { ItemList, SimpleItem } from "#i/core/data-display/item";
@@ -12,9 +16,7 @@ import { InvoiceIcon } from "#i/show/invoice/icon.js";
 import { InvoiceStatus } from "#i/show/invoice/status.js";
 import { SponsorshipCategory } from "#i/show/sponsors/category";
 import { Visibility, VisibilityIcon } from "#i/show/visibility";
-import { joinReactNodes } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
-import { Fragment } from "react/jsx-runtime";
+
 import type { loader } from "./loader.server";
 
 export function CardSituation() {

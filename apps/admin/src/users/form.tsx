@@ -1,3 +1,11 @@
+import { FormDataDelegate } from "@animeaux/form-data";
+import type { User } from "@animeaux/prisma";
+import { UserGroup } from "@animeaux/prisma";
+import { zu } from "@animeaux/zod-utils";
+import type { SerializeFrom } from "@remix-run/node";
+import type { FetcherWithComponents } from "@remix-run/react";
+import { useEffect, useRef } from "react";
+
 import { Action } from "#i/core/actions";
 import { Form } from "#i/core/form-elements/form";
 import { Input } from "#i/core/form-elements/input";
@@ -10,13 +18,6 @@ import { RequiredStar } from "#i/core/form-elements/required-star";
 import { Separator } from "#i/core/layout/separator";
 import { Icon } from "#i/generated/icon";
 import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups";
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef } from "react";
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
