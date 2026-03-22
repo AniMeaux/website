@@ -1,5 +1,5 @@
-import { generatePasswordHash } from "@animeaux/password";
-import type { Prisma } from "@animeaux/prisma/server";
+import { generatePasswordHash } from "@animeaux/password"
+import type { Prisma } from "@animeaux/prisma/server"
 import {
   ActivityAction,
   ActivityActorType,
@@ -26,15 +26,15 @@ import {
   Species,
   Status,
   UserGroup,
-} from "@animeaux/prisma/server";
-import { fakerFR as faker } from "@faker-js/faker";
-import { DateTime } from "luxon";
+} from "@animeaux/prisma/server"
+import { fakerFR as faker } from "@faker-js/faker"
+import { DateTime } from "luxon"
 
-const DEFAULT_PASSWORD = "NotASword1!";
+const DEFAULT_PASSWORD = "NotASword1!"
 
-console.log("🌱 Seeding data...");
+console.log("🌱 Seeding data...")
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 const seeds = {
   activities: Promise.resolve().then(seedActivities),
@@ -56,15 +56,15 @@ const seeds = {
   showSponsors: Promise.resolve().then(seedShowSponsors),
   showProviders: Promise.resolve().then(seedShowProviders),
   users: Promise.resolve().then(seedUsers),
-};
-
-try {
-  await Promise.all(Object.values(seeds));
-} finally {
-  await prisma.$disconnect();
 }
 
-console.log(`🎉 Data is seeded`);
+try {
+  await Promise.all(Object.values(seeds))
+} finally {
+  await prisma.$disconnect()
+}
+
+console.log(`🎉 Data is seeded`)
 
 async function seedUsers() {
   await prisma.user.create({
@@ -78,7 +78,7 @@ async function seedUsers() {
         create: { hash: await generatePasswordHash(DEFAULT_PASSWORD) },
       },
     },
-  });
+  })
 
   await Promise.all(
     Object.values(UserGroup).map(
@@ -96,7 +96,7 @@ async function seedUsers() {
           },
         }),
     ),
-  );
+  )
 
   await Promise.all(
     repeate(
@@ -115,46 +115,46 @@ async function seedUsers() {
           },
         }),
     ),
-  );
+  )
 
-  const count = await prisma.user.count();
-  console.log(`- 👍 ${count} users`);
+  const count = await prisma.user.count()
+  console.log(`- 👍 ${count} users`)
 }
 
 async function seedActivities() {
-  await Promise.all([seeds.users, seeds.animals, seeds.fosterFamilies]);
+  await Promise.all([seeds.users, seeds.animals, seeds.fosterFamilies])
 
-  const now = DateTime.now();
+  const now = DateTime.now()
 
   const [users, animals, fosterFamilies] = await Promise.all([
     prisma.user.findMany({ select: { id: true } }),
     prisma.animal.findMany({ select: { id: true } }),
     prisma.fosterFamily.findMany({ select: { id: true } }),
-  ]);
+  ])
 
   await Promise.all(
     repeate({ min: 100, max: 200 }, async () => {
       const actorType = faker.helpers.arrayElement(
         Object.values(ActivityActorType),
-      );
+      )
 
       const actorId =
         actorType === ActivityActorType.CRON
           ? `cron-${faker.lorem.slug()}`
-          : faker.helpers.arrayElement(users).id;
+          : faker.helpers.arrayElement(users).id
 
-      const action = faker.helpers.arrayElement(Object.values(ActivityAction));
+      const action = faker.helpers.arrayElement(Object.values(ActivityAction))
 
       const resource = faker.helpers.arrayElement(
         Object.values(ActivityResource),
-      );
+      )
 
       const resourceId =
         action === ActivityAction.DELETE
           ? faker.string.uuid()
           : resource === ActivityResource.ANIMAL
             ? faker.helpers.arrayElement(animals).id
-            : faker.helpers.arrayElement(fosterFamilies).id;
+            : faker.helpers.arrayElement(fosterFamilies).id
 
       return await prisma.activity.create({
         data: {
@@ -182,12 +182,12 @@ async function seedActivities() {
               ? { before: { id: resourceId } }
               : { before: { id: resourceId }, after: { id: resourceId } }),
         },
-      });
+      })
     }),
-  );
+  )
 
-  const count = await prisma.activity.count();
-  console.log(`- 👍 ${count} activities`);
+  const count = await prisma.activity.count()
+  console.log(`- 👍 ${count} activities`)
 }
 
 async function seedFosterFamilies() {
@@ -195,7 +195,7 @@ async function seedFosterFamilies() {
     data: repeate({ min: 80, max: 120 }, () => {
       const availability = faker.helpers.arrayElement(
         Object.values(FosterFamilyAvailability),
-      );
+      )
 
       return {
         isBanned: faker.datatype.boolean({ probability: 1 / 10 }),
@@ -223,12 +223,12 @@ async function seedFosterFamilies() {
         address: faker.location.streetAddress(),
         city: faker.location.city(),
         zipCode: faker.location.zipCode(),
-      };
+      }
     }),
-  });
+  })
 
-  const count = await prisma.fosterFamily.count();
-  console.log(`- 👍 ${count} foster families`);
+  const count = await prisma.fosterFamily.count()
+  console.log(`- 👍 ${count} foster families`)
 }
 
 async function seedBreeds() {
@@ -287,10 +287,10 @@ async function seedBreeds() {
       { species: Species.RODENT, name: "Lapin" },
       { species: Species.RODENT, name: "Rat" },
     ],
-  });
+  })
 
-  const count = await prisma.breed.count();
-  console.log(`- 👍 ${count} breeds`);
+  const count = await prisma.breed.count()
+  console.log(`- 👍 ${count} breeds`)
 }
 
 async function seedColors() {
@@ -321,14 +321,14 @@ async function seedColors() {
       { name: "Tricolore" },
       { name: "Typé siamois" },
     ],
-  });
+  })
 
-  const count = await prisma.color.count();
-  console.log(`- 👍 ${count} colors`);
+  const count = await prisma.color.count()
+  console.log(`- 👍 ${count} colors`)
 }
 
 async function seedEvents() {
-  const now = DateTime.now();
+  const now = DateTime.now()
 
   await Promise.all([
     prisma.event.createMany({
@@ -348,23 +348,23 @@ async function seedEvents() {
         }),
       ),
     }),
-  ]);
+  ])
 
-  const count = await prisma.event.count();
-  console.log(`- 👍 ${count} events`);
+  const count = await prisma.event.count()
+  console.log(`- 👍 ${count} events`)
 }
 
 function createEventInput({
   minStartDate,
   maxStartDate,
 }: {
-  minStartDate: Date;
-  maxStartDate: Date;
+  minStartDate: Date
+  maxStartDate: Date
 }): Prisma.EventCreateManyInput {
   const startDate = faker.date.between({
     from: minStartDate,
     to: maxStartDate,
-  });
+  })
 
   return {
     title: faker.commerce.productName(),
@@ -379,7 +379,7 @@ function createEventInput({
     isFullDay: faker.datatype.boolean(),
     image: faker.string.uuid(),
     isVisible: faker.datatype.boolean(),
-  };
+  }
 }
 
 const ACTIVE_ANIMAL_STATUS: Status[] = [
@@ -388,11 +388,11 @@ const ACTIVE_ANIMAL_STATUS: Status[] = [
   Status.RESERVED,
   Status.RETIRED,
   Status.UNAVAILABLE,
-];
+]
 
 const NON_ACTIVE_ANIMAL_STATUS: Status[] = Object.values(Status).filter(
   (status) => !ACTIVE_ANIMAL_STATUS.includes(status),
-);
+)
 
 async function seedAnimals() {
   await Promise.all([
@@ -400,7 +400,7 @@ async function seedAnimals() {
     seeds.breeds,
     seeds.colors,
     seeds.fosterFamilies,
-  ]);
+  ])
 
   const [managers, breeds, colors, fosterFamilies] = await Promise.all([
     prisma.user.findMany({
@@ -410,12 +410,12 @@ async function seedAnimals() {
     prisma.breed.findMany({ select: { id: true, species: true } }),
     prisma.color.findMany({ select: { id: true } }),
     prisma.fosterFamily.findMany({ select: { id: true } }),
-  ]);
+  ])
 
   const breedsBySpecies = breeds.reduce<Record<Species, string[]>>(
     (breedsBySpecies, breed) => {
-      breedsBySpecies[breed.species].push(breed.id);
-      return breedsBySpecies;
+      breedsBySpecies[breed.species].push(breed.id)
+      return breedsBySpecies
     },
     {
       [Species.BIRD]: [],
@@ -424,7 +424,7 @@ async function seedAnimals() {
       [Species.REPTILE]: [],
       [Species.RODENT]: [],
     },
-  );
+  )
 
   await Promise.all([
     prisma.animal.createMany({
@@ -450,10 +450,10 @@ async function seedAnimals() {
         }),
       ),
     }),
-  ]);
+  ])
 
-  const count = await prisma.animal.count();
-  console.log(`- 👍 ${count} animals`);
+  const count = await prisma.animal.count()
+  console.log(`- 👍 ${count} animals`)
 }
 
 function createAnimalInput({
@@ -463,31 +463,31 @@ function createAnimalInput({
   managers,
   fosterFamilies,
 }: {
-  possibleStatus: Status[];
-  breedsBySpecies: Record<Species, string[]>;
-  colors: { id: string }[];
-  managers: { id: string }[];
-  fosterFamilies: { id: string }[];
+  possibleStatus: Status[]
+  breedsBySpecies: Record<Species, string[]>
+  colors: { id: string }[]
+  managers: { id: string }[]
+  fosterFamilies: { id: string }[]
 }): Prisma.AnimalCreateManyInput {
   const birthdate = DateTime.fromJSDate(faker.date.past({ years: 20 }))
     .startOf("day")
-    .toJSDate();
-  const species = faker.helpers.arrayElement(Object.values(Species));
-  const breeds = breedsBySpecies[species];
-  const status = faker.helpers.arrayElement(possibleStatus);
+    .toJSDate()
+  const species = faker.helpers.arrayElement(Object.values(Species))
+  const breeds = breedsBySpecies[species]
+  const status = faker.helpers.arrayElement(possibleStatus)
   const pickUpDate = DateTime.fromJSDate(
     faker.date.between({ from: birthdate, to: DateTime.now().toJSDate() }),
   )
     .startOf("day")
-    .toJSDate();
+    .toJSDate()
 
-  const isSterilized = faker.datatype.boolean();
+  const isSterilized = faker.datatype.boolean()
 
   const nextVaccinationDate = faker.helpers.maybe(() =>
     DateTime.fromJSDate(faker.date.soon({ days: 30 }))
       .startOf("day")
       .toJSDate(),
-  );
+  )
 
   return {
     adoptionDate:
@@ -552,7 +552,7 @@ function createAnimalInput({
         : undefined,
     species,
     status,
-  };
+  }
 }
 
 async function seedPressArticle() {
@@ -570,10 +570,10 @@ async function seedPressArticle() {
         .replace(".", ""),
       url: faker.internet.url(),
     })),
-  });
+  })
 
-  const count = await prisma.pressArticle.count();
-  console.log(`- 👍 ${count} press articles`);
+  const count = await prisma.pressArticle.count()
+  console.log(`- 👍 ${count} press articles`)
 }
 
 async function seedShowProviders() {
@@ -584,10 +584,10 @@ async function seedShowProviders() {
       name: faker.company.name(),
       url: faker.internet.url(),
     })),
-  });
+  })
 
-  const count = await prisma.showProvider.count();
-  console.log(`- 👍 ${count} show providers`);
+  const count = await prisma.showProvider.count()
+  console.log(`- 👍 ${count} show providers`)
 }
 
 async function seedShowStandSizes() {
@@ -670,10 +670,10 @@ async function seedShowStandSizes() {
         priceForShops: 500,
       },
     ],
-  });
+  })
 
-  const count = await prisma.showStandSize.count();
-  console.log(`- 👍 ${count} show stand sizes`);
+  const count = await prisma.showStandSize.count()
+  console.log(`- 👍 ${count} show stand sizes`)
 }
 
 async function seedShowDividerTypes() {
@@ -692,14 +692,14 @@ async function seedShowDividerTypes() {
         maxCount: 50,
       },
     ],
-  });
+  })
 
-  const count = await prisma.showDividerType.count();
-  console.log(`- 👍 ${count} show divider types`);
+  const count = await prisma.showDividerType.count()
+  console.log(`- 👍 ${count} show divider types`)
 }
 
 async function seedShowExhibitorApplications() {
-  await seeds.seedShowStandSizes;
+  await seeds.seedShowStandSizes
 
   const standSizes = await prisma.showStandSize.findMany({
     where: { isVisible: true },
@@ -709,7 +709,7 @@ async function seedShowExhibitorApplications() {
       priceForServices: true,
       priceForShops: true,
     },
-  });
+  })
 
   const categoryStandSizes: Record<ShowExhibitorCategory, typeof standSizes> = {
     [ShowExhibitorCategory.ASSOCIATION]: standSizes.filter(
@@ -721,30 +721,30 @@ async function seedShowExhibitorApplications() {
     [ShowExhibitorCategory.SHOP]: standSizes.filter(
       (standSize) => standSize.priceForShops != null,
     ),
-  };
+  }
 
-  const now = DateTime.now();
+  const now = DateTime.now()
 
   await prisma.showExhibitorApplication.createMany({
     data: repeate({ min: 100, max: 120 }, () => {
       const status = faker.helpers.arrayElement(
         Object.values(ShowExhibitorApplicationStatus),
-      );
+      )
 
       const legalStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorApplicationLegalStatus),
-      );
+      )
 
       const discoverySource = faker.helpers.arrayElement(
         Object.values(ShowExhibitorApplicationDiscoverySource),
-      );
+      )
 
       const activityFields = faker.helpers.arrayElements(
         Object.values(ShowActivityField),
         { min: 1, max: 3 },
-      );
+      )
 
-      const category = getExhibitorCategory({ legalStatus, activityFields });
+      const category = getExhibitorCategory({ legalStatus, activityFields })
 
       return {
         createdAt: faker.date.between({
@@ -814,16 +814,16 @@ async function seedShowExhibitorApplications() {
           () => faker.lorem.paragraph().substring(0, 500),
           { probability: 1 / 5 },
         ),
-      };
+      }
     }),
-  });
+  })
 
-  const count = await prisma.showExhibitorApplication.count();
-  console.log(`- 👍 ${count} show exhibitor applications`);
+  const count = await prisma.showExhibitorApplication.count()
+  console.log(`- 👍 ${count} show exhibitor applications`)
 }
 
 async function seedShowExhibitors() {
-  await seeds.showExhibitorApplications;
+  await seeds.showExhibitorApplications
 
   const applications = await prisma.showExhibitorApplication.findMany({
     where: { status: ShowExhibitorApplicationStatus.VALIDATED },
@@ -841,37 +841,37 @@ async function seedShowExhibitors() {
       structureZipCode: true,
       desiredStandSize: { select: { id: true } },
     },
-  });
+  })
 
   await Promise.all(
     applications.map((application) => {
       const publicProfileStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const descriptionStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const onStandAnimationsStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const documentStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const dogsConfigurationStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const standConfigurationStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       const perksStatus = faker.helpers.arrayElement(
         Object.values(ShowExhibitorStatus),
-      );
+      )
 
       return prisma.showExhibitor.create({
         data: {
@@ -974,26 +974,26 @@ async function seedShowExhibitors() {
               ? faker.lorem.paragraph()
               : undefined,
         },
-      });
+      })
     }),
-  );
+  )
 
-  const count = await prisma.showExhibitor.count();
-  console.log(`- 👍 ${count} show exhibitors`);
+  const count = await prisma.showExhibitor.count()
+  console.log(`- 👍 ${count} show exhibitors`)
 }
 
 function getExhibitorCategory({
   legalStatus,
   activityFields,
 }: {
-  legalStatus: ShowExhibitorApplicationLegalStatus;
-  activityFields: ShowActivityField[];
+  legalStatus: ShowExhibitorApplicationLegalStatus
+  activityFields: ShowActivityField[]
 }) {
   if (
     legalStatus === ShowExhibitorApplicationLegalStatus.ASSOCIATION ||
     activityFields.includes(ShowActivityField.ASSOCIATION)
   ) {
-    return ShowExhibitorCategory.ASSOCIATION;
+    return ShowExhibitorCategory.ASSOCIATION
   }
 
   const serviceActivityFields: ShowActivityField[] = [
@@ -1004,28 +1004,28 @@ function getExhibitorCategory({
     ShowActivityField.SENSITIZATION,
     ShowActivityField.SERVICES,
     ShowActivityField.TRAINING,
-  ];
+  ]
 
   const hasServiceActivityField = activityFields.some((activityField) =>
     serviceActivityFields.includes(activityField),
-  );
+  )
 
   if (hasServiceActivityField) {
-    return ShowExhibitorCategory.SERVICE;
+    return ShowExhibitorCategory.SERVICE
   }
 
-  return ShowExhibitorCategory.SHOP;
+  return ShowExhibitorCategory.SHOP
 }
 
 async function seedShowExhibitorsDogs() {
-  await seeds.showExhibitors;
+  await seeds.showExhibitors
 
   const exhibitors = await prisma.showExhibitor.findMany({
     where: {
       dogsConfigurationStatus: { not: ShowExhibitorStatus.TO_BE_FILLED },
     },
     select: { id: true },
-  });
+  })
 
   await Promise.all(
     exhibitors.map((exhibitor) =>
@@ -1039,21 +1039,21 @@ async function seedShowExhibitorsDogs() {
         })),
       }),
     ),
-  );
+  )
 
-  const count = await prisma.showExhibitorDog.count();
-  console.log(`- 👍 ${count} show exhibitors dogs`);
+  const count = await prisma.showExhibitorDog.count()
+  console.log(`- 👍 ${count} show exhibitors dogs`)
 }
 
 async function seedShowInvoices() {
-  await seeds.showExhibitors;
+  await seeds.showExhibitors
 
   const exhibitors = await prisma.showExhibitor.findMany({
     select: { id: true },
-  });
+  })
 
-  let invoiceNumber = 1;
-  const now = DateTime.now();
+  let invoiceNumber = 1
+  const now = DateTime.now()
 
   await Promise.all(
     exhibitors.map((exhibitor) => {
@@ -1073,16 +1073,16 @@ async function seedShowInvoices() {
           exhibitorId: exhibitor.id,
           status: faker.helpers.arrayElement(Object.values(ShowInvoiceStatus)),
         },
-      });
+      })
     }),
-  );
+  )
 
-  const count = await prisma.showExhibitor.count();
-  console.log(`- 👍 ${count} show invoices`);
+  const count = await prisma.showExhibitor.count()
+  console.log(`- 👍 ${count} show invoices`)
 }
 
 async function seedShowSponsors() {
-  await seeds.showExhibitors;
+  await seeds.showExhibitors
 
   const exhibitors = await prisma.showExhibitor.findMany({
     where: {
@@ -1099,7 +1099,7 @@ async function seedShowSponsors() {
         },
       },
     },
-  });
+  })
 
   await prisma.showSponsor.createMany({
     data: [
@@ -1118,22 +1118,22 @@ async function seedShowSponsors() {
         url: faker.internet.url(),
       })),
     ],
-  });
+  })
 
-  const count = await prisma.showSponsor.count();
-  console.log(`- 👍 ${count} show sponsors`);
+  const count = await prisma.showSponsor.count()
+  console.log(`- 👍 ${count} show sponsors`)
 }
 
 async function seedShowAnimations() {
-  await seeds.showExhibitors;
+  await seeds.showExhibitors
 
   const exhibitors = await prisma.showExhibitor.findMany({
     select: { id: true },
-  });
+  })
 
-  let times: { start: DateTime; end: DateTime }[] = [];
+  let times: { start: DateTime; end: DateTime }[] = []
 
-  [
+  ;[
     // Saturday.
     {
       start: DateTime.fromISO("2026-06-06T10:00:00.000+02:00"),
@@ -1145,25 +1145,25 @@ async function seedShowAnimations() {
       end: DateTime.fromISO("2026-06-07T18:00:00.000+02:00"),
     },
   ].forEach((showDay) => {
-    let startTime = showDay.start;
+    let startTime = showDay.start
 
     while (showDay.end.diff(startTime, "minutes").as("minutes") >= 10) {
       let endTime = startTime.plus({
         minutes: faker.number.int({ min: 2, max: 9 }) * 5,
-      });
+      })
 
       if (endTime > showDay.end) {
-        endTime = showDay.end;
+        endTime = showDay.end
       }
 
-      times.push({ start: startTime, end: endTime });
-      startTime = endTime;
+      times.push({ start: startTime, end: endTime })
+      startTime = endTime
     }
-  });
+  })
 
-  times = faker.helpers.shuffle(times);
+  times = faker.helpers.shuffle(times)
 
-  times = times.slice(4);
+  times = times.slice(4)
 
   await Promise.all(
     times.map(({ start, end }) =>
@@ -1190,21 +1190,21 @@ async function seedShowAnimations() {
         },
       }),
     ),
-  );
+  )
 
-  const count = await prisma.showAnimation.count();
-  console.log(`- 👍 ${count} show animations`);
+  const count = await prisma.showAnimation.count()
+  console.log(`- 👍 ${count} show animations`)
 }
 
 function nullableBoolean() {
   return faker.helpers.maybe(() => faker.datatype.boolean(), {
     probability: 2 / 3,
-  });
+  })
 }
 
 function repeate<T>(
   options: NonNullable<Parameters<typeof faker.number.int>[0]>,
   cb: () => T,
 ) {
-  return Array.from({ length: faker.number.int(options) }, cb);
+  return Array.from({ length: faker.number.int(options) }, cb)
 }

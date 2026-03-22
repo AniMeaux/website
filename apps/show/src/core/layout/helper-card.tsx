@@ -1,23 +1,23 @@
-import { cn, useRefOrProp } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef, useEffect } from "react";
-import scrollIntoView from "scroll-into-view-if-needed";
-import type { Except } from "type-fest";
+import { cn, useRefOrProp } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef, useEffect } from "react"
+import scrollIntoView from "scroll-into-view-if-needed"
+import type { Except } from "type-fest"
 
-import { Action } from "#i/core/actions/action";
+import { Action } from "#i/core/actions/action"
 
 export const HelperCard = {
   Root: forwardRef<
     React.ComponentRef<typeof Primitive.section>,
     React.ComponentPropsWithoutRef<typeof Primitive.section> & {
-      color: Color;
-      shouldScrollIntoView?: boolean;
+      color: Color
+      shouldScrollIntoView?: boolean
     }
   >(function HelperCardRoot(
     { color, shouldScrollIntoView = false, className, ...props },
     propRef,
   ) {
-    const ref = useRefOrProp(propRef);
+    const ref = useRefOrProp(propRef)
 
     useEffect(() => {
       if (shouldScrollIntoView) {
@@ -28,11 +28,11 @@ export const HelperCard = {
             scrollIntoView(ref.current, {
               scrollMode: "if-needed",
               behavior: "smooth",
-            });
+            })
           }
-        }, 0);
+        }, 0)
       }
-    }, [ref, shouldScrollIntoView]);
+    }, [ref, shouldScrollIntoView])
 
     return (
       <Primitive.section
@@ -44,7 +44,7 @@ export const HelperCard = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
@@ -57,7 +57,7 @@ export const HelperCard = {
         ref={ref}
         className={cn("text-body-lowercase-emphasis", className)}
       />
-    );
+    )
   }),
 
   Action: forwardRef<
@@ -71,13 +71,13 @@ export const HelperCard = {
         color="mystic"
         className={cn("justify-self-start", className)}
       />
-    );
+    )
   }),
-};
+}
 
-type Color = "alabaster" | "paleBlue";
+type Color = "alabaster" | "paleBlue"
 
 const CLASS_NAME_BY_COLOR: Record<Color, string> = {
   alabaster: cn("bg-alabaster"),
   paleBlue: cn("bg-paleBlue"),
-};
+}

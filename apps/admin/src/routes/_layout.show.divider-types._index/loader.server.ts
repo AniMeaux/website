@@ -1,20 +1,20 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
   const dividerTypes = await db.show.dividerType.findManyWithAvailability({
     select: { id: true, label: true },
-  });
+  })
 
-  return json({ dividerTypes });
+  return json({ dividerTypes })
 }

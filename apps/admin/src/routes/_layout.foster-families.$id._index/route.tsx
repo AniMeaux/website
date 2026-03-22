@@ -1,67 +1,67 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { FosterFamily } from "@animeaux/prisma";
-import { FosterFamilyAvailability, UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { FosterFamily } from "@animeaux/prisma"
+import { FosterFamilyAvailability, UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { useEffect, useState } from "react"
+import { promiseHash } from "remix-utils/promise"
 
-import { AnimalItem } from "#i/animals/item";
-import { AnimalSearchParams } from "#i/animals/search-params";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { ErrorsInlineHelper } from "#i/core/data-display/errors";
-import { BlockHelper, InlineHelper } from "#i/core/data-display/helper";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { db } from "#i/core/db.server";
-import { NotFoundError, ReferencedError } from "#i/core/errors.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { AvatarCard } from "#i/core/layout/avatar-card";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog";
-import { prisma } from "#i/core/prisma.server";
-import { badRequest, notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { AnimalItem } from "#i/animals/item"
+import { AnimalSearchParams } from "#i/animals/search-params"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { ErrorsInlineHelper } from "#i/core/data-display/errors"
+import { BlockHelper, InlineHelper } from "#i/core/data-display/helper"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { db } from "#i/core/db.server"
+import { NotFoundError, ReferencedError } from "#i/core/errors.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { AvatarCard } from "#i/core/layout/avatar-card"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog"
+import { prisma } from "#i/core/prisma.server"
+import { badRequest, notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 import {
   AVATAR_COLOR_BY_AVAILABILITY,
   FosterFamilyAvatar,
-} from "#i/foster-families/avatar";
-import { ActionFormData } from "#i/foster-families/form";
+} from "#i/foster-families/avatar"
+import { ActionFormData } from "#i/foster-families/form"
 
-import { ContactCard } from "./contact-card";
-import { SituationCard } from "./situation-card";
+import { ContactCard } from "./contact-card"
+import { SituationCard } from "./situation-card"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
-export type loader = typeof loader;
+export type loader = typeof loader
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const { fosterFamily, fosterAnimalCount, fosterAnimals } = await promiseHash({
@@ -109,73 +109,73 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         status: true,
       },
     }),
-  });
+  })
 
-  assertIsDefined(fosterFamily);
+  assertIsDefined(fosterFamily)
 
-  return json({ fosterFamily, fosterAnimalCount, fosterAnimals });
+  return json({ fosterFamily, fosterAnimalCount, fosterAnimals })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const fosterFamily = data?.fosterFamily;
+  const fosterFamily = data?.fosterFamily
   if (fosterFamily == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(fosterFamily.displayName) }];
-};
+  return [{ title: getPageTitle(fosterFamily.displayName) }]
+}
 
 const BanActionFormData = FormDataDelegate.create(
   zu.object({
     isBanned: zu.checkbox(),
   }),
-);
+)
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   if (request.method.toUpperCase() === "DELETE") {
     return await actionDelete({
       fosterFamilyId: paramsResult.data.id,
       currentUser,
-    });
+    })
   }
 
   return await actionBan({
     fosterFamilyId: paramsResult.data.id,
     request,
     currentUser,
-  });
+  })
 }
 
 type ActionData = {
-  errors?: string[];
-};
+  errors?: string[]
+}
 
 async function actionDelete({
   fosterFamilyId,
   currentUser,
 }: {
-  fosterFamilyId: FosterFamily["id"];
-  currentUser: { id: string };
+  fosterFamilyId: FosterFamily["id"]
+  currentUser: { id: string }
 }) {
   try {
-    await db.fosterFamily.delete(fosterFamilyId, currentUser);
+    await db.fosterFamily.delete(fosterFamilyId, currentUser)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
     if (error instanceof ReferencedError) {
@@ -186,15 +186,15 @@ async function actionDelete({
           ],
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing foster family.
-  throw redirect(Routes.fosterFamilies.toString());
+  throw redirect(Routes.fosterFamilies.toString())
 }
 
 async function actionBan({
@@ -202,12 +202,12 @@ async function actionBan({
   currentUser,
   request,
 }: Pick<ActionFunctionArgs, "request"> & {
-  fosterFamilyId: FosterFamily["id"];
-  currentUser: { id: string };
+  fosterFamilyId: FosterFamily["id"]
+  currentUser: { id: string }
 }) {
-  const formData = BanActionFormData.safeParse(await request.formData());
+  const formData = BanActionFormData.safeParse(await request.formData())
   if (!formData.success) {
-    throw badRequest();
+    throw badRequest()
   }
 
   try {
@@ -215,24 +215,24 @@ async function actionBan({
       fosterFamilyId,
       { isBanned: formData.data.isBanned },
       currentUser,
-    );
+    )
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
-    throw error;
+    throw error
   }
 
-  return json<ActionData>({});
+  return json<ActionData>({})
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { fosterFamily } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -266,11 +266,11 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function HeaderCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { fosterFamily } = useLoaderData<typeof loader>()
 
   return (
     <AvatarCard>
@@ -301,14 +301,14 @@ function HeaderCard() {
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
-  );
+  )
 }
 
 function CommentsCard() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
+  const { fosterFamily } = useLoaderData<typeof loader>()
 
   if (fosterFamily.comments == null) {
-    return null;
+    return null
   }
 
   return (
@@ -336,12 +336,12 @@ function CommentsCard() {
         </Markdown>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function FosterAnimalsCard() {
   const { fosterFamily, fosterAnimalCount, fosterAnimals } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -413,7 +413,7 @@ function FosterAnimalsCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionsCard() {
@@ -430,20 +430,20 @@ function ActionsCard() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionBan() {
-  const { fosterFamily } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  const [isDialogOpened, setIsDialogOpened] = useState(false);
+  const { fosterFamily } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  const [isDialogOpened, setIsDialogOpened] = useState(false)
 
-  const done = fetcher.state === "idle" && fetcher.data != null;
+  const done = fetcher.state === "idle" && fetcher.data != null
   useEffect(() => {
     if (done) {
-      setIsDialogOpened(false);
+      setIsDialogOpened(false)
     }
-  }, [done]);
+  }, [done])
 
   return (
     <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
@@ -490,14 +490,14 @@ function ActionBan() {
         </Dialog.Actions>
       </Dialog.Content>
     </Dialog>
-  );
+  )
 }
 
 function ActionDelete() {
-  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>();
-  const canDelete = fosterAnimalCount === 0;
-  const fetcher = useFetcher<typeof action>();
-  const [isHelperVisible, setIsHelperVisible] = useState(false);
+  const { fosterFamily, fosterAnimalCount } = useLoaderData<typeof loader>()
+  const canDelete = fosterAnimalCount === 0
+  const fetcher = useFetcher<typeof action>()
+  const [isHelperVisible, setIsHelperVisible] = useState(false)
 
   return (
     <>
@@ -521,9 +521,9 @@ function ActionDelete() {
               ? undefined
               : (event) => {
                   // Don't open de dialog.
-                  event.preventDefault();
+                  event.preventDefault()
 
-                  setIsHelperVisible(true);
+                  setIsHelperVisible(true)
                 }
           }
         >
@@ -560,5 +560,5 @@ function ActionDelete() {
         </Dialog.Content>
       </Dialog>
     </>
-  );
+  )
 }

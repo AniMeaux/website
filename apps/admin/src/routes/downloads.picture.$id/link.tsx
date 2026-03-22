@@ -1,13 +1,13 @@
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
-import { DownloadTrigger } from "#i/core/actions/download-trigger.js";
-import { Routes } from "#i/core/navigation";
+import { DownloadTrigger } from "#i/core/actions/download-trigger.js"
+import { Routes } from "#i/core/navigation"
 
 export const DownloadPictureLink = forwardRef<
   React.ComponentRef<typeof DownloadTrigger>,
   Except<React.ComponentPropsWithoutRef<typeof DownloadTrigger>, "url"> & {
-    pictureId: string;
+    pictureId: string
   }
 >(function DownloadPictureLink({ pictureId, ...props }, ref) {
   return (
@@ -16,5 +16,5 @@ export const DownloadPictureLink = forwardRef<
       ref={ref}
       url={Routes.downloads.picture.id(pictureId).toString()}
     />
-  );
-});
+  )
+})

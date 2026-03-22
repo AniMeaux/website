@@ -1,17 +1,17 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef, useState } from "react";
+import { FormDataDelegate } from "@animeaux/form-data"
+import { zu } from "@animeaux/zod-utils"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useEffect, useRef, useState } from "react"
 
-import { Action } from "#i/core/actions";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Switch } from "#i/core/form-elements/switch";
-import { Separator } from "#i/core/layout/separator";
-import { Spinner } from "#i/core/loaders/spinner";
-import { Icon } from "#i/generated/icon";
-import { useScrapUrlFetcher } from "#i/routes/resources.scrap-url/hook";
+import { Action } from "#i/core/actions"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Switch } from "#i/core/form-elements/switch"
+import { Separator } from "#i/core/layout/separator"
+import { Spinner } from "#i/core/loaders/spinner"
+import { Icon } from "#i/generated/icon"
+import { useScrapUrlFetcher } from "#i/routes/resources.scrap-url/hook"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -27,16 +27,16 @@ export const ActionFormData = FormDataDelegate.create(
     title: zu.string().trim().min(1, "Veuillez entrer un titre"),
     url: zu.string().url("Veuillez entrer une URL valide"),
   }),
-);
+)
 
 type State = {
-  image: string;
-  isAutofill: boolean;
-  publicationDate: string;
-  publisherName: string;
-  title: string;
-  url: string;
-};
+  image: string
+  isAutofill: boolean
+  publicationDate: string
+  publisherName: string
+  title: string
+  url: string
+}
 
 const DEFAULT_STATE: State = {
   image: "",
@@ -45,52 +45,52 @@ const DEFAULT_STATE: State = {
   publisherName: "",
   title: "",
   url: "",
-};
+}
 
 export function PressArticleForm({
   fetcher,
 }: {
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const [state, setState] = useState(DEFAULT_STATE);
+  const [state, setState] = useState(DEFAULT_STATE)
 
-  const imageRef = useRef<HTMLInputElement>(null);
-  const publicationDateRef = useRef<HTMLInputElement>(null);
-  const publisherNameRef = useRef<HTMLInputElement>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null)
+  const publicationDateRef = useRef<HTMLInputElement>(null)
+  const publisherNameRef = useRef<HTMLInputElement>(null)
+  const titleRef = useRef<HTMLInputElement>(null)
+  const urlRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.url != null) {
-        urlRef.current?.focus();
+        urlRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.title != null) {
-        titleRef.current?.focus();
+        titleRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.publisherName != null) {
-        publisherNameRef.current?.focus();
+        publisherNameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.publicationDate != null) {
-        publicationDateRef.current?.focus();
+        publicationDateRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.image != null) {
-        imageRef.current?.focus();
+        imageRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   const scrapUrlFetcher = useScrapUrlFetcher({
     url: state.url,
     isEnabled: state.isAutofill,
-  });
+  })
 
-  const scrapUrlFetcherData = scrapUrlFetcher.data;
+  const scrapUrlFetcherData = scrapUrlFetcher.data
   useEffect(() => {
     setState((state) => {
       if (!state.isAutofill || scrapUrlFetcherData == null) {
-        return state;
+        return state
       }
 
       return {
@@ -102,9 +102,9 @@ export function PressArticleForm({
           scrapUrlFetcherData.publisherName ?? DEFAULT_STATE.publisherName,
         title: scrapUrlFetcherData.title ?? DEFAULT_STATE.title,
         url: state.url,
-      };
-    });
-  }, [scrapUrlFetcherData]);
+      }
+    })
+  }, [scrapUrlFetcherData])
 
   return (
     <Form asChild hasHeader>
@@ -336,5 +336,5 @@ export function PressArticleForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 import {
   TaskItemDescription,
   TaskItemDocument,
@@ -12,17 +12,17 @@ import {
   TaskItemPerks,
   TaskItemPublicProfile,
   TaskItemStand,
-} from "./task-items";
+} from "./task-items"
 
 export function SectionAwaitingValidation() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const items: React.ReactNode[] = [];
+  const items: React.ReactNode[] = []
 
   if (exhibitor.documentStatus === ShowExhibitorStatus.AWAITING_VALIDATION) {
     items.push(
       <TaskItemDocument key="documents" status={exhibitor.documentStatus} />,
-    );
+    )
   }
 
   if (
@@ -31,7 +31,7 @@ export function SectionAwaitingValidation() {
   ) {
     items.push(
       <TaskItemStand key="stand" status={exhibitor.standConfigurationStatus} />,
-    );
+    )
   }
 
   if (exhibitor.descriptionStatus === ShowExhibitorStatus.AWAITING_VALIDATION) {
@@ -40,7 +40,7 @@ export function SectionAwaitingValidation() {
         key="description"
         status={exhibitor.descriptionStatus}
       />,
-    );
+    )
   }
 
   if (
@@ -49,7 +49,7 @@ export function SectionAwaitingValidation() {
   ) {
     items.push(
       <TaskItemDogs key="dogs" status={exhibitor.dogsConfigurationStatus} />,
-    );
+    )
   }
 
   if (
@@ -60,7 +60,7 @@ export function SectionAwaitingValidation() {
         key="public-profile"
         status={exhibitor.publicProfileStatus}
       />,
-    );
+    )
   }
 
   if (
@@ -72,15 +72,15 @@ export function SectionAwaitingValidation() {
         key="on-stand-animations"
         status={exhibitor.onStandAnimationsStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.perksStatus === ShowExhibitorStatus.AWAITING_VALIDATION) {
-    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />);
+    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />)
   }
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -93,5 +93,5 @@ export function SectionAwaitingValidation() {
 
       <FormLayout.SectionSeparator />
     </>
-  );
+  )
 }

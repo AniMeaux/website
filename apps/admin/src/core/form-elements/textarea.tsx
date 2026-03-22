@@ -1,9 +1,9 @@
-import autosize from "autosize";
-import { forwardRef, useRef } from "react";
-import invariant from "tiny-invariant";
+import autosize from "autosize"
+import { forwardRef, useRef } from "react"
+import invariant from "tiny-invariant"
 
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { useLayoutEffect } from "#i/core/use-layout-effect";
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { useLayoutEffect } from "#i/core/use-layout-effect"
 
 export const Textarea = forwardRef<
   React.ComponentRef<"textarea">,
@@ -22,24 +22,24 @@ export const Textarea = forwardRef<
   },
   propRef,
 ) {
-  invariant(typeof propRef !== "function", "Only object ref are supported.");
-  const localRef = useRef<HTMLTextAreaElement>(null);
-  const ref = propRef ?? localRef;
+  invariant(typeof propRef !== "function", "Only object ref are supported.")
+  const localRef = useRef<HTMLTextAreaElement>(null)
+  const ref = propRef ?? localRef
 
   useLayoutEffect(() => {
-    const elt = ref.current;
-    invariant(elt != null, "ref must be set");
-    autosize(elt);
+    const elt = ref.current
+    invariant(elt != null, "ref must be set")
+    autosize(elt)
 
     return () => {
-      autosize.destroy(elt);
-    };
-  }, [ref]);
+      autosize.destroy(elt)
+    }
+  }, [ref])
 
   useLayoutEffect(() => {
-    invariant(ref.current != null, "ref must be set");
-    autosize.update(ref.current);
-  });
+    invariant(ref.current != null, "ref must be set")
+    autosize.update(ref.current)
+  })
 
   return (
     <BaseTextInput.Root aria-disabled={disabled} className={className}>
@@ -58,5 +58,5 @@ export const Textarea = forwardRef<
         />
       </BaseTextInput>
     </BaseTextInput.Root>
-  );
-});
+  )
+})

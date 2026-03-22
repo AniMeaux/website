@@ -1,16 +1,16 @@
-import { cn, toBooleanAttribute } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn, toBooleanAttribute } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
-import type { ActionProps } from "#i/core/actions";
-import { Action } from "#i/core/actions";
-import { DenseHelper } from "#i/core/data-display/helper";
+import type { ActionProps } from "#i/core/actions"
+import { Action } from "#i/core/actions"
+import { DenseHelper } from "#i/core/data-display/helper"
 import {
   DataUrlOrDynamicImage,
   isImageOverSize,
-} from "#i/core/data-display/image";
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/data-display/image"
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 const ImageInputNative = forwardRef<
   React.ComponentRef<"input">,
@@ -24,8 +24,8 @@ const ImageInputNative = forwardRef<
       accept="image/*"
       className="invisible hidden"
     />
-  );
-});
+  )
+})
 
 function ImageInputTrigger({
   className,
@@ -34,9 +34,9 @@ function ImageInputTrigger({
   label,
   ...rest
 }: Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children" | "type"> & {
-  hasError?: boolean;
-  icon: IconName;
-  label: React.ReactNode;
+  hasError?: boolean
+  icon: IconName
+  label: React.ReactNode
 }) {
   return (
     <button
@@ -51,7 +51,7 @@ function ImageInputTrigger({
       <Icon href={icon} className="text-[30px]" />
       <span className="text-body-emphasis">{label}</span>
     </button>
-  );
+  )
 }
 
 function ImageInputPreview({
@@ -63,7 +63,7 @@ function ImageInputPreview({
       {...rest}
       className={cn(className, "relative aspect-4/3 overflow-hidden rounded-1")}
     />
-  );
+  )
 }
 
 function ImageInputPreviewImage({
@@ -74,7 +74,7 @@ function ImageInputPreviewImage({
   React.ComponentPropsWithoutRef<typeof DataUrlOrDynamicImage>,
   "loading"
 >) {
-  const isOverSize = isImageOverSize(image);
+  const isOverSize = isImageOverSize(image)
 
   return (
     <DataUrlOrDynamicImage
@@ -87,13 +87,13 @@ function ImageInputPreviewImage({
         "peer w-full data-[is-over-size=true]:opacity-50",
       )}
     />
-  );
+  )
 }
 
 function ImageInputPreviewOverSizeHelper({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <DenseHelper
@@ -102,7 +102,7 @@ function ImageInputPreviewOverSizeHelper({
     >
       {children}
     </DenseHelper>
-  );
+  )
 }
 
 function ImageInputPreviewAction({
@@ -117,7 +117,7 @@ function ImageInputPreviewAction({
       color="black"
       className={cn(className, "absolute bottom-0.5 right-0.5")}
     />
-  );
+  )
 }
 
 export const ImageInput = {
@@ -127,4 +127,4 @@ export const ImageInput = {
   PreviewImage: ImageInputPreviewImage,
   PreviewOverSizeHelper: ImageInputPreviewOverSizeHelper,
   PreviewAction: ImageInputPreviewAction,
-};
+}

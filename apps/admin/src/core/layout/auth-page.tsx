@@ -1,6 +1,6 @@
-import { getPageTitle } from "#i/core/page-title";
-import backgroundPattern from "#i/images/background-pattern.svg";
-import nameAndLogo from "#i/images/name-and-logo.svg";
+import { getPageTitle } from "#i/core/page-title"
+import backgroundPattern from "#i/images/background-pattern.svg"
+import nameAndLogo from "#i/images/name-and-logo.svg"
 
 export const AuthPage = {
   Main: function AuthPageMain({ children }: React.PropsWithChildren) {
@@ -23,7 +23,7 @@ export const AuthPage = {
           </section>
         </section>
       </main>
-    );
+    )
   },
 
   Title: function AuthPageTitle({ children }: React.PropsWithChildren) {
@@ -31,6 +31,6 @@ export const AuthPage = {
       <h1 className="text-title-hero-small md:text-title-hero-large">
         {children}
       </h1>
-    );
+    )
   },
-};
+}

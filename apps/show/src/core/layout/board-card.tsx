@@ -1,10 +1,10 @@
-import { cn } from "@animeaux/core";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { forwardRef } from "react"
 
-import { useElementSize } from "#i/core/elements";
-import { BeeIllustration } from "#i/core/illustration/bee";
-import { useScreenSizeCondition } from "#i/core/screen-size";
-import { theme } from "#i/generated/theme";
+import { useElementSize } from "#i/core/elements"
+import { BeeIllustration } from "#i/core/illustration/bee"
+import { useScreenSizeCondition } from "#i/core/screen-size"
+import { theme } from "#i/generated/theme"
 
 export const BoardCard = forwardRef<
   React.ComponentRef<"div">,
@@ -25,14 +25,14 @@ export const BoardCard = forwardRef<
 
       {children}
     </div>
-  );
-});
+  )
+})
 
 function BoardBackground() {
-  const { ref, size } = useElementSize<HTMLDivElement>();
+  const { ref, size } = useElementSize<HTMLDivElement>()
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= theme.screensPx.md,
-  );
+  )
 
   return (
     // ResizeObserver don't seem to work on SVG in Safari.
@@ -62,7 +62,7 @@ function BoardBackground() {
         ) : null}
       </svg>
     </div>
-  );
+  )
 }
 
 function Background({
@@ -70,12 +70,12 @@ function Background({
   height,
   isMedium,
 }: {
-  width: number;
-  height: number;
-  isMedium: boolean;
+  width: number
+  height: number
+  isMedium: boolean
 }) {
-  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1];
-  const radius = isMedium ? theme.spacing[4] : theme.spacing[2];
+  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1]
+  const radius = isMedium ? theme.spacing[4] : theme.spacing[2]
 
   return (
     <rect
@@ -88,7 +88,7 @@ function Background({
       // We don't want the stroke to scale, keep it at 3px.
       vectorEffect="non-scaling-stroke"
     />
-  );
+  )
 }
 
 function Dots({
@@ -96,12 +96,12 @@ function Dots({
   height,
   isMedium,
 }: {
-  width: number;
-  height: number;
-  isMedium: boolean;
+  width: number
+  height: number
+  isMedium: boolean
 }) {
-  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1];
-  const radius = isMedium ? theme.spacing[4] : theme.spacing[2];
+  const spacing = isMedium ? theme.spacing[2] : theme.spacing[1]
+  const radius = isMedium ? theme.spacing[4] : theme.spacing[2]
 
   return (
     <rect
@@ -118,5 +118,5 @@ function Dots({
       // We don't want the stroke to scale, keep it at 3px.
       vectorEffect="non-scaling-stroke"
     />
-  );
+  )
 }

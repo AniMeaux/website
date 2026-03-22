@@ -1,6 +1,6 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
-import { Visibility } from "#i/show/visibility.js";
+import { Visibility } from "#i/show/visibility.js"
 
 export const actionSchema = zu.object({
   area: zu.coerce
@@ -54,4 +54,4 @@ export const actionSchema = zu.object({
     .number({ message: "Veuillez entrer un nombre valide" })
     .min(0, "Veuillez entrer un nombre positif")
     .optional(),
-});
+})

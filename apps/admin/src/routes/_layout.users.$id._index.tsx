@@ -1,74 +1,74 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { Prisma, User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { Prisma, User } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useState } from "react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { useEffect, useState } from "react"
+import { promiseHash } from "remix-utils/promise"
 
-import { AnimalItem } from "#i/animals/item";
-import { AnimalSearchParams } from "#i/animals/search-params";
+import { AnimalItem } from "#i/animals/item"
+import { AnimalSearchParams } from "#i/animals/search-params"
 import {
   ACTIVE_ANIMAL_STATUS,
   NON_ACTIVE_ANIMAL_STATUS,
-} from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { ErrorsInlineHelper } from "#i/core/data-display/errors";
-import { BlockHelper, InlineHelper } from "#i/core/data-display/helper";
-import { inferInstanceColor } from "#i/core/data-display/instance-color";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { toRoundedRelative } from "#i/core/dates";
-import { db } from "#i/core/db.server";
-import { NotFoundError, ReferencedError } from "#i/core/errors.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { AvatarCard } from "#i/core/layout/avatar-card";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog";
-import { prisma } from "#i/core/prisma.server";
-import { badRequest, notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { Icon } from "#i/generated/icon";
-import { UserAvatar } from "#i/users/avatar";
-import { DeleteMyselfError, DisableMyselfError } from "#i/users/db.server";
-import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups";
+} from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { ErrorsInlineHelper } from "#i/core/data-display/errors"
+import { BlockHelper, InlineHelper } from "#i/core/data-display/helper"
+import { inferInstanceColor } from "#i/core/data-display/instance-color"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { toRoundedRelative } from "#i/core/dates"
+import { db } from "#i/core/db.server"
+import { NotFoundError, ReferencedError } from "#i/core/errors.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { AvatarCard } from "#i/core/layout/avatar-card"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog"
+import { prisma } from "#i/core/prisma.server"
+import { badRequest, notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { Icon } from "#i/generated/icon"
+import { UserAvatar } from "#i/users/avatar"
+import { DeleteMyselfError, DisableMyselfError } from "#i/users/db.server"
+import { GROUP_ICON, GROUP_TRANSLATION, hasGroups } from "#i/users/groups"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const managedAnimalsWhere: Prisma.AnimalWhereInput = {
     managerId: paramsResult.data.id,
     status: { in: ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const nonActiveManagedAnimalsWhere: Prisma.AnimalWhereInput = {
     managerId: paramsResult.data.id,
     status: { in: NON_ACTIVE_ANIMAL_STATUS },
-  };
+  }
 
   const {
     user,
@@ -132,9 +132,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         status: true,
       },
     }),
-  });
+  })
 
-  assertIsDefined(user);
+  assertIsDefined(user)
 
   return json({
     currentUser,
@@ -143,67 +143,67 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     managedAnimals,
     nonActiveManagedAnimalCount,
     nonActiveManagedAnimals,
-  });
+  })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const user = data?.user;
+  const user = data?.user
   if (user == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(user.displayName) }];
-};
+  return [{ title: getPageTitle(user.displayName) }]
+}
 
 const DisableActionFormData = FormDataDelegate.create(
   zu.object({
     isDisabled: zu.checkbox(),
   }),
-);
+)
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   if (request.method.toUpperCase() === "DELETE") {
-    return await actionDelete({ currentUser, userId: paramsResult.data.id });
+    return await actionDelete({ currentUser, userId: paramsResult.data.id })
   }
 
   return await actionDisable({
     currentUser,
     request,
     userId: paramsResult.data.id,
-  });
+  })
 }
 
 type ActionData = {
-  errors?: string[];
-};
+  errors?: string[]
+}
 
 async function actionDelete({
   currentUser,
   userId,
 }: {
-  currentUser: Pick<User, "id">;
-  userId: User["id"];
+  currentUser: Pick<User, "id">
+  userId: User["id"]
 }) {
   try {
-    await db.user.delete(userId, currentUser);
+    await db.user.delete(userId, currentUser)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
     if (error instanceof DeleteMyselfError) {
-      throw badRequest();
+      throw badRequest()
     }
 
     if (error instanceof ReferencedError) {
@@ -214,15 +214,15 @@ async function actionDelete({
           ],
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing user.
-  throw redirect(Routes.users.toString());
+  throw redirect(Routes.users.toString())
 }
 
 async function actionDisable({
@@ -230,37 +230,37 @@ async function actionDisable({
   currentUser,
   userId,
 }: Pick<ActionFunctionArgs, "request"> & {
-  currentUser: Pick<User, "id">;
-  userId: User["id"];
+  currentUser: Pick<User, "id">
+  userId: User["id"]
 }) {
-  const formData = DisableActionFormData.safeParse(await request.formData());
+  const formData = DisableActionFormData.safeParse(await request.formData())
   if (!formData.success) {
-    throw badRequest();
+    throw badRequest()
   }
 
   try {
-    await db.user.setIsDisabled(userId, currentUser, formData.data.isDisabled);
+    await db.user.setIsDisabled(userId, currentUser, formData.data.isDisabled)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
     if (error instanceof DisableMyselfError) {
-      throw badRequest();
+      throw badRequest()
     }
 
-    throw error;
+    throw error
   }
 
-  return json<ActionData>({});
+  return json<ActionData>({})
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -295,11 +295,11 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function HeaderCard() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>()
 
   return (
     <AvatarCard>
@@ -326,11 +326,11 @@ function HeaderCard() {
         </Action>
       </AvatarCard.Content>
     </AvatarCard>
-  );
+  )
 }
 
 function ActivityCard() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -355,11 +355,11 @@ function ActivityCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function GroupsCard() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -377,13 +377,13 @@ function GroupsCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ManagedAnimalsCard() {
   const { user, managedAnimalCount, managedAnimals } =
-    useLoaderData<typeof loader>();
-  const isManager = hasGroups(user, [UserGroup.ANIMAL_MANAGER]);
+    useLoaderData<typeof loader>()
+  const isManager = hasGroups(user, [UserGroup.ANIMAL_MANAGER])
 
   return (
     <Card>
@@ -453,13 +453,13 @@ function ManagedAnimalsCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function NonActiveManagedAnimalsCard() {
   const { user, nonActiveManagedAnimalCount, nonActiveManagedAnimals } =
-    useLoaderData<typeof loader>();
-  const isManager = hasGroups(user, [UserGroup.ANIMAL_MANAGER]);
+    useLoaderData<typeof loader>()
+  const isManager = hasGroups(user, [UserGroup.ANIMAL_MANAGER])
 
   return (
     <Card>
@@ -529,7 +529,7 @@ function NonActiveManagedAnimalsCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionsCard() {
@@ -546,23 +546,23 @@ function ActionsCard() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionDisable() {
-  const { currentUser, user } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  const [isDialogOpened, setIsDialogOpened] = useState(false);
+  const { currentUser, user } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  const [isDialogOpened, setIsDialogOpened] = useState(false)
 
-  const done = fetcher.state === "idle" && fetcher.data != null;
+  const done = fetcher.state === "idle" && fetcher.data != null
   useEffect(() => {
     if (done) {
-      setIsDialogOpened(false);
+      setIsDialogOpened(false)
     }
-  }, [done]);
+  }, [done])
 
-  const [isHelperVisible, setIsHelperVisible] = useState(false);
-  const canDisable = user.id !== currentUser.id;
+  const [isHelperVisible, setIsHelperVisible] = useState(false)
+  const canDisable = user.id !== currentUser.id
 
   return (
     <>
@@ -585,9 +585,9 @@ function ActionDisable() {
               ? undefined
               : (event) => {
                   // Don't open de dialog.
-                  event.preventDefault();
+                  event.preventDefault()
 
-                  setIsHelperVisible(true);
+                  setIsHelperVisible(true)
                 }
           }
         >
@@ -628,18 +628,18 @@ function ActionDisable() {
         </Dialog.Content>
       </Dialog>
     </>
-  );
+  )
 }
 
 function ActionDelete() {
   const { currentUser, user, managedAnimalCount, nonActiveManagedAnimalCount } =
-    useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  const [isHelperVisible, setIsHelperVisible] = useState(false);
-  const isCurrentUser = user.id === currentUser.id;
+    useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  const [isHelperVisible, setIsHelperVisible] = useState(false)
+  const isCurrentUser = user.id === currentUser.id
   const hasManagedAnimals =
-    managedAnimalCount > 0 || nonActiveManagedAnimalCount > 0;
-  const canDelete = !isCurrentUser && !hasManagedAnimals;
+    managedAnimalCount > 0 || nonActiveManagedAnimalCount > 0
+  const canDelete = !isCurrentUser && !hasManagedAnimals
 
   return (
     <>
@@ -666,9 +666,9 @@ function ActionDelete() {
               ? undefined
               : (event) => {
                   // Don't open de dialog.
-                  event.preventDefault();
+                  event.preventDefault()
 
-                  setIsHelperVisible(true);
+                  setIsHelperVisible(true)
                 }
           }
         >
@@ -703,5 +703,5 @@ function ActionDelete() {
         </Dialog.Content>
       </Dialog>
     </>
-  );
+  )
 }

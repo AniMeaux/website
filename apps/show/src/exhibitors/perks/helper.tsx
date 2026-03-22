@@ -1,4 +1,4 @@
-import { HelperCard } from "#i/core/layout/helper-card";
+import { HelperCard } from "#i/core/layout/helper-card"
 
 export function PerksHelper() {
   return (
@@ -13,5 +13,5 @@ export function PerksHelper() {
         dans le hall.
       </p>
     </HelperCard.Root>
-  );
+  )
 }

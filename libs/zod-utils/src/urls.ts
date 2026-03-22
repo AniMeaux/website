@@ -1,5 +1,5 @@
-import type { ZodString } from "zod";
-import { z } from "zod";
+import type { ZodString } from "zod"
+import { z } from "zod"
 
 /**
  * Allow missing protocol in URL and adds it if needed.
@@ -14,5 +14,5 @@ export function simpleUrl(...params: Parameters<ZodString["url"]>) {
       (value) => (typeof value === "string" ? `https://${value}` : value),
       z.string().url(...params),
     ),
-  ]);
+  ])
 }

@@ -1,12 +1,12 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardMotivation() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -22,5 +22,5 @@ export function CardMotivation() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

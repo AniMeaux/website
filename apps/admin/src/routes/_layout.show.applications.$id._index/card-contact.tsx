@@ -1,13 +1,13 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon";
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardContact() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -31,5 +31,5 @@ export function CardContact() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

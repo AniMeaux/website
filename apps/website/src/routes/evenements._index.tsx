@@ -1,21 +1,21 @@
-import { cn } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import type { MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+import { cn } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import type { MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { prisma } from "#i/core/db.server";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { prisma } from "#i/core/db.server"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { EventItem } from "#i/events/item";
+} from "#i/core/layout/related-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { EventItem } from "#i/events/item"
 
 const eventSelect = {
   id: true,
@@ -27,9 +27,9 @@ const eventSelect = {
   endDate: true,
   isFullDay: true,
   location: true,
-} satisfies Prisma.EventSelect;
+} satisfies Prisma.EventSelect
 
-const PAST_EVENT_COUNT = 3;
+const PAST_EVENT_COUNT = 3
 
 export async function loader() {
   const { events, pastEvents } = await promiseHash({
@@ -49,17 +49,17 @@ export async function loader() {
       orderBy: { endDate: "desc" },
       select: eventSelect,
     }),
-  });
+  })
 
-  return json({ events, pastEvents });
+  return json({ events, pastEvents })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Événements à venir") });
-};
+  return createSocialMeta({ title: getPageTitle("Événements à venir") })
+}
 
 export default function Route() {
-  const { events, pastEvents } = useLoaderData<typeof loader>();
+  const { events, pastEvents } = useLoaderData<typeof loader>()
 
   return (
     <>
@@ -127,5 +127,5 @@ export default function Route() {
         </RelatedSection>
       )}
     </>
-  );
+  )
 }

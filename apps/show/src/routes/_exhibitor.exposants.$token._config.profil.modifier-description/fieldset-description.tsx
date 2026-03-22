@@ -1,13 +1,13 @@
-import type { FieldMetadata } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
 
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
 
-import { useForm } from "./form";
+import { useForm } from "./form"
 
 export function FieldsetDescription() {
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   return (
     <FormLayout.Section>
@@ -26,5 +26,5 @@ export function FieldsetDescription() {
         rows={5}
       />
     </FormLayout.Section>
-  );
+  )
 }

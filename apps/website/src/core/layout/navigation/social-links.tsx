@@ -1,9 +1,9 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import type { IconProps } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import type { IconProps } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export function SocialLinks({ className }: { className?: string }) {
   return (
@@ -36,7 +36,7 @@ export function SocialLinks({ className }: { className?: string }) {
         className="hover:bg-twitter hover:text-twitter"
       />
     </div>
-  );
+  )
 }
 
 function SocialLink({
@@ -45,10 +45,10 @@ function SocialLink({
   icon,
   className,
 }: {
-  to: BaseLinkProps["to"];
-  title: BaseLinkProps["title"];
-  icon: IconProps["id"];
-  className: string;
+  to: BaseLinkProps["to"]
+  title: BaseLinkProps["title"]
+  icon: IconProps["id"]
+  className: string
 }) {
   return (
     <BaseLink
@@ -61,5 +61,5 @@ function SocialLink({
     >
       <Icon id={icon} />
     </BaseLink>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { normalizeLineBreaks, zu } from "@animeaux/zod-utils";
+import { normalizeLineBreaks, zu } from "@animeaux/zod-utils"
 
 export const ActionSchema = zu.object({
   description: zu.preprocess(
@@ -9,4 +9,4 @@ export const ActionSchema = zu.object({
       .min(1, "Veuillez entrer une description")
       .max(512, "Veuillez entrer une description plus courte"),
   ),
-});
+})

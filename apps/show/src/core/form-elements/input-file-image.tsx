@@ -1,13 +1,13 @@
-import { cn, createHookContext, useIsMounted } from "@animeaux/core";
-import type { DataUrlFile } from "@animeaux/files-io";
-import { readFile } from "@animeaux/files-io";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef, useState } from "react";
-import type { Except } from "type-fest";
+import { cn, createHookContext, useIsMounted } from "@animeaux/core"
+import type { DataUrlFile } from "@animeaux/files-io"
+import { readFile } from "@animeaux/files-io"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef, useState } from "react"
+import type { Except } from "type-fest"
 
-import { DynamicImage } from "#i/core/data-display/image";
-import { ImageData } from "#i/core/image/data.js";
-import { Icon } from "#i/generated/icon";
+import { DynamicImage } from "#i/core/data-display/image"
+import { ImageData } from "#i/core/image/data.js"
+import { Icon } from "#i/generated/icon"
 
 export const InputFileImage = {
   Root: forwardRef<
@@ -25,40 +25,40 @@ export const InputFileImage = {
           )}
         />
       </ContextProvider>
-    );
+    )
   }),
 
   Input: forwardRef<
     React.ComponentRef<"input">,
     React.ComponentPropsWithoutRef<"input">
   >(function InputFileImageInput({ className, onChange, ...props }, ref) {
-    const { setState } = useContext();
+    const { setState } = useContext()
 
-    const isMounted = useIsMounted();
+    const isMounted = useIsMounted()
 
     async function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      onChange?.(event);
+      onChange?.(event)
 
-      const [firstFile] = event.currentTarget.files ?? [];
+      const [firstFile] = event.currentTarget.files ?? []
 
       // Handle native file input reset.
       // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#detecting_cancellations
       if (firstFile == null) {
-        setState({ type: "idle" });
-        return;
+        setState({ type: "idle" })
+        return
       }
 
-      setState({ type: "loading" });
+      setState({ type: "loading" })
 
       try {
-        const data = await readFile(firstFile);
+        const data = await readFile(firstFile)
 
         if (isMounted.current) {
-          setState({ type: "success", data });
+          setState({ type: "success", data })
         }
       } catch (error) {
         if (isMounted.current) {
-          setState({ type: "error", error });
+          setState({ type: "error", error })
         }
       }
     }
@@ -73,17 +73,17 @@ export const InputFileImage = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Preview: forwardRef<
     React.ComponentRef<"img">,
     Except<React.ComponentPropsWithoutRef<"img">, "src" | "alt">
   >(function InputFileImagePreview({ className, ...props }, ref) {
-    const { state } = useContext();
+    const { state } = useContext()
 
     if (state.type !== "success") {
-      return null;
+      return null
     }
 
     return (
@@ -99,18 +99,18 @@ export const InputFileImage = {
           )}
         />
       </div>
-    );
+    )
   }),
 
   Placeholder: function InputFileImagePlaceholder({
     defaultLogo,
   }: {
-    defaultLogo?: { path: string; alt: string };
+    defaultLogo?: { path: string; alt: string }
   }) {
-    const { state } = useContext();
+    const { state } = useContext()
 
     if (state.type === "success") {
-      return null;
+      return null
     }
 
     if (defaultLogo != null) {
@@ -128,7 +128,7 @@ export const InputFileImage = {
             className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
           />
         </div>
-      );
+      )
     }
 
     return (
@@ -142,9 +142,9 @@ export const InputFileImage = {
       >
         <Icon id="upload-solid" className="text-mystic icon-64" />
       </div>
-    );
+    )
   },
-};
+}
 
 const [ContextProvider, useContext] = createHookContext(() => {
   const [state, setState] = useState<
@@ -152,7 +152,7 @@ const [ContextProvider, useContext] = createHookContext(() => {
     | { type: "loading" }
     | { type: "error"; error: unknown }
     | { type: "success"; data: DataUrlFile }
-  >({ type: "idle" });
+  >({ type: "idle" })
 
-  return { state, setState };
-});
+  return { state, setState }
+})

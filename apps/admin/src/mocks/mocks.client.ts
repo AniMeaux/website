@@ -1,8 +1,8 @@
-import { setupWorker } from "msw/browser";
+import { setupWorker } from "msw/browser"
 
-import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.client";
+import { cloudinaryHandlers } from "#i/mocks/cloudinary/cloudinary.client"
 
-const worker = setupWorker(...cloudinaryHandlers);
+const worker = setupWorker(...cloudinaryHandlers)
 
 export async function startWorker() {
   await worker.start({
@@ -11,5 +11,5 @@ export async function startWorker() {
     serviceWorker: {
       url: "/mock-service-worker.js",
     },
-  });
+  })
 }

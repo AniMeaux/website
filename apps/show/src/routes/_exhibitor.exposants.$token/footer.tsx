@@ -1,4 +1,4 @@
-import { Footer } from "#i/core/layout/footer";
+import { Footer } from "#i/core/layout/footer"
 
 export function LayoutFooter() {
   return (
@@ -12,5 +12,5 @@ export function LayoutFooter() {
 
       <Footer.LegalSection />
     </Footer.Root>
-  );
+  )
 }

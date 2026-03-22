@@ -1,38 +1,38 @@
-import type { zu } from "@animeaux/zod-utils";
-import { useFetcher } from "@remix-run/react";
-import { useCallback, useMemo } from "react";
+import type { zu } from "@animeaux/zod-utils"
+import { useFetcher } from "@remix-run/react"
+import { useCallback, useMemo } from "react"
 
-import { Routes } from "#i/core/navigation";
-import type { action } from "#i/routes/resources.preferences/route";
-import { ActionFormData } from "#i/routes/resources.preferences/shared";
+import { Routes } from "#i/core/navigation"
+import type { action } from "#i/routes/resources.preferences/route"
+import { ActionFormData } from "#i/routes/resources.preferences/shared"
 
 export function usePreferencesFetcher() {
-  const fetcher = useFetcher<action>();
+  const fetcher = useFetcher<action>()
 
-  const fetcherSubmit = fetcher.submit;
+  const fetcherSubmit = fetcher.submit
   const submit = useCallback(
     (preferences: zu.infer<typeof ActionFormData.schema>) => {
-      const formData = new FormData();
+      const formData = new FormData()
       if (preferences.isSideBarCollapsed) {
-        formData.set(ActionFormData.keys.isSideBarCollapsed, "on");
+        formData.set(ActionFormData.keys.isSideBarCollapsed, "on")
       }
 
       fetcherSubmit(formData, {
         method: "POST",
         action: Routes.resources.preferences.toString(),
-      });
+      })
     },
     [fetcherSubmit],
-  );
+  )
 
-  const fetcherFormData = fetcher.formData;
+  const fetcherFormData = fetcher.formData
   const formData = useMemo(() => {
     if (fetcherFormData == null) {
-      return undefined;
+      return undefined
     }
 
-    return ActionFormData.parse(fetcherFormData);
-  }, [fetcherFormData]);
+    return ActionFormData.parse(fetcherFormData)
+  }, [fetcherFormData])
 
-  return useMemo(() => ({ submit, formData }), [submit, formData]);
+  return useMemo(() => ({ submit, formData }), [submit, formData])
 }

@@ -1,25 +1,25 @@
-import { AnimalAge } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
+import { AnimalAge } from "@animeaux/core"
+import { Species } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { redirect } from "@remix-run/node"
 
-import { getPath } from "#i/core/controllers/searchForm";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
+import { getPath } from "#i/core/controllers/searchForm"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const redirectTo = REDIRECTIONS[`/${params["*"]}`];
+  const redirectTo = REDIRECTIONS[`/${params["*"]}`]
   if (redirectTo != null) {
-    throw redirect(redirectTo, 301);
+    throw redirect(redirectTo, 301)
   }
 
-  throw new Response("Not found", { status: 404 });
+  throw new Response("Not found", { status: 404 })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) });
-};
+  return createSocialMeta({ title: getPageTitle(getErrorTitle(404)) })
+}
 
 /**
  * By using a splat route we can still use the root's loader data in a 404 page.
@@ -28,11 +28,11 @@ export const meta: MetaFunction = () => {
  * @see https://remix.run/docs/en/v1/guides/routing#splats
  */
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  return null;
+  return null
 }
 
 const REDIRECTIONS: Record<string, string> = {
@@ -67,4 +67,4 @@ const REDIRECTIONS: Record<string, string> = {
   "/event": "/evenements",
   "/past-events": "/evenements/passes",
   "/partners": "/partenaires",
-};
+}

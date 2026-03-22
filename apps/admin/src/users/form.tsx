@@ -1,23 +1,23 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import type { User } from "@animeaux/prisma";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { SerializeFrom } from "@remix-run/node";
-import type { FetcherWithComponents } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+import { FormDataDelegate } from "@animeaux/form-data"
+import type { User } from "@animeaux/prisma"
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { SerializeFrom } from "@remix-run/node"
+import type { FetcherWithComponents } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
+import { Action } from "#i/core/actions"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
 import {
   CheckboxInput,
   CheckboxInputList,
-} from "#i/core/form-elements/input-choice";
-import { PasswordInput } from "#i/core/form-elements/password-input";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Separator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
-import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups";
+} from "#i/core/form-elements/input-choice"
+import { PasswordInput } from "#i/core/form-elements/password-input"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Separator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
+import { GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({
@@ -31,7 +31,7 @@ export const ActionFormData = FormDataDelegate.create(
     ),
     temporaryPassword: zu.string(),
   }),
-);
+)
 
 export function UserForm({
   defaultUser,
@@ -39,33 +39,33 @@ export function UserForm({
 }: {
   defaultUser?: null | SerializeFrom<
     Pick<User, "displayName" | "email" | "groups">
-  >;
+  >
   fetcher: FetcherWithComponents<{
-    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-  }>;
+    errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+  }>
 }) {
-  const isCreate = defaultUser == null;
-  const displayNameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const groupsRef = useRef<HTMLInputElement>(null);
-  const temporaryPasswordRef = useRef<HTMLInputElement>(null);
+  const isCreate = defaultUser == null
+  const displayNameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
+  const groupsRef = useRef<HTMLInputElement>(null)
+  const temporaryPasswordRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.displayName != null) {
-        displayNameRef.current?.focus();
+        displayNameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.email != null) {
-        emailRef.current?.focus();
+        emailRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.groups != null) {
-        groupsRef.current?.focus();
+        groupsRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.temporaryPassword != null) {
-        temporaryPasswordRef.current?.focus();
+        temporaryPasswordRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <Form asChild hasHeader>
@@ -202,5 +202,5 @@ export function UserForm({
         </Form.Action>
       </fetcher.Form>
     </Form>
-  );
+  )
 }

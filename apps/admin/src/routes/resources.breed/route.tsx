@@ -1,26 +1,26 @@
-import { UserGroup } from "@animeaux/prisma";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { BreedSearchParams } from "#i/breeds/search-params";
-import { db } from "#i/core/db.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { BreedSearchParams } from "#i/breeds/search-params"
+import { db } from "#i/core/db.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-export type loader = typeof loader;
+export type loader = typeof loader
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const searchParams = BreedSearchParams.parse(
     new URL(request.url).searchParams,
-  );
+  )
 
   return json({
     breeds: await db.breed.fuzzySearch(searchParams.name, {
@@ -36,5 +36,5 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
       take: 6,
     }),
-  });
+  })
 }

@@ -1,4 +1,4 @@
-import type { Faq } from "#i/faq/faq";
+import type { Faq } from "#i/faq/faq"
 
 export const QUESTIONS: Faq[] = [
   {
@@ -130,4 +130,4 @@ Non, toute publicité doit être limitée à votre espace désigné.
 Non, la distribution doit se limiter à votre stand.
 `.trim(),
   },
-];
+]

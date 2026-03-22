@@ -1,24 +1,24 @@
-import type { Cache, CacheEntry } from "@epic-web/cachified";
-import { totalTtl } from "@epic-web/cachified";
-import { LRUCache } from "lru-cache";
+import type { Cache, CacheEntry } from "@epic-web/cachified"
+import { totalTtl } from "@epic-web/cachified"
+import { LRUCache } from "lru-cache"
 
 export class ServiceCache implements Cache {
-  private lruCache = new LRUCache<string, CacheEntry>({ max: 10 });
+  private lruCache = new LRUCache<string, CacheEntry>({ max: 10 })
 
   set(key: string, value: CacheEntry) {
-    const ttl = totalTtl(value?.metadata);
+    const ttl = totalTtl(value?.metadata)
 
     return this.lruCache.set(key, value, {
       ttl: ttl === Infinity ? undefined : ttl,
       start: value?.metadata?.createdTime,
-    });
+    })
   }
 
   get(key: string) {
-    return this.lruCache.get(key);
+    return this.lruCache.get(key)
   }
 
   delete(key: string) {
-    return this.lruCache.delete(key);
+    return this.lruCache.delete(key)
   }
 }

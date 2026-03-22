@@ -1,24 +1,24 @@
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { FormDataDelegate } from "@animeaux/form-data"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions";
-import { db } from "#i/core/db.server";
-import { EmailAlreadyUsedError } from "#i/core/errors.server";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { db } from "#i/core/db.server"
+import { EmailAlreadyUsedError } from "#i/core/errors.server"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes, useBackIfPossible } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Icon } from "#i/generated/icon"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
@@ -26,45 +26,45 @@ export async function loader({ request }: LoaderFunctionArgs) {
       displayName: true,
       email: true,
     },
-  });
+  })
 
-  return json({ currentUser });
+  return json({ currentUser })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Modifier votre profil") }];
-};
+  return [{ title: getPageTitle("Modifier votre profil") }]
+}
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
     name: zu.string().min(1, "Veuillez entrer un nom"),
     email: zu.string().email("Veuillez entrer un email valide"),
   }),
-);
+)
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true },
-  });
+  })
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
     await db.currentUser.updateProfile(currentUser.id, {
       displayName: formData.data.name,
       email: formData.data.email,
-    });
+    })
   } catch (error) {
     if (error instanceof EmailAlreadyUsedError) {
       return json<ActionData>(
@@ -75,35 +75,35 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
-  return json<ActionData>({ redirectTo: Routes.me.toString() });
+  return json<ActionData>({ redirectTo: Routes.me.toString() })
 }
 
 export default function Route() {
-  const { currentUser } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  const { currentUser } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.name != null) {
-        nameRef.current?.focus();
+        nameRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.email != null) {
-        emailRef.current?.focus();
+        emailRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <PageLayout.Root>
@@ -187,5 +187,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

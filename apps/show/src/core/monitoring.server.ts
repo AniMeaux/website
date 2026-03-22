@@ -1,4 +1,4 @@
-import { init } from "@sentry/remix";
+import { init } from "@sentry/remix"
 
 export function initMonitoring() {
   if (process.env.SENTRY_DSN != null) {
@@ -6,6 +6,6 @@ export function initMonitoring() {
       dsn: process.env.SENTRY_DSN,
       environment: process.env.RUNTIME_ENV,
       tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE ?? 0),
-    });
+    })
   }
 }

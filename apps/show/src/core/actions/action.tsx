@@ -1,15 +1,15 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
 
-import { Spinner } from "#i/core/loaders/spinner";
+import { Spinner } from "#i/core/loaders/spinner"
 
 export const Action = Object.assign(
   forwardRef<
     React.ComponentRef<typeof Primitive.button>,
     React.ComponentPropsWithoutRef<typeof Primitive.button> & {
-      variant?: Variant;
-      color?: Color;
+      variant?: Variant
+      color?: Color
     }
   >(function Action(
     { variant = "button", color = "mystic", className, ...props },
@@ -25,7 +25,7 @@ export const Action = Object.assign(
           className,
         )}
       />
-    );
+    )
   }),
   {
     Loader: function ActionLoader({ isLoading }: { isLoading: boolean }) {
@@ -38,16 +38,16 @@ export const Action = Object.assign(
         >
           <Spinner />
         </span>
-      );
+      )
     },
   },
-);
+)
 
 export const ActionIcon = forwardRef<
   React.ComponentRef<typeof Primitive.button>,
   React.ComponentPropsWithoutRef<typeof Primitive.button> & {
-    variant?: Variant;
-    color?: Color;
+    variant?: Variant
+    color?: Color
   }
 >(function ActionIcon(
   { variant = "button", color = "mystic", className, ...props },
@@ -63,11 +63,11 @@ export const ActionIcon = forwardRef<
         className,
       )}
     />
-  );
-});
+  )
+})
 
-type Variant = "button" | "link";
-type Color = "alabaster" | "mystic" | "prussianBlue";
+type Variant = "button" | "link"
+type Color = "alabaster" | "mystic" | "prussianBlue"
 
 // `enabled` doesn't work on `<a/>`.
 // To avoid having `<a/>` styles applied to `<button/>`, we use `is-link`.
@@ -135,4 +135,4 @@ const CLASS_NAMES_BY_COLOR: Record<Variant, Record<Color, string>> = {
       "is-link:active:bg-prussianBlue-100 is-link:can-hover:hover:bg-prussianBlue-50 is-link:active:can-hover:hover:bg-prussianBlue-100",
     ),
   },
-};
+}

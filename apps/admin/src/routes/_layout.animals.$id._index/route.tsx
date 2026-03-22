@@ -1,81 +1,81 @@
-import { cn, formatAge } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
+import { cn, formatAge } from "@animeaux/core"
+import { Gender, UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { AgreementItem } from "#i/animals/agreements";
-import { AnimalAvatar } from "#i/animals/avatar";
-import { GENDER_ICON } from "#i/animals/gender";
-import { ActionFormData as ProfileActionFormData } from "#i/animals/profile/form";
-import { getAnimalDisplayName } from "#i/animals/profile/name";
-import { ActionFormData as SituationActionFormData } from "#i/animals/situation/form";
-import { getSpeciesLabels, SPECIES_ICON } from "#i/animals/species";
-import { StatusBadge } from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { db } from "#i/core/db.server";
-import { NotFoundError } from "#i/core/errors.server";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { AvatarCard } from "#i/core/layout/avatar-card";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { Icon } from "#i/generated/icon";
-import { hasGroups } from "#i/users/groups";
+import { AgreementItem } from "#i/animals/agreements"
+import { AnimalAvatar } from "#i/animals/avatar"
+import { GENDER_ICON } from "#i/animals/gender"
+import { ActionFormData as ProfileActionFormData } from "#i/animals/profile/form"
+import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { ActionFormData as SituationActionFormData } from "#i/animals/situation/form"
+import { getSpeciesLabels, SPECIES_ICON } from "#i/animals/species"
+import { StatusBadge } from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { db } from "#i/core/db.server"
+import { NotFoundError } from "#i/core/errors.server"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { AvatarCard } from "#i/core/layout/avatar-card"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { Icon } from "#i/generated/icon"
+import { hasGroups } from "#i/users/groups"
 
-import { SituationCard } from "./situation-card";
+import { SituationCard } from "./situation-card"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
-export type loader = typeof loader;
+export type loader = typeof loader
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
     UserGroup.VOLUNTEER,
-  ]);
+  ])
 
-  const result = ParamsSchema.safeParse(params);
+  const result = ParamsSchema.safeParse(params)
   if (!result.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
-  ]);
+  ])
 
   const canSeeComments = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const animal = await prisma.animal.findUnique({
     where: { id: result.data.id },
@@ -128,79 +128,79 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
           }
         : {}),
     },
-  });
+  })
 
-  assertIsDefined(animal);
+  assertIsDefined(animal)
 
   const canEdit = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const canSeeFosterFamilyDetails = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const canSeeManagerDetails = hasGroups(currentUser, [UserGroup.ADMIN]);
+  const canSeeManagerDetails = hasGroups(currentUser, [UserGroup.ADMIN])
 
   return json({
     animal,
     canEdit,
     canSeeFosterFamilyDetails,
     canSeeManagerDetails,
-  });
+  })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
+  const animal = data?.animal
   if (animal == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(getAnimalDisplayName(animal)) }];
-};
+  return [{ title: getPageTitle(getAnimalDisplayName(animal)) }]
+}
 
 export async function action({ request, params }: ActionFunctionArgs) {
   if (request.method.toUpperCase() !== "DELETE") {
-    throw notFound();
+    throw notFound()
   }
 
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const result = zu.string().uuid().safeParse(params["id"]);
+  const result = zu.string().uuid().safeParse(params["id"])
   if (!result.success) {
-    throw notFound();
+    throw notFound()
   }
 
   try {
-    await db.animal.delete(result.data, currentUser);
+    await db.animal.delete(result.data, currentUser)
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw notFound();
+      throw notFound()
     }
 
-    throw error;
+    throw error
   }
 
   // We are forced to redirect to avoid re-calling the loader with a
   // non-existing aniaml.
-  throw redirect(Routes.animals.toString());
+  throw redirect(Routes.animals.toString())
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const { canEdit } = useLoaderData<typeof loader>();
+  const { canEdit } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Root>
@@ -233,11 +233,11 @@ export default function Route() {
         </section>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function HeaderCard() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   return (
     <AvatarCard>
@@ -287,11 +287,11 @@ function HeaderCard() {
         </AvatarCard.Lines>
       </AvatarCard.Content>
     </AvatarCard>
-  );
+  )
 }
 
 function ProfileCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -328,11 +328,11 @@ function ProfileCard() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function AgreementsCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -356,14 +356,14 @@ function AgreementsCard() {
         </ul>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function CommentsCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>()
 
   if (animal.comments == null) {
-    return null;
+    return null
   }
 
   return (
@@ -391,12 +391,12 @@ function CommentsCard() {
         <Markdown components={ARTICLE_COMPONENTS}>{animal.comments}</Markdown>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ActionCard() {
-  const { animal } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { animal } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <Card>
@@ -441,16 +441,16 @@ function ActionCard() {
         </Dialog>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function DescriptionCard() {
-  const { canEdit, animal } = useLoaderData<typeof loader>();
+  const { canEdit, animal } = useLoaderData<typeof loader>()
 
   const editLink: BaseLinkProps["to"] = {
     pathname: Routes.animals.id(animal.id).edit.profile.toString(),
     hash: ProfileActionFormData.keys.description,
-  };
+  }
 
   return (
     <Card>
@@ -490,12 +490,12 @@ function DescriptionCard() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function PicturesCard() {
-  const { animal, canEdit } = useLoaderData<typeof loader>();
-  const allPictures = [animal.avatar].concat(animal.pictures);
+  const { animal, canEdit } = useLoaderData<typeof loader>()
+  const allPictures = [animal.avatar].concat(animal.pictures)
 
   return (
     <Card>
@@ -536,5 +536,5 @@ function PicturesCard() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }

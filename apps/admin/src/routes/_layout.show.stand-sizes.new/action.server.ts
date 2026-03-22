@@ -1,33 +1,33 @@
-import { catchError } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma/server";
-import type { SubmissionResult } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MergeExclusive } from "type-fest";
+import { catchError } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma/server"
+import type { SubmissionResult } from "@conform-to/react"
+import { parseWithZod } from "@conform-to/zod"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MergeExclusive } from "type-fest"
 
-import { db } from "#i/core/db.server.js";
-import { AlreadyExistError } from "#i/core/errors.server.js";
-import { Routes } from "#i/core/navigation.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
-import { actionSchema } from "#i/show/stand-size/action-schema";
+import { db } from "#i/core/db.server.js"
+import { AlreadyExistError } from "#i/core/errors.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { actionSchema } from "#i/show/stand-size/action-schema"
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const formData = await request.formData();
+  const formData = await request.formData()
 
-  const submission = parseWithZod(formData, { schema: actionSchema });
+  const submission = parseWithZod(formData, { schema: actionSchema })
 
   if (submission.status !== "success") {
     return json<ActionData>(
       { submissionResult: submission.reply() },
       { status: 400 },
-    );
+    )
   }
 
   const [error, standSizeId] = await catchError(() =>
@@ -46,7 +46,7 @@ export async function action({ request }: ActionFunctionArgs) {
       priceForServices: submission.value.priceForServices ?? null,
       priceForShops: submission.value.priceForShops ?? null,
     }),
-  );
+  )
 
   if (error != null) {
     if (error instanceof AlreadyExistError) {
@@ -57,18 +57,18 @@ export async function action({ request }: ActionFunctionArgs) {
           }),
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
   return json<ActionData>({
     redirectTo: Routes.show.standSizes.id(standSizeId).toString(),
-  });
+  })
 }
 
 type ActionData = MergeExclusive<
   { redirectTo: string },
   { submissionResult: SubmissionResult<string[]> }
->;
+>

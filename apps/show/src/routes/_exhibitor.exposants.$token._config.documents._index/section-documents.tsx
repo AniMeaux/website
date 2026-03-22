@@ -1,17 +1,17 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
 
-import { FileItem } from "#i/core/data-display/file-item";
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
+import { FileItem } from "#i/core/data-display/file-item"
+import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function SectionDocuments() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section>
@@ -80,14 +80,14 @@ export function SectionDocuments() {
         </FormLayout.Field>
       </FormLayout.Row>
     </FormLayout.Section>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.documentStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -96,7 +96,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validé",
     } satisfies Record<typeof exhibitor.documentStatus, string>
-  )[exhibitor.documentStatus];
+  )[exhibitor.documentStatus]
 
   const content = (
     {
@@ -108,7 +108,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "Votre dossier est complété et validé par notre équipe. Pour toute demande de modification, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.documentStatus, string>
-  )[exhibitor.documentStatus];
+  )[exhibitor.documentStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -118,5 +118,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

@@ -1,39 +1,39 @@
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import type { MetaFunction } from "@remix-run/react";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
+import type { MetaFunction } from "@remix-run/react"
+import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { ErrorsInlineHelper } from "#i/core/data-display/errors.js";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation.js";
-import { getPageTitle } from "#i/core/page-title";
-import { Dialog } from "#i/core/popovers/dialog.js";
-import { Icon } from "#i/generated/icon.js";
-import { theme } from "#i/generated/theme.js";
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { ErrorsInlineHelper } from "#i/core/data-display/errors.js"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title"
+import { Dialog } from "#i/core/popovers/dialog.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
 
-import type { action } from "./action.server.js";
-import { CardApplicationList } from "./card-application-list";
-import { CardDetails } from "./card-details";
-import { CardExhibitorList } from "./card-exhibitor-list";
-import { CardPrices } from "./card-prices";
-import { CardSituation } from "./card-situation";
-import type { loader } from "./loader.server";
+import type { action } from "./action.server.js"
+import { CardApplicationList } from "./card-application-list"
+import { CardDetails } from "./card-details"
+import { CardExhibitorList } from "./card-exhibitor-list"
+import { CardPrices } from "./card-prices"
+import { CardSituation } from "./card-situation"
+import type { loader } from "./loader.server"
 
-export { action } from "./action.server";
-export { loader } from "./loader.server";
+export { action } from "./action.server"
+export { loader } from "./loader.server"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  return [{ title: getPageTitle(data?.standSize.label ?? getErrorTitle(404)) }];
-};
+  return [{ title: getPageTitle(data?.standSize.label ?? getErrorTitle(404)) }]
+}
 
 export function ErrorBoundary() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
@@ -54,11 +54,11 @@ export default function Route() {
         </div>
       </PageLayout.Content>
     </>
-  );
+  )
 }
 
 function Header() {
-  const { standSize } = useLoaderData<typeof loader>();
+  const { standSize } = useLoaderData<typeof loader>()
 
   return (
     <PageLayout.Header.Root className="grid grid-cols-2-auto justify-between gap-2 md:gap-4">
@@ -76,7 +76,7 @@ function Header() {
         <MoreMenu />
       </div>
     </PageLayout.Header.Root>
-  );
+  )
 }
 
 function MoreMenu() {
@@ -100,14 +100,14 @@ function MoreMenu() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  );
+  )
 }
 
 function MenuItemDelete() {
   const { applicationTotalCount, exhibitorTotalCount } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
-  const canDeleted = applicationTotalCount === 0 && exhibitorTotalCount === 0;
+  const canDeleted = applicationTotalCount === 0 && exhibitorTotalCount === 0
 
   return (
     <Dialog>
@@ -123,12 +123,12 @@ function MenuItemDelete() {
 
       {canDeleted ? <DialogContentDelete /> : <DialogContentCannotDelete />}
     </Dialog>
-  );
+  )
 }
 
 function DialogContentDelete() {
-  const { standSize } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher<typeof action>();
+  const { standSize } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
 
   return (
     <Dialog.Content variant="alert">
@@ -155,12 +155,12 @@ function DialogContentDelete() {
         </fetcher.Form>
       </Dialog.Actions>
     </Dialog.Content>
-  );
+  )
 }
 
 function DialogContentCannotDelete() {
   const { standSize, applicationTotalCount, exhibitorTotalCount } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   const details = [
     applicationTotalCount > 0
@@ -171,7 +171,7 @@ function DialogContentCannotDelete() {
       : null,
   ]
     .filter(Boolean)
-    .join(" et ");
+    .join(" et ")
 
   return (
     <Dialog.Content variant="info">
@@ -186,5 +186,5 @@ function DialogContentCannotDelete() {
         <Dialog.CloseAction>Fermer</Dialog.CloseAction>
       </Dialog.Actions>
     </Dialog.Content>
-  );
+  )
 }

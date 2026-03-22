@@ -1,6 +1,6 @@
-import { Gender, ScreeningResult } from "@animeaux/prisma";
+import { Gender, ScreeningResult } from "@animeaux/prisma"
 
-import type { IconProps } from "#i/generated/icon";
+import type { IconProps } from "#i/generated/icon"
 
 export const SCREENING_RESULT_ICON: Record<
   Exclude<ScreeningResult, "UNKNOWN">,
@@ -8,7 +8,7 @@ export const SCREENING_RESULT_ICON: Record<
 > = {
   [ScreeningResult.NEGATIVE]: "virus-slash",
   [ScreeningResult.POSITIVE]: "virus",
-};
+}
 
 export const SCREENING_RESULT_TRANSLATION: Record<
   Exclude<ScreeningResult, "UNKNOWN">,
@@ -22,4 +22,4 @@ export const SCREENING_RESULT_TRANSLATION: Record<
     [Gender.FEMALE]: "positive",
     [Gender.MALE]: "positif",
   },
-};
+}

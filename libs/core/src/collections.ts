@@ -2,8 +2,8 @@ export function ensureArray<DataType>(
   value: undefined | null | DataType[] | DataType,
 ) {
   if (value == null) {
-    return [];
+    return []
   }
 
-  return Array.isArray(value) ? value : [value];
+  return Array.isArray(value) ? value : [value]
 }

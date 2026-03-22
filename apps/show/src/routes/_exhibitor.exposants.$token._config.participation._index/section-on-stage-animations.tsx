@@ -1,24 +1,21 @@
-import { joinReactNodes } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { ShowStandZone } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { joinReactNodes } from "@animeaux/core"
+import type { ShowActivityTarget } from "@animeaux/prisma"
+import { ShowStandZone } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action";
-import {
-  Markdown,
-  SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown.js";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { LightBoardCard } from "#i/core/layout/light-board-card";
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
 
-import type { loader } from "./route";
-import { SectionId } from "./section-id";
+import type { loader } from "./route"
+import { SectionId } from "./section-id"
 
 export function SectionOnStageAnimations() {
-  const { exhibitor, animations } = useLoaderData<typeof loader>();
+  const { exhibitor, animations } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.ON_STAGE_ANIMATIONS}>
@@ -50,39 +47,39 @@ export function SectionOnStageAnimations() {
         ))
       )}
     </FormLayout.Section>
-  );
+  )
 }
 
 function AnimationItem({
   id,
   animation,
 }: {
-  id: string;
+  id: string
   animation: {
     animators: {
-      url: string;
-      id: string;
-      name: string;
-    }[];
-    id: string;
-    description: string;
-    endTime: string;
-    registrationUrl: string | null;
-    startTime: string;
-    targets: ShowActivityTarget[];
-    zone: ShowStandZone;
-  };
+      url: string
+      id: string
+      name: string
+    }[]
+    id: string
+    description: string
+    endTime: string
+    registrationUrl: string | null
+    startTime: string
+    targets: ShowActivityTarget[]
+    zone: ShowStandZone
+  }
 }) {
   const otherAnimators = animation.animators.filter(
     (animator) => animator.id !== id,
-  );
+  )
 
-  const startTime = DateTime.fromISO(animation.startTime);
+  const startTime = DateTime.fromISO(animation.startTime)
 
   const duration = DateTime.fromISO(animation.endTime).diff(
     startTime,
     "minutes",
-  );
+  )
 
   return (
     <section className="grid grid-cols-1 gap-2 rounded-2 border border-mystic-200 px-2 py-1">
@@ -154,10 +151,10 @@ function AnimationItem({
         </p>
       ) : null}
     </section>
-  );
+  )
 }
 
 const STAND_ZONE_TRANSLATION: Record<ShowStandZone, string> = {
   [ShowStandZone.INSIDE]: "Intérieur",
   [ShowStandZone.OUTSIDE]: "Extérieur",
-};
+}

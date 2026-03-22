@@ -2,9 +2,9 @@ export function ensureArray<DataType>(
   value: undefined | null | DataType[] | DataType,
 ) {
   if (value == null) {
-    return [];
+    return []
   }
 
-  const array = Array.isArray(value) ? value : [value];
-  return array.filter(Boolean);
+  const array = Array.isArray(value) ? value : [value]
+  return array.filter(Boolean)
 }

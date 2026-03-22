@@ -1,12 +1,12 @@
-import orderBy from "lodash.orderby";
+import orderBy from "lodash.orderby"
 
 export type Partner = {
-  id: string;
-  name: string;
-  url: string;
-  description: string;
-  image: string;
-};
+  id: string
+  name: string
+  url: string
+  description: string
+  image: string
+}
 
 export const partners: Partner[] = orderBy(
   [
@@ -60,4 +60,4 @@ export const partners: Partner[] = orderBy(
     },
   ],
   (partner) => partner.name.toLowerCase(),
-);
+)

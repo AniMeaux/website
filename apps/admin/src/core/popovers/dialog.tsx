@@ -1,30 +1,30 @@
-import { cn } from "@animeaux/core";
-import * as RadixDialog from "@radix-ui/react-dialog";
-import { createContext, useContext, useMemo } from "react";
+import { cn } from "@animeaux/core"
+import * as RadixDialog from "@radix-ui/react-dialog"
+import { createContext, useContext, useMemo } from "react"
 
-import type { ActionColor } from "#i/core/actions";
-import { Action } from "#i/core/actions";
-import { Overlay } from "#i/core/popovers/overlay";
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+import type { ActionColor } from "#i/core/actions"
+import { Action } from "#i/core/actions"
+import { Overlay } from "#i/core/popovers/overlay"
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
-type DialogVariant = "alert" | "info" | "warning";
+type DialogVariant = "alert" | "info" | "warning"
 
-type DialogContextValue = { variant: DialogVariant };
-const DialogContext = createContext<DialogContextValue>({ variant: "alert" });
+type DialogContextValue = { variant: DialogVariant }
+const DialogContext = createContext<DialogContextValue>({ variant: "alert" })
 
 export function Dialog(props: RadixDialog.DialogProps) {
-  return <RadixDialog.Root {...props} />;
+  return <RadixDialog.Root {...props} />
 }
 
-Dialog.Trigger = RadixDialog.Trigger;
+Dialog.Trigger = RadixDialog.Trigger
 
 Dialog.Content = function DialogContent({
   variant,
   children,
 }: {
-  variant: DialogVariant;
-  children?: React.ReactNode;
+  variant: DialogVariant
+  children?: React.ReactNode
 }) {
   return (
     <DialogContext.Provider
@@ -54,15 +54,15 @@ Dialog.Content = function DialogContent({
         </RadixDialog.Content>
       </RadixDialog.Portal>
     </DialogContext.Provider>
-  );
-};
+  )
+}
 
 Dialog.Header = function DialogHeader({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  const { variant } = useContext(DialogContext);
+  const { variant } = useContext(DialogContext)
 
   return (
     <header className="grid grid-cols-[auto_minmax(0px,1fr)] gap-1">
@@ -75,45 +75,45 @@ Dialog.Header = function DialogHeader({
         {children}
       </RadixDialog.Title>
     </header>
-  );
-};
+  )
+}
 
 const VARIANT_ICON: Record<DialogVariant, IconName> = {
   alert: "icon-circle-exclamation-solid",
   info: "icon-circle-info-solid",
   warning: "icon-triangle-exclamation-solid",
-};
+}
 
 const VARIANT_ICON_CLASS_NAME: Record<DialogVariant, string> = {
   alert: cn("text-red-400"),
   info: cn("text-blue-500"),
   warning: cn("text-orange-400"),
-};
+}
 
 Dialog.Message = function DialogMessage({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
-  return <p>{children}</p>;
-};
+  return <p>{children}</p>
+}
 
 Dialog.Actions = function DialogActions({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <footer className="flex items-center justify-between gap-2">
       {children}
     </footer>
-  );
-};
+  )
+}
 
 Dialog.CloseAction = function DialogCloseAction({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <RadixDialog.Close asChild>
@@ -121,18 +121,18 @@ Dialog.CloseAction = function DialogCloseAction({
         {children}
       </Action>
     </RadixDialog.Close>
-  );
-};
+  )
+}
 
 type DialogConfirmActionProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   "className"
->;
+>
 
 Dialog.ConfirmAction = function DialogConfirmAction(
   props: DialogConfirmActionProps,
 ) {
-  const { variant } = useContext(DialogContext);
+  const { variant } = useContext(DialogContext)
 
   return (
     <Action
@@ -140,11 +140,11 @@ Dialog.ConfirmAction = function DialogConfirmAction(
       variant="secondary"
       color={VARIANT_CONFIRM_ACTION_COLOR[variant]}
     />
-  );
-};
+  )
+}
 
 const VARIANT_CONFIRM_ACTION_COLOR: Record<DialogVariant, ActionColor> = {
   alert: "red",
   info: "blue",
   warning: "orange",
-};
+}

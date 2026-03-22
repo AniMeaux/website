@@ -1,20 +1,20 @@
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import { useLoaderData } from "@remix-run/react";
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+import { useLoaderData } from "@remix-run/react"
 
-import { ActivitySearchParams } from "#i/activity/search-params.js";
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SimpleEmpty } from "#i/core/data-display/empty.js";
-import { Card } from "#i/core/layout/card";
+import { ActivitySearchParams } from "#i/activity/search-params.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card"
 
-import { ActivityItem } from "./item";
-import type { loader } from "./loader.server";
+import { ActivityItem } from "./item"
+import type { loader } from "./loader.server"
 
 export function CardList() {
-  const { totalCount, pageCount, activities } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, activities } = useLoaderData<typeof loader>()
 
-  const [searchParams] = useOptimisticSearchParams();
+  const [searchParams] = useOptimisticSearchParams()
 
   return (
     <Card>
@@ -56,5 +56,5 @@ export function CardList() {
         </Card.Footer>
       ) : null}
     </Card>
-  );
+  )
 }

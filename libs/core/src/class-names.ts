@@ -1,21 +1,21 @@
 export function cn(
   ...args: (string | undefined | Record<string, boolean>)[]
 ): string {
-  const classes: string[] = [];
+  const classes: string[] = []
 
   args.forEach((arg) => {
     if (typeof arg === "string") {
-      classes.push(arg);
+      classes.push(arg)
     } else if (typeof arg !== "undefined") {
       Object.entries(arg).forEach(([className, test]) => {
         if (test) {
-          classes.push(className);
+          classes.push(className)
         }
-      });
+      })
     }
-  });
+  })
 
-  return resolvePositioningConflicts(classes.join(" "));
+  return resolvePositioningConflicts(classes.join(" "))
 }
 
 /**
@@ -26,22 +26,22 @@ export function cn(
  * "absolute", "fixed" and "sticky" should not be set by component.
  */
 function resolvePositioningConflicts(className: string) {
-  let classList = className.trim().split(/\s+/).reverse();
+  let classList = className.trim().split(/\s+/).reverse()
 
-  let hasPosition = false;
+  let hasPosition = false
   classList = classList.filter((className) => {
     if (hasPosition) {
-      return className !== "relative";
+      return className !== "relative"
     }
 
     if (["absolute", "fixed", "sticky"].includes(className)) {
-      hasPosition = true;
+      hasPosition = true
     }
 
-    return true;
-  });
+    return true
+  })
 
-  classList.reverse();
+  classList.reverse()
 
-  return classList.join(" ");
+  return classList.join(" ")
 }

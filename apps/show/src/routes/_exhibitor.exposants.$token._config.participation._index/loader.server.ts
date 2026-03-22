@@ -1,13 +1,13 @@
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { promiseHash } from "remix-utils/promise";
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { promiseHash } from "remix-utils/promise"
 
-import { notFound } from "#i/core/response.server.js";
-import { services } from "#i/core/services.server.js";
-import { RouteParamsSchema } from "#i/exhibitors/route-params";
+import { notFound } from "#i/core/response.server.js"
+import { services } from "#i/core/services.server.js"
+import { RouteParamsSchema } from "#i/exhibitors/route-params"
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { animations, exhibitor } = await promiseHash({
     animations: services.animation.getManyVisibleByToken(routeParams.token, {
@@ -74,7 +74,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
         tableCount: true,
       },
     }),
-  });
+  })
 
   return {
     exhibitor,
@@ -83,14 +83,14 @@ export async function loader({ params }: LoaderFunctionArgs) {
       ...animation,
 
       animators: animation.animators.map(({ links, ...animator }) => {
-        const url = links[0];
+        const url = links[0]
 
         if (url == null) {
-          throw notFound();
+          throw notFound()
         }
 
-        return { ...animator, url };
+        return { ...animator, url }
       }),
     })),
-  };
+  }
 }

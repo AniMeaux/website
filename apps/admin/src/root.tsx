@@ -1,8 +1,8 @@
-import "#i/tailwind.css";
+import "#i/tailwind.css"
 
-import { cn } from "@animeaux/core";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { LinksFunction, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import {
   Links,
   Meta,
@@ -10,31 +10,31 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
-} from "@remix-run/react";
-import { withSentry } from "@sentry/remix";
-import { Settings } from "luxon";
+} from "@remix-run/react"
+import { withSentry } from "@sentry/remix"
+import { Settings } from "luxon"
 
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { useRouteHandles } from "#i/core/handles";
-import { getPageTitle } from "#i/core/page-title";
-import { theme } from "#i/generated/theme";
-import appleTouchIcon from "#i/images/apple-touch-icon.png";
-import favicon from "#i/images/favicon.svg";
-import maskIcon from "#i/images/mask-icon.svg";
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { useRouteHandles } from "#i/core/handles"
+import { getPageTitle } from "#i/core/page-title"
+import { theme } from "#i/generated/theme"
+import appleTouchIcon from "#i/images/apple-touch-icon.png"
+import favicon from "#i/images/favicon.svg"
+import maskIcon from "#i/images/mask-icon.svg"
 
 // Display dates in French.
-Settings.defaultLocale = "fr";
+Settings.defaultLocale = "fr"
 
 // All "day dates" should be inferred as in Paris time zone.
 // Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
-Settings.defaultZone = "Europe/Paris";
+Settings.defaultZone = "Europe/Paris"
 
 // We're not supposed to have invalid date objects.
 // Use null or undefined instead.
-Settings.throwOnInvalid = true;
+Settings.throwOnInvalid = true
 declare module "luxon" {
   interface TSSettings {
-    throwOnInvalid: true;
+    throwOnInvalid: true
   }
 }
 
@@ -62,21 +62,21 @@ export const links: LinksFunction = () => {
       rel: "stylesheet",
       href: "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap",
     },
-  ];
-};
+  ]
+}
 
 export async function loader() {
-  return json({ CLIENT_ENV: global.CLIENT_ENV });
+  return json({ CLIENT_ENV: global.CLIENT_ENV })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle() }];
-};
+  return [{ title: getPageTitle() }]
+}
 
-export default withSentry(App);
+export default withSentry(App)
 
 function App() {
-  const { CLIENT_ENV } = useLoaderData<typeof loader>();
+  const { CLIENT_ENV } = useLoaderData<typeof loader>()
 
   return (
     <Document>
@@ -84,7 +84,7 @@ function App() {
 
       <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
-  );
+  )
 }
 
 export function ErrorBoundary() {
@@ -92,15 +92,15 @@ export function ErrorBoundary() {
     <Document>
       <ErrorPage />
     </Document>
-  );
+  )
 }
 
 function Document({ children }: { children: React.ReactNode }) {
-  const routeHandles = useRouteHandles();
+  const routeHandles = useRouteHandles()
   const htmlBackgroundColor = routeHandles
     .map((handle) => handle.htmlBackgroundColor)
-    .find((color) => color != null);
-  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight);
+    .find((color) => color != null)
+  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight)
 
   return (
     <html
@@ -145,7 +145,7 @@ function Document({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
@@ -155,5 +155,5 @@ function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
         __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
       }}
     />
-  );
+  )
 }

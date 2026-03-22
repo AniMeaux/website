@@ -1,22 +1,22 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { Card } from "#i/core/layout/card.js";
-import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js";
+import { Card } from "#i/core/layout/card.js"
+import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js"
 
-import { useForm } from "./form";
-import type { loader } from "./loader.server.js";
+import { useForm } from "./form"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetPriceDetails() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   const breakfastPeopleCountSaturday = Number(
     fields.breakfastPeopleCountSaturday.value,
-  );
+  )
   const breakfastPeopleCountSunday = Number(
     fields.breakfastPeopleCountSunday.value,
-  );
+  )
 
   return (
     <Card>
@@ -37,5 +37,5 @@ export function FieldsetPriceDetails() {
         />
       </Card.Content>
     </Card>
-  );
+  )
 }

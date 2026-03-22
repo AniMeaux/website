@@ -1,5 +1,5 @@
-import type { User } from "@animeaux/prisma/server";
-import { init, setUser } from "@sentry/remix";
+import type { User } from "@animeaux/prisma/server"
+import { init, setUser } from "@sentry/remix"
 
 export function initMonitoring() {
   if (process.env.SENTRY_DSN != null) {
@@ -7,7 +7,7 @@ export function initMonitoring() {
       dsn: process.env.SENTRY_DSN,
       environment: process.env.RUNTIME_ENV,
       tracesSampleRate: Number(process.env.SENTRY_TRACES_SAMPLE_RATE ?? 0),
-    });
+    })
   }
 }
 
@@ -15,8 +15,8 @@ export function setCurrentUserForMonitoring(
   currentUser: null | Pick<User, "displayName" | "email" | "groups" | "id">,
 ) {
   if (currentUser == null) {
-    setUser(null);
-    return;
+    setUser(null)
+    return
   }
 
   setUser({
@@ -24,5 +24,5 @@ export function setCurrentUserForMonitoring(
     username: currentUser.displayName,
     email: currentUser.email,
     groups: currentUser.groups,
-  });
+  })
 }

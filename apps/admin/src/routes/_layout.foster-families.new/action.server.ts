@@ -1,36 +1,36 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import type { zu } from "@animeaux/zod-utils";
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma/server"
+import type { zu } from "@animeaux/zod-utils"
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 
-import { db } from "#i/core/db.server";
-import { EmailAlreadyUsedError } from "#i/core/errors.server";
-import { Routes } from "#i/core/navigation";
-import { NextSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { db } from "#i/core/db.server"
+import { EmailAlreadyUsedError } from "#i/core/errors.server"
+import { Routes } from "#i/core/navigation"
+import { NextSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 import {
   InvalidAvailabilityDateError,
   MissingSpeciesToHostError,
-} from "#i/foster-families/db.server";
-import { ActionFormData } from "#i/foster-families/form";
+} from "#i/foster-families/db.server"
+import { ActionFormData } from "#i/foster-families/form"
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const rawFormData = await request.formData();
-  const formData = ActionFormData.safeParse(rawFormData);
+  const rawFormData = await request.formData()
+  const formData = ActionFormData.safeParse(rawFormData)
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
@@ -52,18 +52,18 @@ export async function action({ request }: ActionFunctionArgs) {
         zipCode: formData.data.zipCode,
       },
       currentUser,
-    );
+    )
 
-    const url = new URL(request.url);
-    const { next } = NextSearchParams.parse(url.searchParams);
+    const url = new URL(request.url)
+    const { next } = NextSearchParams.parse(url.searchParams)
 
     if (next == null) {
       // Redirect instead of going back so we can display the newly created
       // foster family.
-      throw redirect(Routes.fosterFamilies.id(fosterFamilyId).toString());
+      throw redirect(Routes.fosterFamilies.id(fosterFamilyId).toString())
     }
 
-    return json<ActionData>({ redirectTo: next });
+    return json<ActionData>({ redirectTo: next })
   } catch (error) {
     if (error instanceof EmailAlreadyUsedError) {
       return json<ActionData>(
@@ -74,7 +74,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof MissingSpeciesToHostError) {
@@ -88,7 +88,7 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
     if (error instanceof InvalidAvailabilityDateError) {
@@ -102,14 +102,14 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 }
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}

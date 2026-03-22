@@ -10,13 +10,13 @@ export namespace Enums {
       Object.entries(enumObj).filter(
         ([_, value]) => !valuesToOmit.includes(value as TEnum[keyof TEnum]),
       ),
-    );
+    )
 
     return newEnumObj as {
       [TKey in keyof TEnum as TEnum[TKey] extends TValues[number]
         ? never
-        : TKey]: TEnum[TKey];
-    };
+        : TKey]: TEnum[TKey]
+    }
   }
 
   /**
@@ -30,12 +30,12 @@ export namespace Enums {
       Object.entries(enumObj).filter(([_, value]) =>
         valuesToPick.includes(value as TEnum[keyof TEnum]),
       ),
-    );
+    )
 
     return newEnumObj as {
       [TKey in keyof TEnum as TEnum[TKey] extends TValues[number]
         ? TKey
-        : never]: TEnum[TKey];
-    };
+        : never]: TEnum[TKey]
+    }
   }
 }

@@ -1,14 +1,14 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { Link } from "@remix-run/react";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { Link } from "@remix-run/react"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
-import { Action, ActionIcon } from "#i/core/actions/action";
-import { ActionInline } from "#i/core/actions/inline";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { HorizontalSeparator } from "#i/core/layout/separator";
-import { Icon } from "#i/generated/icon";
+import { Action, ActionIcon } from "#i/core/actions/action"
+import { ActionInline } from "#i/core/actions/inline"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { HorizontalSeparator } from "#i/core/layout/separator"
+import { Icon } from "#i/generated/icon"
 
 export const FormLayout = {
   Root: forwardRef<
@@ -24,7 +24,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Form: forwardRef<
@@ -37,7 +37,7 @@ export const FormLayout = {
         ref={ref}
         className={cn("grid grid-cols-1 gap-4", className)}
       />
-    );
+    )
   }),
 
   AsideHelper: {
@@ -46,7 +46,7 @@ export const FormLayout = {
     Root: forwardRef<
       React.ComponentRef<typeof Primitive.aside>,
       React.ComponentPropsWithoutRef<typeof Primitive.aside> & {
-        hideOnSmallScreens?: boolean;
+        hideOnSmallScreens?: boolean
       }
     >(function FormLayoutAsideHelperRoot(
       { hideOnSmallScreens = false, className, ...props },
@@ -64,7 +64,7 @@ export const FormLayout = {
             )}
           />
         </HelperCard.Root>
-      );
+      )
     }),
   },
 
@@ -81,7 +81,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   NavItem: function FormLayoutNavItem({
@@ -104,7 +104,7 @@ export const FormLayout = {
           className={cn("icon-16", isComplete ? "opacity-100" : "opacity-0")}
         />
       </Link>
-    );
+    )
   },
 
   Section: forwardRef<
@@ -117,15 +117,15 @@ export const FormLayout = {
         ref={ref}
         className={cn("grid grid-cols-1 gap-2", className)}
       />
-    );
+    )
   }),
 
   SectionSeparator: function FormLayoutSectionSeparator() {
-    return <HorizontalSeparator color="alabaster" />;
+    return <HorizontalSeparator color="alabaster" />
   },
 
   FieldSeparator: function FormLayoutFieldSeparator() {
-    return <hr className="border-t border-alabaster" />;
+    return <hr className="border-t border-alabaster" />
   },
 
   Header: forwardRef<
@@ -141,7 +141,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
@@ -154,7 +154,7 @@ export const FormLayout = {
         ref={ref}
         className={cn("text-mystic text-title-item", className)}
       />
-    );
+    )
   }),
 
   HeaderAction: forwardRef<
@@ -168,7 +168,7 @@ export const FormLayout = {
       <ActionInline>
         <ActionIcon {...props} ref={ref} variant="link" color="prussianBlue" />
       </ActionInline>
-    );
+    )
   }),
 
   Row: forwardRef<
@@ -184,14 +184,14 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   RowFluid: forwardRef<
     React.ComponentRef<typeof Primitive.div>,
     React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-      columnMinWidth: string;
-      repeatCount?: "auto-fit" | "auto-fill";
+      columnMinWidth: string
+      repeatCount?: "auto-fit" | "auto-fill"
     }
   >(function FormLayoutRowFuild(
     { columnMinWidth, repeatCount = "auto-fit", className, style, ...props },
@@ -207,14 +207,14 @@ export const FormLayout = {
           gridTemplateColumns: `repeat(${repeatCount}, minmax(${columnMinWidth}, 1fr))`,
         }}
       />
-    );
+    )
   }),
 
   Field: forwardRef<
     React.ComponentRef<typeof Primitive.div>,
     React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-      orientation?: "vertical" | "horizontal";
-      disabled?: boolean;
+      orientation?: "vertical" | "horizontal"
+      disabled?: boolean
     }
   >(function FormLayoutField(
     { orientation = "vertical", disabled = false, className, ...props },
@@ -233,14 +233,14 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Label: forwardRef<
     React.ComponentRef<typeof Primitive.label>,
     React.ComponentPropsWithoutRef<typeof Primitive.label>
   >(function FormLayoutLabel({ htmlFor, className, ...props }, ref) {
-    const Component = htmlFor == null ? Primitive.span : Primitive.label;
+    const Component = htmlFor == null ? Primitive.span : Primitive.label
 
     return (
       <Component
@@ -253,13 +253,13 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Helper: forwardRef<
     React.ComponentRef<typeof Primitive.p>,
     React.ComponentPropsWithoutRef<typeof Primitive.p> & {
-      variant?: "default" | "error";
+      variant?: "default" | "error"
     }
   >(function FormLayoutHelper(
     { variant = "default", className, ...props },
@@ -275,7 +275,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Input: forwardRef<
@@ -291,7 +291,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   SwitchInput: forwardRef<
@@ -321,7 +321,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Textarea: forwardRef<
@@ -337,7 +337,7 @@ export const FormLayout = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Output: Primitive.p,
@@ -353,7 +353,7 @@ export const FormLayout = {
           ref={ref}
           className={cn("grid grid-cols-1 gap-0.5", className)}
         />
-      );
+      )
     }),
 
     Row: forwardRef<
@@ -369,7 +369,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     Action: forwardRef<
@@ -383,15 +383,15 @@ export const FormLayout = {
           color="alabaster"
           className={cn("justify-self-center", className)}
         />
-      );
+      )
     }),
   },
 
   Selectors: forwardRef<
     React.ComponentRef<typeof Primitive.div>,
     React.ComponentPropsWithoutRef<typeof Primitive.div> & {
-      columnMinWidth: string;
-      repeatCount?: "auto-fit" | "auto-fill";
+      columnMinWidth: string
+      repeatCount?: "auto-fit" | "auto-fill"
     }
   >(function FormLayoutSelectors(
     { columnMinWidth, repeatCount = "auto-fit", className, style, ...props },
@@ -407,7 +407,7 @@ export const FormLayout = {
           gridTemplateColumns: `repeat(${repeatCount}, minmax(${columnMinWidth}, 1fr))`,
         }}
       />
-    );
+    )
   }),
 
   Selector: {
@@ -424,7 +424,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     Input: forwardRef<
@@ -450,7 +450,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     UncheckedIcon: forwardRef<
@@ -466,7 +466,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     CheckedIcon: forwardRef<
@@ -482,7 +482,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     Label: forwardRef<
@@ -498,7 +498,7 @@ export const FormLayout = {
             className,
           )}
         />
-      );
+      )
     }),
 
     CheckboxIcon: function FormLayoutSelectorCheckboxIcon() {
@@ -506,20 +506,20 @@ export const FormLayout = {
         <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-0.5 border border-mystic text-transparent transition-colors duration-normal peer-checked/input:border-white peer-checked/input:bg-white peer-checked/input:text-mystic">
           <Icon id="check-solid" className="icon-12" />
         </span>
-      );
+      )
     },
 
     RadioIcon: function FormLayoutSelectorRadioIcon() {
       return (
         <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-full border border-mystic text-mystic transition-colors duration-normal after:flex after:aspect-square after:w-0.5 after:scale-0 after:rounded-full after:bg-mystic after:transition-transform after:duration-normal peer-checked/input:border-white peer-checked/input:bg-white peer-checked/input:after:scale-100" />
-      );
+      )
     },
   },
 
   Action: forwardRef<
     React.ComponentRef<typeof Action>,
     Except<React.ComponentPropsWithoutRef<typeof Action>, "color" | "type"> & {
-      isLoading: boolean;
+      isLoading: boolean
     }
   >(function FormLayoutAction(
     { children, isLoading, className, ...props },
@@ -537,6 +537,6 @@ export const FormLayout = {
 
         <Action.Loader isLoading={isLoading} />
       </Action>
-    );
+    )
   }),
-};
+}

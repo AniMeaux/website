@@ -1,21 +1,21 @@
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { Action, ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
+import { Action, ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
 import {
   ApplicationStatusIcon,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status";
+} from "#i/show/exhibitors/applications/status"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardSituation() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -69,5 +69,5 @@ export function CardSituation() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }

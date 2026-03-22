@@ -1,42 +1,39 @@
-import { cn } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { ShowStandZone } from "@animeaux/prisma";
-import * as Popover from "@radix-ui/react-popover";
-import { Link, useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
-import { forwardRef, useEffect, useState } from "react";
+import { cn } from "@animeaux/core"
+import type { ShowActivityTarget } from "@animeaux/prisma"
+import { ShowStandZone } from "@animeaux/prisma"
+import * as Popover from "@radix-ui/react-popover"
+import { Link, useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
+import { forwardRef, useEffect, useState } from "react"
 
-import { Action } from "#i/core/actions/action.js";
-import { Tab, Tabs } from "#i/core/controllers/tabs.js";
-import { IconInline } from "#i/core/data-display/icon-inline.js";
-import { DynamicImage } from "#i/core/data-display/image.js";
-import {
-  Markdown,
-  SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown.js";
-import { useElementSize } from "#i/core/elements.js";
-import { BeeIllustration } from "#i/core/illustration/bee.js";
-import { ImageData } from "#i/core/image/data.js";
-import { Section } from "#i/core/layout/section.js";
-import { HorizontalSeparator } from "#i/core/layout/separator.js";
-import { Routes } from "#i/core/navigation.js";
-import { ShowDay } from "#i/core/show-day";
+import { Action } from "#i/core/actions/action.js"
+import { Tab, Tabs } from "#i/core/controllers/tabs.js"
+import { IconInline } from "#i/core/data-display/icon-inline.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { useElementSize } from "#i/core/elements.js"
+import { BeeIllustration } from "#i/core/illustration/bee.js"
+import { ImageData } from "#i/core/image/data.js"
+import { Section } from "#i/core/layout/section.js"
+import { HorizontalSeparator } from "#i/core/layout/separator.js"
+import { Routes } from "#i/core/navigation.js"
+import { ShowDay } from "#i/core/show-day"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#i/exhibitors/activity-target/activity-target.js";
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js";
-import { Icon } from "#i/generated/icon.js";
-import { theme } from "#i/generated/theme.js";
+} from "#i/exhibitors/activity-target/activity-target.js"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function SectionEventList() {
-  const { animations } = useLoaderData<typeof loader>();
+  const { animations } = useLoaderData<typeof loader>()
 
-  const { ref, size } = useElementSize<React.ComponentRef<"div">>();
+  const { ref, size } = useElementSize<React.ComponentRef<"div">>()
 
-  const { now } = useNow();
+  const { now } = useNow()
 
   return (
     <Section.Root columnCount={1} width="full">
@@ -84,30 +81,27 @@ export function SectionEventList() {
         </div>
       </div>
     </Section.Root>
-  );
+  )
 }
 
 function useNow() {
-  const [, forceUpdate] = useState(true);
+  const [, forceUpdate] = useState(true)
 
-  const now = DateTime.now();
+  const now = DateTime.now()
 
   useEffect(() => {
-    const interval = setInterval(
-      () => forceUpdate((b) => !b),
-      ONE_MINUTE_IN_MS,
-    );
+    const interval = setInterval(() => forceUpdate((b) => !b), ONE_MINUTE_IN_MS)
 
     return () => {
-      clearInterval(interval);
-    };
-  }, []);
+      clearInterval(interval)
+    }
+  }, [])
 
-  return { now };
+  return { now }
 }
 
 function Axis({ now }: { now: DateTime }) {
-  const { day } = useLoaderData<typeof loader>();
+  const { day } = useLoaderData<typeof loader>()
 
   return (
     <div
@@ -154,19 +148,19 @@ function Axis({ now }: { now: DateTime }) {
         </span>
       ) : null}
     </div>
-  );
+  )
 }
 
 function GridLines({
   now,
   columnWidth,
 }: {
-  now: DateTime;
-  columnWidth?: number;
+  now: DateTime
+  columnWidth?: number
 }) {
-  const { day } = useLoaderData<typeof loader>();
+  const { day } = useLoaderData<typeof loader>()
 
-  const gridLineWidth = columnWidth != null ? `${columnWidth * 2}px` : "100%";
+  const gridLineWidth = columnWidth != null ? `${columnWidth * 2}px` : "100%"
 
   return (
     <>
@@ -202,26 +196,26 @@ function GridLines({
         </span>
       ) : null}
     </>
-  );
+  )
 }
 
 function isNowCursorVisible(day: ShowDay.Enum, now: DateTime) {
   return (
     now >= ShowDay.schedules[day].start && now <= ShowDay.schedules[day].end
-  );
+  )
 }
 
 function getNowCursorTopOffset(day: ShowDay.Enum, now: DateTime) {
   return (
     EVENT_LIST_VERTICAL_SPACING +
     HOUR_HEIGHT_PX * now.diff(ShowDay.schedules[day].start, "hours").as("hours")
-  );
+  )
 }
 
 const Column = forwardRef<
   React.ComponentRef<"section">,
   React.ComponentPropsWithoutRef<"section"> & {
-    label: string;
+    label: string
   }
 >(function Column({ label, children, className, ...props }, ref) {
   return (
@@ -236,48 +230,48 @@ const Column = forwardRef<
 
       {children}
     </section>
-  );
-});
+  )
+})
 
 function AnimationItem({
   now,
   animation,
 }: {
-  now: DateTime;
+  now: DateTime
   animation: {
     animators: {
-      id: string;
-      isOrganizer: boolean;
-      isOrganizersFavorite: boolean;
-      isRisingStar: boolean;
-      isSponsor: boolean;
-      logoPath: string;
-      name: string;
-      url: string;
-    }[];
-    description: string;
-    endTime: string;
-    id: string;
-    registrationUrl: string | null;
-    startTime: string;
-    targets: ShowActivityTarget[];
-    zone: ShowStandZone;
-  };
+      id: string
+      isOrganizer: boolean
+      isOrganizersFavorite: boolean
+      isRisingStar: boolean
+      isSponsor: boolean
+      logoPath: string
+      name: string
+      url: string
+    }[]
+    description: string
+    endTime: string
+    id: string
+    registrationUrl: string | null
+    startTime: string
+    targets: ShowActivityTarget[]
+    zone: ShowStandZone
+  }
 }) {
-  const { day } = useLoaderData<typeof loader>();
+  const { day } = useLoaderData<typeof loader>()
 
-  const startTime = DateTime.fromISO(animation.startTime);
-  const endTime = DateTime.fromISO(animation.endTime);
+  const startTime = DateTime.fromISO(animation.startTime)
+  const endTime = DateTime.fromISO(animation.endTime)
 
-  const duration = endTime.diff(startTime, "minutes");
+  const duration = endTime.diff(startTime, "minutes")
 
-  const durationInHours = duration.as("hours");
+  const durationInHours = duration.as("hours")
 
   // - Line height is 24px
   // - Remove 1 line for vertical spacing.
-  const maxLineCount = Math.floor((durationInHours * HOUR_HEIGHT_PX) / 24) - 1;
+  const maxLineCount = Math.floor((durationInHours * HOUR_HEIGHT_PX) / 24) - 1
 
-  const hasEnded = endTime < now;
+  const hasEnded = endTime < now
 
   return (
     <Popover.Root>
@@ -469,20 +463,20 @@ function AnimationItem({
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  );
+  )
 }
 
-const ONE_MINUTE_IN_MS = 60 * 1000;
+const ONE_MINUTE_IN_MS = 60 * 1000
 
-const EVENT_LIST_VERTICAL_SPACING = theme.spacing[4];
+const EVENT_LIST_VERTICAL_SPACING = theme.spacing[4]
 
 // The shortest animation is 10 min and we want to show 1 line of text:
 //   1 line (24px) + vertical spacing (12px * 2) = 48px
-const TEN_MINUTES_HEIGHT_PX = 48;
+const TEN_MINUTES_HEIGHT_PX = 48
 
-const HOUR_HEIGHT_PX = TEN_MINUTES_HEIGHT_PX * 6;
+const HOUR_HEIGHT_PX = TEN_MINUTES_HEIGHT_PX * 6
 
 const STAND_ZONE_TRANSLATION: Record<ShowStandZone, string> = {
   [ShowStandZone.INSIDE]: "Scène intérieure",
   [ShowStandZone.OUTSIDE]: "Scène extérieure",
-};
+}

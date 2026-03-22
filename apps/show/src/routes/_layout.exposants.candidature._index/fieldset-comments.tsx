@@ -1,17 +1,17 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FieldText } from "#i/core/form-elements/field-text";
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FieldText } from "#i/core/form-elements/field-text"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
 
-import { FieldsetId, useFieldsets } from "./form";
+import { FieldsetId, useFieldsets } from "./form"
 
 export function FieldsetComments() {
-  const { fieldsets } = useFieldsets();
-  const fieldset = fieldsets.comments.getFieldset();
+  const { fieldsets } = useFieldsets()
+  const fieldset = fieldsets.comments.getFieldset()
 
   return (
     <FormLayout.Section id={FieldsetId.COMMENTS}>
@@ -39,12 +39,12 @@ export function FieldsetComments() {
         rows={3}
       />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldDiscoverySource() {
-  const { fieldsets } = useFieldsets();
-  const field = fieldsets.comments.getFieldset().discoverySource;
+  const { fieldsets } = useFieldsets()
+  const field = fieldsets.comments.getFieldset().discoverySource
 
   return (
     <FormLayout.Field>
@@ -69,5 +69,5 @@ function FieldDiscoverySource() {
 
       <FieldErrorHelper field={field} />
     </FormLayout.Field>
-  );
+  )
 }

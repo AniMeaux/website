@@ -1,28 +1,28 @@
-import { cn } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+import { cn } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { AnimalItem } from "#i/animals/item";
-import { SAVED_ANIMAL_STATUS } from "#i/animals/status";
-import { Paginator } from "#i/core/controllers/paginator";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { getPage } from "#i/core/search-params";
+import { AnimalItem } from "#i/animals/item"
+import { SAVED_ANIMAL_STATUS } from "#i/animals/status"
+import { Paginator } from "#i/core/controllers/paginator"
+import { prisma } from "#i/core/db.server"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { getPage } from "#i/core/search-params"
 
 // Multiple of 2 and 3 to be nicely displayed.
-const ANIMAL_COUNT_PER_PAGE = 18;
+const ANIMAL_COUNT_PER_PAGE = 18
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const where: Prisma.AnimalWhereInput = {
     status: { in: SAVED_ANIMAL_STATUS },
-  };
+  }
 
-  const searchParams = new URL(request.url).searchParams;
-  const page = getPage(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const page = getPage(searchParams)
 
   const { totalCount, animals } = await promiseHash({
     totalCount: prisma.animal.count({ where }),
@@ -42,19 +42,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
         color: { select: { name: true } },
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE)
 
-  return json({ totalCount, pageCount, animals });
+  return json({ totalCount, pageCount, animals })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Animaux sauvés") });
-};
+  return createSocialMeta({ title: getPageTitle("Animaux sauvés") })
+}
 
 export default function Route() {
-  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, animals } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -104,5 +104,5 @@ export default function Route() {
 
       <Paginator pageCount={pageCount} className="self-center" />
     </main>
-  );
+  )
 }

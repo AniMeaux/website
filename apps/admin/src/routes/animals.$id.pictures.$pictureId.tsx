@@ -1,52 +1,52 @@
-import { cn } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { zu } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { cn } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma"
+import { zu } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures";
-import { getAnimalDisplayName } from "#i/animals/profile/name";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { getErrorTitle } from "#i/core/data-display/error-page";
-import { DynamicImage } from "#i/core/data-display/image";
-import { db } from "#i/core/db.server";
-import type { RouteHandle } from "#i/core/handles";
-import { assertIsDefined } from "#i/core/is-defined.server";
-import { useCurrentUserForMonitoring } from "#i/core/monitoring";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { DownloadPictureLink } from "#i/routes/downloads.picture.$id/link";
+import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures"
+import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { getErrorTitle } from "#i/core/data-display/error-page"
+import { DynamicImage } from "#i/core/data-display/image"
+import { db } from "#i/core/db.server"
+import type { RouteHandle } from "#i/core/handles"
+import { assertIsDefined } from "#i/core/is-defined.server"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { DownloadPictureLink } from "#i/routes/downloads.picture.$id/link"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white"),
   isFullHeight: true,
-};
+}
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),
   pictureId: zu.string().uuid(),
-});
+})
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { displayName: true, email: true, groups: true, id: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
     UserGroup.VOLUNTEER,
-  ]);
+  ])
 
-  const paramsResult = ParamsSchema.safeParse(params);
+  const paramsResult = ParamsSchema.safeParse(params)
   if (!paramsResult.success) {
-    throw notFound();
+    throw notFound()
   }
 
   const animal = await prisma.animal.findUnique({
@@ -58,39 +58,39 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       name: true,
       pictures: true,
     },
-  });
+  })
 
-  assertIsDefined(animal);
-  const allPictures = getAllAnimalPictures(animal);
+  assertIsDefined(animal)
+  const allPictures = getAllAnimalPictures(animal)
 
   if (!allPictures.includes(paramsResult.data.pictureId)) {
-    throw notFound();
+    throw notFound()
   }
 
   return json({
     currentUser,
     animal,
     visiblePictureId: paramsResult.data.pictureId,
-  });
+  })
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const animal = data?.animal;
+  const animal = data?.animal
   if (animal == null) {
-    return [{ title: getPageTitle(getErrorTitle(404)) }];
+    return [{ title: getPageTitle(getErrorTitle(404)) }]
   }
 
-  return [{ title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) }];
-};
+  return [{ title: getPageTitle(`Photos de ${getAnimalDisplayName(animal)}`) }]
+}
 
 export default function Route() {
   const { currentUser, animal, visiblePictureId } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
-  useCurrentUserForMonitoring(currentUser);
+  useCurrentUserForMonitoring(currentUser)
 
-  const allPictures = getAllAnimalPictures(animal);
-  const visiblePictureIndex = allPictures.indexOf(visiblePictureId);
+  const allPictures = getAllAnimalPictures(animal)
+  const visiblePictureIndex = allPictures.indexOf(visiblePictureId)
 
   return (
     <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
@@ -150,5 +150,5 @@ export default function Route() {
         </div>
       </footer>
     </main>
-  );
+  )
 }

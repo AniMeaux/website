@@ -1,62 +1,62 @@
-import { cn } from "@animeaux/core";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { fromPrismaPromise } from "@animeaux/prisma/server";
+import { cn } from "@animeaux/core"
+import { Gender, UserGroup } from "@animeaux/prisma"
+import { fromPrismaPromise } from "@animeaux/prisma/server"
 import type {
   LoaderFunctionArgs,
   MetaFunction,
   SerializeFrom,
-} from "@remix-run/node";
-import { defer } from "@remix-run/node";
-import { Await, useLoaderData } from "@remix-run/react";
-import chunk from "lodash.chunk";
-import { Suspense } from "react";
+} from "@remix-run/node"
+import { defer } from "@remix-run/node"
+import { Await, useLoaderData } from "@remix-run/react"
+import chunk from "lodash.chunk"
+import { Suspense } from "react"
 
-import { GENDER_ICON } from "#i/animals/gender";
+import { GENDER_ICON } from "#i/animals/gender"
 import {
   AnimalSearchParams,
   AnimalSortSearchParams,
-} from "#i/animals/search-params";
-import { Action } from "#i/core/actions";
-import { BlockHelper } from "#i/core/data-display/helper";
-import type { DynamicImageProps, ImageSize } from "#i/core/data-display/image";
-import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image";
-import { db } from "#i/core/db.server";
-import type { RouteHandle } from "#i/core/handles";
-import { Spinner } from "#i/core/loaders/spinner";
-import { useCurrentUserForMonitoring } from "#i/core/monitoring";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { Icon } from "#i/generated/icon";
+} from "#i/animals/search-params"
+import { Action } from "#i/core/actions"
+import { BlockHelper } from "#i/core/data-display/helper"
+import type { DynamicImageProps, ImageSize } from "#i/core/data-display/image"
+import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image"
+import { db } from "#i/core/db.server"
+import type { RouteHandle } from "#i/core/handles"
+import { Spinner } from "#i/core/loaders/spinner"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { Icon } from "#i/generated/icon"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-gray-50 print:bg-white"),
-};
+}
 
-const MAX_ITEM_PER_PAGES = 35;
-const MAX_PAGES = 5;
-const MAX_ANIMAL_COUNT = MAX_ITEM_PER_PAGES * MAX_PAGES;
+const MAX_ITEM_PER_PAGES = 35
+const MAX_PAGES = 5
+const MAX_ANIMAL_COUNT = MAX_ITEM_PER_PAGES * MAX_PAGES
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { displayName: true, email: true, groups: true, id: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const url = new URL(request.url);
-  const animalSortSearchParams = AnimalSortSearchParams.parse(url.searchParams);
-  const animalSearchParams = AnimalSearchParams.parse(url.searchParams);
+  const url = new URL(request.url)
+  const animalSortSearchParams = AnimalSortSearchParams.parse(url.searchParams)
+  const animalSearchParams = AnimalSearchParams.parse(url.searchParams)
 
   const { where, orderBy } = await db.animal.createFindManyParams(
     animalSearchParams,
     animalSortSearchParams.sort,
-  );
+  )
 
-  const totalCount = prisma.animal.count({ where });
+  const totalCount = prisma.animal.count({ where })
   const animals = prisma.animal.findMany({
     orderBy,
     where,
@@ -67,23 +67,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
       id: true,
       name: true,
     },
-  });
+  })
 
   return defer({
     currentUser,
     totalCount: await totalCount,
     animals: fromPrismaPromise(animals),
-  });
+  })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Exports d’animaux") }];
-};
+  return [{ title: getPageTitle("Exports d’animaux") }]
+}
 
 export default function Route() {
-  const { currentUser, animals, totalCount } = useLoaderData<typeof loader>();
+  const { currentUser, animals, totalCount } = useLoaderData<typeof loader>()
 
-  useCurrentUserForMonitoring(currentUser);
+  useCurrentUserForMonitoring(currentUser)
 
   return (
     <main className="grid grid-cols-1 gap-1 py-1 md:gap-2 md:py-2 print:gap-0 print:py-0 md:print:gap-0 md:print:py-0">
@@ -126,38 +126,38 @@ export default function Route() {
         </Await>
       </Suspense>
     </main>
-  );
+  )
 }
 
 function Page({
   animals,
 }: {
-  animals: Awaited<SerializeFrom<typeof loader>["animals"]>;
+  animals: Awaited<SerializeFrom<typeof loader>["animals"]>
 }) {
-  let itemWidth = 400;
-  let fallbackSize: ImageSize = "512";
+  let itemWidth = 400
+  let fallbackSize: ImageSize = "512"
 
   if (animals.length >= 31) {
-    itemWidth = 136;
-    fallbackSize = "256";
+    itemWidth = 136
+    fallbackSize = "256"
   } else if (animals.length >= 25) {
-    itemWidth = 145;
-    fallbackSize = "256";
+    itemWidth = 145
+    fallbackSize = "256"
   } else if (animals.length >= 21) {
-    itemWidth = 163;
-    fallbackSize = "256";
+    itemWidth = 163
+    fallbackSize = "256"
   } else if (animals.length >= 16) {
-    itemWidth = 197;
-    fallbackSize = "256";
+    itemWidth = 197
+    fallbackSize = "256"
   } else if (animals.length >= 13) {
-    itemWidth = 199;
-    fallbackSize = "256";
+    itemWidth = 199
+    fallbackSize = "256"
   } else if (animals.length >= 10) {
-    itemWidth = 254;
+    itemWidth = 254
   } else if (animals.length >= 7) {
-    itemWidth = 282;
+    itemWidth = 282
   } else if (animals.length >= 5) {
-    itemWidth = 346;
+    itemWidth = 346
   }
 
   return (
@@ -173,7 +173,7 @@ function Page({
         ))}
       </CardList>
     </PageSection>
-  );
+  )
 }
 
 function PageSection({
@@ -193,7 +193,7 @@ function PageSection({
         {children}
       </div>
     </section>
-  );
+  )
 }
 
 function CardList({
@@ -207,7 +207,7 @@ function CardList({
         "flex aspect-A4-landscape w-[29.6cm] flex-wrap content-center justify-center gap-2 bg-white p-2",
       )}
     />
-  );
+  )
 }
 
 function AnimalItem({
@@ -217,9 +217,9 @@ function AnimalItem({
   className,
   ...rest
 }: React.ComponentPropsWithoutRef<"li"> & {
-  animal: Awaited<SerializeFrom<typeof loader>["animals"]>[number];
-  imageSize: DynamicImageProps["fallbackSize"];
-  width: number;
+  animal: Awaited<SerializeFrom<typeof loader>["animals"]>[number]
+  imageSize: DynamicImageProps["fallbackSize"]
+  width: number
 }) {
   return (
     <li
@@ -254,5 +254,5 @@ function AnimalItem({
         <span className="truncate">{animal.name}</span>
       </p>
     </li>
-  );
+  )
 }

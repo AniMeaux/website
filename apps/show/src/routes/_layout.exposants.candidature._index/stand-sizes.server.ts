@@ -1,5 +1,5 @@
-import { services } from "#i/core/services.server.js";
-import { withAllowedCategories } from "#i/stand-size/allowed-categories.js";
+import { services } from "#i/core/services.server.js"
+import { withAllowedCategories } from "#i/stand-size/allowed-categories.js"
 
 export async function getStandSizesData() {
   const standSizes = await services.standSize.getManyVisible({
@@ -10,7 +10,7 @@ export async function getStandSizesData() {
       priceForServices: true,
       priceForShops: true,
     },
-  });
+  })
 
-  return standSizes.map(withAllowedCategories);
+  return standSizes.map(withAllowedCategories)
 }

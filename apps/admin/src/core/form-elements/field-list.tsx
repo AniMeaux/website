@@ -1,10 +1,10 @@
-import type { FieldMetadata, FormMetadata } from "@conform-to/react";
+import type { FieldMetadata, FormMetadata } from "@conform-to/react"
 
-import { Action } from "#i/core/actions";
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { RequiredStar } from "#i/core/form-elements/required-star";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Icon } from "#i/generated/icon"
 
 export function FieldList<TItem, TForm extends Record<string, unknown>>({
   form,
@@ -15,18 +15,18 @@ export function FieldList<TItem, TForm extends Record<string, unknown>>({
   required = false,
   children,
 }: {
-  form: FormMetadata<TForm>;
-  field: FieldMetadata<TItem[]>;
-  label: React.ReactNode;
-  labelAddMore: React.ReactNode;
-  required?: boolean;
-  helper?: React.ReactNode;
+  form: FormMetadata<TForm>
+  field: FieldMetadata<TItem[]>
+  label: React.ReactNode
+  labelAddMore: React.ReactNode
+  required?: boolean
+  helper?: React.ReactNode
   children: (props: {
-    field: FieldMetadata<TItem>;
-    index: number;
-  }) => React.ReactElement;
+    field: FieldMetadata<TItem>
+    index: number
+  }) => React.ReactElement
 }) {
-  const fields = field.getFieldList();
+  const fields = field.getFieldList()
 
   return (
     <Form.Field>
@@ -68,5 +68,5 @@ export function FieldList<TItem, TForm extends Record<string, unknown>>({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

@@ -1,17 +1,17 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 export function Card({
   children,
   className,
 }: {
-  children?: React.ReactNode;
-  className?: string;
+  children?: React.ReactNode
+  className?: string
 }) {
   return (
     <section className={cn(className, "flex flex-col bg-white")}>
       {children}
     </section>
-  );
+  )
 }
 
 Card.Header = function CardHeader({
@@ -19,9 +19,9 @@ Card.Header = function CardHeader({
   className,
   isVertical = false,
 }: {
-  children?: React.ReactNode;
-  className?: string;
-  isVertical?: boolean;
+  children?: React.ReactNode
+  className?: string
+  isVertical?: boolean
 }) {
   return (
     <header
@@ -33,16 +33,16 @@ Card.Header = function CardHeader({
     >
       {children}
     </header>
-  );
-};
+  )
+}
 
 Card.Title = function CardTitle({ children }: { children?: React.ReactNode }) {
   return (
     <h2 className="flex-1 text-title-section-small md:text-title-section-large">
       {children}
     </h2>
-  );
-};
+  )
+}
 
 Card.Content = function CardContent({
   children,
@@ -51,11 +51,11 @@ Card.Content = function CardContent({
   hasListItems = false,
   className,
 }: {
-  children?: React.ReactNode;
-  hasHorizontalScroll?: boolean;
-  hasVerticalScroll?: boolean;
-  hasListItems?: boolean;
-  className?: string;
+  children?: React.ReactNode
+  hasHorizontalScroll?: boolean
+  hasVerticalScroll?: boolean
+  hasListItems?: boolean
+  className?: string
 }) {
   return (
     <div
@@ -74,15 +74,15 @@ Card.Content = function CardContent({
     >
       {children}
     </div>
-  );
-};
+  )
+}
 
 Card.Footer = function CardFooter({
   children,
   className,
 }: {
-  children?: React.ReactNode;
-  className?: string;
+  children?: React.ReactNode
+  className?: string
 }) {
   return (
     <footer
@@ -93,5 +93,5 @@ Card.Footer = function CardFooter({
     >
       {children}
     </footer>
-  );
-};
+  )
+}

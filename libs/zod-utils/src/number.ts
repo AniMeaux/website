@@ -11,7 +11,7 @@
  */
 export function normalizeNumber(value: unknown) {
   if (typeof value !== "string") {
-    return value;
+    return value
   }
 
   return (
@@ -20,5 +20,5 @@ export function normalizeNumber(value: unknown) {
       .replaceAll(/\s+/g, "")
       // Replace French decimal separators.
       .replaceAll(",", ".")
-  );
+  )
 }

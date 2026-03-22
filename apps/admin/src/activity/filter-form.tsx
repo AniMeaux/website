@@ -1,29 +1,29 @@
-import type { User } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import type { User } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { ActivityAction } from "#i/activity/action";
-import { ActivityResource } from "#i/activity/resource";
-import { ActivitySearchParams } from "#i/activity/search-params";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { toIsoDateValue } from "#i/core/dates";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+import { ActivityAction } from "#i/activity/action"
+import { ActivityResource } from "#i/activity/resource"
+import { ActivitySearchParams } from "#i/activity/search-params"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { toIsoDateValue } from "#i/core/dates"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { Icon } from "#i/generated/icon";
-import { UserAvatar } from "#i/users/avatar";
+} from "#i/core/form-elements/toggle-input"
+import { Icon } from "#i/generated/icon"
+import { UserAvatar } from "#i/users/avatar"
 
 export function ActivityFilters({
   users,
 }: {
-  users: Pick<User, "displayName" | "id">[];
+  users: Pick<User, "displayName" | "id">[]
 }) {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const activitySearchParams = ActivitySearchParams.io.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const activitySearchParams = ActivitySearchParams.io.parse(searchParams)
 
   return (
     <Filters>
@@ -164,8 +164,8 @@ export function ActivityFilters({
                               ...activitySearchParams,
                               resourceId: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -230,8 +230,8 @@ export function ActivityFilters({
                               ...activitySearchParams,
                               dateStart: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -267,8 +267,8 @@ export function ActivityFilters({
                               ...activitySearchParams,
                               dateEnd: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -281,5 +281,5 @@ export function ActivityFilters({
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }

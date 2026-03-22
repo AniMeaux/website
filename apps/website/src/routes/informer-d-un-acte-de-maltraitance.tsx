@@ -1,22 +1,22 @@
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
 
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#i/core/data-display/markdown";
+} from "#i/core/data-display/markdown"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { WarnItem } from "#i/warn/item";
+} from "#i/core/layout/related-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { WarnItem } from "#i/warn/item"
 
-const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3";
+const IMAGE_ID = "blog/bd9dec91-45da-4064-9053-536b5a9b61c3"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
@@ -25,8 +25,8 @@ export const meta: MetaFunction = () => {
       size: "1024",
       aspectRatio: "16:9",
     }),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -77,7 +77,7 @@ export default function Route() {
         </RelatedSectionList>
       </RelatedSection>
     </>
-  );
+  )
 }
 
 const CONTENT = `Si vous êtes témoin d’un acte de mauvais traitement ou de cruauté envers un animal, **il vous faut agir**.
@@ -91,4 +91,4 @@ const CONTENT = `Si vous êtes témoin d’un acte de mauvais traitement ou de c
 Dans tous les cas, vous pouvez remplir [ce formulaire](${MarkdownLink.PICK_UP_FORM}) en étant le plus précis possible, sans oublier de joindre des photos.
 
 Notre équipe prendra contact avec vous dans les meilleurs délais, en fonction de l’urgence de la situation.
-N’hésitez pas également à nous contacter par mail à [enquetes@animeaux.org](mailto:enquetes@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`;
+N’hésitez pas également à nous contacter par mail à [enquetes@animeaux.org](mailto:enquetes@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`

@@ -1,11 +1,11 @@
-import { FieldSwitch } from "#i/core/form-elements/field-switch";
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FieldSwitch } from "#i/core/form-elements/field-switch"
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import { FieldsetId, useFieldsets } from "./form";
+import { FieldsetId, useFieldsets } from "./form"
 
 export function FieldsetPersonalData() {
-  const { fieldsets } = useFieldsets();
-  const fieldset = fieldsets.personalData.getFieldset();
+  const { fieldsets } = useFieldsets()
+  const fieldset = fieldsets.personalData.getFieldset()
 
   return (
     <FormLayout.Section id={FieldsetId.PERSONAL_DATA}>
@@ -21,5 +21,5 @@ export function FieldsetPersonalData() {
         field={fieldset.acceptEmails}
       />
     </FormLayout.Section>
-  );
+  )
 }

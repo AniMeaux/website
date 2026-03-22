@@ -1,38 +1,38 @@
-import { UserGroup } from "@animeaux/prisma";
-import { safeParseRouteParam, zu } from "@animeaux/zod-utils";
-import type { SubmissionResult } from "@conform-to/react";
-import { getFormProps } from "@conform-to/react";
-import { parseWithZod } from "@conform-to/zod";
-import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import type { MetaFunction } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
-import type { MergeExclusive } from "type-fest";
+import { UserGroup } from "@animeaux/prisma"
+import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
+import type { SubmissionResult } from "@conform-to/react"
+import { getFormProps } from "@conform-to/react"
+import { parseWithZod } from "@conform-to/zod"
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { MetaFunction } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
+import type { MergeExclusive } from "type-fest"
 
-import { Action } from "#i/core/actions";
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { Action } from "#i/core/actions"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
-import { ActionSchema } from "./action";
-import { FieldsetDocuments } from "./fieldset-documents";
-import { FieldsetStatus } from "./fieldset-status";
-import { FormProvider, useFormRoot } from "./form";
+import { ActionSchema } from "./action"
+import { FieldsetDocuments } from "./fieldset-documents"
+import { FieldsetStatus } from "./fieldset-status"
+import { FormProvider, useFormRoot } from "./form"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
   const { exhibitor, files } = await promiseHash({
     exhibitor: db.show.exhibitor.findUnique(routeParams.id, {
@@ -40,14 +40,14 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     }),
 
     files: db.show.exhibitor.getFiles(routeParams.id),
-  });
+  })
 
-  return json({ exhibitor: { ...exhibitor, ...files } });
+  return json({ exhibitor: { ...exhibitor, ...files } })
 }
 
 const RouteParamsSchema = zu.object({
   id: zu.string().uuid(),
-});
+})
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [
@@ -58,45 +58,45 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
           : getErrorTitle(404),
       ),
     },
-  ];
-};
+  ]
+}
 
 type ActionData = MergeExclusive<
   { redirectTo: string },
   { submissionResult: SubmissionResult<string[]> }
->;
+>
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.SHOW_ORGANIZER,
-  ]);
+  ])
 
-  const routeParams = safeParseRouteParam(RouteParamsSchema, params);
+  const routeParams = safeParseRouteParam(RouteParamsSchema, params)
 
-  const formData = await request.formData();
+  const formData = await request.formData()
 
-  const submission = parseWithZod(formData, { schema: ActionSchema });
+  const submission = parseWithZod(formData, { schema: ActionSchema })
 
   if (submission.status !== "success") {
     return json<ActionData>(
       { submissionResult: submission.reply() },
       { status: 400 },
-    );
+    )
   }
 
   await db.show.exhibitor.updateDocuments(routeParams.id, {
     documentStatus: submission.value.status,
     documentStatusMessage: submission.value.statusMessage || null,
-  });
+  })
 
   return json<ActionData>({
     redirectTo: Routes.show.exhibitors.id(routeParams.id).toString(),
-  });
+  })
 }
 
 export function ErrorBoundary() {
@@ -104,11 +104,11 @@ export function ErrorBoundary() {
     <PageLayout.Content className="grid grid-cols-1">
       <ErrorPage />
     </PageLayout.Content>
-  );
+  )
 }
 
 export default function Route() {
-  const [form, fields, fetcher] = useFormRoot();
+  const [form, fields, fetcher] = useFormRoot()
 
   return (
     <FormProvider form={form} fields={fields}>
@@ -128,5 +128,5 @@ export default function Route() {
         </fetcher.Form>
       </PageLayout.Content>
     </FormProvider>
-  );
+  )
 }

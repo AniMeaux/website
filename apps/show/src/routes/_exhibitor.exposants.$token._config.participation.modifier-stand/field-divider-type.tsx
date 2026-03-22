@@ -1,26 +1,26 @@
-import type { Prisma } from "@animeaux/prisma";
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
-import type { Simplify } from "type-fest";
+import type { Prisma } from "@animeaux/prisma"
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
+import type { Simplify } from "type-fest"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { FormLayout } from "#i/core/layout/form-layout";
-import type { DividerTypeAvailability } from "#i/divider-type/availability.js";
-import { Price } from "#i/price/price.js";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { FormLayout } from "#i/core/layout/form-layout"
+import type { DividerTypeAvailability } from "#i/divider-type/availability.js"
+import { Price } from "#i/price/price.js"
 
-import { DividerType } from "./action-schema";
+import { DividerType } from "./action-schema"
 
 export function FieldDividerType({
   field,
   label,
   dividerTypes,
 }: {
-  field: FieldMetadata<string>;
-  label: React.ReactNode;
+  field: FieldMetadata<string>
+  label: React.ReactNode
   dividerTypes: Simplify<
     Prisma.ShowDividerTypeGetPayload<{ select: { id: true; label: true } }> &
       DividerTypeAvailability
-  >[];
+  >[]
 }) {
   return (
     <FormLayout.Field>
@@ -36,7 +36,7 @@ export function FieldDividerType({
         }).map((props) => {
           const dividerType = dividerTypes.find(
             (dividerType) => dividerType.id === props.value,
-          );
+          )
 
           return (
             <FormLayout.Selector.Root key={props.key}>
@@ -52,7 +52,7 @@ export function FieldDividerType({
 
               <FormLayout.Selector.RadioIcon />
             </FormLayout.Selector.Root>
-          );
+          )
         })}
       </FormLayout.Selectors>
 
@@ -71,5 +71,5 @@ export function FieldDividerType({
         </FormLayout.Helper>
       )}
     </FormLayout.Field>
-  );
+  )
 }

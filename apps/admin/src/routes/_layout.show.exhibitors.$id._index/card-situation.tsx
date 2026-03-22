@@ -1,26 +1,26 @@
-import { joinReactNodes } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
-import { Fragment } from "react/jsx-runtime";
+import { joinReactNodes } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
+import { Fragment } from "react/jsx-runtime"
 
-import { Action, ProseInlineAction } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
+import { Action, ProseInlineAction } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
 import {
   ApplicationStatusIcon,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status";
-import { InvoiceIcon } from "#i/show/invoice/icon.js";
-import { InvoiceStatus } from "#i/show/invoice/status.js";
-import { SponsorshipCategory } from "#i/show/sponsors/category";
-import { Visibility, VisibilityIcon } from "#i/show/visibility";
+} from "#i/show/exhibitors/applications/status"
+import { InvoiceIcon } from "#i/show/invoice/icon.js"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category"
+import { Visibility, VisibilityIcon } from "#i/show/visibility"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardSituation() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -52,11 +52,11 @@ export function CardSituation() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemApplication() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -70,11 +70,11 @@ function ItemApplication() {
         </BaseLink>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemExhibitorSpace() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -92,14 +92,14 @@ function ItemExhibitorSpace() {
         </a>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemLocationNumber() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.standNumber == null && exhibitor.locationNumber == null) {
-    return null;
+    return null
   }
 
   return (
@@ -126,56 +126,56 @@ function ItemLocationNumber() {
         <br />,
       )}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemOrganizer() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (!exhibitor.isOrganizer) {
-    return null;
+    return null
   }
 
   return (
     <SimpleItem icon={<Icon href="icon-show-solid" />}>
       Est organisateur
     </SimpleItem>
-  );
+  )
 }
 
 function ItemOrganizersFavorite() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (!exhibitor.isOrganizersFavorite) {
-    return null;
+    return null
   }
 
   return (
     <SimpleItem icon={<Icon href="icon-heart-light" />}>
       Est <strong className="text-body-emphasis">Coup de cœur</strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemRisingStar() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (!exhibitor.isRisingStar) {
-    return null;
+    return null
   }
 
   return (
     <SimpleItem icon={<Icon href="icon-seedling-light" />}>
       Est <strong className="text-body-emphasis">Espoir</strong>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemSponsorship() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   if (sponsor == null) {
-    return null;
+    return null
   }
 
   return (
@@ -187,14 +187,14 @@ function ItemSponsorship() {
         </BaseLink>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemInvoiceStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.invoiceStatus == null) {
-    return null;
+    return null
   }
 
   return (
@@ -204,11 +204,11 @@ function ItemInvoiceStatus() {
     >
       {InvoiceStatus.translation[exhibitor.invoiceStatus]}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemVisibility() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem
@@ -230,5 +230,5 @@ function ItemVisibility() {
         </>
       )}
     </SimpleItem>
-  );
+  )
 }

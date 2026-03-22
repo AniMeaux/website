@@ -1,6 +1,6 @@
-import type { HttpResponseResolver, StrictResponse } from "msw";
-import { http, HttpResponse } from "msw";
-import invariant from "tiny-invariant";
+import type { HttpResponseResolver, StrictResponse } from "msw"
+import { http, HttpResponse } from "msw"
+import invariant from "tiny-invariant"
 
 const SVGS = [
   // Cat
@@ -11,35 +11,35 @@ const SVGS = [
   '<svg fill="none" height="8000" viewBox="0 0 800 800" width="8000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h800v800h-800z" fill="#9cc4ff"/><path d="m409.824 352.646 146.426 52.327v213.464c0 4.147-1.646 8.124-4.576 11.056-2.931 2.932-6.905 4.579-11.049 4.579h-62.5c-4.144 0-8.118-1.647-11.049-4.579-2.93-2.932-4.576-6.909-4.576-11.056v-109.443h-156.25v109.443c0 4.147-1.646 8.124-4.576 11.056-2.931 2.932-6.905 4.579-11.049 4.579h-62.5c-4.144 0-8.118-1.647-11.049-4.579-2.93-2.932-4.576-6.909-4.576-11.056v-209.027c-36.289-12.948-62.5-47.325-62.5-88.034 0-8.293 3.292-16.247 9.153-22.111 5.86-5.864 13.809-9.159 22.097-9.159s16.237 3.295 22.097 9.159c5.861 5.864 9.153 13.818 9.153 22.111.015 8.288 3.313 16.233 9.17 22.094s13.797 9.16 22.08 9.176zm240.176-109.444v31.27c0 16.586-6.585 32.493-18.306 44.222-11.721 11.728-27.618 18.317-44.194 18.317h-31.25v34.768l-125-44.667v-146.449c0-13.925 16.816-20.902 26.67-11.052l26.641 26.687h52.373c10.654 0 23.193 7.739 27.949 17.286l6.992 13.983h62.5c4.144 0 8.118 1.647 11.049 4.579 2.93 2.933 4.576 6.909 4.576 11.056zm-109.375 0c0-3.092-.916-6.115-2.633-8.686s-4.157-4.575-7.013-5.759c-2.855-1.183-5.996-1.493-9.027-.889-3.031.603-5.815 2.092-8.001 4.278-2.185 2.187-3.673 4.973-4.276 8.006s-.293 6.176.889 9.033c1.183 2.857 3.186 5.299 5.755 7.017 2.57 1.718 5.591 2.635 8.681 2.635 4.144 0 8.118-1.647 11.049-4.58 2.93-2.932 4.576-6.908 4.576-11.055z" fill="#000"/></svg>',
   // Frog
   '<svg fill="none" height="8000" viewBox="0 0 800 800" width="8000" xmlns="http://www.w3.org/2000/svg"><path d="m0 0h800v800h-800z" fill="#b7e69b"/><path d="m537.613 262.797c-5.955-32.292-34.149-56.797-68.168-56.797-34.054 0-62.257 24.557-68.177 56.892-141.241 13.386-251.701 132.448-251.267 277.291.096 30.313 25.243 54.705 55.556 54.705h263.888c7.674 0 13.889-6.215 13.889-13.889 0-15.338-12.439-27.778-27.778-27.778h-69.001l31.076-41.953c20.955-31.449 8.984-76.631-29.262-92.534-20.738-8.62-44.748-4.037-62.708 9.444l-28.438 21.346c-6.128 4.609-14.835 3.394-19.453-2.769-4.601-6.146-3.368-14.853 2.769-19.453l30.191-22.648c31.979-24.01 76.632-23.976 108.62 0 9.435 7.075 39.817 33.906 35.416 80.911l102.89 109.323h78.455c7.674 0 13.889-6.215 13.889-13.889 0-15.338-12.439-27.778-27.778-27.778h-46.553l-85.521-90.867 134.062-75.217c7.823-4.388 14.336-10.78 18.869-18.52s6.922-16.547 6.921-25.517c0-18.576-10.174-35.546-26.458-44.47-35.208-19.288-85.929-35.833-85.929-35.833zm-68.168 33.481c-11.51 0-20.833-9.332-20.833-20.834 0-11.51 9.323-20.833 20.833-20.833 11.502 0 20.833 9.323 20.833 20.833 0 11.502-9.331 20.834-20.833 20.834z" fill="#000"/></svg>',
-];
+]
 
 const resolver: HttpResponseResolver = async ({ params }) => {
-  invariant(typeof params[0] === "string", "An id is required");
-  const hash = Number(stringToHex(params[0]));
-  const svg = SVGS[hash % SVGS.length];
-  invariant(svg != null, "An SVG should exists");
+  invariant(typeof params[0] === "string", "An id is required")
+  const hash = Number(stringToHex(params[0]))
+  const svg = SVGS[hash % SVGS.length]
+  invariant(svg != null, "An SVG should exists")
 
   return new HttpResponse(svg, {
     headers: {
       "Content-Length": String(svg.length),
       "Content-Type": "image/svg+xml",
     },
-  }) as StrictResponse<string>;
-};
+  }) as StrictResponse<string>
+}
 
 export const cloudinaryHandlers = [
   http.get(
     "https://res.cloudinary.com/mock-cloud-name/image/upload/:filters/*",
     resolver,
   ),
-];
+]
 
 function stringToHex(value: string) {
   const hexValue = value
     .split("")
     .map((char) => char.charCodeAt(0).toString(16).padStart(2, "0"))
     .join("")
-    .substring(0, 8);
+    .substring(0, 8)
 
-  return `0x${hexValue}`;
+  return `0x${hexValue}`
 }

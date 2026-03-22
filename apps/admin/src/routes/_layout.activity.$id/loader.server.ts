@@ -1,22 +1,22 @@
-import { UserGroup } from "@animeaux/prisma/server";
-import { safeParseRouteParam } from "@animeaux/zod-utils";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { UserGroup } from "@animeaux/prisma/server"
+import { safeParseRouteParam } from "@animeaux/zod-utils"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { Activity } from "#i/activity/db.server.js";
-import { db } from "#i/core/db.server.js";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js";
+import { Activity } from "#i/activity/db.server.js"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { routeParamsSchema } from "./route-params";
+import { routeParamsSchema } from "./route-params"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const routeParams = safeParseRouteParam(routeParamsSchema, params);
+  const routeParams = safeParseRouteParam(routeParamsSchema, params)
 
   const activity = await Activity.findUnique(routeParams.id, {
     select: {
@@ -42,7 +42,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       before: true,
       after: true,
     },
-  });
+  })
 
-  return json({ activity });
+  return json({ activity })
 }

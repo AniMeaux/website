@@ -1,13 +1,13 @@
-import { ShowActivityField } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
+import { ShowActivityField } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon";
+import type { IconName } from "#i/generated/icon"
 
 export namespace ActivityField {
-  export const Enum = ShowActivityField;
-  export type Enum = ShowActivityField;
+  export const Enum = ShowActivityField
+  export type Enum = ShowActivityField
 
-  export const MAX_COUNT = 3;
+  export const MAX_COUNT = 3
 
   export const translation: Record<Enum, string> = {
     [Enum.ACCESSORIES]: "Accessoires",
@@ -25,12 +25,12 @@ export namespace ActivityField {
     [Enum.SENSITIZATION]: "Sensibilisation",
     [Enum.SERVICES]: "Services",
     [Enum.TRAINING]: "Formation",
-  };
+  }
 
   export const values = orderBy(
     Object.values(Enum),
     (field) => translation[field],
-  );
+  )
 
   export const icon: Record<Enum, { solid: IconName; light: IconName }> = {
     [Enum.ACCESSORIES]: {
@@ -63,5 +63,5 @@ export namespace ActivityField {
       light: "file-certificate-light",
       solid: "file-certificate-solid",
     },
-  };
+  }
 }

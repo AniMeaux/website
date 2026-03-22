@@ -1,26 +1,26 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions/action";
-import { DynamicImage } from "#i/core/data-display/image";
-import { Footer } from "#i/core/layout/footer";
-import { LazyElement } from "#i/core/layout/lazy-element";
-import { Section } from "#i/core/layout/section";
-import { ShowDay } from "#i/core/show-day";
-import { SponsorItem } from "#i/sponsors/item.js";
-import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js";
+import { Action } from "#i/core/actions/action"
+import { DynamicImage } from "#i/core/data-display/image"
+import { Footer } from "#i/core/layout/footer"
+import { LazyElement } from "#i/core/layout/lazy-element"
+import { Section } from "#i/core/layout/section"
+import { ShowDay } from "#i/core/show-day"
+import { SponsorItem } from "#i/sponsors/item.js"
+import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function LayoutFooter() {
   if (CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE === "true") {
-    return <FooterOnline />;
+    return <FooterOnline />
   }
 
-  return <FooterWaiting />;
+  return <FooterWaiting />
 }
 
 function FooterOnline() {
-  const { sponsors } = useLoaderData<typeof loader>();
+  const { sponsors } = useLoaderData<typeof loader>()
 
   return (
     <Footer.Root>
@@ -90,7 +90,7 @@ function FooterOnline() {
 
       <Footer.LegalSection />
     </Footer.Root>
-  );
+  )
 }
 
 function FooterWaiting() {
@@ -105,5 +105,5 @@ function FooterWaiting() {
 
       <Footer.LegalSection />
     </Footer.Root>
-  );
+  )
 }

@@ -1,22 +1,22 @@
-import { cn } from "@animeaux/core";
-import type { MetaFunction } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { MetaFunction } from "@remix-run/node"
 
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image";
+import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   MarkdownLink,
-} from "#i/core/data-display/markdown";
+} from "#i/core/data-display/markdown"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { WarnItem } from "#i/warn/item";
+} from "#i/core/layout/related-section"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { WarnItem } from "#i/warn/item"
 
-const IMAGE_ID = "blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6";
+const IMAGE_ID = "blog/2bf99fd0-da8b-4326-b7fa-d2a0eaa8ecc6"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({
@@ -25,8 +25,8 @@ export const meta: MetaFunction = () => {
       size: "1024",
       aspectRatio: "16:9",
     }),
-  });
-};
+  })
+}
 
 export default function Route() {
   return (
@@ -77,7 +77,7 @@ export default function Route() {
         </RelatedSectionList>
       </RelatedSection>
     </>
-  );
+  )
 }
 
 const CONTENT = `**En êtes-vous certain ?**
@@ -99,4 +99,4 @@ Nous vous invitons à remplir [ce formulaire](${MarkdownLink.PICK_UP_FORM}) dét
 **N’oubliez pas les photos !** Celles-ci sont importantes.
 
 Notre équipe prendra contact avec vous dans les meilleurs délais, en fonction de l’urgence de la situation.
-N’hésitez pas également à nous contacter par mail à [contact@animeaux.org](mailto:contact@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`;
+N’hésitez pas également à nous contacter par mail à [contact@animeaux.org](mailto:contact@animeaux.org) ou sur les [réseaux sociaux](${MarkdownLink.FACEBOOK}).`

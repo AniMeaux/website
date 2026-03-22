@@ -1,4 +1,4 @@
-import type { zu } from "@animeaux/zod-utils";
+import type { zu } from "@animeaux/zod-utils"
 
 export function createLocationState<TSchema extends zu.ZodTypeAny>(
   schema: TSchema,
@@ -6,11 +6,11 @@ export function createLocationState<TSchema extends zu.ZodTypeAny>(
   return {
     parse(state: unknown) {
       // Without the cast the returned value is `any`.
-      return schema.parse(state) as zu.infer<TSchema>;
+      return schema.parse(state) as zu.infer<TSchema>
     },
 
     create(state: Partial<zu.infer<TSchema>>) {
-      return state;
+      return state
     },
-  };
+  }
 }

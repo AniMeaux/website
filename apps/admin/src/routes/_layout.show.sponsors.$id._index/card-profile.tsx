@@ -1,16 +1,16 @@
-import { ImageUrl } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { ImageUrl } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon";
+import { ProseInlineAction } from "#i/core/actions"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function CardProfile() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -35,11 +35,11 @@ export function CardProfile() {
         </div>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemUrl() {
-  const { sponsor } = useLoaderData<typeof loader>();
+  const { sponsor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-globe-light" />}>
@@ -49,5 +49,5 @@ function ItemUrl() {
         </a>
       </ProseInlineAction>
     </SimpleItem>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import { useLocation, useMatches } from "@remix-run/react";
+import { useLocation, useMatches } from "@remix-run/react"
 import {
   browserTracingIntegration,
   httpClientIntegration,
   init,
-} from "@sentry/remix";
-import { useEffect } from "react";
+} from "@sentry/remix"
+import { useEffect } from "react"
 
 export function initMonitoring() {
   if (CLIENT_ENV.SENTRY_DSN != null) {
@@ -19,6 +19,6 @@ export function initMonitoring() {
         // https://docs.sentry.io/platforms/javascript/guides/remix/configuration/integrations/httpclient
         httpClientIntegration(),
       ],
-    });
+    })
   }
 }

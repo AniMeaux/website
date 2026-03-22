@@ -1,26 +1,26 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
 
-import type { loader } from "./loader.server.js";
-import { SectionList } from "./section-list";
-import { SectionTitle } from "./section-title";
-import { SectionWaitingHelper } from "./section-waiting-helper";
+import type { loader } from "./loader.server.js"
+import { SectionList } from "./section-list"
+import { SectionTitle } from "./section-title"
+import { SectionWaitingHelper } from "./section-waiting-helper"
 
-export { loader } from "./loader.server.js";
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({
     title: getPageTitle(
       data?.exhibitors != null ? "Exposants" : getErrorTitle(404),
     ),
-  });
-};
+  })
+}
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
@@ -34,5 +34,5 @@ export default function Route() {
         <SectionWaitingHelper />
       )}
     </>
-  );
+  )
 }

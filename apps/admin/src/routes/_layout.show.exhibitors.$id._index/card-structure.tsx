@@ -1,19 +1,19 @@
-import { getCompleteLocation } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { getCompleteLocation } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { ItemList, SimpleItem } from "#i/core/data-display/item";
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status";
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardStructure() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -39,11 +39,11 @@ export function CardStructure() {
         </ItemList>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ItemAddress() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-location-dot-light" />}>
@@ -56,11 +56,11 @@ function ItemAddress() {
         })}
       </Markdown>
     </SimpleItem>
-  );
+  )
 }
 
 function ItemLegalStatus() {
-  const { application } = useLoaderData<typeof loader>();
+  const { application } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-fingerprint-light" />}>
@@ -70,15 +70,15 @@ function ItemLegalStatus() {
       })}{" "}
       • {application.structureSiret}
     </SimpleItem>
-  );
+  )
 }
 
 function ItemName() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <SimpleItem isLightIcon icon={<Icon href="icon-house-building-light" />}>
       {exhibitor.name}
     </SimpleItem>
-  );
+  )
 }

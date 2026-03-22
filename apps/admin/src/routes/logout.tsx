@@ -1,13 +1,13 @@
-import type { ActionFunctionArgs } from "@remix-run/node";
-import { redirect } from "@remix-run/node";
-import { createPath } from "history";
+import type { ActionFunctionArgs } from "@remix-run/node"
+import { redirect } from "@remix-run/node"
+import { createPath } from "history"
 
-import { Routes } from "#i/core/navigation";
-import { destroyCurrentUserSession } from "#i/current-user/session.server";
+import { Routes } from "#i/core/navigation"
+import { destroyCurrentUserSession } from "#i/current-user/session.server"
 
 export async function loader() {
   // Nothing to render here.
-  return redirect(Routes.home.toString());
+  return redirect(Routes.home.toString())
 }
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -17,5 +17,5 @@ export async function action({ request }: ActionFunctionArgs) {
       search: new URL(request.url).searchParams.toString(),
     }),
     { headers: { "Set-Cookie": await destroyCurrentUserSession() } },
-  );
+  )
 }

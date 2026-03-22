@@ -1,6 +1,6 @@
-import { normalizeNumber, zu } from "@animeaux/zod-utils";
+import { normalizeNumber, zu } from "@animeaux/zod-utils"
 
-import { InvoiceStatus } from "#i/show/invoice/status.js";
+import { InvoiceStatus } from "#i/show/invoice/status.js"
 
 export const actionSchema = zu.object({
   amount: zu.preprocess(
@@ -28,4 +28,4 @@ export const actionSchema = zu.object({
     .string({ required_error: "Veuillez entrer une URL" })
     .trim()
     .url("Veuillez entrer une URL valide"),
-});
+})

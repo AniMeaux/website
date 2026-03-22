@@ -1,54 +1,54 @@
-import { cn, getShortLocation } from "@animeaux/core";
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
+import { cn, getShortLocation } from "@animeaux/core"
+import { UserGroup } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 import type {
   LoaderFunctionArgs,
   MetaFunction,
   SerializeFrom,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { AnimalAvatar } from "#i/animals/avatar";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { Avatar } from "#i/core/data-display/avatar";
-import { Chip } from "#i/core/data-display/chip";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar";
-import { FosterFamilyFilters } from "#i/foster-families/filter-form";
-import { FosterFamilySearchParams } from "#i/foster-families/search-params";
+import { AnimalAvatar } from "#i/animals/avatar"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { Avatar } from "#i/core/data-display/avatar"
+import { Chip } from "#i/core/data-display/chip"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar"
+import { FosterFamilyFilters } from "#i/foster-families/filter-form"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params"
 
-const FOSTER_FAMILY_COUNT_PER_PAGE = 20;
+const FOSTER_FAMILY_COUNT_PER_PAGE = 20
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
-  const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
-  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const pageSearchParams = PageSearchParams.parse(searchParams)
+  const fosterFamilySearchParams = FosterFamilySearchParams.parse(searchParams)
 
   const { where, orderBy } = await db.fosterFamily.createFindManyParams(
     fosterFamilySearchParams,
-  );
+  )
 
   const { possibleCities, totalCount, fosterFamilies } = await promiseHash({
     possibleCities: prisma.fosterFamily.groupBy({
@@ -74,26 +74,26 @@ export async function loader({ request }: LoaderFunctionArgs) {
         zipCode: true,
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / FOSTER_FAMILY_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / FOSTER_FAMILY_COUNT_PER_PAGE)
 
   return json({
     totalCount,
     pageCount,
     fosterFamilies,
     possibleCities: possibleCities.map((group) => group.city),
-  });
+  })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Familles d’accueil") }];
-};
+  return [{ title: getPageTitle("Familles d’accueil") }]
+}
 
 export default function Route() {
   const { totalCount, pageCount, fosterFamilies, possibleCities } =
-    useLoaderData<typeof loader>();
-  const [searchParams] = useOptimisticSearchParams();
+    useLoaderData<typeof loader>()
+  const [searchParams] = useOptimisticSearchParams()
 
   return (
     <PageLayout.Root>
@@ -173,15 +173,15 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function FosterFamilyItem({
   fosterFamily,
   className,
 }: {
-  fosterFamily: SerializeFrom<typeof loader>["fosterFamilies"][number];
-  className?: string;
+  fosterFamily: SerializeFrom<typeof loader>["fosterFamilies"][number]
+  className?: string
 }) {
   const fosterAnimalsAvatars = fosterFamily.fosterAnimals.map((animal) => (
     <AnimalAvatar
@@ -190,11 +190,11 @@ function FosterFamilyItem({
       animal={animal}
       className={ANIMAL_AVATAR_CLASS_NAME}
     />
-  ));
+  ))
 
   if (fosterAnimalsAvatars.length > MAX_ANIMAL_AVATAR_COUNT) {
     const restCount =
-      fosterAnimalsAvatars.length - (MAX_ANIMAL_AVATAR_COUNT - 1);
+      fosterAnimalsAvatars.length - (MAX_ANIMAL_AVATAR_COUNT - 1)
 
     fosterAnimalsAvatars.splice(
       MAX_ANIMAL_AVATAR_COUNT - 1,
@@ -207,7 +207,7 @@ function FosterFamilyItem({
       >
         <span className="text-caption-emphasis">+{restCount}</span>
       </Avatar>,
-    );
+    )
   }
 
   return (
@@ -238,11 +238,11 @@ function FosterFamilyItem({
         <span className="flex self-center">{fosterAnimalsAvatars}</span>
       ) : null}
     </BaseLink>
-  );
+  )
 }
 
-const MAX_ANIMAL_AVATAR_COUNT = 5;
+const MAX_ANIMAL_AVATAR_COUNT = 5
 
 const ANIMAL_AVATAR_CLASS_NAME = cn(
   "-ml-0.5 flex-none ring-2 ring-inheritBg first:ml-0",
-);
+)

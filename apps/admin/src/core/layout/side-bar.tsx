@@ -1,15 +1,15 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
 
-import type { BaseLinkProps } from "#i/core/base-link";
-import { BaseLink } from "#i/core/base-link";
-import { Icon } from "#i/generated/icon";
+import type { BaseLinkProps } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link"
+import { Icon } from "#i/generated/icon"
 
 export type SideBarProps = {
-  isOpened: boolean;
-  onIsOpenedChange: () => void;
-  children?: React.ReactNode;
-};
+  isOpened: boolean
+  onIsOpenedChange: () => void
+  children?: React.ReactNode
+}
 
 export function SideBar({
   isOpened,
@@ -38,7 +38,7 @@ export function SideBar({
         </SideBar.Item>
       </div>
     </nav>
-  );
+  )
 }
 
 SideBar.RootItem = function SideBarRootItem({
@@ -46,9 +46,9 @@ SideBar.RootItem = function SideBarRootItem({
   logo,
   alt,
 }: {
-  to: BaseLinkProps["to"];
-  logo: string;
-  alt: string;
+  to: BaseLinkProps["to"]
+  logo: string
+  alt: string
 }) {
   return (
     <BaseLink
@@ -57,18 +57,18 @@ SideBar.RootItem = function SideBarRootItem({
     >
       <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
-  );
-};
+  )
+}
 
 SideBar.Content = function SideBarContent({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <div className="flex flex-1 flex-col justify-start gap-1">{children}</div>
-  );
-};
+  )
+}
 
 SideBar.Item = function SideBarItem({
   className,
@@ -81,8 +81,8 @@ SideBar.Item = function SideBarItem({
         "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors duration-100 ease-in-out aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:focus-compact-blue-400 hover:bg-gray-100 aria-[current=page]:hover:bg-blue-50",
       )}
     />
-  );
-};
+  )
+}
 
 SideBar.ItemIcon = function SideBarItemIcon(
   props: React.ComponentPropsWithoutRef<typeof Icon>,
@@ -91,15 +91,15 @@ SideBar.ItemIcon = function SideBarItemIcon(
     <span className="flex h-4 w-4 flex-none items-center justify-center text-[20px]">
       <Icon {...props} />
     </span>
-  );
-};
+  )
+}
 
 SideBar.ItemContent = function SideBarItemContent({
   children,
 }: {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }) {
   return (
     <span className="flex-1 truncate pr-1 text-body-emphasis">{children}</span>
-  );
-};
+  )
+}

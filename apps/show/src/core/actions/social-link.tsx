@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link } from "@remix-run/react"
 
 export function SocialLink({
   children,
@@ -11,5 +11,5 @@ export function SocialLink({
     >
       {children}
     </Link>
-  );
+  )
 }

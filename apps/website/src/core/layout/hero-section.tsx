@@ -1,14 +1,14 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-import type { StaticImageProps } from "#i/core/data-display/image";
-import { StaticImage } from "#i/core/data-display/image";
+import type { StaticImageProps } from "#i/core/data-display/image"
+import { StaticImage } from "#i/core/data-display/image"
 
 export function HeroSection({
   isReversed = false,
   children,
 }: {
-  isReversed?: boolean;
-  children: React.ReactNode;
+  isReversed?: boolean
+  children: React.ReactNode
 }) {
   return (
     <section
@@ -23,7 +23,7 @@ export function HeroSection({
     >
       {children}
     </section>
-  );
+  )
 }
 
 export function HeroSectionAside({ children }: { children: React.ReactNode }) {
@@ -31,7 +31,7 @@ export function HeroSectionAside({ children }: { children: React.ReactNode }) {
     <div className={cn("flex w-full flex-col gap-6", "md:flex-1")}>
       {children}
     </div>
-  );
+  )
 }
 
 export function HeroSectionImage({
@@ -39,9 +39,9 @@ export function HeroSectionImage({
   loading,
   className,
 }: {
-  image: StaticImageProps["image"];
-  loading?: StaticImageProps["loading"];
-  className?: string;
+  image: StaticImageProps["image"]
+  loading?: StaticImageProps["loading"]
+  className?: string
 }) {
   return (
     <StaticImage
@@ -50,17 +50,17 @@ export function HeroSectionImage({
       sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
       loading={loading}
     />
-  );
+  )
 }
 
 export function HeroSectionTitle({
   isLarge = false,
   children,
 }: {
-  isLarge?: boolean;
-  children: React.ReactNode;
+  isLarge?: boolean
+  children: React.ReactNode
 }) {
-  const TitleComponent = isLarge ? "h1" : "h2";
+  const TitleComponent = isLarge ? "h1" : "h2"
 
   return (
     <TitleComponent
@@ -71,15 +71,15 @@ export function HeroSectionTitle({
     >
       {children}
     </TitleComponent>
-  );
+  )
 }
 
 export function HeroSectionParagraph({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  return <p className={cn("text-center", "md:text-left")}>{children}</p>;
+  return <p className={cn("text-center", "md:text-left")}>{children}</p>
 }
 
 export function HeroSectionAction({ children }: { children: React.ReactNode }) {
@@ -87,5 +87,5 @@ export function HeroSectionAction({ children }: { children: React.ReactNode }) {
     <div className={cn("flex justify-center", "md:justify-start")}>
       {children}
     </div>
-  );
+  )
 }

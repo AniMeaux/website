@@ -1,26 +1,26 @@
-import { cn } from "@animeaux/core";
-import type { MetaFunction, SerializeFrom } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { cn } from "@animeaux/core"
+import type { MetaFunction, SerializeFrom } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import type { MarkdownProps } from "#i/core/data-display/markdown";
-import { Markdown } from "#i/core/data-display/markdown";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { partners } from "#i/partners/data.server";
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import type { MarkdownProps } from "#i/core/data-display/markdown"
+import { Markdown } from "#i/core/data-display/markdown"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { partners } from "#i/partners/data.server"
 
 export async function loader() {
-  return json({ partners });
+  return json({ partners })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Partenaires") });
-};
+  return createSocialMeta({ title: getPageTitle("Partenaires") })
+}
 
 export default function Route() {
-  const { partners } = useLoaderData<typeof loader>();
+  const { partners } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -57,19 +57,19 @@ export default function Route() {
         </p>
       )}
     </main>
-  );
+  )
 }
 
 export const COMPONENTS: MarkdownProps["components"] = {
   strong: ({ children }) => (
     <strong className="text-body-emphasis">{children}</strong>
   ),
-};
+}
 
 function PartnerItem({
   partner,
 }: {
-  partner: SerializeFrom<typeof loader>["partners"][number];
+  partner: SerializeFrom<typeof loader>["partners"][number]
 }) {
   return (
     <li className="flex">
@@ -95,5 +95,5 @@ function PartnerItem({
         </div>
       </BaseLink>
     </li>
-  );
+  )
 }

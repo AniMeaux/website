@@ -1,29 +1,29 @@
-import type { FosterFamily, User } from "@animeaux/prisma";
-import { Gender, UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { SerializeFrom } from "@remix-run/node";
+import type { FosterFamily, User } from "@animeaux/prisma"
+import { Gender, UserGroup } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+import type { SerializeFrom } from "@remix-run/node"
 
 import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "#i/animals/adoption";
-import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#i/animals/age";
+} from "#i/animals/adoption"
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#i/animals/age"
 import {
   GENDER_ICON,
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#i/animals/gender";
+} from "#i/animals/gender"
 import {
   PICK_UP_REASON_ICON,
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#i/animals/pick-up";
+} from "#i/animals/pick-up"
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "#i/animals/screening";
+} from "#i/animals/screening"
 import {
   ANIMAL_DEFAULT_SORT,
   AnimalIdentification,
@@ -32,36 +32,36 @@ import {
   AnimalSortSearchParams,
   AnimalSterilization,
   AnimalVaccination,
-} from "#i/animals/search-params";
+} from "#i/animals/search-params"
 import {
   DIAGNOSIS_TRANSLATION,
   SORTED_DIAGNOSIS,
-} from "#i/animals/situation/diagnosis";
+} from "#i/animals/situation/diagnosis"
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species";
+} from "#i/animals/species"
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
   StatusIcon,
-} from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Filters } from "#i/core/controllers/filters";
-import { toIsoDateValue } from "#i/core/dates";
-import { ControlledInput } from "#i/core/form-elements/controlled-input";
-import { Form } from "#i/core/form-elements/form";
+} from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Filters } from "#i/core/controllers/filters"
+import { toIsoDateValue } from "#i/core/dates"
+import { ControlledInput } from "#i/core/form-elements/controlled-input"
+import { Form } from "#i/core/form-elements/form"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input";
-import { FosterFamilyAvatar } from "#i/foster-families/avatar";
-import { Icon } from "#i/generated/icon";
-import { UserAvatar } from "#i/users/avatar";
-import { hasGroups } from "#i/users/groups";
+} from "#i/core/form-elements/toggle-input"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar"
+import { Icon } from "#i/generated/icon"
+import { UserAvatar } from "#i/users/avatar"
+import { hasGroups } from "#i/users/groups"
 
 export function AnimalFilters({
   currentUser,
@@ -69,26 +69,26 @@ export function AnimalFilters({
   fosterFamilies,
   possiblePickUpLocations,
 }: {
-  currentUser: Pick<User, "groups" | "id">;
-  managers: Pick<User, "displayName" | "id">[];
+  currentUser: Pick<User, "groups" | "id">
+  managers: Pick<User, "displayName" | "id">[]
   fosterFamilies: SerializeFrom<
     Pick<FosterFamily, "availability" | "displayName" | "id">
-  >[];
-  possiblePickUpLocations: string[];
+  >[]
+  possiblePickUpLocations: string[]
 }) {
-  const [searchParams, setSearchParams] = useOptimisticSearchParams();
-  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams);
-  const animalSearchParams = AnimalSearchParams.parse(searchParams);
+  const [searchParams, setSearchParams] = useOptimisticSearchParams()
+  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams)
+  const animalSearchParams = AnimalSearchParams.parse(searchParams)
 
   const isCurrentUserManager = hasGroups(currentUser, [
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
-  ]);
+  ])
 
   return (
     <Filters>
@@ -276,8 +276,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               birthdateStart: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -313,8 +313,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               birthdateEnd: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -438,8 +438,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               iCadNumber: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -545,8 +545,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               pickUpDateStart: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -582,8 +582,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               pickUpDateEnd: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -771,8 +771,8 @@ export function AnimalFilters({
                                 ...animalSearchParams,
                                 nextVaccinationDateStart: undefined,
                               }),
-                            );
-                          });
+                            )
+                          })
                         }}
                       >
                         <Icon href="icon-x-mark-solid" />
@@ -812,8 +812,8 @@ export function AnimalFilters({
                                 ...animalSearchParams,
                                 nextVaccinationDateEnd: undefined,
                               }),
-                            );
-                          });
+                            )
+                          })
                         }}
                       >
                         <Icon href="icon-x-mark-solid" />
@@ -911,8 +911,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               adoptionDateStart: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -948,8 +948,8 @@ export function AnimalFilters({
                               ...animalSearchParams,
                               adoptionDateEnd: undefined,
                             }),
-                          );
-                        });
+                          )
+                        })
                       }}
                     >
                       <Icon href="icon-x-mark-solid" />
@@ -1060,8 +1060,8 @@ export function AnimalFilters({
                           ...animalSearchParams,
                           nameOrAlias: undefined,
                         }),
-                      );
-                    });
+                      )
+                    })
                   }}
                 >
                   <Icon href="icon-x-mark-solid" />
@@ -1072,18 +1072,18 @@ export function AnimalFilters({
         </Filters.Filter>
       </Filters.Content>
     </Filters>
-  );
+  )
 }
 
 function ActiveFilterLink() {
   const toSearchParams = AnimalSearchParams.create({
     statuses: new Set(ACTIVE_ANIMAL_STATUS),
-  });
+  })
 
-  const [searchParams] = useOptimisticSearchParams();
-  AnimalSortSearchParams.copy(searchParams, toSearchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  AnimalSortSearchParams.copy(searchParams, toSearchParams)
 
-  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
+  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams)
 
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
@@ -1092,12 +1092,12 @@ function ActiveFilterLink() {
         Animaux en charge
       </BaseLink>
     </Action>
-  );
+  )
 }
 
 type ManagerActiveFilterLinkProps = {
-  currentUser: Pick<User, "groups" | "id">;
-};
+  currentUser: Pick<User, "groups" | "id">
+}
 
 function ManagerActiveFilterLink({
   currentUser,
@@ -1105,12 +1105,12 @@ function ManagerActiveFilterLink({
   const toSearchParams = AnimalSearchParams.create({
     statuses: new Set(ACTIVE_ANIMAL_STATUS),
     managersId: new Set([currentUser.id]),
-  });
+  })
 
-  const [searchParams] = useOptimisticSearchParams();
-  AnimalSortSearchParams.copy(searchParams, toSearchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  AnimalSortSearchParams.copy(searchParams, toSearchParams)
 
-  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams);
+  const isActive = AnimalSearchParams.areEqual(searchParams, toSearchParams)
 
   return (
     <Action asChild variant="secondary" color={isActive ? "blue" : "gray"}>
@@ -1119,22 +1119,22 @@ function ManagerActiveFilterLink({
         charge
       </BaseLink>
     </Action>
-  );
+  )
 }
 
 function ScreeningAndDiagnosisFilter({
   currentUser,
 }: {
-  currentUser: Pick<User, "groups" | "id">;
+  currentUser: Pick<User, "groups" | "id">
 }) {
-  const [searchParams] = useOptimisticSearchParams();
-  const animalSearchParams = AnimalSearchParams.parse(searchParams);
+  const [searchParams] = useOptimisticSearchParams()
+  const animalSearchParams = AnimalSearchParams.parse(searchParams)
 
   const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
-  ]);
+  ])
 
   return (
     <Filters.Filter
@@ -1237,5 +1237,5 @@ function ScreeningAndDiagnosisFilter({
         ) : null}
       </Form.Fields>
     </Filters.Filter>
-  );
+  )
 }

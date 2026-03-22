@@ -1,21 +1,21 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { AnimalItem } from "#i/animals/item";
-import { AnimalSearchParams } from "#i/animals/search-params";
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
+import { AnimalItem } from "#i/animals/item"
+import { AnimalSearchParams } from "#i/animals/search-params"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardActiveAnimals() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   if (animal == null) {
-    return null;
+    return null
   }
 
   return (
@@ -73,5 +73,5 @@ export function CardActiveAnimals() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

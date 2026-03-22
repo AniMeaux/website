@@ -1,32 +1,32 @@
-import { toBooleanAttribute } from "@animeaux/core";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import type { SerializeFrom } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useCombobox } from "downshift";
-import { createPath } from "history";
-import { forwardRef, useEffect, useState } from "react";
+import { toBooleanAttribute } from "@animeaux/core"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import type { SerializeFrom } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+import { useCombobox } from "downshift"
+import { createPath } from "history"
+import { forwardRef, useEffect, useState } from "react"
 
-import { PickUpLocationSearchParams } from "#i/animals/search-params";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Input } from "#i/core/form-elements/input";
+import { PickUpLocationSearchParams } from "#i/animals/search-params"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Input } from "#i/core/form-elements/input"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input";
-import { Routes } from "#i/core/navigation";
-import { Icon } from "#i/generated/icon";
-import type { loader } from "#i/routes/resources.pick-up-location/route";
-import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared";
+} from "#i/core/form-elements/resource-input"
+import { Routes } from "#i/core/navigation"
+import { Icon } from "#i/generated/icon"
+import type { loader } from "#i/routes/resources.pick-up-location/route"
+import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared"
 
 type PickUpLocationInputProps = {
-  name: string;
-  defaultValue?: null | string;
-  disabled?: boolean;
-  hasError?: boolean;
-};
+  name: string
+  defaultValue?: null | string
+  disabled?: boolean
+  hasError?: boolean
+}
 
 export const PickUpLocationInput = forwardRef<
   React.ComponentRef<typeof InputTrigger>,
@@ -35,21 +35,21 @@ export const PickUpLocationInput = forwardRef<
   { name, defaultValue = null, disabled = false, hasError = false },
   ref,
 ) {
-  const [isOpened, setIsOpened] = useState(false);
-  const fetcher = useFetcher<loader>();
+  const [isOpened, setIsOpened] = useState(false)
+  const fetcher = useFetcher<loader>()
 
   // This effect does 2 things:
   // - Make sure we display suggestions without delay when the combobox is
   //   opened.
   // - Make sure we clear any search when the combobox is closed.
-  const load = fetcher.load;
+  const load = fetcher.load
   useEffect(() => {
     if (!isOpened) {
-      load(Routes.resources.pickUpLocation.toString());
+      load(Routes.resources.pickUpLocation.toString())
     }
-  }, [load, isOpened]);
+  }, [load, isOpened])
 
-  const [pickUpLocation, setPickUpLocation] = useState(defaultValue);
+  const [pickUpLocation, setPickUpLocation] = useState(defaultValue)
 
   return (
     <>
@@ -85,27 +85,27 @@ export const PickUpLocationInput = forwardRef<
                     text: value,
                   }),
                 }),
-              );
+              )
             }}
             onSelectedItem={(pickUpLocation) => {
-              setPickUpLocation(pickUpLocation);
-              setIsOpened(false);
+              setPickUpLocation(pickUpLocation)
+              setIsOpened(false)
             }}
             onClose={() => setIsOpened(false)}
           />
         }
       />
     </>
-  );
-});
+  )
+})
 
 const InputTrigger = forwardRef<
   React.ComponentRef<"button">,
   {
-    disabled: boolean;
-    pickUpLocation: null | string;
-    hasError: boolean;
-    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>;
+    disabled: boolean
+    pickUpLocation: null | string
+    hasError: boolean
+    triggerElement: React.ElementType<React.ComponentPropsWithoutRef<"button">>
   }
 >(function InputTrigger(
   { disabled, pickUpLocation, hasError, triggerElement: TriggerElement },
@@ -147,12 +147,10 @@ const InputTrigger = forwardRef<
         }
       />
     </BaseTextInput.Root>
-  );
-});
+  )
+})
 
-type PickUpLocationHit = SerializeFrom<
-  typeof loader
->["pickUpLocations"][number];
+type PickUpLocationHit = SerializeFrom<typeof loader>["pickUpLocations"][number]
 
 function Combobox({
   pickUpLocation: selectedPickUpLocation,
@@ -161,20 +159,20 @@ function Combobox({
   onSelectedItem,
   onClose,
 }: {
-  pickUpLocation: null | string;
-  pickUpLocations: PickUpLocationHit[];
-  onInputValueChange: React.Dispatch<string>;
-  onSelectedItem: React.Dispatch<null | string>;
-  onClose: () => void;
+  pickUpLocation: null | string
+  pickUpLocations: PickUpLocationHit[]
+  onInputValueChange: React.Dispatch<string>
+  onSelectedItem: React.Dispatch<null | string>
+  onClose: () => void
 }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("")
 
   const visiblePickUpLocation: (PickUpLocationHit & {
-    isAdditional?: boolean;
-  })[] = pickUpLocations.slice();
+    isAdditional?: boolean
+  })[] = pickUpLocations.slice()
 
-  const cleanedSearch = inputValue.trim();
-  const normalizedSearch = cleanedSearch.toLowerCase();
+  const cleanedSearch = inputValue.trim()
+  const normalizedSearch = cleanedSearch.toLowerCase()
   if (
     cleanedSearch !== "" &&
     pickUpLocations.every(
@@ -185,10 +183,10 @@ function Combobox({
     // Replace the last item by the additional one so we always have at most
     // SEARCH_COUNT items.
     if (visiblePickUpLocation.length === MAX_HIT_COUNT) {
-      visiblePickUpLocation.splice(-1);
+      visiblePickUpLocation.splice(-1)
     }
 
-    visiblePickUpLocation.push({ name: cleanedSearch, isAdditional: true });
+    visiblePickUpLocation.push({ name: cleanedSearch, isAdditional: true })
   }
 
   const combobox = useCombobox({
@@ -197,18 +195,18 @@ function Combobox({
     items: visiblePickUpLocation,
     itemToString: (pickUpLocation) => pickUpLocation?.name ?? "",
     onSelectedItemChange: ({ selectedItem = null }) => {
-      onSelectedItem(selectedItem?.name ?? null);
+      onSelectedItem(selectedItem?.name ?? null)
     },
     onInputValueChange: ({ inputValue = "" }) => {
-      setInputValue(inputValue);
-      onInputValueChange(inputValue);
+      setInputValue(inputValue)
+      onInputValueChange(inputValue)
     },
     onIsOpenChange: ({ type }) => {
       if (type === useCombobox.stateChangeTypes.InputKeyDownEscape) {
-        onClose();
+        onClose()
       }
     },
-  });
+  })
 
   return (
     <ResourceComboboxLayout
@@ -258,5 +256,5 @@ function Combobox({
         </SuggestionList>
       }
     />
-  );
+  )
 }

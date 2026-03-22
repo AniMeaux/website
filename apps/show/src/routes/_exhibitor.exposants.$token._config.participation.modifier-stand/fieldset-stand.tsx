@@ -1,34 +1,34 @@
-import type { Prisma } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import type { Prisma } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { FieldStepper } from "#i/core/form-elements/field-stepper";
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { FieldYesNo } from "#i/core/form-elements/field-yes-no";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { Price } from "#i/price/price.js";
-import { FieldStandSize } from "#i/stand-size/field.js";
+import { FieldStepper } from "#i/core/form-elements/field-stepper"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { Price } from "#i/price/price.js"
+import { FieldStandSize } from "#i/stand-size/field.js"
 
-import { FieldDividerType } from "./field-divider-type";
-import { FieldInstallationDay } from "./field-installation-day";
-import { useForm } from "./form";
-import { HelperPriceDetails } from "./helper-price-details";
-import type { loader } from "./loader.server";
+import { FieldDividerType } from "./field-divider-type"
+import { FieldInstallationDay } from "./field-installation-day"
+import { useForm } from "./form"
+import { HelperPriceDetails } from "./helper-price-details"
+import type { loader } from "./loader.server"
 
 export function FieldsetStand() {
-  const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
-  const { fields } = useForm();
+  const { standSizes, dividerTypes } = useLoaderData<typeof loader>()
+  const { fields } = useForm()
 
   const selectedStandSize = standSizes.find(
     (standSize) => standSize.id === fields.standSize.value,
-  );
+  )
 
   const selectedDividerType = dividerTypes.find(
     (dividerType) => dividerType.id === fields.dividerType.value,
-  );
+  )
 
-  const selectedTableCount = Number(fields.tableCount.value);
+  const selectedTableCount = Number(fields.tableCount.value)
 
-  const peopleCount = Number(fields.peopleCount.value);
+  const peopleCount = Number(fields.peopleCount.value)
 
   return (
     <FormLayout.Section>
@@ -154,18 +154,18 @@ export function FieldsetStand() {
 
       <HelperPriceDetails />
     </FormLayout.Section>
-  );
+  )
 }
 
 function getMaxValue(
   standSizes: Prisma.ShowStandSizeGetPayload<{
     select: {
-      maxDividerCount: true;
-      maxBraceletCount: true;
-      maxTableCount: true;
-    };
+      maxDividerCount: true
+      maxBraceletCount: true
+      maxTableCount: true
+    }
   }>[],
   property: keyof (typeof standSizes)[number],
 ): number {
-  return Math.max(...standSizes.map((standSize) => standSize[property]));
+  return Math.max(...standSizes.map((standSize) => standSize[property]))
 }

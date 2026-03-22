@@ -1,10 +1,10 @@
-import { tailwindAnimation } from "@animeaux/tailwind-animation";
-import containerQueries from "@tailwindcss/container-queries";
-import type { Config } from "tailwindcss";
-import defaultColors from "tailwindcss/colors";
-import defaultTheme from "tailwindcss/defaultTheme";
-import plugin from "tailwindcss/plugin";
-import type { CSSRuleObject } from "tailwindcss/types/config";
+import { tailwindAnimation } from "@animeaux/tailwind-animation"
+import containerQueries from "@tailwindcss/container-queries"
+import type { Config } from "tailwindcss"
+import defaultColors from "tailwindcss/colors"
+import defaultTheme from "tailwindcss/defaultTheme"
+import plugin from "tailwindcss/plugin"
+import type { CSSRuleObject } from "tailwindcss/types/config"
 
 export const spacing = {
   0: "0px",
@@ -24,12 +24,12 @@ export const spacing = {
   9: "90px",
   10: "100px",
   13: "130px",
-};
+}
 
 export const screens = {
   xs: "475px",
   ...defaultTheme.screens,
-};
+}
 
 // Don't spread `...defaultColors` to avoid deprecation warnings.
 export const colors = {
@@ -47,7 +47,7 @@ export const colors = {
   transparent: defaultColors.transparent,
   white: defaultColors.white,
   yellow: defaultColors.yellow,
-};
+}
 
 const theme: Config = {
   content: ["./src/**/*.{ts,tsx}"],
@@ -143,9 +143,9 @@ const theme: Config = {
     pluginSafePosition(),
     pluginTextStyles(),
   ],
-};
+}
 
-export default theme;
+export default theme
 
 function pluginCustomScrollbar() {
   return plugin(({ matchUtilities, theme }) => {
@@ -163,7 +163,7 @@ function pluginCustomScrollbar() {
               "&::-webkit-scrollbar-track-piece": {
                 "background-color": "transparent",
               },
-            };
+            }
           }
 
           return {
@@ -175,7 +175,7 @@ function pluginCustomScrollbar() {
             "&::-webkit-scrollbar-thumb": {
               "background-color": theme("colors.gray.200"),
             },
-          };
+          }
         },
       },
       {
@@ -184,8 +184,8 @@ function pluginCustomScrollbar() {
           custom: "custom",
         },
       },
-    );
-  });
+    )
+  })
 }
 
 function pluginFocus() {
@@ -207,8 +207,8 @@ function pluginFocus() {
         }),
       },
       { values: flattenColorPalette(theme("colors")) },
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -221,8 +221,8 @@ function pluginFocus() {
  */
 function pluginFocusVisible() {
   return plugin(({ addVariant }) => {
-    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}");
-  });
+    addVariant("focus-visible", "@media(any-hover:hover){&:focus-visible}")
+  })
 }
 
 function pluginGridDynamicColumns() {
@@ -237,8 +237,8 @@ function pluginGridDynamicColumns() {
         values: theme("minWidth"),
         type: ["length"],
       },
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -248,8 +248,8 @@ function pluginGridDynamicColumns() {
  */
 function pluginHover() {
   return plugin(({ addVariant }) => {
-    addVariant("hover", "@media(any-hover:hover){&:hover}");
-  });
+    addVariant("hover", "@media(any-hover:hover){&:hover}")
+  })
 }
 
 /**
@@ -268,8 +268,8 @@ function pluginIconSizes() {
           "120": "120px",
         },
       },
-    );
-  });
+    )
+  })
 }
 
 /**
@@ -277,8 +277,8 @@ function pluginIconSizes() {
  */
 function pluginMediaHover() {
   return plugin(({ addVariant }) => {
-    addVariant("can-hover", "@media(any-hover:hover){&}");
-  });
+    addVariant("can-hover", "@media(any-hover:hover){&}")
+  })
 }
 
 function pluginSafePadding() {
@@ -305,8 +305,8 @@ function pluginSafePadding() {
         "pl-safe": (value) => createSafePadding("left", value),
       },
       { values: theme("spacing") },
-    );
-  });
+    )
+  })
 }
 
 function createSafePadding(
@@ -318,14 +318,14 @@ function createSafePadding(
     right: "paddingRight",
     bottom: "paddingBottom",
     left: "paddingLeft",
-  }[side];
+  }[side]
 
   const envVariable = {
     top: "safe-area-inset-top",
     right: "safe-area-inset-right",
     bottom: "safe-area-inset-bottom",
     left: "safe-area-inset-left",
-  }[side];
+  }[side]
 
   return {
     [name]: [
@@ -333,7 +333,7 @@ function createSafePadding(
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,
     ],
-  };
+  }
 }
 
 function pluginSafePosition() {
@@ -346,8 +346,8 @@ function pluginSafePosition() {
         "left-safe": (value) => createSafePosition("left", value),
       },
       { values: theme("spacing") },
-    );
-  });
+    )
+  })
 }
 
 function createSafePosition(
@@ -359,7 +359,7 @@ function createSafePosition(
     right: "safe-area-inset-right",
     bottom: "safe-area-inset-bottom",
     left: "safe-area-inset-left",
-  }[side];
+  }[side]
 
   return {
     [side]: [
@@ -367,7 +367,7 @@ function createSafePosition(
       `${value}`,
       `calc(${value} + env(${envVariable}, 0))`,
     ],
-  };
+  }
 }
 
 /**
@@ -379,8 +379,8 @@ function pluginRingOutset() {
       ".ring-outset": {
         "--tw-ring-inset": "",
       },
-    });
-  });
+    })
+  })
 }
 
 /**
@@ -442,11 +442,11 @@ function pluginTextStyles() {
         "font-weight": theme("fontWeight.bold"),
         "line-height": "20px",
       },
-    });
-  });
+    })
+  })
 }
 
-type Colors = { [key: string]: string | Colors };
+type Colors = { [key: string]: string | Colors }
 
 /**
  * Copied from Tailwind's flattenColorPalette because types are not exported.
@@ -462,10 +462,10 @@ function flattenColorPalette(colors: Colors = {}): Record<string, string> {
           ([childKey, value]) => ({
             [key + (childKey === "DEFAULT" ? "" : `-${childKey}`)]: value,
           }),
-        );
+        )
       }
 
-      return [{ [`${key}`]: value }];
+      return [{ [`${key}`]: value }]
     }),
-  );
+  )
 }

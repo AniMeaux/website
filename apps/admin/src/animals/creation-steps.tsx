@@ -1,13 +1,13 @@
-import { Steps } from "#i/core/controllers/steps";
-import { Routes } from "#i/core/navigation";
+import { Steps } from "#i/core/controllers/steps"
+import { Routes } from "#i/core/navigation"
 
-const STEPS = ["profile", "situation", "pictures"] as const;
-type ActiveStep = (typeof STEPS)[number];
+const STEPS = ["profile", "situation", "pictures"] as const
+type ActiveStep = (typeof STEPS)[number]
 
 export function AnimalCreationSteps({
   activeStep,
 }: {
-  activeStep: ActiveStep;
+  activeStep: ActiveStep
 }) {
   return (
     <Steps activeIndex={STEPS.indexOf(activeStep)}>
@@ -21,5 +21,5 @@ export function AnimalCreationSteps({
         Photos
       </Steps.Step>
     </Steps>
-  );
+  )
 }

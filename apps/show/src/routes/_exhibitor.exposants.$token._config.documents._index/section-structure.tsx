@@ -1,14 +1,14 @@
-import { getCompleteLocation } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
+import { getCompleteLocation } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
 
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { LegalStatus } from "#i/exhibitors/application/legal-status";
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { LegalStatus } from "#i/exhibitors/application/legal-status"
 
-import type { loader } from "./route";
+import type { loader } from "./route"
 
 export function SectionStructure() {
-  const { exhibitor, application } = useLoaderData<typeof loader>();
+  const { exhibitor, application } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section>
@@ -55,5 +55,5 @@ export function SectionStructure() {
         </FormLayout.Output>
       </FormLayout.Field>
     </FormLayout.Section>
-  );
+  )
 }

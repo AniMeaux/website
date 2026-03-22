@@ -1,25 +1,25 @@
-import { cn } from "@animeaux/core";
-import { blurhashToDataUri } from "@unpic/placeholder";
-import orderBy from "lodash.orderby";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { blurhashToDataUri } from "@unpic/placeholder"
+import orderBy from "lodash.orderby"
+import { forwardRef } from "react"
 
-import type { ImageData } from "#i/core/image/data.js";
-import type { ScreenSize } from "#i/generated/theme";
-import { theme } from "#i/generated/theme";
+import type { ImageData } from "#i/core/image/data.js"
+import type { ScreenSize } from "#i/generated/theme"
+import { theme } from "#i/generated/theme"
 
 export const DynamicImage = forwardRef<
   React.ComponentRef<"img">,
   Omit<React.ComponentPropsWithoutRef<"img">, "alt" | "sizes"> & {
-    alt: string;
-    aspectRatio?: AspectRatio;
-    fallbackSize: ImageSize;
-    fillTransparentBackground?: boolean;
-    image: ImageData;
-    objectFit?: ObjectFit;
+    alt: string
+    aspectRatio?: AspectRatio
+    fallbackSize: ImageSize
+    fillTransparentBackground?: boolean
+    image: ImageData
+    objectFit?: ObjectFit
     sizes: Partial<Record<ScreenSize, string>> & {
       // `default` is mandatory.
-      default: string;
-    };
+      default: string
+    }
   }
 >(function DynamicImage(
   {
@@ -43,29 +43,27 @@ export const DynamicImage = forwardRef<
       aspectRatio,
       objectFit,
       fillTransparentBackground,
-    });
+    })
 
-    return `${url} ${size}w`;
-  }).join(",");
+    return `${url} ${size}w`
+  }).join(",")
 
   const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizesProp[screen];
+    const width = sizesProp[screen]
 
     if (width != null) {
-      sizes.push(
-        screen === "default" ? width : createImageMedia(screen, width),
-      );
+      sizes.push(screen === "default" ? width : createImageMedia(screen, width))
     }
 
-    return sizes;
-  }, []).join(",");
+    return sizes
+  }, []).join(",")
 
-  const style = styleProp;
+  const style = styleProp
 
   if (image.blurhash != null) {
-    const blurhashSize = ASPECT_RATIO_BLURHASH_SIZE[aspectRatio];
+    const blurhashSize = ASPECT_RATIO_BLURHASH_SIZE[aspectRatio]
 
-    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, blurhashSize.width, blurhashSize.height)})`;
+    style.backgroundImage = `url(${blurhashToDataUri(image.blurhash, blurhashSize.width, blurhashSize.height)})`
   }
 
   return (
@@ -90,20 +88,20 @@ export const DynamicImage = forwardRef<
       )}
       style={style}
     />
-  );
-});
+  )
+})
 
 // Ordered by decreasing size.
-const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const;
-type ImageSize = (typeof IMAGE_SIZES)[number];
+const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const
+type ImageSize = (typeof IMAGE_SIZES)[number]
 
-type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10";
-type ObjectFit = "cover" | "contain";
+type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10"
+type ObjectFit = "cover" | "contain"
 
 export function createImageMedia(screenSize: ScreenSize, width?: string) {
   return [`(min-width: ${theme.screens[screenSize]})`, width]
     .filter(Boolean)
-    .join(" ");
+    .join(" ")
 }
 
 export function createImageUrl(
@@ -116,11 +114,11 @@ export function createImageUrl(
     format = "auto",
     size,
   }: {
-    aspectRatio?: AspectRatio;
-    fillTransparentBackground?: boolean;
-    objectFit?: ObjectFit;
-    format?: "auto" | "jpg";
-    size?: ImageSize;
+    aspectRatio?: AspectRatio
+    fillTransparentBackground?: boolean
+    objectFit?: ObjectFit
+    format?: "auto" | "jpg"
+    size?: ImageSize
   } = {},
 ) {
   const transformations = [
@@ -133,10 +131,10 @@ export function createImageUrl(
     // See: https://cloudinary.com/documentation/image_optimization#tips_and_considerations_for_using_f_auto
     // https://cloudinary.com/documentation/image_transformations#f_auto
     format === "auto" ? "f_auto" : "f_jpg",
-  ];
+  ]
 
   if (size != null) {
-    transformations.push(`w_${size}`);
+    transformations.push(`w_${size}`)
   }
 
   if (aspectRatio !== "none") {
@@ -148,18 +146,18 @@ export function createImageUrl(
       // https://cloudinary.com/documentation/transformation_reference#c_fill
       // https://cloudinary.com/documentation/transformation_reference#c_pad
       objectFit === "contain" ? "c_pad" : "c_fill",
-    );
+    )
   }
 
   // Ensure transparent images have a background that hides the blurhash.
   if (fillTransparentBackground) {
     // https://cloudinary.com/documentation/transformation_reference#b_background
-    transformations.push("b_white");
+    transformations.push("b_white")
   }
 
-  const transformationsStr = transformations.join(",");
+  const transformationsStr = transformations.join(",")
 
-  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/${transformationsStr}/${imageId}`
 }
 
 // Larger to smaller.
@@ -175,7 +173,7 @@ const SCREEN_SIZES = orderBy(
   "desc",
 )
   .map(([name]) => name)
-  .concat("default");
+  .concat("default")
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "1:1": cn("aspect-square"),
@@ -183,7 +181,7 @@ const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "16:9": cn("aspect-video"),
   "16:10": cn("aspect-16/10"),
   none: "",
-};
+}
 
 const ASPECT_RATIO_BLURHASH_SIZE: Record<
   AspectRatio,
@@ -194,9 +192,9 @@ const ASPECT_RATIO_BLURHASH_SIZE: Record<
   "16:9": { width: 16, height: 9 },
   "16:10": { width: 16, height: 10 },
   none: { width: 16, height: 16 },
-};
+}
 
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
   contain: "object-contain",
   cover: "object-cover",
-};
+}

@@ -1,10 +1,10 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { forwardRef } from "react";
-import type { Except } from "type-fest";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { forwardRef } from "react"
+import type { Except } from "type-fest"
 
-import type { IconName } from "#i/generated/icon";
-import { Icon } from "#i/generated/icon";
+import type { IconName } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon"
 
 export const FileItem = {
   Root: forwardRef<
@@ -20,7 +20,7 @@ export const FileItem = {
           className,
         )}
       />
-    );
+    )
   }),
 
   Icon: forwardRef<
@@ -29,8 +29,8 @@ export const FileItem = {
       React.ComponentPropsWithoutRef<typeof Icon>,
       "id" | "width" | "height"
     > & {
-      id?: IconName;
-      mimeType?: string;
+      id?: IconName
+      mimeType?: string
     }
   >(function FileItemIcon(
     { mimeType, id = getMimeTypeIcon(mimeType), className, ...props },
@@ -52,7 +52,7 @@ export const FileItem = {
           className="aspect-square text-mystic"
         />
       </div>
-    );
+    )
   }),
 
   Thumbnail: forwardRef<
@@ -60,7 +60,7 @@ export const FileItem = {
     React.ComponentPropsWithoutRef<"img">
   >(function FileItemThumbnail({ src, alt, className, ...props }, ref) {
     if (src == null) {
-      return null;
+      return null
     }
 
     return (
@@ -73,7 +73,7 @@ export const FileItem = {
           className={cn("aspect-3/4 w-full object-cover", className)}
         />
       </div>
-    );
+    )
   }),
 
   Filename: forwardRef<
@@ -81,7 +81,7 @@ export const FileItem = {
     React.ComponentPropsWithRef<"p">
   >(function FileItemFilename({ children, className, ...props }, ref) {
     if (children == null) {
-      return null;
+      return null
     }
 
     return (
@@ -95,22 +95,22 @@ export const FileItem = {
       >
         {children}
       </p>
-    );
+    )
   }),
-};
+}
 
 function getMimeTypeIcon(mimeType?: string): IconName {
   if (mimeType == null) {
-    return "empty-set-light";
+    return "empty-set-light"
   }
 
   if (mimeType === "application/pdf") {
-    return "file-pdf-light";
+    return "file-pdf-light"
   }
 
   if (mimeType.startsWith("image/")) {
-    return "file-image-light";
+    return "file-image-light"
   }
 
-  return "file-light";
+  return "file-light"
 }

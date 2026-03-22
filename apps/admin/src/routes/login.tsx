@@ -1,82 +1,82 @@
-import { cn } from "@animeaux/core";
-import { FormDataDelegate } from "@animeaux/form-data";
-import { zu } from "@animeaux/zod-utils";
+import { cn } from "@animeaux/core"
+import { FormDataDelegate } from "@animeaux/form-data"
+import { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useRef } from "react";
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
+import { useEffect, useRef } from "react"
 
-import { Action } from "#i/core/actions";
-import { db } from "#i/core/db.server";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input";
-import { PasswordInput } from "#i/core/form-elements/password-input";
-import type { RouteHandle } from "#i/core/handles";
-import { AuthPage } from "#i/core/layout/auth-page";
-import { useCurrentUserForMonitoring } from "#i/core/monitoring";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { NextSearchParams } from "#i/core/search-params";
-import { createCurrentUserSession } from "#i/current-user/session.server";
-import { Icon } from "#i/generated/icon";
+import { Action } from "#i/core/actions"
+import { db } from "#i/core/db.server"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input"
+import { PasswordInput } from "#i/core/form-elements/password-input"
+import type { RouteHandle } from "#i/core/handles"
+import { AuthPage } from "#i/core/layout/auth-page"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { NextSearchParams } from "#i/core/search-params"
+import { createCurrentUserSession } from "#i/current-user/session.server"
+import { Icon } from "#i/generated/icon"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-white"),
-};
+}
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let hasCurrentUser: boolean;
+  let hasCurrentUser: boolean
   try {
     await db.currentUser.get(
       request,
       { select: { id: true } },
       { skipPasswordChangeCheck: true },
-    );
-    hasCurrentUser = true;
+    )
+    hasCurrentUser = true
   } catch (_error) {
-    hasCurrentUser = false;
+    hasCurrentUser = false
   }
 
   if (hasCurrentUser) {
-    const url = new URL(request.url);
+    const url = new URL(request.url)
     const { next = Routes.home.toString() } = NextSearchParams.parse(
       url.searchParams,
-    );
-    throw redirect(next);
+    )
+    throw redirect(next)
   }
 
-  return null;
+  return null
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Connexion") }];
-};
+  return [{ title: getPageTitle("Connexion") }]
+}
 
 const ActionFormData = FormDataDelegate.create(
   zu.object({
     email: zu.string().email("Veuillez entrer un email valide"),
     password: zu.string().min(1, "Veuillez entrer un mot de passe"),
   }),
-);
+)
 
 type ActionData = {
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
-  const userId = await db.currentUser.verifyLogin(formData.data);
+  const userId = await db.currentUser.verifyLogin(formData.data)
   if (userId == null) {
     return json<ActionData>(
       {
@@ -86,37 +86,37 @@ export async function action({ request }: ActionFunctionArgs) {
         },
       },
       { status: 400 },
-    );
+    )
   }
 
-  const url = new URL(request.url);
+  const url = new URL(request.url)
   const { next = Routes.home.toString() } = NextSearchParams.parse(
     url.searchParams,
-  );
+  )
   throw redirect(next, {
     headers: { "Set-Cookie": await createCurrentUserSession(userId) },
-  });
+  })
 }
 
 export default function Route() {
-  useCurrentUserForMonitoring(null);
+  useCurrentUserForMonitoring(null)
 
-  const fetcher = useFetcher<typeof action>();
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
+  const fetcher = useFetcher<typeof action>()
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
 
   // Focus the first field having an error.
   useEffect(() => {
     if (fetcher.data?.errors != null) {
       if (fetcher.data.errors.formErrors.length > 0) {
-        window.scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 })
       } else if (fetcher.data.errors.fieldErrors.email != null) {
-        emailRef.current?.focus();
+        emailRef.current?.focus()
       } else if (fetcher.data.errors.fieldErrors.password != null) {
-        passwordRef.current?.focus();
+        passwordRef.current?.focus()
       }
     }
-  }, [fetcher.data?.errors]);
+  }, [fetcher.data?.errors])
 
   return (
     <AuthPage.Main>
@@ -183,5 +183,5 @@ export default function Route() {
         <Action type="submit">Se connecter</Action>
       </fetcher.Form>
     </AuthPage.Main>
-  );
+  )
 }

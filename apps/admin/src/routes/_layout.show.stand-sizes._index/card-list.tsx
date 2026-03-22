@@ -1,16 +1,16 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation.js";
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation.js"
 
-import { StandSizeItem } from "./item";
-import type { loader } from "./loader.server";
+import { StandSizeItem } from "./item"
+import type { loader } from "./loader.server"
 
 export function CardList() {
-  const { standSizes } = useLoaderData<typeof loader>();
+  const { standSizes } = useLoaderData<typeof loader>()
 
   return (
     <Card>
@@ -44,5 +44,5 @@ export function CardList() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

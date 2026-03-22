@@ -1,62 +1,62 @@
-import { UserGroup } from "@animeaux/prisma";
-import type { zu } from "@animeaux/zod-utils";
+import { UserGroup } from "@animeaux/prisma"
+import type { zu } from "@animeaux/zod-utils"
 import type {
   ActionFunctionArgs,
   LoaderFunctionArgs,
   MetaFunction,
-} from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useFetcher } from "@remix-run/react";
+} from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useFetcher } from "@remix-run/react"
 
-import { ActionFormData, BreedForm } from "#i/breeds/form";
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { db } from "#i/core/db.server";
-import { AlreadyExistError } from "#i/core/errors.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes, useBackIfPossible } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
+import { ActionFormData, BreedForm } from "#i/breeds/form"
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { db } from "#i/core/db.server"
+import { AlreadyExistError } from "#i/core/errors.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes, useBackIfPossible } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  return new Response("Ok");
+  return new Response("Ok")
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Nouvelle race") }];
-};
+  return [{ title: getPageTitle("Nouvelle race") }]
+}
 
 type ActionData = {
-  redirectTo?: string;
-  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>;
-};
+  redirectTo?: string
+  errors?: zu.inferFlattenedErrors<typeof ActionFormData.schema>
+}
 
 export async function action({ request }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { groups: true },
-  });
+  })
 
-  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN]);
+  assertCurrentUserHasGroups(currentUser, [UserGroup.ADMIN])
 
-  const formData = ActionFormData.safeParse(await request.formData());
+  const formData = ActionFormData.safeParse(await request.formData())
   if (!formData.success) {
     return json<ActionData>(
       { errors: formData.error.flatten() },
       { status: 400 },
-    );
+    )
   }
 
   try {
     await db.breed.create({
       name: formData.data.name,
       species: formData.data.species,
-    });
+    })
   } catch (error) {
     if (error instanceof AlreadyExistError) {
       return json<ActionData>(
@@ -67,22 +67,22 @@ export async function action({ request }: ActionFunctionArgs) {
           },
         },
         { status: 400 },
-      );
+      )
     }
 
-    throw error;
+    throw error
   }
 
-  return json<ActionData>({ redirectTo: Routes.breeds.toString() });
+  return json<ActionData>({ redirectTo: Routes.breeds.toString() })
 }
 
 export function ErrorBoundary() {
-  return <ErrorPage />;
+  return <ErrorPage />
 }
 
 export default function Route() {
-  const fetcher = useFetcher<typeof action>();
-  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo });
+  const fetcher = useFetcher<typeof action>()
+  useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
   return (
     <PageLayout.Root>
@@ -98,5 +98,5 @@ export default function Route() {
         </Card>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }

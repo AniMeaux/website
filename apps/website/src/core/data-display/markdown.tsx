@@ -1,27 +1,27 @@
-import { cn } from "@animeaux/core";
-import type { Options as ReactMarkdownOptions } from "react-markdown";
-import ReactMarkdown from "react-markdown";
-import breaks from "remark-breaks";
-import gfm from "remark-gfm";
-import invariant from "tiny-invariant";
+import { cn } from "@animeaux/core"
+import type { Options as ReactMarkdownOptions } from "react-markdown"
+import ReactMarkdown from "react-markdown"
+import breaks from "remark-breaks"
+import gfm from "remark-gfm"
+import invariant from "tiny-invariant"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { DynamicImage } from "#i/core/data-display/image";
-import { LineShapeVertical } from "#i/core/layout/line-shape";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { DynamicImage } from "#i/core/data-display/image"
+import { LineShapeVertical } from "#i/core/layout/line-shape"
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.
   breaks,
   // Allow autolink literals, strikethrough, table and task list.
   gfm,
-];
+]
 
 export type MarkdownProps = {
-  children: string;
-  components: NonNullable<ReactMarkdownOptions["components"]>;
-  className?: string;
-};
+  children: string
+  components: NonNullable<ReactMarkdownOptions["components"]>
+  className?: string
+}
 
 export function Markdown({ children, components, className }: MarkdownProps) {
   return (
@@ -35,7 +35,7 @@ export function Markdown({ children, components, className }: MarkdownProps) {
         return (
           components[element.tagName as keyof MarkdownProps["components"]] !=
           null
-        );
+        )
       }}
       components={components}
       remarkPlugins={REMARK_PLUGINS}
@@ -43,7 +43,7 @@ export function Markdown({ children, components, className }: MarkdownProps) {
     >
       {children}
     </ReactMarkdown>
-  );
+  )
 }
 
 export enum MarkdownLink {
@@ -53,14 +53,14 @@ export enum MarkdownLink {
 }
 
 function isMarkdownLink(maybeLink: string): maybeLink is MarkdownLink {
-  return Object.values(MarkdownLink).includes(maybeLink as MarkdownLink);
+  return Object.values(MarkdownLink).includes(maybeLink as MarkdownLink)
 }
 
 const LINK_URL: Record<MarkdownLink, string> = {
   [MarkdownLink.FACEBOOK]: CLIENT_ENV.FACEBOOK_URL,
   [MarkdownLink.INSTAGRAM]: CLIENT_ENV.INSTAGRAM_URL,
   [MarkdownLink.PICK_UP_FORM]: CLIENT_ENV.PICK_UP_FORM_URL,
-};
+}
 
 export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   br: () => <br />,
@@ -70,8 +70,8 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   ),
   p: ({ children }) => <p className="my-6 first:mt-0 last:mb-0">{children}</p>,
   img: ({ src, alt }) => {
-    invariant(src != null, "src should be defined");
-    invariant(alt != null, "alt should be defined");
+    invariant(src != null, "src should be defined")
+    invariant(alt != null, "alt should be defined")
 
     return (
       <DynamicImage
@@ -85,7 +85,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
           "md:rounded-bubble-xl",
         )}
       />
-    );
+    )
   },
   blockquote: ({ children }) => (
     <blockquote
@@ -96,13 +96,13 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     </blockquote>
   ),
   a: ({ children, href = "" }) => {
-    const url = isMarkdownLink(href) ? LINK_URL[href] : href;
+    const url = isMarkdownLink(href) ? LINK_URL[href] : href
 
     return (
       <BaseLink to={url} className={actionClassNames.proseInline()}>
         {children}
       </BaseLink>
-    );
+    )
   },
   h2: ({ children }) => (
     <h2
@@ -144,4 +144,4 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
       {children}
     </td>
   ),
-};
+}

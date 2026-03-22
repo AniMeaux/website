@@ -1,20 +1,20 @@
-import { cn } from "@animeaux/core";
-import type { ShowActivityTarget } from "@animeaux/prisma";
-import { Link } from "@remix-run/react";
+import { cn } from "@animeaux/core"
+import type { ShowActivityTarget } from "@animeaux/prisma"
+import { Link } from "@remix-run/react"
 
-import { Chip } from "#i/core/data-display/chip";
-import { IconInline } from "#i/core/data-display/icon-inline";
-import { DynamicImage } from "#i/core/data-display/image";
-import { ImageData } from "#i/core/image/data.js";
-import type { ActivityField } from "#i/exhibitors/activity-field/activity-field";
-import { ChipActivityField } from "#i/exhibitors/activity-field/chip";
-import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip";
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand";
+import { Chip } from "#i/core/data-display/chip"
+import { IconInline } from "#i/core/data-display/icon-inline"
+import { DynamicImage } from "#i/core/data-display/image"
+import { ImageData } from "#i/core/image/data.js"
+import type { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { ChipActivityField } from "#i/exhibitors/activity-field/chip"
+import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params";
-import { Icon } from "#i/generated/icon";
+} from "#i/exhibitors/search-params"
+import { Icon } from "#i/generated/icon"
 
 export function ExhibitorItem({
   exhibitor,
@@ -23,25 +23,25 @@ export function ExhibitorItem({
   className,
 }: {
   exhibitor: {
-    activityFields: ActivityField.Enum[];
-    activityTargets: ShowActivityTarget[];
-    hasOnStageAnimation: boolean;
-    isSponsor: boolean;
-    isOrganizer: boolean;
-    isOrganizersFavorite: boolean;
-    isRisingStar: boolean;
-    logoPath: string;
-    name: string;
-    onStandAnimations?: string;
-    url: string;
-  };
+    activityFields: ActivityField.Enum[]
+    activityTargets: ShowActivityTarget[]
+    hasOnStageAnimation: boolean
+    isSponsor: boolean
+    isOrganizer: boolean
+    isOrganizersFavorite: boolean
+    isRisingStar: boolean
+    logoPath: string
+    name: string
+    onStandAnimations?: string
+    url: string
+  }
   imageLoading: NonNullable<
     React.ComponentPropsWithoutRef<typeof DynamicImage>["loading"]
-  >;
-  imageSizes: React.ComponentPropsWithoutRef<typeof DynamicImage>["sizes"];
-  className?: string;
+  >
+  imageSizes: React.ComponentPropsWithoutRef<typeof DynamicImage>["sizes"]
+  className?: string
 }) {
-  const { exhibitorSearchParams } = useExhibitorSearchParams();
+  const { exhibitorSearchParams } = useExhibitorSearchParams()
 
   return (
     <li className={cn("grid grid-cols-1 gap-2", className)}>
@@ -167,5 +167,5 @@ export function ExhibitorItem({
         />
       ) : null}
     </li>
-  );
+  )
 }

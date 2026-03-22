@@ -1,4 +1,4 @@
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout"
 
 export function SectionHelper() {
   return (
@@ -10,5 +10,5 @@ export function SectionHelper() {
         distribué sur place.
       </p>
     </FormLayout.AsideHelper.Root>
-  );
+  )
 }

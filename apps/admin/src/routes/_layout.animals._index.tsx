@@ -1,64 +1,64 @@
-import { UserGroup } from "@animeaux/prisma";
-import { useOptimisticSearchParams } from "@animeaux/search-params-io";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
-import invariant from "tiny-invariant";
+import { UserGroup } from "@animeaux/prisma"
+import { useOptimisticSearchParams } from "@animeaux/search-params-io"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
+import invariant from "tiny-invariant"
 
-import { AnimalFilters } from "#i/animals/filter-form";
-import { AnimalItem } from "#i/animals/item";
+import { AnimalFilters } from "#i/animals/filter-form"
+import { AnimalItem } from "#i/animals/item"
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
-} from "#i/animals/search-params";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { db } from "#i/core/db.server";
-import { Card } from "#i/core/layout/card";
-import { PageLayout } from "#i/core/layout/page";
-import { Routes } from "#i/core/navigation";
-import { getPageTitle } from "#i/core/page-title";
-import { prisma } from "#i/core/prisma.server";
-import { forbidden } from "#i/core/response.server";
-import { PageSearchParams } from "#i/core/search-params";
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server";
-import { hasGroups } from "#i/users/groups";
+} from "#i/animals/search-params"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { db } from "#i/core/db.server"
+import { Card } from "#i/core/layout/card"
+import { PageLayout } from "#i/core/layout/page"
+import { Routes } from "#i/core/navigation"
+import { getPageTitle } from "#i/core/page-title"
+import { prisma } from "#i/core/prisma.server"
+import { forbidden } from "#i/core/response.server"
+import { PageSearchParams } from "#i/core/search-params"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { hasGroups } from "#i/users/groups"
 
 // Multiple of 6, 5, 4 and 3 to be nicely displayed.
-const ANIMAL_COUNT_PER_PAGE = 60;
+const ANIMAL_COUNT_PER_PAGE = 60
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {
     select: { id: true, groups: true },
-  });
+  })
 
   assertCurrentUserHasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
     UserGroup.VOLUNTEER,
-  ]);
+  ])
 
   const showFosterFamilies = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const isCurrentUserAnimalAdmin = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
     UserGroup.VETERINARIAN,
-  ]);
+  ])
 
-  const searchParams = new URL(request.url).searchParams;
-  const pageSearchParams = PageSearchParams.parse(searchParams);
-  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams);
-  const animalSearchParams = AnimalSearchParams.parse(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const pageSearchParams = PageSearchParams.parse(searchParams)
+  const animalSortSearchParams = AnimalSortSearchParams.parse(searchParams)
+  const animalSearchParams = AnimalSearchParams.parse(searchParams)
 
   if (
     !isCurrentUserAnimalAdmin &&
@@ -69,17 +69,17 @@ export async function loader({ request }: LoaderFunctionArgs) {
       animalSearchParams.nextVaccinationDateEnd != null ||
       animalSearchParams.diagnosis.size > 0)
   ) {
-    throw forbidden();
+    throw forbidden()
   }
 
   if (!showFosterFamilies && animalSearchParams.fosterFamiliesId.size > 0) {
-    throw forbidden();
+    throw forbidden()
   }
 
   const { where, orderBy } = await db.animal.createFindManyParams(
     animalSearchParams,
     animalSortSearchParams.sort,
-  );
+  )
 
   const {
     managers,
@@ -149,19 +149,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
           : {}),
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / ANIMAL_COUNT_PER_PAGE)
 
   const canCreate = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   const canExport = hasGroups(currentUser, [
     UserGroup.ADMIN,
     UserGroup.ANIMAL_MANAGER,
-  ]);
+  ])
 
   return json({
     totalCount,
@@ -170,23 +170,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
     managers,
     fosterFamilies,
     possiblePickUpLocations: possiblePickUpLocations.map((group) => {
-      invariant(group.pickUpLocation != null, "pickUpLocation should exists");
-      return group.pickUpLocation;
+      invariant(group.pickUpLocation != null, "pickUpLocation should exists")
+      return group.pickUpLocation
     }),
     currentUser,
     canCreate,
     canExport,
-  });
+  })
 }
 
 export const meta: MetaFunction = () => {
-  return [{ title: getPageTitle("Tous les animaux") }];
-};
+  return [{ title: getPageTitle("Tous les animaux") }]
+}
 
 export default function Route() {
   const { totalCount, pageCount, animals, canCreate, canExport } =
-    useLoaderData<typeof loader>();
-  const [searchParams] = useOptimisticSearchParams();
+    useLoaderData<typeof loader>()
+  const [searchParams] = useOptimisticSearchParams()
 
   return (
     <PageLayout.Root>
@@ -281,12 +281,12 @@ export default function Route() {
         </SortAndFiltersFloatingAction>
       </PageLayout.Content>
     </PageLayout.Root>
-  );
+  )
 }
 
 function SortAndFilters() {
   const { currentUser, managers, fosterFamilies, possiblePickUpLocations } =
-    useLoaderData<typeof loader>();
+    useLoaderData<typeof loader>()
 
   return (
     <AnimalFilters
@@ -295,5 +295,5 @@ function SortAndFilters() {
       fosterFamilies={fosterFamilies ?? []}
       possiblePickUpLocations={possiblePickUpLocations}
     />
-  );
+  )
 }

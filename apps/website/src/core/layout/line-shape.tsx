@@ -1,11 +1,11 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
 export function LineShapeHorizontal({
   className,
   style,
 }: {
-  className?: string;
-  style?: React.CSSProperties;
+  className?: string
+  style?: React.CSSProperties
 }) {
   return (
     <svg
@@ -26,7 +26,7 @@ export function LineShapeHorizontal({
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }
 
 export function LineShapeVertical({ className }: { className?: string }) {
@@ -48,5 +48,5 @@ export function LineShapeVertical({ className }: { className?: string }) {
         vectorEffect="non-scaling-stroke"
       />
     </svg>
-  );
+  )
 }

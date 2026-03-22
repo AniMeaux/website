@@ -1,18 +1,18 @@
-import orderBy from "lodash.orderby";
-import { DateTime } from "luxon";
+import orderBy from "lodash.orderby"
+import { DateTime } from "luxon"
 
-import { MarkdownLink } from "#i/core/data-display/markdown";
+import { MarkdownLink } from "#i/core/data-display/markdown"
 
 export type Article = {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  image: string;
-  publicationDate: Date;
-  authorName: string;
-  content: string;
-};
+  id: string
+  title: string
+  slug: string
+  description: string
+  image: string
+  publicationDate: Date
+  authorName: string
+  content: string
+}
 
 export const articles: Article[] = orderBy(
   [
@@ -443,4 +443,4 @@ Alors, qu’attendez-vous ? C’est peut-être vous le nouveau compagnon pour l
   ],
   (article) => DateTime.fromJSDate(article.publicationDate).toMillis(),
   "desc",
-);
+)

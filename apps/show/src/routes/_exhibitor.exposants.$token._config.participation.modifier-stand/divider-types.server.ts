@@ -1,15 +1,15 @@
-import type { Prisma } from "@animeaux/prisma/server";
+import type { Prisma } from "@animeaux/prisma/server"
 
-import { services } from "#i/core/services.server.js";
+import { services } from "#i/core/services.server.js"
 
 export async function getDividerTypesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{
-    select: { dividerType: { select: { id: true } }; dividerCount: true };
+    select: { dividerType: { select: { id: true } }; dividerCount: true }
   }>,
 ) {
   let dividerTypes = await services.dividerType.getMany({
     select: { id: true, label: true },
-  });
+  })
 
   // Ensure the exhibitor's selected dividers are available to let the user
   // select it back after a change.
@@ -19,11 +19,11 @@ export async function getDividerTypesData(
         ...dividerType,
 
         availableCount: dividerType.availableCount + exhibitor.dividerCount,
-      };
+      }
     }
 
-    return dividerType;
-  });
+    return dividerType
+  })
 
   return {
     dividerTypes,
@@ -31,5 +31,5 @@ export async function getDividerTypesData(
     availableDividerTypes: dividerTypes.filter(
       (dividerType) => dividerType.availableCount > 0,
     ),
-  };
+  }
 }

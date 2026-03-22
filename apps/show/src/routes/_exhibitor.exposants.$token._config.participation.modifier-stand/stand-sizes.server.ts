@@ -1,14 +1,14 @@
-import type { Prisma } from "@animeaux/prisma/server";
+import type { Prisma } from "@animeaux/prisma/server"
 
-import { services } from "#i/core/services.server.js";
-import { withAllowedCategories } from "#i/stand-size/allowed-categories.js";
+import { services } from "#i/core/services.server.js"
+import { withAllowedCategories } from "#i/stand-size/allowed-categories.js"
 
 export async function getStandSizesData(
   exhibitor: Prisma.ShowExhibitorGetPayload<{
     select: {
-      category: true;
-      size: { select: { id: true } };
-    };
+      category: true
+      size: { select: { id: true } }
+    }
   }>,
 ) {
   const allStandSizes = await services.standSize.getMany({
@@ -24,38 +24,38 @@ export async function getStandSizesData(
       priceForServices: true,
       priceForShops: true,
     },
-  });
+  })
 
   let standSizes = allStandSizes
     .map(withAllowedCategories)
     .filter((standSize) => {
       // Display the selected stand size, even when it's a hidden one.
       if (standSize.id === exhibitor.size.id) {
-        return true;
+        return true
       }
 
       // Hide all other hidden stand sizes.
       if (!standSize.isVisible) {
-        return false;
+        return false
       }
 
-      return standSize.allowedCategories.includes(exhibitor.category);
-    });
+      return standSize.allowedCategories.includes(exhibitor.category)
+    })
 
   // Ensure the exhibitor's current stand size is available to let the user
   // select it back after a change.
   standSizes = standSizes.map((standSize) => {
     if (standSize.id === exhibitor.size.id && !standSize.isAvailable) {
-      return { ...standSize, isAvailable: true };
+      return { ...standSize, isAvailable: true }
     }
 
-    return standSize;
-  });
+    return standSize
+  })
 
   return {
     standSizes,
     availableStandSizes: standSizes.filter(
       (standSize) => standSize.isAvailable,
     ),
-  };
+  }
 }

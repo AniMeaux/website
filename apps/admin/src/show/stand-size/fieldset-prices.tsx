@@ -1,21 +1,21 @@
-import type { FieldMetadata } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
 
-import { InlineHelper } from "#i/core/data-display/helper.js";
-import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
-import { Form } from "#i/core/form-elements/form";
-import { Input } from "#i/core/form-elements/input.js";
-import { Card } from "#i/core/layout/card";
-import { Icon } from "#i/generated/icon.js";
-import { ExhibitorCategory } from "#i/show/exhibitors/category.js";
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
+import { Form } from "#i/core/form-elements/form"
+import { Input } from "#i/core/form-elements/input.js"
+import { Card } from "#i/core/layout/card"
+import { Icon } from "#i/generated/icon.js"
+import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
 
 export function FieldsetPrices({
   fields,
 }: {
   fields: {
-    priceForAssociations: FieldMetadata<number>;
-    priceForServices: FieldMetadata<number>;
-    priceForShops: FieldMetadata<number>;
-  };
+    priceForAssociations: FieldMetadata<number>
+    priceForServices: FieldMetadata<number>
+    priceForShops: FieldMetadata<number>
+  }
 }) {
   return (
     <Card>
@@ -47,15 +47,15 @@ export function FieldsetPrices({
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function FieldNumericBase({
   category,
   field,
 }: {
-  category: ExhibitorCategory.Enum;
-  field: FieldMetadata<number>;
+  category: ExhibitorCategory.Enum
+  field: FieldMetadata<number>
 }) {
   return (
     <FieldNumeric
@@ -67,5 +67,5 @@ function FieldNumericBase({
         </Input.Adornment>
       }
     />
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import { cn } from "@animeaux/core";
-import { Primitive } from "@animeaux/react-primitives";
-import { Link } from "@remix-run/react";
-import { forwardRef } from "react";
+import { cn } from "@animeaux/core"
+import { Primitive } from "@animeaux/react-primitives"
+import { Link } from "@remix-run/react"
+import { forwardRef } from "react"
 
-import { Icon } from "#i/generated/icon";
+import { Icon } from "#i/generated/icon"
 
 export const TaskItem = {
   Root: forwardRef<
@@ -24,7 +24,7 @@ export const TaskItem = {
       >
         {children}
       </Link>
-    );
+    )
   }),
 
   Icon: forwardRef<
@@ -37,7 +37,7 @@ export const TaskItem = {
         ref={ref}
         className={cn("self-start icon-48 md:self-center", className)}
       />
-    );
+    )
   }),
 
   Content: forwardRef<
@@ -50,7 +50,7 @@ export const TaskItem = {
         ref={ref}
         className={cn("grid grid-cols-1", className)}
       />
-    );
+    )
   }),
 
   Title: forwardRef<
@@ -63,14 +63,12 @@ export const TaskItem = {
         ref={ref}
         className={cn("text-body-lowercase-emphasis", className)}
       />
-    );
+    )
   }),
 
   Description: Primitive.div,
 
   ChevronIcon: function TaskItemChevronIcon() {
-    return (
-      <Icon id="chevron-right-light" className="hidden icon-24 md:block" />
-    );
+    return <Icon id="chevron-right-light" className="hidden icon-24 md:block" />
   },
-};
+}

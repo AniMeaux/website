@@ -1,10 +1,10 @@
-import type { NavigateFunction } from "@remix-run/react";
-import { useNavigate as useBaseNavigate } from "@remix-run/react";
-import { useCallback, useEffect } from "react";
-import type { NavigateOptions, To } from "react-router";
+import type { NavigateFunction } from "@remix-run/react"
+import { useNavigate as useBaseNavigate } from "@remix-run/react"
+import { useCallback, useEffect } from "react"
+import type { NavigateOptions, To } from "react-router"
 
-import type { LocationState } from "#i/core/location-state";
-import { useLocationState } from "#i/core/location-state";
+import type { LocationState } from "#i/core/location-state"
+import { useLocationState } from "#i/core/location-state"
 
 export const Routes = {
   home: { toString: () => "/" as const },
@@ -221,35 +221,35 @@ export const Routes = {
     preferences: { toString: () => "/resources/preferences" as const },
     scrapUrl: { toString: () => "/resources/scrap-url" as const },
   },
-};
+}
 
 export function useBackIfPossible({
   fallbackRedirectTo,
 }: {
-  fallbackRedirectTo?: string;
+  fallbackRedirectTo?: string
 }) {
-  const { fromApp } = useLocationState();
-  const navigate = useNavigate();
+  const { fromApp } = useLocationState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (fallbackRedirectTo != null) {
       if (fromApp) {
-        navigate(-1);
+        navigate(-1)
       } else {
-        navigate(fallbackRedirectTo);
+        navigate(fallbackRedirectTo)
       }
     }
-  }, [fallbackRedirectTo, navigate, fromApp]);
+  }, [fallbackRedirectTo, navigate, fromApp])
 }
 
 export function useNavigate() {
-  const { fromApp } = useLocationState();
-  const navigate = useBaseNavigate();
+  const { fromApp } = useLocationState()
+  const navigate = useBaseNavigate()
 
   return useCallback<NavigateFunction>(
     (to: To | number, options?: NavigateOptions) => {
       if (typeof to === "number") {
-        return navigate(to);
+        return navigate(to)
       }
 
       return navigate(to, {
@@ -257,8 +257,8 @@ export function useNavigate() {
         state: {
           fromApp: !options?.replace || fromApp,
         } satisfies LocationState,
-      });
+      })
     },
     [navigate, fromApp],
-  );
+  )
 }

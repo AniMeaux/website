@@ -1,10 +1,10 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react"
 
-import { FileItem } from "#i/core/data-display/file-item";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card.js";
+import { FileItem } from "#i/core/data-display/file-item"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function SectionDocuments() {
   return (
@@ -14,7 +14,7 @@ export function SectionDocuments() {
       <Helper />
       <Files />
     </FormLayout.Section>
-  );
+  )
 }
 
 function Helper() {
@@ -25,11 +25,11 @@ function Helper() {
         votre participation au salon dans les meilleures conditions.
       </p>
     </HelperCard.Root>
-  );
+  )
 }
 
 function Files() {
-  const { files } = useLoaderData<typeof loader>();
+  const { files } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.RowFluid columnMinWidth="150px">
@@ -55,5 +55,5 @@ function Files() {
         </FormLayout.Field>
       ))}
     </FormLayout.RowFluid>
-  );
+  )
 }

@@ -9,7 +9,7 @@ type ShowNotification =
   | { type: "on-stand-animations-treated"; exhibitorId: string }
   | { type: "perks-treated"; exhibitorId: string }
   | { type: "public-profile-treated"; exhibitorId: string }
-  | { type: "stand-configuration-treated"; exhibitorId: string };
+  | { type: "stand-configuration-treated"; exhibitorId: string }
 
 export async function notifyShowApp(notification: ShowNotification) {
   const response = await fetch(process.env.SHOW_NOTIFICATION_ENDPOINT, {
@@ -19,9 +19,9 @@ export async function notifyShowApp(notification: ShowNotification) {
       "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify(notification),
-  });
+  })
 
   if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
+    throw new Error(`${response.status} ${response.statusText}`)
   }
 }

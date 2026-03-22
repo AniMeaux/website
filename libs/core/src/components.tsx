@@ -1,5 +1,5 @@
-import type { NavLinkProps } from "@remix-run/react";
-import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react";
+import type { NavLinkProps } from "@remix-run/react"
+import { useLocation, useNavigation, useResolvedPath } from "@remix-run/react"
 import {
   cloneElement,
   isValidElement,
@@ -9,8 +9,8 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { UNSAFE_NavigationContext } from "react-router";
+} from "react"
+import { UNSAFE_NavigationContext } from "react-router"
 
 /**
  * Return either a local state or a provided one.
@@ -29,13 +29,13 @@ export function useStateOrProp<
   propState?: TState,
   propSetState?: React.Dispatch<TStateAction>,
 ): [TState, React.Dispatch<TStateAction>] {
-  const localState = useState(initialState);
+  const localState = useState(initialState)
 
   if (propState == null || propSetState == null) {
-    return localState;
+    return localState
   }
 
-  return [propState, propSetState];
+  return [propState, propSetState]
 }
 
 /**
@@ -45,23 +45,23 @@ export function useStateOrProp<
  * @returns An id.
  */
 export function useIdOrProp(propId?: string) {
-  const localId = useId();
-  return propId ?? localId;
+  const localId = useId()
+  return propId ?? localId
 }
 
 export function useIsMounted() {
-  const isMounted = useRef(true);
+  const isMounted = useRef(true)
 
   useEffect(() => {
     // Reset it for strict mode.
-    isMounted.current = true;
+    isMounted.current = true
 
     return () => {
-      isMounted.current = false;
-    };
-  }, []);
+      isMounted.current = false
+    }
+  }, [])
 
-  return isMounted;
+  return isMounted
 }
 
 /**
@@ -71,8 +71,8 @@ export function useIsMounted() {
  * @returns A Ref object.
  */
 export function useRefOrProp<TElement>(propRef: React.ForwardedRef<TElement>) {
-  const localRef = useRef<TElement>(null);
-  return useComposedRefs([propRef, localRef]);
+  const localRef = useRef<TElement>(null)
+  return useComposedRefs([propRef, localRef])
 }
 
 /**
@@ -87,24 +87,24 @@ export function useComposedRefs<TElement>(handlers: RefHandler<TElement>[]) {
     // Only re-memoize when handlers values change.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     handlers,
-  );
+  )
 }
 
 function composeRefs<TElement>(
   handlers: RefHandler<TElement>[],
 ): React.MutableRefObject<null | TElement> {
-  let element: null | TElement = null;
+  let element: null | TElement = null
 
   return {
     get current() {
-      return element;
+      return element
     },
 
     set current(value) {
-      setRefs(value, handlers);
-      element = value;
+      setRefs(value, handlers)
+      element = value
     },
-  };
+  }
 }
 
 function setRefs<TElement>(
@@ -123,29 +123,29 @@ function setRefs<TElement>(
     if (handler) {
       switch (typeof handler) {
         case "function": {
-          handler(element);
-          break;
+          handler(element)
+          break
         }
 
         case "object": {
-          handler.current = element;
-          break;
+          handler.current = element
+          break
         }
 
         default:
           throw new Error(
             `Only refs of type function and React.createRef() are supported. Got ${typeof handler}.`,
-          );
+          )
       }
     }
-  });
+  })
 }
 
 type RefHandler<TElement> =
   | React.RefCallback<null | TElement>
   | React.MutableRefObject<null | TElement>
   | undefined
-  | null;
+  | null
 
 /**
  * Create and return a new React Node by concatenating all of the given `nodes`
@@ -163,26 +163,26 @@ export function joinReactNodes(
     separator
   ) : (
     <>{separator}</>
-  );
+  )
 
   return nodes.reduce<React.ReactNode[]>((nodes, node, index) => {
     if (nodes.length > 0) {
-      nodes.push(cloneElement(separatorElement, { key: `separator-${index}` }));
+      nodes.push(cloneElement(separatorElement, { key: `separator-${index}` }))
     }
 
-    nodes.push(node);
-    return nodes;
-  }, []);
+    nodes.push(node)
+    return nodes
+  }, [])
 }
 
-type BooleanAttribute = undefined | boolean | "true" | "false";
+type BooleanAttribute = undefined | boolean | "true" | "false"
 
 export function toBooleanAttribute(condition: boolean): BooleanAttribute {
-  return condition ? "true" : undefined;
+  return condition ? "true" : undefined
 }
 
 export function fromBooleanAttribute(value: BooleanAttribute) {
-  return String(value) === "true";
+  return String(value) === "true"
 }
 
 /**
@@ -200,10 +200,10 @@ export function callFactory<
 >(factory: TData | ((args: TParams) => TData), getParams: () => TParams) {
   if (typeof factory === "function") {
     // Without the cast, the return type is `any`.
-    return factory(getParams()) as TData;
+    return factory(getParams()) as TData
   }
 
-  return factory;
+  return factory
 }
 
 /**
@@ -215,37 +215,37 @@ export function callFactory<
 export function useNavLink(
   props: Pick<NavLinkProps, "caseSensitive" | "end" | "relative" | "to">,
 ) {
-  const path = useResolvedPath(props.to, { relative: props.relative });
-  const location = useLocation();
-  const navigation = useNavigation();
-  const { navigator } = useContext(UNSAFE_NavigationContext);
+  const path = useResolvedPath(props.to, { relative: props.relative })
+  const location = useLocation()
+  const navigation = useNavigation()
+  const { navigator } = useContext(UNSAFE_NavigationContext)
 
   let toPathname = navigator.encodeLocation
     ? navigator.encodeLocation(path).pathname
-    : path.pathname;
-  let locationPathname = location.pathname;
-  let nextLocationPathname = navigation.location?.pathname ?? null;
+    : path.pathname
+  let locationPathname = location.pathname
+  let nextLocationPathname = navigation.location?.pathname ?? null
 
   if (!props.caseSensitive) {
-    locationPathname = locationPathname.toLowerCase();
+    locationPathname = locationPathname.toLowerCase()
     nextLocationPathname = nextLocationPathname
       ? nextLocationPathname.toLowerCase()
-      : null;
-    toPathname = toPathname.toLowerCase();
+      : null
+    toPathname = toPathname.toLowerCase()
   }
 
   const isActive =
     locationPathname === toPathname ||
     (!props.end &&
       locationPathname.startsWith(toPathname) &&
-      locationPathname.charAt(toPathname.length) === "/");
+      locationPathname.charAt(toPathname.length) === "/")
 
   const isPending =
     nextLocationPathname != null &&
     (nextLocationPathname === toPathname ||
       (!props.end &&
         nextLocationPathname.startsWith(toPathname) &&
-        nextLocationPathname.charAt(toPathname.length) === "/"));
+        nextLocationPathname.charAt(toPathname.length) === "/"))
 
-  return { isActive, isPending };
+  return { isActive, isPending }
 }

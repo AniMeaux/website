@@ -1,36 +1,36 @@
-import { cn, toBooleanAttribute } from "@animeaux/core";
-import * as Dialog from "@radix-ui/react-dialog";
-import * as Popover from "@radix-ui/react-popover";
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { forwardRef } from "react";
+import { cn, toBooleanAttribute } from "@animeaux/core"
+import * as Dialog from "@radix-ui/react-dialog"
+import * as Popover from "@radix-ui/react-popover"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
+import { forwardRef } from "react"
 
-import { Item } from "#i/core/data-display/item";
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown";
-import { BaseTextInput } from "#i/core/form-elements/base-text-input";
-import { Card } from "#i/core/layout/card";
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size";
-import { Icon } from "#i/generated/icon";
-import { theme } from "#i/generated/theme";
+import { Item } from "#i/core/data-display/item"
+import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input"
+import { Card } from "#i/core/layout/card"
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size"
+import { Icon } from "#i/generated/icon"
+import { theme } from "#i/generated/theme"
 
 type ResourceInputLayoutProps = {
-  isOpened: boolean;
-  setIsOpened: React.Dispatch<boolean>;
+  isOpened: boolean
+  setIsOpened: React.Dispatch<boolean>
   inputTrigger: (
     triggerElement: React.ElementType<
       React.ButtonHTMLAttributes<HTMLButtonElement>
     >,
-  ) => React.ReactNode;
-  content: React.ReactNode;
-};
+  ) => React.ReactNode
+  content: React.ReactNode
+}
 
 export function ResourceInputLayout(props: ResourceInputLayoutProps) {
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= ScreenSizeValue.md,
-  );
+  )
 
-  const Layout = isMedium ? MediumLayout : SmallLayout;
+  const Layout = isMedium ? MediumLayout : SmallLayout
 
-  return <Layout {...props} />;
+  return <Layout {...props} />
 }
 
 function MediumLayout({
@@ -55,7 +55,7 @@ function MediumLayout({
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  );
+  )
 }
 
 function SmallLayout({
@@ -80,23 +80,23 @@ function SmallLayout({
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  );
+  )
 }
 
 type ResourceComboboxLayoutProps = {
-  label: React.ReactNode;
-  input: (leftAdornment: React.ReactNode) => React.ReactNode;
-  list: React.ReactNode;
-};
+  label: React.ReactNode
+  input: (leftAdornment: React.ReactNode) => React.ReactNode
+  list: React.ReactNode
+}
 
 export function ResourceComboboxLayout(props: ResourceComboboxLayoutProps) {
   const isMedium = useScreenSizeCondition(
     (screenSize) => screenSize >= ScreenSizeValue.md,
-  );
+  )
 
-  const Layout = isMedium ? MediumComboboxLayout : SmallComboboxLayout;
+  const Layout = isMedium ? MediumComboboxLayout : SmallComboboxLayout
 
-  return <Layout {...props} />;
+  return <Layout {...props} />
 }
 
 function MediumComboboxLayout({
@@ -117,7 +117,7 @@ function MediumComboboxLayout({
 
       <section className="flex flex-col p-0.5">{list}</section>
     </div>
-  );
+  )
 }
 
 function SmallComboboxLayout({
@@ -142,27 +142,27 @@ function SmallComboboxLayout({
         <Card.Content>{list}</Card.Content>
       </Card>
     </div>
-  );
+  )
 }
 
 export const SuggestionList = forwardRef<
   React.ComponentRef<"ul">,
   React.ComponentPropsWithoutRef<"ul">
 >(function ResourceItemList({ className, ...rest }, ref) {
-  return <ul {...rest} ref={ref} className={cn(className, "flex flex-col")} />;
-});
+  return <ul {...rest} ref={ref} className={cn(className, "flex flex-col")} />
+})
 
 export type SuggestionItemProps = React.ComponentPropsWithoutRef<
   typeof Item.Root
 > & {
-  isAdditional?: boolean;
-  isValue?: boolean;
-  leftAdornment?: React.ReactNode;
+  isAdditional?: boolean
+  isValue?: boolean
+  leftAdornment?: React.ReactNode
   // We can't use `children` here because `forwardRef` automatically adds a
   // `children` prop with `React.ReacNode` type.
-  label: string;
-  secondaryLabel?: React.ReactNode;
-};
+  label: string
+  secondaryLabel?: React.ReactNode
+}
 
 export const SuggestionItem = forwardRef<
   React.ComponentRef<typeof Item.Root>,
@@ -207,13 +207,13 @@ export const SuggestionItem = forwardRef<
         <Icon href="icon-check-solid" className="text-[14px] text-green-600" />
       </Item.Icon>
     </Item.Root>
-  );
-});
+  )
+})
 
 export function NoSuggestion({ children }: { children?: React.ReactNode }) {
   return (
     <li className="flex h-4 flex-col justify-center">
       <p className="text-center text-gray-500">{children}</p>
     </li>
-  );
+  )
 }

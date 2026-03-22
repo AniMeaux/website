@@ -1,7 +1,7 @@
-import { getPixels } from "@unpic/pixels";
-import { encode } from "blurhash";
+import { getPixels } from "@unpic/pixels"
+import { encode } from "blurhash"
 
-import { createImageUrl } from "#i/core/data-display/image";
+import { createImageUrl } from "#i/core/data-display/image"
 
 export class ServiceBlurhash {
   async create(imageId: string) {
@@ -12,7 +12,7 @@ export class ServiceBlurhash {
         aspectRatio: "4:3",
         objectFit: "contain",
       }),
-    );
+    )
 
     return encode(
       Uint8ClampedArray.from(imageData.data),
@@ -20,6 +20,6 @@ export class ServiceBlurhash {
       imageData.height,
       4,
       3,
-    );
+    )
   }
 }

@@ -1,4 +1,4 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
 export const actionSchema = zu.discriminatedUnion("sameAsStructure", [
   zu.object({
@@ -32,4 +32,4 @@ export const actionSchema = zu.discriminatedUnion("sameAsStructure", [
       .min(1, "Veuillez entrer un pays")
       .max(64, "Veuillez entrer un pays plus court"),
   }),
-]);
+])

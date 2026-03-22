@@ -1,18 +1,18 @@
-import type { FieldMetadata } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
 
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown";
-import { FieldTextarea } from "#i/core/form-elements/field-textarea";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
 
-import { useForm } from "./form";
+import { useForm } from "./form"
 
 export function FieldsetOnStandAnimation() {
-  const { fields } = useForm();
+  const { fields } = useForm()
 
   const fieldOnStandAnimations = fields.onStandAnimations as FieldMetadata<
     undefined | string
-  >;
+  >
 
   return (
     <Card>
@@ -45,5 +45,5 @@ export function FieldsetOnStandAnimation() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

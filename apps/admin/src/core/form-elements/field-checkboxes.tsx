@@ -1,10 +1,10 @@
-import type { FieldMetadata } from "@conform-to/react";
-import { getCollectionProps } from "@conform-to/react";
+import type { FieldMetadata } from "@conform-to/react"
+import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper";
-import { Form } from "#i/core/form-elements/form";
-import { InputChoice, InputsChoices } from "#i/core/form-elements/input-choice";
-import { RequiredStar } from "#i/core/form-elements/required-star";
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
+import { Form } from "#i/core/form-elements/form"
+import { InputChoice, InputsChoices } from "#i/core/form-elements/input-choice"
+import { RequiredStar } from "#i/core/form-elements/required-star"
 
 export function FieldCheckboxes<TValue extends string>({
   field,
@@ -14,12 +14,12 @@ export function FieldCheckboxes<TValue extends string>({
   required = false,
   helper,
 }: {
-  field: FieldMetadata<TValue[]>;
-  options: TValue[];
-  getLabel: (value: TValue) => string;
-  label: React.ReactNode;
-  required?: boolean;
-  helper?: React.ReactNode;
+  field: FieldMetadata<TValue[]>
+  options: TValue[]
+  getLabel: (value: TValue) => string
+  label: React.ReactNode
+  required?: boolean
+  helper?: React.ReactNode
 }) {
   return (
     <Form.Field>
@@ -43,5 +43,5 @@ export function FieldCheckboxes<TValue extends string>({
 
       {field.errors != null ? <FieldErrorHelper field={field} /> : helper}
     </Form.Field>
-  );
+  )
 }

@@ -3,6 +3,6 @@ export namespace Price {
     return price.toLocaleString("fr-FR", {
       style: "currency",
       currency: "EUR",
-    });
+    })
   }
 }

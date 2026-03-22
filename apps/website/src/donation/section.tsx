@@ -1,11 +1,11 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section";
+} from "#i/core/layout/bubble-section"
 
 export function DonationSection() {
   return (
@@ -51,5 +51,5 @@ export function DonationSection() {
         </BaseLink>
       </div>
     </section>
-  );
+  )
 }

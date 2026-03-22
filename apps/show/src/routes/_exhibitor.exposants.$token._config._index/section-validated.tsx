@@ -1,9 +1,9 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 import {
   TaskItemDescription,
   TaskItemDocument,
@@ -12,23 +12,23 @@ import {
   TaskItemPerks,
   TaskItemPublicProfile,
   TaskItemStand,
-} from "./task-items";
+} from "./task-items"
 
 export function SectionValidated() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const items: React.ReactNode[] = [];
+  const items: React.ReactNode[] = []
 
   if (exhibitor.documentStatus === ShowExhibitorStatus.VALIDATED) {
     items.push(
       <TaskItemDocument key="documents" status={exhibitor.documentStatus} />,
-    );
+    )
   }
 
   if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     items.push(
       <TaskItemStand key="stand" status={exhibitor.standConfigurationStatus} />,
-    );
+    )
   }
 
   if (exhibitor.descriptionStatus === ShowExhibitorStatus.VALIDATED) {
@@ -37,13 +37,13 @@ export function SectionValidated() {
         key="description"
         status={exhibitor.descriptionStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.VALIDATED) {
     items.push(
       <TaskItemDogs key="dogs" status={exhibitor.dogsConfigurationStatus} />,
-    );
+    )
   }
 
   if (exhibitor.publicProfileStatus === ShowExhibitorStatus.VALIDATED) {
@@ -52,7 +52,7 @@ export function SectionValidated() {
         key="public-profile"
         status={exhibitor.publicProfileStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.VALIDATED) {
@@ -61,15 +61,15 @@ export function SectionValidated() {
         key="on-stand-animations"
         status={exhibitor.onStandAnimationsStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.perksStatus === ShowExhibitorStatus.VALIDATED) {
-    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />);
+    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />)
   }
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -82,5 +82,5 @@ export function SectionValidated() {
 
       <FormLayout.SectionSeparator />
     </>
-  );
+  )
 }

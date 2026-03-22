@@ -1,1 +1,1 @@
-export * from "#i/password.js";
+export * from "#i/password.js"

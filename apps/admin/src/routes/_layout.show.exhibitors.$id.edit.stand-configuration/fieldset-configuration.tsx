@@ -1,26 +1,26 @@
-import { useLoaderData } from "@remix-run/react";
-import invariant from "tiny-invariant";
+import { useLoaderData } from "@remix-run/react"
+import invariant from "tiny-invariant"
 
-import { FieldNumeric } from "#i/core/form-elements/field-numeric.js";
-import { FieldOnOff } from "#i/core/form-elements/field-on-off";
-import { FieldRadios } from "#i/core/form-elements/field-radios";
-import { Form } from "#i/core/form-elements/form";
-import { Card } from "#i/core/layout/card";
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day";
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
+import { FieldOnOff } from "#i/core/form-elements/field-on-off"
+import { FieldRadios } from "#i/core/form-elements/field-radios"
+import { Form } from "#i/core/form-elements/form"
+import { Card } from "#i/core/layout/card"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
 
-import { DividerType } from "./action";
-import { useForm } from "./form";
-import type { loader } from "./loader.server.js";
+import { DividerType } from "./action"
+import { useForm } from "./form"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetConfiguration() {
-  const { standSizes, dividerTypes } = useLoaderData<typeof loader>();
-  const { fields } = useForm();
+  const { standSizes, dividerTypes } = useLoaderData<typeof loader>()
+  const { fields } = useForm()
 
   const selectedDividerType = dividerTypes.find(
     (dividerType) => dividerType.id === fields.dividerType.value,
-  );
+  )
 
-  const selectedTableCount = Number(fields.tableCount.value);
+  const selectedTableCount = Number(fields.tableCount.value)
 
   return (
     <Card>
@@ -36,14 +36,14 @@ export function FieldsetConfiguration() {
             getLabel={(standSizeId) => {
               const standSize = standSizes.find(
                 (standSize) => standSize.id === standSizeId,
-              );
+              )
 
               invariant(
                 standSize != null,
                 `Stand size not found: ${standSizeId}`,
-              );
+              )
 
-              return standSize.label;
+              return standSize.label
             }}
             options={standSizes.map((standSize) => standSize.id)}
           />
@@ -67,9 +67,9 @@ export function FieldsetConfiguration() {
               getLabel={(dividerTypeId) => {
                 const dividerType = dividerTypes.find(
                   (dividerType) => dividerType.id === dividerTypeId,
-                );
+                )
 
-                return dividerType?.label ?? "Aucune cloison";
+                return dividerType?.label ?? "Aucune cloison"
               }}
               options={[
                 DividerType.none,
@@ -116,5 +116,5 @@ export function FieldsetConfiguration() {
         </Form.Fields>
       </Card.Content>
     </Card>
-  );
+  )
 }

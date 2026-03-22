@@ -1,9 +1,9 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { useLoaderData } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout";
+import { FormLayout } from "#i/core/layout/form-layout"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 import {
   TaskItemDescription,
   TaskItemDocument,
@@ -12,12 +12,12 @@ import {
   TaskItemPerks,
   TaskItemPublicProfile,
   TaskItemStand,
-} from "./task-items";
+} from "./task-items"
 
 export function SectionToComplete() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
-  const items: React.ReactNode[] = [];
+  const items: React.ReactNode[] = []
 
   if (
     [ShowExhibitorStatus.TO_BE_FILLED, ShowExhibitorStatus.TO_MODIFY].includes(
@@ -26,7 +26,7 @@ export function SectionToComplete() {
   ) {
     items.push(
       <TaskItemDocument key="documents" status={exhibitor.documentStatus} />,
-    );
+    )
   }
 
   if (
@@ -36,7 +36,7 @@ export function SectionToComplete() {
   ) {
     items.push(
       <TaskItemStand key="stand" status={exhibitor.standConfigurationStatus} />,
-    );
+    )
   }
 
   if (
@@ -49,13 +49,13 @@ export function SectionToComplete() {
         key="description"
         status={exhibitor.descriptionStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.dogsConfigurationStatus === ShowExhibitorStatus.TO_MODIFY) {
     items.push(
       <TaskItemDogs key="dogs" status={exhibitor.dogsConfigurationStatus} />,
-    );
+    )
   }
 
   if (exhibitor.publicProfileStatus === ShowExhibitorStatus.TO_MODIFY) {
@@ -64,7 +64,7 @@ export function SectionToComplete() {
         key="public-profile"
         status={exhibitor.publicProfileStatus}
       />,
-    );
+    )
   }
 
   if (exhibitor.onStandAnimationsStatus === ShowExhibitorStatus.TO_MODIFY) {
@@ -73,7 +73,7 @@ export function SectionToComplete() {
         key="on-stand-animations"
         status={exhibitor.onStandAnimationsStatus}
       />,
-    );
+    )
   }
 
   if (
@@ -81,11 +81,11 @@ export function SectionToComplete() {
       exhibitor.perksStatus,
     )
   ) {
-    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />);
+    items.push(<TaskItemPerks key="perks" status={exhibitor.perksStatus} />)
   }
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -98,5 +98,5 @@ export function SectionToComplete() {
 
       <FormLayout.SectionSeparator />
     </>
-  );
+  )
 }

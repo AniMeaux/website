@@ -1,30 +1,30 @@
-import { cn } from "@animeaux/core";
-import type { Prisma } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { promiseHash } from "remix-utils/promise";
+import { cn } from "@animeaux/core"
+import type { Prisma } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { promiseHash } from "remix-utils/promise"
 
-import { actionClassNames } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { Paginator } from "#i/core/controllers/paginator";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { getPage } from "#i/core/search-params";
-import { EventItem } from "#i/events/item";
+import { actionClassNames } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { Paginator } from "#i/core/controllers/paginator"
+import { prisma } from "#i/core/db.server"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { getPage } from "#i/core/search-params"
+import { EventItem } from "#i/events/item"
 
 // Multiple of 2 and 3 to be nicely displayed.
-const EVENT_COUNT_PER_PAGE = 18;
+const EVENT_COUNT_PER_PAGE = 18
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const where: Prisma.EventWhereInput = {
     isVisible: true,
     endDate: { lt: new Date() },
-  };
+  }
 
-  const searchParams = new URL(request.url).searchParams;
-  const page = getPage(searchParams);
+  const searchParams = new URL(request.url).searchParams
+  const page = getPage(searchParams)
 
   const { totalCount, events } = await promiseHash({
     totalCount: prisma.event.count({ where }),
@@ -45,19 +45,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
         url: true,
       },
     }),
-  });
+  })
 
-  const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE);
+  const pageCount = Math.ceil(totalCount / EVENT_COUNT_PER_PAGE)
 
-  return json({ totalCount, pageCount, events });
+  return json({ totalCount, pageCount, events })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Événements passés") });
-};
+  return createSocialMeta({ title: getPageTitle("Événements passés") })
+}
 
 export default function Route() {
-  const { totalCount, pageCount, events } = useLoaderData<typeof loader>();
+  const { totalCount, pageCount, events } = useLoaderData<typeof loader>()
 
   return (
     <main className="flex w-full flex-col gap-12 px-page">
@@ -119,5 +119,5 @@ export default function Route() {
 
       <Paginator pageCount={pageCount} className="self-center" />
     </main>
-  );
+  )
 }

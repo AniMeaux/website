@@ -1,17 +1,17 @@
-import { ImageUrl } from "@animeaux/core";
-import type { SerializeFrom } from "@remix-run/node";
+import { ImageUrl } from "@animeaux/core"
+import type { SerializeFrom } from "@remix-run/node"
 
-import { BaseLink } from "#i/core/base-link.js";
-import { DynamicImage } from "#i/core/data-display/image.js";
-import { Routes } from "#i/core/navigation.js";
-import { Visibility, VisibilityIcon } from "#i/show/visibility.js";
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { Routes } from "#i/core/navigation.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
-type Exhibitor = SerializeFrom<typeof loader>["exhibitors"][number];
+type Exhibitor = SerializeFrom<typeof loader>["exhibitors"][number]
 
 export function ExhibitorItem({ exhibitor }: { exhibitor: Exhibitor }) {
-  const dividerCountContent = `${exhibitor.dividerCount} cloison${exhibitor.dividerCount > 1 ? "s" : ""}`;
+  const dividerCountContent = `${exhibitor.dividerCount} cloison${exhibitor.dividerCount > 1 ? "s" : ""}`
 
   return (
     <BaseLink
@@ -40,5 +40,5 @@ export function ExhibitorItem({ exhibitor }: { exhibitor: Exhibitor }) {
         className="icon-20"
       />
     </BaseLink>
-  );
+  )
 }

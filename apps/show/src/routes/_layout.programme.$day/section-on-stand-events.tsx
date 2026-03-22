@@ -1,14 +1,14 @@
-import { Link } from "@remix-run/react";
+import { Link } from "@remix-run/react"
 
-import { Action } from "#i/core/actions/action.js";
-import { LightBoardCard } from "#i/core/layout/light-board-card.js";
-import { Section } from "#i/core/layout/section.js";
-import { Routes } from "#i/core/navigation.js";
-import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js";
+import { Action } from "#i/core/actions/action.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
+import { Section } from "#i/core/layout/section.js"
+import { Routes } from "#i/core/navigation.js"
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js"
 
 export function SectionOnStandEvents() {
   if (CLIENT_ENV.FEATURE_FLAG_SHOW_ON_STAND_ANIMATIONS !== "true") {
-    return null;
+    return null
   }
 
   return (
@@ -43,5 +43,5 @@ export function SectionOnStandEvents() {
         </LightBoardCard>
       </Section.TextAside>
     </Section.Root>
-  );
+  )
 }

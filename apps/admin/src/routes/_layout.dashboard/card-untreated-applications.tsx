@@ -1,29 +1,29 @@
-import { ImageUrl } from "@animeaux/core";
-import { ShowExhibitorApplicationStatus } from "@animeaux/prisma";
-import type { SerializeFrom } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { ImageUrl } from "@animeaux/core"
+import { ShowExhibitorApplicationStatus } from "@animeaux/prisma"
+import type { SerializeFrom } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { Action } from "#i/core/actions.js";
-import { BaseLink } from "#i/core/base-link.js";
-import { SimpleEmpty } from "#i/core/data-display/empty.js";
-import { DynamicImage } from "#i/core/data-display/image.js";
-import { toRoundedRelative } from "#i/core/dates.js";
-import { Card } from "#i/core/layout/card.js";
-import { Routes } from "#i/core/navigation.js";
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon.js";
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { toRoundedRelative } from "#i/core/dates.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon.js"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#i/show/exhibitors/applications/search-params.js";
+} from "#i/show/exhibitors/applications/search-params.js"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardUntreatedApplications() {
-  const { show } = useLoaderData<typeof loader>();
+  const { show } = useLoaderData<typeof loader>()
 
   if (show == null) {
-    return null;
+    return null
   }
 
   return (
@@ -75,7 +75,7 @@ export function CardUntreatedApplications() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }
 
 function ApplicationItem({
@@ -83,7 +83,7 @@ function ApplicationItem({
 }: {
   application: NonNullable<
     SerializeFrom<typeof loader>["show"]
-  >["untreatedApplications"]["applications"][number];
+  >["untreatedApplications"]["applications"][number]
 }) {
   return (
     <BaseLink
@@ -122,5 +122,5 @@ function ApplicationItem({
         ))}
       </span>
     </BaseLink>
-  );
+  )
 }

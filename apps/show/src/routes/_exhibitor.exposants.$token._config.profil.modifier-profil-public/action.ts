@@ -1,8 +1,8 @@
-import { ShowActivityTarget } from "@animeaux/prisma";
-import { simpleUrl, zu } from "@animeaux/zod-utils";
+import { ShowActivityTarget } from "@animeaux/prisma"
+import { simpleUrl, zu } from "@animeaux/zod-utils"
 
-import { ImageLimits } from "#i/core/image/limits.js";
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js";
+import { ImageLimits } from "#i/core/image/limits.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
 
 export const ActionSchema = zu.object({
   logo: zu
@@ -37,4 +37,4 @@ export const ActionSchema = zu.object({
       )
       .min(1, "Veuillez entrer une URL"),
   ),
-});
+})

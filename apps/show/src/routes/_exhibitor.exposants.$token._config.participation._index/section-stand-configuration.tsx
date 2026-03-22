@@ -1,22 +1,22 @@
-import { ShowExhibitorStatus } from "@animeaux/prisma";
-import { Link, useLoaderData } from "@remix-run/react";
+import { ShowExhibitorStatus } from "@animeaux/prisma"
+import { Link, useLoaderData } from "@remix-run/react"
 
 import {
   Markdown,
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown";
-import { FormLayout } from "#i/core/layout/form-layout";
-import { HelperCard } from "#i/core/layout/helper-card";
-import { Routes } from "#i/core/navigation";
-import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/data-display/markdown"
+import { FormLayout } from "#i/core/layout/form-layout"
+import { HelperCard } from "#i/core/layout/helper-card"
+import { Routes } from "#i/core/navigation"
+import { INSTALLATION_DAY_TRANSLATION } from "#i/exhibitors/stand-configuration/installation-day"
+import { Icon } from "#i/generated/icon"
 
-import type { loader } from "./loader.server.js";
-import { SectionId } from "./section-id.js";
+import type { loader } from "./loader.server.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionStandConfiguration() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Section id={SectionId.STAND}>
@@ -67,11 +67,11 @@ export function SectionStandConfiguration() {
       <FieldInstallationDay />
       <FieldPlacementComment />
     </FormLayout.Section>
-  );
+  )
 }
 
 function FieldChairCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -79,11 +79,11 @@ function FieldChairCount() {
 
       <FormLayout.Output>{exhibitor.chairCount}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldCorner() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -93,14 +93,14 @@ function FieldCorner() {
         {exhibitor.hasCorner ? "Oui" : "Non"}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldDividerCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.dividerCount == null) {
-    return null;
+    return null
   }
 
   return (
@@ -109,11 +109,11 @@ function FieldDividerCount() {
 
       <FormLayout.Output>{exhibitor.dividerCount}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldDividerType() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -123,11 +123,11 @@ function FieldDividerType() {
         {exhibitor.dividerType?.label ?? "Aucune cloison"}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldElectricalConnection() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -137,11 +137,11 @@ function FieldElectricalConnection() {
         {exhibitor.hasElectricalConnection ? "Oui" : "Non"}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldInstallationDay() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -153,11 +153,11 @@ function FieldInstallationDay() {
           : "-"}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldPeopleCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -167,11 +167,11 @@ function FieldPeopleCount() {
 
       <FormLayout.Output>{exhibitor.peopleCount}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldPlacementComment() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -190,11 +190,11 @@ function FieldPlacementComment() {
         )}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldTableCloths() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -204,11 +204,11 @@ function FieldTableCloths() {
         {exhibitor.hasTableCloths ? "Oui" : "Non"}
       </FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldTableCount() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -216,11 +216,11 @@ function FieldTableCount() {
 
       <FormLayout.Output>{exhibitor.tableCount}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function FieldStandSize() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   return (
     <FormLayout.Field>
@@ -228,14 +228,14 @@ function FieldStandSize() {
 
       <FormLayout.Output>{exhibitor.size.label}</FormLayout.Output>
     </FormLayout.Field>
-  );
+  )
 }
 
 function SectionStatus() {
-  const { exhibitor } = useLoaderData<typeof loader>();
+  const { exhibitor } = useLoaderData<typeof loader>()
 
   if (exhibitor.standConfigurationStatus === ShowExhibitorStatus.TO_BE_FILLED) {
-    return null;
+    return null
   }
 
   const title = (
@@ -244,7 +244,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.TO_MODIFY]: "À modifier",
       [ShowExhibitorStatus.VALIDATED]: "Validée",
     } satisfies Record<typeof exhibitor.standConfigurationStatus, string>
-  )[exhibitor.standConfigurationStatus];
+  )[exhibitor.standConfigurationStatus]
 
   const content = (
     {
@@ -256,7 +256,7 @@ function SectionStatus() {
       [ShowExhibitorStatus.VALIDATED]:
         "La configuration de votre stand est validée par notre équipe et aucune modification n’est plus possible. Pour toute question ou besoin particulier, merci de nous contacter par e-mail à salon@animeaux.org.",
     } satisfies Record<typeof exhibitor.standConfigurationStatus, string>
-  )[exhibitor.standConfigurationStatus];
+  )[exhibitor.standConfigurationStatus]
 
   return (
     <HelperCard.Root color="paleBlue">
@@ -266,5 +266,5 @@ function SectionStatus() {
         <Markdown content={content} components={PARAGRAPH_COMPONENTS} />
       </div>
     </HelperCard.Root>
-  );
+  )
 }

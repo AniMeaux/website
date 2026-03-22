@@ -1,12 +1,12 @@
-import { zu } from "@animeaux/zod-utils";
+import { zu } from "@animeaux/zod-utils"
 
-import { OnOff } from "#i/core/form-elements/field-on-off";
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day";
-import { ExhibitorStatus } from "#i/show/exhibitors/status";
+import { OnOff } from "#i/core/form-elements/field-on-off"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
+import { ExhibitorStatus } from "#i/show/exhibitors/status"
 
 export const DividerType = {
   none: "none",
-} as const;
+} as const
 
 export const ActionSchema = zu
   .object({
@@ -88,4 +88,4 @@ export const ActionSchema = zu
       message: "Veuillez entrer un message",
       path: ["statusMessage"],
     },
-  );
+  )

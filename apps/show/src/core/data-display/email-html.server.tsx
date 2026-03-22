@@ -1,4 +1,4 @@
-import { cn } from "@animeaux/core";
+import { cn } from "@animeaux/core"
 import {
   Body,
   Button,
@@ -14,25 +14,25 @@ import {
   Section,
   Tailwind,
   Text,
-} from "@react-email/components";
-import { Children, cloneElement, isValidElement } from "react";
-import type { ExtraProps } from "react-markdown";
+} from "@react-email/components"
+import { Children, cloneElement, isValidElement } from "react"
+import type { ExtraProps } from "react-markdown"
 
-import tailwindConfig, { fonts } from "#i/../tailwind.config";
-import { createImageUrl } from "#i/core/data-display/image";
-import type { MarkdownComponents } from "#i/core/data-display/markdown";
+import tailwindConfig, { fonts } from "#i/../tailwind.config"
+import { createImageUrl } from "#i/core/data-display/image"
+import type { MarkdownComponents } from "#i/core/data-display/markdown"
 import {
   Markdown,
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
   withoutNode,
-} from "#i/core/data-display/markdown";
+} from "#i/core/data-display/markdown"
 
 export const EmailHtml = {
   Root: function EmailHtmlRoot({ children }: React.PropsWithChildren) {
     const fontElements = (Object.keys(fonts) as (keyof typeof fonts)[]).flatMap(
       (type) => {
-        const fontFamily = fonts[type];
+        const fontFamily = fonts[type]
 
         return fontFamily.variants.map((variant) => (
           <Font
@@ -46,9 +46,9 @@ export const EmailHtml = {
             fontWeight={variant.weight}
             fontStyle={variant.style}
           />
-        ));
+        ))
       },
-    );
+    )
 
     return (
       <Html lang="fr-FR">
@@ -75,7 +75,7 @@ export const EmailHtml = {
           </Body>
         </Tailwind>
       </Html>
-    );
+    )
   },
 
   Title: function EmailHtmlTitle(props: React.PropsWithChildren) {
@@ -85,7 +85,7 @@ export const EmailHtml = {
         as="h1"
         className="m-0 mt-4 text-mystic text-title-large"
       />
-    );
+    )
   },
 
   SectionSeparator: function EmailHtmlSectionSeparator() {
@@ -95,7 +95,7 @@ export const EmailHtml = {
         style={{ border: undefined, borderTop: undefined }}
         className="m-0 mt-4 border-0 border-t border-solid border-alabaster"
       />
-    );
+    )
   },
 
   Footer: function EmailHtmlFooter(props: React.PropsWithChildren) {
@@ -103,7 +103,7 @@ export const EmailHtml = {
       <EmailHtml.Section.Root>
         <Text {...props} className="m-0 text-caption-lowercase-default" />
       </EmailHtml.Section.Root>
-    );
+    )
   },
 
   Paragraph: function EmailHtmlParagraph({
@@ -118,7 +118,7 @@ export const EmailHtml = {
           _isFirst ? undefined : "mt-2",
         )}
       />
-    );
+    )
   },
 
   Strong,
@@ -131,7 +131,7 @@ export const EmailHtml = {
       <Section className={cn("m-0", _isFirst ? undefined : "mt-4")}>
         <Markdown {...props} />
       </Section>
-    );
+    )
   },
 
   Link: function EmailHtmlLink({
@@ -145,7 +145,7 @@ export const EmailHtml = {
       >
         <EmailHtml.Strong>{children}</EmailHtml.Strong>
       </Link>
-    );
+    )
   },
 
   Button: function EmailHtmlButton({
@@ -159,7 +159,7 @@ export const EmailHtml = {
       >
         <EmailHtml.Strong>{children}</EmailHtml.Strong>
       </Button>
-    );
+    )
   },
 
   OrderedList: function EmailHtmlOrderedList({
@@ -174,7 +174,7 @@ export const EmailHtml = {
           _isFirst ? undefined : "mt-2",
         )}
       />
-    );
+    )
   },
 
   UnorderedList: function EmailHtmlUnorderedList({
@@ -189,7 +189,7 @@ export const EmailHtml = {
           _isFirst ? undefined : "mt-2",
         )}
       />
-    );
+    )
   },
 
   Section: {
@@ -197,7 +197,7 @@ export const EmailHtml = {
       const childrenElements = Children.toArray(children).filter(
         (child): child is React.ReactElement<IsFirstProps> =>
           isValidElement(child),
-      );
+      )
 
       return (
         <Section className="mt-4">
@@ -205,7 +205,7 @@ export const EmailHtml = {
             cloneElement(child, { _isFirst: index === 0 }),
           )}
         </Section>
-      );
+      )
     },
 
     Title: function EmailHtmlSectionTitle({
@@ -221,7 +221,7 @@ export const EmailHtml = {
             _isFirst ? undefined : "mt-2",
           )}
         />
-      );
+      )
     },
   },
 
@@ -233,7 +233,7 @@ export const EmailHtml = {
       const childrenElements = Children.toArray(children).filter(
         (child): child is React.ReactElement<IsFirstProps> =>
           isValidElement(child),
-      );
+      )
 
       return (
         <table
@@ -252,7 +252,7 @@ export const EmailHtml = {
             )}
           </tbody>
         </table>
-      );
+      )
     },
 
     RowSeparator: function EmailHtmlOutputRowSeparator() {
@@ -274,7 +274,7 @@ export const EmailHtml = {
             />
           </Column>
         </tr>
-      );
+      )
     },
 
     Row: function EmailHtmlOutputRow({
@@ -284,13 +284,13 @@ export const EmailHtml = {
       const childrenElements = Children.toArray(children).filter(
         (child): child is React.ReactElement<IsFirstProps> =>
           isValidElement(child),
-      );
+      )
 
       return (
         <tr className="w-full">
           {childrenElements.map((child) => cloneElement(child, { _isFirst }))}
         </tr>
-      );
+      )
     },
 
     Label: function EmailHtmlOutputLabel({
@@ -306,7 +306,7 @@ export const EmailHtml = {
         >
           {children}
         </Column>
-      );
+      )
     },
 
     Value: function EmailHtmlOutputValue({
@@ -322,29 +322,29 @@ export const EmailHtml = {
         >
           {Children.toArray(children).map((child, index) => {
             if (!isValidElement(child)) {
-              return child;
+              return child
             }
 
             return cloneElement(child as React.ReactElement<IsFirstProps>, {
               _isFirst: index === 0,
-            });
+            })
           })}
         </Column>
-      );
+      )
     },
   },
-};
+}
 
-export type IsFirstProps = { _isFirst?: boolean };
+export type IsFirstProps = { _isFirst?: boolean }
 
 /**
  * Not exported from @react-email/components Font.
  */
 type FallbackFont = KeepString<
   React.ComponentProps<typeof Font>["fallbackFontFamily"]
->;
+>
 
-type KeepString<T> = T extends string ? T : never;
+type KeepString<T> = T extends string ? T : never
 
 function Strong(props: React.PropsWithChildren<ExtraProps>) {
   // Wrap in a span with the class because the font weight is not well
@@ -353,7 +353,7 @@ function Strong(props: React.PropsWithChildren<ExtraProps>) {
     <span className="text-body-lowercase-emphasis">
       <strong {...withoutNode(props)} />
     </span>
-  );
+  )
 }
 
 export const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
@@ -363,12 +363,12 @@ export const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
 
   a: ({ children, href }) => {
     if (href == null) {
-      return <span>children</span>;
+      return <span>children</span>
     }
 
-    return <EmailHtml.Link href={href}>{children}</EmailHtml.Link>;
+    return <EmailHtml.Link href={href}>{children}</EmailHtml.Link>
   },
-};
+}
 
 export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ...PARAGRAPH_COMPONENTS,
@@ -398,4 +398,4 @@ export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
   li: (props) => (
     <li {...withoutNode(props)} className="m-0 text-body-lowercase-default" />
   ),
-};
+}

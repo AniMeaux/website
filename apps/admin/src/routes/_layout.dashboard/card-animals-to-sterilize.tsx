@@ -1,28 +1,28 @@
-import { formatAge } from "@animeaux/core";
-import { useLoaderData } from "@remix-run/react";
-import { DateTime } from "luxon";
+import { formatAge } from "@animeaux/core"
+import { useLoaderData } from "@remix-run/react"
+import { DateTime } from "luxon"
 
-import { AnimalSmallItem } from "#i/animals/item";
+import { AnimalSmallItem } from "#i/animals/item"
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
   AnimalSterilization,
-} from "#i/animals/search-params";
-import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#i/animals/situation/health";
-import { Action } from "#i/core/actions";
-import { BaseLink } from "#i/core/base-link";
-import { SimpleEmpty } from "#i/core/data-display/empty";
-import { Card } from "#i/core/layout/card";
-import { Routes } from "#i/core/navigation";
+} from "#i/animals/search-params"
+import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#i/animals/situation/health"
+import { Action } from "#i/core/actions"
+import { BaseLink } from "#i/core/base-link"
+import { SimpleEmpty } from "#i/core/data-display/empty"
+import { Card } from "#i/core/layout/card"
+import { Routes } from "#i/core/navigation"
 
-import type { loader } from "./loader.server";
+import type { loader } from "./loader.server"
 
 export function CardAnimalsToSterilize() {
-  const { animal } = useLoaderData<typeof loader>();
+  const { animal } = useLoaderData<typeof loader>()
 
   if (animal == null) {
-    return null;
+    return null
   }
 
   return (
@@ -56,13 +56,13 @@ export function CardAnimalsToSterilize() {
                     statuses: new Set(
                       HAS_UP_COMMING_STERILISATION_CONDITIONS.status,
                     ),
-                  });
+                  })
 
                   AnimalSortSearchParams.set(searchParams, {
                     sort: AnimalSort.BIRTHDATE,
-                  });
+                  })
 
-                  return searchParams.toString();
+                  return searchParams.toString()
                 })(),
               }}
             >
@@ -98,5 +98,5 @@ export function CardAnimalsToSterilize() {
         )}
       </Card.Content>
     </Card>
-  );
+  )
 }

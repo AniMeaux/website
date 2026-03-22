@@ -1,27 +1,27 @@
-import { cn } from "@animeaux/core";
-import { Gender } from "@animeaux/prisma";
-import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
-import { Form, useLoaderData, useSearchParams } from "@remix-run/react";
-import orderBy from "lodash.orderby";
-import { useEffect, useState } from "react";
-import invariant from "tiny-invariant";
-import { z } from "zod";
+import { cn } from "@animeaux/core"
+import { Gender } from "@animeaux/prisma"
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import { Form, useLoaderData, useSearchParams } from "@remix-run/react"
+import orderBy from "lodash.orderby"
+import { useEffect, useState } from "react"
+import invariant from "tiny-invariant"
+import { z } from "zod"
 
-import { animalNames } from "#i/animals/data";
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status";
-import { actionClassNames } from "#i/core/actions";
-import { prisma } from "#i/core/db.server";
-import { createSocialMeta } from "#i/core/meta";
-import { getPageTitle } from "#i/core/page-title";
-import { Icon } from "#i/generated/icon";
+import { animalNames } from "#i/animals/data"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
+import { actionClassNames } from "#i/core/actions"
+import { prisma } from "#i/core/db.server"
+import { createSocialMeta } from "#i/core/meta"
+import { getPageTitle } from "#i/core/page-title"
+import { Icon } from "#i/generated/icon"
 
 // Multiple of 2 and 3 to be nicely displayed.
-const ANIMAL_NAME_COUNT_PER_PAGE = 18;
+const ANIMAL_NAME_COUNT_PER_PAGE = 18
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const url = new URL(request.url);
-  const params = getParams(url.searchParams);
+  const url = new URL(request.url)
+  const params = getParams(url.searchParams)
 
   const animals = await prisma.animal.findMany({
     where: {
@@ -29,45 +29,45 @@ export async function loader({ request }: LoaderFunctionArgs) {
       status: { in: ACTIVE_ANIMAL_STATUS },
     },
     select: { name: true },
-  });
+  })
 
-  const usedNames = animals.map((animal) => animal.name.toLowerCase());
+  const usedNames = animals.map((animal) => animal.name.toLowerCase())
 
   // Remove names used by active animals.
   let names = animalNames.filter(
     (name) => !usedNames.includes(name.label.toLowerCase()),
-  );
+  )
 
   if (params.l != null) {
-    const firstLetter = params.l.toLowerCase();
+    const firstLetter = params.l.toLowerCase()
     names = names.filter((name) =>
       name.label.toLowerCase().startsWith(firstLetter),
-    );
+    )
   }
 
   if (params.g != null) {
-    const gender = params.g;
+    const gender = params.g
     names = names.filter(
       (name) => name.gender == null || name.gender === gender,
-    );
+    )
   }
 
   names = orderBy(
     pickRandom(names, ANIMAL_NAME_COUNT_PER_PAGE),
     (name) => name.label,
-  );
+  )
 
-  return json({ names });
+  return json({ names })
 }
 
 export const meta: MetaFunction = () => {
-  return createSocialMeta({ title: getPageTitle("Nommez votre animal") });
-};
+  return createSocialMeta({ title: getPageTitle("Nommez votre animal") })
+}
 
 export default function Route() {
-  const { names } = useLoaderData<typeof loader>();
-  const [searchParams] = useSearchParams();
-  const params = getParams(searchParams);
+  const { names } = useLoaderData<typeof loader>()
+  const [searchParams] = useSearchParams()
+  const params = getParams(searchParams)
 
   return (
     <main className={cn("flex w-full flex-col gap-12 px-page", "md:gap-24")}>
@@ -228,7 +228,7 @@ export default function Route() {
         </section>
       </div>
     </main>
-  );
+  )
 }
 
 const formClassNames = {
@@ -237,13 +237,13 @@ const formClassNames = {
   checkboxLabel: () => "flex items-center gap-2 cursor-pointer",
   checkbox: () =>
     "appearance-none w-[14px] h-[14px] rounded-full ring-inset ring-gray-400 ring-1 checked:ring-4 checked:ring-brandBlue transition-shadow duration-100 ease-in-out",
-};
+}
 
 function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue)
   useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
+    setValue(defaultValue)
+  }, [defaultValue])
 
   return (
     <input
@@ -252,16 +252,16 @@ function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
       id="first-letter"
       value={value}
       onChange={(event) => {
-        let value = (event.target.value.at(-1) ?? "").toUpperCase();
+        let value = (event.target.value.at(-1) ?? "").toUpperCase()
         if (!/^[A-Z]$/.test(value)) {
-          value = "";
+          value = ""
         }
 
-        setValue(value);
+        setValue(value)
       }}
       className="w-full border border-gray-200 px-6 py-2 rounded-bubble-sm"
     />
-  );
+  )
 }
 
 const LoaderSearchParamsSchema = z.object({
@@ -274,33 +274,33 @@ const LoaderSearchParamsSchema = z.object({
     .union([z.literal(""), z.nativeEnum(Gender)])
     .optional()
     .transform((value) => value || null),
-});
+})
 
 function getParams(searchParams: URLSearchParams) {
   const result = LoaderSearchParamsSchema.safeParse(
     Object.fromEntries(searchParams.entries()),
-  );
+  )
 
-  return result.success ? result.data : { l: null, g: null };
+  return result.success ? result.data : { l: null, g: null }
 }
 
 // Inspired by Faker's `arrayElements`.
 // https://github.com/faker-js/faker/blob/v7.5.0/src/modules/helpers/index.ts#L431
 function pickRandom<T>(names: T[], count: number) {
-  count = Math.min(count, names.length);
-  const arrayCopy = names.slice();
+  count = Math.min(count, names.length)
+  const arrayCopy = names.slice()
 
   for (let currentCount = 0; currentCount < count; currentCount++) {
-    const index = Math.floor((names.length - currentCount) * Math.random());
-    const temp = arrayCopy[index];
-    invariant(temp != null, "First element should exists");
+    const index = Math.floor((names.length - currentCount) * Math.random())
+    const temp = arrayCopy[index]
+    invariant(temp != null, "First element should exists")
 
-    const temp2 = arrayCopy[names.length - currentCount - 1];
-    invariant(temp2 != null, "Second element should exists");
+    const temp2 = arrayCopy[names.length - currentCount - 1]
+    invariant(temp2 != null, "Second element should exists")
 
-    arrayCopy[index] = temp2;
-    arrayCopy[names.length - currentCount - 1] = temp;
+    arrayCopy[index] = temp2
+    arrayCopy[names.length - currentCount - 1] = temp
   }
 
-  return arrayCopy.slice(names.length - count);
+  return arrayCopy.slice(names.length - count)
 }

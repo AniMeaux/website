@@ -1,17 +1,17 @@
-import { catchError } from "@animeaux/core";
-import { Prisma } from "@animeaux/prisma/server";
-import merge from "lodash.merge";
-import type { Simplify } from "type-fest";
+import { catchError } from "@animeaux/core"
+import { Prisma } from "@animeaux/prisma/server"
+import merge from "lodash.merge"
+import type { Simplify } from "type-fest"
 
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server.js";
-import { prisma } from "#i/core/prisma.server";
-import { notFound } from "#i/core/response.server.js";
-import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js";
+} from "#i/core/errors.server.js"
+import { prisma } from "#i/core/prisma.server"
+import { notFound } from "#i/core/response.server.js"
+import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js"
 
 export class ShowStandSizeDbDelegate {
   async findUnique<T extends Prisma.ShowStandSizeSelect>(
@@ -21,13 +21,13 @@ export class ShowStandSizeDbDelegate {
     const standSize = await prisma.showStandSize.findUnique({
       where: { id },
       select: params.select,
-    });
+    })
 
     if (standSize == null) {
-      throw notFound();
+      throw notFound()
     }
 
-    return standSize;
+    return standSize
   }
 
   async findUniqueWithAvailability<T extends Prisma.ShowStandSizeSelect>(
@@ -35,83 +35,83 @@ export class ShowStandSizeDbDelegate {
     params: { select: T },
   ) {
     type Selected = Prisma.ShowStandSizeGetPayload<{
-      select: typeof params.select;
-    }>;
+      select: typeof params.select
+    }>
 
     // Ensure we only use our selected properties.
     const internalSelect = {
       maxCount: true,
       exhibitors: { select: { id: true } },
-    } satisfies Prisma.ShowStandSizeSelect;
+    } satisfies Prisma.ShowStandSizeSelect
 
     type Internal = Prisma.ShowStandSizeGetPayload<{
-      select: typeof internalSelect;
-    }>;
+      select: typeof internalSelect
+    }>
 
     const standSize = (await this.findUnique(id, {
       select: merge({}, internalSelect, params.select),
-    })) as Internal;
+    })) as Internal
 
-    const bookedCount = standSize.exhibitors.length;
+    const bookedCount = standSize.exhibitors.length
 
     const ratio =
-      standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount;
+      standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount
 
     const standSizeWithAvailability: Internal & ShowStandSizeBooking = {
       ...standSize,
       bookedCount,
       ratio,
-    };
+    }
 
     return standSizeWithAvailability as Simplify<
       Selected & ShowStandSizeBooking
-    >;
+    >
   }
 
   async findMany<T extends Prisma.ShowStandSizeSelect>(params: { select: T }) {
     const standSizes = await prisma.showStandSize.findMany({
       select: params.select,
       orderBy: [{ area: "asc" }, { label: "asc" }],
-    });
+    })
 
-    return standSizes;
+    return standSizes
   }
 
   async findManyWithAvailability<T extends Prisma.ShowStandSizeSelect>(params: {
-    select: T;
+    select: T
   }) {
     type Selected = Prisma.ShowStandSizeGetPayload<{
-      select: typeof params.select;
-    }>;
+      select: typeof params.select
+    }>
 
     // Ensure we only use our selected properties.
     const internalSelect = {
       maxCount: true,
       _count: { select: { exhibitors: {} } },
-    } satisfies Prisma.ShowStandSizeSelect;
+    } satisfies Prisma.ShowStandSizeSelect
 
     type Internal = Prisma.ShowStandSizeGetPayload<{
-      select: typeof internalSelect;
-    }>;
+      select: typeof internalSelect
+    }>
 
     const standSizes = (await this.findMany({
       select: { ...params.select, ...internalSelect },
-    })) as Internal[];
+    })) as Internal[]
 
     const standSizesWithAvailability = standSizes.map<
       Internal & ShowStandSizeBooking
     >((standSize) => {
-      const bookedCount = standSize._count.exhibitors;
+      const bookedCount = standSize._count.exhibitors
 
       const ratio =
-        standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount;
+        standSize.maxCount === 0 ? 0 : bookedCount / standSize.maxCount
 
-      return { ...standSize, bookedCount, ratio };
-    });
+      return { ...standSize, bookedCount, ratio }
+    })
 
     return standSizesWithAvailability as Simplify<
       Selected & ShowStandSizeBooking
-    >[];
+    >[]
   }
 
   async create(data: ShowStandSizeCreateData) {
@@ -120,19 +120,19 @@ export class ShowStandSizeDbDelegate {
         data,
         select: { id: true },
       }),
-    );
+    )
 
     if (error != null) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.UNIQUE_CONSTRAINT_FAILED) {
-          throw new AlreadyExistError();
+          throw new AlreadyExistError()
         }
       }
 
-      throw error;
+      throw error
     }
 
-    return standSize.id;
+    return standSize.id
   }
 
   async update(standSizeId: string, data: ShowStandSizeUpdateData) {
@@ -142,38 +142,38 @@ export class ShowStandSizeDbDelegate {
         data,
         select: { id: true },
       }),
-    );
+    )
 
     if (error != null) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === PrismaErrorCodes.NOT_FOUND) {
-          throw new NotFoundError();
+          throw new NotFoundError()
         }
       }
 
-      throw error;
+      throw error
     }
   }
 
   async delete(standSizeId: string) {
     const [error] = await catchError(() =>
       prisma.showStandSize.delete({ where: { id: standSizeId } }),
-    );
+    )
 
     if (error != null) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         switch (error.code) {
           case PrismaErrorCodes.NOT_FOUND: {
-            throw new NotFoundError();
+            throw new NotFoundError()
           }
 
           case PrismaErrorCodes.FOREIGN_KEY_CONSTRAINT_FAILED: {
-            throw new ReferencedError();
+            throw new ReferencedError()
           }
         }
       }
 
-      throw error;
+      throw error
     }
   }
 }
@@ -191,7 +191,7 @@ type ShowStandSizeCreateData = Pick<
   | "priceForAssociations"
   | "priceForServices"
   | "priceForShops"
->;
+>
 
 type ShowStandSizeUpdateData = Pick<
   Prisma.ShowStandSizeUpdateInput,
@@ -206,4 +206,4 @@ type ShowStandSizeUpdateData = Pick<
   | "priceForAssociations"
   | "priceForServices"
   | "priceForShops"
->;
+>

@@ -1,9 +1,9 @@
-import { Link } from "@remix-run/react";
+import { Link } from "@remix-run/react"
 
-import { Action } from "#i/core/actions/action";
-import { BoardCard } from "#i/core/layout/board-card";
-import { Section } from "#i/core/layout/section";
-import { Routes } from "#i/core/navigation";
+import { Action } from "#i/core/actions/action"
+import { BoardCard } from "#i/core/layout/board-card"
+import { Section } from "#i/core/layout/section"
+import { Routes } from "#i/core/navigation"
 
 export function SectionWaitingHelper() {
   return (
@@ -42,5 +42,5 @@ export function SectionWaitingHelper() {
         </BoardCard>
       </Section.TextAside>
     </Section.Root>
-  );
+  )
 }

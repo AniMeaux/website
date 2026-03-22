@@ -1,23 +1,23 @@
-import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core";
-import { Species } from "@animeaux/prisma";
-import orderBy from "lodash.orderby";
-import { useCallback, useEffect, useState } from "react";
+import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core"
+import { Species } from "@animeaux/prisma"
+import orderBy from "lodash.orderby"
+import { useCallback, useEffect, useState } from "react"
 
-import { BaseLink } from "#i/core/base-link";
+import { BaseLink } from "#i/core/base-link"
 import {
   AGE_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#i/core/translations";
-import { Icon } from "#i/generated/icon";
+} from "#i/core/translations"
+import { Icon } from "#i/generated/icon"
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),
   (species) => SPECIES_TRANSLATION_STANDALONE[species],
-);
+)
 
 const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
   age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2,
-);
+)
 
 export const ANIMAL_AGES_BY_SPECIES: Record<Species, AnimalAge[]> = {
   [Species.BIRD]: getAnimalAgesForSpecies(Species.BIRD),
@@ -25,25 +25,25 @@ export const ANIMAL_AGES_BY_SPECIES: Record<Species, AnimalAge[]> = {
   [Species.DOG]: getAnimalAgesForSpecies(Species.DOG),
   [Species.REPTILE]: getAnimalAgesForSpecies(Species.REPTILE),
   [Species.RODENT]: getAnimalAgesForSpecies(Species.RODENT),
-};
-
-function getAnimalAgesForSpecies(species: Species): AnimalAge[] {
-  const agesRanges = ANIMAL_AGE_RANGE_BY_SPECIES[species];
-  if (agesRanges == null) {
-    return [];
-  }
-
-  return SORTED_AGES.filter((age) => agesRanges[age] != null);
 }
 
-const AllOption = "ALL";
-type AnimalSpeciesOption = typeof AllOption | Species;
-type AnimalAgeOption = typeof AllOption | AnimalAge;
+function getAnimalAgesForSpecies(species: Species): AnimalAge[] {
+  const agesRanges = ANIMAL_AGE_RANGE_BY_SPECIES[species]
+  if (agesRanges == null) {
+    return []
+  }
+
+  return SORTED_AGES.filter((age) => agesRanges[age] != null)
+}
+
+const AllOption = "ALL"
+type AnimalSpeciesOption = typeof AllOption | Species
+type AnimalAgeOption = typeof AllOption | AnimalAge
 
 type SearchFormState = {
-  species: AnimalSpeciesOption | null;
-  age: AnimalAgeOption | null;
-};
+  species: AnimalSpeciesOption | null
+  age: AnimalAgeOption | null
+}
 
 export function SearchForm({
   defaultSpecies,
@@ -51,35 +51,35 @@ export function SearchForm({
   hasAllSpeciesByDefault = false,
   className,
 }: {
-  defaultSpecies?: Species;
-  defaultAge?: AnimalAge;
-  hasAllSpeciesByDefault?: boolean;
-  className?: string;
+  defaultSpecies?: Species
+  defaultAge?: AnimalAge
+  hasAllSpeciesByDefault?: boolean
+  className?: string
 }) {
   const setDefaults = useCallback(() => {
-    let age: SearchFormState["age"] = defaultAge ?? null;
+    let age: SearchFormState["age"] = defaultAge ?? null
     if (defaultSpecies != null && defaultAge == null) {
-      age = AllOption;
+      age = AllOption
     }
 
-    let species: SearchFormState["species"] = defaultSpecies ?? null;
+    let species: SearchFormState["species"] = defaultSpecies ?? null
     if (hasAllSpeciesByDefault && species == null) {
-      species = AllOption;
+      species = AllOption
     }
 
-    return { species, age };
-  }, [defaultSpecies, defaultAge, hasAllSpeciesByDefault]);
+    return { species, age }
+  }, [defaultSpecies, defaultAge, hasAllSpeciesByDefault])
 
-  const [state, setState] = useState<SearchFormState>(setDefaults);
+  const [state, setState] = useState<SearchFormState>(setDefaults)
 
   useEffect(() => {
-    setState(setDefaults());
-  }, [setDefaults]);
+    setState(setDefaults())
+  }, [setDefaults])
 
   const ageOptions =
     state.species == null || state.species === AllOption
       ? []
-      : ANIMAL_AGES_BY_SPECIES[state.species];
+      : ANIMAL_AGES_BY_SPECIES[state.species]
 
   return (
     <div
@@ -92,15 +92,15 @@ export function SearchForm({
         placeholder="Espèce"
         value={state.species}
         onChange={(species) => {
-          let age: SearchFormState["age"] = null;
+          let age: SearchFormState["age"] = null
           if (
             species !== AllOption &&
             ANIMAL_AGES_BY_SPECIES[species].length > 0
           ) {
-            age = AllOption;
+            age = AllOption
           }
 
-          return setState({ species, age });
+          return setState({ species, age })
         }}
       >
         <option value={AllOption}>Toutes les espèces</option>
@@ -136,7 +136,7 @@ export function SearchForm({
         <Icon id="magnifying-glass" />
       </BaseLink>
     </div>
-  );
+  )
 }
 
 function Select<ValueType extends string>({
@@ -145,16 +145,16 @@ function Select<ValueType extends string>({
   onChange,
   children,
 }: {
-  value: ValueType | null;
-  onChange: (value: ValueType) => void;
-  placeholder: string;
-  children?: React.ReactNode;
+  value: ValueType | null
+  onChange: (value: ValueType) => void
+  placeholder: string
+  children?: React.ReactNode
 }) {
   return (
     <select
       value={value == null ? "" : String(value)}
       onChange={(event) => {
-        onChange(event.target.value as ValueType);
+        onChange(event.target.value as ValueType)
       }}
       className={cn(
         "min-w-0 flex-1 cursor-pointer appearance-none bg-transparent px-6 py-2 transition-colors duration-100 ease-in-out rounded-bubble-sm hover:bg-gray-50",
@@ -167,7 +167,7 @@ function Select<ValueType extends string>({
 
       {children}
     </select>
-  );
+  )
 }
 
 export const SPECIES_TO_PATH: Record<Species, string> = {
@@ -176,24 +176,24 @@ export const SPECIES_TO_PATH: Record<Species, string> = {
   [Species.DOG]: "chien",
   [Species.REPTILE]: "reptile",
   [Species.RODENT]: "pac",
-};
+}
 
 export const AGES_TO_PATH: Record<AnimalAge, string> = {
   [AnimalAge.JUNIOR]: "junior",
   [AnimalAge.ADULT]: "adulte",
   [AnimalAge.SENIOR]: "senior",
-};
+}
 
 export function getPath(state: Partial<SearchFormState>): string {
-  let path = "/adoption";
+  let path = "/adoption"
 
   if (state.species != null && state.species !== AllOption) {
-    path += `/${SPECIES_TO_PATH[state.species]}`;
+    path += `/${SPECIES_TO_PATH[state.species]}`
   }
 
   if (state.age != null && state.age !== AllOption) {
-    path += `/${AGES_TO_PATH[state.age]}`;
+    path += `/${AGES_TO_PATH[state.age]}`
   }
 
-  return path;
+  return path
 }

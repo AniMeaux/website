@@ -1,19 +1,19 @@
-import { cn } from "@animeaux/core";
-import { Transition } from "react-transition-group";
+import { cn } from "@animeaux/core"
+import { Transition } from "react-transition-group"
 
-import { useWidth } from "#i/core/hooks";
-import { LineShapeHorizontal } from "#i/core/layout/line-shape";
+import { useWidth } from "#i/core/hooks"
+import { LineShapeHorizontal } from "#i/core/layout/line-shape"
 
 export function Tab({
   onSelect,
   isActive,
   children,
 }: {
-  onSelect: () => void;
-  isActive: boolean;
-  children: React.ReactNode;
+  onSelect: () => void
+  isActive: boolean
+  children: React.ReactNode
 }) {
-  const { ref, width } = useWidth<HTMLButtonElement>();
+  const { ref, width } = useWidth<HTMLButtonElement>()
 
   return (
     <button
@@ -48,5 +48,5 @@ export function Tab({
         )}
       </Transition>
     </button>
-  );
+  )
 }

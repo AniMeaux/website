@@ -1,8 +1,8 @@
-import "#i/tailwind.css";
+import "#i/tailwind.css"
 
-import { cn } from "@animeaux/core";
-import type { LinkDescriptor, LinksFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import { cn } from "@animeaux/core"
+import type { LinkDescriptor, LinksFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import {
   Links,
   Meta,
@@ -12,34 +12,34 @@ import {
   useLoaderData,
   useLocation,
   useMatches,
-} from "@remix-run/react";
-import { withSentry } from "@sentry/remix";
-import { Settings } from "luxon";
+} from "@remix-run/react"
+import { withSentry } from "@sentry/remix"
+import { Settings } from "luxon"
 
-import { ErrorPage } from "#i/core/data-display/error-page";
-import { createImageUrl } from "#i/core/data-display/image";
-import { asRouteHandle } from "#i/core/handles";
-import { getPageTitle, pageDescription } from "#i/core/page-title";
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration";
-import { theme } from "#i/generated/theme";
-import appleTouchIcon from "#i/images/apple-touch-icon.png";
-import faviconDark from "#i/images/favicon-dark.png";
-import faviconLight from "#i/images/favicon-light.png";
-import maskIcon from "#i/images/mask-icon.png";
+import { ErrorPage } from "#i/core/data-display/error-page"
+import { createImageUrl } from "#i/core/data-display/image"
+import { asRouteHandle } from "#i/core/handles"
+import { getPageTitle, pageDescription } from "#i/core/page-title"
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration"
+import { theme } from "#i/generated/theme"
+import appleTouchIcon from "#i/images/apple-touch-icon.png"
+import faviconDark from "#i/images/favicon-dark.png"
+import faviconLight from "#i/images/favicon-light.png"
+import maskIcon from "#i/images/mask-icon.png"
 
 // Display dates in French.
-Settings.defaultLocale = "fr";
+Settings.defaultLocale = "fr"
 
 // All "day dates" should be inferred as in Paris time zone.
 // Ex: 2022-01-01 => 2021-12-31T23:00:00.000Z and not 2021-01-01T00:00:00.000Z
-Settings.defaultZone = "Europe/Paris";
+Settings.defaultZone = "Europe/Paris"
 
 // We're not supposed to have invalid date objects.
 // Use null or undefined instead.
-Settings.throwOnInvalid = true;
+Settings.throwOnInvalid = true
 declare module "luxon" {
   interface TSSettings {
-    throwOnInvalid: true;
+    throwOnInvalid: true
   }
 }
 
@@ -66,11 +66,11 @@ export const links: LinksFunction = () => {
       as: "font",
       crossOrigin: "anonymous",
     })),
-  ];
-};
+  ]
+}
 
 export async function loader() {
-  return json({ CLIENT_ENV: global.CLIENT_ENV });
+  return json({ CLIENT_ENV: global.CLIENT_ENV })
 }
 
 export function ErrorBoundary() {
@@ -80,13 +80,13 @@ export function ErrorBoundary() {
 
       <GlobalClientEnv />
     </Document>
-  );
+  )
 }
 
-export default withSentry(App);
+export default withSentry(App)
 
 function App() {
-  const { CLIENT_ENV } = useLoaderData<typeof loader>();
+  const { CLIENT_ENV } = useLoaderData<typeof loader>()
 
   return (
     <Document
@@ -98,7 +98,7 @@ function App() {
 
       <GlobalClientEnv clientEnv={CLIENT_ENV} />
     </Document>
-  );
+  )
 }
 
 function Document({
@@ -108,34 +108,34 @@ function Document({
   publicHost,
   children,
 }: {
-  isErrorPage?: boolean;
-  cloudinaryName?: string;
-  googleTagManagerId?: string;
-  publicHost?: string;
-  children: React.ReactNode;
+  isErrorPage?: boolean
+  cloudinaryName?: string
+  googleTagManagerId?: string
+  publicHost?: string
+  children: React.ReactNode
 }) {
-  const location = useLocation();
+  const location = useLocation()
 
-  let url = publicHost;
+  let url = publicHost
   if (url != null && location.pathname !== "/") {
-    url = `${url}${location.pathname}`;
+    url = `${url}${location.pathname}`
   }
 
-  let imageUrl: string | undefined = undefined;
+  let imageUrl: string | undefined = undefined
   if (cloudinaryName != null) {
     imageUrl = createImageUrl(
       cloudinaryName,
       "show/f4fe85de-763b-41f8-8f3e-5dc6db343804",
       { size: "1024", format: "jpg" },
-    );
+    )
   }
 
-  const routeHandles = useMatches().map((match) => asRouteHandle(match.handle));
+  const routeHandles = useMatches().map((match) => asRouteHandle(match.handle))
   const htmlBackgroundColor = routeHandles
     .map((handle) => handle.htmlBackgroundColor)
-    .find((color) => color != null);
+    .find((color) => color != null)
 
-  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight);
+  const isFullHeight = routeHandles.some((handle) => handle.isFullHeight)
 
   return (
     <html
@@ -212,16 +212,16 @@ function Document({
         <ScrollRestoration
           getKey={(location) => {
             const { scrollRestorationLocationKey } =
-              ScrollRestorationLocationState.parse(location.state);
+              ScrollRestorationLocationState.parse(location.state)
 
-            return scrollRestorationLocationKey ?? location.key;
+            return scrollRestorationLocationKey ?? location.key
           }}
         />
 
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
 
 function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
@@ -231,7 +231,7 @@ function GlobalClientEnv({ clientEnv = {} }: { clientEnv?: object }) {
         __html: `window.CLIENT_ENV = ${JSON.stringify(clientEnv)};`,
       }}
     />
-  );
+  )
 }
 
 function GoogleTagManagerScript({ id }: { id: string }) {
@@ -241,7 +241,7 @@ function GoogleTagManagerScript({ id }: { id: string }) {
         __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');`,
       }}
     />
-  );
+  )
 }
 
 function GoogleTagManagerIframe({ id }: { id: string }) {
@@ -255,5 +255,5 @@ function GoogleTagManagerIframe({ id }: { id: string }) {
         style={{ display: "none", visibility: "hidden" }}
       />
     </noscript>
-  );
+  )
 }

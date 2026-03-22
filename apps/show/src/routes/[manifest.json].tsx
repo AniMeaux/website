@@ -1,16 +1,16 @@
-import type { LinksFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LinksFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
 
-import { getPageTitle } from "#i/core/page-title";
-import { theme } from "#i/generated/theme";
-import googleTouchIcon from "#i/images/google-touch-icon.png";
+import { getPageTitle } from "#i/core/page-title"
+import { theme } from "#i/generated/theme"
+import googleTouchIcon from "#i/images/google-touch-icon.png"
 
 // Make sure `google-touch-icon.png` is added to the build assets.
 // It looks like an asset only used on the server won't be included in the
 // assets build folder.
 export const links: LinksFunction = () => {
-  return [{ rel: "preconnect", href: googleTouchIcon }];
-};
+  return [{ rel: "preconnect", href: googleTouchIcon }]
+}
 
 export async function loader() {
   return json({
@@ -34,5 +34,5 @@ export async function loader() {
         purpose: "maskable",
       },
     ],
-  });
+  })
 }
