@@ -92,6 +92,7 @@ RUN pnpm install --prod --frozen-lockfile --offline
 
 COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
+COPY libs/prisma/prisma.config.ts libs/prisma/prisma.config.ts
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
 
 CMD ["pnpm", "--filter", "show", "start"]
