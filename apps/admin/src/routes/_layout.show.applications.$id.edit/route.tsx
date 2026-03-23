@@ -8,26 +8,29 @@ import type { MetaFunction } from "@remix-run/react"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
 
-import { Action } from "#i/core/actions"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { NotFoundError } from "#i/core/errors.server"
-import { Form } from "#i/core/form-elements/form"
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Textarea } from "#i/core/form-elements/textarea"
-import { assertIsDefined } from "#i/core/is-defined.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes, useBackIfPossible } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { MissingRefusalMessageError } from "#i/show/exhibitors/applications/db.server"
+import { Action } from "#i/core/actions.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { NotFoundError } from "#i/core/errors.server.js"
+import { Form } from "#i/core/form-elements/form.js"
+import {
+  RadioInput,
+  RadioInputList,
+} from "#i/core/form-elements/input-choice.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Textarea } from "#i/core/form-elements/textarea.js"
+import { assertIsDefined } from "#i/core/is-defined.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes, useBackIfPossible } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { MissingRefusalMessageError } from "#i/show/exhibitors/applications/db.server.js"
 import {
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status"
+} from "#i/show/exhibitors/applications/status.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

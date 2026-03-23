@@ -17,7 +17,7 @@ import {
   ApplicationSearchParamsN,
 } from "#i/show/exhibitors/applications/search-params.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardUntreatedApplications() {
   const { show } = useLoaderData<typeof loader>()

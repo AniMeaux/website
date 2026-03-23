@@ -2,7 +2,7 @@ import { zu } from "@animeaux/zod-utils"
 import type { ActionFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { badRequest, unauthorized } from "#i/core/response.server"
+import { badRequest, unauthorized } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
 
 export async function action({ request }: ActionFunctionArgs) {

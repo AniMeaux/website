@@ -2,12 +2,12 @@ import { useLoaderData } from "@remix-run/react"
 
 import { Action } from "#i/core/actions.js"
 import { BaseLink } from "#i/core/base-link.js"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
 import { Routes } from "#i/core/navigation.js"
 
-import { StandSizeItem } from "./item"
-import type { loader } from "./loader.server"
+import { StandSizeItem } from "./item.js"
+import type { loader } from "./loader.server.js"
 
 export function CardList() {
   const { standSizes } = useLoaderData<typeof loader>()

@@ -6,22 +6,22 @@ import { json } from "@remix-run/node"
 import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react"
 import { forwardRef } from "react"
 
-import { getErrorTitle } from "#i/core/data-display/error-page"
-import { DynamicImage } from "#i/core/data-display/image"
-import { useElementSize } from "#i/core/elements"
-import type { RouteHandle } from "#i/core/handles"
-import { createSocialMeta } from "#i/core/meta"
-import { Routes } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { notFound } from "#i/core/response.server"
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration"
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { useElementSize } from "#i/core/elements.js"
+import type { RouteHandle } from "#i/core/handles.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { notFound } from "#i/core/response.server.js"
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration.js"
 import { services } from "#i/core/services.server.js"
-import { Icon } from "#i/generated/icon"
-import { PicturesLocationState } from "#i/previous-editions/pictures-location-state"
+import { Icon } from "#i/generated/icon.js"
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state.js"
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   PreviousEdition,
-} from "#i/previous-editions/previous-edition"
+} from "#i/previous-editions/previous-edition.js"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-black"),

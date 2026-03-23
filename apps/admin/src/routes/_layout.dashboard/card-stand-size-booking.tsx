@@ -8,7 +8,7 @@ import { Routes } from "#i/core/navigation.js"
 import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js"
 import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardStandSizeBooking() {
   const { show } = useLoaderData<typeof loader>()

@@ -1,11 +1,11 @@
 import { getCompleteLocation } from "@animeaux/core"
 import { useLoaderData } from "@remix-run/react"
 
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { LegalStatus } from "#i/exhibitors/application/legal-status"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { LegalStatus } from "#i/exhibitors/application/legal-status.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SectionStructure() {
   const { exhibitor, application } = useLoaderData<typeof loader>()

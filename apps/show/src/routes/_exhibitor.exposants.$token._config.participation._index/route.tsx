@@ -1,18 +1,18 @@
 import type { MetaFunction } from "@remix-run/react"
 
-import { getErrorTitle } from "#i/core/data-display/error-page"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 import type { loader } from "./loader.server.js"
-import { SectionDogs } from "./section-dogs"
-import { SectionHelper } from "./section-helper"
+import { SectionDogs } from "./section-dogs.js"
+import { SectionHelper } from "./section-helper.js"
 import { SectionOnStageAnimations } from "./section-on-stage-animations.js"
 import { SectionOnStandAnimations } from "./section-on-stand-animations.js"
 import { SectionPerks } from "./section-perks.js"
 import { SectionPrice } from "./section-price.js"
-import { SectionStandConfiguration } from "./section-stand-configuration"
+import { SectionStandConfiguration } from "./section-stand-configuration.js"
 
 export { loader } from "./loader.server.js"
 

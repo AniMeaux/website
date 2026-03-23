@@ -3,8 +3,8 @@ import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const FileItem = {
   Root: forwardRef<

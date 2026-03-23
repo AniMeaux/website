@@ -3,23 +3,26 @@ import { useLocation } from "@remix-run/react"
 import { forwardRef, useEffect, useRef, useState } from "react"
 import { Transition } from "react-transition-group"
 
-import type { BaseLinkProps } from "#i/core/base-link"
-import { BaseLink } from "#i/core/base-link"
-import { getFocusTrapIgnoreAttribute, useFocusTrap } from "#i/core/focus-trap"
-import { useWidth } from "#i/core/hooks"
-import { LineShapeHorizontal } from "#i/core/layout/line-shape"
-import type { NavGroup } from "#i/core/layout/navigation/shared"
+import type { BaseLinkProps } from "#i/core/base-link.js"
+import { BaseLink } from "#i/core/base-link.js"
+import {
+  getFocusTrapIgnoreAttribute,
+  useFocusTrap,
+} from "#i/core/focus-trap.js"
+import { useWidth } from "#i/core/hooks.js"
+import { LineShapeHorizontal } from "#i/core/layout/line-shape.js"
+import type { NavGroup } from "#i/core/layout/navigation/shared.js"
 import {
   handleEscape,
   navLinkClassName,
-} from "#i/core/layout/navigation/shared"
-import { ShowBanner } from "#i/core/layout/navigation/show-banner"
-import { SocialLinks } from "#i/core/layout/navigation/social-links"
-import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act"
-import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt"
-import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover"
-import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn"
-import { useScrollLock } from "#i/core/scroll-lock"
+} from "#i/core/layout/navigation/shared.js"
+import { ShowBanner } from "#i/core/layout/navigation/show-banner.js"
+import { SocialLinks } from "#i/core/layout/navigation/social-links.js"
+import { SubNavAct } from "#i/core/layout/navigation/sub-nav-act.js"
+import { SubNavAdopt } from "#i/core/layout/navigation/sub-nav-adopt.js"
+import { SubNavDiscover } from "#i/core/layout/navigation/sub-nav-discover.js"
+import { SubNavWarn } from "#i/core/layout/navigation/sub-nav-warn.js"
+import { useScrollLock } from "#i/core/scroll-lock.js"
 import nameAndLogo from "#i/images/name-and-logo.svg"
 
 type State = NavGroup | null

@@ -1,8 +1,8 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { HelperCard } from "#i/core/layout/helper-card"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionStandNumber() {
   const { exhibitor } = useLoaderData<typeof loader>()

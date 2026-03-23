@@ -5,12 +5,12 @@ import { FormLayout } from "#i/core/layout/form-layout.js"
 import { createSocialMeta } from "#i/core/meta.js"
 import { getPageTitle } from "#i/core/page-title.js"
 
-import type { loader } from "./loader.server"
-import { SectionBillingInfo } from "./section-billing-info"
-import { SectionHelper } from "./section-helper"
-import { SectionInvoices } from "./section-invoices"
+import type { loader } from "./loader.server.js"
+import { SectionBillingInfo } from "./section-billing-info.js"
+import { SectionHelper } from "./section-helper.js"
+import { SectionInvoices } from "./section-invoices.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return createSocialMeta({

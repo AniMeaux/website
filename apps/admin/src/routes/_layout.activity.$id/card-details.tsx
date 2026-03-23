@@ -15,7 +15,7 @@ import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
 import { Icon } from "#i/generated/icon.js"
 import { UserAvatar } from "#i/users/avatar.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardDetails() {
   return (

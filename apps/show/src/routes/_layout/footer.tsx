@@ -1,15 +1,15 @@
 import { Link, useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions/action"
-import { DynamicImage } from "#i/core/data-display/image"
-import { Footer } from "#i/core/layout/footer"
-import { LazyElement } from "#i/core/layout/lazy-element"
-import { Section } from "#i/core/layout/section"
-import { ShowDay } from "#i/core/show-day"
+import { Action } from "#i/core/actions/action.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { Footer } from "#i/core/layout/footer.js"
+import { LazyElement } from "#i/core/layout/lazy-element.js"
+import { Section } from "#i/core/layout/section.js"
+import { ShowDay } from "#i/core/show-day.js"
 import { SponsorItem } from "#i/sponsors/item.js"
 import { SponsorsPlaceholderImage } from "#i/sponsors/placeholder-image.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function LayoutFooter() {
   if (CLIENT_ENV.FEATURE_FLAG_SITE_ONLINE === "true") {

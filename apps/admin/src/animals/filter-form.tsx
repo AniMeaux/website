@@ -7,23 +7,23 @@ import {
   ADOPTION_OPTION_ICON,
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "#i/animals/adoption"
-import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#i/animals/age"
+} from "#i/animals/adoption.js"
+import { AGE_ICON, AGE_TRANSLATION, SORTED_AGES } from "#i/animals/age.js"
 import {
   GENDER_ICON,
   GENDER_TRANSLATION,
   SORTED_GENDERS,
-} from "#i/animals/gender"
+} from "#i/animals/gender.js"
 import {
   PICK_UP_REASON_ICON,
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#i/animals/pick-up"
+} from "#i/animals/pick-up.js"
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "#i/animals/screening"
+} from "#i/animals/screening.js"
 import {
   ANIMAL_DEFAULT_SORT,
   AnimalIdentification,
@@ -32,36 +32,36 @@ import {
   AnimalSortSearchParams,
   AnimalSterilization,
   AnimalVaccination,
-} from "#i/animals/search-params"
+} from "#i/animals/search-params.js"
 import {
   DIAGNOSIS_TRANSLATION,
   SORTED_DIAGNOSIS,
-} from "#i/animals/situation/diagnosis"
+} from "#i/animals/situation/diagnosis.js"
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species"
+} from "#i/animals/species.js"
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
   StatusIcon,
-} from "#i/animals/status"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { toIsoDateValue } from "#i/core/dates"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+} from "#i/animals/status.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { FosterFamilyAvatar } from "#i/foster-families/avatar"
-import { Icon } from "#i/generated/icon"
-import { UserAvatar } from "#i/users/avatar"
-import { hasGroups } from "#i/users/groups"
+} from "#i/core/form-elements/toggle-input.js"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
+import { Icon } from "#i/generated/icon.js"
+import { UserAvatar } from "#i/users/avatar.js"
+import { hasGroups } from "#i/users/groups.js"
 
 export function AnimalFilters({
   currentUser,

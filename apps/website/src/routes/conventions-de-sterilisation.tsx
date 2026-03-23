@@ -3,24 +3,24 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section"
+} from "#i/core/layout/bubble-section.js"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { agreementsImages } from "#i/images/agreements"
-import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { agreementsImages } from "#i/images/agreements.js"
+import { citiesWithAgreements } from "#i/sterilisation-agreements/data.server.js"
 
 export async function loader() {
   return json({ citiesWithAgreements })

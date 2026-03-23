@@ -14,15 +14,15 @@ import {
 } from "@remix-run/react"
 import { Settings } from "luxon"
 
-import { ErrorPage } from "#i/core/data-display/error-page"
-import { Footer } from "#i/core/layout/footer"
-import { Header } from "#i/core/layout/header"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle, pageDescription } from "#i/core/page-title"
-import { theme } from "#i/generated/theme"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { Footer } from "#i/core/layout/footer.js"
+import { Header } from "#i/core/layout/header.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle, pageDescription } from "#i/core/page-title.js"
+import { theme } from "#i/generated/theme.js"
 import appleTouchIcon from "#i/images/apple-touch-icon.png"
 import favicon from "#i/images/favicon.svg"
-import { socialImages } from "#i/images/social"
+import { socialImages } from "#i/images/social.js"
 
 // Display dates in French.
 Settings.defaultLocale = "fr"

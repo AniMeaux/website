@@ -4,11 +4,11 @@ import { Link } from "@remix-run/react"
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import { Action, ActionIcon } from "#i/core/actions/action"
-import { ActionInline } from "#i/core/actions/inline"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { HorizontalSeparator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
+import { Action, ActionIcon } from "#i/core/actions/action.js"
+import { ActionInline } from "#i/core/actions/inline.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { HorizontalSeparator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const FormLayout = {
   Root: forwardRef<

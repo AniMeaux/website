@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 import { Children } from "react"
 
-import { LineShapeHorizontal } from "./line-shape"
+import { LineShapeHorizontal } from "#i/core/layout/line-shape.jsx"
 
 export function RelatedSection({ children }: { children: React.ReactNode }) {
   return (

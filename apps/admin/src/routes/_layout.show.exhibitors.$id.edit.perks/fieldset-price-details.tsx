@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react"
 import { Card } from "#i/core/layout/card.js"
 import { ParticipationReceipt } from "#i/show/exhibitors/participation-receipt.js"
 
-import { useForm } from "./form"
+import { useForm } from "./form.js"
 import type { loader } from "./loader.server.js"
 
 export function FieldsetPriceDetails() {

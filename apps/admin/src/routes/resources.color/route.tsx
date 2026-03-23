@@ -2,9 +2,9 @@ import { UserGroup } from "@animeaux/prisma"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { ColorSearchParams } from "#i/colors/search-params"
-import { db } from "#i/core/db.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { ColorSearchParams } from "#i/colors/search-params.js"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export type loader = typeof loader
 

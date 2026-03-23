@@ -3,12 +3,12 @@ import { zu } from "@animeaux/zod-utils"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { assertIsDefined } from "#i/core/is-defined.server"
-import { Routes } from "#i/core/navigation"
-import { prisma } from "#i/core/prisma.server"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { assertIsDefined } from "#i/core/is-defined.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

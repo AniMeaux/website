@@ -10,7 +10,7 @@ import { Routes } from "#i/core/navigation.js"
 import { badRequest, notFound } from "#i/core/response.server.js"
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { RouteParamsSchema } from "./route-params"
+import { RouteParamsSchema } from "./route-params.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

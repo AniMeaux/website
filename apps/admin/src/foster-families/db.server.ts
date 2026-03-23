@@ -16,10 +16,10 @@ import {
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server"
-import { orderByRank } from "#i/core/order-by-rank"
-import { prisma } from "#i/core/prisma.server"
-import type { FosterFamilySearchParams } from "#i/foster-families/search-params"
+} from "#i/core/errors.server.js"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server.js"
+import type { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
 
 export class MissingSpeciesToHostError extends Error {}
 export class InvalidAvailabilityDateError extends Error {}

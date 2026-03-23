@@ -1,18 +1,18 @@
 import type { Prisma } from "@animeaux/prisma"
 import { useLoaderData } from "@remix-run/react"
 
-import { FieldStepper } from "#i/core/form-elements/field-stepper"
-import { FieldTextarea } from "#i/core/form-elements/field-textarea"
-import { FieldYesNo } from "#i/core/form-elements/field-yes-no"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldStepper } from "#i/core/form-elements/field-stepper.js"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import { Price } from "#i/price/price.js"
 import { FieldStandSize } from "#i/stand-size/field.js"
 
-import { FieldDividerType } from "./field-divider-type"
-import { FieldInstallationDay } from "./field-installation-day"
-import { useForm } from "./form"
-import { HelperPriceDetails } from "./helper-price-details"
-import type { loader } from "./loader.server"
+import { FieldDividerType } from "./field-divider-type.js"
+import { FieldInstallationDay } from "./field-installation-day.js"
+import { useForm } from "./form.js"
+import { HelperPriceDetails } from "./helper-price-details.js"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetStand() {
   const { standSizes, dividerTypes } = useLoaderData<typeof loader>()

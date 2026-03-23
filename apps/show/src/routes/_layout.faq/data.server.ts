@@ -1,5 +1,5 @@
-import { Routes } from "#i/core/navigation"
-import type { Faq } from "#i/faq/faq"
+import { Routes } from "#i/core/navigation.js"
+import type { Faq } from "#i/faq/faq.js"
 
 export const QUESTIONS: Faq[] = [
   {

@@ -2,9 +2,9 @@ import { UserGroup } from "@animeaux/prisma"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { Routes } from "#i/core/navigation"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

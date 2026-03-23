@@ -6,13 +6,13 @@ import { json, redirect } from "@remix-run/node"
 import { captureException } from "@sentry/remix"
 import { v4 as uuid } from "uuid"
 
-import { Routes } from "#i/core/navigation"
+import { Routes } from "#i/core/navigation.js"
 import { services } from "#i/core/services.server.js"
-import { ServiceApplication } from "#i/exhibitors/application/service.server"
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import { ServiceApplication } from "#i/exhibitors/application/service.server.js"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category.js"
 
-import { createActionSchema } from "./action-schema"
-import { getStandSizesData } from "./stand-sizes.server"
+import { createActionSchema } from "./action-schema.js"
+import { getStandSizesData } from "./stand-sizes.server.js"
 
 export async function action({ request }: ActionFunctionArgs) {
   const standSizes = await getStandSizesData()

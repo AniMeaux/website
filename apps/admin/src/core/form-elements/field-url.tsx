@@ -1,10 +1,10 @@
 import type { FieldMetadata } from "@conform-to/react"
 import { getInputProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
-import { RequiredStar } from "#i/core/form-elements/required-star"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
 import { Icon } from "#i/generated/icon.js"
 
 export function FieldUrl({

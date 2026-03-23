@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#i/core/data-display/image"
+import type { ImageDescriptor } from "#i/core/data-display/image.js"
 import donation512 from "#i/images/donation-512w.png"
 import donation1024 from "#i/images/donation-1024w.png"
 import donation1536 from "#i/images/donation-1536w.png"

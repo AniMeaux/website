@@ -2,9 +2,9 @@ import { cn } from "@animeaux/core"
 import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 
-import { Checkbox } from "#i/core/form-elements/checkbox"
-import { Radio } from "#i/core/form-elements/radio"
-import { RequiredStar } from "#i/core/form-elements/required-star"
+import { Checkbox } from "#i/core/form-elements/checkbox.js"
+import { Radio } from "#i/core/form-elements/radio.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
 
 export const InputsChoices = forwardRef<
   React.ComponentRef<typeof Primitive.div>,

@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import type { z } from "zod"
 
-import { ActionFormData } from "#i/routes/resources.subscribe/input"
+import { ActionFormData } from "#i/routes/resources.subscribe/input.js"
 
 export async function loader() {
   // Nothing to render here.

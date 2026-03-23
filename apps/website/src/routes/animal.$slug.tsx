@@ -11,25 +11,28 @@ import { z } from "zod"
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#i/animals/screening"
-import { SPECIES_ICON } from "#i/animals/species"
-import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status"
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
-import type { MarkdownProps } from "#i/core/data-display/markdown"
-import { Markdown } from "#i/core/data-display/markdown"
-import { prisma } from "#i/core/db.server"
-import { isDefined } from "#i/core/is-defined"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+} from "#i/animals/screening.js"
+import { SPECIES_ICON } from "#i/animals/species.js"
+import { ADOPTABLE_ANIMAL_STATUS } from "#i/animals/status.js"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import {
+  createCloudinaryUrl,
+  DynamicImage,
+} from "#i/core/data-display/image.js"
+import type { MarkdownProps } from "#i/core/data-display/markdown.js"
+import { Markdown } from "#i/core/data-display/markdown.js"
+import { prisma } from "#i/core/db.server.js"
+import { isDefined } from "#i/core/is-defined.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 import {
   GENDER_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#i/core/translations"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/translations.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 const UuidSchema = z.string().uuid()
 

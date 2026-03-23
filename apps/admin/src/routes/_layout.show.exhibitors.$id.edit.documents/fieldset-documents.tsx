@@ -1,11 +1,11 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { BaseLink } from "#i/core/base-link"
-import { FileItem } from "#i/core/data-display/file-item"
-import { Form } from "#i/core/form-elements/form"
-import { Card } from "#i/core/layout/card"
+import { BaseLink } from "#i/core/base-link.js"
+import { FileItem } from "#i/core/data-display/file-item.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Card } from "#i/core/layout/card.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function FieldsetDocuments() {
   const { exhibitor } = useLoaderData<typeof loader>()

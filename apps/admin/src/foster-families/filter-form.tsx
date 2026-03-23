@@ -4,21 +4,21 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+} from "#i/animals/species.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
+} from "#i/core/form-elements/toggle-input.js"
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
   SORTED_AVAILABILITIES,
-} from "#i/foster-families/availability"
+} from "#i/foster-families/availability.js"
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
@@ -26,9 +26,9 @@ import {
   ICON_BY_HOUSING,
   SORTED_GARDEN,
   SORTED_HOUSING,
-} from "#i/foster-families/housing"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params"
-import { Icon } from "#i/generated/icon"
+} from "#i/foster-families/housing.js"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function FosterFamilyFilters({
   possibleCities,

@@ -1,15 +1,15 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { AnimalItem } from "#i/animals/item"
-import { AnimalSearchParams } from "#i/animals/search-params"
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
+import { AnimalItem } from "#i/animals/item.js"
+import { AnimalSearchParams } from "#i/animals/search-params.js"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardManagedAnimals() {
   const { currentUser, animal } = useLoaderData<typeof loader>()

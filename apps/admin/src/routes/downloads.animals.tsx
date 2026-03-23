@@ -11,23 +11,26 @@ import { Await, useLoaderData } from "@remix-run/react"
 import chunk from "lodash.chunk"
 import { Suspense } from "react"
 
-import { GENDER_ICON } from "#i/animals/gender"
+import { GENDER_ICON } from "#i/animals/gender.js"
 import {
   AnimalSearchParams,
   AnimalSortSearchParams,
-} from "#i/animals/search-params"
-import { Action } from "#i/core/actions"
-import { BlockHelper } from "#i/core/data-display/helper"
-import type { DynamicImageProps, ImageSize } from "#i/core/data-display/image"
-import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image"
-import { db } from "#i/core/db.server"
-import type { RouteHandle } from "#i/core/handles"
-import { Spinner } from "#i/core/loaders/spinner"
-import { useCurrentUserForMonitoring } from "#i/core/monitoring"
-import { getPageTitle } from "#i/core/page-title"
-import { prisma } from "#i/core/prisma.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { Icon } from "#i/generated/icon"
+} from "#i/animals/search-params.js"
+import { Action } from "#i/core/actions.js"
+import { BlockHelper } from "#i/core/data-display/helper.js"
+import type {
+  DynamicImageProps,
+  ImageSize,
+} from "#i/core/data-display/image.js"
+import { BaseImage, createCloudinaryUrl } from "#i/core/data-display/image.js"
+import { db } from "#i/core/db.server.js"
+import type { RouteHandle } from "#i/core/handles.js"
+import { Spinner } from "#i/core/loaders/spinner.js"
+import { useCurrentUserForMonitoring } from "#i/core/monitoring.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const handle: RouteHandle = {
   htmlBackgroundColor: cn("bg-gray-50 print:bg-white"),

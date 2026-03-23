@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#i/core/data-display/image"
+import type { ImageDescriptor } from "#i/core/data-display/image.js"
 import fosterFamilySmall512 from "#i/images/foster-family-small-512w.png"
 import fosterFamilySmall1024 from "#i/images/foster-family-small-1024w.png"
 

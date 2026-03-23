@@ -1,7 +1,7 @@
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import { DynamicImage } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image.js"
 
 export const ProvidersPlaceholderImage = forwardRef<
   React.ComponentRef<typeof DynamicImage>,

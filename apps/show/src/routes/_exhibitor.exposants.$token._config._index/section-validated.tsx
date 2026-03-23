@@ -1,9 +1,9 @@
 import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { useLoaderData } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 import {
   TaskItemDescription,
   TaskItemDocument,
@@ -12,7 +12,7 @@ import {
   TaskItemPerks,
   TaskItemPublicProfile,
   TaskItemStand,
-} from "./task-items"
+} from "./task-items.js"
 
 export function SectionValidated() {
   const { exhibitor } = useLoaderData<typeof loader>()

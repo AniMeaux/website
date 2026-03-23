@@ -2,12 +2,12 @@ import { useLoaderData } from "@remix-run/react"
 
 import { ProseInlineAction } from "#i/core/actions.js"
 import { BaseLink } from "#i/core/base-link.js"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { Card } from "#i/core/layout/card"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
 import { Routes } from "#i/core/navigation.js"
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardParticipation() {
   const { application } = useLoaderData<typeof loader>()

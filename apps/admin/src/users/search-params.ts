@@ -3,7 +3,7 @@ import { SearchParamsIO } from "@animeaux/search-params-io"
 import { zu } from "@animeaux/zod-utils"
 import { DateTime } from "luxon"
 
-import { endOfDay } from "#i/core/dates"
+import { endOfDay } from "#i/core/dates.js"
 
 export enum UserSort {
   LAST_ACTIVITY = "L",

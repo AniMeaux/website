@@ -1,9 +1,9 @@
 import { UserGroup } from "@animeaux/prisma/server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
+import { db } from "#i/core/db.server.js"
 import { ok } from "#i/core/response.server.js"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -1,22 +1,26 @@
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { toIsoDateValue } from "#i/core/dates"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
-import { GROUP_ICON, GROUP_TRANSLATION, SORTED_GROUPS } from "#i/users/groups"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
+import {
+  GROUP_ICON,
+  GROUP_TRANSLATION,
+  SORTED_GROUPS,
+} from "#i/users/groups.js"
 import {
   USER_DEFAULT_SORT,
   UserSearchParams,
   UserSort,
-} from "#i/users/search-params"
+} from "#i/users/search-params.js"
 
 export function UserFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams()

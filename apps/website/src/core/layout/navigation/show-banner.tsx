@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 
-import { BaseLink } from "#i/core/base-link"
-import { Icon } from "#i/generated/icon"
+import { BaseLink } from "#i/core/base-link.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function ShowBanner({ className }: { className?: string }) {
   return (

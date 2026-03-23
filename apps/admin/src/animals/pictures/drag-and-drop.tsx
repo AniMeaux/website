@@ -1,6 +1,6 @@
-import type { ImageFileOrId } from "#i/core/data-display/image"
-import { DataUrlOrDynamicImage } from "#i/core/data-display/image"
-import { createDragAndDropContext } from "#i/core/drag-and-drop"
+import type { ImageFileOrId } from "#i/core/data-display/image.js"
+import { DataUrlOrDynamicImage } from "#i/core/data-display/image.js"
+import { createDragAndDropContext } from "#i/core/drag-and-drop.js"
 
 const {
   DragAndDropContextProvider,

@@ -1,24 +1,24 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { Action, ProseInlineAction } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { Action, ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 import { InlineHelper } from "#i/core/data-display/helper.js"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
-import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
+import { StatusHelper } from "#i/show/exhibitors/status-helper.js"
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardStandConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>()

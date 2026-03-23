@@ -8,17 +8,17 @@ import { json } from "@remix-run/node"
 import type { MetaFunction } from "@remix-run/react"
 import type { MergeExclusive } from "type-fest"
 
-import { Action } from "#i/core/actions"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { Action } from "#i/core/actions.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { ActionSchema } from "./action"
-import { FieldsetStructure } from "./fieldset-structure"
-import { FormProvider, useFormRoot } from "./form"
+import { ActionSchema } from "./action.js"
+import { FieldsetStructure } from "./fieldset-structure.js"
+import { FormProvider, useFormRoot } from "./form.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

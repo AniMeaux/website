@@ -1,15 +1,15 @@
 import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { notFound } from "#i/core/response.server"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { notFound } from "#i/core/response.server.js"
 
-import { SectionCarpool } from "./section-carpool"
-import { SectionEcology } from "./section-ecology"
-import { SectionInformation } from "./section-information"
-import { SectionTitle } from "./section-title"
+import { SectionCarpool } from "./section-carpool.js"
+import { SectionEcology } from "./section-ecology.js"
+import { SectionInformation } from "./section-information.js"
+import { SectionTitle } from "./section-title.js"
 
 export async function loader() {
   if (process.env.FEATURE_FLAG_SITE_ONLINE !== "true") {

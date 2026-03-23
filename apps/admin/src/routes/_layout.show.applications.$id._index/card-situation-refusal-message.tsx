@@ -1,9 +1,9 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardSituationRefusalMessage() {
   const { application } = useLoaderData<typeof loader>()

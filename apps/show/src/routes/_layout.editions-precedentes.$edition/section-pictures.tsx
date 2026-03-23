@@ -3,20 +3,20 @@ import type { SerializeFrom } from "@remix-run/node"
 import { Await, Link, useLoaderData, useLocation } from "@remix-run/react"
 import { Suspense } from "react"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { Tab, Tabs } from "#i/core/controllers/tabs"
-import { DynamicImage } from "#i/core/data-display/image"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { Tab, Tabs } from "#i/core/controllers/tabs.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
 import type { ServiceImage } from "#i/core/image/service.server.js"
-import { Section } from "#i/core/layout/section"
-import { Routes } from "#i/core/navigation"
-import { ScrollRestorationLocationState } from "#i/core/scroll-restoration"
-import { PicturesLocationState } from "#i/previous-editions/pictures-location-state"
+import { Section } from "#i/core/layout/section.js"
+import { Routes } from "#i/core/navigation.js"
+import { ScrollRestorationLocationState } from "#i/core/scroll-restoration.js"
+import { PicturesLocationState } from "#i/previous-editions/pictures-location-state.js"
 import {
   PREVIOUS_EDITION_PHOTOGRAPH,
   SORTED_PREVIOUS_EDITIONS,
-} from "#i/previous-editions/previous-edition"
+} from "#i/previous-editions/previous-edition.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SectionPictures() {
   const { pictures, edition } = useLoaderData<typeof loader>()

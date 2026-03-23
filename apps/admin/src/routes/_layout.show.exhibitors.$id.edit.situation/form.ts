@@ -4,12 +4,12 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 
 import { OnOff } from "#i/core/form-elements/field-on-off.js"
-import { useBackIfPossible } from "#i/core/navigation"
-import { Visibility } from "#i/show/visibility"
+import { useBackIfPossible } from "#i/core/navigation.js"
+import { Visibility } from "#i/show/visibility.js"
 
-import type { action } from "./action.server"
-import { actionSchema } from "./action-schema"
-import type { loader } from "./loader.server"
+import type { action } from "./action.server.js"
+import { actionSchema } from "./action-schema.js"
+import type { loader } from "./loader.server.js"
 
 export function useFormRoot() {
   const { exhibitor } = useLoaderData<typeof loader>()

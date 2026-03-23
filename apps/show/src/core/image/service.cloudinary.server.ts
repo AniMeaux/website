@@ -1,5 +1,5 @@
 import { zu } from "@animeaux/zod-utils"
-import cachified from "@epic-web/cachified"
+import { cachified } from "@epic-web/cachified"
 import { LazyFile } from "@mjackson/lazy-file"
 import { writeReadableStreamToWritable } from "@remix-run/node"
 import { captureException } from "@sentry/remix"

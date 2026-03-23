@@ -4,16 +4,16 @@ import {
   COLOR_DEFAULT_SORT,
   ColorSearchParams,
   ColorSort,
-} from "#i/colors/search-params"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
+} from "#i/colors/search-params.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function ColorFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams()

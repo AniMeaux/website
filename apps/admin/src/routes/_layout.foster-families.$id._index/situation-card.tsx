@@ -7,21 +7,24 @@ import {
 import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { SPECIES_TRANSLATION } from "#i/animals/species"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
+import { SPECIES_TRANSLATION } from "#i/animals/species.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import {
+  HIGHLIGHT_COMPONENTS,
+  Markdown,
+} from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
 import {
   AVAILABILITY_TRANSLATION,
   AvailabilityIcon,
-} from "#i/foster-families/availability"
-import { ICON_BY_HOUSING } from "#i/foster-families/housing"
-import { Icon } from "#i/generated/icon"
+} from "#i/foster-families/availability.js"
+import { ICON_BY_HOUSING } from "#i/foster-families/housing.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SituationCard() {
   const { fosterFamily } = useLoaderData<typeof loader>()

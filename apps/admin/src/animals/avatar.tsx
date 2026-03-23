@@ -1,10 +1,10 @@
 import type { Animal } from "@animeaux/prisma"
 import type { Except } from "type-fest"
 
-import type { AvatarSize } from "#i/core/data-display/avatar"
-import { Avatar } from "#i/core/data-display/avatar"
-import type { DynamicImageProps } from "#i/core/data-display/image"
-import { DynamicImage } from "#i/core/data-display/image"
+import type { AvatarSize } from "#i/core/data-display/avatar.js"
+import { Avatar } from "#i/core/data-display/avatar.js"
+import type { DynamicImageProps } from "#i/core/data-display/image.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
 
 export function AnimalAvatar({
   animal,

@@ -8,16 +8,16 @@ import type {
 import { json, redirect } from "@remix-run/node"
 import { useFetcher } from "@remix-run/react"
 
-import { ErrorPage } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { EmailAlreadyUsedError } from "#i/core/errors.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { MissingPasswordError } from "#i/users/db.server"
-import { ActionFormData, UserForm } from "#i/users/form"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { EmailAlreadyUsedError } from "#i/core/errors.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { MissingPasswordError } from "#i/users/db.server.js"
+import { ActionFormData, UserForm } from "#i/users/form.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

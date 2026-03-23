@@ -8,11 +8,11 @@ import {
   useNavigation,
 } from "@remix-run/react"
 
-import { FieldFile } from "#i/core/form-elements/field-file"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldFile } from "#i/core/form-elements/field-file.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import { ActionSchema } from "./action"
-import type { action, loader } from "./route"
+import { ActionSchema } from "./action.js"
+import type { action, loader } from "./route.js"
 
 export function SectionForm() {
   const { exhibitor } = useLoaderData<typeof loader>()

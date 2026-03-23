@@ -1,8 +1,8 @@
 import type { LinksFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { getPageTitle } from "#i/core/page-title"
-import { theme } from "#i/generated/theme"
+import { getPageTitle } from "#i/core/page-title.js"
+import { theme } from "#i/generated/theme.js"
 import googleTouchIcon from "#i/images/google-touch-icon.png"
 
 // Make sure `google-touch-icon.png` is added to the build assets.

@@ -1,11 +1,11 @@
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { Action } from "#i/core/actions/action.js"
-import { HelperCard } from "#i/core/layout/helper-card"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 import { Routes } from "#i/core/navigation.js"
 import { InvoiceStatus } from "#i/invoice/status.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionPayment() {
   const { exhibitor } = useLoaderData<typeof loader>()

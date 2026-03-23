@@ -8,23 +8,23 @@ import invariant from "tiny-invariant"
 import { ActivityAction } from "#i/activity/action.js"
 import { Activity } from "#i/activity/db.server.js"
 import { ActivityResource } from "#i/activity/resource.js"
-import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures"
-import type { AnimalPictures } from "#i/animals/pictures/db.server"
-import { AnimalPictureDbDelegate } from "#i/animals/pictures/db.server"
-import { AnimalProfileDbDelegate } from "#i/animals/profile/db.server"
-import type { AnimalSearchParams } from "#i/animals/search-params"
+import { getAllAnimalPictures } from "#i/animals/pictures/all-pictures.js"
+import type { AnimalPictures } from "#i/animals/pictures/db.server.js"
+import { AnimalPictureDbDelegate } from "#i/animals/pictures/db.server.js"
+import { AnimalProfileDbDelegate } from "#i/animals/profile/db.server.js"
+import type { AnimalSearchParams } from "#i/animals/search-params.js"
 import {
   AnimalIdentification,
   AnimalSort,
   AnimalSterilization,
   AnimalVaccination,
-} from "#i/animals/search-params"
-import { AnimalSituationDbDelegate } from "#i/animals/situation/db.server"
-import { SORTED_SPECIES } from "#i/animals/species"
-import { deleteImage } from "#i/core/cloudinary.server"
-import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server"
-import { orderByRank } from "#i/core/order-by-rank"
-import { prisma } from "#i/core/prisma.server"
+} from "#i/animals/search-params.js"
+import { AnimalSituationDbDelegate } from "#i/animals/situation/db.server.js"
+import { SORTED_SPECIES } from "#i/animals/species.js"
+import { deleteImage } from "#i/core/cloudinary.server.js"
+import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server.js"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 export class AnimalDbDelegate {
   readonly picture = new AnimalPictureDbDelegate()

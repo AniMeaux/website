@@ -1,13 +1,13 @@
 import type { MetaFunction } from "@remix-run/react"
 import { useLoaderData } from "@remix-run/react"
 
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
-import { ExhibitorFilters } from "#i/show/exhibitors/filter-form"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { ExhibitorFilters } from "#i/show/exhibitors/filter-form.js"
 
-import { CardList } from "./card-list"
+import { CardList } from "./card-list.js"
 import type { loader } from "./loader.server.js"
 
 export { loader } from "./loader.server.js"

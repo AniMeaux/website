@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 import { forwardRef } from "react"
 
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const IconInline = forwardRef<
   React.ComponentRef<typeof Icon>,

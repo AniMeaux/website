@@ -1,7 +1,7 @@
 import type { FieldMetadata } from "@conform-to/react"
 import type { Except } from "type-fest"
 
-import { Form } from "#i/core/form-elements/form"
+import { Form } from "#i/core/form-elements/form.js"
 
 export function FieldErrorHelper({
   field,

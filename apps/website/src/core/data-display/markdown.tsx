@@ -5,10 +5,10 @@ import breaks from "remark-breaks"
 import gfm from "remark-gfm"
 import invariant from "tiny-invariant"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import { LineShapeVertical } from "#i/core/layout/line-shape"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { LineShapeVertical } from "#i/core/layout/line-shape.js"
 
 const REMARK_PLUGINS: ReactMarkdownOptions["remarkPlugins"] = [
   // Allow line breaks in paragraphs.

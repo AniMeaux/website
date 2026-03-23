@@ -3,7 +3,7 @@ import type { Event } from "@animeaux/prisma"
 import type { SerializeFrom } from "@remix-run/node"
 import { DateTime } from "luxon"
 
-import { Avatar } from "#i/core/data-display/avatar"
+import { Avatar } from "#i/core/data-display/avatar.js"
 
 export function EventAvatar({
   event,

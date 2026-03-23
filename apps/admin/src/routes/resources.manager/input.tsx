@@ -7,20 +7,20 @@ import { useCombobox } from "downshift"
 import { createPath } from "history"
 import { forwardRef, useEffect, useState } from "react"
 
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Input } from "#i/core/form-elements/input"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
-import type { loader } from "#i/routes/resources.manager/route"
-import { UserAvatar } from "#i/users/avatar"
-import { UserSearchParams } from "#i/users/search-params"
+} from "#i/core/form-elements/resource-input.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import type { loader } from "#i/routes/resources.manager/route.js"
+import { UserAvatar } from "#i/users/avatar.js"
+import { UserSearchParams } from "#i/users/search-params.js"
 
 type ManagerInputProps = {
   name: string

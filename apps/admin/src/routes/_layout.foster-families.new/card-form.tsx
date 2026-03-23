@@ -1,8 +1,8 @@
 import { useFetcher } from "@remix-run/react"
 
-import { Card } from "#i/core/layout/card"
-import { useBackIfPossible } from "#i/core/navigation"
-import { FosterFamilyForm } from "#i/foster-families/form"
+import { Card } from "#i/core/layout/card.js"
+import { useBackIfPossible } from "#i/core/navigation.js"
+import { FosterFamilyForm } from "#i/foster-families/form.js"
 
 import type { action } from "./action.server.js"
 

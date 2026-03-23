@@ -8,8 +8,8 @@ import { isbot } from "isbot"
 import type { RenderToPipeableStreamOptions } from "react-dom/server"
 import { renderToPipeableStream } from "react-dom/server"
 
-import { checkEnv, getClientEnv } from "#i/core/env.server"
-import { initMonitoring } from "#i/core/monitoring.server"
+import { checkEnv, getClientEnv } from "#i/core/env.server.js"
+import { initMonitoring } from "#i/core/monitoring.server.js"
 
 checkEnv()
 global.CLIENT_ENV = getClientEnv()

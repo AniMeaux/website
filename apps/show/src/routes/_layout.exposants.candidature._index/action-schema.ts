@@ -5,11 +5,11 @@ import invariant from "tiny-invariant"
 
 import { Enums } from "#i/core/enums.js"
 import { ImageLimits } from "#i/core/image/limits.js"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
-import { LegalStatus } from "#i/exhibitors/application/legal-status"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source.js"
+import { LegalStatus } from "#i/exhibitors/application/legal-status.js"
 import { ExhibitorCategory } from "#i/exhibitors/category.js"
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category.js"
 import type { StandSizeAllowedCategories } from "#i/stand-size/allowed-categories.js"
 
 export function createActionSchema(

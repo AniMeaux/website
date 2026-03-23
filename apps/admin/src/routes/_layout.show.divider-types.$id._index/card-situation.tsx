@@ -5,7 +5,7 @@ import { Card } from "#i/core/layout/card.js"
 import { formatAvailability } from "#i/show/divider-type/availability.js"
 import { DividerTypeAvailabilityIcon } from "#i/show/divider-type/availability-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardSituation() {
   return (

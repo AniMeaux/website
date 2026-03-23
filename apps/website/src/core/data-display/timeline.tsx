@@ -1,7 +1,7 @@
 import { cn } from "@animeaux/core"
 
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function Timeline({ children }: { children: React.ReactNode }) {
   return <ul className={cn("flex flex-col pt-4", "md:pt-1")}>{children}</ul>

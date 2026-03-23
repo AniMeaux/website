@@ -1,21 +1,21 @@
 import type { User } from "@animeaux/prisma"
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { ActivityAction } from "#i/activity/action"
-import { ActivityResource } from "#i/activity/resource"
-import { ActivitySearchParams } from "#i/activity/search-params"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { toIsoDateValue } from "#i/core/dates"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+import { ActivityAction } from "#i/activity/action.js"
+import { ActivityResource } from "#i/activity/resource.js"
+import { ActivitySearchParams } from "#i/activity/search-params.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
-import { UserAvatar } from "#i/users/avatar"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
+import { UserAvatar } from "#i/users/avatar.js"
 
 export function ActivityFilters({
   users,

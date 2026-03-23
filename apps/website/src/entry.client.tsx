@@ -3,7 +3,7 @@ import { startTransition, StrictMode } from "react"
 import { hydrateRoot } from "react-dom/client"
 
 if (process.env.NODE_ENV === "development") {
-  void import("#i/mocks/mocks.client").then((module) => module.startWorker())
+  void import("#i/mocks/mocks.client.js").then((module) => module.startWorker())
 }
 
 startTransition(() => {

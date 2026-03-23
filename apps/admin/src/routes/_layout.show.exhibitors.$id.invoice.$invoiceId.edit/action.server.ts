@@ -11,8 +11,8 @@ import { AlreadyExistError } from "#i/core/errors.server.js"
 import { Routes } from "#i/core/navigation.js"
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { actionSchema } from "./action"
-import { routeParamsSchema } from "./route-params"
+import { actionSchema } from "./action.js"
+import { routeParamsSchema } from "./route-params.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

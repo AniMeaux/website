@@ -8,26 +8,29 @@ import type {
 import { json } from "@remix-run/node"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
 import {
   MissingAdoptionDateError,
   MissingManagerError,
   MissingNextVaccinationError,
   MissingPickUpLocationError,
   NotManagerError,
-} from "#i/animals/situation/db.server"
-import { ActionFormData, AnimalSituationForm } from "#i/animals/situation/form"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { NotFoundError } from "#i/core/errors.server"
-import { assertIsDefined } from "#i/core/is-defined.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes, useBackIfPossible } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { prisma } from "#i/core/prisma.server"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+} from "#i/animals/situation/db.server.js"
+import {
+  ActionFormData,
+  AnimalSituationForm,
+} from "#i/animals/situation/form.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { NotFoundError } from "#i/core/errors.server.js"
+import { assertIsDefined } from "#i/core/is-defined.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes, useBackIfPossible } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

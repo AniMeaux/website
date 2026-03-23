@@ -3,7 +3,7 @@ import { Primitive } from "@animeaux/react-primitives"
 import { Link } from "@remix-run/react"
 import { forwardRef } from "react"
 
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const TaskItem = {
   Root: forwardRef<

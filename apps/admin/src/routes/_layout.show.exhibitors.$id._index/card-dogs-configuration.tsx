@@ -12,11 +12,11 @@ import { Card } from "#i/core/layout/card.js"
 import { Separator } from "#i/core/layout/separator.js"
 import { Routes } from "#i/core/navigation.js"
 import { Icon } from "#i/generated/icon.js"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 import { StatusHelper } from "#i/show/exhibitors/status-helper.js"
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardDogsConfiguration() {
   const { exhibitor } = useLoaderData<typeof loader>()

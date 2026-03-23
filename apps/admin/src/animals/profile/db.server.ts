@@ -4,9 +4,9 @@ import { redirect } from "@remix-run/node"
 import { ActivityAction } from "#i/activity/action.js"
 import { Activity } from "#i/activity/db.server.js"
 import { ActivityResource } from "#i/activity/resource.js"
-import { NotFoundError } from "#i/core/errors.server"
-import { Routes } from "#i/core/navigation"
-import { prisma } from "#i/core/prisma.server"
+import { NotFoundError } from "#i/core/errors.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 type ProfileKeys =
   | "alias"

@@ -2,21 +2,21 @@ import { formatAge } from "@animeaux/core"
 import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { AnimalSmallItem } from "#i/animals/item"
+import { AnimalSmallItem } from "#i/animals/item.js"
 import {
   AnimalSearchParams,
   AnimalSort,
   AnimalSortSearchParams,
   AnimalSterilization,
-} from "#i/animals/search-params"
-import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#i/animals/situation/health"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
+} from "#i/animals/search-params.js"
+import { HAS_UP_COMMING_STERILISATION_CONDITIONS } from "#i/animals/situation/health.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardAnimalsToSterilize() {
   const { animal } = useLoaderData<typeof loader>()

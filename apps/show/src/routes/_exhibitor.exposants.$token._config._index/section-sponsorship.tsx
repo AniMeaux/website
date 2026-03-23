@@ -1,12 +1,12 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionSponsorship() {
   return (

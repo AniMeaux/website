@@ -8,18 +8,18 @@ import type {
 import { json } from "@remix-run/node"
 import { useFetcher } from "@remix-run/react"
 
-import { ErrorPage } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes, useBackIfPossible } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes, useBackIfPossible } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 import {
   InvalidPublicationDateError,
   UrlAlreadyUsedError,
-} from "#i/press-articles/db.server"
-import { ActionFormData, PressArticleForm } from "#i/press-articles/form"
+} from "#i/press-articles/db.server.js"
+import { ActionFormData, PressArticleForm } from "#i/press-articles/form.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

@@ -5,8 +5,8 @@ import { DateTime } from "luxon"
 import { ActivityAction } from "#i/activity/action.js"
 import { Activity } from "#i/activity/db.server.js"
 import { ActivityResource } from "#i/activity/resource.js"
-import type { CronDefinition } from "#i/core/crons/shared.server"
-import { prisma } from "#i/core/prisma.server"
+import type { CronDefinition } from "#i/core/crons/shared.server.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 export const ExpireFosterFamilyAvailabilityCron: CronDefinition = {
   name: "Expire foster family availability",

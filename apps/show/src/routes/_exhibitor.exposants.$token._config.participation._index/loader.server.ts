@@ -4,7 +4,7 @@ import { promiseHash } from "remix-utils/promise"
 
 import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

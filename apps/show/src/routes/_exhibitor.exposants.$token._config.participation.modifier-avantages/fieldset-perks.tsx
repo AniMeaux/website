@@ -1,13 +1,13 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { FieldStepper } from "#i/core/form-elements/field-stepper"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldStepper } from "#i/core/form-elements/field-stepper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import { PerksHelper } from "#i/exhibitors/perks/helper.js"
 import { Price } from "#i/price/price.js"
 
-import { useForm } from "./form"
-import { HelperPriceDetails } from "./helper-price-details"
-import type { loader } from "./loader.server"
+import { useForm } from "./form.js"
+import { HelperPriceDetails } from "./helper-price-details.js"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetPerks() {
   const { exhibitor } = useLoaderData<typeof loader>()

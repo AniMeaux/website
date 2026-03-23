@@ -1,7 +1,7 @@
 import { ShowActivityField } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
 
 export namespace ActivityField {
   export const Enum = ShowActivityField

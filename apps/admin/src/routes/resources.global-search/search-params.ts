@@ -1,7 +1,7 @@
 import { SearchParamsIO } from "@animeaux/search-params-io"
 import { zu } from "@animeaux/zod-utils"
 
-import { Entity } from "./entity"
+import { Entity } from "./entity.js"
 
 export const GlobalSearchParams = SearchParamsIO.create({
   keys: {

@@ -2,10 +2,10 @@ import { UserGroup } from "@animeaux/prisma"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { PickUpLocationSearchParams } from "#i/animals/search-params"
-import { db } from "#i/core/db.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared"
+import { PickUpLocationSearchParams } from "#i/animals/search-params.js"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { MAX_HIT_COUNT } from "#i/routes/resources.pick-up-location/shared.js"
 
 export type loader = typeof loader
 

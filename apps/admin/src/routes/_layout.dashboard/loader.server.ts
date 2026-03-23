@@ -2,12 +2,12 @@ import { UserGroup } from "@animeaux/prisma/server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { hasGroups } from "#i/users/groups"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { hasGroups } from "#i/users/groups.js"
 
-import { loaderAnimal } from "./loader.animal.server"
-import { loaderShow } from "./loader.show.server"
+import { loaderAnimal } from "./loader.animal.server.js"
+import { loaderShow } from "./loader.show.server.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

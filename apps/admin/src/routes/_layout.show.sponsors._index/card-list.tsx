@@ -1,15 +1,15 @@
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Paginator } from "#i/core/controllers/paginator"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
-import { SponsorSearchParams } from "#i/show/sponsors/search-params"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Paginator } from "#i/core/controllers/paginator.js"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
+import { SponsorSearchParams } from "#i/show/sponsors/search-params.js"
 
-import { SponsorItem } from "./item"
-import type { loader } from "./route"
+import { SponsorItem } from "./item.js"
+import type { loader } from "./route.js"
 
 export function CardList() {
   const { totalCount, pageCount, sponsors } = useLoaderData<typeof loader>()

@@ -8,10 +8,10 @@ import {
   HAS_UP_COMMING_DIAGNOSE_CONDITIONS,
   HAS_UP_COMMING_STERILISATION_CONDITIONS,
   HAS_UP_COMMING_VACCINATION_CONDITIONS,
-} from "#i/animals/situation/health"
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
-import { prisma } from "#i/core/prisma.server"
-import { hasGroups } from "#i/users/groups"
+} from "#i/animals/situation/health.js"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { hasGroups } from "#i/users/groups.js"
 
 export async function loaderAnimal(currentUser: Pick<User, "id" | "groups">) {
   const activeAnimalsWhere: Prisma.AnimalWhereInput = {

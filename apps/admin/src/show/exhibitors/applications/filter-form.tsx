@@ -1,33 +1,33 @@
 import type { ShowStandSize } from "@animeaux/prisma"
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon.js"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
-} from "#i/show/exhibitors/applications/search-params"
+} from "#i/show/exhibitors/applications/search-params.js"
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status"
+} from "#i/show/exhibitors/applications/status.js"
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#i/show/sponsors/category"
+} from "#i/show/sponsors/category.js"
 
 export function ApplicationFilters({
   standSizes,

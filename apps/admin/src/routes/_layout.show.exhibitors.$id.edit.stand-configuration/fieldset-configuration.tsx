@@ -2,14 +2,14 @@ import { useLoaderData } from "@remix-run/react"
 import invariant from "tiny-invariant"
 
 import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
-import { FieldOnOff } from "#i/core/form-elements/field-on-off"
-import { FieldRadios } from "#i/core/form-elements/field-radios"
-import { Form } from "#i/core/form-elements/form"
-import { Card } from "#i/core/layout/card"
-import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day"
+import { FieldOnOff } from "#i/core/form-elements/field-on-off.js"
+import { FieldRadios } from "#i/core/form-elements/field-radios.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Card } from "#i/core/layout/card.js"
+import { InstallationDay } from "#i/show/exhibitors/stand-configuration/installation-day.js"
 
-import { DividerType } from "./action"
-import { useForm } from "./form"
+import { DividerType } from "./action.js"
+import { useForm } from "./form.js"
 import type { loader } from "./loader.server.js"
 
 export function FieldsetConfiguration() {

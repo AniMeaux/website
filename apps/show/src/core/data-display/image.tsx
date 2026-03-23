@@ -4,8 +4,8 @@ import orderBy from "lodash.orderby"
 import { forwardRef } from "react"
 
 import type { ImageData } from "#i/core/image/data.js"
-import type { ScreenSize } from "#i/generated/theme"
-import { theme } from "#i/generated/theme"
+import type { ScreenSize } from "#i/generated/theme.js"
+import { theme } from "#i/generated/theme.js"
 
 export const DynamicImage = forwardRef<
   React.ComponentRef<"img">,

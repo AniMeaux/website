@@ -1,16 +1,19 @@
 import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { Link, useLoaderData } from "@remix-run/react"
 
-import { Markdown, PARAGRAPH_COMPONENTS } from "#i/core/data-display/markdown"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
-import { Routes } from "#i/core/navigation"
-import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand"
-import { Icon } from "#i/generated/icon"
+import {
+  Markdown,
+  PARAGRAPH_COMPONENTS,
+} from "#i/core/data-display/markdown.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
+import { Routes } from "#i/core/navigation.js"
+import { CardAnimationsOnStand } from "#i/exhibitors/animations/card-animations-on-stand.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
-import { SectionId } from "./section-id"
+import type { loader } from "./route.js"
+import { SectionId } from "./section-id.js"
 
 export function SectionOnStandAnimations() {
   const { exhibitor } = useLoaderData<typeof loader>()

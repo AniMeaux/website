@@ -6,11 +6,11 @@ import {
 import { SearchParamsIO } from "@animeaux/search-params-io"
 import { zu } from "@animeaux/zod-utils"
 
-import type { IconName } from "#i/generated/icon"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import type { IconName } from "#i/generated/icon.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 import { InvoiceStatus } from "#i/show/invoice/status.js"
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category"
-import { Visibility } from "#i/show/visibility"
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js"
+import { Visibility } from "#i/show/visibility.js"
 
 export type ExhibitorSearchParams = SearchParamsIO.Infer<
   typeof ExhibitorSearchParams.io

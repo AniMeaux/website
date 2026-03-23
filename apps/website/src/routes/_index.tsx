@@ -4,16 +4,16 @@ import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 import { promiseHash } from "remix-utils/promise"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { SearchForm } from "#i/core/controllers/searchForm"
-import type { StaticImageProps } from "#i/core/data-display/image"
-import { StaticImage } from "#i/core/data-display/image"
-import { prisma } from "#i/core/db.server"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { SearchForm } from "#i/core/controllers/searchForm.js"
+import type { StaticImageProps } from "#i/core/data-display/image.js"
+import { StaticImage } from "#i/core/data-display/image.js"
+import { prisma } from "#i/core/db.server.js"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section"
+} from "#i/core/layout/bubble-section.js"
 import {
   HeroSection,
   HeroSectionAction,
@@ -21,17 +21,17 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { DonationSection } from "#i/donation/section"
-import { EventItem } from "#i/events/item"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import { adoptionImages } from "#i/images/adoption"
-import { fosterFamilyLargeImages } from "#i/images/foster-family-large"
-import { fosterFamilySmallImages } from "#i/images/foster-family-small"
-import { heroImages } from "#i/images/hero"
-import { pickUpImages } from "#i/images/pick-up"
-import { volunteerImages } from "#i/images/volunteer"
+} from "#i/core/layout/hero-section.js"
+import { DonationSection } from "#i/donation/section.js"
+import { EventItem } from "#i/events/item.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import { adoptionImages } from "#i/images/adoption.js"
+import { fosterFamilyLargeImages } from "#i/images/foster-family-large.js"
+import { fosterFamilySmallImages } from "#i/images/foster-family-small.js"
+import { heroImages } from "#i/images/hero.js"
+import { pickUpImages } from "#i/images/pick-up.js"
+import { volunteerImages } from "#i/images/volunteer.js"
 
 export async function loader() {
   const { pickUpCount, upcomingEvents } = await promiseHash({

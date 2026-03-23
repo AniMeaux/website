@@ -13,31 +13,31 @@ import { useLocation } from "@remix-run/react"
 import { DateTime } from "luxon"
 import { useEffect, useRef, useState } from "react"
 
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species"
-import { Action } from "#i/core/actions"
-import { toIsoDateValue } from "#i/core/dates"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species.js"
+import { Action } from "#i/core/actions.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   CheckboxInput,
   CheckboxInputList,
   RadioInput,
   RadioInputList,
-} from "#i/core/form-elements/input-choice"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Textarea } from "#i/core/form-elements/textarea"
-import { Separator } from "#i/core/layout/separator"
+} from "#i/core/form-elements/input-choice.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Textarea } from "#i/core/form-elements/textarea.js"
+import { Separator } from "#i/core/layout/separator.js"
 import {
   AVAILABILITY_TRANSLATION,
   SORTED_AVAILABILITIES,
-} from "#i/foster-families/availability"
+} from "#i/foster-families/availability.js"
 import {
   GARDEN_TRANSLATION,
   HOUSING_TRANSLATION,
   SORTED_GARDEN,
   SORTED_HOUSING,
-} from "#i/foster-families/housing"
-import { Icon } from "#i/generated/icon"
+} from "#i/foster-families/housing.js"
+import { Icon } from "#i/generated/icon.js"
 
 const actionSchema = zu.object({
   address: zu.string().trim().min(1, "Veuillez entrer une adresse"),

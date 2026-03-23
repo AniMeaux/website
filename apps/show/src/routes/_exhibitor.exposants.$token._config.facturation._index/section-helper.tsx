@@ -1,4 +1,4 @@
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
 export function SectionHelper() {
   return (

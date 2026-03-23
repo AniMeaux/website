@@ -2,16 +2,16 @@ import type { Breed } from "@animeaux/prisma/server"
 import { Prisma } from "@animeaux/prisma/server"
 import type { SearchParamsIO } from "@animeaux/search-params-io"
 
-import type { BreedSearchParams } from "#i/breeds/search-params"
-import { BreedSort } from "#i/breeds/search-params"
+import type { BreedSearchParams } from "#i/breeds/search-params.js"
+import { BreedSort } from "#i/breeds/search-params.js"
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server"
-import { orderByRank } from "#i/core/order-by-rank"
-import { prisma } from "#i/core/prisma.server"
+} from "#i/core/errors.server.js"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 export class BreedDbDelegate {
   async create(data: BreedData) {

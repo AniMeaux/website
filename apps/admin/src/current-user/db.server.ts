@@ -4,16 +4,19 @@ import { Prisma, UserGroup } from "@animeaux/prisma/server"
 import { redirect } from "@remix-run/node"
 import { createPath } from "history"
 
-import { EmailAlreadyUsedError, PrismaErrorCodes } from "#i/core/errors.server"
-import { setCurrentUserForMonitoring } from "#i/core/monitoring.server"
-import { Routes } from "#i/core/navigation"
-import { prisma } from "#i/core/prisma.server"
-import { NextSearchParams } from "#i/core/search-params"
+import {
+  EmailAlreadyUsedError,
+  PrismaErrorCodes,
+} from "#i/core/errors.server.js"
+import { setCurrentUserForMonitoring } from "#i/core/monitoring.server.js"
+import { Routes } from "#i/core/navigation.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { NextSearchParams } from "#i/core/search-params.js"
 import {
   destroyCurrentUserSession,
   getCurrentUserSession,
-} from "#i/current-user/session.server"
-import { hasGroups } from "#i/users/groups"
+} from "#i/current-user/session.server.js"
+import { hasGroups } from "#i/users/groups.js"
 
 export class CurrentUserDbDelegate {
   async get<T extends Prisma.UserSelect>(

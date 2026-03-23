@@ -3,10 +3,10 @@ import { useFetcher } from "@remix-run/react"
 import { createPath } from "history"
 import { useEffect, useMemo } from "react"
 
-import { Routes } from "#i/core/navigation"
+import { Routes } from "#i/core/navigation.js"
 
-import type { loader } from "./route"
-import { ScrapUrlSearchParams } from "./shared"
+import type { loader } from "./route.js"
+import { ScrapUrlSearchParams } from "./shared.js"
 
 export function useScrapUrlFetcher({
   url,

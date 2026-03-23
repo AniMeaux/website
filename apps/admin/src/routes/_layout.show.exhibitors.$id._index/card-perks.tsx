@@ -3,16 +3,16 @@ import { useLoaderData } from "@remix-run/react"
 import { Action } from "#i/core/actions.js"
 import { BaseLink } from "#i/core/base-link.js"
 import { InlineHelper } from "#i/core/data-display/helper.js"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
 import { Routes } from "#i/core/navigation.js"
-import { Icon } from "#i/generated/icon"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
-import { StatusHelper } from "#i/show/exhibitors/status-helper"
+import { Icon } from "#i/generated/icon.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
+import { StatusHelper } from "#i/show/exhibitors/status-helper.js"
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardPerks() {
   const { exhibitor } = useLoaderData<typeof loader>()

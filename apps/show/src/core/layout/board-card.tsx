@@ -1,10 +1,10 @@
 import { cn } from "@animeaux/core"
 import { forwardRef } from "react"
 
-import { useElementSize } from "#i/core/elements"
-import { BeeIllustration } from "#i/core/illustration/bee"
-import { useScreenSizeCondition } from "#i/core/screen-size"
-import { theme } from "#i/generated/theme"
+import { useElementSize } from "#i/core/elements.js"
+import { BeeIllustration } from "#i/core/illustration/bee.js"
+import { useScreenSizeCondition } from "#i/core/screen-size.js"
+import { theme } from "#i/generated/theme.js"
 
 export const BoardCard = forwardRef<
   React.ComponentRef<"div">,

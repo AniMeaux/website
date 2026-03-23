@@ -1,7 +1,7 @@
 import { zu } from "@animeaux/zod-utils"
 
 import { OnOff } from "#i/core/form-elements/field-on-off.js"
-import { Visibility } from "#i/show/visibility"
+import { Visibility } from "#i/show/visibility.js"
 
 export const actionSchema = zu.object({
   isOrganizer: zu

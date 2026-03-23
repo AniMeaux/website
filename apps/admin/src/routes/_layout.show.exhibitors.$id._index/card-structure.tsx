@@ -1,16 +1,16 @@
 import { getCompleteLocation } from "@animeaux/core"
 import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardStructure() {
   const { exhibitor } = useLoaderData<typeof loader>()

@@ -3,12 +3,12 @@ import { Species } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 import { useCallback, useEffect, useState } from "react"
 
-import { BaseLink } from "#i/core/base-link"
+import { BaseLink } from "#i/core/base-link.js"
 import {
   AGE_TRANSLATION,
   SPECIES_TRANSLATION_STANDALONE,
-} from "#i/core/translations"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/translations.js"
+import { Icon } from "#i/generated/icon.js"
 
 const SORTED_SPECIES = orderBy(
   Object.values(Species),

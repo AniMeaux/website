@@ -5,7 +5,7 @@ import { Routes } from "#i/core/navigation.js"
 import { DividerTypeAvailabilityChip } from "#i/show/divider-type/availability-chip.js"
 import { DividerTypeAvailabilityIcon } from "#i/show/divider-type/availability-icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 type DividerType = SerializeFrom<typeof loader>["dividerTypes"][number]
 

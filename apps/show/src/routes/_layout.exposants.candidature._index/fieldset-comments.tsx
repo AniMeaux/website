@@ -1,13 +1,13 @@
 import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FieldText } from "#i/core/form-elements/field-text"
-import { FieldTextarea } from "#i/core/form-elements/field-textarea"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FieldText } from "#i/core/form-elements/field-text.js"
+import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source.js"
 
-import { FieldsetId, useFieldsets } from "./form"
+import { FieldsetId, useFieldsets } from "./form.js"
 
 export function FieldsetComments() {
   const { fieldsets } = useFieldsets()

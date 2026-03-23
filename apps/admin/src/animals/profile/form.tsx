@@ -13,24 +13,27 @@ import {
   agreementToBoolean,
   AgreementValue,
   SORTED_AGREEMENTS,
-} from "#i/animals/agreements"
-import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender"
+} from "#i/animals/agreements.js"
+import { GENDER_TRANSLATION, SORTED_GENDERS } from "#i/animals/gender.js"
 import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species"
-import { Action } from "#i/core/actions"
-import { toIsoDateValue } from "#i/core/dates"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Textarea } from "#i/core/form-elements/textarea"
-import { Separator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
-import { BreedInput } from "#i/routes/resources.breed/input"
-import { ColorInput } from "#i/routes/resources.color/input"
+} from "#i/animals/species.js"
+import { Action } from "#i/core/actions.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
+import {
+  RadioInput,
+  RadioInputList,
+} from "#i/core/form-elements/input-choice.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Textarea } from "#i/core/form-elements/textarea.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
+import { BreedInput } from "#i/routes/resources.breed/input.js"
+import { ColorInput } from "#i/routes/resources.color/input.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

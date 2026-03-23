@@ -1,7 +1,7 @@
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { LazyElement } from "#i/core/layout/lazy-element"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
-import { Section } from "#i/core/layout/section"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { LazyElement } from "#i/core/layout/lazy-element.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
+import { Section } from "#i/core/layout/section.js"
 
 export function SectionMoreQuestions() {
   return (

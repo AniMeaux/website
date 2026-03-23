@@ -1,13 +1,13 @@
 import { Gender } from "@animeaux/prisma"
 import { Fragment } from "react"
 
-import { FieldText } from "#i/core/form-elements/field-text"
-import { FieldYesNo } from "#i/core/form-elements/field-yes-no"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper"
+import { FieldText } from "#i/core/form-elements/field-text.js"
+import { FieldYesNo } from "#i/core/form-elements/field-yes-no.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { DogsHelper } from "#i/exhibitors/dogs-configuration/helper.js"
 
-import { FieldDogGender } from "./field-dog-gender"
-import { useForm } from "./form"
+import { FieldDogGender } from "./field-dog-gender.js"
+import { useForm } from "./form.js"
 
 export function FieldsetDogs() {
   const { form, fields } = useForm()

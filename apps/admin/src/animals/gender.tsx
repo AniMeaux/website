@@ -1,7 +1,7 @@
 import { Gender } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
 
 export const GENDER_TRANSLATION: Record<Gender, string> = {
   [Gender.FEMALE]: "Femelle",
