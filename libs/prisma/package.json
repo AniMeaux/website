@@ -18,7 +18,7 @@
     "prebuild": "pnpm clean",
     "build": "run-s --print-label build:prisma build:src build:paths",
     "build:paths": "tsc-alias -p ./tsconfig.build.json",
-    "build:prisma": "prisma generate",
+    "build:prisma": "pnpm prisma-env generate",
     "build:src": "tsc -p ./tsconfig.build.json",
     "clean": "rm -rf ./build ./src/generated",
     "copy-data": "tsx ./scripts/copy-data.ts",
@@ -34,12 +34,10 @@
     "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
     "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
     "lint-fix:prettier": "prettier --write .",
-    "migrate": "prisma migrate dev",
-    "reset": "prisma migrate reset -f",
-    "studio": "prisma studio"
-  },
-  "prisma": {
-    "seed": "tsx -r dotenv-flow/config ./scripts/seed-data.ts"
+    "migrate": "pnpm prisma-env migrate dev",
+    "prisma-env": "NODE_OPTIONS=\"-r dotenv-flow/config\" prisma",
+    "reset": "pnpm prisma-env migrate reset -f",
+    "studio": "pnpm prisma-env studio"
   },
   "dependencies": {
     "@prisma/adapter-pg": "catalog:",
