@@ -3,12 +3,12 @@ import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
 import { TaskItem } from "#i/core/data-display/task-item.js"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
 import { Icon } from "#i/generated/icon.js"
 import { InvoiceStatus } from "#i/invoice/status.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionInvoices() {
   const { invoices } = useLoaderData<typeof loader>()

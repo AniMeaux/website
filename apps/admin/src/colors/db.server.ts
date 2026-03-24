@@ -2,16 +2,16 @@ import type { Color } from "@animeaux/prisma/server"
 import { Prisma } from "@animeaux/prisma/server"
 import type { SearchParamsIO } from "@animeaux/search-params-io"
 
-import type { ColorSearchParams } from "#i/colors/search-params"
-import { ColorSort } from "#i/colors/search-params"
+import type { ColorSearchParams } from "#i/colors/search-params.js"
+import { ColorSort } from "#i/colors/search-params.js"
 import {
   AlreadyExistError,
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server"
-import { orderByRank } from "#i/core/order-by-rank"
-import { prisma } from "#i/core/prisma.server"
+} from "#i/core/errors.server.js"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 export class ColorDbDelegate {
   async create(data: ColorData) {

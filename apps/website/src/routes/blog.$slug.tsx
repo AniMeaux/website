@@ -4,19 +4,22 @@ import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { articles } from "#i/blog/data.server"
-import { ArticleItem } from "#i/blog/item"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createCloudinaryUrl, DynamicImage } from "#i/core/data-display/image"
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
+import { articles } from "#i/blog/data.server.js"
+import { ArticleItem } from "#i/blog/item.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import {
+  createCloudinaryUrl,
+  DynamicImage,
+} from "#i/core/data-display/image.js"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js"
 import {
   RelatedSection,
   RelatedSectionList,
   RelatedSectionTitle,
-} from "#i/core/layout/related-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { DonationSection } from "#i/donation/section"
+} from "#i/core/layout/related-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { DonationSection } from "#i/donation/section.js"
 
 const OTHER_ARTICLE_COUNT = 3
 

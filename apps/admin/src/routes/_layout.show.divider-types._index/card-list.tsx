@@ -1,10 +1,10 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
 
-import { DividerTypeItem } from "./item"
-import type { loader } from "./loader.server"
+import { DividerTypeItem } from "./item.js"
+import type { loader } from "./loader.server.js"
 
 export function CardList() {
   const { dividerTypes } = useLoaderData<typeof loader>()

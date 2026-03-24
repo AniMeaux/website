@@ -2,16 +2,16 @@ import { getCompleteLocation, ImageUrl } from "@animeaux/core"
 import { useLoaderData } from "@remix-run/react"
 
 import { ProseInlineAction } from "#i/core/actions.js"
-import { DynamicImage } from "#i/core/data-display/image"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Icon } from "#i/generated/icon"
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Icon } from "#i/generated/icon.js"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardStructure() {
   const { application } = useLoaderData<typeof loader>()

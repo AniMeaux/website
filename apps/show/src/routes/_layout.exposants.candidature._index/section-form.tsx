@@ -1,17 +1,17 @@
 import { getFormProps } from "@conform-to/react"
 import { Form, useFormAction, useNavigation } from "@remix-run/react"
 
-import { FormLayout } from "#i/core/layout/form-layout"
-import { DiscoverySource } from "#i/exhibitors/application/discovery-source"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { DiscoverySource } from "#i/exhibitors/application/discovery-source.js"
 
-import { FieldsetComments } from "./fieldset-comments"
-import { FieldsetContact } from "./fieldset-contact"
-import { FieldsetDocuments } from "./fieldset-documents"
-import { FieldsetParticipation } from "./fieldset-participation"
-import { FieldsetPersonalData } from "./fieldset-personal-data"
-import { FieldsetSponsorship } from "./fieldset-sponsorship"
-import { FieldsetStructure } from "./fieldset-structure"
-import { FieldsetId, FieldsetsProvider, useForm } from "./form"
+import { FieldsetComments } from "./fieldset-comments.js"
+import { FieldsetContact } from "./fieldset-contact.js"
+import { FieldsetDocuments } from "./fieldset-documents.js"
+import { FieldsetParticipation } from "./fieldset-participation.js"
+import { FieldsetPersonalData } from "./fieldset-personal-data.js"
+import { FieldsetSponsorship } from "./fieldset-sponsorship.js"
+import { FieldsetStructure } from "./fieldset-structure.js"
+import { FieldsetId, FieldsetsProvider, useForm } from "./form.js"
 
 export function SectionForm() {
   const formAction = useFormAction()

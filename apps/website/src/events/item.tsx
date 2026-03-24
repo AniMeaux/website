@@ -2,10 +2,10 @@ import { cn, formatDateRange } from "@animeaux/core"
 import type { Event } from "@animeaux/prisma"
 import type { SerializeFrom } from "@remix-run/node"
 
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function EventItem({
   isInlined = false,

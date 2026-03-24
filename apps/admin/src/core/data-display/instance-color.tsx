@@ -1,7 +1,7 @@
 import invariant from "tiny-invariant"
 
-import type { AvatarColor } from "#i/core/data-display/avatar"
-import { simpleHash } from "#i/core/simple-hash"
+import type { AvatarColor } from "#i/core/data-display/avatar.js"
+import { simpleHash } from "#i/core/simple-hash.js"
 
 const COLORS = [
   "blue-light",

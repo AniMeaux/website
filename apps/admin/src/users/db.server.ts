@@ -9,11 +9,11 @@ import {
   NotFoundError,
   PrismaErrorCodes,
   ReferencedError,
-} from "#i/core/errors.server"
-import { orderByRank } from "#i/core/order-by-rank"
-import { prisma } from "#i/core/prisma.server"
-import type { UserSearchParams } from "#i/users/search-params"
-import { UserSort } from "#i/users/search-params"
+} from "#i/core/errors.server.js"
+import { orderByRank } from "#i/core/order-by-rank.js"
+import { prisma } from "#i/core/prisma.server.js"
+import type { UserSearchParams } from "#i/users/search-params.js"
+import { UserSort } from "#i/users/search-params.js"
 
 export class DisableMyselfError extends Error {}
 export class DeleteMyselfError extends Error {}

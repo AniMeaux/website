@@ -1,9 +1,9 @@
 import { simpleUrl, zu } from "@animeaux/zod-utils"
 
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
 import { ExhibitorCategory } from "#i/show/exhibitors/category.js"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 
 export const ActionSchema = zu
   .object({

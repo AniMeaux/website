@@ -2,8 +2,8 @@ import { cn } from "@animeaux/core"
 import { ShowExhibitorApplicationStatus } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const TRANSLATION_BY_APPLICATION_STATUS: Record<
   ShowExhibitorApplicationStatus,

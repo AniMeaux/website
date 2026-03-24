@@ -2,7 +2,7 @@ import type { Prisma } from "@animeaux/prisma/server"
 
 import type { ServicePrisma } from "#i/core/prisma.service.server.js"
 import { notFound } from "#i/core/response.server.js"
-import { ShowDay } from "#i/core/show-day"
+import { ShowDay } from "#i/core/show-day.js"
 
 export class ServiceAnimation {
   constructor(private prisma: ServicePrisma) {}

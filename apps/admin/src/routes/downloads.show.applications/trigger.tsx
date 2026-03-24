@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
 import { DownloadTrigger } from "#i/core/actions/download-trigger.js"
-import { Routes } from "#i/core/navigation"
+import { Routes } from "#i/core/navigation.js"
 import { ApplicationSearchParams } from "#i/show/exhibitors/applications/search-params.js"
 
 export const DownloadApplicationsTrigger = forwardRef<

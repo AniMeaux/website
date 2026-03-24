@@ -7,11 +7,11 @@ import { PageLayout } from "#i/core/layout/page.js"
 import { getPageTitle } from "#i/core/page-title.js"
 import { FieldsetInvoice } from "#i/show/invoice/fieldset-invoice.js"
 
-import { useFormRoot } from "./form"
-import type { loader } from "./loader.server"
+import { useFormRoot } from "./form.js"
+import type { loader } from "./loader.server.js"
 
-export { action } from "./action.server"
-export { loader } from "./loader.server"
+export { action } from "./action.server.js"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [

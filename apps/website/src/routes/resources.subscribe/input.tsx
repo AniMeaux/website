@@ -4,9 +4,9 @@ import { useEffect, useRef } from "react"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 
-import { createActionData } from "#i/core/schemas"
-import { Icon } from "#i/generated/icon"
-import type { action } from "#i/routes/resources.subscribe/route"
+import { createActionData } from "#i/core/schemas.js"
+import { Icon } from "#i/generated/icon.js"
+import type { action } from "#i/routes/resources.subscribe/route.js"
 
 const RESOURCE_PATHNAME = "/resources/subscribe"
 

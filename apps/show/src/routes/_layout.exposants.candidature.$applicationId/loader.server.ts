@@ -1,7 +1,7 @@
 import { safeParseRouteParam, zu } from "@animeaux/zod-utils"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 
-import { notFound } from "#i/core/response.server"
+import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {

@@ -3,10 +3,10 @@ import { Species } from "@animeaux/prisma"
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { redirect } from "@remix-run/node"
 
-import { getPath } from "#i/core/controllers/searchForm"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { getPath } from "#i/core/controllers/searchForm.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const redirectTo = REDIRECTIONS[`/${params["*"]}`]

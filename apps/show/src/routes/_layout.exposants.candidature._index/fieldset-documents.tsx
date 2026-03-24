@@ -1,11 +1,11 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { FileItem } from "#i/core/data-display/file-item"
-import { FieldSwitch } from "#i/core/form-elements/field-switch"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FileItem } from "#i/core/data-display/file-item.js"
+import { FieldSwitch } from "#i/core/form-elements/field-switch.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import { FieldsetId, useFieldsets } from "./form"
-import type { loader } from "./loader.server"
+import { FieldsetId, useFieldsets } from "./form.js"
+import type { loader } from "./loader.server.js"
 
 export function FieldsetDocuments() {
   const { files } = useLoaderData<typeof loader>()

@@ -3,16 +3,16 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import type { MetaFunction } from "@remix-run/react"
 import { promiseHash } from "remix-utils/promise"
 
-import { getErrorTitle } from "#i/core/data-display/error-page"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { getErrorTitle } from "#i/core/data-display/error-page.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
-import { SectionDocuments } from "./section-documents"
-import { SectionHelper } from "./section-helper"
-import { SectionStructure } from "./section-structure"
+import { SectionDocuments } from "./section-documents.js"
+import { SectionHelper } from "./section-helper.js"
+import { SectionStructure } from "./section-structure.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

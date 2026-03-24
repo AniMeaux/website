@@ -9,7 +9,7 @@ import {
   PrismaErrorCodes,
   ReferencedError,
 } from "#i/core/errors.server.js"
-import { prisma } from "#i/core/prisma.server"
+import { prisma } from "#i/core/prisma.server.js"
 import { notFound } from "#i/core/response.server.js"
 import type { ShowStandSizeBooking } from "#i/show/stand-size/booking.js"
 

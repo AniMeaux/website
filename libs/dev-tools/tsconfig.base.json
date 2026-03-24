@@ -11,12 +11,13 @@
     "target": "ES2022",
     "verbatimModuleSyntax": true,
 
-    // Not transpiling with TypeScript.
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "noEmit": true,
+    // Whether or not we're transpiling with TypeScript, we still use `NodeNext`
+    // to ensure usage of file extensions.
+    //
+    // See /docs/decisions/001-file-extensions.md
+    "module": "NodeNext",
 
-    // Options for a more strict type checking.
+    // Strictness.
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,

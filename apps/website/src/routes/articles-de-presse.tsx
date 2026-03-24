@@ -5,11 +5,11 @@ import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { BaseLink } from "#i/core/base-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import { prisma } from "#i/core/db.server"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { BaseLink } from "#i/core/base-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { prisma } from "#i/core/db.server.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 export async function loader() {
   const pressArticles = await prisma.pressArticle.findMany({

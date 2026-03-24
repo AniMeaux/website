@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url"
 import { watch } from "chokidar"
 import { parse } from "node-html-parser"
 
-import { relativeToCwd, safelyReadFile } from "./shared"
+import { relativeToCwd, safelyReadFile } from "./shared.js"
 
 const FILENAME = fileURLToPath(import.meta.url)
 const DIRNAME = dirname(FILENAME)

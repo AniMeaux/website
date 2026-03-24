@@ -1,8 +1,8 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { Section } from "#i/core/layout/section"
+import { Section } from "#i/core/layout/section.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SectionTitle() {
   const { exhibitor } = useLoaderData<typeof loader>()

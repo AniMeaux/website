@@ -1,9 +1,9 @@
 import { FosterFamilyAvailability } from "@animeaux/prisma"
 import type { Except } from "type-fest"
 
-import type { AvatarColor } from "#i/core/data-display/avatar"
-import { Avatar } from "#i/core/data-display/avatar"
-import { Icon } from "#i/generated/icon"
+import type { AvatarColor } from "#i/core/data-display/avatar.js"
+import { Avatar } from "#i/core/data-display/avatar.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function FosterFamilyAvatar({
   availability,

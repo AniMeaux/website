@@ -1,6 +1,4 @@
-#!/usr/bin/env tsx
-
-import "#i/env.js"
+import "#i/core/env.js"
 
 import { ImageUrl } from "@animeaux/core"
 import { getPixels } from "@unpic/pixels"

@@ -1,5 +1,5 @@
-import type { SubNavComponent } from "#i/core/layout/navigation/shared"
-import { SubNavItem } from "#i/core/layout/navigation/shared"
+import type { SubNavComponent } from "#i/core/layout/navigation/shared.js"
+import { SubNavItem } from "#i/core/layout/navigation/shared.js"
 
 export const SubNavAct: SubNavComponent = () => {
   return (

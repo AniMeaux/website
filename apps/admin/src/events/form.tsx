@@ -8,23 +8,23 @@ import { useFormAction } from "@remix-run/react"
 import { useEffect, useRef, useState } from "react"
 import invariant from "tiny-invariant"
 
-import { Action } from "#i/core/actions"
-import type { ImageFileOrId } from "#i/core/data-display/image"
+import { Action } from "#i/core/actions.js"
+import type { ImageFileOrId } from "#i/core/data-display/image.js"
 import {
   IMAGE_SIZE_LIMIT_MB,
   isImageFile,
   isImageOverSize,
   readFile,
-} from "#i/core/data-display/image"
-import { toIsoDateValue } from "#i/core/dates"
-import { Form } from "#i/core/form-elements/form"
-import { ImageInput } from "#i/core/form-elements/image-input"
-import { Input } from "#i/core/form-elements/input"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Switch } from "#i/core/form-elements/switch"
-import { Textarea } from "#i/core/form-elements/textarea"
-import { Separator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/data-display/image.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { ImageInput } from "#i/core/form-elements/image-input.js"
+import { Input } from "#i/core/form-elements/input.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Switch } from "#i/core/form-elements/switch.js"
+import { Textarea } from "#i/core/form-elements/textarea.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

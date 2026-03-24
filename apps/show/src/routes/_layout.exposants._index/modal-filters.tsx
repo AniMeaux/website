@@ -4,22 +4,22 @@ import { useLoaderData } from "@remix-run/react"
 import { forwardRef, useLayoutEffect, useRef, useState } from "react"
 import invariant from "tiny-invariant"
 
-import { Action } from "#i/core/actions/action"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { Action } from "#i/core/actions/action.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#i/exhibitors/activity-target/activity-target"
+} from "#i/exhibitors/activity-target/activity-target.js"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params"
-import { Icon } from "#i/generated/icon"
+} from "#i/exhibitors/search-params.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./loader.server"
-import { SearchParamsForm } from "./search-params-form"
+import type { loader } from "./loader.server.js"
+import { SearchParamsForm } from "./search-params-form.js"
 
 export const ModalFilters = {
   Root: Dialog.Root,

@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react"
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import { DynamicImage } from "#i/core/data-display/image"
+import { DynamicImage } from "#i/core/data-display/image.js"
 import { ImageData } from "#i/core/image/data.js"
 
 export const ProviderItem = forwardRef<

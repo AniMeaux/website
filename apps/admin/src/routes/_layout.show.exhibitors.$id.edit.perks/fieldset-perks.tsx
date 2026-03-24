@@ -1,8 +1,8 @@
 import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
-import { Form } from "#i/core/form-elements/form"
-import { Card } from "#i/core/layout/card"
+import { Form } from "#i/core/form-elements/form.js"
+import { Card } from "#i/core/layout/card.js"
 
-import { useForm } from "./form"
+import { useForm } from "./form.js"
 
 export function FieldsetPerks() {
   const { fields } = useForm()

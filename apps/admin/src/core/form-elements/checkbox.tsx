@@ -2,7 +2,7 @@ import { cn } from "@animeaux/core"
 import { forwardRef } from "react"
 import type { Except } from "type-fest"
 
-import { Icon } from "#i/generated/icon"
+import { Icon } from "#i/generated/icon.js"
 
 export const Checkbox = forwardRef<
   React.ComponentRef<"input">,

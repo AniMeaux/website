@@ -1,12 +1,13 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@animeaux/dev-tools/tsconfig.lib",
+
   "files": ["./server.ts"],
   "exclude": ["./node_modules"],
 
   "compilerOptions": {
-    // Transpiling with TypeScript.
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "noEmit": false
+    "rootDir": "./",
+    "paths": { "#i/*": ["./src/*"] },
+
+    "types": ["@animeaux/dev-tools/reset"]
   }
 }

@@ -9,7 +9,7 @@ import { badRequest } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
 import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
-import { actionSchema } from "./action"
+import { actionSchema } from "./action.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

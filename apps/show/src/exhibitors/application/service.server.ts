@@ -5,7 +5,7 @@ import type { Except } from "type-fest"
 import type { ServiceBlurhash } from "#i/core/image/blurhash.service.server.js"
 import { ImageData } from "#i/core/image/data.js"
 import { ServicePrisma } from "#i/core/prisma.service.server.js"
-import { notFound } from "#i/core/response.server"
+import { notFound } from "#i/core/response.server.js"
 
 export class ServiceApplication {
   constructor(

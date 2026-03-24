@@ -4,7 +4,7 @@ import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
 import { Card } from "#i/core/layout/card.js"
 import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardDetails() {
   return (

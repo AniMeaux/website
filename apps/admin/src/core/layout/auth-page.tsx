@@ -1,4 +1,4 @@
-import { getPageTitle } from "#i/core/page-title"
+import { getPageTitle } from "#i/core/page-title.js"
 import backgroundPattern from "#i/images/background-pattern.svg"
 import nameAndLogo from "#i/images/name-and-logo.svg"
 

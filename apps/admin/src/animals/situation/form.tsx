@@ -20,37 +20,40 @@ import invariant from "tiny-invariant"
 import {
   ADOPTION_OPTION_TRANSLATION,
   SORTED_ADOPTION_OPTION,
-} from "#i/animals/adoption"
+} from "#i/animals/adoption.js"
 import {
   PICK_UP_REASON_TRANSLATION,
   SORTED_PICK_UP_REASON,
-} from "#i/animals/pick-up"
+} from "#i/animals/pick-up.js"
 import {
   SCREENING_RESULT_TRANSLATION,
   SORTED_SCREENING_RESULTS,
-} from "#i/animals/screening"
+} from "#i/animals/screening.js"
 import {
   DIAGNOSIS_TRANSLATION,
   SORTED_DIAGNOSIS,
-} from "#i/animals/situation/diagnosis"
+} from "#i/animals/situation/diagnosis.js"
 import {
   ACTIVE_ANIMAL_STATUS,
   SORTED_STATUS,
   STATUS_TRANSLATION,
-} from "#i/animals/status"
-import { Action } from "#i/core/actions"
-import { toIsoDateValue } from "#i/core/dates"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Textarea } from "#i/core/form-elements/textarea"
-import { Separator } from "#i/core/layout/separator"
-import { Icon } from "#i/generated/icon"
-import { FosterFamilyInput } from "#i/routes/resources.foster-family/input"
-import { ManagerInput } from "#i/routes/resources.manager/input"
-import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input"
-import { hasGroups } from "#i/users/groups"
+} from "#i/animals/status.js"
+import { Action } from "#i/core/actions.js"
+import { toIsoDateValue } from "#i/core/dates.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
+import {
+  RadioInput,
+  RadioInputList,
+} from "#i/core/form-elements/input-choice.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Textarea } from "#i/core/form-elements/textarea.js"
+import { Separator } from "#i/core/layout/separator.js"
+import { Icon } from "#i/generated/icon.js"
+import { FosterFamilyInput } from "#i/routes/resources.foster-family/input.js"
+import { ManagerInput } from "#i/routes/resources.manager/input.js"
+import { PickUpLocationInput } from "#i/routes/resources.pick-up-location/input.js"
+import { hasGroups } from "#i/users/groups.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

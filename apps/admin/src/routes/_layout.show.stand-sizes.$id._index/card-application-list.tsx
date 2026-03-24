@@ -2,16 +2,16 @@ import { useLoaderData } from "@remix-run/react"
 
 import { Action } from "#i/core/actions.js"
 import { BaseLink } from "#i/core/base-link.js"
-import { SimpleEmpty } from "#i/core/data-display/empty"
-import { Card } from "#i/core/layout/card"
+import { SimpleEmpty } from "#i/core/data-display/empty.js"
+import { Card } from "#i/core/layout/card.js"
 import { Routes } from "#i/core/navigation.js"
 import {
   ApplicationSearchParams,
   ApplicationSearchParamsN,
 } from "#i/show/exhibitors/applications/search-params.js"
 
-import { ApplicationItem } from "./application-item"
-import type { loader } from "./loader.server"
+import { ApplicationItem } from "./application-item.js"
+import type { loader } from "./loader.server.js"
 
 export function CardApplicationList() {
   const { standSize, applicationTotalCount, applications } =

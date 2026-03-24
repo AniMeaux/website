@@ -4,21 +4,21 @@ import {
   SORTED_SPECIES,
   SPECIES_ICON,
   SPECIES_TRANSLATION,
-} from "#i/animals/species"
+} from "#i/animals/species.js"
 import {
   BREED_DEFAULT_SORT,
   BreedSearchParams,
   BreedSort,
-} from "#i/breeds/search-params"
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
+} from "#i/breeds/search-params.js"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function BreedFilterForm() {
   const [searchParams, setSearchParams] = useOptimisticSearchParams()

@@ -6,7 +6,7 @@ import { toRoundedRelative } from "#i/core/dates.js"
 import { Routes } from "#i/core/navigation.js"
 import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 type Application = SerializeFrom<typeof loader>["applications"][number]
 

@@ -2,9 +2,9 @@ import { UserGroup } from "@animeaux/prisma"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params"
+import { db } from "#i/core/db.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
 
 export type loader = typeof loader
 

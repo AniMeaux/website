@@ -1,9 +1,9 @@
 import { cn } from "@animeaux/core"
 import * as Dialog from "@radix-ui/react-dialog"
 
-import { Action } from "#i/core/actions"
-import { Card } from "#i/core/layout/card"
-import { Icon } from "#i/generated/icon"
+import { Action } from "#i/core/actions.js"
+import { Card } from "#i/core/layout/card.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function SortAndFiltersFloatingAction({
   totalCount,

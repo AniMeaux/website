@@ -1,17 +1,17 @@
 import type { MetaFunction } from "@remix-run/node"
 
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
-import { CardActiveAnimals } from "./card-active-animals"
-import { CardAnimalsToSterilize } from "./card-animals-to-sterilize"
-import { CardAnimalsToVaccinate } from "./card-animals-to-vaccinate"
-import { CardDogsToDiagnose } from "./card-dogs-to-diagnose"
-import { CardManagedAnimals } from "./card-managed-animals"
-import { CardStandSizeBooking } from "./card-stand-size-booking"
-import { CardUntreatedApplications } from "./card-untreated-applications"
+import { CardActiveAnimals } from "./card-active-animals.js"
+import { CardAnimalsToSterilize } from "./card-animals-to-sterilize.js"
+import { CardAnimalsToVaccinate } from "./card-animals-to-vaccinate.js"
+import { CardDogsToDiagnose } from "./card-dogs-to-diagnose.js"
+import { CardManagedAnimals } from "./card-managed-animals.js"
+import { CardStandSizeBooking } from "./card-stand-size-booking.js"
+import { CardUntreatedApplications } from "./card-untreated-applications.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Tableau de bord") }]

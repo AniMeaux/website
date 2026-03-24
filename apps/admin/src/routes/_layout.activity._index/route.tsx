@@ -2,15 +2,15 @@ import type { MetaFunction } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 
 import { ActivityFilters } from "#i/activity/filter-form.js"
-import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { getPageTitle } from "#i/core/page-title"
+import { SortAndFiltersFloatingAction } from "#i/core/controllers/sort-and-filters-floating-action.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
-import { CardList } from "./card-list"
-import type { loader } from "./loader.server"
+import { CardList } from "./card-list.js"
+import type { loader } from "./loader.server.js"
 
-export { loader } from "./loader.server"
+export { loader } from "./loader.server.js"
 
 export const meta: MetaFunction = () => {
   return [{ title: getPageTitle("Activité") }]

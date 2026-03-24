@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#i/core/data-display/image"
+import type { ImageDescriptor } from "#i/core/data-display/image.js"
 import missionEvent512 from "#i/images/mission-event-512w.png"
 
 export const missionEventImages: ImageDescriptor = {

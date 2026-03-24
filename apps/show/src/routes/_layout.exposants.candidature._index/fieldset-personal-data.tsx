@@ -1,7 +1,7 @@
-import { FieldSwitch } from "#i/core/form-elements/field-switch"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldSwitch } from "#i/core/form-elements/field-switch.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import { FieldsetId, useFieldsets } from "./form"
+import { FieldsetId, useFieldsets } from "./form.js"
 
 export function FieldsetPersonalData() {
   const { fieldsets } = useFieldsets()

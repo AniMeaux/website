@@ -1,9 +1,9 @@
-import { FieldNumeric } from "#i/core/form-elements/field-numeric"
-import { FieldSwitch } from "#i/core/form-elements/field-switch"
-import { FieldText } from "#i/core/form-elements/field-text"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
+import { FieldSwitch } from "#i/core/form-elements/field-switch.js"
+import { FieldText } from "#i/core/form-elements/field-text.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 
-import { useForm } from "./form"
+import { useForm } from "./form.js"
 
 export function FieldsetBilling() {
   const { fields } = useForm()

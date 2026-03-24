@@ -2,11 +2,11 @@ import { cn } from "@animeaux/core"
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import { useState } from "react"
 
-import type { BaseLinkProps } from "#i/core/base-link"
-import { BaseLink } from "#i/core/base-link"
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import { theme } from "#i/generated/theme"
+import type { BaseLinkProps } from "#i/core/base-link.js"
+import { BaseLink } from "#i/core/base-link.js"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (

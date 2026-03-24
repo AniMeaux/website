@@ -1,7 +1,7 @@
 import { AdoptionOption } from "@animeaux/prisma"
 import orderBy from "lodash.orderby"
 
-import type { IconName } from "#i/generated/icon"
+import type { IconName } from "#i/generated/icon.js"
 
 export const ADOPTION_OPTION_TRANSLATION: Record<AdoptionOption, string> = {
   [AdoptionOption.WITH_STERILIZATION]: "Avec stérilisation",

@@ -1,19 +1,19 @@
 import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FieldNumeric } from "#i/core/form-elements/field-numeric"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FieldNumeric } from "#i/core/form-elements/field-numeric.js"
 import { FieldSwitch } from "#i/core/form-elements/field-switch.js"
-import { FieldText } from "#i/core/form-elements/field-text"
+import { FieldText } from "#i/core/form-elements/field-text.js"
 import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
-import { FieldUrl } from "#i/core/form-elements/field-url"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { FieldActivityField } from "#i/exhibitors/activity-field/field"
-import { FieldActivityTarget } from "#i/exhibitors/activity-target/field"
-import { LegalStatus } from "#i/exhibitors/application/legal-status"
-import { FieldLogo } from "#i/exhibitors/field-logo"
+import { FieldUrl } from "#i/core/form-elements/field-url.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { FieldActivityField } from "#i/exhibitors/activity-field/field.js"
+import { FieldActivityTarget } from "#i/exhibitors/activity-target/field.js"
+import { LegalStatus } from "#i/exhibitors/application/legal-status.js"
+import { FieldLogo } from "#i/exhibitors/field-logo.js"
 
-import { FieldsetId, useFieldsets } from "./form"
+import { FieldsetId, useFieldsets } from "./form.js"
 
 export function FieldsetStructure() {
   const { fieldsets } = useFieldsets()

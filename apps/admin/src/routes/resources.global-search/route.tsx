@@ -2,12 +2,12 @@ import { UserGroup } from "@animeaux/prisma"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { db } from "#i/core/db.server"
-import { forbidden } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+import { db } from "#i/core/db.server.js"
+import { forbidden } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { Entity } from "./entity"
-import { GlobalSearchParams } from "./search-params"
+import { Entity } from "./entity.js"
+import { GlobalSearchParams } from "./search-params.js"
 
 const MAX_HIT_COUNT = 6
 

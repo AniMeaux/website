@@ -1,35 +1,35 @@
 import type { ShowDividerType, ShowStandSize } from "@animeaux/prisma"
 import { useOptimisticSearchParams } from "@animeaux/search-params-io"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Filters } from "#i/core/controllers/filters"
-import { ControlledInput } from "#i/core/form-elements/controlled-input"
-import { Form } from "#i/core/form-elements/form"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Filters } from "#i/core/controllers/filters.js"
+import { ControlledInput } from "#i/core/form-elements/controlled-input.js"
+import { Form } from "#i/core/form-elements/form.js"
 import {
   ToggleInput,
   ToggleInputList,
-} from "#i/core/form-elements/toggle-input"
-import { Icon } from "#i/generated/icon"
-import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field"
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
-import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target"
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
+} from "#i/core/form-elements/toggle-input.js"
+import { Icon } from "#i/generated/icon.js"
+import { ActivityField } from "#i/show/exhibitors/activity-field/activity-field.js"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon.js"
+import { ActivityTarget } from "#i/show/exhibitors/activity-target/activity-target.js"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon.js"
 import {
   ApplicationStatusIcon,
   SORTED_STATUSES,
   TRANSLATION_BY_APPLICATION_STATUS,
-} from "#i/show/exhibitors/applications/status"
-import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+} from "#i/show/exhibitors/applications/status.js"
+import { ExhibitorSearchParams } from "#i/show/exhibitors/search-params.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 import { InvoiceIcon } from "#i/show/invoice/icon.js"
 import { InvoiceStatus } from "#i/show/invoice/status.js"
 import {
   SponsorshipCategoryIcon,
   SponsorshipOptionalCategory,
-} from "#i/show/sponsors/category"
-import { Visibility, VisibilityIcon } from "#i/show/visibility"
+} from "#i/show/sponsors/category.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
 export function ExhibitorFilters({
   dividerTypes,

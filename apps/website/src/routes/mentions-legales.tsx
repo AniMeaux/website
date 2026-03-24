@@ -1,9 +1,9 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { ARTICLE_COMPONENTS, Markdown } from "#i/core/data-display/markdown.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({ title: getPageTitle("Mentions légales") })

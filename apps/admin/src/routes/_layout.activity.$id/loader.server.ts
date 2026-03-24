@@ -7,7 +7,7 @@ import { Activity } from "#i/activity/db.server.js"
 import { db } from "#i/core/db.server.js"
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { routeParamsSchema } from "./route-params"
+import { routeParamsSchema } from "./route-params.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

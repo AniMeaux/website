@@ -4,13 +4,13 @@ import { parseWithZod } from "@conform-to/zod"
 import type { ActionFunctionArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 
-import { Routes } from "#i/core/navigation"
-import { badRequest } from "#i/core/response.server"
+import { Routes } from "#i/core/navigation.js"
+import { badRequest } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 import { SectionId } from "#i/routes/_exhibitor.exposants.$token._config.participation._index/section-id.js"
 
-import { createActionSchema } from "./action-schema"
+import { createActionSchema } from "./action-schema.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const routeParams = safeParseRouteParam(RouteParamsSchema, params)

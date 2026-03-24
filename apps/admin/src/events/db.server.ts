@@ -2,9 +2,9 @@ import type { Event } from "@animeaux/prisma/server"
 import { Prisma } from "@animeaux/prisma/server"
 import { DateTime } from "luxon"
 
-import { deleteImage } from "#i/core/cloudinary.server"
-import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server"
-import { prisma } from "#i/core/prisma.server"
+import { deleteImage } from "#i/core/cloudinary.server.js"
+import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server.js"
+import { prisma } from "#i/core/prisma.server.js"
 
 export class InvalidDateRangeError extends Error {}
 

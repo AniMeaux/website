@@ -7,20 +7,17 @@ on:
       - main
       - dev
     paths:
+      - apps/admin/**
+      - libs/**
       - .dockerignore
-      - .eslintignore
-      - .eslintrc.json
       - .github/workflows/admin.deploy.yml
       - .gitignore
       - .prettierignore
-      - .prettierrc.json
-      - apps/admin/**
-      - libs/**
+      - eslint.config.js
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
-      - tsconfig.base.json
-      - tsconfig.libs.json
+      - prettier.config.js
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -42,7 +39,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.11
+          node-version: 22.12
           cache: "pnpm"
 
       - name: 📥 Download deps
@@ -142,7 +139,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: 🚀 Deploy Staging
-        if: ${{ github.ref == 'refs/heads/dev' }}
+        if: ${{ github.ref != 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.4
         with:
           args:

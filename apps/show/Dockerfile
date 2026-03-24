@@ -1,5 +1,5 @@
 # Base stage for all subsequent stages.
-FROM node:22.11-bullseye-slim AS base
+FROM node:22.12-bullseye-slim AS base
 
 # Needed for Prisma generation and runtime.
 RUN apt-get update && apt-get install -y openssl
@@ -33,6 +33,7 @@ FROM base AS packages-json
 
 COPY package.json ./
 COPY libs/core/package.json libs/core/
+COPY libs/dev-tools/package.json libs/dev-tools/
 COPY libs/file-storage/package.json libs/file-storage/
 COPY libs/files-io/package.json libs/files-io/
 COPY libs/prisma/package.json libs/prisma/
@@ -50,8 +51,8 @@ COPY --from=packages-json /workspace ./
 
 RUN pnpm install --frozen-lockfile --offline
 
-COPY tsconfig.base.json tsconfig.libs.json ./
 COPY libs/core libs/core
+COPY libs/dev-tools libs/dev-tools
 COPY libs/file-storage libs/file-storage
 COPY libs/files-io libs/files-io
 COPY libs/prisma libs/prisma
@@ -91,6 +92,7 @@ RUN pnpm install --prod --frozen-lockfile --offline
 
 COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
+COPY libs/prisma/prisma.config.ts libs/prisma/prisma.config.ts
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
 
 CMD ["pnpm", "--filter", "show", "start"]

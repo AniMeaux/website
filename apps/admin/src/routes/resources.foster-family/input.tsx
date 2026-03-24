@@ -7,20 +7,20 @@ import { useCombobox } from "downshift"
 import { createPath } from "history"
 import { forwardRef, useEffect, useState } from "react"
 
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Input } from "#i/core/form-elements/input"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input"
-import { Routes, useNavigate } from "#i/core/navigation"
-import { NextSearchParams } from "#i/core/search-params"
-import { FosterFamilySuggestionItem } from "#i/foster-families/item"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params"
-import { Icon } from "#i/generated/icon"
-import type { loader } from "#i/routes/resources.foster-family/route"
+} from "#i/core/form-elements/resource-input.js"
+import { Routes, useNavigate } from "#i/core/navigation.js"
+import { NextSearchParams } from "#i/core/search-params.js"
+import { FosterFamilySuggestionItem } from "#i/foster-families/item.js"
+import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import { Icon } from "#i/generated/icon.js"
+import type { loader } from "#i/routes/resources.foster-family/route.js"
 
 type FosterFamilyInputProps = {
   name: string

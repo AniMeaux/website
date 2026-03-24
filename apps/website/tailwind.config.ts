@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss"
-import defaultColors from "tailwindcss/colors"
-import defaultTheme from "tailwindcss/defaultTheme"
-import plugin from "tailwindcss/plugin"
+import defaultColors from "tailwindcss/colors.js"
+import defaultTheme from "tailwindcss/defaultTheme.js"
+import plugin from "tailwindcss/plugin.js"
 
 // Color gradiants generated from Material Design.
 // https://material.io/design/color/the-color-system.html#tools-for-picking-colors

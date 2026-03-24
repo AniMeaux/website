@@ -6,13 +6,16 @@ import type { SerializeFrom } from "@remix-run/node"
 import type { FetcherWithComponents } from "@remix-run/react"
 import { useEffect, useRef } from "react"
 
-import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species"
-import { Action } from "#i/core/actions"
-import { Form } from "#i/core/form-elements/form"
-import { Input } from "#i/core/form-elements/input"
-import { RadioInput, RadioInputList } from "#i/core/form-elements/input-choice"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Icon } from "#i/generated/icon"
+import { SORTED_SPECIES, SPECIES_TRANSLATION } from "#i/animals/species.js"
+import { Action } from "#i/core/actions.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { Input } from "#i/core/form-elements/input.js"
+import {
+  RadioInput,
+  RadioInputList,
+} from "#i/core/form-elements/input-choice.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Icon } from "#i/generated/icon.js"
 
 export const ActionFormData = FormDataDelegate.create(
   zu.object({

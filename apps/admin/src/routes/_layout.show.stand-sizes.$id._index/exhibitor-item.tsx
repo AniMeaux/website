@@ -6,7 +6,7 @@ import { DynamicImage } from "#i/core/data-display/image.js"
 import { Routes } from "#i/core/navigation.js"
 import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 type Exhibitor = SerializeFrom<typeof loader>["exhibitors"][number]
 

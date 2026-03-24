@@ -8,13 +8,13 @@ import { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
 import { z } from "zod"
 
-import { animalNames } from "#i/animals/data"
-import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status"
-import { actionClassNames } from "#i/core/actions"
-import { prisma } from "#i/core/db.server"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { Icon } from "#i/generated/icon"
+import { animalNames } from "#i/animals/data.js"
+import { ACTIVE_ANIMAL_STATUS } from "#i/animals/status.js"
+import { actionClassNames } from "#i/core/actions.js"
+import { prisma } from "#i/core/db.server.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { Icon } from "#i/generated/icon.js"
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_NAME_COUNT_PER_PAGE = 18

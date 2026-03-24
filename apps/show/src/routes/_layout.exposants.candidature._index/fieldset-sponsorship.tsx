@@ -1,12 +1,12 @@
 import { getCollectionProps } from "@conform-to/react"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { HelperCard } from "#i/core/layout/helper-card"
-import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
+import { SponsorshipCategory } from "#i/exhibitors/sponsorship/category.js"
 
-import { FieldsetId, useFieldsets } from "./form"
+import { FieldsetId, useFieldsets } from "./form.js"
 
 export function FieldsetSponsorship() {
   return (

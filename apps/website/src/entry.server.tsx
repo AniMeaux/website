@@ -7,7 +7,7 @@ import { isbot } from "isbot"
 import type { RenderToPipeableStreamOptions } from "react-dom/server"
 import { renderToPipeableStream } from "react-dom/server"
 
-import { checkEnv, getClientEnv } from "#i/core/env.server"
+import { checkEnv, getClientEnv } from "#i/core/env.server.js"
 
 checkEnv()
 global.CLIENT_ENV = getClientEnv()

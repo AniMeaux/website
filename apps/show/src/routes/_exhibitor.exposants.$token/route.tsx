@@ -4,14 +4,14 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { Outlet } from "@remix-run/react"
 import { promiseHash } from "remix-utils/promise"
 
-import { ErrorPage } from "#i/core/data-display/error-page"
-import { PageBackground } from "#i/core/layout/page-background"
-import { notFound } from "#i/core/response.server"
+import { ErrorPage } from "#i/core/data-display/error-page.js"
+import { PageBackground } from "#i/core/layout/page-background.js"
+import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
-import { RouteParamsSchema } from "#i/exhibitors/route-params"
+import { RouteParamsSchema } from "#i/exhibitors/route-params.js"
 
-import { LayoutFooter } from "./footer"
-import { LayoutHeader } from "./header"
+import { LayoutFooter } from "./footer.js"
+import { LayoutHeader } from "./header.js"
 
 export async function loader({ params }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {

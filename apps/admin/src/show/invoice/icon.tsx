@@ -2,7 +2,7 @@ import { cn } from "@animeaux/core"
 
 import type { IconName } from "#i/generated/icon.js"
 import { Icon } from "#i/generated/icon.js"
-import { InvoiceStatus } from "#i/show/invoice/status"
+import { InvoiceStatus } from "#i/show/invoice/status.js"
 
 export function InvoiceIcon({
   status,

@@ -3,10 +3,10 @@ import type { MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 
-import { articles } from "#i/blog/data.server"
-import { ArticleItem } from "#i/blog/item"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
+import { articles } from "#i/blog/data.server.js"
+import { ArticleItem } from "#i/blog/item.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
 
 export async function loader() {
   return json({ articles })

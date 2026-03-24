@@ -6,7 +6,7 @@ import { Routes } from "#i/core/navigation.js"
 import { StandSizeBookingChip } from "#i/show/stand-size/booking-chip.js"
 import { StandSizeBookingIcon } from "#i/show/stand-size/booking-icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 type StandSize = SerializeFrom<typeof loader>["standSizes"][number]
 

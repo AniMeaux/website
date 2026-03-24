@@ -1,15 +1,15 @@
 import type { SerializeFrom } from "@remix-run/node"
 import { DateTime } from "luxon"
 
-import { BaseLink } from "#i/core/base-link"
-import { toRoundedRelative } from "#i/core/dates"
-import { Routes } from "#i/core/navigation"
-import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon"
-import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon"
-import { LegalStatus } from "#i/show/exhibitors/applications/legal-status"
-import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status"
+import { BaseLink } from "#i/core/base-link.js"
+import { toRoundedRelative } from "#i/core/dates.js"
+import { Routes } from "#i/core/navigation.js"
+import { ActivityFieldIcon } from "#i/show/exhibitors/activity-field/icon.js"
+import { ActivityTargetIcon } from "#i/show/exhibitors/activity-target/icon.js"
+import { LegalStatus } from "#i/show/exhibitors/applications/legal-status.js"
+import { ApplicationStatusIcon } from "#i/show/exhibitors/applications/status.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function ApplicationItem({
   application,

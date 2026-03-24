@@ -4,8 +4,8 @@ import * as Popover from "@radix-ui/react-popover"
 import { createContext, forwardRef, useContext } from "react"
 import invariant from "tiny-invariant"
 
-import { Overlay } from "#i/core/popovers/overlay"
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size"
+import { Overlay } from "#i/core/popovers/overlay.js"
+import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size.js"
 
 type Component = "popover" | "dialog"
 const DropdownSheetContext = createContext<undefined | Component>(undefined)

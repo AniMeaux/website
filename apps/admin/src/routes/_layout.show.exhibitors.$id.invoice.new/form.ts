@@ -2,11 +2,11 @@ import { useForm as useFormBase } from "@conform-to/react"
 import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import { useFetcher } from "@remix-run/react"
 
-import { useBackIfPossible } from "#i/core/navigation"
+import { useBackIfPossible } from "#i/core/navigation.js"
 import { InvoiceStatus } from "#i/show/invoice/status.js"
 
-import { actionSchema } from "./action"
-import type { action } from "./route"
+import { actionSchema } from "./action.js"
+import type { action } from "./route.js"
 
 export function useFormRoot() {
   const fetcher = useFetcher<typeof action>()

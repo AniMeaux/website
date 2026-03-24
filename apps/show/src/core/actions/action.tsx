@@ -2,7 +2,7 @@ import { cn } from "@animeaux/core"
 import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 
-import { Spinner } from "#i/core/loaders/spinner"
+import { Spinner } from "#i/core/loaders/spinner.js"
 
 export const Action = Object.assign(
   forwardRef<

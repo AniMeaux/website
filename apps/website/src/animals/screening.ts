@@ -1,6 +1,6 @@
 import { Gender, ScreeningResult } from "@animeaux/prisma"
 
-import type { IconProps } from "#i/generated/icon"
+import type { IconProps } from "#i/generated/icon.js"
 
 export const SCREENING_RESULT_ICON: Record<
   Exclude<ScreeningResult, "UNKNOWN">,

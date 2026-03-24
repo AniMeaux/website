@@ -3,12 +3,12 @@ import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 import type { Simplify } from "type-fest"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import type { DividerTypeAvailability } from "#i/divider-type/availability.js"
 import { Price } from "#i/price/price.js"
 
-import { DividerType } from "./action-schema"
+import { DividerType } from "./action-schema.js"
 
 export function FieldDividerType({
   field,

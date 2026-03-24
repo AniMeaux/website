@@ -1,4 +1,4 @@
-import { HelperCard } from "#i/core/layout/helper-card"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 
 export function PerksHelper() {
   return (

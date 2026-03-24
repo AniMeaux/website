@@ -2,15 +2,15 @@ import { cn, toBooleanAttribute } from "@animeaux/core"
 import { Primitive } from "@animeaux/react-primitives"
 import { forwardRef } from "react"
 
-import type { ActionProps } from "#i/core/actions"
-import { Action } from "#i/core/actions"
-import { DenseHelper } from "#i/core/data-display/helper"
+import type { ActionProps } from "#i/core/actions.js"
+import { Action } from "#i/core/actions.js"
+import { DenseHelper } from "#i/core/data-display/helper.js"
 import {
   DataUrlOrDynamicImage,
   isImageOverSize,
-} from "#i/core/data-display/image"
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/data-display/image.js"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 const ImageInputNative = forwardRef<
   React.ComponentRef<"input">,

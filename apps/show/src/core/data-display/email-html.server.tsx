@@ -18,15 +18,15 @@ import {
 import { Children, cloneElement, isValidElement } from "react"
 import type { ExtraProps } from "react-markdown"
 
-import tailwindConfig, { fonts } from "#i/../tailwind.config"
-import { createImageUrl } from "#i/core/data-display/image"
-import type { MarkdownComponents } from "#i/core/data-display/markdown"
+import tailwindConfig, { fonts } from "#i/../tailwind.config.js"
+import { createImageUrl } from "#i/core/data-display/image.js"
+import type { MarkdownComponents } from "#i/core/data-display/markdown.js"
 import {
   Markdown,
   PARAGRAPH_COMPONENTS,
   SENTENCE_COMPONENTS,
   withoutNode,
-} from "#i/core/data-display/markdown"
+} from "#i/core/data-display/markdown.js"
 
 export const EmailHtml = {
   Root: function EmailHtmlRoot({ children }: React.PropsWithChildren) {

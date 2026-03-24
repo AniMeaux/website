@@ -1,20 +1,20 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Empty } from "#i/core/data-display/empty"
+import { Action } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Empty } from "#i/core/data-display/empty.js"
 import {
   ARTICLE_COMPONENTS,
   Markdown,
   SENTENCE_COMPONENTS,
-} from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
-import { StatusHelper } from "#i/show/exhibitors/status-helper"
+} from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
+import { StatusHelper } from "#i/show/exhibitors/status-helper.js"
 import { ExhibitorStatusIcon } from "#i/show/exhibitors/status-icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function CardOnStandAnimations() {
   const { exhibitor } = useLoaderData<typeof loader>()

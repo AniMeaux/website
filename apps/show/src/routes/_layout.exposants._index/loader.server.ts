@@ -2,9 +2,9 @@ import { ShowExhibitorStatus } from "@animeaux/prisma/server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
-import { notFound } from "#i/core/response.server"
+import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
-import { ExhibitorSearchParams } from "#i/exhibitors/search-params"
+import { ExhibitorSearchParams } from "#i/exhibitors/search-params.js"
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (process.env.FEATURE_FLAG_SITE_ONLINE !== "true") {

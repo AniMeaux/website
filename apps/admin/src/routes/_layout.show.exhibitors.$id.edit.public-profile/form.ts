@@ -3,10 +3,10 @@ import { useForm as useFormBase } from "@conform-to/react"
 import { getZodConstraint, parseWithZod } from "@conform-to/zod"
 import { useFetcher, useLoaderData } from "@remix-run/react"
 
-import { useBackIfPossible } from "#i/core/navigation"
+import { useBackIfPossible } from "#i/core/navigation.js"
 
-import { ActionSchema } from "./action"
-import type { action, loader } from "./route"
+import { ActionSchema } from "./action.js"
+import type { action, loader } from "./route.js"
 
 export function useFormRoot() {
   const { exhibitor } = useLoaderData<typeof loader>()

@@ -1,26 +1,26 @@
 import { Link, useLoaderData } from "@remix-run/react"
 
-import { Action } from "#i/core/actions/action"
-import { InputActiveFilter } from "#i/core/form-elements/input-active-filter"
-import { LightBoardCard } from "#i/core/layout/light-board-card"
-import { Section } from "#i/core/layout/section"
-import { Routes } from "#i/core/navigation"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
+import { Action } from "#i/core/actions/action.js"
+import { InputActiveFilter } from "#i/core/form-elements/input-active-filter.js"
+import { LightBoardCard } from "#i/core/layout/light-board-card.js"
+import { Section } from "#i/core/layout/section.js"
+import { Routes } from "#i/core/navigation.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#i/exhibitors/activity-target/activity-target"
-import { ExhibitorItem } from "#i/exhibitors/item"
+} from "#i/exhibitors/activity-target/activity-target.js"
+import { ExhibitorItem } from "#i/exhibitors/item.js"
 import {
   ExhibitorSearchParams,
   useExhibitorSearchParams,
-} from "#i/exhibitors/search-params"
-import { Icon } from "#i/generated/icon"
-import { Pictogram } from "#i/generated/pictogram"
+} from "#i/exhibitors/search-params.js"
+import { Icon } from "#i/generated/icon.js"
+import { Pictogram } from "#i/generated/pictogram.js"
 
-import type { loader } from "./loader.server"
-import { ModalFilters } from "./modal-filters"
-import { SearchParamsForm } from "./search-params-form"
+import type { loader } from "./loader.server.js"
+import { ModalFilters } from "./modal-filters.js"
+import { SearchParamsForm } from "./search-params-form.js"
 
 export function SectionList() {
   const { exhibitors } = useLoaderData<typeof loader>()

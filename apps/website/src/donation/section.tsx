@@ -1,11 +1,11 @@
 import { cn } from "@animeaux/core"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 import {
   bubbleSectionClassNames,
   BubbleShape,
-} from "#i/core/layout/bubble-section"
+} from "#i/core/layout/bubble-section.js"
 
 export function DonationSection() {
   return (

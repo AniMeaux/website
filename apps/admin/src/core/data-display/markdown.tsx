@@ -6,8 +6,8 @@ import ReactMarkdown from "react-markdown"
 import breaks from "remark-breaks"
 import gfm from "remark-gfm"
 
-import { ProseInlineAction } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 
 export type MarkdownComponents = NonNullable<ReactMarkdownOptions["components"]>
 

@@ -1,10 +1,10 @@
 import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
-import { ActivityField } from "#i/exhibitors/activity-field/activity-field"
-import { Icon } from "#i/generated/icon"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
+import { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function FieldActivityField({
   field,

@@ -2,11 +2,11 @@ import { getCompleteLocation } from "@animeaux/core"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { Markdown, SENTENCE_COMPONENTS } from "#i/core/data-display/markdown.js"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import { Routes } from "#i/core/navigation.js"
 import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./loader.server"
+import type { loader } from "./loader.server.js"
 
 export function SectionBillingInfo() {
   const { exhibitor, invoices } = useLoaderData<typeof loader>()

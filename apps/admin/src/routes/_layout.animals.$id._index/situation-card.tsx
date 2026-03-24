@@ -10,32 +10,35 @@ import {
 import { useLoaderData } from "@remix-run/react"
 import { DateTime } from "luxon"
 
-import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption"
-import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up"
+import { ADOPTION_OPTION_TRANSLATION } from "#i/animals/adoption.js"
+import { PICK_UP_REASON_TRANSLATION } from "#i/animals/pick-up.js"
 import {
   SCREENING_RESULT_ICON,
   SCREENING_RESULT_TRANSLATION,
-} from "#i/animals/screening"
+} from "#i/animals/screening.js"
 import {
   formatNextVaccinationDate,
   getNextVaccinationState,
   hasUpCommingSterilisation,
-} from "#i/animals/situation/health"
-import { STATUS_TRANSLATION, StatusIcon } from "#i/animals/status"
-import { Action, ProseInlineAction } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { InlineHelper } from "#i/core/data-display/helper"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { HIGHLIGHT_COMPONENTS, Markdown } from "#i/core/data-display/markdown"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
-import { DropdownSheet } from "#i/core/popovers/dropdown-sheet"
-import { FosterFamilyAvatar } from "#i/foster-families/avatar"
-import { Icon } from "#i/generated/icon"
-import { theme } from "#i/generated/theme"
-import { UserAvatar } from "#i/users/avatar"
+} from "#i/animals/situation/health.js"
+import { STATUS_TRANSLATION, StatusIcon } from "#i/animals/status.js"
+import { Action, ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { InlineHelper } from "#i/core/data-display/helper.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import {
+  HIGHLIGHT_COMPONENTS,
+  Markdown,
+} from "#i/core/data-display/markdown.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { DropdownSheet } from "#i/core/popovers/dropdown-sheet.js"
+import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
+import { Icon } from "#i/generated/icon.js"
+import { theme } from "#i/generated/theme.js"
+import { UserAvatar } from "#i/users/avatar.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function SituationCard() {
   const { canEdit, animal, canSeeFosterFamilyDetails, canSeeManagerDetails } =

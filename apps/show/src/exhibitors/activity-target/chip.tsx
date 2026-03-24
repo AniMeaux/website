@@ -1,11 +1,11 @@
 import type { ShowActivityTarget } from "@animeaux/prisma"
 
-import { Chip } from "#i/core/data-display/chip"
+import { Chip } from "#i/core/data-display/chip.js"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
-} from "#i/exhibitors/activity-target/activity-target"
-import { Icon } from "#i/generated/icon"
+} from "#i/exhibitors/activity-target/activity-target.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function ChipActivityTarget({
   activityTarget,

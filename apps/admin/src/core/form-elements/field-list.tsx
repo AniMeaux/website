@@ -1,10 +1,10 @@
 import type { FieldMetadata, FormMetadata } from "@conform-to/react"
 
-import { Action } from "#i/core/actions"
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { Form } from "#i/core/form-elements/form"
-import { RequiredStar } from "#i/core/form-elements/required-star"
-import { Icon } from "#i/generated/icon"
+import { Action } from "#i/core/actions.js"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { Form } from "#i/core/form-elements/form.js"
+import { RequiredStar } from "#i/core/form-elements/required-star.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function FieldList<TItem, TForm extends Record<string, unknown>>({
   form,

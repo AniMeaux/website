@@ -91,7 +91,6 @@
     "@faker-js/faker": "catalog:",
     "@remix-run/dev": "catalog:",
     "@tailwindcss/container-queries": "catalog:",
-    "@total-typescript/ts-reset": "catalog:",
     "@types/autosize": "catalog:",
     "@types/cookie-signature": "catalog:",
     "@types/d3-dsv": "catalog:",

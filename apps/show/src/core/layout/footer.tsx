@@ -1,14 +1,14 @@
 import { cn } from "@animeaux/core"
 import { Link } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions/prose-inline-action"
-import { SocialLink } from "#i/core/actions/social-link"
-import { DynamicImage } from "#i/core/data-display/image"
-import { LegalBackground } from "#i/core/layout/legal-background"
-import { Section } from "#i/core/layout/section"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
-import { Pictogram } from "#i/generated/pictogram"
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
+import { SocialLink } from "#i/core/actions/social-link.js"
+import { DynamicImage } from "#i/core/data-display/image.js"
+import { LegalBackground } from "#i/core/layout/legal-background.js"
+import { Section } from "#i/core/layout/section.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import { Pictogram } from "#i/generated/pictogram.js"
 
 export const Footer = {
   Root: function FooterRoot({ children }: React.PropsWithChildren) {

@@ -6,7 +6,7 @@ import {
 import { SearchParamsIO } from "@animeaux/search-params-io"
 import { zu } from "@animeaux/zod-utils"
 
-import { SponsorshipOptionalCategory } from "#i/show/sponsors/category"
+import { SponsorshipOptionalCategory } from "#i/show/sponsors/category.js"
 
 export const ApplicationSearchParams = SearchParamsIO.create({
   keys: {

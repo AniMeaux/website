@@ -14,23 +14,23 @@ import {
 import { useFetcher, useLoaderData } from "@remix-run/react"
 import invariant from "tiny-invariant"
 
-import { ActionFormData, AnimalPicturesForm } from "#i/animals/pictures/form"
-import { getAnimalDisplayName } from "#i/animals/profile/name"
+import { ActionFormData, AnimalPicturesForm } from "#i/animals/pictures/form.js"
+import { getAnimalDisplayName } from "#i/animals/profile/name.js"
 import {
   CloudinaryUploadApiError,
   createCloudinaryUploadHandler,
-} from "#i/core/cloudinary.server"
-import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page"
-import { db } from "#i/core/db.server"
-import { NotFoundError } from "#i/core/errors.server"
-import { assertIsDefined } from "#i/core/is-defined.server"
-import { Card } from "#i/core/layout/card"
-import { PageLayout } from "#i/core/layout/page"
-import { Routes, useBackIfPossible } from "#i/core/navigation"
-import { getPageTitle } from "#i/core/page-title"
-import { prisma } from "#i/core/prisma.server"
-import { notFound } from "#i/core/response.server"
-import { assertCurrentUserHasGroups } from "#i/current-user/groups.server"
+} from "#i/core/cloudinary.server.js"
+import { ErrorPage, getErrorTitle } from "#i/core/data-display/error-page.js"
+import { db } from "#i/core/db.server.js"
+import { NotFoundError } from "#i/core/errors.server.js"
+import { assertIsDefined } from "#i/core/is-defined.server.js"
+import { Card } from "#i/core/layout/card.js"
+import { PageLayout } from "#i/core/layout/page.js"
+import { Routes, useBackIfPossible } from "#i/core/navigation.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { prisma } from "#i/core/prisma.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
 const ParamsSchema = zu.object({
   id: zu.string().uuid(),

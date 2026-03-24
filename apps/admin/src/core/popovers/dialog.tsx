@@ -2,11 +2,11 @@ import { cn } from "@animeaux/core"
 import * as RadixDialog from "@radix-ui/react-dialog"
 import { createContext, useContext, useMemo } from "react"
 
-import type { ActionColor } from "#i/core/actions"
-import { Action } from "#i/core/actions"
-import { Overlay } from "#i/core/popovers/overlay"
-import type { IconName } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
+import type { ActionColor } from "#i/core/actions.js"
+import { Action } from "#i/core/actions.js"
+import { Overlay } from "#i/core/popovers/overlay.js"
+import type { IconName } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
 
 type DialogVariant = "alert" | "info" | "warning"
 

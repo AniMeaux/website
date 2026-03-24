@@ -1,15 +1,15 @@
 import { useLoaderData } from "@remix-run/react"
 
-import { ProseInlineAction } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { ItemList, SimpleItem } from "#i/core/data-display/item"
-import { Card } from "#i/core/layout/card"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
-import { SponsorshipCategory } from "#i/show/sponsors/category"
-import { Visibility, VisibilityIcon } from "#i/show/visibility"
+import { ProseInlineAction } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { ItemList, SimpleItem } from "#i/core/data-display/item.js"
+import { Card } from "#i/core/layout/card.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
+import { SponsorshipCategory } from "#i/show/sponsors/category.js"
+import { Visibility, VisibilityIcon } from "#i/show/visibility.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 export function CardSituation() {
   return (

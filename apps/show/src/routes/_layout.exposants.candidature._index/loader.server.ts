@@ -1,10 +1,10 @@
 import { json } from "@remix-run/node"
 import { promiseHash } from "remix-utils/promise"
 
-import { notFound } from "#i/core/response.server"
+import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
 
-import { getStandSizesData } from "./stand-sizes.server"
+import { getStandSizesData } from "./stand-sizes.server.js"
 
 export async function loader() {
   if (process.env.FEATURE_FLAG_EXHIBITOR_APPLICATION_ONLINE !== "true") {

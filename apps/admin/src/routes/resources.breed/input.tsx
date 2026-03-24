@@ -7,21 +7,21 @@ import { useCombobox } from "downshift"
 import { createPath } from "history"
 import { forwardRef, useEffect, useState } from "react"
 
-import { BreedSearchParams } from "#i/breeds/search-params"
-import { ensureArray } from "#i/core/collections"
-import { BaseTextInput } from "#i/core/form-elements/base-text-input"
-import { Input } from "#i/core/form-elements/input"
+import { BreedSearchParams } from "#i/breeds/search-params.js"
+import { ensureArray } from "#i/core/collections.js"
+import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
+import { Input } from "#i/core/form-elements/input.js"
 import {
   NoSuggestion,
   ResourceComboboxLayout,
   ResourceInputLayout,
   SuggestionItem,
   SuggestionList,
-} from "#i/core/form-elements/resource-input"
-import { Routes } from "#i/core/navigation"
-import { Icon } from "#i/generated/icon"
+} from "#i/core/form-elements/resource-input.js"
+import { Routes } from "#i/core/navigation.js"
+import { Icon } from "#i/generated/icon.js"
 
-import type { loader } from "./route"
+import type { loader } from "./route.js"
 
 type BreedInputProps = {
   name: string

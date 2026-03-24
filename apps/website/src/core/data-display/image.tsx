@@ -2,10 +2,10 @@ import { cn } from "@animeaux/core"
 import orderBy from "lodash.orderby"
 import invariant from "tiny-invariant"
 
-import type { IconProps } from "#i/generated/icon"
-import { Icon } from "#i/generated/icon"
-import type { ScreenSize } from "#i/generated/theme"
-import { theme } from "#i/generated/theme"
+import type { IconProps } from "#i/generated/icon.js"
+import { Icon } from "#i/generated/icon.js"
+import type { ScreenSize } from "#i/generated/theme.js"
+import { theme } from "#i/generated/theme.js"
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const

@@ -1,23 +1,23 @@
 import { cn } from "@animeaux/core"
 import type { MetaFunction } from "@remix-run/node"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
-import { Timeline, TimelineItem } from "#i/core/data-display/timeline"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
+import { Timeline, TimelineItem } from "#i/core/data-display/timeline.js"
 import {
   HeroSection,
   HeroSectionAside,
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { engagementImages } from "#i/images/engagement"
-import { equipmentImages } from "#i/images/equipment"
-import { followUpImages } from "#i/images/follow-up"
-import { fosterFamilyLargeImages } from "#i/images/foster-family-large"
-import { socialImages } from "#i/images/social"
+} from "#i/core/layout/hero-section.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { engagementImages } from "#i/images/engagement.js"
+import { equipmentImages } from "#i/images/equipment.js"
+import { followUpImages } from "#i/images/follow-up.js"
+import { fosterFamilyLargeImages } from "#i/images/foster-family-large.js"
+import { socialImages } from "#i/images/social.js"
 
 export const meta: MetaFunction = () => {
   return createSocialMeta({

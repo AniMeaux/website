@@ -16,9 +16,9 @@ import { Routes } from "#i/core/navigation.js"
 import { getPageTitle } from "#i/core/page-title.js"
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
 
-import { ActionSchema } from "./action"
-import { FieldsetStatus } from "./fieldset-status"
-import { FormProvider, useFormRoot } from "./form"
+import { ActionSchema } from "./action.js"
+import { FieldsetStatus } from "./fieldset-status.js"
+import { FormProvider, useFormRoot } from "./form.js"
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

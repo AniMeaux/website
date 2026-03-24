@@ -10,9 +10,9 @@ import { db } from "#i/core/db.server.js"
 import { NotFoundError } from "#i/core/errors.server.js"
 import { Routes } from "#i/core/navigation.js"
 import { assertCurrentUserHasGroups } from "#i/current-user/groups.server.js"
-import { actionSchema } from "#i/show/stand-size/action-schema"
+import { actionSchema } from "#i/show/stand-size/action-schema.js"
 
-import { routeParamsSchema } from "./route-params"
+import { routeParamsSchema } from "./route-params.js"
 
 export async function action({ request, params }: ActionFunctionArgs) {
   const currentUser = await db.currentUser.get(request, {

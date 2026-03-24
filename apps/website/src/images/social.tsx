@@ -1,4 +1,4 @@
-import type { ImageDescriptor } from "#i/core/data-display/image"
+import type { ImageDescriptor } from "#i/core/data-display/image.js"
 import socialAdoptionConditions1024 from "#i/images/social-adoption-conditions-1024w.jpg"
 import socialDefault1024 from "#i/images/social-default-1024w.jpg"
 import socialDonation1024 from "#i/images/social-donation-1024w.jpg"

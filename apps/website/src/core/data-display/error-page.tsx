@@ -1,8 +1,8 @@
 import { cn } from "@animeaux/core"
 import { isRouteErrorResponse, useRouteError } from "@remix-run/react"
 
-import { actionClassNames } from "#i/core/actions"
-import { BaseLink } from "#i/core/base-link"
+import { actionClassNames } from "#i/core/actions.js"
+import { BaseLink } from "#i/core/base-link.js"
 import {
   HeroSection,
   HeroSectionAction,
@@ -10,8 +10,8 @@ import {
   HeroSectionImage,
   HeroSectionParagraph,
   HeroSectionTitle,
-} from "#i/core/layout/hero-section"
-import { errorImages } from "#i/images/error"
+} from "#i/core/layout/hero-section.js"
+import { errorImages } from "#i/images/error.js"
 
 const STATUS_CODE = [404, 500] as const
 type StatusCode = (typeof STATUS_CODE)[number]

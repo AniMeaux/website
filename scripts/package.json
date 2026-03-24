@@ -2,18 +2,14 @@
   "name": "@animeaux/scripts",
   "version": "1.0.0",
   "private": true,
+  "sideEffects": false,
   "type": "module",
-  "bin": {
-    "generate-image-placeholder": "./bin/generate-image-placeholder.ts"
-  },
-  "imports": {
-    "#*": "./src/*"
-  },
   "scripts": {
+    "generate-image-placeholder": "tsx ./src/generate-image-placeholder.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
     "lint:prettier": "prettier --list-different .",
-    "lint:tsx": "tsc --noEmit",
+    "lint:tsc": "tsc --noEmit",
     "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
     "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
     "lint-fix:prettier": "prettier --write ."

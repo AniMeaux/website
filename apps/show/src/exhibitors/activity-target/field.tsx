@@ -2,14 +2,14 @@ import type { ShowActivityTarget } from "@animeaux/prisma"
 import type { FieldMetadata } from "@conform-to/react"
 import { getCollectionProps } from "@conform-to/react"
 
-import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper"
-import { FormLayout } from "#i/core/layout/form-layout"
+import { FieldErrorHelper } from "#i/core/form-elements/field-error-helper.js"
+import { FormLayout } from "#i/core/layout/form-layout.js"
 import {
   ACTIVITY_TARGET_ICON,
   ACTIVITY_TARGET_TRANSLATION,
   SORTED_ACTIVITY_TARGETS,
-} from "#i/exhibitors/activity-target/activity-target"
-import { Icon } from "#i/generated/icon"
+} from "#i/exhibitors/activity-target/activity-target.js"
+import { Icon } from "#i/generated/icon.js"
 
 export function FieldActivityTarget({
   field,

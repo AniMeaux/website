@@ -1,6 +1,6 @@
 import { normalizeLineBreaks, zu } from "@animeaux/zod-utils"
 
-import { ExhibitorStatus } from "#i/show/exhibitors/status"
+import { ExhibitorStatus } from "#i/show/exhibitors/status.js"
 
 export const ActionSchema = zu
   .object({

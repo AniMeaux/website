@@ -1,10 +1,10 @@
 import type { Prisma } from "@animeaux/prisma/server"
 import { promiseHash } from "remix-utils/promise"
 
-import { prisma } from "#i/core/prisma.server"
-import { notFound } from "#i/core/response.server"
-import { SponsorSearchParamsN } from "#i/show/sponsors/search-params"
-import { Visibility } from "#i/show/visibility"
+import { prisma } from "#i/core/prisma.server.js"
+import { notFound } from "#i/core/response.server.js"
+import { SponsorSearchParamsN } from "#i/show/sponsors/search-params.js"
+import { Visibility } from "#i/show/visibility.js"
 
 export class ShowSponsorDbDelegate {
   async findUnique<T extends Prisma.ShowSponsorSelect>(

@@ -1,6 +1,6 @@
 import { Outlet } from "@remix-run/react"
 
-import type { RouteHandle } from "#i/core/handles"
+import type { RouteHandle } from "#i/core/handles.js"
 import { Entity } from "#i/routes/resources.global-search/entity.js"
 
 export const handle: RouteHandle = {

@@ -5,13 +5,13 @@ import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { promiseHash } from "remix-utils/promise"
 
-import { AnimalItem } from "#i/animals/item"
-import { SAVED_ANIMAL_STATUS } from "#i/animals/status"
-import { Paginator } from "#i/core/controllers/paginator"
-import { prisma } from "#i/core/db.server"
-import { createSocialMeta } from "#i/core/meta"
-import { getPageTitle } from "#i/core/page-title"
-import { getPage } from "#i/core/search-params"
+import { AnimalItem } from "#i/animals/item.js"
+import { SAVED_ANIMAL_STATUS } from "#i/animals/status.js"
+import { Paginator } from "#i/core/controllers/paginator.js"
+import { prisma } from "#i/core/db.server.js"
+import { createSocialMeta } from "#i/core/meta.js"
+import { getPageTitle } from "#i/core/page-title.js"
+import { getPage } from "#i/core/search-params.js"
 
 // Multiple of 2 and 3 to be nicely displayed.
 const ANIMAL_COUNT_PER_PAGE = 18
