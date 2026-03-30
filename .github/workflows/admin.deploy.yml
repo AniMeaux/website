@@ -88,6 +88,10 @@ jobs:
           username: x
           password: ${{ secrets.FLY_API_TOKEN }}
 
+      - name: 🏷️ Sanitize ref name
+        id: ref_name
+        run: echo "value=$(echo '${{ github.ref_name }}' | tr '/' '-')" >> $GITHUB_OUTPUT
+
       - name: 🐳 Docker build
         uses: docker/build-push-action@v3
         with:
@@ -96,7 +100,7 @@ jobs:
           push: true
           tags:
             registry.fly.io/${{ steps.app_name.outputs.value }}:${{
-            github.ref_name }}-${{ github.sha }}
+            steps.ref_name.outputs.value }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 
@@ -127,13 +131,17 @@ jobs:
           file: ./apps/admin/fly.toml
           field: app
 
+      - name: 🏷️ Sanitize ref name
+        id: ref_name
+        run: echo "value=$(echo '${{ github.ref_name }}' | tr '/' '-')" >> $GITHUB_OUTPUT
+
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.4
         with:
           args:
             deploy --config ./apps/admin/fly.toml --image registry.fly.io/${{
-            steps.app_name.outputs.value }}:${{ github.ref_name }}-${{
+            steps.app_name.outputs.value }}:${{ steps.ref_name.outputs.value }}-${{
             github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -145,7 +153,7 @@ jobs:
           args:
             deploy --config ./apps/admin/fly.toml --app ${{
             steps.app_name.outputs.value }}-staging --image registry.fly.io/${{
-            steps.app_name.outputs.value }}:${{ github.ref_name }}-${{
+            steps.app_name.outputs.value }}:${{ steps.ref_name.outputs.value }}-${{
             github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
