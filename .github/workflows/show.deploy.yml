@@ -28,8 +28,19 @@ jobs:
     name: 🔧 Prepare
     runs-on: ubuntu-latest
     outputs:
+      app_name: ${{ steps.app_name.outputs.value }}
       ref_name: ${{ steps.ref_name.outputs.value }}
     steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 👀 Read app name
+        uses: SebRollen/toml-action@v1.0.2
+        id: app_name
+        with:
+          file: ./apps/show/fly.toml
+          field: app
+
       - name: 🏷️ Sanitize ref name
         id: ref_name
         run: echo "value=$(echo '${{ github.ref_name }}' | tr '/' '-')" >> $GITHUB_OUTPUT
@@ -72,13 +83,6 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: 👀 Read app name
-        uses: SebRollen/toml-action@v1.0.2
-        id: app_name
-        with:
-          file: ./apps/show/fly.toml
-          field: app
-
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
         with:
@@ -106,7 +110,7 @@ jobs:
           file: ./apps/show/Dockerfile
           push: true
           tags:
-            registry.fly.io/${{ steps.app_name.outputs.value }}:${{
+            registry.fly.io/${{ needs.prepare.outputs.app_name }}:${{
             needs.prepare.outputs.ref_name }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
@@ -132,20 +136,13 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
 
-      - name: 👀 Read app name
-        uses: SebRollen/toml-action@v1.0.2
-        id: app_name
-        with:
-          file: ./apps/show/fly.toml
-          field: app
-
       - name: 🚀 Deploy Production
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: superfly/flyctl-actions@1.4
         with:
           args:
             deploy --config ./apps/show/fly.toml --image registry.fly.io/${{
-            steps.app_name.outputs.value }}:${{ needs.prepare.outputs.ref_name }}-${{
+            needs.prepare.outputs.app_name }}:${{ needs.prepare.outputs.ref_name }}-${{
             github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
@@ -156,8 +153,8 @@ jobs:
         with:
           args:
             deploy --config ./apps/show/fly.toml --app ${{
-            steps.app_name.outputs.value }}-staging --image registry.fly.io/${{
-            steps.app_name.outputs.value }}:${{ needs.prepare.outputs.ref_name }}-${{
+            needs.prepare.outputs.app_name }}-staging --image registry.fly.io/${{
+            needs.prepare.outputs.app_name }}:${{ needs.prepare.outputs.ref_name }}-${{
             github.sha }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

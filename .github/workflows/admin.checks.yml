@@ -22,9 +22,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: 📦 Build
+  prepare:
+    name: 🔧 Prepare
     runs-on: ubuntu-latest
+    outputs:
+      app_name: ${{ steps.app_name.outputs.value }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
@@ -35,6 +37,14 @@ jobs:
         with:
           file: ./apps/admin/fly.toml
           field: app
+
+  build:
+    name: 📦 Build
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -55,7 +65,7 @@ jobs:
           context: .
           file: ./apps/admin/Dockerfile
           tags:
-            registry.fly.io/${{ steps.app_name.outputs.value }}:${{
+            registry.fly.io/${{ needs.prepare.outputs.app_name }}:${{
             github.head_ref }}-${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
