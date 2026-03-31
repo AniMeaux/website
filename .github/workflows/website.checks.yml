@@ -39,6 +39,9 @@ jobs:
           file: ./apps/website/fly.toml
           field: app
 
+      # In workflows triggered by pull requests, `github.ref_name` is
+      # `<pr-number>/merge`. We use `github.head_ref` instead to get the
+      # source branch name.
       - name: 🏷️ Build image tag
         id: image_tag
         run: echo "value=registry.fly.io/${{ steps.app_name.outputs.value }}:$(echo '${{ github.head_ref }}' | tr '/' '-')-${{ github.sha }}" >> $GITHUB_OUTPUT
