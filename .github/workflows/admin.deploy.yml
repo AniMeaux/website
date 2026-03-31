@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app_name: ${{ steps.app_name.outputs.value }}
-      ref_name: ${{ steps.ref_name.outputs.value }}
+      image_tag: ${{ steps.image_tag.outputs.value }}
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
@@ -41,9 +41,9 @@ jobs:
           file: ./apps/admin/fly.toml
           field: app
 
-      - name: 🏷️ Sanitize ref name
-        id: ref_name
-        run: echo "value=$(echo '${{ github.ref_name }}' | tr '/' '-')" >> $GITHUB_OUTPUT
+      - name: 🏷️ Build image tag
+        id: image_tag
+        run: echo "value=registry.fly.io/${{ steps.app_name.outputs.value }}:$(echo '${{ github.ref_name }}' | tr '/' '-')-${{ github.sha }}" >> $GITHUB_OUTPUT
 
   lint:
     name: 🔬 Lint
@@ -109,9 +109,7 @@ jobs:
           context: .
           file: ./apps/admin/Dockerfile
           push: true
-          tags:
-            registry.fly.io/${{ needs.prepare.outputs.app_name }}:${{
-            needs.prepare.outputs.ref_name }}-${{ github.sha }}
+          tags: ${{ needs.prepare.outputs.image_tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 
@@ -141,9 +139,8 @@ jobs:
         uses: superfly/flyctl-actions@1.4
         with:
           args:
-            deploy --config ./apps/admin/fly.toml --image registry.fly.io/${{
-            needs.prepare.outputs.app_name }}:${{ needs.prepare.outputs.ref_name }}-${{
-            github.sha }}
+            deploy --config ./apps/admin/fly.toml --image ${{
+            needs.prepare.outputs.image_tag }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -153,8 +150,7 @@ jobs:
         with:
           args:
             deploy --config ./apps/admin/fly.toml --app ${{
-            needs.prepare.outputs.app_name }}-staging --image registry.fly.io/${{
-            needs.prepare.outputs.app_name }}:${{ needs.prepare.outputs.ref_name }}-${{
-            github.sha }}
+            needs.prepare.outputs.app_name }}-staging --image ${{
+            needs.prepare.outputs.image_tag }}
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
