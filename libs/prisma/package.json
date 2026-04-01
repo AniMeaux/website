@@ -4,6 +4,9 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "files": [
+    "build"
+  ],
   "exports": {
     ".": {
       "types": "./build/src/index.d.ts",
@@ -20,12 +23,14 @@
     "build:paths": "tsc-alias -p ./tsconfig.build.json",
     "build:prisma": "pnpm prisma-env generate",
     "build:src": "tsc -p ./tsconfig.build.json",
+    "postbuild": "pnpm sync-workspace",
     "clean": "rm -rf ./build ./src/generated",
     "copy-data": "tsx ./scripts/copy-data.ts",
     "dev": "run-p --continue-on-error --print-label dev:*",
     "dev:paths": "pnpm build:paths --watch",
-    "dev:prisma": "chokidar ./schema.prisma -c 'prisma generate'",
+    "dev:prisma": "chokidar ./schema.prisma --initial --silent -c 'pnpm build:prisma'",
     "dev:src": "pnpm build:src --watch",
+    "dev:sync-workspace": "chokidar ./build --debounce --silent -c 'pnpm sync-workspace'",
     "download-all-data": "tsx -r dotenv-flow/config ./scripts/download-all-data.ts",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
@@ -37,7 +42,8 @@
     "migrate": "pnpm prisma-env migrate dev",
     "prisma-env": "NODE_OPTIONS=\"-r dotenv-flow/config\" prisma",
     "reset": "pnpm prisma-env migrate reset -f",
-    "studio": "pnpm prisma-env studio"
+    "studio": "pnpm prisma-env studio",
+    "sync-workspace": "# See /docs/decisions/002-workspace-package-injection.md"
   },
   "dependencies": {
     "@prisma/adapter-pg": "catalog:",

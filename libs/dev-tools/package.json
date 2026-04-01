@@ -4,6 +4,14 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "files": [
+    "eslint.config.js",
+    "prettier.config.js",
+    "reset.d.ts",
+    "tsconfig.app.json",
+    "tsconfig.base.json",
+    "tsconfig.lib.json"
+  ],
   "exports": {
     "./eslint": "./eslint.config.js",
     "./prettier": "./prettier.config.js",

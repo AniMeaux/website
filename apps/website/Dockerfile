@@ -34,6 +34,7 @@ FROM base AS packages-json
 COPY package.json ./
 COPY libs/core/package.json libs/core/
 COPY libs/dev-tools/package.json libs/dev-tools/
+COPY libs/password/package.json libs/password/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/search-params-io/package.json libs/search-params-io/
 COPY libs/zod-utils/package.json libs/zod-utils/
@@ -50,10 +51,15 @@ RUN pnpm install --frozen-lockfile --offline
 
 COPY libs/core libs/core
 COPY libs/dev-tools libs/dev-tools
+COPY libs/password libs/password
 COPY libs/prisma libs/prisma
 COPY libs/search-params-io libs/search-params-io
 COPY libs/zod-utils libs/zod-utils
 COPY apps/website apps/website
+
+# Synchronise injected workspace packages after copying source code.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --frozen-lockfile --offline
 
 # Build libs and app.
 RUN pnpm --filter website... build
@@ -88,5 +94,9 @@ COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
 COPY libs/prisma/prisma.config.ts libs/prisma/prisma.config.ts
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
+
+# Synchronise injected workspace packages after copying build artifacts.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --prod --frozen-lockfile --offline
 
 CMD ["pnpm", "--filter", "website", "start"]

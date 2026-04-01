@@ -65,6 +65,10 @@ COPY libs/tailwind-animation libs/tailwind-animation
 COPY libs/zod-utils libs/zod-utils
 COPY apps/admin apps/admin
 
+# Synchronise injected workspace packages after copying source code.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --frozen-lockfile --offline
+
 # Build libs and app.
 RUN pnpm --filter admin... build
 
@@ -98,5 +102,9 @@ COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
 COPY libs/prisma/prisma.config.ts libs/prisma/prisma.config.ts
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
+
+# Synchronise injected workspace packages after copying build artifacts.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --prod --frozen-lockfile --offline
 
 CMD ["pnpm", "--filter", "admin", "start"]

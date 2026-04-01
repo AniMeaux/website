@@ -2,9 +2,21 @@
 # See https://pnpm.io/settings#autoinstallpeers
 autoInstallPeers: false
 
-# Allows app to use workspace packages with their expected peer dependencies.
-# See https://pnpm.io/settings#injectworkspacepackages
+# Don't use symlinks for workspace packages to ensure that peer dependencies are
+# resolved correctly.
+# See /docs/decisions/002-workspace-package-injection.md
 injectWorkspacePackages: true
+
+# For consistency, ensure symlinks are never used, even when peer dependencies
+# are compatible between workspace packages.
+# See /docs/decisions/002-workspace-package-injection.md
+dedupeInjectedDeps: false
+
+# Ensure injected workspace packages copies are always up to date after running
+# this dedicated script.
+# See /docs/decisions/002-workspace-package-injection.md
+syncInjectedDepsAfterScripts:
+  - "sync-workspace"
 
 packages:
   - apps/*
