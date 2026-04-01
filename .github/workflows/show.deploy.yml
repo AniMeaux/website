@@ -43,7 +43,10 @@ jobs:
 
       - name: 🏷️ Build image tag
         id: image_tag
-        run: echo "value=registry.fly.io/${{ steps.app_name.outputs.value }}:$(echo '${{ github.ref_name }}' | tr '/' '-')-${{ github.sha }}" >> $GITHUB_OUTPUT
+        run:
+          echo "value=registry.fly.io/${{ steps.app_name.outputs.value }}:$(echo
+          '${{ github.ref_name }}' | tr '/' '-')-${{ github.sha }}" >>
+          $GITHUB_OUTPUT
 
   lint:
     name: 🔬 Lint
