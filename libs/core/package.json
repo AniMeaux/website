@@ -31,6 +31,7 @@
     "@animeaux/prisma": "workspace:*",
     "@animeaux/search-params-io": "workspace:*",
     "@remix-run/react": "catalog:",
+    "es-toolkit": "catalog:",
     "luxon": "catalog:",
     "react": "catalog:",
     "react-router": "catalog:",

@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import invariant from "tiny-invariant"
 
 import type { ServicePrisma } from "#i/core/prisma.service.server.js"
@@ -53,6 +53,6 @@ export class ServiceSponsor {
       }
     })
 
-    return orderBy(sponsors, (sponsor) => sponsor.name, "asc")
+    return orderBy(sponsors, [(sponsor) => sponsor.name], ["asc"])
   }
 }

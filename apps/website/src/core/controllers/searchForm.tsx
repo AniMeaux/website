@@ -1,6 +1,10 @@
-import { ANIMAL_AGE_RANGE_BY_SPECIES, AnimalAge, cn } from "@animeaux/core"
+import {
+  ANIMAL_AGE_RANGE_BY_SPECIES,
+  AnimalAge,
+  cn,
+  orderEnumBy,
+} from "@animeaux/core"
 import { Species } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 import { useCallback, useEffect, useState } from "react"
 
 import { BaseLink } from "#i/core/base-link.js"
@@ -10,12 +14,12 @@ import {
 } from "#i/core/translations.js"
 import { Icon } from "#i/generated/icon.js"
 
-const SORTED_SPECIES = orderBy(
+const SORTED_SPECIES = orderEnumBy(
   Object.values(Species),
   (species) => SPECIES_TRANSLATION_STANDALONE[species],
 )
 
-const SORTED_AGES = orderBy(Object.values(AnimalAge), (age) =>
+const SORTED_AGES = orderEnumBy(Object.values(AnimalAge), (age) =>
   age === AnimalAge.JUNIOR ? 0 : age === AnimalAge.ADULT ? 1 : 2,
 )
 

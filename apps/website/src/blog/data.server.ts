@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import { DateTime } from "luxon"
 
 import { MarkdownLink } from "#i/core/data-display/markdown.js"
@@ -441,6 +441,6 @@ Alors, qu’attendez-vous ? C’est peut-être vous le nouveau compagnon pour l
 [Contactez-nous](mailto:adoption@animeaux.org) !`,
     },
   ],
-  (article) => DateTime.fromJSDate(article.publicationDate).toMillis(),
-  "desc",
+  [(article) => DateTime.fromJSDate(article.publicationDate).toMillis()],
+  ["desc"],
 )

@@ -1,6 +1,6 @@
 import { cn } from "@animeaux/core"
 import { blurhashToDataUri } from "@unpic/placeholder"
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import { forwardRef } from "react"
 
 import type { ImageData } from "#i/core/image/data.js"
@@ -163,16 +163,12 @@ export function createImageUrl(
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
   (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) =>
-      [name, Number(width.replace("px", ""))] as [
-        ScreenSize | "default",
-        number,
-      ],
+    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
   ),
-  ([_, width]) => width,
-  "desc",
+  [({ width }) => width],
+  ["desc"],
 )
-  .map(([name]) => name)
+  .map(({ name }) => name)
   .concat("default")
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {

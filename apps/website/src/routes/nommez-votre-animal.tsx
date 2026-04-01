@@ -3,7 +3,7 @@ import { Gender } from "@animeaux/prisma"
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 import { Form, useLoaderData, useSearchParams } from "@remix-run/react"
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import { useEffect, useState } from "react"
 import invariant from "tiny-invariant"
 import { z } from "zod"
@@ -54,7 +54,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   names = orderBy(
     pickRandom(names, ANIMAL_NAME_COUNT_PER_PAGE),
-    (name) => name.label,
+    [(name) => name.label],
+    ["asc"],
   )
 
   return json({ names })

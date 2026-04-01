@@ -1,7 +1,7 @@
+import { orderEnumBy } from "@animeaux/core"
 import type { User } from "@animeaux/prisma"
 import { UserGroup } from "@animeaux/prisma"
-import intersection from "lodash.intersection"
-import orderBy from "lodash.orderby"
+import { intersection } from "es-toolkit/array"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -15,7 +15,7 @@ export const GROUP_TRANSLATION: Record<UserGroup, string> = {
   [UserGroup.VOLUNTEER]: "Bénévole",
 }
 
-export const SORTED_GROUPS = orderBy(
+export const SORTED_GROUPS = orderEnumBy(
   Object.values(UserGroup),
   (group) => GROUP_TRANSLATION[group],
 )

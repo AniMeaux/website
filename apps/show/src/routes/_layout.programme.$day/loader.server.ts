@@ -1,6 +1,6 @@
 import { safeParseRouteParam } from "@animeaux/zod-utils"
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import groupBy from "lodash.groupby"
+import { groupBy } from "es-toolkit/array"
 
 import { notFound } from "#i/core/response.server.js"
 import { services } from "#i/core/services.server.js"
