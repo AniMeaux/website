@@ -1,6 +1,6 @@
+import { orderEnumBy } from "@animeaux/core"
 import type { User } from "@animeaux/prisma"
 import { UserGroup } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 export namespace Entity {
   export const Enum = {
@@ -17,7 +17,7 @@ export namespace Entity {
     [Enum.FOSTER_FAMILY]: "FA",
   }
 
-  export const values = orderBy(
+  export const values = orderEnumBy(
     Object.values(Enum),
     (entity) => translations[entity],
   )

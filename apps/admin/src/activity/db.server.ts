@@ -1,7 +1,7 @@
 import type { Prisma } from "@animeaux/prisma/server"
 import { captureException } from "@sentry/remix"
-import isEqual from "lodash.isequal"
-import pick from "lodash.pick"
+import { pick } from "es-toolkit/object"
+import { isEqual } from "es-toolkit/predicate"
 import { promiseHash } from "remix-utils/promise"
 
 import { ActivityAction } from "#i/activity/action.js"

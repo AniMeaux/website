@@ -29,12 +29,11 @@
   },
   "dependencies": {
     "@remix-run/react": "catalog:",
-    "lodash.isequal": "catalog:",
+    "es-toolkit": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
-    "@types/lodash.isequal": "catalog:",
     "@types/react": "catalog:",
     "eslint": "catalog:",
     "npm-run-all": "catalog:",

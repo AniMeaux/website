@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { ShowActivityField } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 export namespace ActivityField {
   export const Enum = ShowActivityField
@@ -25,7 +25,7 @@ export namespace ActivityField {
     [Enum.TRAINING]: "Formation",
   }
 
-  export const values = orderBy(
+  export const values = orderEnumBy(
     Object.values(Enum),
     (field) => translation[field],
   )

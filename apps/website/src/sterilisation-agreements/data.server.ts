@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 
 export type CityWithAgreements = {
   id: string
@@ -30,5 +30,6 @@ export const citiesWithAgreements: CityWithAgreements[] = orderBy(
       image: "cities-with-agreements/villenoy-rrzty95tbnggot0s8tyj",
     },
   ],
-  (city) => city.name.toLowerCase(),
+  [(city) => city.name.toLowerCase()],
+  ["asc"],
 )

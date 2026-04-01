@@ -1,6 +1,6 @@
+import { orderEnumBy } from "@animeaux/core"
 import type { Animal, Breed, Color } from "@animeaux/prisma"
 import { Species } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import { isDefined } from "#i/core/is-defined.js"
 import type { IconName } from "#i/generated/icon.js"
@@ -21,7 +21,7 @@ export const SPECIES_ICON: Record<Species, IconName> = {
   [Species.RODENT]: "icon-rabbit-solid",
 }
 
-export const SORTED_SPECIES = orderBy(
+export const SORTED_SPECIES = orderEnumBy(
   Object.values(Species),
   (species) => SPECIES_TRANSLATION[species],
 )

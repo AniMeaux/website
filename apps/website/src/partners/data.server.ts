@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 
 export type Partner = {
   id: string
@@ -59,5 +59,6 @@ export const partners: Partner[] = orderBy(
       url: "https://www.super-logo.com",
     },
   ],
-  (partner) => partner.name.toLowerCase(),
+  [(partner) => partner.name.toLowerCase()],
+  ["asc"],
 )

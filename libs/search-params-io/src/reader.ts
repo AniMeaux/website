@@ -1,4 +1,4 @@
-import isEqual from "lodash.isequal"
+import { isEqual } from "es-toolkit/predicate"
 
 export interface SearchParamsReader<
   TKeys extends Record<string, string> = Record<string, string>,

@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { PickUpReason } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -21,7 +21,7 @@ export const PICK_UP_REASON_ICON: Record<PickUpReason, IconName> = {
   [PickUpReason.OTHER]: "icon-circle-question-solid",
 }
 
-export const SORTED_PICK_UP_REASON = orderBy(
+export const SORTED_PICK_UP_REASON = orderEnumBy(
   Object.values(PickUpReason),
   (pickUpReason) => PICK_UP_REASON_TRANSLATION[pickUpReason],
 )

@@ -1,5 +1,5 @@
 import { cn } from "@animeaux/core"
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import { forwardRef } from "react"
 import type { Merge } from "type-fest"
 
@@ -25,16 +25,12 @@ export type ImageSize = (typeof IMAGE_SIZES)[number]
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
   (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) =>
-      [name, Number(width.replace("px", ""))] as [
-        ScreenSize | "default",
-        number,
-      ],
+    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
   ),
-  ([_, width]) => width,
-  "desc",
+  [({ width }) => width],
+  ["desc"],
 )
-  .map(([name]) => name)
+  .map(({ name }) => name)
   .concat("default")
 
 type AspectRatio = "none" | "1:1" | "4:3"

@@ -1,5 +1,5 @@
 import * as Collapsible from "@radix-ui/react-collapsible"
-import chunk from "lodash.chunk"
+import { chunk } from "es-toolkit/array"
 import { Children } from "react"
 
 import {
