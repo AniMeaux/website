@@ -76,6 +76,9 @@ const processEnvSchema = zu
     CLOUDINARY_CLOUD_NAME: zu.string(),
     DATABASE_URL: zu.string(),
     ENABLE_CRONS: zu.enum(["true", "false"]),
+    FEATURE_FLAG_ANIMAL_TEXT_SEARCH_MODE: zu
+      .enum(["fuzzy", "like", "off"])
+      .optional(),
     GOOGLE_API_CLIENT_EMAIL: zu.string().min(1).optional(),
     GOOGLE_API_PRIVATE_KEY: zu.string().min(1).optional(),
     GOOGLE_DRIVE_ROOT_FOLDER_ID: zu.string(),

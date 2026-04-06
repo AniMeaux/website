@@ -26,6 +26,9 @@ import { NotFoundError, PrismaErrorCodes } from "#i/core/errors.server.js"
 import { orderByRank } from "#i/core/order-by-rank.js"
 import { prisma } from "#i/core/prisma.server.js"
 
+const ANIMAL_TEXT_SEARCH_MODE =
+  process.env.FEATURE_FLAG_ANIMAL_TEXT_SEARCH_MODE ?? "fuzzy"
+
 export class AnimalDbDelegate {
   readonly picture = new AnimalPictureDbDelegate()
   readonly profile = new AnimalProfileDbDelegate()
@@ -120,21 +123,114 @@ export class AnimalDbDelegate {
       })
     }
 
-    const hits = await this.getHits(nameOrAlias)
+    const mode = ANIMAL_TEXT_SEARCH_MODE
 
-    const animals = (await prisma.animal.findMany({
-      where: { ...where, id: { in: hits.map((hit) => hit.id) } },
-      select: { ...select, ...internalSelect },
-    })) as Prisma.AnimalGetPayload<{ select: typeof internalSelect }>[]
+    switch (mode) {
+      // Mode: off - skip text search entirely.
+      case "off": {
+        // Measured to get reference values.
+        const [animals, animalsMetrics] = await this.measureTimeAndMemory(() =>
+          prisma.animal.findMany({
+            where,
+            select: { ...select, ...internalSelect },
+            orderBy: [
+              { name: "asc" },
+              { alias: "asc" },
+              { pickUpDate: "desc" },
+            ],
+            take,
+          }),
+        )
 
-    return orderByRank(animals, hits, { take }) as Prisma.AnimalGetPayload<{
-      select: typeof select & typeof internalSelect
-    }>[]
+        console.log(
+          `[ANIMAL_SEARCH] fn=getAnimals mode=off elapsedMs=${animalsMetrics.elapsedMs} heapUsedDeltaKb=${animalsMetrics.heapUsedDeltaKb}KB results=${animals.length}`,
+        )
+
+        return animals
+      }
+
+      case "like": {
+        const hits = await this.getHits(nameOrAlias)
+
+        const [animals, animalsMetrics] = await this.measureTimeAndMemory(
+          async () => {
+            return (await prisma.animal.findMany({
+              where: { ...where, id: { in: hits.map((hit) => hit.id) } },
+              select: { ...select, ...internalSelect },
+              take,
+            })) as Prisma.AnimalGetPayload<{ select: typeof internalSelect }>[]
+          },
+        )
+
+        console.log(
+          `[ANIMAL_SEARCH] fn=getAnimals mode=like elapsedMs=${animalsMetrics.elapsedMs} heapUsedDeltaKb=${animalsMetrics.heapUsedDeltaKb}KB results=${animals.length}`,
+        )
+
+        return animals as Prisma.AnimalGetPayload<{
+          select: typeof select & typeof internalSelect
+        }>[]
+      }
+
+      case "fuzzy": {
+        const hits = await this.getHits(nameOrAlias)
+
+        const [animals, animalsMetrics] = await this.measureTimeAndMemory(
+          async () => {
+            const animals = (await prisma.animal.findMany({
+              where: { ...where, id: { in: hits.map((hit) => hit.id) } },
+              select: { ...select, ...internalSelect },
+            })) as Prisma.AnimalGetPayload<{ select: typeof internalSelect }>[]
+
+            return orderByRank(animals, hits, { take })
+          },
+        )
+
+        console.log(
+          `[ANIMAL_SEARCH] fn=getAnimals mode=fuzzy elapsedMs=${animalsMetrics.elapsedMs} heapUsedDeltaKb=${animalsMetrics.heapUsedDeltaKb}KB results=${animals.length}`,
+        )
+
+        return animals as Prisma.AnimalGetPayload<{
+          select: typeof select & typeof internalSelect
+        }>[]
+      }
+
+      default: {
+        return mode satisfies never
+      }
+    }
   }
 
-  private async getHits(
+  private async getHits(nameOrAlias: string): Promise<AnimalDbDelegate.Hit[]> {
+    if (ANIMAL_TEXT_SEARCH_MODE === "off") {
+      return []
+    }
+
+    const [hits, hitsMetrics] = await this.measureTimeAndMemory(async () => {
+      switch (ANIMAL_TEXT_SEARCH_MODE) {
+        case "like": {
+          return await this.getHitsLike(nameOrAlias)
+        }
+
+        case "fuzzy": {
+          return await this.getHitsFuzzy(nameOrAlias)
+        }
+
+        default: {
+          return ANIMAL_TEXT_SEARCH_MODE satisfies never
+        }
+      }
+    })
+
+    console.log(
+      `[ANIMAL_SEARCH] fn=getHits mode=${ANIMAL_TEXT_SEARCH_MODE} elapsedMs=${hitsMetrics.elapsedMs} heapUsedDeltaKb=${hitsMetrics.heapUsedDeltaKb}KB hits=${hits.length}`,
+    )
+
+    return hits
+  }
+
+  private async getHitsFuzzy(
     nameOrAlias: string,
-  ): Promise<{ id: string; matchRank: number }[]> {
+  ): Promise<AnimalDbDelegate.Hit[]> {
     return await prisma.$queryRaw`
       WITH
         ranked_animals AS (
@@ -152,6 +248,29 @@ export class AnimalDbDelegate {
         "matchRank" < 6.7
       ORDER BY
         "matchRank" ASC
+    `
+  }
+
+  /**
+   * Simple LIKE-based search for comparison against fuzzy matching.
+   * Uses case-insensitive ILIKE, searches name and alias.
+   */
+  private async getHitsLike(
+    nameOrAlias: string,
+  ): Promise<AnimalDbDelegate.Hit[]> {
+    const searchTerm = `%${nameOrAlias}%`
+
+    return await prisma.$queryRaw`
+      SELECT
+        id
+      FROM
+        "Animal"
+      WHERE
+        LOWER(name) LIKE LOWER(${searchTerm})
+        OR LOWER(alias) LIKE LOWER(${searchTerm})
+      ORDER BY
+        name ASC,
+        alias ASC
     `
   }
 
@@ -257,7 +376,9 @@ export class AnimalDbDelegate {
     if (searchParams.nameOrAlias != null) {
       const hits = await this.getHits(searchParams.nameOrAlias)
 
-      where.push({ id: { in: hits.map((hit) => hit.id) } })
+      if (hits.length > 0) {
+        where.push({ id: { in: hits.map((hit) => hit.id) } })
+      }
     }
 
     if (searchParams.identification.size > 0) {
@@ -367,6 +488,34 @@ export class AnimalDbDelegate {
       orderBy,
       where: { AND: where },
     } satisfies Prisma.AnimalFindManyArgs
+  }
+
+  private async measureTimeAndMemory<TReturn>(
+    operation: () => Promise<TReturn>,
+  ) {
+    const memBefore = process.memoryUsage()
+    const startTime = Date.now()
+    const result = await operation()
+    const elapsedMs = Date.now() - startTime
+    const memAfter = process.memoryUsage()
+    const heapUsedDeltaKb = Math.round(
+      (memAfter.heapUsed - memBefore.heapUsed) / 1024,
+    )
+
+    return [
+      result,
+      {
+        elapsedMs,
+        heapUsedDeltaKb,
+      },
+    ] as const
+  }
+}
+
+export namespace AnimalDbDelegate {
+  export type Hit = {
+    id: string
+    matchRank?: number
   }
 }
 
