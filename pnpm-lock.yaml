@@ -377,7 +377,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -398,28 +398,28 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: link:../../libs/file-storage
+        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/form-data':
         specifier: workspace:*
-        version: link:../../libs/form-data
+        version: file:libs/form-data(typescript@5.4.5)
       '@animeaux/password':
         specifier: workspace:*
-        version: link:../../libs/password
+        version: file:libs/password
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
-        version: link:../../libs/react-primitives
+        version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../../libs/search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -537,10 +537,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@animeaux/tailwind-animation':
         specifier: workspace:*
-        version: link:../../libs/tailwind-animation
+        version: file:libs/tailwind-animation
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
@@ -624,25 +624,25 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: link:../../libs/file-storage
+        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/files-io':
         specifier: workspace:*
-        version: link:../../libs/files-io
+        version: file:libs/files-io
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
-        version: link:../../libs/react-primitives
+        version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../../libs/search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -763,7 +763,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
@@ -841,13 +841,13 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@remix-run/node':
         specifier: 'catalog:'
         version: 2.9.2(typescript@5.4.5)
@@ -905,7 +905,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
@@ -974,10 +974,10 @@ importers:
     dependencies:
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
@@ -999,7 +999,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -1009,6 +1009,9 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1073,10 +1076,10 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@mjackson/form-data-parser':
         specifier: 'catalog:'
         version: 0.4.0
@@ -1119,13 +1122,16 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
       '@types/uuid':
         specifier: 'catalog:'
         version: 9.0.8
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1150,7 +1156,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1171,11 +1180,14 @@ importers:
     dependencies:
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1200,10 +1212,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1234,10 +1249,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@animeaux/password':
         specifier: workspace:*
-        version: link:../password
+        version: file:libs/password
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
@@ -1307,10 +1322,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1341,10 +1359,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1369,7 +1390,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1433,10 +1457,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1457,10 +1484,10 @@ importers:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1501,6 +1528,39 @@ packages:
   '@ampproject/remapping@2.2.0':
     resolution: {integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==}
     engines: {node: '>=6.0.0'}
+
+  '@animeaux/core@file:libs/core':
+    resolution: {directory: libs/core, type: directory}
+
+  '@animeaux/dev-tools@file:libs/dev-tools':
+    resolution: {directory: libs/dev-tools, type: directory}
+
+  '@animeaux/file-storage@file:libs/file-storage':
+    resolution: {directory: libs/file-storage, type: directory}
+
+  '@animeaux/files-io@file:libs/files-io':
+    resolution: {directory: libs/files-io, type: directory}
+
+  '@animeaux/form-data@file:libs/form-data':
+    resolution: {directory: libs/form-data, type: directory}
+
+  '@animeaux/password@file:libs/password':
+    resolution: {directory: libs/password, type: directory}
+
+  '@animeaux/prisma@file:libs/prisma':
+    resolution: {directory: libs/prisma, type: directory}
+
+  '@animeaux/react-primitives@file:libs/react-primitives':
+    resolution: {directory: libs/react-primitives, type: directory}
+
+  '@animeaux/search-params-io@file:libs/search-params-io':
+    resolution: {directory: libs/search-params-io, type: directory}
+
+  '@animeaux/tailwind-animation@file:libs/tailwind-animation':
+    resolution: {directory: libs/tailwind-animation, type: directory}
+
+  '@animeaux/zod-utils@file:libs/zod-utils':
+    resolution: {directory: libs/zod-utils, type: directory}
 
   '@babel/code-frame@7.23.5':
     resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
@@ -8494,6 +8554,160 @@ snapshots:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.25
 
+  '@animeaux/core@file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/prisma': file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@animeaux/search-params-io': file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      es-toolkit: 1.45.1
+      luxon: 3.4.4
+      react: 18.3.1
+      react-router: 6.23.1(react@18.3.1)
+      tiny-invariant: 1.3.3
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - magicast
+      - pg-native
+      - react-dom
+      - typescript
+
+  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)':
+    dependencies:
+      '@total-typescript/ts-reset': 0.6.1
+      eslint: 9.39.3(jiti@2.6.1)
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-hooks: 5.2.0(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-simple-import-sort: 12.1.1(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      globals: 15.15.0
+      prettier: 3.3.0
+      typescript-eslint: 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+    optionalDependencies:
+      prettier-plugin-tailwindcss: 0.6.1(prettier@3.3.0)
+    transitivePeerDependencies:
+      - '@ianvs/prettier-plugin-sort-imports'
+      - '@prettier/plugin-pug'
+      - '@shopify/prettier-plugin-liquid'
+      - '@trivago/prettier-plugin-sort-imports'
+      - '@typescript-eslint/eslint-plugin'
+      - '@typescript-eslint/utils'
+      - '@zackad/prettier-plugin-twig-melody'
+      - eslint-import-resolver-node
+      - jiti
+      - prettier-plugin-astro
+      - prettier-plugin-css-order
+      - prettier-plugin-import-sort
+      - prettier-plugin-jsdoc
+      - prettier-plugin-marko
+      - prettier-plugin-organize-attributes
+      - prettier-plugin-organize-imports
+      - prettier-plugin-sort-imports
+      - prettier-plugin-style-order
+      - prettier-plugin-svelte
+      - supports-color
+      - typescript
+
+  '@animeaux/file-storage@file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/core': file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+      '@mjackson/form-data-parser': 0.4.0
+      '@mjackson/lazy-file': 3.2.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      googleapis: 144.0.0(encoding@0.1.13)
+      react: 18.3.1
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - encoding
+      - magicast
+      - pg-native
+      - react-dom
+      - supports-color
+      - typescript
+
+  '@animeaux/files-io@file:libs/files-io':
+    dependencies:
+      tiny-invariant: 1.3.3
+
+  '@animeaux/form-data@file:libs/form-data(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@animeaux/password@file:libs/password':
+    dependencies:
+      tiny-invariant: 1.3.3
+
+  '@animeaux/prisma@file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
+    dependencies:
+      '@prisma/adapter-pg': 7.5.0
+      '@prisma/client': 7.5.0(prisma@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - magicast
+      - pg-native
+      - react
+      - react-dom
+      - typescript
+
+  '@animeaux/react-primitives@file:libs/react-primitives(@types/react@18.3.3)':
+    dependencies:
+      '@radix-ui/react-slot': 1.0.2(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@types/react'
+
+  '@animeaux/search-params-io@file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      es-toolkit: 1.45.1
+      react: 18.3.1
+    transitivePeerDependencies:
+      - react-dom
+      - typescript
+
+  '@animeaux/tailwind-animation@file:libs/tailwind-animation':
+    dependencies:
+      tailwindcss: 3.4.3
+    transitivePeerDependencies:
+      - ts-node
+
+  '@animeaux/zod-utils@file:libs/zod-utils(typescript@5.4.5)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      encoding: 0.1.13
+      luxon: 3.4.4
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      zod: 3.23.8
+      zod-form-data: 2.0.2(zod@3.23.8)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
   '@babel/code-frame@7.23.5':
     dependencies:
       '@babel/highlight': 7.23.4
@@ -9538,7 +9752,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.11.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -11013,9 +11227,9 @@ snapshots:
     dependencies:
       acorn: 8.11.3
 
-  acorn-import-attributes@1.9.5(acorn@8.11.3):
+  acorn-import-attributes@1.9.5(acorn@8.16.0):
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.16.0
 
   acorn-jsx@5.3.2(acorn@8.11.3):
     dependencies:
@@ -12978,8 +13192,8 @@ snapshots:
 
   import-in-the-middle@1.11.2:
     dependencies:
-      acorn: 8.11.3
-      acorn-import-attributes: 1.9.5(acorn@8.11.3)
+      acorn: 8.16.0
+      acorn-import-attributes: 1.9.5(acorn@8.16.0)
       cjs-module-lexer: 1.4.1
       module-details-from-path: 1.0.3
 
@@ -15162,7 +15376,7 @@ snapshots:
   proxy-agent@6.3.1:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.4
       lru-cache: 7.18.3
@@ -15513,7 +15727,7 @@ snapshots:
 
   require-in-the-middle@7.4.0:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
       module-details-from-path: 1.0.3
       resolve: 1.22.8
     transitivePeerDependencies:

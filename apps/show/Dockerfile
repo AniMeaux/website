@@ -36,6 +36,7 @@ COPY libs/core/package.json libs/core/
 COPY libs/dev-tools/package.json libs/dev-tools/
 COPY libs/file-storage/package.json libs/file-storage/
 COPY libs/files-io/package.json libs/files-io/
+COPY libs/password/package.json libs/password/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/react-primitives/package.json libs/react-primitives/
 COPY libs/search-params-io/package.json libs/search-params-io/
@@ -55,11 +56,16 @@ COPY libs/core libs/core
 COPY libs/dev-tools libs/dev-tools
 COPY libs/file-storage libs/file-storage
 COPY libs/files-io libs/files-io
+COPY libs/password libs/password
 COPY libs/prisma libs/prisma
 COPY libs/react-primitives libs/react-primitives
 COPY libs/search-params-io libs/search-params-io
 COPY libs/zod-utils libs/zod-utils
 COPY apps/show apps/show
+
+# Synchronise injected workspace packages after copying source code.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --frozen-lockfile --offline
 
 # Build libs and app.
 RUN pnpm --filter show... build
@@ -94,5 +100,9 @@ COPY --from=build /workspace ./
 COPY libs/prisma/migrations libs/prisma/migrations
 COPY libs/prisma/prisma.config.ts libs/prisma/prisma.config.ts
 COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
+
+# Synchronise injected workspace packages after copying build artifacts.
+# See: docs/decisions/002-workspace-package-injection.md
+RUN pnpm install --prod --frozen-lockfile --offline
 
 CMD ["pnpm", "--filter", "show", "start"]
