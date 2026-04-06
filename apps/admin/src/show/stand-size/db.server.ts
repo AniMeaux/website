@@ -1,6 +1,6 @@
 import { catchError } from "@animeaux/core"
 import { Prisma } from "@animeaux/prisma/server"
-import merge from "lodash.merge"
+import { toMerged } from "es-toolkit/object"
 import type { Simplify } from "type-fest"
 
 import {
@@ -49,7 +49,7 @@ export class ShowStandSizeDbDelegate {
     }>
 
     const standSize = (await this.findUnique(id, {
-      select: merge({}, internalSelect, params.select),
+      select: toMerged(internalSelect, params.select),
     })) as Internal
 
     const bookedCount = standSize.exhibitors.length

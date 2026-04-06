@@ -115,30 +115,6 @@ catalogs:
     '@types/express':
       specifier: ^4.17.9
       version: 4.17.21
-    '@types/lodash.chunk':
-      specifier: ^4.2.7
-      version: 4.2.9
-    '@types/lodash.difference':
-      specifier: ^4.5.7
-      version: 4.5.9
-    '@types/lodash.groupby':
-      specifier: ^4.6.9
-      version: 4.6.9
-    '@types/lodash.intersection':
-      specifier: ^4.4.7
-      version: 4.4.9
-    '@types/lodash.isequal':
-      specifier: ^4.5.6
-      version: 4.5.8
-    '@types/lodash.merge':
-      specifier: ^4.6.9
-      version: 4.6.9
-    '@types/lodash.orderby':
-      specifier: ^4.6.7
-      version: 4.6.9
-    '@types/lodash.pick':
-      specifier: ^4.4.9
-      version: 4.4.9
     '@types/luxon':
       specifier: ^3.3.1
       version: 3.4.2
@@ -220,6 +196,9 @@ catalogs:
     encoding:
       specifier: ^0.1.13
       version: 0.1.13
+    es-toolkit:
+      specifier: ^1.45.1
+      version: 1.45.1
     eslint:
       specifier: ^9.22.0
       version: 9.39.3
@@ -262,30 +241,6 @@ catalogs:
     isbot:
       specifier: ^5.1.8
       version: 5.1.8
-    lodash.chunk:
-      specifier: ^4.2.0
-      version: 4.2.0
-    lodash.difference:
-      specifier: ^4.5.0
-      version: 4.5.0
-    lodash.groupby:
-      specifier: ^4.6.0
-      version: 4.6.0
-    lodash.intersection:
-      specifier: ^4.4.0
-      version: 4.4.0
-    lodash.isequal:
-      specifier: ^4.5.0
-      version: 4.5.0
-    lodash.merge:
-      specifier: ^4.6.2
-      version: 4.6.2
-    lodash.orderby:
-      specifier: ^4.6.0
-      version: 4.6.0
-    lodash.pick:
-      specifier: ^4.4.0
-      version: 4.4.0
     lru-cache:
       specifier: ^10.0.1
       version: 10.2.2
@@ -422,7 +377,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -443,28 +398,28 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: link:../../libs/file-storage
+        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/form-data':
         specifier: workspace:*
-        version: link:../../libs/form-data
+        version: file:libs/form-data(typescript@5.4.5)
       '@animeaux/password':
         specifier: workspace:*
-        version: link:../../libs/password
+        version: file:libs/password
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
-        version: link:../../libs/react-primitives
+        version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../../libs/search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -516,33 +471,15 @@ importers:
       downshift:
         specifier: 'catalog:'
         version: 9.0.6(react@18.3.1)
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.45.1
       history:
         specifier: 'catalog:'
         version: 5.3.0
       isbot:
         specifier: 'catalog:'
         version: 5.1.8
-      lodash.chunk:
-        specifier: 'catalog:'
-        version: 4.2.0
-      lodash.difference:
-        specifier: 'catalog:'
-        version: 4.5.0
-      lodash.intersection:
-        specifier: 'catalog:'
-        version: 4.4.0
-      lodash.isequal:
-        specifier: 'catalog:'
-        version: 4.5.0
-      lodash.merge:
-        specifier: 'catalog:'
-        version: 4.6.2
-      lodash.orderby:
-        specifier: 'catalog:'
-        version: 4.6.0
-      lodash.pick:
-        specifier: 'catalog:'
-        version: 4.4.0
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
@@ -600,10 +537,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@animeaux/tailwind-animation':
         specifier: workspace:*
-        version: link:../../libs/tailwind-animation
+        version: file:libs/tailwind-animation
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
@@ -622,27 +559,6 @@ importers:
       '@types/d3-dsv':
         specifier: 'catalog:'
         version: 3.0.7
-      '@types/lodash.chunk':
-        specifier: 'catalog:'
-        version: 4.2.9
-      '@types/lodash.difference':
-        specifier: 'catalog:'
-        version: 4.5.9
-      '@types/lodash.intersection':
-        specifier: 'catalog:'
-        version: 4.4.9
-      '@types/lodash.isequal':
-        specifier: 'catalog:'
-        version: 4.5.8
-      '@types/lodash.merge':
-        specifier: 'catalog:'
-        version: 4.6.9
-      '@types/lodash.orderby':
-        specifier: 'catalog:'
-        version: 4.6.9
-      '@types/lodash.pick':
-        specifier: 'catalog:'
-        version: 4.4.9
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -708,25 +624,25 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: link:../../libs/file-storage
+        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/files-io':
         specifier: workspace:*
-        version: link:../../libs/files-io
+        version: file:libs/files-io
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
-        version: link:../../libs/react-primitives
+        version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../../libs/search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -787,6 +703,9 @@ importers:
       compression:
         specifier: 'catalog:'
         version: 1.7.4
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.45.1
       express:
         specifier: 'catalog:'
         version: 4.18.2
@@ -796,15 +715,6 @@ importers:
       isbot:
         specifier: 'catalog:'
         version: 5.1.8
-      lodash.chunk:
-        specifier: 'catalog:'
-        version: 4.2.0
-      lodash.groupby:
-        specifier: 'catalog:'
-        version: 4.6.0
-      lodash.orderby:
-        specifier: 'catalog:'
-        version: 4.6.0
       lru-cache:
         specifier: 'catalog:'
         version: 10.2.2
@@ -853,7 +763,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
@@ -863,15 +773,6 @@ importers:
       '@types/express':
         specifier: 'catalog:'
         version: 4.17.21
-      '@types/lodash.chunk':
-        specifier: 'catalog:'
-        version: 4.2.9
-      '@types/lodash.groupby':
-        specifier: 'catalog:'
-        version: 4.6.9
-      '@types/lodash.orderby':
-        specifier: 'catalog:'
-        version: 4.6.9
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -940,13 +841,13 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../../libs/prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../../libs/zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@remix-run/node':
         specifier: 'catalog:'
         version: 2.9.2(typescript@5.4.5)
@@ -959,6 +860,9 @@ importers:
       body-scroll-lock:
         specifier: 'catalog:'
         version: 3.1.5
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.45.1
       focus-trap:
         specifier: 'catalog:'
         version: 7.5.4
@@ -968,9 +872,6 @@ importers:
       isbot:
         specifier: 'catalog:'
         version: 5.1.8
-      lodash.orderby:
-        specifier: 'catalog:'
-        version: 4.6.0
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
@@ -1004,16 +905,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
       '@types/body-scroll-lock':
         specifier: 'catalog:'
         version: 3.1.2
-      '@types/lodash.orderby':
-        specifier: 'catalog:'
-        version: 4.6.9
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -1076,13 +974,16 @@ importers:
     dependencies:
       '@animeaux/prisma':
         specifier: workspace:*
-        version: link:../prisma
+        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: link:../search-params-io
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      es-toolkit:
+        specifier: 'catalog:'
+        version: 1.45.1
       luxon:
         specifier: 'catalog:'
         version: 3.4.4
@@ -1098,7 +999,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
@@ -1108,6 +1009,9 @@ importers:
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1172,10 +1076,10 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
       '@mjackson/form-data-parser':
         specifier: 'catalog:'
         version: 0.4.0
@@ -1218,13 +1122,16 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
       '@types/uuid':
         specifier: 'catalog:'
         version: 9.0.8
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1249,7 +1156,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1270,11 +1180,14 @@ importers:
     dependencies:
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: link:../zod-utils
+        version: file:libs/zod-utils(typescript@5.4.5)
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1299,10 +1212,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1333,10 +1249,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@animeaux/password':
         specifier: workspace:*
-        version: link:../password
+        version: file:libs/password
       '@faker-js/faker':
         specifier: 'catalog:'
         version: 8.4.1
@@ -1406,10 +1322,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1431,22 +1350,22 @@ importers:
       '@remix-run/react':
         specifier: 'catalog:'
         version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      lodash.isequal:
+      es-toolkit:
         specifier: 'catalog:'
-        version: 4.5.0
+        version: 1.45.1
       react:
         specifier: 'catalog:'
         version: 18.3.1
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
-      '@types/lodash.isequal':
-        specifier: 'catalog:'
-        version: 4.5.8
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1471,7 +1390,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1535,10 +1457,13 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.4.2
+      chokidar-cli:
+        specifier: 'catalog:'
+        version: 3.0.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -1559,10 +1484,10 @@ importers:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: link:../libs/core
+        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: link:../libs/dev-tools
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1603,6 +1528,39 @@ packages:
   '@ampproject/remapping@2.2.0':
     resolution: {integrity: sha512-qRmjj8nj9qmLTQXXmaR1cck3UXSRMPrbsLJAasZpF+t3riI71BXed5ebIOYwQntykeZuhjsdweEc9BxH5Jc26w==}
     engines: {node: '>=6.0.0'}
+
+  '@animeaux/core@file:libs/core':
+    resolution: {directory: libs/core, type: directory}
+
+  '@animeaux/dev-tools@file:libs/dev-tools':
+    resolution: {directory: libs/dev-tools, type: directory}
+
+  '@animeaux/file-storage@file:libs/file-storage':
+    resolution: {directory: libs/file-storage, type: directory}
+
+  '@animeaux/files-io@file:libs/files-io':
+    resolution: {directory: libs/files-io, type: directory}
+
+  '@animeaux/form-data@file:libs/form-data':
+    resolution: {directory: libs/form-data, type: directory}
+
+  '@animeaux/password@file:libs/password':
+    resolution: {directory: libs/password, type: directory}
+
+  '@animeaux/prisma@file:libs/prisma':
+    resolution: {directory: libs/prisma, type: directory}
+
+  '@animeaux/react-primitives@file:libs/react-primitives':
+    resolution: {directory: libs/react-primitives, type: directory}
+
+  '@animeaux/search-params-io@file:libs/search-params-io':
+    resolution: {directory: libs/search-params-io, type: directory}
+
+  '@animeaux/tailwind-animation@file:libs/tailwind-animation':
+    resolution: {directory: libs/tailwind-animation, type: directory}
+
+  '@animeaux/zod-utils@file:libs/zod-utils':
+    resolution: {directory: libs/zod-utils, type: directory}
 
   '@babel/code-frame@7.23.5':
     resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
@@ -3552,33 +3510,6 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/lodash.chunk@4.2.9':
-    resolution: {integrity: sha512-Z9VtFUSnmT0No/QymqfG9AGbfOA4O5qB/uyP89xeZBqDAsKsB4gQFTqt7d0pHjbsTwtQ4yZObQVHuKlSOhIJ5Q==}
-
-  '@types/lodash.difference@4.5.9':
-    resolution: {integrity: sha512-MNlajcjtwzLpXk+cw38UkBvEXJNEPhULgS8A4EHwtUwT7f7yFH/SFKD0iw5Rfilwh60yJIgFo0vsMr7xsa5+aw==}
-
-  '@types/lodash.groupby@4.6.9':
-    resolution: {integrity: sha512-z2xtCX2ko7GrqORnnYea4+ksT7jZNAvaOcLd6mP9M7J09RHvJs06W8BGdQQAX8ARef09VQLdeRilSOcfHlDQJQ==}
-
-  '@types/lodash.intersection@4.4.9':
-    resolution: {integrity: sha512-AenZXU5mbikacV1LyGTFIP7s94s0UyscACObGMrqDvKjZfRj+PpmAVvhNeLUMCBLi7RMlLgHic53J/LbaciEmg==}
-
-  '@types/lodash.isequal@4.5.8':
-    resolution: {integrity: sha512-uput6pg4E/tj2LGxCZo9+y27JNyB2OZuuI/T5F+ylVDYuqICLG2/ktjxx0v6GvVntAf8TvEzeQLcV0ffRirXuA==}
-
-  '@types/lodash.merge@4.6.9':
-    resolution: {integrity: sha512-23sHDPmzd59kUgWyKGiOMO2Qb9YtqRO/x4IhkgNUiPQ1+5MUVqi6bCZeq9nBJ17msjIMbEIO5u+XW4Kz6aGUhQ==}
-
-  '@types/lodash.orderby@4.6.9':
-    resolution: {integrity: sha512-T9o2wkIJOmxXwVTPTmwJ59W6eTi2FseiLR369fxszG649Po/xe9vqFNhf/MtnvT5jrbDiyWKxPFPZbpSVK0SVQ==}
-
-  '@types/lodash.pick@4.4.9':
-    resolution: {integrity: sha512-hDpr96x9xHClwy1KX4/RXRejqjDFTEGbEMT3t6wYSYeFDzxmMnSKB/xHIbktRlPj8Nii2g8L5dtFDRaNFBEzUQ==}
-
-  '@types/lodash@4.17.4':
-    resolution: {integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ==}
-
   '@types/luxon@3.4.2':
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
 
@@ -4794,6 +4725,9 @@ packages:
     resolution: {integrity: sha512-w+5mJ3GuFL+NjVtJlvydShqE1eN3h3PbI7/5LAsYJP/2qtuMXjfL2LpHSRqo4b4eSF5K/DH1JXKUAHSB2UW50g==}
     engines: {node: '>= 0.4'}
 
+  es-toolkit@1.45.1:
+    resolution: {integrity: sha512-/jhoOj/Fx+A+IIyDNOvO3TItGmlMKhtX8ISAHKE90c4b/k1tqaqEZ+uUqfpU8DMnW5cgNJv606zS55jGvza0Xw==}
+
   esbuild-plugins-node-modules-polyfill@1.6.1:
     resolution: {integrity: sha512-6sAwI24PV8W0zxeO+i4BS5zoQypS3SzEGwIdxpzpy65riRuK8apMw8PN0aKVLCTnLr0FgNIxUMRd9BsreBrtog==}
     engines: {node: '>=14.0.0'}
@@ -5975,34 +5909,11 @@ packages:
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
 
-  lodash.chunk@4.2.0:
-    resolution: {integrity: sha512-ZzydJKfUHJwHa+hF5X66zLFCBrWn5GeF28OHEr4WVWtNDXlQ/IjWKPBiikqKo2ne0+v6JgCgJ0GzJp8k8bHC7w==}
-
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
-  lodash.difference@4.5.0:
-    resolution: {integrity: sha512-dS2j+W26TQ7taQBGN8Lbbq04ssV3emRw4NY58WErlTO29pIqS0HmoT5aJ9+TUQ1N3G+JOZSji4eugsWwGp9yPA==}
-
-  lodash.groupby@4.6.0:
-    resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
-
-  lodash.intersection@4.4.0:
-    resolution: {integrity: sha512-N+L0cCfnqMv6mxXtSPeKt+IavbOBBSiAEkKyLasZ8BVcP9YXQgxLO12oPR8OyURwKV8l5vJKiE1M8aS70heuMg==}
-
-  lodash.isequal@4.5.0:
-    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
-    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
-
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-
-  lodash.orderby@4.6.0:
-    resolution: {integrity: sha512-T0rZxKmghOOf5YPnn8EY5iLYeWCpZq8G41FfqoVHH5QDTAFaghJRmAdLiadEDq+ztgM2q5PjA+Z1fOwGrLgmtg==}
-
-  lodash.pick@4.4.0:
-    resolution: {integrity: sha512-hXt6Ul/5yWjfklSGvLQl8vM//l3FtyHZeuelpzK6mm99pNvN9yTDruNZPEJZD1oWrqo+izBmB7oUfWgcCX7s4Q==}
-    deprecated: This package is deprecated. Use destructuring assignment syntax instead.
 
   lodash.throttle@4.1.1:
     resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
@@ -8643,6 +8554,160 @@ snapshots:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.25
 
+  '@animeaux/core@file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/prisma': file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@animeaux/search-params-io': file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      es-toolkit: 1.45.1
+      luxon: 3.4.4
+      react: 18.3.1
+      react-router: 6.23.1(react@18.3.1)
+      tiny-invariant: 1.3.3
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - magicast
+      - pg-native
+      - react-dom
+      - typescript
+
+  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)':
+    dependencies:
+      '@total-typescript/ts-reset': 0.6.1
+      eslint: 9.39.3(jiti@2.6.1)
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-hooks: 5.2.0(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-simple-import-sort: 12.1.1(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      globals: 15.15.0
+      prettier: 3.3.0
+      typescript-eslint: 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+    optionalDependencies:
+      prettier-plugin-tailwindcss: 0.6.1(prettier@3.3.0)
+    transitivePeerDependencies:
+      - '@ianvs/prettier-plugin-sort-imports'
+      - '@prettier/plugin-pug'
+      - '@shopify/prettier-plugin-liquid'
+      - '@trivago/prettier-plugin-sort-imports'
+      - '@typescript-eslint/eslint-plugin'
+      - '@typescript-eslint/utils'
+      - '@zackad/prettier-plugin-twig-melody'
+      - eslint-import-resolver-node
+      - jiti
+      - prettier-plugin-astro
+      - prettier-plugin-css-order
+      - prettier-plugin-import-sort
+      - prettier-plugin-jsdoc
+      - prettier-plugin-marko
+      - prettier-plugin-organize-attributes
+      - prettier-plugin-organize-imports
+      - prettier-plugin-sort-imports
+      - prettier-plugin-style-order
+      - prettier-plugin-svelte
+      - supports-color
+      - typescript
+
+  '@animeaux/file-storage@file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/core': file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+      '@mjackson/form-data-parser': 0.4.0
+      '@mjackson/lazy-file': 3.2.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      googleapis: 144.0.0(encoding@0.1.13)
+      react: 18.3.1
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - encoding
+      - magicast
+      - pg-native
+      - react-dom
+      - supports-color
+      - typescript
+
+  '@animeaux/files-io@file:libs/files-io':
+    dependencies:
+      tiny-invariant: 1.3.3
+
+  '@animeaux/form-data@file:libs/form-data(typescript@5.4.5)':
+    dependencies:
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@animeaux/password@file:libs/password':
+    dependencies:
+      tiny-invariant: 1.3.3
+
+  '@animeaux/prisma@file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
+    dependencies:
+      '@prisma/adapter-pg': 7.5.0
+      '@prisma/client': 7.5.0(prisma@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+    transitivePeerDependencies:
+      - '@types/react'
+      - better-sqlite3
+      - magicast
+      - pg-native
+      - react
+      - react-dom
+      - typescript
+
+  '@animeaux/react-primitives@file:libs/react-primitives(@types/react@18.3.3)':
+    dependencies:
+      '@radix-ui/react-slot': 1.0.2(@types/react@18.3.3)(react@18.3.1)
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@types/react'
+
+  '@animeaux/search-params-io@file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+    dependencies:
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      es-toolkit: 1.45.1
+      react: 18.3.1
+    transitivePeerDependencies:
+      - react-dom
+      - typescript
+
+  '@animeaux/tailwind-animation@file:libs/tailwind-animation':
+    dependencies:
+      tailwindcss: 3.4.3
+    transitivePeerDependencies:
+      - ts-node
+
+  '@animeaux/zod-utils@file:libs/zod-utils(typescript@5.4.5)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.27.0
+      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      encoding: 0.1.13
+      luxon: 3.4.4
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      zod: 3.23.8
+      zod-form-data: 2.0.2(zod@3.23.8)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
   '@babel/code-frame@7.23.5':
     dependencies:
       '@babel/highlight': 7.23.4
@@ -9687,7 +9752,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.11.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -10825,40 +10890,6 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/lodash.chunk@4.2.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.difference@4.5.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.groupby@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.intersection@4.4.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.isequal@4.5.8':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.merge@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.orderby@4.6.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash.pick@4.4.9':
-    dependencies:
-      '@types/lodash': 4.17.4
-
-  '@types/lodash@4.17.4': {}
-
   '@types/luxon@3.4.2': {}
 
   '@types/mdast@3.0.10':
@@ -11196,9 +11227,9 @@ snapshots:
     dependencies:
       acorn: 8.11.3
 
-  acorn-import-attributes@1.9.5(acorn@8.11.3):
+  acorn-import-attributes@1.9.5(acorn@8.16.0):
     dependencies:
-      acorn: 8.11.3
+      acorn: 8.16.0
 
   acorn-jsx@5.3.2(acorn@8.11.3):
     dependencies:
@@ -11220,7 +11251,7 @@ snapshots:
 
   agent-base@7.1.1:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -12237,6 +12268,8 @@ snapshots:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
 
+  es-toolkit@1.45.1: {}
+
   esbuild-plugins-node-modules-polyfill@1.6.1(esbuild@0.17.6):
     dependencies:
       '@jspm/core': 2.0.1
@@ -12852,7 +12885,7 @@ snapshots:
     dependencies:
       basic-ftp: 5.0.5
       data-uri-to-buffer: 6.0.2
-      debug: 4.3.7
+      debug: 4.4.3
       fs-extra: 11.2.0
     transitivePeerDependencies:
       - supports-color
@@ -13106,7 +13139,7 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -13122,7 +13155,7 @@ snapshots:
   https-proxy-agent@7.0.4:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -13159,8 +13192,8 @@ snapshots:
 
   import-in-the-middle@1.11.2:
     dependencies:
-      acorn: 8.11.3
-      acorn-import-attributes: 1.9.5(acorn@8.11.3)
+      acorn: 8.16.0
+      acorn-import-attributes: 1.9.5(acorn@8.16.0)
       cjs-module-lexer: 1.4.1
       module-details-from-path: 1.0.3
 
@@ -13632,23 +13665,9 @@ snapshots:
 
   lodash.camelcase@4.3.0: {}
 
-  lodash.chunk@4.2.0: {}
-
   lodash.debounce@4.0.8: {}
 
-  lodash.difference@4.5.0: {}
-
-  lodash.groupby@4.6.0: {}
-
-  lodash.intersection@4.4.0: {}
-
-  lodash.isequal@4.5.0: {}
-
   lodash.merge@4.6.2: {}
-
-  lodash.orderby@4.6.0: {}
-
-  lodash.pick@4.4.0: {}
 
   lodash.throttle@4.1.1: {}
 
@@ -14403,7 +14422,7 @@ snapshots:
   micromark@3.1.0:
     dependencies:
       '@types/debug': 4.1.7
-      debug: 4.3.7
+      debug: 4.4.3
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -14425,7 +14444,7 @@ snapshots:
   micromark@4.0.0:
     dependencies:
       '@types/debug': 4.1.7
-      debug: 4.3.7
+      debug: 4.4.3
       decode-named-character-reference: 1.0.2
       devlop: 1.1.0
       micromark-core-commonmark: 2.0.1
@@ -14891,7 +14910,7 @@ snapshots:
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
       get-uri: 6.0.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.4
@@ -15357,7 +15376,7 @@ snapshots:
   proxy-agent@6.3.1:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.4
       lru-cache: 7.18.3
@@ -15700,7 +15719,7 @@ snapshots:
 
   require-in-the-middle@5.2.0:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
       module-details-from-path: 1.0.3
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -15708,7 +15727,7 @@ snapshots:
 
   require-in-the-middle@7.4.0:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
       module-details-from-path: 1.0.3
       resolve: 1.22.8
     transitivePeerDependencies:
@@ -15974,7 +15993,7 @@ snapshots:
   socks-proxy-agent@8.0.3:
     dependencies:
       agent-base: 7.1.1
-      debug: 4.3.7
+      debug: 4.4.3
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -16661,7 +16680,7 @@ snapshots:
   vite-node@0.28.5(@types/node@22.8.7):
     dependencies:
       cac: 6.7.14
-      debug: 4.3.7
+      debug: 4.4.3
       mlly: 1.1.1
       pathe: 1.1.0
       picocolors: 1.0.1

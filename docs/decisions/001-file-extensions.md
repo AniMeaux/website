@@ -1,4 +1,4 @@
-# File Extensions in Imports
+# File extensions in imports
 
 Date: **2026-03-22**
 

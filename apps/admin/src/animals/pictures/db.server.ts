@@ -1,5 +1,5 @@
 import type { Animal } from "@animeaux/prisma/server"
-import difference from "lodash.difference"
+import { difference } from "es-toolkit/array"
 
 import { ActivityAction } from "#i/activity/action.js"
 import { Activity } from "#i/activity/db.server.js"

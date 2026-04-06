@@ -1,4 +1,4 @@
-import orderBy from "lodash.orderby"
+import { orderEnumBy } from "@animeaux/core"
 
 export enum PreviousEdition {
   Y_2022 = "2022",
@@ -7,10 +7,10 @@ export enum PreviousEdition {
   Y_2025 = "2025",
 }
 
-export const SORTED_PREVIOUS_EDITIONS = orderBy(
+export const SORTED_PREVIOUS_EDITIONS = orderEnumBy(
   Object.values(PreviousEdition),
   (edition) => edition,
-  ["desc"],
+  "desc",
 )
 
 export const PREVIOUS_EDITION_PHOTOGRAPH: Partial<

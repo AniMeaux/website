@@ -4,6 +4,9 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "files": [
+    "build"
+  ],
   "exports": {
     ".": {
       "types": "./build/src/index.d.ts",
@@ -15,23 +18,27 @@
     "build": "run-s --print-label build:src build:paths",
     "build:paths": "tsc-alias -p ./tsconfig.build.json",
     "build:src": "tsc -p ./tsconfig.build.json",
+    "postbuild": "pnpm sync-workspace",
     "clean": "rm -rf ./build",
     "dev": "run-p --continue-on-error --print-label dev:*",
     "dev:paths": "pnpm build:paths --watch",
     "dev:src": "pnpm build:src --watch",
+    "dev:sync-workspace": "chokidar ./build --debounce --silent -c 'pnpm sync-workspace'",
     "lint": "run-p --continue-on-error --print-label lint:*",
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
     "lint:prettier": "prettier --list-different .",
     "lint:tsc": "tsc --noEmit",
     "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
     "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
-    "lint-fix:prettier": "prettier --write ."
+    "lint-fix:prettier": "prettier --write .",
+    "sync-workspace": "# See /docs/decisions/002-workspace-package-injection.md"
   },
   "dependencies": {
     "@animeaux/zod-utils": "workspace:*"
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
+    "chokidar-cli": "catalog:",
     "eslint": "catalog:",
     "npm-run-all": "catalog:",
     "prettier": "catalog:",

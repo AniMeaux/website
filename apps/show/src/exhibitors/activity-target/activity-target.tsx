@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { ShowActivityTarget } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -13,7 +13,7 @@ export const ACTIVITY_TARGET_TRANSLATION: Record<ShowActivityTarget, string> = {
   [ShowActivityTarget.WILDLIFE]: "Faune sauvage",
 }
 
-export const SORTED_ACTIVITY_TARGETS = orderBy(
+export const SORTED_ACTIVITY_TARGETS = orderEnumBy(
   Object.values(ShowActivityTarget),
   (field) => ACTIVITY_TARGET_TRANSLATION[field],
 )

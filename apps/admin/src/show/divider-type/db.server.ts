@@ -1,5 +1,5 @@
 import type { Prisma } from "@animeaux/prisma/server"
-import merge from "lodash.merge"
+import { toMerged } from "es-toolkit/object"
 import type { Simplify } from "type-fest"
 
 import { prisma } from "#i/core/prisma.server.js"
@@ -42,7 +42,7 @@ export class ShowDividerTypeDbDelegate {
     }>
 
     const dividerType = (await this.findUnique(id, {
-      select: merge({}, internalSelect, params.select),
+      select: toMerged(internalSelect, params.select),
     })) as Internal
 
     const usedCount = dividerType.exhibitors.reduce(
@@ -94,7 +94,7 @@ export class ShowDividerTypeDbDelegate {
     }>
 
     const dividerTypes = (await this.findMany({
-      select: merge({}, internalSelect, params.select),
+      select: toMerged(internalSelect, params.select),
     })) as Internal[]
 
     const dividerTypesWithAvailability = dividerTypes.map<

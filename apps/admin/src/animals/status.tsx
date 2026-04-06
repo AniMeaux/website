@@ -1,7 +1,6 @@
-import { cn } from "@animeaux/core"
+import { cn, orderEnumBy } from "@animeaux/core"
 import { Status } from "@animeaux/prisma"
-import difference from "lodash.difference"
-import orderBy from "lodash.orderby"
+import { difference } from "es-toolkit/array"
 
 import type { ChipColor } from "#i/core/data-display/chip.js"
 import { Chip } from "#i/core/data-display/chip.js"
@@ -21,7 +20,7 @@ export const STATUS_TRANSLATION: Record<Status, string> = {
   [Status.TRANSFERRED]: "Transféré",
 }
 
-export const SORTED_STATUS = orderBy(
+export const SORTED_STATUS = orderEnumBy(
   Object.values(Status),
   (status) => STATUS_TRANSLATION[status],
 )

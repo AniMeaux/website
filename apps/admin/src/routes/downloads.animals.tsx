@@ -8,7 +8,7 @@ import type {
 } from "@remix-run/node"
 import { defer } from "@remix-run/node"
 import { Await, useLoaderData } from "@remix-run/react"
-import chunk from "lodash.chunk"
+import { chunk } from "es-toolkit/array"
 import { Suspense } from "react"
 
 import { GENDER_ICON } from "#i/animals/gender.js"

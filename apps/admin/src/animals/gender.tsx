@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { Gender } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -20,7 +20,7 @@ export const GENDER_ICON: Record<Gender, { light: IconName; solid: IconName }> =
     },
   }
 
-export const SORTED_GENDERS = orderBy(
+export const SORTED_GENDERS = orderEnumBy(
   Object.values(Gender),
   (gender) => GENDER_TRANSLATION[gender],
 )

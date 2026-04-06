@@ -1,7 +1,7 @@
 import type { Animal } from "@animeaux/prisma"
 import { Diagnosis, Species, Status } from "@animeaux/prisma"
 import type { SerializeFrom } from "@remix-run/node"
-import difference from "lodash.difference"
+import { difference } from "es-toolkit/array"
 import { DateTime } from "luxon"
 import type { SetNonNullable } from "type-fest"
 

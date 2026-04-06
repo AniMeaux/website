@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { AdoptionOption } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -17,7 +17,7 @@ export const ADOPTION_OPTION_ICON: Record<AdoptionOption, IconName> = {
   [AdoptionOption.UNKNOWN]: "icon-circle-question-solid",
 }
 
-export const SORTED_ADOPTION_OPTION = orderBy(
+export const SORTED_ADOPTION_OPTION = orderEnumBy(
   Object.values(AdoptionOption),
   (adoptionOption) => ADOPTION_OPTION_TRANSLATION[adoptionOption],
 )

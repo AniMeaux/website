@@ -1,5 +1,5 @@
 import { cn } from "@animeaux/core"
-import orderBy from "lodash.orderby"
+import { orderBy } from "es-toolkit/array"
 import invariant from "tiny-invariant"
 
 import type { IconProps } from "#i/generated/icon.js"
@@ -19,16 +19,12 @@ export type ImageDescriptor = {
 // Larger to smaller.
 const SCREEN_SIZES = orderBy(
   (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) =>
-      [name, Number(width.replace("px", ""))] as [
-        ScreenSize | "default",
-        number,
-      ],
+    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
   ),
-  ([_, width]) => width,
-  "desc",
+  [({ width }) => width],
+  ["desc"],
 )
-  .map(([name]) => name)
+  .map(({ name }) => name)
   .concat("default")
 
 export type StaticImageProps = {

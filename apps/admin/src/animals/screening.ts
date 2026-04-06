@@ -1,5 +1,5 @@
+import { orderEnumBy } from "@animeaux/core"
 import { Gender, ScreeningResult } from "@animeaux/prisma"
-import orderBy from "lodash.orderby"
 
 import type { IconName } from "#i/generated/icon.js"
 
@@ -27,7 +27,7 @@ export const SCREENING_RESULT_ICON: Record<ScreeningResult, IconName> = {
   [ScreeningResult.UNKNOWN]: "icon-circle-question-solid",
 }
 
-export const SORTED_SCREENING_RESULTS = orderBy(
+export const SORTED_SCREENING_RESULTS = orderEnumBy(
   Object.values(ScreeningResult),
   (result) => SCREENING_RESULT_TRANSLATION[result][Gender.MALE],
 )
