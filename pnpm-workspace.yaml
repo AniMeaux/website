@@ -36,7 +36,7 @@ catalog:
   "@faker-js/faker": ^8.0.2
   "@mjackson/form-data-parser": ^0.4.0
   "@mjackson/lazy-file": ^3.2.0
-  "@opentelemetry/api": ^1.9.0
+  "@opentelemetry/api": ^1.9.1
   "@opentelemetry/core": ^1.27.0
   "@opentelemetry/instrumentation": ^0.54.2
   "@opentelemetry/sdk-trace-base": ^1.27.0
@@ -67,18 +67,18 @@ catalog:
   "@types/d3-dsv": ^3.0.2
   "@types/express": ^4.17.9
   "@types/luxon": ^3.3.1
-  "@types/morgan": ^1.9.2
+  "@types/morgan": ^1.9.10
   "@types/node": ^22.8.7
   "@types/pg": ^8.10.2
   "@types/pg-copy-streams": ^1.2.2
   "@types/react": ^18.2.21
   "@types/react-dom": ^18.2.7
-  "@types/react-transition-group": ^4.4.6
+  "@types/react-transition-group": ^4.4.12
   "@types/source-map-support": ^0.5.6
   "@types/uuid": ^9.0.2
   "@unpic/pixels": ^1.2.0
   "@unpic/placeholder": ^0.1.2
-  autoprefixer: ^10.4.15
+  autoprefixer: ^10.4.27
   autosize: ^6.0.1
   blurhash: ^2.0.5
   body-scroll-lock: ^3.1.5
@@ -87,7 +87,7 @@ catalog:
   chokidar-cli: ^3.0.0
   cloudinary: ^2.2.0
   compression: ^1.7.4
-  cookie-signature: ^1.2.1
+  cookie-signature: ^1.2.2
   croner: ^8.0.0
   d3-dsv: ^3.0.1
   dotenv-flow: ^4.1.0
@@ -95,7 +95,7 @@ catalog:
   encoding: ^0.1.13
   es-toolkit: ^1.45.1
   eslint: ^9.22.0
-  eslint-plugin-import-x: ^4.6.1
+  eslint-plugin-import-x: ^4.16.2
   eslint-plugin-jsx-a11y: ^6.10.2
   eslint-plugin-react: ^7.37.2
   eslint-plugin-react-hooks: ^5.1.0
@@ -107,7 +107,7 @@ catalog:
   globals: ^15.14.0
   googleapis: ^144.0.0
   history: ^5.3.0
-  isbot: ^5.1.8
+  isbot: ^5.1.37
   lru-cache: ^10.0.1
   luxon: ^3.4.2
   metascraper: ^5.36.0
@@ -115,7 +115,7 @@ catalog:
   metascraper-image: ^5.36.0
   metascraper-publisher: ^5.36.0
   metascraper-title: ^5.36.0
-  morgan: ^1.10.0
+  morgan: ^1.10.1
   msw: ^2.3.1
   node-html-parser: ^6.1.12
   npm-run-all: ^4.1.5
@@ -134,7 +134,7 @@ catalog:
   react-router: ^6.23.1
   react-transition-group: ^4.4.5
   remark-breaks: ^4.0.0
-  remark-gfm: ^4.0.0
+  remark-gfm: ^4.0.1
   remix-utils: ^7.5.0
   resend: ^4.0.1-alpha.0
   scroll-into-view-if-needed: ^3.1.0
