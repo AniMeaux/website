@@ -398,10 +398,10 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/form-data':
         specifier: workspace:*
         version: file:libs/form-data(typescript@5.4.5)
@@ -410,7 +410,7 @@ importers:
         version: file:libs/password
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
         version: file:libs/react-primitives(@types/react@18.3.3)
@@ -624,16 +624,16 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/files-io':
         specifier: workspace:*
         version: file:libs/files-io
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/react-primitives':
         specifier: workspace:*
         version: file:libs/react-primitives(@types/react@18.3.3)
@@ -841,10 +841,10 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: file:libs/zod-utils(typescript@5.4.5)
@@ -974,7 +974,7 @@ importers:
     dependencies:
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/search-params-io':
         specifier: workspace:*
         version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
@@ -1076,7 +1076,7 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils':
         specifier: workspace:*
         version: file:libs/zod-utils(typescript@5.4.5)
@@ -1242,7 +1242,10 @@ importers:
         version: 7.5.0
       '@prisma/client':
         specifier: 'catalog:'
-        version: 7.5.0(prisma@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+        version: 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.3
       prisma:
         specifier: 'catalog:'
         version: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
@@ -1484,7 +1487,7 @@ importers:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/dev-tools':
         specifier: workspace:*
         version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
@@ -8612,9 +8615,9 @@ snapshots:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@animeaux/core@file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+  '@animeaux/core@file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
     dependencies:
-      '@animeaux/prisma': file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@animeaux/prisma': file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       '@animeaux/search-params-io': file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
       es-toolkit: 1.45.1
@@ -8623,7 +8626,6 @@ snapshots:
       react-router: 6.23.1(react@18.3.1)
       tiny-invariant: 1.3.3
     transitivePeerDependencies:
-      - '@types/react'
       - better-sqlite3
       - magicast
       - pg-native
@@ -8668,9 +8670,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@animeaux/file-storage@file:libs/file-storage(@types/react@18.3.3)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+  '@animeaux/file-storage@file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
     dependencies:
-      '@animeaux/core': file:libs/core(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+      '@animeaux/core': file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
       '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
       '@mjackson/form-data-parser': 0.4.0
       '@mjackson/lazy-file': 3.2.0
@@ -8686,7 +8688,6 @@ snapshots:
       react: 18.3.1
       uuid: 9.0.1
     transitivePeerDependencies:
-      - '@types/react'
       - better-sqlite3
       - encoding
       - magicast
@@ -8710,13 +8711,13 @@ snapshots:
     dependencies:
       tiny-invariant: 1.3.3
 
-  '@animeaux/prisma@file:libs/prisma(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
+  '@animeaux/prisma@file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
     dependencies:
       '@prisma/adapter-pg': 7.5.0
-      '@prisma/client': 7.5.0(prisma@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      '@prisma/client': 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      '@types/react': 18.3.3
       prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
     transitivePeerDependencies:
-      - '@types/react'
       - better-sqlite3
       - magicast
       - pg-native
@@ -9947,7 +9948,7 @@ snapshots:
 
   '@prisma/client-runtime-utils@7.5.0': {}
 
-  '@prisma/client@7.5.0(prisma@7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)':
+  '@prisma/client@7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)':
     dependencies:
       '@prisma/client-runtime-utils': 7.5.0
     optionalDependencies:
