@@ -204,7 +204,7 @@ function Combobox({
     itemToString: (fosterFamily) =>
       fosterFamily?.isAdditional
         ? "additional"
-        : fosterFamily?.displayName ?? "",
+        : (fosterFamily?.displayName ?? ""),
     onSelectedItemChange: ({ selectedItem = null }) => {
       if (selectedItem?.isAdditional) {
         navigate(

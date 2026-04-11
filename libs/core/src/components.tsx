@@ -22,8 +22,8 @@ import { UNSAFE_NavigationContext } from "react-router"
  */
 export function useStateOrProp<
   TState,
-  TStateAction extends
-    React.SetStateAction<TState> = React.SetStateAction<TState>,
+  TStateAction extends React.SetStateAction<TState> =
+    React.SetStateAction<TState>,
 >(
   initialState: TState | (() => TState),
   propState?: TState,
