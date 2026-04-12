@@ -1,11 +1,5 @@
 # Dependencies upgrade plan
 
-Date: **2026-04-12**
-
-Status: **Accepted**
-
-## Context
-
 Following the workspace package injection approach described in [002][002], we
 can now upgrade dependencies incrementally, app by app. Many catalog entries are
 behind their latest major release. Some upgrades can be applied workspace-wide
@@ -33,9 +27,13 @@ The upgrades are:
 Because many of these upgrades declare peer dependencies on each other, the
 order of upgrades matters.
 
-## Decision
+ESLint `^9.x` has been superseded by ESLint 10, but three plugins used in the
+workspace (`eslint-plugin-jsx-a11y`, `eslint-plugin-react`,
+`eslint-plugin-react-hooks`) do not yet declare support for ESLint 10. The
+ESLint upgrade is not included in this plan and should be reconsidered once
+those plugins ship compatible releases.
 
-### Dependencies to upgrade
+## Dependencies to upgrade
 
 | Package | Current | Target | Note |
 | --- | --- | --- | --- |
@@ -69,7 +67,7 @@ order of upgrades matters.
 | `@types/react` | `^18.2.21` | `^19.0.0` | Upgrade together with `react`. |
 | `@types/react-dom` | `^18.2.7` | `^19.0.0` | Upgrade together with `react-dom`. |
 
-#### Standalone upgrades
+### Standalone upgrades
 
 The following packages have major releases with no peer dependency constraints
 on the packages above. They can be upgraded at any time, independently of the
@@ -85,7 +83,7 @@ phases below.
 | `uuid` | `^9.0.0` | `^13.0.0` |
 | `@faker-js/faker` | `^8.0.2` | `^10.0.0` |
 
-### Peer dependencies
+## Peer dependencies
 
 The table below maps each dependency being upgraded to the other catalog
 packages that declare a peer dependency on it. This determines which packages
@@ -100,21 +98,21 @@ must be upgraded together or verified for compatibility.
 | `react` | `@conform-to/react`, `@radix-ui/react-collapsible`, `@radix-ui/react-dialog`, `@radix-ui/react-dropdown-menu`, `@radix-ui/react-navigation-menu`, `@radix-ui/react-popover`, `@radix-ui/react-slot`, `@radix-ui/react-visually-hidden`, `downshift`, `react-dnd`, `react-dnd-html5-backend`, `react-dnd-touch-backend`, `react-dom`, `react-markdown`, `react-transition-group`, `react-router`, `@react-email/components`, `@react-email/render` |
 | `react-dom` | `@conform-to/react`, `@radix-ui/react-*`, `react-dnd`, `react-transition-group`, `react-router`, `@react-email/render` |
 
-### Upgrade order
+## Upgrade order
 
 The dependencies are grouped into eight phases plus a set of standalone upgrades
 that can be applied at any time. Within each phase, dependencies have no
 cross-constraints with each other. Phases 3, 7, and 8 must be applied per app
 to leverage the workspace package injection approach from [002][002].
 
-#### Phase 1 — TypeScript (workspace-wide)
+### Phase 1 — TypeScript (workspace-wide)
 
 TypeScript has no peer dependency constraints with the other upgrades. It can be
 upgraded once for the whole workspace without risk.
 
 - `typescript`: `~5.4.5` → `~5.7.0`
 
-#### Phase 2 — Vite (workspace-wide)
+### Phase 2 — Vite (workspace-wide)
 
 Vite has no peer dependency constraints with the other upgrades. It can be
 upgraded once for the whole workspace. `vite-tsconfig-paths` must be upgraded at
@@ -123,7 +121,7 @@ the same time because its current version range does not cover Vite 6.
 - `vite`: `^5.2.12` → `^6.0.0`
 - `vite-tsconfig-paths`: `^4.3.2` → `^6.0.0`
 
-#### Phase 3 — Tailwind CSS 4 (per app)
+### Phase 3 — Tailwind CSS 4 (per app)
 
 Tailwind CSS v4 introduces a fundamentally different configuration model.
 `prettier-plugin-tailwindcss` must be upgraded at the same time to match the
@@ -145,7 +143,7 @@ Affected libs:
   use a Tailwind CSS v3-specific option that must be updated for v4)
 - `libs/tailwind-animation`
 
-#### Phase 4 — Express v5 (apps/show)
+### Phase 4 — Express v5 (apps/show)
 
 Express v5 is used only in `apps/show` for the custom server. It is independent
 of the Remix or React upgrades and can be applied on its own.
@@ -154,7 +152,7 @@ Affected apps:
 
 - `apps/show`
 
-#### Phase 5 — Zod v4 (workspace-wide)
+### Phase 5 — Zod v4 (workspace-wide)
 
 Zod v4 has breaking API changes. `zod-form-data` must be upgraded together to
 its v3 release, which is the first version to officially support Zod 4.
@@ -172,7 +170,7 @@ Affected libs:
 - `libs/form-data`
 - `libs/zod-utils`
 
-#### Phase 6 — React Email + Resend (apps/show)
+### Phase 6 — React Email + Resend (apps/show)
 
 `@react-email/components` and `@react-email/render` have both had major
 releases. `resend` declares a peer dependency on `@react-email/render` and must
@@ -183,7 +181,7 @@ Affected apps:
 
 - `apps/show`
 
-#### Phase 7 — React Router v7 / Remix migration (per app)
+### Phase 7 — React Router v7 / Remix migration (per app)
 
 React Router v7 is the successor to Remix v2. The `@remix-run/*` packages are
 replaced by a single `react-router` package. React Router v7 supports both
@@ -215,7 +213,7 @@ Affected libs:
 - `libs/search-params-io`
 - `libs/zod-utils`
 
-#### Phase 8 — React 19 (per app)
+### Phase 8 — React 19 (per app)
 
 React 19 should be the last upgrade because it has the widest ecosystem impact.
 React Router v7 must already be in place before upgrading React, as
@@ -249,7 +247,7 @@ Affected libs:
 - `libs/search-params-io`
 - `libs/zod-utils`
 
-#### Standalone upgrades (any time)
+### Standalone upgrades (any time)
 
 The following packages have no peer dependency constraints on any of the packages
 above. They can be upgraded independently at any time, in any order.
@@ -262,48 +260,4 @@ above. They can be upgraded independently at any time, in any order.
 - `uuid`: `^9.0.0` → `^13.0.0`
 - `@faker-js/faker`: `^8.0.2` → `^10.0.0`
 
-**Advantages**:
-
-- 👍 Each phase has a clearly bounded scope, reducing the blast radius of each
-  change.
-- 👍 Phases 1, 2, 4, and 5 are workspace-wide and do not require per-app
-  coordination.
-- 👍 React Router v7 can be adopted before React 19, allowing the two largest
-  migrations to be staged independently.
-- 👍 The OpenTelemetry upgrade is folded into Phase 7, avoiding a separate
-  migration step.
-- 👍 Standalone upgrades can be picked up in parallel with any phase.
-
-**Drawbacks**:
-
-- 👎 The Tailwind CSS v4 migration (Phase 3) must be repeated for each app
-  individually.
-- 👎 The React Router v7 migration (Phase 7) touches many shared libs, requiring
-  careful coordination across consuming apps.
-- 👎 Eight sequenced phases represent significant ongoing migration effort.
-
-## Consequences
-
-With this plan in place, each team can pick up an upgrade phase for a specific
-app without waiting for others. The sequencing ensures that no intermediate
-state introduces an incompatible peer dependency combination.
-
-Phases 3, 7, and 8 follow the same per-app pattern enabled by workspace package
-injection: upgrade the catalog entry for a given app, verify it works, then
-repeat for the next app.
-
-The standalone upgrades can be distributed across teams and applied as
-opportunistic improvements alongside any of the eight phases.
-
-## Considered options
-
-1. **Upgrade all dependencies in one pass across the whole workspace**
-   - 👍 Single migration effort with no intermediate mixed-version state.
-   - 👎 Very large blast radius; high risk of blocking all apps at once.
-
-2. **Upgrade React before React Router v7**
-   - 👍 Fewer combined changes per step.
-   - 👎 `@remix-run/react` v2 is not compatible with React 19, meaning both must
-     be upgraded at the same time anyway; splitting them offers no real benefit.
-
-[002]: 002-workspace-package-injection.md
+[002]: decisions/002-workspace-package-injection.md
