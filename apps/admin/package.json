@@ -92,7 +92,6 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@types/uuid": "catalog:",
     "autoprefixer": "catalog:",
     "chokidar": "catalog:",
     "dotenv-flow": "catalog:",

@@ -17,8 +17,8 @@ catalogs:
       specifier: ^5.2.0
       version: 5.2.0
     '@faker-js/faker':
-      specifier: ^8.0.2
-      version: 8.4.1
+      specifier: ^10.4.0
+      version: 10.4.0
     '@mjackson/form-data-parser':
       specifier: ^0.4.0
       version: 0.4.0
@@ -142,9 +142,6 @@ catalogs:
     '@types/source-map-support':
       specifier: ^0.5.6
       version: 0.5.10
-    '@types/uuid':
-      specifier: ^9.0.2
-      version: 9.0.8
     '@unpic/pixels':
       specifier: ^1.3.0
       version: 1.3.0
@@ -182,8 +179,8 @@ catalogs:
       specifier: ^1.2.2
       version: 1.2.2
     croner:
-      specifier: ^8.0.0
-      version: 8.0.2
+      specifier: ^10.0.1
+      version: 10.0.1
     d3-dsv:
       specifier: ^3.0.1
       version: 3.0.1
@@ -224,8 +221,8 @@ catalogs:
       specifier: ^4.17.1
       version: 4.18.2
     focus-trap:
-      specifier: ^7.5.2
-      version: 7.5.4
+      specifier: ^8.0.1
+      version: 8.0.1
     get-port:
       specifier: ^5.1.1
       version: 5.1.1
@@ -242,8 +239,8 @@ catalogs:
       specifier: ^5.1.37
       version: 5.1.37
     lru-cache:
-      specifier: ^10.0.1
-      version: 10.2.2
+      specifier: ^11.3.3
+      version: 11.3.3
     luxon:
       specifier: ^3.7.2
       version: 3.7.2
@@ -269,8 +266,8 @@ catalogs:
       specifier: ^2.13.2
       version: 2.13.2
     node-html-parser:
-      specifier: ^6.1.12
-      version: 6.1.13
+      specifier: ^7.1.0
+      version: 7.1.0
     npm-run-all:
       specifier: ^4.1.5
       version: 4.1.5
@@ -281,8 +278,8 @@ catalogs:
       specifier: ^6.0.6
       version: 6.0.6
     pm2:
-      specifier: ^5.3.0
-      version: 5.4.0
+      specifier: ^6.0.14
+      version: 6.0.14
     prettier:
       specifier: ^3.8.2
       version: 3.8.2
@@ -356,8 +353,8 @@ catalogs:
       specifier: ^8.58.1
       version: 8.58.1
     uuid:
-      specifier: ^9.0.0
-      version: 9.0.1
+      specifier: ^13.0.0
+      version: 13.0.0
     vite:
       specifier: ^5.2.12
       version: 5.2.12
@@ -386,7 +383,7 @@ importers:
         version: 4.1.5
       pm2:
         specifier: 'catalog:'
-        version: 5.4.0
+        version: 6.0.14
       prettier:
         specifier: 'catalog:'
         version: 3.8.2
@@ -464,7 +461,7 @@ importers:
         version: 1.2.2
       croner:
         specifier: 'catalog:'
-        version: 8.0.2
+        version: 10.0.1
       d3-dsv:
         specifier: 'catalog:'
         version: 3.0.1
@@ -533,7 +530,7 @@ importers:
         version: 1.3.3
       uuid:
         specifier: 'catalog:'
-        version: 9.0.1
+        version: 13.0.0
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
@@ -543,7 +540,7 @@ importers:
         version: file:libs/tailwind-animation
       '@faker-js/faker':
         specifier: 'catalog:'
-        version: 8.4.1
+        version: 10.4.0
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
@@ -571,9 +568,6 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 18.3.0
-      '@types/uuid':
-        specifier: 'catalog:'
-        version: 9.0.8
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.27(postcss@8.4.38)
@@ -591,7 +585,7 @@ importers:
         version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
       node-html-parser:
         specifier: 'catalog:'
-        version: 6.1.13
+        version: 7.1.0
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5
@@ -717,7 +711,7 @@ importers:
         version: 5.1.37
       lru-cache:
         specifier: 'catalog:'
-        version: 10.2.2
+        version: 11.3.3
       luxon:
         specifier: 'catalog:'
         version: 3.7.2
@@ -759,7 +753,7 @@ importers:
         version: 1.3.3
       uuid:
         specifier: 'catalog:'
-        version: 9.0.1
+        version: 13.0.0
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
@@ -791,9 +785,6 @@ importers:
       '@types/source-map-support':
         specifier: 'catalog:'
         version: 0.5.10
-      '@types/uuid':
-        specifier: 'catalog:'
-        version: 9.0.8
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.27(postcss@8.4.38)
@@ -811,7 +802,7 @@ importers:
         version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
       node-html-parser:
         specifier: 'catalog:'
-        version: 6.1.13
+        version: 7.1.0
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5
@@ -865,7 +856,7 @@ importers:
         version: 1.45.1
       focus-trap:
         specifier: 'catalog:'
-        version: 7.5.4
+        version: 8.0.1
       history:
         specifier: 'catalog:'
         version: 5.3.0
@@ -944,7 +935,7 @@ importers:
         version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
       node-html-parser:
         specifier: 'catalog:'
-        version: 6.1.13
+        version: 7.1.0
       npm-run-all:
         specifier: 'catalog:'
         version: 4.1.5
@@ -1118,7 +1109,7 @@ importers:
         version: 18.3.1
       uuid:
         specifier: 'catalog:'
-        version: 9.0.1
+        version: 13.0.0
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
@@ -1126,9 +1117,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
-      '@types/uuid':
-        specifier: 'catalog:'
-        version: 9.0.8
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1258,7 +1246,7 @@ importers:
         version: file:libs/password
       '@faker-js/faker':
         specifier: 'catalog:'
-        version: 8.4.1
+        version: 10.4.0
       '@types/d3-dsv':
         specifier: 'catalog:'
         version: 3.0.7
@@ -2433,9 +2421,9 @@ packages:
       '@noble/hashes':
         optional: true
 
-  '@faker-js/faker@8.4.1':
-    resolution: {integrity: sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+  '@faker-js/faker@10.4.0':
+    resolution: {integrity: sha512-sDBWI3yLy8EcDzgobvJTWq1MJYzAkQdpjXuPukga9wXonhpMRvd1Izuo2Qgwey2OiEoRIBr35RMU9HJRoOHzpw==}
+    engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
   '@floating-ui/core@1.6.2':
     resolution: {integrity: sha512-+2XpQV9LLZeanU4ZevzRnGFg2neDeKHgFLjP6YLW+tly0IvrhqT4u8enLGjLH3qeh85g19xY5rsAusfwTdn5lg==}
@@ -2863,11 +2851,16 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@pm2/agent@2.0.3':
-    resolution: {integrity: sha512-xkqqCoTf5VsciMqN0vb9jthW7olVAi4KRFNddCc7ZkeJZ3i8QwZANr4NSH2H5DvseRFHq7MiPspRY/EWAFWWTg==}
+  '@pm2/agent@2.1.1':
+    resolution: {integrity: sha512-0V9ckHWd/HSC8BgAbZSoq8KXUG81X97nSkAxmhKDhmF8vanyaoc1YXwc2KVkbWz82Rg4gjd2n9qiT3i7bdvGrQ==}
 
-  '@pm2/io@6.0.0':
-    resolution: {integrity: sha512-sKUEgZoQ5/jRwTyMB1I7u2wXL6dG0j/F/M4ANJ7dJCApfW8nWC0RElMW2siEKvZ79iplIPAaWV27oyBoerEflw==}
+  '@pm2/blessed@0.1.81':
+    resolution: {integrity: sha512-ZcNHqQjMuNRcQ7Z1zJbFIQZO/BDKV3KbiTckWdfbUaYhj7uNmUwb+FbdDWSCkvxNr9dBJQwvV17o6QBkAvgO0g==}
+    engines: {node: '>= 0.8.0'}
+    hasBin: true
+
+  '@pm2/io@6.1.0':
+    resolution: {integrity: sha512-IxHuYURa3+FQ6BKePlgChZkqABUKFYH6Bwbw7V/pWU1pP6iR1sCI26l7P9ThUEB385ruZn/tZS3CXDUF5IA1NQ==}
     engines: {node: '>=6.0'}
 
   '@pm2/js-api@0.8.0':
@@ -3914,9 +3907,6 @@ packages:
   '@types/unist@3.0.2':
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
 
-  '@types/uuid@9.0.8':
-    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
-
   '@typescript-eslint/eslint-plugin@8.56.0':
     resolution: {integrity: sha512-lRyPDLzNCuae71A3t9NEINBiTn7swyOhvUj3MyUOxb8x6g6vPEFoOU+ZRmGMusNC3X3YMhqMIX7i8ShqhT74Pw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -4255,6 +4245,10 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
+  ansis@4.0.0-node10:
+    resolution: {integrity: sha512-BRrU0Bo1X9dFGw6KgGz6hWrqQuOlVEDOzkb0QSLZY9sXHqA7pNj7yHPVJRz7y/rj4EOJ3d/D5uxH+ee9leYgsg==}
+    engines: {node: '>=10'}
+
   any-promise@1.3.0:
     resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
 
@@ -4329,8 +4323,8 @@ packages:
   async@2.6.4:
     resolution: {integrity: sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==}
 
-  async@3.2.5:
-    resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
+  async@3.2.6:
+    resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
 
   audio-extensions@0.0.0:
     resolution: {integrity: sha512-yj9C819u3ED3/OyRd9mLKMXGy8wsElaf6bkkv6OqZEKrNAT461TjiznS4IfPBy8Mmh6DWaXCQCVYSq3+VHkpjQ==}
@@ -4387,6 +4381,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.1, please upgrade
 
   bidi-js@1.0.3:
     resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
@@ -4400,11 +4395,6 @@ packages:
 
   bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
-
-  blessed@0.1.81:
-    resolution: {integrity: sha512-LoF5gae+hlmfORcG1M5+5XZi4LBmvlXTzwJWzUlPryN/SJdSflZvROM2TwkT0GMpq7oqT48NRd4GS7BiVBc5OQ==}
-    engines: {node: '>= 0.8.0'}
-    hasBin: true
 
   blurhash@2.0.5:
     resolution: {integrity: sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==}
@@ -4754,12 +4744,12 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
+  croner@10.0.1:
+    resolution: {integrity: sha512-ixNtAJndqh173VQ4KodSdJEI6nuioBWI0V1ITNKhZZsO0pEMoDxz539T4FTTbSZ/xIOSuDnzxLVRqBVSvPNE2g==}
+    engines: {node: '>=18.0'}
+
   croner@4.1.97:
     resolution: {integrity: sha512-/f6gpQuxDaqXu+1kwQYSckUglPaOrHdbIlBAu0YuW8/Cdb45XwXYNUBXg3r/9Mo6n540Kn/smKcZWko5x99KrQ==}
-
-  croner@8.0.2:
-    resolution: {integrity: sha512-HgSdlSUX8mIgDTTiQpWUP4qY4IFRMsduPCYdca34Pelt8MVdxdaDOzreFtCscA6R+cRZd7UbD1CD3uyx6J3X1A==}
-    engines: {node: '>=18.0'}
 
   cross-spawn@6.0.5:
     resolution: {integrity: sha512-eTVLrBSt7fjbDygz805pMnstIs2VTBNkRm0qxZd+M7A5XDdxVRWO5MxGBXZhjY4cqLYLdtrGqRf8mBPmzwSpWQ==}
@@ -4843,8 +4833,8 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
-  dayjs@1.11.11:
-    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+  dayjs@1.11.15:
+    resolution: {integrity: sha512-MC+DfnSWiM9APs7fpiurHGCoeIx0Gdl6QZBy+5lu8MbYKN5FZEXqOgrundfibdfhGZ15o9hzmZ2xJjZnbvgKXQ==}
 
   dayjs@1.8.36:
     resolution: {integrity: sha512-3VmRXEtw7RZKAf+4Tv1Ym9AGeo8r8+CjDi26x+7SYQil1UqtqdaokhzoEJohqlzt0m5kacJSDhJQkG/LWhpRBw==}
@@ -4991,9 +4981,6 @@ packages:
   domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
-
-  domutils@3.1.0:
-    resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
 
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
@@ -5362,9 +5349,6 @@ packages:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
 
-  eventemitter2@0.4.14:
-    resolution: {integrity: sha512-K7J4xq5xAD5jHsGM5ReWXRTFa3JRGofHiMcVgQ8PRwgWxzjHpMWCIzsmyf60+mh8KLsqYPcjUMa0AC4hd6lPyQ==}
-
   eventemitter2@5.0.1:
     resolution: {integrity: sha512-5EM1GHXycJBS6mauYAbVKT1cVs7POKWb2NXD4Vyt8dDqeZa7LaDK1/sjtL+Zb0lzTpSNil4596Dyu97hz37QLg==}
 
@@ -5467,8 +5451,8 @@ packages:
   flatted@3.3.1:
     resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
-  focus-trap@7.5.4:
-    resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
+  focus-trap@8.0.1:
+    resolution: {integrity: sha512-9ptSG6z51YQOstI/oN4XuVGP/03u2nh0g//qz7L6zX0i6PZiPnkcf3GenXq7N2hZnASXaMxTPpbKwdI+PFvxlw==}
 
   follow-redirects@1.15.6:
     resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
@@ -6310,10 +6294,6 @@ packages:
     resolution: {integrity: sha512-MbjN408fEndfiQXbFQ1vnd+1NoLDsnQW41410oQBXiyXDMYH5z505juWa4KUE1LqxRC7DgOgZDbKLxHIwm27hA==}
     engines: {node: '>=0.10'}
 
-  lazy@1.0.11:
-    resolution: {integrity: sha512-Y+CjUfLmIpoUCCRl0ub4smrYtGGr5AOa2AKOaWelGHOGz33X/Y/KizefGqbkwfz44+cnq/+9habclf8vOmu2LA==}
-    engines: {node: '>=0.2.0'}
-
   leac@0.6.0:
     resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
 
@@ -6972,8 +6952,8 @@ packages:
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
 
-  node-html-parser@6.1.13:
-    resolution: {integrity: sha512-qIsTMOY4C/dAa5Q5vsobRpOOvPfC4pB61UVW2uSwZNUp0QU/jCekTal1vMmbO0DgdHeLUJpv/ARmDqErVxA3Sg==}
+  node-html-parser@7.1.0:
+    resolution: {integrity: sha512-iJo8b2uYGT40Y8BTyy5ufL6IVbN8rbm/1QK2xffXU/1a/v3AAa0d1YAoqBNYqaS4R/HajkWIpIfdE6KcyFh1AQ==}
 
   node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==}
@@ -7030,10 +7010,6 @@ packages:
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
-
-  nssocket@0.6.0:
-    resolution: {integrity: sha512-a9GSOIql5IqgWJR3F/JXG4KpJTA3Z53Cj0MeMvGpglytB1nxE4PdFNC0jINe27CS7cGivoynwc054EzCcT3M3w==}
-    engines: {node: '>= 0.10.x'}
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
@@ -7399,9 +7375,9 @@ packages:
   pm2-sysmonit@1.2.8:
     resolution: {integrity: sha512-ACOhlONEXdCTVwKieBIQLSi2tQZ8eKinhcr9JpZSUAL8Qy0ajIgRtsLxG/lwPOW3JEKqPyw/UaHmTWhUzpP4kA==}
 
-  pm2@5.4.0:
-    resolution: {integrity: sha512-9TrDuckcSEnINoURygr3yfruK20qXuOUPOPQyIh4FIskQduyDNst9ys1XAt9YPY3RyGxVr2+x8Irsdma3klVQw==}
-    engines: {node: '>=12.0.0'}
+  pm2@6.0.14:
+    resolution: {integrity: sha512-wX1FiFkzuT2H/UUEA8QNXDAA9MMHDsK/3UHj6Dkd5U7kxyigKDA5gyDw78ycTQZAuGCLWyUX5FiXEuVQWafukA==}
+    engines: {node: '>=16.0.0'}
     hasBin: true
 
   pngjs@7.0.0:
@@ -7715,8 +7691,8 @@ packages:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
 
-  proxy-agent@6.3.1:
-    resolution: {integrity: sha512-Rb5RVBy1iyqOtNl15Cw/llpeLH8bsb37gM1FUfKQ+Wck6xHlbAhWGUFiTRHtkjqGTA5pSHz6+0hrPW/oECihPQ==}
+  proxy-agent@6.4.0:
+    resolution: {integrity: sha512-u0piLU+nCOHMgGjRbimiXmA9kM/L9EHh3zL81xCdp7m+Y2pHIsnmbdDoEDoAz5geaonNR6q6+yOPQs6n4T6sBQ==}
     engines: {node: '>= 14'}
 
   proxy-from-env@1.1.0:
@@ -8128,6 +8104,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.2:
+    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   semver@7.7.4:
     resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
     engines: {node: '>=10'}
@@ -8427,8 +8408,8 @@ packages:
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
 
-  tabbable@6.2.0:
-    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
+  tabbable@6.4.0:
+    resolution: {integrity: sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==}
 
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
@@ -8774,6 +8755,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+    hasBin: true
+
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
@@ -9004,8 +8989,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@7.4.6:
-    resolution: {integrity: sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==}
+  ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -9191,7 +9176,7 @@ snapshots:
       '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
       googleapis: 144.0.0(encoding@0.1.13)
       react: 18.3.1
-      uuid: 9.0.1
+      uuid: 13.0.0
     transitivePeerDependencies:
       - better-sqlite3
       - encoding
@@ -9923,7 +9908,7 @@ snapshots:
 
   '@exodus/bytes@1.15.0': {}
 
-  '@faker-js/faker@8.4.1': {}
+  '@faker-js/faker@10.4.0': {}
 
   '@floating-ui/core@1.6.2':
     dependencies:
@@ -10133,9 +10118,9 @@ snapshots:
 
   '@npmcli/agent@4.0.0':
     dependencies:
-      agent-base: 7.1.1
+      agent-base: 7.1.4
       http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.4
+      https-proxy-agent: 7.0.6
       lru-cache: 11.3.3
       socks-proxy-agent: 8.0.3
     transitivePeerDependencies:
@@ -10143,7 +10128,7 @@ snapshots:
 
   '@npmcli/fs@3.1.1':
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.4
 
   '@npmcli/fs@5.0.0':
     dependencies:
@@ -10157,7 +10142,7 @@ snapshots:
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.6.3
+      semver: 7.7.4
       which: 3.0.1
     transitivePeerDependencies:
       - bluebird
@@ -10307,7 +10292,7 @@ snapshots:
       '@opentelemetry/core': 1.26.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.27.0
-      semver: 7.6.3
+      semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
 
@@ -10421,7 +10406,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.4.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -10432,7 +10417,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.4.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -10444,7 +10429,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.11.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -10456,7 +10441,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.11.2
       require-in-the-middle: 7.4.0
-      semver: 7.6.3
+      semver: 7.7.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -10525,27 +10510,28 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@pm2/agent@2.0.3':
+  '@pm2/agent@2.1.1':
     dependencies:
-      async: 3.2.5
+      async: 3.2.6
       chalk: 3.0.0
       dayjs: 1.8.36
       debug: 4.3.7
       eventemitter2: 5.0.1
       fast-json-patch: 3.1.1
       fclone: 1.0.11
-      nssocket: 0.6.0
       pm2-axon: 4.0.1
       pm2-axon-rpc: 0.7.1
-      proxy-agent: 6.3.1
+      proxy-agent: 6.4.0
       semver: 7.5.4
-      ws: 7.4.6
+      ws: 7.5.10
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
 
-  '@pm2/io@6.0.0':
+  '@pm2/blessed@0.1.81': {}
+
+  '@pm2/io@6.1.0':
     dependencies:
       async: 2.6.4
       debug: 4.3.7
@@ -11787,8 +11773,6 @@ snapshots:
 
   '@types/unist@3.0.2': {}
 
-  '@types/uuid@9.0.8': {}
-
   '@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
@@ -12178,6 +12162,8 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
+  ansis@4.0.0-node10: {}
+
   any-promise@1.3.0: {}
 
   anymatch@3.1.3:
@@ -12268,9 +12254,9 @@ snapshots:
 
   async@2.6.4:
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
 
-  async@3.2.5: {}
+  async@3.2.6: {}
 
   audio-extensions@0.0.0: {}
 
@@ -12324,8 +12310,6 @@ snapshots:
       buffer: 5.7.1
       inherits: 2.0.4
       readable-stream: 3.6.2
-
-  blessed@0.1.81: {}
 
   blurhash@2.0.5: {}
 
@@ -12721,9 +12705,9 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  croner@4.1.97: {}
+  croner@10.0.1: {}
 
-  croner@8.0.2: {}
+  croner@4.1.97: {}
 
   cross-spawn@6.0.5:
     dependencies:
@@ -12750,7 +12734,7 @@ snapshots:
       boolbase: 1.0.0
       css-what: 6.1.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       nth-check: 2.1.1
 
   css-tree@3.2.1:
@@ -12816,7 +12800,7 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
-  dayjs@1.11.11: {}
+  dayjs@1.11.15: {}
 
   dayjs@1.8.36: {}
 
@@ -12940,12 +12924,6 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  domutils@3.1.0:
-    dependencies:
-      dom-serializer: 2.0.0
-      domelementtype: 2.3.0
-      domhandler: 5.0.3
-
   domutils@3.2.2:
     dependencies:
       dom-serializer: 2.0.0
@@ -12991,7 +12969,7 @@ snapshots:
       '@one-ini/wasm': 0.1.1
       commander: 10.0.1
       minimatch: 9.0.1
-      semver: 7.6.3
+      semver: 7.7.4
 
   ee-first@1.1.1: {}
 
@@ -13550,8 +13528,6 @@ snapshots:
 
   event-target-shim@5.0.1: {}
 
-  eventemitter2@0.4.14: {}
-
   eventemitter2@5.0.1: {}
 
   eventemitter2@6.4.9: {}
@@ -13692,9 +13668,9 @@ snapshots:
 
   flatted@3.3.1: {}
 
-  focus-trap@7.5.4:
+  focus-trap@8.0.1:
     dependencies:
-      tabbable: 6.2.0
+      tabbable: 6.4.0
 
   follow-redirects@1.15.6(debug@4.3.7):
     optionalDependencies:
@@ -14113,7 +14089,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      domutils: 3.1.0
+      domutils: 3.2.2
       entities: 4.5.0
 
   http-cache-semantics@4.1.1: {}
@@ -14620,8 +14596,6 @@ snapshots:
   language-tags@1.0.9:
     dependencies:
       language-subtag-registry: 0.3.22
-
-  lazy@1.0.11: {}
 
   leac@0.6.0: {}
 
@@ -15707,7 +15681,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  node-html-parser@6.1.13:
+  node-html-parser@7.1.0:
     dependencies:
       css-select: 5.1.0
       he: 1.2.0
@@ -15735,7 +15709,7 @@ snapshots:
     dependencies:
       hosted-git-info: 6.1.1
       is-core-module: 2.13.1
-      semver: 7.6.3
+      semver: 7.7.4
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -15744,7 +15718,7 @@ snapshots:
 
   npm-install-checks@6.3.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.4
 
   npm-normalize-package-bin@3.0.1: {}
 
@@ -15752,7 +15726,7 @@ snapshots:
     dependencies:
       hosted-git-info: 6.1.1
       proc-log: 3.0.0
-      semver: 7.6.3
+      semver: 7.7.4
       validate-npm-package-name: 5.0.0
 
   npm-pick-manifest@8.0.2:
@@ -15760,7 +15734,7 @@ snapshots:
       npm-install-checks: 6.3.0
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 10.1.0
-      semver: 7.6.3
+      semver: 7.7.4
 
   npm-run-all@4.1.5:
     dependencies:
@@ -15777,11 +15751,6 @@ snapshots:
   npm-run-path@4.0.1:
     dependencies:
       path-key: 3.1.1
-
-  nssocket@0.6.0:
-    dependencies:
-      eventemitter2: 0.4.14
-      lazy: 1.0.11
 
   nth-check@2.1.1:
     dependencies:
@@ -15948,11 +15917,11 @@ snapshots:
   pac-proxy-agent@7.0.1:
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
-      agent-base: 7.1.1
+      agent-base: 7.1.4
       debug: 4.4.3
       get-uri: 6.0.3
       http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.4
+      https-proxy-agent: 7.0.6
       pac-resolver: 7.0.1
       socks-proxy-agent: 8.0.3
     transitivePeerDependencies:
@@ -16161,7 +16130,7 @@ snapshots:
 
   pm2-axon-rpc@0.7.1:
     dependencies:
-      debug: 4.3.7
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -16169,7 +16138,7 @@ snapshots:
     dependencies:
       amp: 0.3.1
       amp-message: 0.1.2
-      debug: 4.3.7
+      debug: 4.4.3
       escape-string-regexp: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -16185,8 +16154,8 @@ snapshots:
 
   pm2-sysmonit@1.2.8:
     dependencies:
-      async: 3.2.5
-      debug: 4.3.7
+      async: 3.2.6
+      debug: 4.4.3
       pidusage: 2.0.21
       systeminformation: 5.22.10
       tx2: 1.0.5
@@ -16194,25 +16163,25 @@ snapshots:
       - supports-color
     optional: true
 
-  pm2@5.4.0:
+  pm2@6.0.14:
     dependencies:
-      '@pm2/agent': 2.0.3
-      '@pm2/io': 6.0.0
+      '@pm2/agent': 2.1.1
+      '@pm2/blessed': 0.1.81
+      '@pm2/io': 6.1.0
       '@pm2/js-api': 0.8.0
       '@pm2/pm2-version-check': 1.0.4
-      async: 3.2.5
-      blessed: 0.1.81
-      chalk: 3.0.0
+      ansis: 4.0.0-node10
+      async: 3.2.6
       chokidar: 3.6.0
       cli-tableau: 2.0.1
       commander: 2.15.1
       croner: 4.1.97
-      dayjs: 1.11.11
-      debug: 4.3.7
+      dayjs: 1.11.15
+      debug: 4.4.3
       enquirer: 2.3.6
       eventemitter2: 5.0.1
       fclone: 1.0.11
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       mkdirp: 1.0.4
       needle: 2.4.0
       pidusage: 3.0.2
@@ -16221,7 +16190,7 @@ snapshots:
       pm2-deploy: 1.0.2
       pm2-multimeter: 0.1.2
       promptly: 2.2.0
-      semver: 7.6.3
+      semver: 7.7.2
       source-map-support: 0.5.21
       sprintf-js: 1.1.2
       vizion: 2.2.1
@@ -16411,12 +16380,12 @@ snapshots:
       forwarded: 0.2.0
       ipaddr.js: 1.9.1
 
-  proxy-agent@6.3.1:
+  proxy-agent@6.4.0:
     dependencies:
-      agent-base: 7.1.1
+      agent-base: 7.1.4
       debug: 4.4.3
       http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.4
+      https-proxy-agent: 7.0.6
       lru-cache: 7.18.3
       pac-proxy-agent: 7.0.1
       proxy-from-env: 1.1.0
@@ -16906,6 +16875,8 @@ snapshots:
 
   semver@7.6.3: {}
 
+  semver@7.7.2: {}
+
   semver@7.7.4: {}
 
   send@0.18.0:
@@ -17021,7 +16992,7 @@ snapshots:
 
   socks-proxy-agent@8.0.3:
     dependencies:
-      agent-base: 7.1.1
+      agent-base: 7.1.4
       debug: 4.4.3
       socks: 2.8.3
     transitivePeerDependencies:
@@ -17248,7 +17219,7 @@ snapshots:
   systeminformation@5.22.10:
     optional: true
 
-  tabbable@6.2.0: {}
+  tabbable@6.4.0: {}
 
   tagged-tag@1.0.0: {}
 
@@ -17685,6 +17656,8 @@ snapshots:
 
   utils-merge@1.0.1: {}
 
+  uuid@13.0.0: {}
+
   uuid@9.0.1: {}
 
   uvu@0.5.6:
@@ -17937,7 +17910,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@7.4.6: {}
+  ws@7.5.10: {}
 
   ws@7.5.9: {}
 
