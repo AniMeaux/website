@@ -7,7 +7,7 @@ module.exports = {
       createApp({
         name: appName,
         cwd: `./apps/${appName}`,
-        script: "pnpm dev",
+        script: "pnpm run dev",
         watch: ["./tsconfig.json", "./.env*"],
       }),
     ),
@@ -16,7 +16,7 @@ module.exports = {
       createApp({
         name: `libs/${libName}`,
         cwd: `./libs/${libName}`,
-        script: "pnpm dev",
+        script: "pnpm run --if-present dev",
       }),
     ),
   ],
