@@ -22,7 +22,7 @@ export function FieldsetDogs() {
       {fieldsDogs.map((fieldDog, index) => {
         const fieldsetDog = fieldDog.getFieldset()
 
-        const gender = fieldsetDog.gender.value
+        const gender = fieldsetDog.gender.value as undefined | Gender
 
         return (
           <Fragment key={fieldDog.key}>
