@@ -1,5 +1,4 @@
 import { LazyFile } from "@mjackson/lazy-file"
-import { v4 as uuid } from "uuid"
 
 import type { ServiceImage } from "#i/core/image/service.server.js"
 
@@ -27,7 +26,7 @@ export class ServiceImageMock implements ServiceImage {
 
   async getAllImages() {
     return Array.from({ length: 200 }).map<ServiceImage.Image>(() => ({
-      id: uuid(),
+      id: crypto.randomUUID(),
       width: 8000,
       height: 8000,
     }))

@@ -3,7 +3,6 @@ import { writeAsyncIterableToWritable } from "@remix-run/node"
 import type { UploadApiErrorResponse } from "cloudinary"
 import { v2 as cloudinary } from "cloudinary"
 import invariant from "tiny-invariant"
-import { v4 as uuid } from "uuid"
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -49,7 +48,7 @@ export function createCloudinaryUploadHandler({
 
     return await new Promise<string>(async (resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
-        { public_id: uuid() },
+        { public_id: crypto.randomUUID() },
         (error, result) => {
           if (error != null) {
             reject(new CloudinaryUploadApiError(error))

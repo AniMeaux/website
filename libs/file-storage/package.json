@@ -51,7 +51,6 @@
     "@remix-run/react": "catalog:",
     "@sentry/remix": "catalog:",
     "googleapis": "catalog:",
-    "uuid": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {

@@ -76,8 +76,7 @@
     "remark-breaks": "catalog:",
     "remark-gfm": "catalog:",
     "remix-utils": "catalog:",
-    "tiny-invariant": "catalog:",
-    "uuid": "catalog:"
+    "tiny-invariant": "catalog:"
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
