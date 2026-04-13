@@ -80,8 +80,7 @@
     "scroll-into-view-if-needed": "catalog:",
     "source-map-support": "catalog:",
     "tailwindcss": "catalog:",
-    "tiny-invariant": "catalog:",
-    "uuid": "catalog:"
+    "tiny-invariant": "catalog:"
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
@@ -94,7 +93,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/source-map-support": "catalog:",
-    "@types/uuid": "catalog:",
     "autoprefixer": "catalog:",
     "chokidar": "catalog:",
     "dotenv-flow": "catalog:",

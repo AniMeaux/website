@@ -1,5 +1,4 @@
 import type { FileUpload } from "@mjackson/form-data-parser"
-import { v4 as uuid } from "uuid"
 
 import { FileStorage } from "#i/file-storage.server.js"
 
@@ -36,7 +35,7 @@ export class FileStorageMock extends FileStorage {
   }
 
   async createFolder() {
-    const id = `mock-folder-${uuid()}`
+    const id = `mock-folder-${crypto.randomUUID()}`
 
     this.#folders.set(
       id,
@@ -62,7 +61,7 @@ export class FileStorageMock extends FileStorage {
   }
 
   #createMockFile(payload?: Partial<FileStorage.File>): FileStorage.File {
-    const id = payload?.id ?? `mock-file-${uuid()}`
+    const id = payload?.id ?? `mock-file-${crypto.randomUUID()}`
     const name = payload?.name ?? "Mock file.pdf"
 
     return {

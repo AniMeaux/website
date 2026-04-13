@@ -51,13 +51,11 @@
     "@remix-run/react": "catalog:",
     "@sentry/remix": "catalog:",
     "googleapis": "catalog:",
-    "uuid": "catalog:",
     "react": "catalog:"
   },
   "devDependencies": {
     "@animeaux/dev-tools": "workspace:*",
     "@types/node": "catalog:",
-    "@types/uuid": "catalog:",
     "chokidar-cli": "catalog:",
     "eslint": "catalog:",
     "npm-run-all": "catalog:",
