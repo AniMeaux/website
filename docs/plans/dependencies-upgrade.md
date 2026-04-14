@@ -33,6 +33,23 @@ workspace (`eslint-plugin-jsx-a11y`, `eslint-plugin-react`,
 ESLint upgrade is not included in this plan and should be reconsidered once
 those plugins ship compatible releases.
 
+## Progress
+
+| Phase                                         | Status      |
+| --------------------------------------------- | ----------- |
+| [Phase 1: TypeScript][phase-1]                | Not started |
+| [Phase 2: Vite][phase-2]                      | Not started |
+| [Phase 3: Tailwind CSS 4][phase-3]            | Not started |
+| [Phase 4: Express v5][phase-4]                | Not started |
+| [Phase 5: Zod v4][phase-5]                    | Not started |
+| [Phase 6: React Email + Resend][phase-6]      | Not started |
+| [Phase 7: React Router v7 migration][phase-7] | Not started |
+| [Phase 8: React 19][phase-8]                  | Not started |
+| [Standalone upgrades][standalone-upgrades]    | Complete    |
+
+Update each status as work starts and completes. Keep implementation details in
+the related phase section below.
+
 ## Dependencies to upgrade
 
 | Package                          | Current          | Target                                | Note                                                                                                  |
@@ -107,12 +124,16 @@ leverage the workspace package injection approach from [002][002].
 
 ### Phase 1 — TypeScript (workspace-wide)
 
+[phase-1]: #phase-1--typescript-workspace-wide
+
 TypeScript has no peer dependency constraints with the other upgrades. It can be
 upgraded once for the whole workspace without risk.
 
 - `typescript`: `~5.4.5` → `~5.7.0`
 
 ### Phase 2 — Vite (workspace-wide)
+
+[phase-2]: #phase-2--vite-workspace-wide
 
 Vite has no peer dependency constraints with the other upgrades. It can be
 upgraded once for the whole workspace. `vite-tsconfig-paths` must be upgraded at
@@ -122,6 +143,8 @@ the same time because its current version range does not cover Vite 6.
 - `vite-tsconfig-paths`: `^4.3.2` → `^6.0.0`
 
 ### Phase 3 — Tailwind CSS 4 (per app)
+
+[phase-3]: #phase-3--tailwind-css-4-per-app
 
 Tailwind CSS v4 introduces a fundamentally different configuration model.
 `prettier-plugin-tailwindcss` must be upgraded at the same time to match the new
@@ -145,6 +168,8 @@ Affected libs:
 
 ### Phase 4 — Express v5 (apps/show)
 
+[phase-4]: #phase-4--express-v5-appsshow
+
 Express v5 is used only in `apps/show` for the custom server. It is independent
 of the Remix or React upgrades and can be applied on its own.
 
@@ -153,6 +178,8 @@ Affected apps:
 - `apps/show`
 
 ### Phase 5 — Zod v4 (workspace-wide)
+
+[phase-5]: #phase-5--zod-v4-workspace-wide
 
 Zod v4 has breaking API changes. `zod-form-data` must be upgraded together to
 its v3 release, which is the first version to officially support Zod 4.
@@ -172,6 +199,8 @@ Affected libs:
 
 ### Phase 6 — React Email + Resend (apps/show)
 
+[phase-6]: #phase-6--react-email--resend-appsshow
+
 `@react-email/components` and `@react-email/render` have both had major
 releases. `resend` declares a peer dependency on `@react-email/render` and must
 be upgraded together. All three packages are compatible with React 18, so this
@@ -182,6 +211,8 @@ Affected apps:
 - `apps/show`
 
 ### Phase 7 — React Router v7 / Remix migration (per app)
+
+[phase-7]: #phase-7--react-router-v7--remix-migration-per-app
 
 React Router v7 is the successor to Remix v2. The `@remix-run/*` packages are
 replaced by a single `react-router` package. React Router v7 supports both React
@@ -214,6 +245,8 @@ Affected libs:
 - `libs/zod-utils`
 
 ### Phase 8 — React 19 (per app)
+
+[phase-8]: #phase-8--react-19-per-app
 
 React 19 should be the last upgrade because it has the widest ecosystem impact.
 React Router v7 must already be in place before upgrading React, as
@@ -248,6 +281,8 @@ Affected libs:
 - `libs/zod-utils`
 
 ### Standalone upgrades (any time)
+
+[standalone-upgrades]: #standalone-upgrades-any-time
 
 The following packages have no peer dependency constraints on any of the
 packages above. They can be upgraded independently at any time, in any order.

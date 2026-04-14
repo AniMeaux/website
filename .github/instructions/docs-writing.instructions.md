@@ -19,9 +19,11 @@ applyTo: "**/*.md"
 ## Markdown formatting
 
 - Wrap file paths and script names in backticks in prose and markdown text.
-- Prefer reference-style markdown links, with link references defined at the
-  bottom of the file.
-- Sort link references alphabetically by reference name.
+- Prefer reference-style markdown links.
+- By default, define link references at the bottom of the file.
+- For internal section links in long planning documents, define each reference
+  directly below the target heading.
+- Sort link references alphabetically by reference name within each block.
 
 ## Documentation changes
 
