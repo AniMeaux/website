@@ -6,7 +6,6 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import type { MetaFunction } from "@remix-run/react"
 import { captureException } from "@sentry/remix"
-import { v4 as uuid } from "uuid"
 
 import { getErrorTitle } from "#i/core/data-display/error-page.js"
 import { FormLayout } from "#i/core/layout/form-layout.js"
@@ -89,7 +88,7 @@ export async function action({ request, params }: ActionFunctionArgs) {
 
     try {
       return await reversibleUpload.upload(fileUpload, {
-        imageId: `show/exhibitors-logo/${uuid()}`,
+        imageId: `show/exhibitors-logo/${crypto.randomUUID()}`,
       })
     } catch (error) {
       captureException(error)

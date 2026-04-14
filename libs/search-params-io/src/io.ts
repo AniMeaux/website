@@ -4,7 +4,9 @@ import { SearchParamsWritter } from "#i/writter.js"
 export interface SearchParamsIO<
   TKeys extends Record<string, string> = Record<string, string>,
   TData extends object = object,
-> extends SearchParamsReader<TKeys, TData>,
+>
+  extends
+    SearchParamsReader<TKeys, TData>,
     SearchParamsWritter<TKeys, Partial<TData>> {
   set: (
     searchParams: URLSearchParams,

@@ -8,6 +8,6 @@
     "rootDir": "./",
     "paths": { "#i/*": ["./src/*"] },
 
-    "types": ["@animeaux/dev-tools/reset"]
+    "types": ["node", "@animeaux/dev-tools/reset"]
   }
 }

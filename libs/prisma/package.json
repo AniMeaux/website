@@ -41,13 +41,14 @@
     "lint-fix:prettier": "prettier --write .",
     "migrate": "pnpm prisma-env migrate dev",
     "prisma-env": "NODE_OPTIONS=\"-r dotenv-flow/config\" prisma",
-    "reset": "pnpm prisma-env migrate reset -f",
+    "reset": "pnpm prisma-env migrate reset -f && pnpm prisma-env db seed",
     "studio": "pnpm prisma-env studio",
     "sync-workspace": "# See /docs/decisions/002-workspace-package-injection.md"
   },
   "dependencies": {
     "@prisma/adapter-pg": "catalog:",
     "@prisma/client": "catalog:",
+    "@types/react": "catalog:",
     "prisma": "catalog:"
   },
   "devDependencies": {

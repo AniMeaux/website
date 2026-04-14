@@ -4,7 +4,6 @@ import { parseFormData } from "@mjackson/form-data-parser"
 import type { ActionFunctionArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { captureException } from "@sentry/remix"
-import { v4 as uuid } from "uuid"
 
 import { Routes } from "#i/core/navigation.js"
 import { services } from "#i/core/services.server.js"
@@ -48,7 +47,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     try {
       return await reversibleUpload.upload(fileUpload, {
-        imageId: `show/exhibitors-logo/${uuid()}`,
+        imageId: `show/exhibitors-logo/${crypto.randomUUID()}`,
       })
     } catch (error) {
       captureException(error)
