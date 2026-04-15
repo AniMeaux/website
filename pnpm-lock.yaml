@@ -347,8 +347,8 @@ catalogs:
       specifier: ^4.3.1
       version: 4.18.3
     typescript:
-      specifier: ~5.4.5
-      version: 5.4.5
+      specifier: ~5.7.0
+      version: 5.7.3
     typescript-eslint:
       specifier: ^8.58.1
       version: 8.58.1
@@ -371,7 +371,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -386,34 +386,34 @@ importers:
         version: 3.8.2
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   apps/admin:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/form-data':
         specifier: workspace:*
-        version: file:libs/form-data(typescript@5.4.5)
+        version: file:libs/form-data(typescript@5.7.3)
       '@animeaux/password':
         specifier: workspace:*
         version: file:libs/password
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@animeaux/react-primitives':
         specifier: workspace:*
         version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: file:libs/zod-utils(typescript@5.4.5)
+        version: file:libs/zod-utils(typescript@5.7.3)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -434,16 +434,16 @@ importers:
         version: 1.2.4(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@remix-run/node':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/serve':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@sentry/remix':
         specifier: 'catalog:'
-        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       autosize:
         specifier: 'catalog:'
         version: 6.0.1
@@ -521,14 +521,14 @@ importers:
         version: 4.0.1
       remix-utils:
         specifier: 'catalog:'
-        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
+        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@animeaux/tailwind-animation':
         specifier: workspace:*
         version: file:libs/tailwind-animation
@@ -537,7 +537,7 @@ importers:
         version: 10.4.0
       '@remix-run/dev':
         specifier: 'catalog:'
-        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
       '@tailwindcss/container-queries':
         specifier: 'catalog:'
         version: 0.1.1(tailwindcss@3.4.3)
@@ -576,7 +576,7 @@ importers:
         version: 9.39.3(jiti@2.6.1)
       msw:
         specifier: 'catalog:'
-        version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
+        version: 2.13.2(@types/node@22.8.7)(typescript@5.7.3)
       node-html-parser:
         specifier: 'catalog:'
         version: 7.1.0
@@ -600,37 +600,37 @@ importers:
         version: 4.18.3
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
       vite:
         specifier: 'catalog:'
         version: 5.2.12(@types/node@22.8.7)
       vite-tsconfig-paths:
         specifier: 'catalog:'
-        version: 4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 4.3.2(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
 
   apps/show:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/file-storage':
         specifier: workspace:*
-        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/files-io':
         specifier: workspace:*
         version: file:libs/files-io
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@animeaux/react-primitives':
         specifier: workspace:*
         version: file:libs/react-primitives(@types/react@18.3.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: file:libs/zod-utils(typescript@5.4.5)
+        version: file:libs/zod-utils(typescript@5.7.3)
       '@conform-to/react':
         specifier: 'catalog:'
         version: 1.2.2(react@18.3.1)
@@ -666,16 +666,16 @@ importers:
         version: 1.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@remix-run/express':
         specifier: 'catalog:'
-        version: 2.9.2(express@4.18.2)(typescript@5.4.5)
+        version: 2.9.2(express@4.18.2)(typescript@5.7.3)
       '@remix-run/node':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@sentry/remix':
         specifier: 'catalog:'
-        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       '@unpic/pixels':
         specifier: 'catalog:'
         version: 1.3.0
@@ -729,7 +729,7 @@ importers:
         version: 4.0.1
       remix-utils:
         specifier: 'catalog:'
-        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
+        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
       resend:
         specifier: 'catalog:'
         version: 4.0.1-alpha.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -748,10 +748,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@remix-run/dev':
         specifier: 'catalog:'
-        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
       '@types/compression':
         specifier: 'catalog:'
         version: 1.8.1
@@ -790,7 +790,7 @@ importers:
         version: 9.39.3(jiti@2.6.1)
       msw:
         specifier: 'catalog:'
-        version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
+        version: 2.13.2(@types/node@22.8.7)(typescript@5.7.3)
       node-html-parser:
         specifier: 'catalog:'
         version: 7.1.0
@@ -811,34 +811,34 @@ importers:
         version: 4.18.3
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
       vite:
         specifier: 'catalog:'
         version: 5.2.12(@types/node@22.8.7)
       vite-tsconfig-paths:
         specifier: 'catalog:'
-        version: 4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 4.3.2(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
 
   apps/website:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: file:libs/zod-utils(typescript@5.4.5)
+        version: file:libs/zod-utils(typescript@5.7.3)
       '@remix-run/node':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/serve':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       body-scroll-lock:
         specifier: 'catalog:'
         version: 3.1.5
@@ -877,7 +877,7 @@ importers:
         version: 4.0.1
       remix-utils:
         specifier: 'catalog:'
-        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
+        version: 7.6.0(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8)
       tiny-invariant:
         specifier: 'catalog:'
         version: 1.3.3
@@ -887,10 +887,10 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@remix-run/dev':
         specifier: 'catalog:'
-        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
       '@types/body-scroll-lock':
         specifier: 'catalog:'
         version: 3.1.2
@@ -923,7 +923,7 @@ importers:
         version: 9.39.3(jiti@2.6.1)
       msw:
         specifier: 'catalog:'
-        version: 2.13.2(@types/node@22.8.7)(typescript@5.4.5)
+        version: 2.13.2(@types/node@22.8.7)(typescript@5.7.3)
       node-html-parser:
         specifier: 'catalog:'
         version: 7.1.0
@@ -944,25 +944,25 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
       vite:
         specifier: 'catalog:'
         version: 5.2.12(@types/node@22.8.7)
       vite-tsconfig-paths:
         specifier: 'catalog:'
-        version: 4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))
+        version: 4.3.2(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))
 
   libs/core:
     dependencies:
       '@animeaux/prisma':
         specifier: workspace:*
-        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@animeaux/search-params-io':
         specifier: workspace:*
-        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       es-toolkit:
         specifier: 'catalog:'
         version: 1.45.1
@@ -981,7 +981,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.7.1
@@ -1008,7 +1008,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/dev-tools:
     dependencies:
@@ -1020,7 +1020,7 @@ importers:
         version: 9.39.3(jiti@2.6.1)
       eslint-plugin-import-x:
         specifier: 'catalog:'
-        version: 4.16.2(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+        version: 4.16.2(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsx-a11y:
         specifier: 'catalog:'
         version: 6.10.2(eslint@9.39.3(jiti@2.6.1))
@@ -1035,7 +1035,7 @@ importers:
         version: 12.1.1(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-unused-imports:
         specifier: 'catalog:'
-        version: 4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+        version: 4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
       globals:
         specifier: 'catalog:'
         version: 15.15.0
@@ -1044,7 +1044,7 @@ importers:
         version: 3.8.2
       typescript-eslint:
         specifier: 'catalog:'
-        version: 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+        version: 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
     devDependencies:
       npm-run-all:
         specifier: 'catalog:'
@@ -1058,10 +1058,10 @@ importers:
     dependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: file:libs/zod-utils(typescript@5.4.5)
+        version: file:libs/zod-utils(typescript@5.7.3)
       '@mjackson/form-data-parser':
         specifier: 'catalog:'
         version: 0.4.0
@@ -1085,13 +1085,13 @@ importers:
         version: 1.27.0
       '@remix-run/node':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@sentry/remix':
         specifier: 'catalog:'
-        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       googleapis:
         specifier: 'catalog:'
         version: 144.0.0(encoding@0.1.13)
@@ -1101,7 +1101,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1122,7 +1122,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/files-io:
     dependencies:
@@ -1132,7 +1132,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1150,17 +1150,17 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/form-data:
     dependencies:
       '@animeaux/zod-utils':
         specifier: workspace:*
-        version: file:libs/zod-utils(typescript@5.4.5)
+        version: file:libs/zod-utils(typescript@5.7.3)
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1178,7 +1178,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/password:
     dependencies:
@@ -1188,7 +1188,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1209,7 +1209,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/prisma:
     dependencies:
@@ -1218,17 +1218,17 @@ importers:
         version: 7.5.0
       '@prisma/client':
         specifier: 'catalog:'
-        version: 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+        version: 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(typescript@5.7.3)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
       prisma:
         specifier: 'catalog:'
-        version: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@animeaux/password':
         specifier: workspace:*
         version: file:libs/password
@@ -1288,7 +1288,7 @@ importers:
         version: 4.18.3
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/react-primitives:
     dependencies:
@@ -1301,7 +1301,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
@@ -1322,13 +1322,13 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/search-params-io:
     dependencies:
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       es-toolkit:
         specifier: 'catalog:'
         version: 1.45.1
@@ -1338,7 +1338,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
@@ -1359,7 +1359,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/tailwind-animation:
     dependencies:
@@ -1369,7 +1369,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1387,7 +1387,7 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   libs/zod-utils:
     dependencies:
@@ -1408,13 +1408,13 @@ importers:
         version: 1.27.0
       '@remix-run/node':
         specifier: 'catalog:'
-        version: 2.9.2(typescript@5.4.5)
+        version: 2.9.2(typescript@5.7.3)
       '@remix-run/react':
         specifier: 'catalog:'
-        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+        version: 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@sentry/remix':
         specifier: 'catalog:'
-        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+        version: 8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       encoding:
         specifier: 'catalog:'
         version: 0.1.13
@@ -1436,7 +1436,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.7.1
@@ -1457,16 +1457,16 @@ importers:
         version: 1.8.16
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
   scripts:
     devDependencies:
       '@animeaux/core':
         specifier: workspace:*
-        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
+        version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1496,7 +1496,7 @@ importers:
         version: 4.21.0
       typescript:
         specifier: 'catalog:'
-        version: 5.4.5
+        version: 5.7.3
 
 packages:
 
@@ -8590,8 +8590,8 @@ packages:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.1.0'
 
-  typescript@5.4.5:
-    resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -9089,11 +9089,11 @@ snapshots:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@animeaux/core@file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+  '@animeaux/core@file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)':
     dependencies:
-      '@animeaux/prisma': file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      '@animeaux/search-params-io': file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@animeaux/prisma': file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
+      '@animeaux/search-params-io': file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       es-toolkit: 1.45.1
       luxon: 3.7.2
       react: 18.3.1
@@ -9106,19 +9106,19 @@ snapshots:
       - react-dom
       - typescript
 
-  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(jiti@2.6.1)(typescript@5.4.5)':
+  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)':
     dependencies:
       '@total-typescript/ts-reset': 0.6.1
       eslint: 9.39.3(jiti@2.6.1)
-      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-simple-import-sort: 12.1.1(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
       globals: 15.15.0
       prettier: 3.8.2
-      typescript-eslint: 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      typescript-eslint: 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
     optionalDependencies:
       prettier-plugin-tailwindcss: 0.6.1(prettier@3.8.2)
     transitivePeerDependencies:
@@ -9144,10 +9144,10 @@ snapshots:
       - supports-color
       - typescript
 
-  '@animeaux/file-storage@file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+  '@animeaux/file-storage@file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)':
     dependencies:
-      '@animeaux/core': file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)
-      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+      '@animeaux/core': file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.7.3)
       '@mjackson/form-data-parser': 0.4.0
       '@mjackson/lazy-file': 3.2.0
       '@opentelemetry/api': 1.9.0
@@ -9155,9 +9155,9 @@ snapshots:
       '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.27.0
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       googleapis: 144.0.0(encoding@0.1.13)
       react: 18.3.1
     transitivePeerDependencies:
@@ -9173,9 +9173,9 @@ snapshots:
     dependencies:
       tiny-invariant: 1.3.3
 
-  '@animeaux/form-data@file:libs/form-data(typescript@5.4.5)':
+  '@animeaux/form-data@file:libs/form-data(typescript@5.7.3)':
     dependencies:
-      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.4.5)
+      '@animeaux/zod-utils': file:libs/zod-utils(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -9184,12 +9184,12 @@ snapshots:
     dependencies:
       tiny-invariant: 1.3.3
 
-  '@animeaux/prisma@file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
+  '@animeaux/prisma@file:libs/prisma(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)':
     dependencies:
       '@prisma/adapter-pg': 7.5.0
-      '@prisma/client': 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)
+      '@prisma/client': 7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(typescript@5.7.3)
       '@types/react': 18.3.3
-      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
     transitivePeerDependencies:
       - better-sqlite3
       - magicast
@@ -9205,9 +9205,9 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@animeaux/search-params-io@file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.4.5)':
+  '@animeaux/search-params-io@file:libs/search-params-io(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)':
     dependencies:
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       es-toolkit: 1.45.1
       react: 18.3.1
     transitivePeerDependencies:
@@ -9220,16 +9220,16 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  '@animeaux/zod-utils@file:libs/zod-utils(typescript@5.4.5)':
+  '@animeaux/zod-utils@file:libs/zod-utils(typescript@5.7.3)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.27.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.54.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.27.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.27.0
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
+      '@sentry/remix': 8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)
       encoding: 0.1.13
       luxon: 3.7.2
       react: 18.3.1
@@ -10556,12 +10556,12 @@ snapshots:
 
   '@prisma/client-runtime-utils@7.5.0': {}
 
-  '@prisma/client@7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(typescript@5.4.5)':
+  '@prisma/client@7.5.0(prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(typescript@5.7.3)':
     dependencies:
       '@prisma/client-runtime-utils': 7.5.0
     optionalDependencies:
-      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
-      typescript: 5.4.5
+      prisma: 7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
+      typescript: 5.7.3
 
   '@prisma/config@7.5.0':
     dependencies:
@@ -10576,7 +10576,7 @@ snapshots:
 
   '@prisma/debug@7.5.0': {}
 
-  '@prisma/dev@0.20.0(typescript@5.4.5)':
+  '@prisma/dev@0.20.0(typescript@5.7.3)':
     dependencies:
       '@electric-sql/pglite': 0.3.15
       '@electric-sql/pglite-socket': 0.0.20(@electric-sql/pglite@0.3.15)
@@ -10593,7 +10593,7 @@ snapshots:
       proper-lockfile: 4.1.2
       remeda: 2.33.4
       std-env: 3.10.0
-      valibot: 1.2.0(typescript@5.4.5)
+      valibot: 1.2.0(typescript@5.7.3)
       zeptomatch: 2.1.0
     transitivePeerDependencies:
       - typescript
@@ -11145,7 +11145,7 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@remix-run/dev@2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/serve@2.9.2(typescript@5.4.5))(@types/node@22.8.7)(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7))':
+  '@remix-run/dev@2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7))':
     dependencies:
       '@babel/core': 7.22.8
       '@babel/generator': 7.23.6
@@ -11157,10 +11157,10 @@ snapshots:
       '@babel/types': 7.23.6
       '@mdx-js/mdx': 2.3.0
       '@npmcli/package-json': 4.0.1
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/router': 1.16.1
-      '@remix-run/server-runtime': 2.9.2(typescript@5.4.5)
+      '@remix-run/server-runtime': 2.9.2(typescript@5.7.3)
       '@types/mdx': 2.0.10
       '@vanilla-extract/integration': 6.2.1(@types/node@22.8.7)
       arg: 5.0.2
@@ -11202,8 +11202,8 @@ snapshots:
       tsconfig-paths: 4.1.2
       ws: 7.5.9
     optionalDependencies:
-      '@remix-run/serve': 2.9.2(typescript@5.4.5)
-      typescript: 5.4.5
+      '@remix-run/serve': 2.9.2(typescript@5.7.3)
+      typescript: 5.7.3
       vite: 5.2.12(@types/node@22.8.7)
     transitivePeerDependencies:
       - '@types/node'
@@ -11218,16 +11218,16 @@ snapshots:
       - ts-node
       - utf-8-validate
 
-  '@remix-run/express@2.9.2(express@4.18.2)(typescript@5.4.5)':
+  '@remix-run/express@2.9.2(express@4.18.2)(typescript@5.7.3)':
     dependencies:
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
       express: 4.18.2
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
-  '@remix-run/node@2.9.2(typescript@5.4.5)':
+  '@remix-run/node@2.9.2(typescript@5.7.3)':
     dependencies:
-      '@remix-run/server-runtime': 2.9.2(typescript@5.4.5)
+      '@remix-run/server-runtime': 2.9.2(typescript@5.7.3)
       '@remix-run/web-fetch': 4.4.2
       '@web3-storage/multipart-parser': 1.0.0
       cookie-signature: 1.2.2
@@ -11235,28 +11235,28 @@ snapshots:
       stream-slice: 0.1.2
       undici: 6.18.2
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
-  '@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)':
+  '@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)':
     dependencies:
       '@remix-run/router': 1.16.1
-      '@remix-run/server-runtime': 2.9.2(typescript@5.4.5)
+      '@remix-run/server-runtime': 2.9.2(typescript@5.7.3)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-router: 6.23.1(react@18.3.1)
       react-router-dom: 6.23.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       turbo-stream: 2.1.0
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
   '@remix-run/router@1.16.1': {}
 
   '@remix-run/router@1.21.0': {}
 
-  '@remix-run/serve@2.9.2(typescript@5.4.5)':
+  '@remix-run/serve@2.9.2(typescript@5.7.3)':
     dependencies:
-      '@remix-run/express': 2.9.2(express@4.18.2)(typescript@5.4.5)
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
+      '@remix-run/express': 2.9.2(express@4.18.2)(typescript@5.7.3)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
       chokidar: 3.6.0
       compression: 1.7.4
       express: 4.18.2
@@ -11267,7 +11267,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@remix-run/server-runtime@2.9.2(typescript@5.4.5)':
+  '@remix-run/server-runtime@2.9.2(typescript@5.7.3)':
     dependencies:
       '@remix-run/router': 1.16.1
       '@types/cookie': 0.6.0
@@ -11277,7 +11277,7 @@ snapshots:
       source-map: 0.7.4
       turbo-stream: 2.1.0
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
   '@remix-run/web-blob@3.1.0':
     dependencies:
@@ -11512,10 +11512,10 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 18.3.1
 
-  '@sentry/remix@8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)':
+  '@sentry/remix@8.37.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)':
     dependencies:
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/router': 1.21.0
       '@sentry/cli': 2.38.2(encoding@0.1.13)
       '@sentry/core': 8.37.1
@@ -11537,10 +11537,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@sentry/remix@8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(encoding@0.1.13)(react@18.3.1)':
+  '@sentry/remix@8.37.1(@opentelemetry/api@1.9.1)(@opentelemetry/core@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/instrumentation@0.54.2(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@1.27.0(@opentelemetry/api@1.9.1))(@opentelemetry/semantic-conventions@1.27.0)(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(encoding@0.1.13)(react@18.3.1)':
     dependencies:
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/router': 1.21.0
       '@sentry/cli': 2.38.2(encoding@0.1.13)
       '@sentry/core': 8.37.1
@@ -11756,77 +11756,77 @@ snapshots:
 
   '@types/unist@3.0.2': {}
 
-  '@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       '@typescript-eslint/scope-manager': 8.56.0
-      '@typescript-eslint/type-utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/type-utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       '@typescript-eslint/visitor-keys': 8.56.0
       eslint: 9.39.3(jiti@2.6.1)
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.4.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.4.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/parser': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       '@typescript-eslint/scope-manager': 8.58.1
-      '@typescript-eslint/type-utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/type-utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       '@typescript-eslint/visitor-keys': 8.58.1
       eslint: 9.39.3(jiti@2.6.1)
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.5.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.5.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.56.0
       '@typescript-eslint/types': 8.56.0
-      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
       '@typescript-eslint/visitor-keys': 8.56.0
       debug: 4.4.3
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.58.1
       '@typescript-eslint/types': 8.58.1
-      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.7.3)
       '@typescript-eslint/visitor-keys': 8.58.1
       debug: 4.4.3
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.56.0(typescript@5.4.5)':
+  '@typescript-eslint/project-service@8.56.0(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.4.5)
+      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.7.3)
       '@typescript-eslint/types': 8.56.0
       debug: 4.4.3
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.58.1(typescript@5.4.5)':
+  '@typescript-eslint/project-service@8.58.1(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.58.1(typescript@5.4.5)
+      '@typescript-eslint/tsconfig-utils': 8.58.1(typescript@5.7.3)
       '@typescript-eslint/types': 8.58.1
       debug: 4.4.3
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11840,35 +11840,35 @@ snapshots:
       '@typescript-eslint/types': 8.58.1
       '@typescript-eslint/visitor-keys': 8.58.1
 
-  '@typescript-eslint/tsconfig-utils@8.56.0(typescript@5.4.5)':
+  '@typescript-eslint/tsconfig-utils@8.56.0(typescript@5.7.3)':
     dependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
-  '@typescript-eslint/tsconfig-utils@8.58.1(typescript@5.4.5)':
+  '@typescript-eslint/tsconfig-utils@8.58.1(typescript@5.7.3)':
     dependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
-  '@typescript-eslint/type-utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/type-utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/types': 8.56.0
-      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       debug: 4.4.3
       eslint: 9.39.3(jiti@2.6.1)
-      ts-api-utils: 2.4.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.4.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/type-utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/type-utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/types': 8.58.1
-      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       debug: 4.4.3
       eslint: 9.39.3(jiti@2.6.1)
-      ts-api-utils: 2.5.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.5.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11876,55 +11876,55 @@ snapshots:
 
   '@typescript-eslint/types@8.58.1': {}
 
-  '@typescript-eslint/typescript-estree@8.56.0(typescript@5.4.5)':
+  '@typescript-eslint/typescript-estree@8.56.0(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.56.0(typescript@5.4.5)
-      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.4.5)
+      '@typescript-eslint/project-service': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.7.3)
       '@typescript-eslint/types': 8.56.0
       '@typescript-eslint/visitor-keys': 8.56.0
       debug: 4.4.3
       minimatch: 9.0.6
       semver: 7.7.4
       tinyglobby: 0.2.15
-      ts-api-utils: 2.4.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.4.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/typescript-estree@8.58.1(typescript@5.4.5)':
+  '@typescript-eslint/typescript-estree@8.58.1(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.58.1(typescript@5.4.5)
-      '@typescript-eslint/tsconfig-utils': 8.58.1(typescript@5.4.5)
+      '@typescript-eslint/project-service': 8.58.1(typescript@5.7.3)
+      '@typescript-eslint/tsconfig-utils': 8.58.1(typescript@5.7.3)
       '@typescript-eslint/types': 8.58.1
       '@typescript-eslint/visitor-keys': 8.58.1
       debug: 4.4.3
       minimatch: 10.2.5
       semver: 7.7.4
       tinyglobby: 0.2.15
-      ts-api-utils: 2.5.0(typescript@5.4.5)
-      typescript: 5.4.5
+      ts-api-utils: 2.5.0(typescript@5.7.3)
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/utils@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.3(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.56.0
       '@typescript-eslint/types': 8.56.0
-      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)':
+  '@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.3(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.58.1
       '@typescript-eslint/types': 8.58.1
-      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.7.3)
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
@@ -13306,7 +13306,7 @@ snapshots:
     optionalDependencies:
       unrs-resolver: 1.11.1
 
-  eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1)):
+  eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       '@typescript-eslint/types': 8.56.0
       comment-parser: 1.4.5
@@ -13319,11 +13319,11 @@ snapshots:
       stable-hash-x: 0.2.0
       unrs-resolver: 1.11.1
     optionalDependencies:
-      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import-x@4.16.2(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1)):
+  eslint-plugin-import-x@4.16.2(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       '@package-json/types': 0.0.12
       '@typescript-eslint/types': 8.56.0
@@ -13337,7 +13337,7 @@ snapshots:
       stable-hash-x: 0.2.0
       unrs-resolver: 1.11.1
     optionalDependencies:
-      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -13390,11 +13390,11 @@ snapshots:
     dependencies:
       eslint: 9.39.3(jiti@2.6.1)
 
-  eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1)):
+  eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.3(jiti@2.6.1)
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/eslint-plugin': 8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
 
   eslint-scope@8.4.0:
     dependencies:
@@ -15555,7 +15555,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.13.2(@types/node@22.8.7)(typescript@5.4.5):
+  msw@2.13.2(@types/node@22.8.7)(typescript@5.7.3):
     dependencies:
       '@inquirer/confirm': 5.1.21(@types/node@22.8.7)
       '@mswjs/interceptors': 0.41.3
@@ -15576,7 +15576,7 @@ snapshots:
       until-async: 3.0.2
       yargs: 17.7.2
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - '@types/node'
 
@@ -16305,16 +16305,16 @@ snapshots:
     dependencies:
       parse-ms: 2.1.0
 
-  prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5):
+  prisma@7.5.0(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3):
     dependencies:
       '@prisma/config': 7.5.0
-      '@prisma/dev': 0.20.0(typescript@5.4.5)
+      '@prisma/dev': 0.20.0(typescript@5.7.3)
       '@prisma/engines': 7.5.0
       '@prisma/studio-core': 0.21.1(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       mysql2: 3.15.3
       postgres: 3.4.7
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - '@types/react'
       - magicast
@@ -16688,12 +16688,12 @@ snapshots:
 
   remeda@2.33.4: {}
 
-  remix-utils@7.6.0(@remix-run/node@2.9.2(typescript@5.4.5))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8):
+  remix-utils@7.6.0(@remix-run/node@2.9.2(typescript@5.7.3))(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/router@1.21.0)(react@18.3.1)(zod@3.23.8):
     dependencies:
       type-fest: 4.18.3
     optionalDependencies:
-      '@remix-run/node': 2.9.2(typescript@5.4.5)
-      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.4.5)
+      '@remix-run/node': 2.9.2(typescript@5.7.3)
+      '@remix-run/react': 2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       '@remix-run/router': 1.21.0
       react: 18.3.1
       zod: 3.23.8
@@ -17319,13 +17319,13 @@ snapshots:
 
   trough@2.1.0: {}
 
-  ts-api-utils@2.4.0(typescript@5.4.5):
+  ts-api-utils@2.4.0(typescript@5.7.3):
     dependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
-  ts-api-utils@2.5.0(typescript@5.4.5):
+  ts-api-utils@2.5.0(typescript@5.7.3):
     dependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
   ts-interface-checker@0.1.13: {}
 
@@ -17339,9 +17339,9 @@ snapshots:
       normalize-path: 3.0.0
       plimit-lit: 1.6.1
 
-  tsconfck@3.1.0(typescript@5.4.5):
+  tsconfck@3.1.0(typescript@5.7.3):
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
   tsconfig-paths@4.1.2:
     dependencies:
@@ -17423,29 +17423,29 @@ snapshots:
       possible-typed-array-names: 1.0.0
       reflect.getprototypeof: 1.0.10
 
-  typescript-eslint@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5):
+  typescript-eslint@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/parser': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/eslint-plugin': 8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  typescript-eslint@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5):
+  typescript-eslint@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5))(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/parser': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
-      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.4.5)
-      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.4.5)
+      '@typescript-eslint/eslint-plugin': 8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/typescript-estree': 8.58.1(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.3(jiti@2.6.1)
-      typescript: 5.4.5
+      typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  typescript@5.4.5: {}
+  typescript@5.7.3: {}
 
   ufo@1.5.3: {}
 
@@ -17648,9 +17648,9 @@ snapshots:
       kleur: 4.1.5
       sade: 1.8.1
 
-  valibot@1.2.0(typescript@5.4.5):
+  valibot@1.2.0(typescript@5.7.3):
     optionalDependencies:
-      typescript: 5.4.5
+      typescript: 5.7.3
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -17712,11 +17712,11 @@ snapshots:
       - supports-color
       - terser
 
-  vite-tsconfig-paths@4.3.2(typescript@5.4.5)(vite@5.2.12(@types/node@22.8.7)):
+  vite-tsconfig-paths@4.3.2(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7)):
     dependencies:
       debug: 4.3.7
       globrex: 0.1.2
-      tsconfck: 3.1.0(typescript@5.4.5)
+      tsconfck: 3.1.0(typescript@5.7.3)
     optionalDependencies:
       vite: 5.2.12(@types/node@22.8.7)
     transitivePeerDependencies:

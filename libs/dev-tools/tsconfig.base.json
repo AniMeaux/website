@@ -19,10 +19,14 @@
 
     // Strictness.
     "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
+    "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true
+    "strict": true,
+    "useUnknownInCatchVariables": true
   }
 }
