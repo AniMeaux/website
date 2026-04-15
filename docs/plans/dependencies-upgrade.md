@@ -37,7 +37,7 @@ those plugins ship compatible releases.
 
 | Phase                                         | Status      |
 | --------------------------------------------- | ----------- |
-| [Phase 1: TypeScript][phase-1]                | Not started |
+| [Phase 1: TypeScript][phase-1]                | Complete    |
 | [Phase 2: Vite][phase-2]                      | Not started |
 | [Phase 3: Tailwind CSS 4][phase-3]            | Not started |
 | [Phase 4: Express v5][phase-4]                | Not started |
