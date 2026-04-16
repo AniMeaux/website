@@ -15,11 +15,12 @@ The upgrades are:
 - **Express** `^4.x` has been superseded by Express 5.
 - **Zod** `^3.x` has been superseded by Zod 4.
 - **React Email + Resend** have each had major releases.
-- **Remix v2** (`@remix-run/*` `~2.9.2`) has been rebranded and merged into
-  **React Router v7** (`react-router` `^7.0.0`). The dedicated Sentry package
-  for React Router v7 is `@sentry/react-router`, which already ships
-  **OpenTelemetry** core v2, so the OpenTelemetry upgrade is folded into this
-  phase.
+- **Remix v2** (`@remix-run/*` `~2.9.2`) should first be upgraded to **v2.17.4**
+  so it can work with both Vite 5 and Vite 6 (`@remix-run/dev 2.17.4` peers
+  `vite ^5.1.0 || ^6.0.0`), then migrated to **React Router v7** (`react-router`
+  `^7.0.0`). The dedicated Sentry package for React Router v7 is
+  `@sentry/react-router`, which ships OpenTelemetry core v2 as a dependency, so
+  the OpenTelemetry upgrade is folded into that phase.
 - **React** `^18.x` has been superseded by React 19.
 - Several standalone packages have also had major releases that can be applied
   at any time.
@@ -38,13 +39,14 @@ those plugins ship compatible releases.
 | Phase                                         | Status      |
 | --------------------------------------------- | ----------- |
 | [Phase 1: TypeScript][phase-1]                | Complete    |
-| [Phase 2: Vite][phase-2]                      | Not started |
-| [Phase 3: Tailwind CSS 4][phase-3]            | Not started |
-| [Phase 4: Express v5][phase-4]                | Not started |
-| [Phase 5: Zod v4][phase-5]                    | Not started |
-| [Phase 6: React Email + Resend][phase-6]      | Not started |
-| [Phase 7: React Router v7 migration][phase-7] | Not started |
-| [Phase 8: React 19][phase-8]                  | Not started |
+| [Phase 2: Tailwind CSS 4][phase-2]            | Not started |
+| [Phase 3: Remix v2.17.4][phase-3]             | Not started |
+| [Phase 4: Vite 6][phase-4]                    | Not started |
+| [Phase 5: Express v5][phase-5]                | Not started |
+| [Phase 6: Zod v4][phase-6]                    | Not started |
+| [Phase 7: React Email + Resend][phase-7]      | Not started |
+| [Phase 8: React Router v7 migration][phase-8] | Not started |
+| [Phase 9: React 19][phase-9]                  | Not started |
 | [Standalone upgrades][standalone-upgrades]    | Complete    |
 
 Update each status as work starts and completes. Keep implementation details in
@@ -53,9 +55,9 @@ the related phase section below.
 ## Dependencies to upgrade
 
 | Package                          | Current          | Target                                | Note                                                                                                  |
-| -------------------------------- | ---------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| -------------------------------- | ---------------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------- | --- | ---------------------------------------------------- |
 | `typescript`                     | `~5.4.5`         | `~5.7.0`                              | Several minor releases behind.                                                                        |
-| `vite`                           | `^5.2.12`        | `^6.0.0`                              | Major release.                                                                                        |
+| `vite`                           | `^5.2.12`        | `^6.0.0`                              | Major release; requires Remix `@remix-run/dev` `~2.17.4` first.                                       |
 | `vite-tsconfig-paths`            | `^4.3.2`         | `^6.0.0`                              | Upgrade together with Vite.                                                                           |
 | `tailwindcss`                    | `^3.3.3`         | `^4.0.0`                              | Major release; breaking config changes.                                                               |
 | `@tailwindcss/container-queries` | `^0.1.1`         | _(remove)_                            | Merged into Tailwind CSS 4 core.                                                                      |
@@ -69,11 +71,11 @@ the related phase section below.
 | `@react-email/render`            | `^1.0.2`         | `^2.0.0`                              | Major release; compatible with React 18.                                                              |
 | `resend`                         | `^4.0.1-alpha.0` | `^6.0.0`                              | Major release; upgrade together with `@react-email/render`.                                           |
 | `react-router`                   | `^6.23.1`        | `^7.0.0`                              | Major release; replaces `@remix-run/*`.                                                               |
-| `@remix-run/dev`                 | `~2.9.2`         | _(remove)_                            | Replaced by `react-router` v7 tooling.                                                                |
-| `@remix-run/express`             | `~2.9.2`         | _(remove)_                            | Replaced by `react-router`.                                                                           |
-| `@remix-run/node`                | `~2.9.2`         | _(remove)_                            | Replaced by `react-router`.                                                                           |
-| `@remix-run/react`               | `~2.9.2`         | _(remove)_                            | Replaced by `react-router`.                                                                           |
-| `@remix-run/serve`               | `~2.9.2`         | _(remove)_                            | Replaced by `react-router`.                                                                           |
+| `@remix-run/dev`                 | `~2.9.2`         | `~2.17.4` (_then remove_)             | Interim upgrade to unlock Vite 6 (`^5.1.0                                                             |     | ^6.0.0`), then remove during React Router migration. |
+| `@remix-run/express`             | `~2.9.2`         | `~2.17.4` (_then remove_)             | Interim upgrade first, then remove during React Router migration.                                     |
+| `@remix-run/node`                | `~2.9.2`         | `~2.17.4` (_then remove_)             | Interim upgrade first, then remove during React Router migration.                                     |
+| `@remix-run/react`               | `~2.9.2`         | `~2.17.4` (_then remove_)             | Interim upgrade first, then remove during React Router migration.                                     |
+| `@remix-run/serve`               | `~2.9.2`         | `~2.17.4` (_then remove_)             | Interim upgrade first, then remove during React Router migration.                                     |
 | `@sentry/remix`                  | `^8.37.1`        | `@sentry/react-router ^10.0.0`        | The dedicated Sentry package for React Router v7; upgrade together with `react-router`.               |
 | `@opentelemetry/core`            | `^1.27.0`        | `^2.0.0`                              | Upgrade together with `@sentry/react-router`, which ships `@opentelemetry/core ^2.x` as a dependency. |
 | `@opentelemetry/sdk-trace-base`  | `^1.27.0`        | `^2.0.0`                              | Upgrade together with `@sentry/react-router`; v2 is compatible with `@opentelemetry/api` v1.9.x.      |
@@ -117,9 +119,9 @@ must be upgraded together or verified for compatibility.
 
 ## Upgrade order
 
-The dependencies are grouped into eight phases plus a set of standalone upgrades
+The dependencies are grouped into nine phases plus a set of standalone upgrades
 that can be applied at any time. Within each phase, dependencies have no
-cross-constraints with each other. Phases 3, 7, and 8 must be applied per app to
+cross-constraints with each other. Phases 2, 8, and 9 must be applied per app to
 leverage the workspace package injection approach from [002][002].
 
 ### Phase 1 — TypeScript (workspace-wide)
@@ -131,20 +133,9 @@ upgraded once for the whole workspace without risk.
 
 - `typescript`: `~5.4.5` → `~5.7.0`
 
-### Phase 2 — Vite (workspace-wide)
+### Phase 2 — Tailwind CSS 4 (per app)
 
-[phase-2]: #phase-2--vite-workspace-wide
-
-Vite has no peer dependency constraints with the other upgrades. It can be
-upgraded once for the whole workspace. `vite-tsconfig-paths` must be upgraded at
-the same time because its current version range does not cover Vite 6.
-
-- `vite`: `^5.2.12` → `^6.0.0`
-- `vite-tsconfig-paths`: `^4.3.2` → `^6.0.0`
-
-### Phase 3 — Tailwind CSS 4 (per app)
-
-[phase-3]: #phase-3--tailwind-css-4-per-app
+[phase-2]: #phase-2--tailwind-css-4-per-app
 
 Tailwind CSS v4 introduces a fundamentally different configuration model.
 `prettier-plugin-tailwindcss` must be upgraded at the same time to match the new
@@ -166,9 +157,34 @@ Affected libs:
   use a Tailwind CSS v3-specific option that must be updated for v4)
 - `libs/tailwind-animation`
 
-### Phase 4 — Express v5 (apps/show)
+### Phase 3 — Remix v2.17.4 (workspace-wide)
 
-[phase-4]: #phase-4--express-v5-appsshow
+[phase-3]: #phase-3--remix-v2174-workspace-wide
+
+Remix v2.9.2 blocks Vite 6 because `@remix-run/dev` peers `vite ^5.1.0`.
+Upgrading to Remix v2.17.4 first removes that blocker because
+`@remix-run/dev 2.17.4` peers `vite ^5.1.0 || ^6.0.0`.
+
+- `@remix-run/dev`: `~2.9.2` → `~2.17.4`
+- `@remix-run/express`: `~2.9.2` → `~2.17.4`
+- `@remix-run/node`: `~2.9.2` → `~2.17.4`
+- `@remix-run/react`: `~2.9.2` → `~2.17.4`
+- `@remix-run/serve`: `~2.9.2` → `~2.17.4`
+
+### Phase 4 — Vite 6 (workspace-wide)
+
+[phase-4]: #phase-4--vite-6-workspace-wide
+
+After Remix v2.17.4 is in place, Vite 6 can be upgraded once for the whole
+workspace. `vite-tsconfig-paths` must be upgraded at the same time because its
+current version range does not cover Vite 6.
+
+- `vite`: `^5.2.12` → `^6.0.0`
+- `vite-tsconfig-paths`: `^4.3.2` → `^6.0.0`
+
+### Phase 5 — Express v5 (apps/show)
+
+[phase-5]: #phase-5--express-v5-appsshow
 
 Express v5 is used only in `apps/show` for the custom server. It is independent
 of the Remix or React upgrades and can be applied on its own.
@@ -177,9 +193,9 @@ Affected apps:
 
 - `apps/show`
 
-### Phase 5 — Zod v4 (workspace-wide)
+### Phase 6 — Zod v4 (workspace-wide)
 
-[phase-5]: #phase-5--zod-v4-workspace-wide
+[phase-6]: #phase-6--zod-v4-workspace-wide
 
 Zod v4 has breaking API changes. `zod-form-data` must be upgraded together to
 its v3 release, which is the first version to officially support Zod 4.
@@ -197,9 +213,9 @@ Affected libs:
 - `libs/form-data`
 - `libs/zod-utils`
 
-### Phase 6 — React Email + Resend (apps/show)
+### Phase 7 — React Email + Resend (apps/show)
 
-[phase-6]: #phase-6--react-email--resend-appsshow
+[phase-7]: #phase-7--react-email--resend-appsshow
 
 `@react-email/components` and `@react-email/render` have both had major
 releases. `resend` declares a peer dependency on `@react-email/render` and must
@@ -210,9 +226,9 @@ Affected apps:
 
 - `apps/show`
 
-### Phase 7 — React Router v7 / Remix migration (per app)
+### Phase 8 — React Router v7 / Remix migration (per app)
 
-[phase-7]: #phase-7--react-router-v7--remix-migration-per-app
+[phase-8]: #phase-8--react-router-v7--remix-migration-per-app
 
 React Router v7 is the successor to Remix v2. The `@remix-run/*` packages are
 replaced by a single `react-router` package. React Router v7 supports both React
@@ -244,9 +260,9 @@ Affected libs:
 - `libs/search-params-io`
 - `libs/zod-utils`
 
-### Phase 8 — React 19 (per app)
+### Phase 9 — React 19 (per app)
 
-[phase-8]: #phase-8--react-19-per-app
+[phase-9]: #phase-9--react-19-per-app
 
 React 19 should be the last upgrade because it has the widest ecosystem impact.
 React Router v7 must already be in place before upgrading React, as
