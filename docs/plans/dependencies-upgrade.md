@@ -39,7 +39,7 @@ those plugins ship compatible releases.
 | Phase                                         | Status      |
 | --------------------------------------------- | ----------- |
 | [Phase 1: TypeScript][phase-1]                | Complete    |
-| [Phase 2: Tailwind CSS 4][phase-2]            | Not started |
+| [Phase 2: Tailwind CSS 4][phase-2]            | In progress |
 | [Phase 3: Remix v2.17.4][phase-3]             | Not started |
 | [Phase 4: Vite 6][phase-4]                    | Not started |
 | [Phase 5: Express v5][phase-5]                | Not started |
@@ -155,7 +155,7 @@ Affected libs:
 
 - `libs/dev-tools` (`prettier-plugin-tailwindcss` and its `createConfig` helper
   use a Tailwind CSS v3-specific option that must be updated for v4)
-- `libs/tailwind-animation`
+- `libs/tailwindcss-peekaboo`
 
 ### Phase 3 — Remix v2.17.4 (workspace-wide)
 

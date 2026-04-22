@@ -9,6 +9,9 @@
     { "pattern": "./apps/*/" },
     { "pattern": "./libs/*/" }
   ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "prettier.ignorePath": ".prettierignore.ide",
   "search.exclude": {
@@ -18,6 +21,7 @@
   "tailwindCSS.experimental.configFile": {
     "apps/admin/tailwind.config.ts": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
-    "apps/show/tailwind.config.ts": "apps/show/**"
+    "apps/show/tailwind.config.ts": "apps/show/**",
+    "libs/tailwindcss-peekaboo/storybook/styles.css": "libs/tailwindcss-peekaboo/**"
   }
 }
