@@ -1,3 +1,6 @@
+# Claude Code worktrees created for agentic tasks.
+/.claude/worktrees/
+
 # Environment variable files with local overrides.
 /.env*.local
 
