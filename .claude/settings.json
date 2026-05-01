@@ -6,11 +6,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "prettier --write --log-level silent \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 2>/dev/null || true"
+            "command": "dir=\"$(dirname \"$CLAUDE_TOOL_INPUT_FILE_PATH\")\"; while [[ ! -f \"$dir/package.json\" ]] && [[ \"$dir\" != \"/\" ]]; do dir=\"$(dirname \"$dir\")\"; done; [[ -f \"$dir/package.json\" ]] && cd \"$dir\" && pnpm exec prettier --write --log-level warn \"$CLAUDE_TOOL_INPUT_FILE_PATH\""
           },
           {
             "type": "command",
-            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" =~ \\.(js|ts|tsx)$ ]]; then eslint --cache --cache-location ./node_modules/.cache/eslint --fix --max-warnings 0 \"$CLAUDE_TOOL_INPUT_FILE_PATH\" 2>/dev/null || true; fi"
+            "command": "if [[ \"$CLAUDE_TOOL_INPUT_FILE_PATH\" =~ \\.(js|ts|tsx)$ ]]; then dir=\"$(dirname \"$CLAUDE_TOOL_INPUT_FILE_PATH\")\"; while [[ ! -f \"$dir/package.json\" ]] && [[ \"$dir\" != \"/\" ]]; do dir=\"$(dirname \"$dir\")\"; done; [[ -f \"$dir/package.json\" ]] && cd \"$dir\" && pnpm exec eslint --cache --cache-location ./node_modules/.cache/eslint --fix --max-warnings 0 \"$CLAUDE_TOOL_INPUT_FILE_PATH\"; fi"
           }
         ]
       }
