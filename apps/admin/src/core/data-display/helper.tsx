@@ -22,7 +22,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
         BLOCK_VARIANT_CLASS_NAME[variant],
       )}
     >
-      <span className="flex text-[20px]">
+      <span className="flex icon-2">
         <Icon href={icon ?? VARIANT_ICON[variant]} />
       </span>
 
@@ -58,7 +58,7 @@ export function InlineHelper({
         VARIANT_CLASS_NAME[variant],
       )}
     >
-      <span className="flex text-[20px]">
+      <span className="flex icon-2">
         <Icon href={icon ?? VARIANT_ICON[variant]} />
       </span>
 

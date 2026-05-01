@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "@animeaux/tailwindcss-peekaboo";
+
+@import "./animations.css";
+@import "./custom-scrollbars.css";
+@import "./globals.css";
+@import "./grid-columns.css";
+@import "./icon-sizes.css";
+@import "./inherit-background.css";
+@import "./safe-areas.css";
+@import "./states.css";
+@import "./text-styles.css";
+@import "./theme.css";

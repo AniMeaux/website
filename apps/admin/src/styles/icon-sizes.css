@@ -1,0 +1,7 @@
+/*
+ * Alias of `text-[<value>]` for usage in icon component because it feels more
+ * natural to use `icon-<size>` than `text-[<value>]`.
+ */
+@utility icon-* {
+  font-size: --spacing(--value(number));
+}

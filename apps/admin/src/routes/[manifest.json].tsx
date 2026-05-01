@@ -4,7 +4,7 @@ import Bowser from "bowser"
 
 import { Routes } from "#i/core/navigation.js"
 import { getPageTitle } from "#i/core/page-title.js"
-import { theme } from "#i/generated/theme.js"
+import { Color } from "#i/generated/theme.js"
 import googleTouchIcon from "#i/images/google-touch-icon.png"
 import googleTouchIconMac from "#i/images/google-touch-icon-mac.png"
 import googleTouchIconMaskable from "#i/images/google-touch-icon-maskable.png"
@@ -28,8 +28,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json({
     name: getPageTitle(),
     short_name: getPageTitle(),
-    background_color: theme.colors.white,
-    theme_color: theme.colors.blue[500],
+    background_color: Color.white,
+    theme_color: Color.primary,
     display: isDesktop ? "minimal-ui" : "standalone",
     scope: Routes.home.toString(),
     start_url: `${Routes.home.toString()}?source=pwa`,

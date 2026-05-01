@@ -26,7 +26,7 @@ import { NextSearchParams } from "#i/core/search-params.js"
 import { getCurrentUserPreferences } from "#i/current-user/preferences.server.js"
 import type { IconName } from "#i/generated/icon.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 import nameAndLogo from "#i/images/name-and-logo.svg"
 import { GlobalSearch } from "#i/routes/resources.global-search/input.js"
 import { usePreferencesFetcher } from "#i/routes/resources.preferences/fetcher.js"
@@ -55,11 +55,11 @@ export default function Route() {
   useCurrentUserForMonitoring(currentUser)
 
   return (
-    <div className="grid grid-cols-1 items-start md:grid-cols-[auto,minmax(0px,1fr)]">
+    <div className="grid grid-cols-1 items-start md:grid-cols-auto-fr">
       <CurrentUserSideBar />
 
       <div className="flex flex-col" style={{ "--header-height": "60px" }}>
-        <header className="grid w-full grid-cols-[minmax(0px,1fr)_auto] items-center justify-between gap-1 bg-white pb-0.5 pt-safe-0.5 px-safe-1.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pb-1 md:pl-2 md:pr-safe-2 md:pt-safe-1">
+        <header className="grid w-full grid-cols-fr-auto items-center justify-between gap-1 bg-white pt-safe-0.5 px-safe-1.5 pb-0.5 md:sticky md:top-0 md:z-20 md:grid-cols-[minmax(200px,500px)_auto] md:gap-4 md:border-l md:border-gray-50 md:pt-safe-1 md:pr-safe-2 md:pb-1 md:pl-2">
           <GlobalSearch currentUser={currentUser} />
           <CurrentUserMenu />
         </header>
@@ -259,7 +259,7 @@ function CurrentUserMenu() {
 
   return (
     <DropdownSheet open={isOpened} onOpenChange={setIsOpened}>
-      <DropdownSheet.Trigger className="flex items-center gap-1 rounded-0.5 focus-visible:focus-spaced-blue-400">
+      <DropdownSheet.Trigger className="flex items-center gap-1 rounded-0.5 focus-ring-spaced focus-visible:focus-ring">
         <span className="hidden md:inline-flex">{currentUser.displayName}</span>
 
         <span className="hidden md:inline-flex">
@@ -270,7 +270,7 @@ function CurrentUserMenu() {
           <UserAvatar size="md" user={currentUser} />
         </span>
 
-        <span className="hidden text-[20px] text-gray-600 md:inline-flex">
+        <span className="hidden icon-2 text-gray-600 md:inline-flex">
           <Icon href="icon-caret-down-solid" />
         </span>
       </DropdownSheet.Trigger>
@@ -278,14 +278,14 @@ function CurrentUserMenu() {
       <DropdownSheet.Portal>
         <DropdownSheet.Content
           side="bottom"
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
+          sideOffset={Spacing.unitPx}
+          collisionPadding={Spacing.unitPx}
         >
-          <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
+          <div className="grid grid-cols-auto-fr items-center gap-1">
             <UserAvatar size="md" user={currentUser} />
             <div className="flex flex-col">
               <span>{currentUser.displayName}</span>
-              <span className="text-gray-500 text-caption-default">
+              <span className="text-caption-default text-gray-500">
                 {currentUser.email}
               </span>
             </div>
@@ -296,9 +296,9 @@ function CurrentUserMenu() {
           <Link
             to={Routes.me.toString()}
             onClick={() => setIsOpened(false)}
-            className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+            className="grid cursor-pointer grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
           >
-            <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+            <span className="flex h-4 w-4 items-center justify-center icon-2">
               <Icon href="icon-user-solid" />
             </span>
 
@@ -317,9 +317,9 @@ function CurrentUserMenu() {
           >
             <button
               onClick={() => setIsOpened(false)}
-              className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+              className="grid cursor-pointer grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
             >
-              <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+              <span className="flex h-4 w-4 items-center justify-center icon-2">
                 <Icon href="icon-right-from-bracket-solid" />
               </span>
 

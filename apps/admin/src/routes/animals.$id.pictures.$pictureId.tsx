@@ -94,7 +94,7 @@ export default function Route() {
 
   return (
     <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
-      <header className="flex min-h-[50px] items-center justify-end pb-0.5 pt-safe-0.5 px-safe-1 md:min-h-[60px] md:pb-1 md:pt-safe-1 md:px-safe-2">
+      <header className="flex min-h-5 items-center justify-end pt-safe-0.5 px-safe-1 pb-0.5 md:min-h-6 md:pt-safe-1 md:px-safe-2 md:pb-1">
         <DownloadPictureLink
           pictureId={visiblePictureId}
           fileName={`${getAnimalDisplayName(animal)} (${
@@ -119,12 +119,12 @@ export default function Route() {
           fallbackSize="2048"
           aspectRatio="none"
           background="none"
-          className="max-h-full min-h-0 min-w-0 max-w-full"
+          className="max-h-full min-h-0 max-w-full min-w-0"
         />
       </div>
 
       <footer className="flex justify-center pt-0.5 pb-safe-0.5 md:pt-1 md:pb-safe-1">
-        <div className="grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto scrollbars-none px-safe-1 md:auto-cols-[80px] md:gap-2">
+        <div className="scrollbars-none grid max-w-full auto-cols-[60px] grid-flow-col justify-start gap-1 overflow-x-auto px-safe-1 md:auto-cols-[80px] md:gap-2">
           {allPictures.map((pictureId, index) => (
             <BaseLink
               key={pictureId}
@@ -133,7 +133,7 @@ export default function Route() {
                 .pictures.pictureId(pictureId)
                 .toString()}
               replace
-              className="flex aspect-4/3 rounded-0.5 transition-transform duration-100 ease-in-out active:scale-95 focus-visible:focus-spaced-blue-400"
+              className="flex aspect-4/3 rounded-0.5 transition-transform ease-in-out focus-ring-spaced focus-visible:focus-ring active:scale-95"
             >
               <DynamicImage
                 imageId={pictureId}
@@ -141,8 +141,10 @@ export default function Route() {
                 sizeMapping={{ md: "80px", default: "60px" }}
                 fallbackSize="512"
                 className={cn(
-                  "w-full rounded-0.5 transition-opacity duration-100 ease-in-out",
-                  pictureId === visiblePictureId ? "opacity-100" : "opacity-50",
+                  "w-full rounded-0.5 transition-opacity ease-in-out",
+                  pictureId === visiblePictureId
+                    ? "opacity-100"
+                    : "opacity-disabled",
                 )}
               />
             </BaseLink>

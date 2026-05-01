@@ -35,7 +35,7 @@ import { Routes } from "#i/core/navigation.js"
 import { DropdownSheet } from "#i/core/popovers/dropdown-sheet.js"
 import { FosterFamilyAvatar } from "#i/foster-families/avatar.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 import { UserAvatar } from "#i/users/avatar.js"
 
 import type { loader } from "./route.js"
@@ -172,10 +172,10 @@ export function SituationCard() {
               <DropdownSheet.Portal>
                 <DropdownSheet.Content
                   side="bottom"
-                  sideOffset={theme.spacing[1]}
-                  collisionPadding={theme.spacing[1]}
+                  sideOffset={Spacing.unitPx}
+                  collisionPadding={Spacing.unitPx}
                 >
-                  <div className="grid grid-cols-[auto,minmax(0px,1fr)] items-center gap-1">
+                  <div className="grid grid-cols-auto-fr items-center gap-1">
                     <FosterFamilyAvatar
                       size="md"
                       availability={animal.fosterFamily.availability}
@@ -206,9 +206,9 @@ export function SituationCard() {
                         to={Routes.fosterFamilies
                           .id(animal.fosterFamily.id)
                           .toString()}
-                        className="grid cursor-pointer grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+                        className="grid cursor-pointer grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
                       >
-                        <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+                        <span className="flex h-4 w-4 items-center justify-center icon-2">
                           <Icon href="icon-ellipsis-solid" />
                         </span>
 

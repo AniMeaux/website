@@ -66,7 +66,7 @@ export const left: Story = {
 
   render: (props) => (
     <Peekaboo {...props} asChild>
-      <Component className="absolute top-1/2 left-20 -translate-y-1/2 -out-translate-x-[calc(100%+var(--spacing)*20)] data-closed:animate-exit data-opened:animate-enter">
+      <Component className="absolute top-1/2 left-20 -translate-y-1/2 -out-translate-x-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
         Lorem ipsum dolor
       </Component>
     </Peekaboo>
@@ -79,7 +79,7 @@ export const right: Story = {
 
   render: (props) => (
     <Peekaboo {...props} asChild>
-      <Component className="absolute top-1/2 right-20 -translate-y-1/2 out-translate-x-[calc(100%+var(--spacing)*20)] data-closed:animate-exit data-opened:animate-enter">
+      <Component className="absolute top-1/2 right-20 -translate-y-1/2 out-translate-x-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
         Lorem ipsum dolor
       </Component>
     </Peekaboo>
@@ -92,7 +92,7 @@ export const top: Story = {
 
   render: (props) => (
     <Peekaboo {...props} asChild>
-      <Component className="absolute top-20 left-1/2 -translate-x-1/2 -out-translate-y-[calc(100%+var(--spacing)*20)] data-closed:animate-exit data-opened:animate-enter">
+      <Component className="absolute top-20 left-1/2 -translate-x-1/2 -out-translate-y-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
         Lorem ipsum dolor
       </Component>
     </Peekaboo>
@@ -105,7 +105,7 @@ export const bottom: Story = {
 
   render: (props) => (
     <Peekaboo {...props} asChild>
-      <Component className="absolute bottom-20 left-1/2 -translate-x-1/2 out-translate-y-[calc(100%+var(--spacing)*20)] data-closed:animate-exit data-opened:animate-enter">
+      <Component className="absolute bottom-20 left-1/2 -translate-x-1/2 out-translate-y-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
         Lorem ipsum dolor
       </Component>
     </Peekaboo>

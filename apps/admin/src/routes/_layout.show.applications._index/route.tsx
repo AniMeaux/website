@@ -82,11 +82,11 @@ export default function Route() {
   return (
     <PageLayout.Content className="grid grid-cols-1">
       <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-        <section className="flex flex-col md:min-w-0 md:flex-2">
+        <section className="flex flex-col md:min-w-0 md:flex-2 md:shrink-2">
           <CardList />
         </section>
 
-        <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
+        <aside className="hidden max-w-30 min-w-25 flex-1 flex-col md:flex">
           <Card className="sticky top-[calc(20px+var(--header-height))] max-h-[calc(100vh-40px-var(--header-height))]">
             <Card.Header>
               <Card.Title>Filtrer</Card.Title>

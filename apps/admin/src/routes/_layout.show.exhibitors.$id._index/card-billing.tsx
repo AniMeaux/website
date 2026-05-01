@@ -14,7 +14,7 @@ import { Separator } from "#i/core/layout/separator.js"
 import { Routes } from "#i/core/navigation.js"
 import { Dialog } from "#i/core/popovers/dialog.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 import { InvoiceIcon } from "#i/show/invoice/icon.js"
 import { InvoiceStatus } from "#i/show/invoice/status.js"
 
@@ -125,9 +125,9 @@ function InvoiceListItem({
           <DropdownMenu.Content
             side="bottom"
             align="end"
-            sideOffset={theme.spacing[1]}
-            collisionPadding={theme.spacing[1]}
-            className="z-20 grid w-[200px] grid-cols-1 gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 -animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+            sideOffset={Spacing.unitPx}
+            collisionPadding={Spacing.unitPx}
+            className="z-20 grid w-20 grid-cols-1 gap-1 rounded-1 bg-white p-1 shadow-popover-sm -out-translate-y-2 out-opacity-0 data-opened:animate-enter data-closed:animate-exit"
           >
             <DropdownMenu.Item asChild>
               <BaseLink
@@ -135,9 +135,9 @@ function InvoiceListItem({
                   .id(exhibitorId)
                   .invoice.id(invoice.id)
                   .edit.toString()}
-                className="grid grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+                className="grid grid-cols-auto-fr items-center rounded-0.5 pr-1 text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
               >
-                <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+                <span className="flex h-4 w-4 items-center justify-center icon-2">
                   <Icon href="icon-pen-solid" />
                 </span>
 
@@ -152,8 +152,8 @@ function InvoiceListItem({
                 onSelect={(event) => event.preventDefault()}
                 asChild
               >
-                <Dialog.Trigger className="grid grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100">
-                  <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+                <Dialog.Trigger className="grid grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100">
+                  <span className="flex h-4 w-4 items-center justify-center icon-2">
                     <Icon href="icon-trash-solid" />
                   </span>
 

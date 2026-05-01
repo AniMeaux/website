@@ -148,7 +148,7 @@ export function GlobalSearch({
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50 animation-opacity-0 animation-duration-100 md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:data-[state=open]:animation-enter md:data-[state=closed]:animation-exit">
+        <Dialog.Content className="fixed top-0 right-0 bottom-0 left-0 z-30 flex flex-col overflow-y-auto bg-gray-50 out-opacity-0 md:top-[10vh] md:right-auto md:bottom-auto md:left-1/2 md:w-55 md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:data-opened:animate-enter md:data-closed:animate-exit">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -348,7 +348,7 @@ function Combobox({
       </VisuallyHidden.Root>
 
       <header className="sticky top-0 z-20 flex flex-none flex-col bg-white md:pb-0.5">
-        <div className="flex flex-col pb-0.5 pt-safe-0.5 px-safe-1.5 md:px-1 md:pt-1">
+        <div className="flex flex-col pt-safe-0.5 px-safe-1.5 pb-0.5 md:px-1 md:pt-1">
           <Input
             {...combobox.getInputProps()}
             hideFocusRing
@@ -372,6 +372,13 @@ function Combobox({
                   </Input.Adornment>
                 </span>
               </>
+            }
+            rightAdornment={
+              inputValue !== "" ? (
+                <Input.ActionAdornment onClick={() => setInputValue("")}>
+                  <Icon href="icon-x-mark-solid" />
+                </Input.ActionAdornment>
+              ) : null
             }
           />
         </div>
@@ -492,7 +499,7 @@ function Tabs({
     <div
       className={cn(
         className,
-        "grid grid-flow-col justify-start gap-0.5 overflow-auto scrollbars-none",
+        "scrollbars-none grid grid-flow-col justify-start gap-0.5 overflow-auto",
       )}
     >
       {children}
@@ -512,14 +519,14 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer absolute left-0 top-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-blue-50 focus-visible:focus-spaced-blue-400 can-hover:group-hover/tab:bg-gray-100 can-hover:group-hover/tab:checked:bg-blue-50"
+      className="peer absolute top-0 left-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors ease-in-out focus-ring-spaced group-hover/tab:bg-gray-100 checked:bg-blue-50 group-hover/tab:checked:bg-blue-50 focus-visible:focus-ring"
     />
   )
 }
 
 function TabLabel({ children }: { children?: React.ReactNode }) {
   return (
-    <span className="px-1 py-0.5 text-gray-500 text-body-emphasis peer-checked:text-blue-500">
+    <span className="px-1 py-0.5 text-body-emphasis text-gray-500 peer-checked:text-blue-500">
       {children}
     </span>
   )

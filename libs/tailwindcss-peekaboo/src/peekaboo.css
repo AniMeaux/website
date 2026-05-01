@@ -11,12 +11,18 @@
  * See https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode#none
  */
 
-@theme inline {
+@theme {
+  /*
+   * `--default-transition-duration` is defined by Tailwind and can be overidden
+   * in theme.
+   * See https://tailwindcss.com/docs/transition-property
+   */
   --default-animation-duration: var(--default-transition-duration);
 }
 
 @utility animation-duration-* {
   --animation-duration: --value(--transition-duration-*);
+  --animation-duration: calc(--value(integer) * 1ms);
   --animation-duration: --value([*]);
 }
 
@@ -82,45 +88,67 @@
   --in-opacity: --value([*]);
 }
 
-/*
- * See https://github.com/tailwindlabs/tailwindcss/discussions/17353
- */
+@theme {
+  --in-out-translate-full: 100%;
+}
+
 @utility out-translate-x-* {
+  --out-translate-x: --value(--in-out-translate-*);
   --out-translate-x: --spacing(--value(number));
   --out-translate-x: --value([*]);
 }
 @utility -out-translate-x-* {
+  --out-translate-x: calc(--value(--in-out-translate-*) * -1);
   --out-translate-x: calc(--spacing(--value(number)) * -1);
   --out-translate-x: calc(--value([*]) * -1);
 }
 
 @utility in-translate-x-* {
+  --tw-translate-x: --value(--in-out-translate-*);
   --tw-translate-x: --spacing(--value(number));
   --tw-translate-x: --value([*]);
 }
 @utility -in-translate-x-* {
+  --tw-translate-x: calc(--value(--in-out-translate-*) * -1);
   --tw-translate-x: calc(--spacing(--value(number)) * -1);
   --tw-translate-x: calc(--value([*]) * -1);
 }
 
 @utility out-translate-y-* {
+  --out-translate-y: --value(--in-out-translate-*);
   --out-translate-y: --spacing(--value(number));
   --out-translate-y: --value([*]);
 }
 @utility -out-translate-y-* {
+  --out-translate-y: calc(--value(--in-out-translate-*) * -1);
   --out-translate-y: calc(--spacing(--value(number)) * -1);
   --out-translate-y: calc(--value([*]) * -1);
 }
 
 @utility in-translate-y-* {
+  --tw-translate-y: --value(--in-out-translate-*);
   --tw-translate-y: --spacing(--value(number));
   --tw-translate-y: --value([*]);
 }
 @utility -in-translate-y-* {
+  --tw-translate-y: calc(--value(--in-out-translate-*) * -1);
   --tw-translate-y: calc(--spacing(--value(number)) * -1);
   --tw-translate-y: calc(--value([*]) * -1);
 }
 
+/*
+ * Inline these to ensure the element's `--animation-duration` value is used.
+ * I.E. in the generated CSS we want:
+ * ```
+ * animation: enter
+ *   var(--animation-duration, var(--default-animation-duration))
+ *   var(--ease-out);
+ * ```
+ * And not:
+ * ```
+ * animation: var(--animate-enter);
+ * ```
+ */
 @theme inline {
   --animate-enter: enter
     var(--animation-duration, var(--default-animation-duration)) var(--ease-out);
@@ -147,10 +175,6 @@
 
       translate: var(--out-translate-x, var(--tw-translate-x))
         var(--out-translate-y, var(--tw-translate-y));
-
-      /* scale: var(--out-scale-x, var(--tw-scale-x))
-        var(--out-scale-y, var(--tw-scale-y))
-        var(--out-scale-z, var(--tw-scale-z)); */
     }
 
     /*
@@ -167,8 +191,6 @@
       opacity: var(--in-opacity);
 
       translate: var(--tw-translate-x) var(--tw-translate-y);
-
-      /* scale: var(--tw-scale-x) var(--tw-scale-y) var(--tw-scale-z); */
     }
   }
 
@@ -187,8 +209,6 @@
       opacity: var(--in-opacity);
 
       translate: var(--tw-translate-x) var(--tw-translate-y);
-
-      /* scale: var(--tw-scale-x) var(--tw-scale-y) var(--tw-scale-z); */
     }
 
     /*
@@ -207,10 +227,6 @@
 
       translate: var(--out-translate-x, var(--tw-translate-x))
         var(--out-translate-y, var(--tw-translate-y));
-
-      /* scale: var(--out-scale-x, var(--tw-scale-x))
-        var(--out-scale-y, var(--tw-scale-y))
-        var(--out-scale-z, var(--tw-scale-z)); */
     }
   }
 }

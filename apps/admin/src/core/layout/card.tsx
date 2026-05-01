@@ -60,14 +60,14 @@ Card.Content = function CardContent({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 @container/card-content first:pt-2 last:pb-2 md:gap-2",
+        "@container/card-content flex flex-col gap-1 first:pt-2 last:pb-2 md:gap-2",
         hasHorizontalScroll
-          ? "overflow-x-auto scrollbars-none"
+          ? "scrollbars-none overflow-x-auto"
           : hasListItems
             ? "px-1 md:px-1"
             : "px-1.5 md:px-2",
         hasVerticalScroll
-          ? "flex-1 overflow-y-scroll overscroll-contain scrollbars-custom"
+          ? "scrollbars-custom flex-1 overflow-y-scroll overscroll-contain"
           : "flex-auto",
         className,
       )}

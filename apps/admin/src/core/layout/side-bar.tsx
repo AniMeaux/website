@@ -17,11 +17,11 @@ export function SideBar({
   children,
 }: SideBarProps) {
   return (
-    <nav className="sticky top-0 hidden h-screen bg-white pr-2 pb-safe-2 pl-safe-2 pt-safe-1 md:flex">
+    <nav className="sticky top-0 hidden h-screen bg-white pt-safe-1 pr-2 pb-safe-2 pl-safe-2 md:flex">
       <div
         className={cn(
-          "flex h-full flex-col gap-4 transition-[width] duration-200 ease-in-out",
-          isOpened ? "w-[210px]" : "w-[40px]",
+          "flex h-full flex-col gap-4 transition-[width] duration-slow ease-in-out",
+          isOpened ? "w-21" : "w-4",
         )}
       >
         {children}
@@ -53,7 +53,7 @@ SideBar.RootItem = function SideBarRootItem({
   return (
     <BaseLink
       to={to}
-      className="flex flex-none overflow-hidden rounded-0.5 p-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+      className="flex flex-none overflow-hidden rounded-0.5 p-0.5 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
     >
       <img src={logo} alt={alt} className="h-3 object-cover object-left" />
     </BaseLink>
@@ -78,7 +78,7 @@ SideBar.Item = function SideBarItem({
     <Primitive.span
       {...rest}
       className={cn(
-        "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors duration-100 ease-in-out aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 focus-visible:focus-compact-blue-400 hover:bg-gray-100 aria-[current=page]:hover:bg-blue-50",
+        "flex flex-none items-center overflow-hidden rounded-0.5 text-left text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring aria-[current=page]:bg-blue-50 aria-[current=page]:text-blue-500 aria-[current=page]:hover:bg-blue-50",
       )}
     />
   )
@@ -88,7 +88,7 @@ SideBar.ItemIcon = function SideBarItemIcon(
   props: React.ComponentPropsWithoutRef<typeof Icon>,
 ) {
   return (
-    <span className="flex h-4 w-4 flex-none items-center justify-center text-[20px]">
+    <span className="flex h-4 w-4 flex-none items-center justify-center icon-2">
       <Icon {...props} />
     </span>
   )

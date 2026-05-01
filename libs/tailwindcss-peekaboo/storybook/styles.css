@@ -5,7 +5,7 @@
   --spacing: 1px;
 }
 
-@theme inline {
+@theme {
   --transition-duration-fast: 500ms;
   --transition-duration-normal: 1s;
   --transition-duration-slow: 2s;

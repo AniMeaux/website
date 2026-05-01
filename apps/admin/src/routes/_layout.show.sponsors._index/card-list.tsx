@@ -25,7 +25,7 @@ export function CardList() {
 
       <Card.Content hasListItems>
         {sponsors.length > 0 ? (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto] md:gap-x-2">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2 @lg/card-content:grid-cols-[auto_auto_1fr_auto]">
             {sponsors.map((sponsor) => (
               <SponsorItem key={sponsor.id} sponsor={sponsor} />
             ))}

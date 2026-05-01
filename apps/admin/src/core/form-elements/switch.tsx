@@ -12,10 +12,10 @@ export const Switch = forwardRef<
       ref={ref}
       type="checkbox"
       className={cn(
-        "inline-flex h-2 w-3 cursor-pointer appearance-none rounded-full bg-gray-500 p-[2px] transition-colors duration-100 checked:bg-blue-500 focus-visible:focus-spaced-blue-400",
+        "inline-flex h-2 w-3 cursor-pointer appearance-none rounded-full bg-gray-500 p-[2px] transition-colors focus-ring-spaced checked:bg-blue-500 focus-visible:focus-ring",
 
         // Thumb.
-        "after:pointer-events-none after:aspect-square after:w-[16px] after:rounded-full after:bg-white after:transition-transform after:duration-100 checked:after:translate-x-1",
+        "after:pointer-events-none after:aspect-square after:w-[16px] after:rounded-full after:bg-white after:transition-transform checked:after:translate-x-1",
         className,
       )}
     />

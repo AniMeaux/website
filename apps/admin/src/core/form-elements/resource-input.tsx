@@ -11,9 +11,9 @@ import {
 } from "#i/core/data-display/markdown.js"
 import { BaseTextInput } from "#i/core/form-elements/base-text-input.js"
 import { Card } from "#i/core/layout/card.js"
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size.js"
+import { useScreenSizeCondition } from "#i/core/screen-size.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Breakpoint, Spacing } from "#i/generated/theme.js"
 
 type ResourceInputLayoutProps = {
   isOpened: boolean
@@ -28,7 +28,7 @@ type ResourceInputLayoutProps = {
 
 export function ResourceInputLayout(props: ResourceInputLayoutProps) {
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= ScreenSizeValue.md,
+    (screenSize) => screenSize >= Breakpoint.value.md,
   )
 
   const Layout = isMedium ? MediumLayout : SmallLayout
@@ -50,9 +50,9 @@ function MediumLayout({
         <Popover.Content
           align="start"
           side="bottom"
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
-          className="z-20 flex w-[var(--radix-popover-trigger-width)] flex-col rounded-1 bg-white shadow-popover-sm animation-opacity-0 animation-duration-100 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          sideOffset={Spacing.unitPx}
+          collisionPadding={Spacing.unitPx}
+          className="z-20 flex w-(--radix-popover-trigger-width) flex-col rounded-1 bg-white shadow-popover-sm out-opacity-0 data-opened:animate-enter data-closed:animate-exit data-top:out-translate-y-2 data-bottom:-out-translate-y-2"
         >
           {content}
         </Popover.Content>
@@ -74,7 +74,7 @@ function SmallLayout({
       <Dialog.Portal>
         <Dialog.Overlay />
 
-        <Dialog.Content className="fixed bottom-0 left-0 right-0 top-0 z-30 flex flex-col overflow-y-auto bg-gray-50">
+        <Dialog.Content className="fixed top-0 right-0 bottom-0 left-0 z-30 flex flex-col overflow-y-auto bg-gray-50">
           <VisuallyHidden.Root>
             <Dialog.Title>Rechercher une couleur</Dialog.Title>
           </VisuallyHidden.Root>
@@ -94,7 +94,7 @@ type ResourceComboboxLayoutProps = {
 
 export function ResourceComboboxLayout(props: ResourceComboboxLayoutProps) {
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= ScreenSizeValue.md,
+    (screenSize) => screenSize >= Breakpoint.value.md,
   )
 
   const Layout = isMedium ? MediumComboboxLayout : SmallComboboxLayout
@@ -130,7 +130,7 @@ function SmallComboboxLayout({
 }: ResourceComboboxLayoutProps) {
   return (
     <div className="flex flex-col gap-1">
-      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white pb-0.5 pt-safe-0.5 px-safe-1">
+      <header className="sticky top-0 z-20 flex flex-none flex-col bg-white pt-safe-0.5 px-safe-1 pb-0.5">
         {label}
         {input(
           <Dialog.Close asChild>
@@ -206,7 +206,7 @@ export const SuggestionItem = forwardRef<
         </span>
       </Item.Content>
 
-      <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out group-data-[is-value=true]:opacity-100">
+      <Item.Icon className="opacity-0 transition-opacity ease-in-out group-data-[is-value=true]:opacity-100">
         <Icon href="icon-check-solid" className="text-[14px] text-green-600" />
       </Item.Icon>
     </Item.Root>

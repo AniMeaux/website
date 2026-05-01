@@ -23,7 +23,7 @@ export function FieldsetDocuments() {
       </Card.Header>
 
       <Card.Content>
-        <div className="grid gap-1 grid-auto-fill-cols-[150px] md:gap-2">
+        <div className="grid grid-cols-auto-fill-[150px] gap-1 md:gap-2">
           {filesItems.map((fileItem) => (
             <Form.Field key={fileItem.label}>
               <Form.Label>{fileItem.label}</Form.Label>
@@ -32,13 +32,13 @@ export function FieldsetDocuments() {
                 <BaseLink
                   to={fileItem.file?.webViewLink}
                   shouldOpenInNewTarget
-                  className="focus-visible:focus-compact-blue-400"
+                  className="focus-visible:focus-ring"
                 >
                   <FileItem.Icon mimeType={fileItem.file?.mimeType} />
 
                   <FileItem.Thumbnail
                     src={fileItem.file?.thumbnailLink}
-                    className="transition-transform duration-150 can-hover:group-hover/item:scale-105"
+                    className="transition-transform duration-slow group-hover/item:scale-105"
                   />
 
                   <FileItem.Filename>

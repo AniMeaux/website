@@ -19,9 +19,9 @@ export function ApplicationItem({
   return (
     <BaseLink
       to={Routes.show.applications.id(application.id).toString()}
-      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1"
     >
-      <ApplicationStatusIcon status={application.status} className="icon-20" />
+      <ApplicationStatusIcon status={application.status} className="icon-2" />
 
       <span className="text-body-emphasis">{application.structureName}</span>
 
@@ -37,7 +37,7 @@ export function ApplicationItem({
           <ActivityTargetIcon
             key={activityTarget}
             activityTarget={activityTarget}
-            className="icon-20"
+            className="icon-2"
           />
         ))}
       </span>
@@ -47,7 +47,7 @@ export function ApplicationItem({
           <ActivityFieldIcon
             key={activityField}
             activityField={activityField}
-            className="icon-20"
+            className="icon-2"
           />
         ))}
       </span>

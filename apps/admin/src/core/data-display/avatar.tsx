@@ -32,7 +32,7 @@ export const Avatar = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "inline-flex items-center justify-center font-semibold leading-none",
+        "inline-flex items-center justify-center leading-none font-semibold",
         CLASS_NAME_BY_SIZE[size],
         color != null ? CLASS_NAME_BY_COLOR[color] : undefined,
         className,

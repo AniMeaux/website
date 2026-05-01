@@ -1,4 +1,4 @@
-import "#i/tailwind.css"
+import "#i/styles/main.css"
 
 import { cn } from "@animeaux/core"
 import type { LinksFunction, MetaFunction } from "@remix-run/node"
@@ -17,7 +17,7 @@ import { Settings } from "luxon"
 import { ErrorPage } from "#i/core/data-display/error-page.js"
 import { useRouteHandles } from "#i/core/handles.js"
 import { getPageTitle } from "#i/core/page-title.js"
-import { theme } from "#i/generated/theme.js"
+import { Color } from "#i/generated/theme.js"
 import appleTouchIcon from "#i/images/apple-touch-icon.png"
 import favicon from "#i/images/favicon.svg"
 import maskIcon from "#i/images/mask-icon.svg"
@@ -45,7 +45,7 @@ export const links: LinksFunction = () => {
     {
       rel: "mask-icon",
       href: maskIcon,
-      color: theme.colors.blue[500],
+      color: Color.primary,
     },
     { rel: "apple-touch-icon", href: appleTouchIcon },
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -111,7 +111,7 @@ function Document({ children }: { children: React.ReactNode }) {
     >
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content={theme.colors.white} />
+        <meta name="theme-color" content={Color.white} />
 
         {/* We don't want it to be index by search engines. */}
         {/* See https://developers.google.com/search/docs/advanced/crawling/block-indexing */}
@@ -137,7 +137,7 @@ function Document({ children }: { children: React.ReactNode }) {
           "overscroll-y-none",
 
           isFullHeight ? "h-full" : undefined,
-          "flex flex-col text-gray-800 text-body-default",
+          "flex flex-col text-body-default text-gray-800",
         )}
       >
         {children}

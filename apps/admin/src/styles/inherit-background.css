@@ -1,0 +1,14 @@
+/*
+ * Defines the parent background.
+ * It should have the same values as `bg-<value>`.
+ */
+@utility inherit-bg-* {
+  --background-color: --value(--color-*);
+}
+
+/*
+ * Defines a color that uses the closest ancestor's `--background-color`.
+ */
+@theme inline {
+  --color-inherit-bg: var(--background-color, var(--color-white));
+}

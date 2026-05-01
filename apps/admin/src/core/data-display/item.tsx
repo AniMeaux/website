@@ -19,7 +19,7 @@ export const Item = {
         {...rest}
         ref={ref}
         className={cn(
-          "group grid w-full grid-flow-col grid-cols-[auto_minmax(0px,1fr)] rounded-0.5",
+          "group grid w-full grid-flow-col grid-cols-auto-fr rounded-0.5",
           className,
         )}
       />
@@ -34,7 +34,7 @@ export const Item = {
       <Primitive.span
         {...rest}
         className={cn(
-          "flex h-4 w-4 items-center justify-center icon-20",
+          "flex h-4 w-4 items-center justify-center icon-2",
           className,
         )}
       />

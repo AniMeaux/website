@@ -14,12 +14,12 @@ export const Checkbox = forwardRef<
         {...props}
         ref={ref}
         type="checkbox"
-        className="relative inline-flex h-[14px] w-[14px] appearance-none rounded-0.5 border border-gray-200 bg-white transition-colors duration-100 checked:border-blue-500 checked:bg-blue-500 enabled:cursor-pointer focus-visible:focus-spaced-blue-400"
+        className="relative inline-flex h-[14px] w-[14px] appearance-none rounded-0.5 border border-gray-200 bg-white transition-colors focus-ring-spaced checked:border-blue-500 checked:bg-blue-500 focus-visible:focus-ring enabled:cursor-pointer"
       />
 
       <Icon
         href="icon-check-solid"
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white icon-10"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 icon-1 text-white"
       />
     </span>
   )

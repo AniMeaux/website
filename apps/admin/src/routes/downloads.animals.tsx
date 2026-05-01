@@ -188,7 +188,7 @@ function PageSection({
     <section
       {...rest}
       className={cn(
-        "grid grid-cols-[auto] justify-items-center overflow-auto scrollbars-none",
+        "scrollbars-none grid grid-cols-[auto] justify-items-center overflow-auto",
         className,
       )}
     >

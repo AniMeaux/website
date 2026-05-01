@@ -19,7 +19,7 @@
   },
   "tailwindCSS.classFunctions": ["cn"],
   "tailwindCSS.experimental.configFile": {
-    "apps/admin/tailwind.config.ts": "apps/admin/**",
+    "apps/admin/src/styles/main.css": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
     "apps/show/tailwind.config.ts": "apps/show/**",
     "libs/tailwindcss-peekaboo/storybook/styles.css": "libs/tailwindcss-peekaboo/**"

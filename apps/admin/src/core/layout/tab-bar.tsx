@@ -6,7 +6,7 @@ import type { BaseLinkProps } from "#i/core/base-link.js"
 import { BaseLink } from "#i/core/base-link.js"
 import type { IconName } from "#i/generated/icon.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 
 export function TabBar({ children }: { children?: React.ReactNode }) {
   return (
@@ -20,7 +20,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
         className="flex pt-0.5 pb-safe-0.5 before:h-4.5 before:w-1 md:hidden"
       />
 
-      <nav className="fixed bottom-0 left-0 right-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 pb-safe-0.5 px-safe-1.5 md:hidden">
+      <nav className="fixed right-0 bottom-0 left-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 px-safe-1.5 pb-safe-0.5 md:hidden">
         {children}
       </nav>
     </>
@@ -40,10 +40,10 @@ TabBar.Item = function TabBarItem({
       to={to}
       className={({ isActive }) =>
         cn(
-          "flex items-center justify-center rounded-0.5 py-1 text-[25px] transition-colors duration-100 ease-in-out focus-visible:focus-compact-blue-400",
+          "flex items-center justify-center rounded-0.5 py-1 text-[25px] transition-colors ease-in-out focus-visible:focus-ring",
           {
             "bg-blue-50 text-blue-500": isActive,
-            "text-gray-500 active:bg-gray-100 hover:bg-gray-100": !isActive,
+            "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,
           },
         )
       }
@@ -66,7 +66,7 @@ TabBar.Menu = function TabBarMenu({
     <DropdownMenu.Root open={isOpened} onOpenChange={setIsOpened}>
       <DropdownMenu.Trigger
         className={cn(
-          "flex items-center justify-center rounded-0.5 py-1 text-[20px] text-gray-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100",
+          "flex items-center justify-center rounded-0.5 py-1 icon-2 text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100",
           { "bg-gray-100": isOpened },
         )}
       >
@@ -76,9 +76,9 @@ TabBar.Menu = function TabBarMenu({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           side="top"
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
-          className="z-20 flex w-[200px] flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          sideOffset={Spacing.unitPx}
+          collisionPadding={Spacing.unitPx}
+          className="z-20 flex w-20 flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm out-opacity-0 out-translate-y-2 data-opened:animate-enter data-closed:animate-exit"
         >
           {children}
         </DropdownMenu.Content>
@@ -101,16 +101,16 @@ TabBar.MenuItem = function TabBarMenuItem({
       <BaseLink
         isNavLink
         to={to}
-        className="flex rounded-0.5 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100"
+        className="flex rounded-0.5 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
       >
         {({ isActive }) => (
           <span
             className={cn(
-              "grid w-full grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 transition-colors duration-100 ease-in-out",
+              "grid w-full grid-cols-auto-fr items-center rounded-0.5 pr-1 transition-colors ease-in-out",
               isActive ? "bg-blue-50 text-blue-500" : "text-gray-500",
             )}
           >
-            <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+            <span className="flex h-4 w-4 items-center justify-center icon-2">
               <Icon href={icon} />
             </span>
 

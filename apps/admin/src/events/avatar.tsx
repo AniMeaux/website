@@ -28,17 +28,17 @@ export function EventAvatar({
       */}
       <span
         aria-hidden
-        className="absolute left-0 top-0 -z-10 h-full w-full rounded-[inherit] border border-gray-100"
+        className="absolute top-0 left-0 -z-10 h-full w-full rounded-[inherit] border border-gray-100"
       />
 
       <span aria-hidden className="h-2 w-full flex-none bg-red-500" />
 
       <span className="flex w-full flex-1 flex-col justify-center text-center">
-        <span className="text-[40px] font-semibold leading-none">
+        <span className="text-[40px] leading-none font-semibold">
           {DateTime.fromISO(event.startDate).day}
         </span>
 
-        <span className="text-[12px] font-semibold leading-none">
+        <span className="text-[12px] leading-none font-semibold">
           {DateTime.fromISO(event.startDate).toLocaleString({ month: "long" })}
         </span>
       </span>

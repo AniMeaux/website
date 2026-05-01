@@ -1,13 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   /*
    * Make sure focused elements without focus-visible don't have an outline.
    */
   :focus:not(:focus-visible) {
-    @apply outline-none;
+    @apply outline-hidden;
   }
 
   /*
@@ -15,9 +11,9 @@
    * They usally don't have input mechanism that can hover over elements so we
    * check that.
    */
-  @media (any-hover: none) {
+  @media (hover: none) {
     :focus {
-      @apply outline-none;
+      @apply outline-hidden;
     }
   }
 
@@ -41,12 +37,27 @@
   body {
     /*
      * Make line breaks are added mid-word if needed.
-     * See https://tailwindcss.com/docs/word-break#break-words
+     * See https://tailwindcss.com/docs/overflow-wrap#wrapping-mid-word
      */
-    @apply break-words;
+    @apply wrap-break-word;
 
     text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * A label should be linked to an input. Clicking on a label focus its linked
+   * input.
+   */
+  label,
+  /*
+   * An anchor should have an `href` attribute.
+   */
+  a,
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  select:not(:disabled) {
+    @apply cursor-pointer;
   }
 
   /* Safari >= 15, Chrome >= 99 */
@@ -60,15 +71,22 @@
   input::-webkit-datetime-edit-second-field,
   input::-webkit-datetime-edit-millisecond-field,
   input::-webkit-datetime-edit-meridiem-field {
-    padding: 0;
+    @apply p-0;
   }
 
   input::-webkit-calendar-picker-indicator {
-    margin: 0;
+    @apply m-0;
   }
 
   /* iOS >= 15 */
   input::-webkit-date-and-time-value {
-    text-align: left;
+    @apply text-left;
+  }
+
+  /*
+   * Hide clear icon.
+   */
+  input::-webkit-search-cancel-button {
+    @apply hidden;
   }
 }

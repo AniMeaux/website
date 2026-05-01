@@ -1,12 +1,10 @@
 import { cn } from "@animeaux/core"
-import { orderBy } from "es-toolkit/array"
 import { forwardRef } from "react"
 import type { Merge } from "type-fest"
 
 import { CLOUDINARY_IMAGE_SIZE_LIMIT_MB } from "#i/core/cloudinary.js"
 import { generateId } from "#i/core/id.js"
-import type { ScreenSize } from "#i/generated/theme.js"
-import { theme } from "#i/generated/theme.js"
+import { Breakpoint } from "#i/generated/theme.js"
 
 export const IMAGE_SIZE_LIMIT_MB = CLOUDINARY_IMAGE_SIZE_LIMIT_MB
 export const IMAGE_SIZE_LIMIT_B =
@@ -23,15 +21,7 @@ const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const
 export type ImageSize = (typeof IMAGE_SIZES)[number]
 
 // Larger to smaller.
-const SCREEN_SIZES = orderBy(
-  (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
-  ),
-  [({ width }) => width],
-  ["desc"],
-)
-  .map(({ name }) => name)
-  .concat("default")
+const BREAKPOINT_NAMES = [...Breakpoint.names, "default"] as const
 
 type AspectRatio = "none" | "1:1" | "4:3"
 
@@ -60,7 +50,7 @@ export type DynamicImageProps = React.ComponentPropsWithoutRef<
 > & {
   fallbackSize: ImageSize
   imageId: string
-  sizeMapping: Partial<Record<ScreenSize, string>> & {
+  sizeMapping: Partial<Record<Breakpoint, string>> & {
     // `default` is mandatory.
     default: string
   }
@@ -82,14 +72,14 @@ export function DynamicImage({
     return `${url} ${size}w`
   }).join(",")
 
-  const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizeMapping[screen]
+  const sizes = BREAKPOINT_NAMES.reduce<string[]>((sizes, breakpoint) => {
+    const width = sizeMapping[breakpoint]
 
     if (width != null) {
       sizes.push(
-        screen === "default"
+        breakpoint === "default"
           ? width
-          : `(min-width: ${theme.screens[screen]}) ${width}`,
+          : `(min-width: ${Breakpoint.value[breakpoint]}px) ${width}`,
       )
     }
 
