@@ -441,7 +441,7 @@ export default defineConfig([
   },
 
   {
-    name: "dev-tools/typescript-import-order",
+    name: "dev-tools/typescript-type-import",
     files: ["**/*.ts?(x)"],
 
     rules: {
@@ -458,6 +458,27 @@ export default defineConfig([
       "import/consistent-type-specifier-style": [
         Severity.WARN,
         "prefer-top-level",
+      ],
+
+      // Enforce `import type` for imports only used in type positions.
+      // Complements `verbatimModuleSyntax`, which only flags type symbols
+      // (interfaces, aliases), not value symbols used exclusively via `typeof`.
+      //
+      // Invalid:
+      //   import { loader } from './loader.server.js'
+      //   export const meta: MetaFunction<typeof loader> = /* ... */
+      //
+      // Valid:
+      //   import type { loader } from './loader.server.js'
+      //   export const meta: MetaFunction<typeof loader> = /* ... */
+      //
+      // https://typescript-eslint.io/rules/consistent-type-imports
+      "@typescript-eslint/consistent-type-imports": [
+        Severity.WARN,
+        {
+          prefer: "type-imports",
+          fixStyle: "separate-type-imports",
+        },
       ],
     },
   },
