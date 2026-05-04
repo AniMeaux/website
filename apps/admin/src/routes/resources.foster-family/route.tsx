@@ -26,7 +26,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     fosterFamilies: await db.fosterFamily.fuzzySearch(
       searchParams.displayName,
       {
-        where: { isBanned: false },
+        where: { isBanned: false, isArchived: false },
         select: {
           availability: true,
           city: true,
