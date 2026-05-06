@@ -28,13 +28,13 @@ export function EventAvatar({
       */}
       <span
         aria-hidden
-        className="absolute top-0 left-0 -z-10 h-full w-full rounded-[inherit] border border-gray-100"
+        className="absolute top-0 left-0 -z-10 size-full rounded-[inherit] border border-gray-100"
       />
 
       <span aria-hidden className="h-2 w-full flex-none bg-red-500" />
 
       <span className="flex w-full flex-1 flex-col justify-center text-center">
-        <span className="text-[40px] leading-none font-semibold">
+        <span className="icon-4 leading-none font-semibold">
           {DateTime.fromISO(event.startDate).day}
         </span>
 

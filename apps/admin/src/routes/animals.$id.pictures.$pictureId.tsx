@@ -93,7 +93,7 @@ export default function Route() {
   const visiblePictureIndex = allPictures.indexOf(visiblePictureId)
 
   return (
-    <main className="grid h-full w-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
+    <main className="grid size-full grid-cols-1 grid-rows-[auto_minmax(0px,1fr)_auto]">
       <header className="flex min-h-5 items-center justify-end pt-safe-0.5 px-safe-1 pb-0.5 md:min-h-6 md:pt-safe-1 md:px-safe-2 md:pb-1">
         <DownloadPictureLink
           pictureId={visiblePictureId}

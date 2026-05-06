@@ -148,7 +148,7 @@ export function GlobalSearch({
           <Overlay className="opacity-0 md:opacity-100" />
         </Dialog.Overlay>
 
-        <Dialog.Content className="fixed top-0 right-0 bottom-0 left-0 z-30 flex flex-col overflow-y-auto bg-gray-50 out-opacity-0 md:top-[10vh] md:right-auto md:bottom-auto md:left-1/2 md:w-55 md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:data-opened:animate-enter md:data-closed:animate-exit">
+        <Dialog.Content className="fixed inset-0 z-30 flex flex-col overflow-y-auto bg-gray-50 out-opacity-0 md:top-[10vh] md:right-auto md:bottom-auto md:left-1/2 md:w-55 md:-translate-x-1/2 md:rounded-1 md:bg-white md:shadow-popover-md md:data-opened:animate-enter md:data-closed:animate-exit">
           {entity != null ? (
             <Combobox
               entity={entity}
@@ -519,7 +519,7 @@ function TabInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="peer absolute top-0 left-0 -z-10 h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors ease-in-out focus-ring-spaced group-hover/tab:bg-gray-100 checked:bg-blue-50 group-hover/tab:checked:bg-blue-50 focus-visible:focus-ring"
+      className="peer absolute top-0 left-0 -z-10 size-full cursor-pointer appearance-none rounded-0.5 transition-colors ease-in-out focus-ring-spaced group-hover/tab:bg-gray-100 checked:bg-blue-50 group-hover/tab:checked:bg-blue-50 focus-visible:focus-ring"
     />
   )
 }

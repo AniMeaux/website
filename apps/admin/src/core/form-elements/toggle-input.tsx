@@ -24,7 +24,7 @@ export function ToggleInput({
       <label className="relative z-0 cursor-pointer focus-within:z-10">
         <input
           {...rest}
-          className="peer absolute top-0 left-0 -z-10 h-full w-full appearance-none rounded-0.5 transition-colors ease-in-out group-hover:bg-gray-100 checked:bg-gray-100 focus-visible:focus-ring"
+          className="peer absolute top-0 left-0 -z-10 size-full appearance-none rounded-0.5 transition-colors ease-in-out group-hover:bg-gray-100 checked:bg-gray-100 focus-visible:focus-ring"
         />
 
         <Item.Icon

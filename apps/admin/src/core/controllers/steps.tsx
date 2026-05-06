@@ -56,7 +56,7 @@ Steps.Step = function Step({
     >
       <span
         className={cn(
-          "flex h-2 w-2 items-center justify-center rounded-0.5 border",
+          "flex size-2 items-center justify-center rounded-0.5 border",
           isActive
             ? "border-blue-500 bg-blue-500 text-white"
             : "border-gray-200 text-gray-500 group-hover/step:text-gray-800",

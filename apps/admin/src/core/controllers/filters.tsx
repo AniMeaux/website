@@ -113,7 +113,7 @@ Filters.Filter = function Filter({
 
         <span
           className={cn(
-            "flex h-4 w-4 items-center justify-center transition-[color,rotate] ease-in-out",
+            "flex size-4 items-center justify-center transition-[color,rotate] ease-in-out",
             isOpened
               ? "-rotate-90 text-gray-600"
               : "text-gray-500 group-hover/filter:text-gray-600",

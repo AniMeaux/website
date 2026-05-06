@@ -89,7 +89,7 @@ export default function Route() {
   useCurrentUserForMonitoring(currentUser)
 
   return (
-    <main className="grid grid-cols-1 gap-1 py-1 md:gap-2 md:py-2 print:gap-0 print:py-0 md:print:gap-0 md:print:py-0">
+    <main className="grid grid-cols-1 gap-1 py-1 md:gap-2 md:py-2 print:gap-0 print:py-0 print:md:gap-0 print:md:py-0">
       {totalCount > MAX_ANIMAL_COUNT ? (
         <div className="grid grid-cols-1 px-1 md:px-2 print:hidden">
           <BlockHelper variant="warning">
@@ -111,7 +111,7 @@ export default function Route() {
           <PageSection>
             <CardList>
               <li>
-                <Spinner className="text-[40px]" />
+                <Spinner className="icon-4" />
               </li>
             </CardList>
           </PageSection>
@@ -192,7 +192,7 @@ function PageSection({
         className,
       )}
     >
-      <div className="flex px-1 md:px-2 print:px-0 md:print:px-0">
+      <div className="flex px-1 md:px-2 print:px-0 print:md:px-0">
         {children}
       </div>
     </section>

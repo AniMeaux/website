@@ -254,7 +254,7 @@ function ImageItem({
           <div
             ref={handleRef}
             draggable
-            className="absolute top-1/2 left-0 flex h-4 w-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
+            className="absolute top-1/2 left-0 flex size-4 -translate-y-1/2 cursor-move items-center justify-center opacity-75"
           >
             <Icon
               href="icon-grip-dots-vertical-solid"

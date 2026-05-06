@@ -608,9 +608,6 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.2
-      prettier-plugin-tailwindcss:
-        specifier: 'catalog:'
-        version: 0.7.2(prettier@3.8.2)
       tailwindcss:
         specifier: catalog:tailwindcss4
         version: 4.2.4

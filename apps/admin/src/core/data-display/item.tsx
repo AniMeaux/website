@@ -34,7 +34,7 @@ export const Item = {
       <Primitive.span
         {...rest}
         className={cn(
-          "flex h-4 w-4 items-center justify-center icon-2",
+          "flex size-4 items-center justify-center icon-2",
           className,
         )}
       />

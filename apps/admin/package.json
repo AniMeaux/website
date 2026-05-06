@@ -99,7 +99,6 @@
     "node-html-parser": "catalog:",
     "npm-run-all": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "tailwindcss": "catalog:tailwindcss4",
     "tsx": "catalog:",
     "type-fest": "catalog:",

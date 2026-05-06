@@ -18,7 +18,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
 }) {
   return (
     <div className="relative z-0 flex h-6 md:h-10">
-      <span className="absolute top-0 left-0 h-full w-full backdrop-blur-3xl" />
+      <span className="absolute top-0 left-0 size-full backdrop-blur-3xl" />
 
       <img
         src={createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
@@ -26,7 +26,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
           aspectRatio: "1:1",
         })}
         alt={imageAlt}
-        className="h-full w-full object-cover object-top"
+        className="size-full object-cover object-top"
       />
     </div>
   )

@@ -137,7 +137,7 @@ function InvoiceListItem({
                   .edit.toString()}
                 className="grid grid-cols-auto-fr items-center rounded-0.5 pr-1 text-gray-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100"
               >
-                <span className="flex h-4 w-4 items-center justify-center icon-2">
+                <span className="flex size-4 items-center justify-center icon-2">
                   <Icon href="icon-pen-solid" />
                 </span>
 
@@ -153,7 +153,7 @@ function InvoiceListItem({
                 asChild
               >
                 <Dialog.Trigger className="grid grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100">
-                  <span className="flex h-4 w-4 items-center justify-center icon-2">
+                  <span className="flex size-4 items-center justify-center icon-2">
                     <Icon href="icon-trash-solid" />
                   </span>
 

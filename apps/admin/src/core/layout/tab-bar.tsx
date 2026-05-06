@@ -20,7 +20,7 @@ export function TabBar({ children }: { children?: React.ReactNode }) {
         className="flex pt-0.5 pb-safe-0.5 before:h-4.5 before:w-1 md:hidden"
       />
 
-      <nav className="fixed right-0 bottom-0 left-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 px-safe-1.5 pb-safe-0.5 md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-flow-col gap-1 bg-white pt-0.5 px-safe-1.5 pb-safe-0.5 md:hidden">
         {children}
       </nav>
     </>
@@ -40,7 +40,7 @@ TabBar.Item = function TabBarItem({
       to={to}
       className={({ isActive }) =>
         cn(
-          "flex items-center justify-center rounded-0.5 py-1 text-[25px] transition-colors ease-in-out focus-visible:focus-ring",
+          "flex items-center justify-center rounded-0.5 py-1 icon-2.5 transition-colors ease-in-out focus-visible:focus-ring",
           {
             "bg-blue-50 text-blue-500": isActive,
             "text-gray-500 hover:bg-gray-100 active:bg-gray-100": !isActive,
@@ -110,7 +110,7 @@ TabBar.MenuItem = function TabBarMenuItem({
               isActive ? "bg-blue-50 text-blue-500" : "text-gray-500",
             )}
           >
-            <span className="flex h-4 w-4 items-center justify-center icon-2">
+            <span className="flex size-4 items-center justify-center icon-2">
               <Icon href={icon} />
             </span>
 

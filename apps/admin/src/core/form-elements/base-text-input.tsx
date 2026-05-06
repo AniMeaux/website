@@ -114,7 +114,7 @@ export const BaseTextInput = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "flex h-3 w-3 flex-none items-center justify-center icon-2 text-gray-600",
+            "flex size-3 flex-none items-center justify-center icon-2 text-gray-600",
             className,
           )}
         />

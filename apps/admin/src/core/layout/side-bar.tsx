@@ -88,7 +88,7 @@ SideBar.ItemIcon = function SideBarItemIcon(
   props: React.ComponentPropsWithoutRef<typeof Icon>,
 ) {
   return (
-    <span className="flex h-4 w-4 flex-none items-center justify-center icon-2">
+    <span className="flex size-4 flex-none items-center justify-center icon-2">
       <Icon {...props} />
     </span>
   )

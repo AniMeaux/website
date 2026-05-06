@@ -48,7 +48,7 @@ export const Action = Object.assign(
       return (
         <span
           className={cn(
-            "absolute top-0 left-0 flex h-full w-full items-center justify-center rounded-[inherit] bg-inherit transition-opacity ease-in-out",
+            "absolute top-0 left-0 flex size-full items-center justify-center rounded-[inherit] bg-inherit transition-opacity ease-in-out",
             isLoading ? "opacity-100" : "opacity-0",
           )}
         >

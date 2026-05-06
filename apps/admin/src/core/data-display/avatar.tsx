@@ -42,9 +42,9 @@ export const Avatar = forwardRef<
 })
 
 const CLASS_NAME_BY_SIZE: Record<AvatarSize, string> = {
-  sm: cn("h-2 w-2 rounded-0.5 text-[14px]"),
-  md: cn("h-4 w-4 rounded-0.5 text-[28px]"),
-  lg: cn("h-8 w-8 rounded-1 text-[56px]"),
+  sm: cn("size-2 rounded-0.5 text-[14px]"),
+  md: cn("size-4 rounded-0.5 text-[28px]"),
+  lg: cn("size-8 rounded-1 text-[56px]"),
 }
 
 const CLASS_NAME_BY_COLOR: Record<AvatarColor, string> = {

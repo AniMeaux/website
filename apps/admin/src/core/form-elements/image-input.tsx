@@ -48,7 +48,7 @@ function ImageInputTrigger({
         "flex flex-col items-center justify-center gap-0.5 rounded-1 border border-dashed border-gray-300 text-blue-500 transition-colors ease-in-out hover:border-gray-500 focus-visible:border-0 focus-visible:focus-ring data-invalid:border-red-500 data-invalid:hover:border-red-500",
       )}
     >
-      <Icon href={icon} className="text-[30px]" />
+      <Icon href={icon} className="icon-3" />
       <span className="text-body-emphasis">{label}</span>
     </button>
   )

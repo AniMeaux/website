@@ -74,7 +74,7 @@ function SmallLayout({
       <Dialog.Portal>
         <Dialog.Overlay />
 
-        <Dialog.Content className="fixed top-0 right-0 bottom-0 left-0 z-30 flex flex-col overflow-y-auto bg-gray-50">
+        <Dialog.Content className="fixed inset-0 z-30 flex flex-col overflow-y-auto bg-gray-50">
           <VisuallyHidden.Root>
             <Dialog.Title>Rechercher une couleur</Dialog.Title>
           </VisuallyHidden.Root>

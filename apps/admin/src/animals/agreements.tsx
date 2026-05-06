@@ -39,7 +39,7 @@ export function AgreementItem({
         AGREEMENT_CLASS_NAMES[agreement],
       )}
     >
-      <Icon href={ICONS[entity][agreement]} className="text-[30px]" />
+      <Icon href={ICONS[entity][agreement]} className="icon-3" />
       <span className="text-body-emphasis">
         {AGREEMENT_TRANSLATION[agreement]}
       </span>
