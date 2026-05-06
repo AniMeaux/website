@@ -94,7 +94,7 @@ export function AnimalItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:rounded-2 md:p-1",
       )}
     >
       <span className="relative flex flex-col">
@@ -139,13 +139,13 @@ export function AnimalItem({
             <Icon href={GENDER_ICON[animal.gender].solid} />
           </span>
 
-          <span className="flex-1 transition-colors duration-100 ease-in-out text-body-emphasis">
+          <span className="flex-1 text-body-emphasis transition-colors ease-in-out">
             {getAnimalDisplayName(animal)}
           </span>
         </p>
 
         {animal.manager != null ? (
-          <p className="flex text-gray-500 text-caption-default">
+          <p className="flex text-caption-default text-gray-500">
             {animal.manager.displayName}
           </p>
         ) : null}
@@ -172,7 +172,7 @@ export function AnimalSmallItem({
       to={Routes.animals.id(animal.id).toString()}
       className={cn(
         className,
-        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1",
+        "grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1",
       )}
     >
       <AnimalAvatar animal={animal} size="md" loading={imageLoading} />
@@ -200,8 +200,8 @@ export function AnimalSmallItem({
           className={cn(
             "flex",
             hasError
-              ? "text-red-500 text-caption-emphasis"
-              : "text-gray-500 text-caption-default",
+              ? "text-caption-emphasis text-red-500"
+              : "text-caption-default text-gray-500",
           )}
         >
           {secondaryLabel}

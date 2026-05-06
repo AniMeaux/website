@@ -40,7 +40,7 @@ COPY libs/password/package.json libs/password/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/react-primitives/package.json libs/react-primitives/
 COPY libs/search-params-io/package.json libs/search-params-io/
-COPY libs/tailwind-animation/package.json libs/tailwind-animation/
+COPY libs/tailwindcss-peekaboo/package.json libs/tailwindcss-peekaboo/
 COPY libs/zod-utils/package.json libs/zod-utils/
 COPY apps/admin/package.json apps/admin/
 
@@ -61,7 +61,7 @@ COPY libs/password libs/password
 COPY libs/prisma libs/prisma
 COPY libs/react-primitives libs/react-primitives
 COPY libs/search-params-io libs/search-params-io
-COPY libs/tailwind-animation libs/tailwind-animation
+COPY libs/tailwindcss-peekaboo libs/tailwindcss-peekaboo
 COPY libs/zod-utils libs/zod-utils
 COPY apps/admin apps/admin
 

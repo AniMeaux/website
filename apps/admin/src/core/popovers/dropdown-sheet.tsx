@@ -5,7 +5,8 @@ import { createContext, forwardRef, useContext } from "react"
 import invariant from "tiny-invariant"
 
 import { Overlay } from "#i/core/popovers/overlay.js"
-import { ScreenSizeValue, useScreenSizeCondition } from "#i/core/screen-size.js"
+import { useScreenSizeCondition } from "#i/core/screen-size.js"
+import { Breakpoint } from "#i/generated/theme.js"
 
 type Component = "popover" | "dialog"
 const DropdownSheetContext = createContext<undefined | Component>(undefined)
@@ -15,7 +16,7 @@ export function DropdownSheet(
     React.ComponentProps<typeof Popover.Root>,
 ) {
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= ScreenSizeValue.md,
+    (screenSize) => screenSize >= Breakpoint.value.md,
   )
 
   const component = isMedium ? "popover" : "dialog"
@@ -93,7 +94,7 @@ DropdownSheet.Content = forwardRef<
         {...rest}
         ref={ref}
         className={cn(
-          "fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1.5 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
+          "fixed inset-x-0 bottom-0 z-30 grid px-safe-1.5 pb-safe-1 animation-duration-slow out-translate-y-full data-opened:animate-enter data-closed:animate-exit",
           className,
         )}
       >
@@ -108,7 +109,7 @@ DropdownSheet.Content = forwardRef<
           // Explained just above.
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
-          className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-md focus-visible:focus-compact-blue-400"
+          className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-md focus-visible:focus-ring"
         >
           {children}
         </div>
@@ -132,7 +133,7 @@ DropdownSheet.Content = forwardRef<
       sideOffset={sideOffset}
       sticky={sticky}
       className={cn(
-        "z-30 grid w-[300px] animation-opacity-0 animation-duration-100 data-[side=bottom]:-animation-translate-y-2 data-[side=top]:animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit",
+        "z-30 grid w-30 out-opacity-0 data-opened:animate-enter data-closed:animate-exit data-top:out-translate-y-2 data-bottom:-out-translate-y-2",
         className,
       )}
     >
@@ -147,7 +148,7 @@ DropdownSheet.Content = forwardRef<
         // Explained just above.
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm focus-visible:focus-compact-blue-400"
+        className="flex w-full flex-col gap-1 rounded-1 bg-white p-1 shadow-popover-sm focus-visible:focus-ring"
       >
         {children}
       </div>

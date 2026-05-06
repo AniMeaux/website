@@ -6,10 +6,13 @@ export default createConfig()
  * @param {Object} [options={}] Optional configuration overrides.
  * @param {string} [options.tailwindConfig] URL or path to the Tailwind CSS
  *   configuration. `prettier-plugin-tailwindcss` plugin will only be used if
- *   `tailwindConfig` is provided.
+ *   `tailwindConfig` or `tailwindStylesheet` is provided.
+ * @param {string} [options.tailwindStylesheet] URL or path to the Tailwind CSS
+ *   stylesheet. `prettier-plugin-tailwindcss` plugin will only be used if
+ *   `tailwindConfig` or `tailwindStylesheet` is provided.
  * @returns {import("prettier").Config} The configuration object.
  */
-export function createConfig({ tailwindConfig } = {}) {
+export function createConfig({ tailwindConfig, tailwindStylesheet } = {}) {
   return {
     // We prefer automatic text wrapping in markdown because:
     //
@@ -39,7 +42,7 @@ export function createConfig({ tailwindConfig } = {}) {
     // https://prettier.io/docs/en/options#quotes
     singleQuote: false,
 
-    ...(tailwindConfig != null
+    ...(tailwindConfig != null || tailwindStylesheet != null
       ? {
           plugins: [
             // Sort Tailwind classes.
@@ -56,6 +59,9 @@ export function createConfig({ tailwindConfig } = {}) {
 
           // https://github.com/tailwindlabs/prettier-plugin-tailwindcss/tree/main#specifying-your-tailwind-javascript-config-path-tailwind-css-v3
           tailwindConfig,
+
+          // https://github.com/tailwindlabs/prettier-plugin-tailwindcss/tree/main#specifying-your-tailwind-stylesheet-path-tailwind-css-v4
+          tailwindStylesheet,
         }
       : null),
   }

@@ -87,7 +87,7 @@ export default function Route() {
   return (
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col items-center">
-        <Card className="w-full md:max-w-[600px]">
+        <Card className="w-full md:max-w-60">
           <Card.Header>
             <Card.Title>Nouvelle race</Card.Title>
           </Card.Header>

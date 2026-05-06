@@ -179,7 +179,7 @@ function PressArticleItem({
       shouldOpenInNewTarget
       to={pressArticle.url}
       className={cn(
-        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:rounded-2 md:p-1",
+        "flex flex-col gap-0.5 rounded-1.5 bg-white p-0.5 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:rounded-2 md:p-1",
         className,
       )}
     >
@@ -206,7 +206,7 @@ function PressArticleItem({
           <span
             role="presentation"
             onClick={(event) => event.preventDefault()}
-            className="absolute bottom-0.5 right-0.5 flex"
+            className="absolute right-0.5 bottom-0.5 flex"
           >
             <Dialog.Trigger asChild>
               <Action
@@ -251,7 +251,7 @@ function PressArticleItem({
       </span>
 
       <div className="flex flex-col">
-        <p className="text-gray-500 text-caption-default">
+        <p className="text-caption-default text-gray-500">
           {DateTime.fromISO(pressArticle.publicationDate).toLocaleString(
             DateTime.DATE_MED,
           )}

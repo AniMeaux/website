@@ -41,7 +41,7 @@ export function CardExhibitorList() {
 
       <Card.Content hasListItems>
         {exhibitors.length > 0 ? (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @md:grid-cols-[auto_auto_1fr_auto] md:gap-x-2">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2 @md:grid-cols-[auto_auto_1fr_auto]">
             {exhibitors.map((exhibitor) => (
               <ExhibitorItem key={exhibitor.id} exhibitor={exhibitor} />
             ))}

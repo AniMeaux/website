@@ -18,7 +18,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
 }) {
   return (
     <div className="relative z-0 flex h-6 md:h-10">
-      <span className="absolute left-0 top-0 h-full w-full backdrop-blur-3xl" />
+      <span className="absolute top-0 left-0 size-full backdrop-blur-3xl" />
 
       <img
         src={createCloudinaryUrl(CLIENT_ENV.CLOUDINARY_CLOUD_NAME, imageId, {
@@ -26,7 +26,7 @@ AvatarCard.BackgroundImage = function AvatarCardBackgroundImage({
           aspectRatio: "1:1",
         })}
         alt={imageAlt}
-        className="h-full w-full object-cover object-top"
+        className="size-full object-cover object-top"
       />
     </div>
   )
@@ -78,7 +78,7 @@ AvatarCard.Avatar = function AvatarCardAvatar({
   children: React.ReactElement<{ className?: string }>
 }) {
   return (
-    <span className="flex h-[45px] flex-none items-end self-start">
+    <span className="flex h-4.5 flex-none items-end self-start">
       {cloneElement(children, {
         className: cn("ring-5 ring-white", children.props.className),
       })}
@@ -113,6 +113,6 @@ AvatarCard.SecondLine = function AvatarCardSecondLine({
   children: React.ReactElement<{ className?: string }>
 }) {
   return cloneElement(children, {
-    className: cn("text-gray-500 text-body-emphasis", children.props.className),
+    className: cn("text-body-emphasis text-gray-500", children.props.className),
   })
 }

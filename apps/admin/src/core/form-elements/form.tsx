@@ -91,7 +91,7 @@ Form.Label = function FormLabel({
       {...props}
       htmlFor={htmlFor}
       className={cn(
-        "text-gray-500 text-caption-default",
+        "text-caption-default text-gray-500",
         htmlFor != null ? "cursor-pointer" : undefined,
         className,
       )}
@@ -106,7 +106,7 @@ Form.ErrorMessage = function FormErrorMessage({
   return (
     <Primitive.p
       {...rest}
-      className={cn("text-red-500 text-caption-default", className)}
+      className={cn("text-caption-default text-red-500", className)}
     />
   )
 }
@@ -118,7 +118,7 @@ Form.HelperMessage = function FormHelperMessage({
   return (
     <Primitive.p
       {...rest}
-      className={cn("text-gray-500 text-caption-default", className)}
+      className={cn("text-caption-default text-gray-500", className)}
     />
   )
 }

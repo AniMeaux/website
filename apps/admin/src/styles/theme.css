@@ -1,0 +1,48 @@
+@theme {
+  --spacing: 10px;
+}
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
+@theme {
+  /*
+   * Reset entire namespace.
+   * See https://tailwindcss.com/docs/theme#overriding-the-default-theme
+   */
+  --radius-*: initial;
+
+  --radius-none: 0px;
+  --radius-0\.5: --spacing(0.5);
+  --radius-1: --spacing(1);
+  --radius-1\.5: --spacing(1.5);
+  --radius-2: --spacing(2);
+  --radius-full: calc(infinity * 1px);
+}
+
+@theme {
+  /*
+   * These values are not necessary but we define them so they're shown in
+   * autocomplete.
+   */
+  --aspect-4\/3: 4 / 3;
+  --aspect-3\/4: 3 / 4;
+
+  --aspect-A4-landscape: 29.7 / 21;
+}
+
+@theme {
+  /*
+   * Reset entire namespace.
+   * See https://tailwindcss.com/docs/theme#overriding-the-default-theme
+   */
+  --shadow-*: initial;
+
+  --shadow-popover-md: 0px 15px 80px -10px rgba(0, 0, 0, 0.3);
+  --shadow-popover-sm: 0px 10px 40px -10px rgba(0, 0, 0, 0.2);
+}
+
+@theme {
+  --opacity-disabled: 0.5;
+}

@@ -205,6 +205,13 @@ function Combobox({
           variant="transparent"
           placeholder="Rechercher une couleur"
           leftAdornment={leftAdornment}
+          rightAdornment={
+            combobox.inputValue !== "" ? (
+              <Input.ActionAdornment onClick={() => combobox.setInputValue("")}>
+                <Icon href="icon-x-mark-solid" />
+              </Input.ActionAdornment>
+            ) : null
+          }
           {...combobox.getInputProps()}
         />
       )}

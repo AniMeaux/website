@@ -9,6 +9,9 @@
     { "pattern": "./apps/*/" },
     { "pattern": "./libs/*/" }
   ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "prettier.ignorePath": ".prettierignore.ide",
   "search.exclude": {
@@ -16,8 +19,17 @@
   },
   "tailwindCSS.classFunctions": ["cn"],
   "tailwindCSS.experimental.configFile": {
-    "apps/admin/tailwind.config.ts": "apps/admin/**",
+    "apps/admin/src/styles/main.css": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
-    "apps/show/tailwind.config.ts": "apps/show/**"
-  }
+    "apps/show/tailwind.config.ts": "apps/show/**",
+    "libs/tailwindcss-peekaboo/storybook/styles.css": "libs/tailwindcss-peekaboo/**"
+  },
+
+  // To avoid confusion with ESLint rule `no-conflicting-classes`.
+  // https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md
+  "tailwindCSS.lint.cssConflict": "ignore",
+
+  // To avoid confusion with ESLint rule `enforce-canonical-classes`.
+  // https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-canonical-classes.md
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore"
 }

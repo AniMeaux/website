@@ -1,0 +1,53 @@
+/*
+ * The color must be set globally to avoid color transition when the ring is
+ * shown.
+ * See https://tailwindcss.com/docs/upgrade-guide#transitioning-outline-color
+ */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    outline-color: var(--color-blue-400);
+  }
+}
+
+@theme {
+  --focus-ring-offset-compact: 0px;
+  --focus-ring-offset-spaced: 2px;
+
+  --default-focus-ring-offset: var(--focus-ring-offset-compact);
+}
+
+@utility focus-ring {
+  @apply outline-3 outline-solid;
+
+  outline-offset: var(--focus-ring-offset, var(--default-focus-ring-offset));
+}
+
+@utility focus-ring-* {
+  --focus-ring-offset: --value(--focus-ring-offset-*);
+}
+
+/*
+ * Override focus-visible because we don't want touch screens devices to have
+ * visible focus.
+ * They usally don't have input mechanism that can hover over elements so we
+ * check that.
+ */
+@custom-variant focus-visible {
+  @media (hover: hover) {
+    &:focus-visible {
+      @slot;
+    }
+  }
+}
+
+@custom-variant data-opened (&[data-state*="open"]);
+@custom-variant data-closed (&[data-state="closed"]);
+
+@custom-variant data-invalid (&[data-invalid="true"]);
+
+@custom-variant data-top (&[data-side="top"]);
+@custom-variant data-right (&[data-side="right"]);
+@custom-variant data-bottom (&[data-side="bottom"]);
+@custom-variant data-left (&[data-side="left"]);

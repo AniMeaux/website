@@ -40,7 +40,7 @@ export const StatusHelper = {
       <Primitive.span
         {...props}
         ref={ref}
-        className={cn("icon-20", className)}
+        className={cn("icon-2", className)}
       />
     )
   }),

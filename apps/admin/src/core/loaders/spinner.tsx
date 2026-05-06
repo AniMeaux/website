@@ -8,7 +8,7 @@ export function Spinner({
     <span
       {...rest}
       className={cn(
-        "relative inline-flex h-[1em] w-[1em] animate-spin-spinner",
+        "relative inline-flex size-[1em] animate-spinner-spin",
         className,
       )}
     >
@@ -20,7 +20,7 @@ export function Spinner({
         strokeLinecap="round"
         strokeDasharray="1, 300"
         strokeDashoffset="0"
-        className="absolute left-0 top-0 h-full w-full origin-center animate-stroke-spinner"
+        className="absolute top-0 left-0 size-full origin-center animate-spinner-stroke"
       >
         <circle strokeWidth="8" cx="33" cy="33" r="28" />
       </svg>

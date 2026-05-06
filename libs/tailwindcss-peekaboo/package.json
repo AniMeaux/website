@@ -1,0 +1,50 @@
+{
+  "name": "@animeaux/tailwindcss-peekaboo",
+  "version": "1.0.0",
+  "private": true,
+  "sideEffects": true,
+  "type": "module",
+  "files": [
+    "src"
+  ],
+  "exports": {
+    ".": "./src/peekaboo.css"
+  },
+  "scripts": {
+    "dev": "run-p --continue-on-error --print-label dev:*",
+    "dev:sync-workspace": "chokidar ./src --debounce --silent -c 'pnpm sync-workspace'",
+    "lint": "run-p --continue-on-error --print-label lint:*",
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --max-warnings 0 .",
+    "lint:prettier": "prettier --list-different .",
+    "lint:tsc": "tsc --noEmit",
+    "lint-fix": "run-s --print-label lint-fix:eslint lint-fix:prettier",
+    "lint-fix:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint --fix .",
+    "lint-fix:prettier": "prettier --write .",
+    "storybook": "storybook dev -c storybook -p 4001 --no-open",
+    "sync-workspace": "# See /docs/decisions/002-workspace-package-injection.md"
+  },
+  "dependencies": {
+    "tailwindcss": "catalog:tailwindcss4"
+  },
+  "devDependencies": {
+    "@animeaux/core": "workspace:*",
+    "@animeaux/react-primitives": "workspace:*",
+    "@animeaux/dev-tools": "workspace:*",
+    "@radix-ui/react-presence": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@tailwindcss/vite": "catalog:tailwindcss4",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "chokidar-cli": "catalog:",
+    "eslint": "catalog:",
+    "npm-run-all": "catalog:",
+    "prettier": "catalog:",
+    "react-dom": "catalog:",
+    "react": "catalog:",
+    "storybook": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vite-tsconfig-paths": "catalog:"
+  }
+}

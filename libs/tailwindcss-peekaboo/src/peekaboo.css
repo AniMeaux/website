@@ -1,0 +1,232 @@
+/*
+ * Animation utilities inspired from tw-animate-css but:
+ * - Without overriding transition utilities.
+ * - With custom properties as fallbacks to avoid enter or exit style
+ *   mismatch.
+ * - With symmetrical enter and exit animations.
+ * - With _in_ styles for the ones that should only be set during the
+ *   animation (`animation-fill-mode: none`)
+ *
+ * See https://github.com/jamiebuilds/tailwindcss-animate
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode#none
+ */
+
+@theme {
+  /*
+   * `--default-transition-duration` is defined by Tailwind and can be overidden
+   * in theme.
+   * See https://tailwindcss.com/docs/transition-property
+   */
+  --default-animation-duration: var(--default-transition-duration);
+}
+
+@utility animation-duration-* {
+  --animation-duration: --value(--transition-duration-*);
+  --animation-duration: calc(--value(integer) * 1ms);
+  --animation-duration: --value([*]);
+}
+
+@theme {
+  --in-out-overflow-hidden: hidden;
+  --in-out-overflow-auto: auto;
+}
+
+@utility out-overflow-* {
+  --out-overflow: --value(--in-out-overflow-*);
+}
+
+@utility in-overflow-* {
+  --in-overflow: --value(--in-out-overflow-*);
+}
+
+@theme {
+  --in-out-height-0: 0px;
+  --in-out-height-full: 100%;
+}
+
+@utility out-height-* {
+  --out-height: --value(--in-out-height-*);
+  --out-height: --value([*]);
+}
+
+@utility in-height-* {
+  --in-height: --value(--in-out-height-*);
+  --in-height: --value([*]);
+}
+
+@theme {
+  --in-out-opacity-0: 0%;
+  --in-out-opacity-5: 5%;
+  --in-out-opacity-10: 10%;
+  --in-out-opacity-15: 15%;
+  --in-out-opacity-20: 20%;
+  --in-out-opacity-25: 25%;
+  --in-out-opacity-30: 30%;
+  --in-out-opacity-35: 35%;
+  --in-out-opacity-40: 40%;
+  --in-out-opacity-45: 45%;
+  --in-out-opacity-50: 50%;
+  --in-out-opacity-55: 55%;
+  --in-out-opacity-60: 60%;
+  --in-out-opacity-65: 65%;
+  --in-out-opacity-70: 70%;
+  --in-out-opacity-75: 75%;
+  --in-out-opacity-80: 80%;
+  --in-out-opacity-85: 85%;
+  --in-out-opacity-90: 90%;
+  --in-out-opacity-95: 95%;
+  --in-out-opacity-100: 100%;
+}
+
+@utility out-opacity-* {
+  --out-opacity: --value(--in-out-opacity-*);
+  --out-opacity: --value([*]);
+}
+
+@utility in-opacity-* {
+  --in-opacity: --value(--in-out-opacity-*);
+  --in-opacity: --value([*]);
+}
+
+@theme {
+  --in-out-translate-full: 100%;
+}
+
+@utility out-translate-x-* {
+  --out-translate-x: --value(--in-out-translate-*);
+  --out-translate-x: --spacing(--value(number));
+  --out-translate-x: --value([*]);
+}
+@utility -out-translate-x-* {
+  --out-translate-x: calc(--value(--in-out-translate-*) * -1);
+  --out-translate-x: calc(--spacing(--value(number)) * -1);
+  --out-translate-x: calc(--value([*]) * -1);
+}
+
+@utility in-translate-x-* {
+  --tw-translate-x: --value(--in-out-translate-*);
+  --tw-translate-x: --spacing(--value(number));
+  --tw-translate-x: --value([*]);
+}
+@utility -in-translate-x-* {
+  --tw-translate-x: calc(--value(--in-out-translate-*) * -1);
+  --tw-translate-x: calc(--spacing(--value(number)) * -1);
+  --tw-translate-x: calc(--value([*]) * -1);
+}
+
+@utility out-translate-y-* {
+  --out-translate-y: --value(--in-out-translate-*);
+  --out-translate-y: --spacing(--value(number));
+  --out-translate-y: --value([*]);
+}
+@utility -out-translate-y-* {
+  --out-translate-y: calc(--value(--in-out-translate-*) * -1);
+  --out-translate-y: calc(--spacing(--value(number)) * -1);
+  --out-translate-y: calc(--value([*]) * -1);
+}
+
+@utility in-translate-y-* {
+  --tw-translate-y: --value(--in-out-translate-*);
+  --tw-translate-y: --spacing(--value(number));
+  --tw-translate-y: --value([*]);
+}
+@utility -in-translate-y-* {
+  --tw-translate-y: calc(--value(--in-out-translate-*) * -1);
+  --tw-translate-y: calc(--spacing(--value(number)) * -1);
+  --tw-translate-y: calc(--value([*]) * -1);
+}
+
+/*
+ * Inline these to ensure the element's `--animation-duration` value is used.
+ * I.E. in the generated CSS we want:
+ * ```
+ * animation: enter
+ *   var(--animation-duration, var(--default-animation-duration))
+ *   var(--ease-out);
+ * ```
+ * And not:
+ * ```
+ * animation: var(--animate-enter);
+ * ```
+ */
+@theme inline {
+  --animate-enter: enter
+    var(--animation-duration, var(--default-animation-duration)) var(--ease-out);
+
+  --animate-exit: exit
+    var(--animation-duration, var(--default-animation-duration)) var(--ease-in);
+}
+
+@theme {
+  @keyframes enter {
+    /*
+     * If an `--out-*` is not defined, fallback to the `--in-` (current) value
+     * to make sure the animation is a NOP.
+     *
+     * We don't use the `--in-` prefix for translate and scale utilities because
+     * they already exist in Tailwind and they're prefixed with `--tw-`.
+     */
+    from {
+      overflow: var(--out-overflow, var(--in-overflow));
+
+      height: var(--out-height, var(--in-height));
+
+      opacity: var(--out-opacity, var(--in-opacity));
+
+      translate: var(--out-translate-x, var(--tw-translate-x))
+        var(--out-translate-y, var(--tw-translate-y));
+    }
+
+    /*
+     * Styles that should only be set during the animation (because the
+     * `animation-fill-mode` is `none`).
+     * If the target element set them permanently, it would either break the
+     * animation or the element styles.
+     */
+    to {
+      overflow: var(--in-overflow);
+
+      height: var(--in-height);
+
+      opacity: var(--in-opacity);
+
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+
+  @keyframes exit {
+    /*
+     * Styles that should only be set during the animation (because the
+     * `animation-fill-mode` is `none`).
+     * If the target element set them permanently, it would either break the
+     * animation or the element styles.
+     */
+    from {
+      overflow: var(--in-overflow);
+
+      height: var(--in-height);
+
+      opacity: var(--in-opacity);
+
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+
+    /*
+     * If an `--out-*` is not defined, fallback to the `--in-` (current) value
+     * to make sure the animation is a NOP.
+     *
+     * We don't use the `--in-` prefix for translate and scale utilities because
+     * they already exist in Tailwind and they're prefixed with `--tw-`.
+     */
+    to {
+      overflow: var(--out-overflow, var(--in-overflow));
+
+      height: var(--out-height, var(--in-height));
+
+      opacity: var(--out-opacity, var(--in-opacity));
+
+      translate: var(--out-translate-x, var(--tw-translate-x))
+        var(--out-translate-y, var(--tw-translate-y));
+    }
+  }
+}

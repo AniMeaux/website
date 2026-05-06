@@ -34,7 +34,7 @@ export const Action = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "relative flex flex-none items-center justify-center gap-0.5 duration-100 ease-in-out active:scale-95 disabled:opacity-50 focus-visible:focus-spaced-blue-400",
+            "relative flex flex-none items-center justify-center gap-0.5 ease-in-out focus-ring-spaced focus-visible:focus-ring active:scale-95 disabled:opacity-disabled",
             VARIANT_CLASS_NAME[variant]({ isIconOnly }),
             COLOR_CLASS_NAMES[variant][color],
             className,
@@ -48,11 +48,11 @@ export const Action = Object.assign(
       return (
         <span
           className={cn(
-            "absolute left-0 top-0 flex h-full w-full items-center justify-center rounded-[inherit] bg-inherit transition-opacity duration-100 ease-in-out",
+            "absolute top-0 left-0 flex size-full items-center justify-center rounded-[inherit] bg-inherit transition-opacity ease-in-out",
             isLoading ? "opacity-100" : "opacity-0",
           )}
         >
-          <Spinner className="text-[20px]" />
+          <Spinner className="icon-2" />
         </span>
       )
     },
@@ -61,7 +61,7 @@ export const Action = Object.assign(
       className,
       ...props
     }: React.ComponentPropsWithoutRef<typeof Icon>) {
-      return <Icon {...props} className={cn("text-[20px]", className)} />
+      return <Icon {...props} className={cn("icon-2", className)} />
     },
   },
 )
@@ -72,21 +72,19 @@ const VARIANT_CLASS_NAME: Record<
 > = {
   primary: ({ isIconOnly }) =>
     cn(
-      "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
+      "h-4 min-w-4 rounded-0.5 text-body-emphasis transition-[background-color,scale]",
       isIconOnly ? "px-1" : "px-2",
     ),
   secondary: ({ isIconOnly }) =>
     cn(
-      "h-4 min-w-[40px] rounded-0.5 transition-[background-color,transform] text-body-emphasis",
+      "h-4 min-w-4 rounded-0.5 text-body-emphasis transition-[background-color,scale]",
       isIconOnly ? "px-1" : "px-2",
     ),
   text: () =>
-    cn(
-      "h-2 min-w-[20px] rounded-0.5 transition-[color,transform] text-body-emphasis",
-    ),
+    cn("h-2 min-w-2 rounded-0.5 text-body-emphasis transition-[color,scale]"),
   translucid: ({ isIconOnly }) =>
     cn(
-      "h-4 min-w-[40px] rounded-0.5 bg-opacity-50 transition-[background-color,transform] text-body-emphasis hover:bg-opacity-70",
+      "h-4 min-w-4 rounded-0.5 text-body-emphasis transition-[background-color,scale]",
       isIconOnly ? "px-1" : "px-2",
     ),
 }
@@ -117,7 +115,7 @@ const COLOR_CLASS_NAMES: Record<ActionVariant, Record<ActionColor, string>> = {
     red: cn("text-red-500 hover:text-red-600"),
   },
   translucid: {
-    black: cn("bg-gray-700 text-white"),
+    black: cn("bg-gray-700/50 text-white hover:bg-gray-700/70"),
     blue: cn(""),
     gray: cn(""),
     green: cn(""),
@@ -137,7 +135,7 @@ export const ProseInlineAction = forwardRef<
       {...rest}
       ref={ref}
       className={cn(
-        "relative after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:focus-spaced-blue-400",
+        "relative focus-ring-spaced after:absolute after:bottom-0 after:left-0 after:w-full after:border-b after:border-blue-500 focus-visible:focus-ring",
         CLASS_NAME_BY_VARIANT[variant],
         className,
       )}
