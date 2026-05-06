@@ -40,7 +40,6 @@
     "eslint": "catalog:",
     "npm-run-all": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-tailwindcss": "catalog:",
     "react-dom": "catalog:",
     "react": "catalog:",
     "storybook": "catalog:",

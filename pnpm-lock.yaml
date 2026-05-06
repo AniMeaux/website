@@ -205,6 +205,9 @@ catalogs:
     eslint:
       specifier: ^9.22.0
       version: 9.39.3
+    eslint-plugin-better-tailwindcss:
+      specifier: ^4.5.0
+      version: 4.5.0
     eslint-plugin-import-x:
       specifier: ^4.16.2
       version: 4.16.2
@@ -390,7 +393,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
@@ -547,7 +550,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@animeaux/tailwindcss-peekaboo':
         specifier: workspace:*
         version: file:libs/tailwindcss-peekaboo
@@ -767,7 +770,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@3.4.3)(typescript@5.7.3)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7)(lightningcss@1.32.0))
@@ -906,7 +909,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@3.4.3)(typescript@5.7.3)
       '@remix-run/dev':
         specifier: 'catalog:'
         version: 2.9.2(@remix-run/react@2.9.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))(@remix-run/serve@2.9.2(typescript@5.7.3))(@types/node@22.8.7)(typescript@5.7.3)(vite@5.2.12(@types/node@22.8.7)(lightningcss@1.32.0))
@@ -1000,7 +1003,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.7.1
@@ -1037,6 +1040,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.3(jiti@2.6.1)
+      eslint-plugin-better-tailwindcss:
+        specifier: 'catalog:'
+        version: 4.5.0(eslint@9.39.3(jiti@2.6.1))(tailwindcss@4.2.4)(typescript@5.7.3)
       eslint-plugin-import-x:
         specifier: 'catalog:'
         version: 4.16.2(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
@@ -1120,7 +1126,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1151,7 +1157,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1179,7 +1185,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1207,7 +1213,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -1247,7 +1253,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@animeaux/password':
         specifier: workspace:*
         version: file:libs/password
@@ -1320,7 +1326,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
@@ -1357,7 +1363,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/react':
         specifier: 'catalog:'
         version: 18.3.3
@@ -1388,7 +1394,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@3.4.3)(typescript@5.7.3)
       chokidar-cli:
         specifier: 'catalog:'
         version: 3.0.0
@@ -1419,7 +1425,7 @@ importers:
         version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@animeaux/react-primitives':
         specifier: workspace:*
         version: file:libs/react-primitives(@types/react@18.3.3)
@@ -1453,9 +1459,6 @@ importers:
       prettier:
         specifier: 'catalog:'
         version: 3.8.2
-      prettier-plugin-tailwindcss:
-        specifier: 'catalog:'
-        version: 0.7.2(prettier@3.8.2)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -1522,7 +1525,7 @@ importers:
     devDependencies:
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/luxon':
         specifier: 'catalog:'
         version: 3.7.1
@@ -1552,7 +1555,7 @@ importers:
         version: file:libs/core(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)
       '@animeaux/dev-tools':
         specifier: workspace:*
-        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)
+        version: file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)
       '@types/node':
         specifier: 'catalog:'
         version: 22.8.7
@@ -2540,6 +2543,10 @@ packages:
     resolution: {integrity: sha512-yL/sLrpmtDaFEiUj1osRP4TI2MDz1AddJL+jZ7KSqvBuliN4xqYY54IfdN8qD8Toa6g1iloph1fxQNkjOxrrpQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@eslint/css-tree@4.0.3':
+    resolution: {integrity: sha512-lMgQJ5zg4YwsGPWtKS7Rc5Z4xqc2B9iOTtmDvhjMRa8GJ8/9zoKRtz26D7gCtWquy0J7oyeOJBwRP5M8slM/4w==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
   '@eslint/eslintrc@3.3.3':
     resolution: {integrity: sha512-Kr+LPIUVKz2qkx1HAMH8q1q6azbqBAsXJUxBl/ODDuVPX45Z9DfwB8tPjTi6nNZ8BuM3nbJxC5zCAg5elnBUTQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -3012,6 +3019,10 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@pkgr/core@0.2.9':
+    resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
+    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
   '@pm2/agent@2.1.1':
     resolution: {integrity: sha512-0V9ckHWd/HSC8BgAbZSoq8KXUG81X97nSkAxmhKDhmF8vanyaoc1YXwc2KVkbWz82Rg4gjd2n9qiT3i7bdvGrQ==}
@@ -4478,6 +4489,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@valibot/to-json-schema@1.7.0':
+    resolution: {integrity: sha512-Y3pPVibbIOHzohrlxSINvO7w/bvXkoYS3BQHoImV9ynE+bXKf171bdMucPurV2zp7gdmt0L1HCcNAsbo7cFRQw==}
+    peerDependencies:
+      valibot: ^1.4.0
+
   '@vanilla-extract/babel-plugin-debug-ids@1.0.2':
     resolution: {integrity: sha512-LjnbQWGeMwaydmovx8jWUR8BxLtLiPyq0xz5C8G5OvFhsuJxvavLdrBHNNizvr1dq7/3qZGlPv0znsvU4P44YA==}
 
@@ -5619,6 +5635,19 @@ packages:
       unrs-resolver: ^1.0.0
     peerDependenciesMeta:
       unrs-resolver:
+        optional: true
+
+  eslint-plugin-better-tailwindcss@4.5.0:
+    resolution: {integrity: sha512-EBNTx6OJYaWv7uUxHWTy1fhiNz2rZVkoeOHZzAJFwWaEPideBf04CMshrJ7YntG0KQzadlbRhHKYr32q5aBX4w==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=23.0.0}
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
+      oxlint: ^1.35.0
+      tailwindcss: ^3.3.0 || ^4.1.17
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      oxlint:
         optional: true
 
   eslint-plugin-import-x@4.16.1:
@@ -7014,6 +7043,9 @@ packages:
 
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
+
+  mdn-data@2.28.0:
+    resolution: {integrity: sha512-uy9AS1yt+wW5eUEefgE3lOpqPghanUttycV0GXKbiXyBjwvbeE8XPj4u1C+voRfz7dEjwU4NDHTMfZ/s/JtZrQ==}
 
   media-query-parser@2.0.2:
     resolution: {integrity: sha512-1N4qp+jE0pL5Xv4uEcwVUhIkwdUO3S/9gML90nqKA7v7FcOS5vUtatfzok9S9U1EJU8dHWlcv95WLnKmmxZI9w==}
@@ -8915,6 +8947,10 @@ packages:
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
 
+  synckit@0.11.12:
+    resolution: {integrity: sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+
   systeminformation@5.22.10:
     resolution: {integrity: sha512-RJ3oed80NkqgHtpB0TLkxEKEpQ3pUm2lgVolkHeoaExPidkWsj2D/hO6Rwwi9i+Odl1vm8TMiRNIKK7hBaqDsw==}
     engines: {node: '>=8.0.0'}
@@ -8927,6 +8963,15 @@ packages:
   tagged-tag@1.0.0:
     resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
     engines: {node: '>=20'}
+
+  tailwind-csstree@0.3.1:
+    resolution: {integrity: sha512-v147gLOR+E+9H4dNaP9rBeS/S/CTQJMRItlX9jLOXjdBGfSRauLwiz7LBCViaQmn6URXIlOdN6iMzSzOaeoUUw==}
+    engines: {node: '>=18.18'}
+    peerDependencies:
+      '@eslint/css': '>=1.0.0'
+    peerDependenciesMeta:
+      '@eslint/css':
+        optional: true
 
   tailwindcss@3.4.3:
     resolution: {integrity: sha512-U7sxQk/n397Bmx4JHbJx/iSOOv5G+II3f1kpLpY2QeUv5DcPdcTsYLlusZfq1NthHS1c1cZoyFmmkex1rzke0A==}
@@ -9060,6 +9105,10 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  tsconfig-paths-webpack-plugin@4.2.0:
+    resolution: {integrity: sha512-zbem3rfRS8BgeNK50Zz5SIQgXzLafiHjOwUAvk/38/o1jHn/V5QAgVUcz884or7WYcPaH3N2CIfUc2u0ul7UcA==}
+    engines: {node: '>=10.13.0'}
 
   tsconfig-paths@4.1.2:
     resolution: {integrity: sha512-uhxiMgnXQp1IR622dUXI+9Ehnws7i/y6xvpZB9IbUVOPy0muvdvgXeZOn88UcGPiT98Vp3rJPTa8bFoalZ3Qhw==}
@@ -9312,6 +9361,14 @@ packages:
 
   valibot@1.2.0:
     resolution: {integrity: sha512-mm1rxUsmOxzrwnX5arGS+U4T25RdvpPjPN4yR0u9pUBov9+zGVtO84tif1eY4r6zWxVxu3KzIyknJy3rxfRZZg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  valibot@1.4.0:
+    resolution: {integrity: sha512-iC/x7fVcSyOwlm/VSt7RlHnzNGLGvR9GnxdifUeWoCJo0q4ZZvrVkIHC6faTlkxG47I2Y4UrFquPuVHCrOnrLg==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -9673,10 +9730,11 @@ snapshots:
       - react-dom
       - typescript
 
-  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(typescript@5.7.3)':
+  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@3.4.3)(typescript@5.7.3)':
     dependencies:
       '@total-typescript/ts-reset': 0.6.1
       eslint: 9.39.3(jiti@2.6.1)
+      eslint-plugin-better-tailwindcss: 4.5.0(eslint@9.39.3(jiti@2.6.1))(tailwindcss@3.4.3)(typescript@5.7.3)
       eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
@@ -9689,6 +9747,7 @@ snapshots:
     optionalDependencies:
       prettier-plugin-tailwindcss: 0.7.2(prettier@3.8.2)
     transitivePeerDependencies:
+      - '@eslint/css'
       - '@ianvs/prettier-plugin-sort-imports'
       - '@prettier/plugin-hermes'
       - '@prettier/plugin-oxc'
@@ -9700,6 +9759,7 @@ snapshots:
       - '@zackad/prettier-plugin-twig'
       - eslint-import-resolver-node
       - jiti
+      - oxlint
       - prettier-plugin-astro
       - prettier-plugin-css-order
       - prettier-plugin-jsdoc
@@ -9710,6 +9770,50 @@ snapshots:
       - prettier-plugin-sort-imports
       - prettier-plugin-svelte
       - supports-color
+      - tailwindcss
+      - typescript
+
+  '@animeaux/dev-tools@file:libs/dev-tools(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(jiti@2.6.1)(tailwindcss@4.2.4)(typescript@5.7.3)':
+    dependencies:
+      '@total-typescript/ts-reset': 0.6.1
+      eslint: 9.39.3(jiti@2.6.1)
+      eslint-plugin-better-tailwindcss: 4.5.0(eslint@9.39.3(jiti@2.6.1))(tailwindcss@4.2.4)(typescript@5.7.3)
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react: 7.37.5(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-react-hooks: 5.2.0(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-simple-import-sort: 12.1.1(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.58.1(@typescript-eslint/parser@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1))
+      globals: 15.15.0
+      prettier: 3.8.2
+      typescript-eslint: 8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3)
+    optionalDependencies:
+      prettier-plugin-tailwindcss: 0.7.2(prettier@3.8.2)
+    transitivePeerDependencies:
+      - '@eslint/css'
+      - '@ianvs/prettier-plugin-sort-imports'
+      - '@prettier/plugin-hermes'
+      - '@prettier/plugin-oxc'
+      - '@prettier/plugin-pug'
+      - '@shopify/prettier-plugin-liquid'
+      - '@trivago/prettier-plugin-sort-imports'
+      - '@typescript-eslint/eslint-plugin'
+      - '@typescript-eslint/utils'
+      - '@zackad/prettier-plugin-twig'
+      - eslint-import-resolver-node
+      - jiti
+      - oxlint
+      - prettier-plugin-astro
+      - prettier-plugin-css-order
+      - prettier-plugin-jsdoc
+      - prettier-plugin-marko
+      - prettier-plugin-multiline-arrays
+      - prettier-plugin-organize-attributes
+      - prettier-plugin-organize-imports
+      - prettier-plugin-sort-imports
+      - prettier-plugin-svelte
+      - supports-color
+      - tailwindcss
       - typescript
 
   '@animeaux/file-storage@file:libs/file-storage(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(typescript@5.7.3)':
@@ -10532,6 +10636,11 @@ snapshots:
     dependencies:
       '@types/json-schema': 7.0.15
 
+  '@eslint/css-tree@4.0.3':
+    dependencies:
+      mdn-data: 2.28.0
+      source-map-js: 1.2.1
+
   '@eslint/eslintrc@3.3.3':
     dependencies:
       ajv: 6.12.6
@@ -11181,6 +11290,8 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
+
+  '@pkgr/core@0.2.9': {}
 
   '@pm2/agent@2.1.1':
     dependencies:
@@ -12882,6 +12993,10 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
+  '@valibot/to-json-schema@1.7.0(valibot@1.4.0(typescript@5.7.3))':
+    dependencies:
+      valibot: 1.4.0(typescript@5.7.3)
+
   '@vanilla-extract/babel-plugin-debug-ids@1.0.2':
     dependencies:
       '@babel/core': 7.22.8
@@ -14250,6 +14365,40 @@ snapshots:
       stable-hash-x: 0.2.0
     optionalDependencies:
       unrs-resolver: 1.11.1
+
+  eslint-plugin-better-tailwindcss@4.5.0(eslint@9.39.3(jiti@2.6.1))(tailwindcss@3.4.3)(typescript@5.7.3):
+    dependencies:
+      '@eslint/css-tree': 4.0.3
+      '@valibot/to-json-schema': 1.7.0(valibot@1.4.0(typescript@5.7.3))
+      enhanced-resolve: 5.20.1
+      jiti: 2.6.1
+      synckit: 0.11.12
+      tailwind-csstree: 0.3.1
+      tailwindcss: 3.4.3
+      tsconfig-paths-webpack-plugin: 4.2.0
+      valibot: 1.4.0(typescript@5.7.3)
+    optionalDependencies:
+      eslint: 9.39.3(jiti@2.6.1)
+    transitivePeerDependencies:
+      - '@eslint/css'
+      - typescript
+
+  eslint-plugin-better-tailwindcss@4.5.0(eslint@9.39.3(jiti@2.6.1))(tailwindcss@4.2.4)(typescript@5.7.3):
+    dependencies:
+      '@eslint/css-tree': 4.0.3
+      '@valibot/to-json-schema': 1.7.0(valibot@1.4.0(typescript@5.7.3))
+      enhanced-resolve: 5.20.1
+      jiti: 2.6.1
+      synckit: 0.11.12
+      tailwind-csstree: 0.3.1
+      tailwindcss: 4.2.4
+      tsconfig-paths-webpack-plugin: 4.2.0
+      valibot: 1.4.0(typescript@5.7.3)
+    optionalDependencies:
+      eslint: 9.39.3(jiti@2.6.1)
+    transitivePeerDependencies:
+      - '@eslint/css'
+      - typescript
 
   eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.58.1(eslint@9.39.3(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
@@ -15964,6 +16113,8 @@ snapshots:
       '@types/mdast': 4.0.4
 
   mdn-data@2.27.1: {}
+
+  mdn-data@2.28.0: {}
 
   media-query-parser@2.0.2:
     dependencies:
@@ -18281,12 +18432,18 @@ snapshots:
 
   symbol-tree@3.2.4: {}
 
+  synckit@0.11.12:
+    dependencies:
+      '@pkgr/core': 0.2.9
+
   systeminformation@5.22.10:
     optional: true
 
   tabbable@6.4.0: {}
 
   tagged-tag@1.0.0: {}
+
+  tailwind-csstree@0.3.1: {}
 
   tailwindcss@3.4.3:
     dependencies:
@@ -18434,6 +18591,13 @@ snapshots:
   tsconfck@3.1.0(typescript@5.7.3):
     optionalDependencies:
       typescript: 5.7.3
+
+  tsconfig-paths-webpack-plugin@4.2.0:
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 5.20.1
+      tapable: 2.3.2
+      tsconfig-paths: 4.2.0
 
   tsconfig-paths@4.1.2:
     dependencies:
@@ -18758,6 +18922,10 @@ snapshots:
       sade: 1.8.1
 
   valibot@1.2.0(typescript@5.7.3):
+    optionalDependencies:
+      typescript: 5.7.3
+
+  valibot@1.4.0(typescript@5.7.3):
     optionalDependencies:
       typescript: 5.7.3
 

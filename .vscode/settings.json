@@ -23,5 +23,13 @@
     "apps/website/tailwind.config.ts": "apps/website/**",
     "apps/show/tailwind.config.ts": "apps/show/**",
     "libs/tailwindcss-peekaboo/storybook/styles.css": "libs/tailwindcss-peekaboo/**"
-  }
+  },
+
+  // To avoid confusion with ESLint rule `no-conflicting-classes`.
+  // https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md
+  "tailwindCSS.lint.cssConflict": "ignore",
+
+  // To avoid confusion with ESLint rule `enforce-canonical-classes`.
+  // https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-canonical-classes.md
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore"
 }

@@ -33,6 +33,7 @@
   "dependencies": {
     "@total-typescript/ts-reset": "catalog:",
     "eslint": "catalog:",
+    "eslint-plugin-better-tailwindcss": "catalog:",
     "eslint-plugin-import-x": "catalog:",
     "eslint-plugin-jsx-a11y": "catalog:",
     "eslint-plugin-react": "catalog:",
