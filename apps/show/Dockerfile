@@ -1,5 +1,5 @@
 # Base stage for all subsequent stages.
-FROM node:22.12-bullseye-slim AS base
+FROM node:22.13-bullseye-slim AS base
 
 # Needed for Prisma generation and runtime.
 RUN apt-get update && apt-get install -y openssl
@@ -14,6 +14,9 @@ RUN corepack enable
 # There's an ongoing issue with corepack.
 # See https://github.com/nodejs/corepack/issues/612#issuecomment-2630469508
 RUN npm i -g corepack@latest
+
+# Pin the pnpm version to match `packageManager` in package.json.
+RUN corepack prepare pnpm@11.1.2 --activate
 
 WORKDIR /workspace
 

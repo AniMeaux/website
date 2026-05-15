@@ -161,3 +161,12 @@ catalogs:
     "@tailwindcss/node": ^4.2.4
     "@tailwindcss/vite": ^4.2.4
     tailwindcss: ^4.2.4
+
+allowBuilds:
+  "@prisma/engines": true
+  "@sentry/cli": true
+  esbuild: true
+  msw: true
+  prisma: true
+  re2: true
+  unrs-resolver: true
