@@ -35,13 +35,22 @@ RUN rm -rf node_modules
 FROM base AS packages-json
 
 COPY package.json ./
+COPY apps/admin/package.json apps/admin/
+COPY apps/show/package.json apps/show/
+COPY apps/website/package.json apps/website/
 COPY libs/core/package.json libs/core/
 COPY libs/dev-tools/package.json libs/dev-tools/
+COPY libs/file-storage/package.json libs/file-storage/
+COPY libs/files-io/package.json libs/files-io/
+COPY libs/form-data/package.json libs/form-data/
 COPY libs/password/package.json libs/password/
 COPY libs/prisma/package.json libs/prisma/
+COPY libs/react-primitives/package.json libs/react-primitives/
 COPY libs/search-params-io/package.json libs/search-params-io/
+COPY libs/tailwind-animation/package.json libs/tailwind-animation/
+COPY libs/tailwindcss-peekaboo/package.json libs/tailwindcss-peekaboo/
 COPY libs/zod-utils/package.json libs/zod-utils/
-COPY apps/website/package.json apps/website/
+COPY scripts/package.json scripts/
 
 # App production build.
 FROM base AS build
