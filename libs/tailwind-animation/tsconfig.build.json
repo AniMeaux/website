@@ -1,6 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-
-  // Only build files under these folders.
-  "include": ["./src/**/*"]
-}
