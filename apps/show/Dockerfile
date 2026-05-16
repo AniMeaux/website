@@ -75,7 +75,7 @@ COPY apps/show apps/show
 
 # Synchronise injected workspace packages after copying source code.
 # See: docs/decisions/002-workspace-package-injection.md
-RUN pnpm install --frozen-lockfile --offline
+RUN pnpm -r sync-workspace
 
 # Build libs and app.
 RUN pnpm --filter show... build
@@ -113,6 +113,6 @@ COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
 
 # Synchronise injected workspace packages after copying build artifacts.
 # See: docs/decisions/002-workspace-package-injection.md
-RUN pnpm install --prod --frozen-lockfile --offline
+RUN pnpm -r sync-workspace
 
 CMD ["pnpm", "--filter", "show", "start"]
