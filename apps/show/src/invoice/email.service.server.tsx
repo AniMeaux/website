@@ -1,10 +1,7 @@
 import { getCompleteLocation } from "@animeaux/core"
 import { promiseHash } from "remix-utils/promise"
 
-import {
-  EMAIL_SENTENCE_COMPONENTS,
-  EmailHtml,
-} from "#i/core/data-display/email-html.server.js"
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { Routes } from "#i/core/navigation.js"
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
@@ -46,14 +43,13 @@ export class ServiceInvoiceEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownParagraph
                   content={getCompleteLocation({
                     address: exhibitor.billingAddress,
                     zipCode: exhibitor.billingZipCode,
                     city: exhibitor.billingCity,
                     country: exhibitor.billingCountry,
                   })}
-                  components={EMAIL_SENTENCE_COMPONENTS}
                 />
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>

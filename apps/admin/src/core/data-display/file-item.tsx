@@ -89,7 +89,7 @@ export const FileItem = {
         {...props}
         ref={ref}
         className={cn(
-          "absolute inset-x-0 bottom-0 rounded-b-[inherit] border-t border-[inherit] bg-white p-1 text-center text-caption-default",
+          "absolute inset-x-0 bottom-0 rounded-b-[inherit] border-t border-inherit bg-white p-1 text-center text-caption-default",
           className,
         )}
       >

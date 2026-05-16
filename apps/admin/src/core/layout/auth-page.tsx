@@ -11,7 +11,7 @@ export const AuthPage = {
           style={{ backgroundImage: `url(${backgroundPattern})` }}
         />
 
-        <section className="flex w-full max-w-[500px] flex-col justify-start px-safe-1.5 py-safe-2 md:pl-4 md:pr-safe-4 md:py-safe-4">
+        <section className="flex w-full max-w-50 flex-col justify-start py-safe-2 px-safe-1.5 md:py-safe-4 md:pr-safe-4 md:pl-4">
           <img
             src={nameAndLogo}
             alt={getPageTitle()}

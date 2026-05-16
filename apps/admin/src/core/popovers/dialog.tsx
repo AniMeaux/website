@@ -35,7 +35,7 @@ Dialog.Content = function DialogContent({
           <Overlay />
         </RadixDialog.Overlay>
 
-        <RadixDialog.Content className="fixed inset-x-0 bottom-0 z-30 grid animation-duration-150 animation-translate-y-full pb-safe-1 px-safe-1.5 data-[state=open]:animation-enter data-[state=closed]:animation-exit md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:w-[550px] md:-translate-x-1/2 md:p-0 md:animation-opacity-0 md:animation-duration-100 md:animation-translate-y-0">
+        <RadixDialog.Content className="fixed inset-x-0 bottom-0 z-30 grid px-safe-1.5 pb-safe-1 animation-duration-slow out-translate-y-full md:top-[10vh] md:right-auto md:bottom-auto md:left-1/2 md:w-55 md:-translate-x-1/2 md:p-0 md:animation-duration-normal md:out-opacity-0 md:out-translate-y-0 data-opened:animate-enter data-closed:animate-exit">
           {/*
            * Because links can't be focused by default, we might focus an
            * element out of order.
@@ -47,7 +47,7 @@ Dialog.Content = function DialogContent({
             // Explained just above.
             // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex={0}
-            className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-popover-md focus-visible:focus-compact-blue-400"
+            className="flex w-full flex-col gap-2 rounded-1 bg-white p-2 shadow-popover-md focus-visible:focus-ring"
           >
             {children}
           </div>
@@ -65,10 +65,10 @@ Dialog.Header = function DialogHeader({
   const { variant } = useContext(DialogContext)
 
   return (
-    <header className="grid grid-cols-[auto_minmax(0px,1fr)] gap-1">
+    <header className="grid grid-cols-auto-fr gap-1">
       <Icon
         href={VARIANT_ICON[variant]}
-        className={cn("text-[20px]", VARIANT_ICON_CLASS_NAME[variant])}
+        className={cn("icon-2", VARIANT_ICON_CLASS_NAME[variant])}
       />
 
       <RadixDialog.Title className="text-title-section-small md:text-title-section-large">

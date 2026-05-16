@@ -1,3 +1,4 @@
+import { cn } from "@animeaux/core"
 import { Link } from "@remix-run/react"
 
 import { Action } from "#i/core/actions/action.js"
@@ -23,7 +24,7 @@ export function RouteWaiting() {
 
 function SectionLogo() {
   return (
-    <header className="grid grid-cols-1 justify-items-center pb-4 pt-safe-4 px-safe-page-narrow md:px-safe-page-normal">
+    <header className="grid grid-cols-1 justify-items-center pt-safe-4 px-safe-page-narrow pb-4 md:px-safe-page-normal">
       <img
         src={logoLarge}
         alt="Salon des Ani’Meaux"
@@ -37,7 +38,12 @@ function SectionComeBack() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-square",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-stand-nduainkltifzvy2idnvl",
@@ -53,7 +59,7 @@ function SectionComeBack() {
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title>Revient en 2026</Section.Title>
 
           <p>
@@ -89,11 +95,16 @@ function SectionPreviousEditions() {
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
-          className="absolute left-0 top-0 -z-just-above h-full w-full"
+          className="absolute top-0 left-0 -z-just-above size-full"
         />
 
         <LazyElement asChild>
-          <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+          <Section.ImageAside
+            className={cn(
+              "aspect-4/3",
+              "animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <DynamicImage
               image={{
                 id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
@@ -102,13 +113,18 @@ function SectionPreviousEditions() {
               sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
               alt="Pott regarde un album photo."
               aspectRatio="none"
-              className="absolute inset-x-0 top-1/2 w-full -translate-y-[63%] md:-translate-y-[55%]"
+              className="absolute inset-x-0 top-1/2 w-full translate-y-[-63%] md:translate-y-[-55%]"
             />
           </Section.ImageAside>
         </LazyElement>
 
         <LazyElement asChild>
-          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] delay-150 duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
+          <Section.TextAside
+            className={cn(
+              "md:col-start-1 md:row-start-1",
+              "-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <Section.Title>Éditions Précédentes</Section.Title>
 
             <p>
@@ -145,7 +161,12 @@ function SectionFollow() {
   return (
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside
+          className={cn(
+            "px-safe-page-narrow",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <Section.Title className="md:text-center">
             Restez informés
           </Section.Title>
@@ -156,7 +177,7 @@ function SectionFollow() {
             l'aventure animale avec nous !
           </p>
 
-          <div className="grid grid-cols-2-auto justify-center gap-2">
+          <div className="grid grid-cols-auto-auto justify-center gap-2">
             <SocialLink to={CLIENT_ENV.FACEBOOK_URL}>
               <Pictogram id="facebook" className="icon-48" />
             </SocialLink>

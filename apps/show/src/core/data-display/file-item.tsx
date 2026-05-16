@@ -39,7 +39,7 @@ export const FileItem = {
     return (
       <div
         className={cn(
-          "col-start-1 row-start-1 grid grid-cols-1 content-center justify-items-center rounded-[inherit]",
+          "col-start-1 row-start-1 grid grid-cols-1 content-center justify-items-center rounded-inherit",
           className,
         )}
       >
@@ -64,7 +64,7 @@ export const FileItem = {
     }
 
     return (
-      <div className="col-start-1 row-start-1 grid w-full grid-cols-1 overflow-hidden rounded-[inherit]">
+      <div className="col-start-1 row-start-1 grid w-full grid-cols-1 overflow-hidden rounded-inherit">
         <img
           {...props}
           ref={ref}
@@ -89,7 +89,7 @@ export const FileItem = {
         {...props}
         ref={ref}
         className={cn(
-          "absolute inset-x-0 bottom-0 rounded-b-[inherit] border-t border-mystic-200 bg-white p-1 text-center text-caption-lowercase-default",
+          "absolute inset-x-0 bottom-0 rounded-b-inherit border-t border-mystic-200 bg-white p-1 text-center text-caption",
           className,
         )}
       >

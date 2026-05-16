@@ -32,7 +32,7 @@ export const SponsorItem = forwardRef<
       <Link
         to={sponsor.url}
         className={cn(
-          "group/item grid grid-cols-1 overflow-hidden focus-visible:focus-spaced",
+          "group/item grid grid-cols-1 overflow-hidden focus-ring-spaced focus-visible:focus-ring",
           isSmall ? "rounded-1" : "rounded-2 border border-alabaster",
         )}
       >
@@ -44,7 +44,7 @@ export const SponsorItem = forwardRef<
           objectFit="contain"
           fallbackSize={imageFallbackSize}
           sizes={imageSizes}
-          className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
+          className="w-full transition-transform duration-slow group-hover/item:scale-105"
         />
       </Link>
     </li>

@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react"
 
-import type { ScreenSize } from "#i/generated/theme.js"
-import { theme } from "#i/generated/theme.js"
-
-export const ScreenSizeValue = Object.fromEntries(
-  Object.entries(theme.screens).map(([key, value]) => [
-    key,
-    Number(value.replace("px", "")),
-  ]),
-) as Record<ScreenSize, number>
-
 export function useScreenSizeCondition(
   conditionFunction: (screenSize: number) => boolean,
 ) {

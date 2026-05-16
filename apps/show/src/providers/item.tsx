@@ -23,7 +23,7 @@ export const ProviderItem = forwardRef<
     <li {...props} ref={ref} className={cn("grid grid-cols-1", className)}>
       <Link
         to={provider.url}
-        className="group/item grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-visible:focus-spaced"
+        className="group/item grid grid-cols-1 overflow-hidden rounded-2 border border-alabaster focus-ring-spaced focus-visible:focus-ring"
       >
         <DynamicImage
           image={ImageData.parse(provider.logoPath)}
@@ -33,7 +33,7 @@ export const ProviderItem = forwardRef<
           objectFit="contain"
           fallbackSize={imageFallbackSize}
           sizes={imageSizes}
-          className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
+          className="w-full transition-transform duration-slow group-hover/item:scale-105"
         />
       </Link>
     </li>

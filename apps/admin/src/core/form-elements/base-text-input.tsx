@@ -31,10 +31,10 @@ export const BaseTextInput = Object.assign(
         {...rest}
         ref={ref}
         className={cn(
-          "min-h-[40px] w-full min-w-0 appearance-none rounded-0.5 py-1 text-left ring-1 ring-inset transition-colors duration-100 ease-in-out placeholder:text-gray-500 aria-[invalid=true]:ring-red-500 data-[invalid=true]:ring-red-500",
+          "min-h-4 w-full min-w-0 appearance-none rounded-0.5 py-1 text-left inset-ring-1 transition-colors ease-in-out placeholder:text-gray-500 aria-invalid:inset-ring-red-500 data-invalid:inset-ring-red-500",
           hideFocusRing
-            ? "focus-visible:outline-none"
-            : "focus-visible:focus-compact-blue-400 aria-[invalid=true]:focus-visible:focus-compact-red-500 data-[invalid=true]:focus-visible:focus-compact-red-500",
+            ? "focus-visible:outline-hidden"
+            : "focus-visible:focus-ring",
           INPUT_VARIANT_CLASS_NAMES[variant],
           {
             "pl-1": leftAdornmentCount === 0,
@@ -62,7 +62,7 @@ export const BaseTextInput = Object.assign(
           className={cn(
             "relative inline-flex",
             fromBooleanAttribute(rest["aria-disabled"])
-              ? "opacity-60"
+              ? "opacity-disabled"
               : undefined,
             className,
           )}
@@ -114,7 +114,7 @@ export const BaseTextInput = Object.assign(
           {...rest}
           ref={ref}
           className={cn(
-            "flex h-3 w-3 flex-none items-center justify-center text-[20px] text-gray-600",
+            "flex size-3 flex-none items-center justify-center icon-2 text-gray-600",
             className,
           )}
         />
@@ -132,7 +132,7 @@ export const BaseTextInput = Object.assign(
             ref={ref}
             type="button"
             className={cn(
-              "pointer-events-auto cursor-pointer rounded-full transition-colors duration-100 ease-in-out focus-visible:focus-compact-blue-400 hover:bg-gray-100",
+              "pointer-events-auto cursor-pointer rounded-full transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring",
               className,
             )}
           />
@@ -143,7 +143,7 @@ export const BaseTextInput = Object.assign(
 )
 
 const INPUT_VARIANT_CLASS_NAMES: Record<BaseTextInputVariant, string> = {
-  outlined: "ring-gray-200 bg-transparent",
-  search: "ring-gray-100 bg-gray-100",
-  transparent: "ring-transparent bg-transparent",
+  outlined: cn("bg-transparent inset-ring-gray-200"),
+  search: cn("bg-gray-100 inset-ring-gray-100"),
+  transparent: cn("bg-transparent inset-ring-transparent"),
 }

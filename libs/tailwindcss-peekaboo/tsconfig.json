@@ -1,0 +1,16 @@
+{
+  "extends": "@animeaux/dev-tools/tsconfig.lib",
+
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": ["./node_modules"],
+
+  "compilerOptions": {
+    "rootDir": "./",
+    "paths": {
+      "#i/*": ["./src/*"],
+      "#i/storybook/*": ["./storybook/*"]
+    },
+
+    "types": ["vite/client", "@animeaux/dev-tools/reset"]
+  }
+}

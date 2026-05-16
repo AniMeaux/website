@@ -14,7 +14,7 @@ export const IconInline = forwardRef<
       <Icon
         ref={ref}
         {...props}
-        className="absolute left-0 top-1/2 -translate-y-1/2 text-mystic icon-24"
+        className="absolute top-1/2 left-0 -translate-y-1/2 icon-24 text-mystic"
       />
     </span>
   )

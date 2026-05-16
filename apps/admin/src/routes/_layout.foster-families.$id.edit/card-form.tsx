@@ -14,7 +14,7 @@ export function CardForm() {
   useBackIfPossible({ fallbackRedirectTo: fetcher.data?.redirectTo })
 
   return (
-    <Card className="w-full md:max-w-[600px]">
+    <Card className="w-full md:max-w-60">
       <Card.Header>
         <Card.Title>Modifier {fosterFamily.displayName}</Card.Title>
       </Card.Header>

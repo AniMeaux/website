@@ -31,7 +31,7 @@ export const Footer = {
       >
         {children}
 
-        <Wave className="absolute inset-x-0 bottom-0 -z-just-above h-[53px] w-full md:h-[90px]" />
+        <Wave className="absolute inset-x-0 bottom-0 -z-just-above h-[53px] w-full md:h-7.5" />
       </section>
     )
   },
@@ -39,9 +39,9 @@ export const Footer = {
   LegalSection: function FooterLegalSection() {
     return (
       <section className="relative z-just-above grid grid-cols-1 px-page-narrow py-2 md:px-page-normal">
-        <LegalBackground className="absolute left-0 top-0 -z-just-above h-full w-full" />
+        <LegalBackground className="absolute top-0 left-0 -z-just-above size-full" />
 
-        <p className="text-center text-white text-caption-lowercase-emphasis">
+        <p className="text-center text-caption-emphasis text-white">
           Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
@@ -56,7 +56,7 @@ export const Footer = {
       <section
         {...props}
         className={cn(
-          "bg-paleBlue px-page-narrow py-4 md:px-page-normal",
+          "bg-pale-blue px-page-narrow py-4 md:px-page-normal",
           className,
         )}
       />
@@ -80,7 +80,7 @@ export const Footer = {
         alt="Association Ani’Meaux"
         aspectRatio="1:1"
         className={cn(
-          "w-[150px] justify-self-center rounded-full",
+          "w-12.5 justify-self-center rounded-full",
           isLarge ? "md:w-[200px]" : undefined,
         )}
       />
@@ -153,10 +153,10 @@ function ContactItem({
         to={to}
         prefetch="intent"
         className={cn(
-          "grid grid-cols-2-auto items-start gap-1 rounded-0.5 can-hover:focus-visible:focus-spaced",
+          "grid grid-cols-auto-auto items-start gap-1 rounded-0.5 focus-ring-spaced focus-visible:focus-ring",
 
           // Text color.
-          "text-prussianBlue transition-colors duration-normal can-hover:hover:text-prussianBlue-900 active:can-hover:hover:text-prussianBlue-800",
+          "text-prussian-blue transition-colors hover:text-prussian-blue-900 active:hover:text-prussian-blue-800",
         )}
       >
         <span className="flex h-2 items-center">
@@ -182,7 +182,7 @@ function Wave({ className }: { className?: string }) {
       >
         <path
           d="m0 27.1955c103-17.44588 244.5-33.89436 371.5-24.42371 141.665 10.56421 329 38.87881 455 38.87881 145.5 0 249-.0036 349-.0036 122.92 0 183-7.4732 264.5-7.4732v55.8262h-1440z"
-          className="fill-paleBlue"
+          className="fill-pale-blue"
         />
       </svg>
 
@@ -196,7 +196,7 @@ function Wave({ className }: { className?: string }) {
       >
         <path
           d="m0 9.02789c13-3.00984 27.5221-4.51477 45.5-4.51477h232.5c16.476 0 28.5-1.50492 42-4.01312v53h-320z"
-          className="fill-paleBlue"
+          className="fill-pale-blue"
         />
       </svg>
     </>

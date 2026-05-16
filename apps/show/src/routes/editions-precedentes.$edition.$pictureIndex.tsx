@@ -81,7 +81,7 @@ export default function Route() {
   const photograph = PREVIOUS_EDITION_PHOTOGRAPH[edition]
 
   return (
-    <main className="grid h-full max-h-full w-full grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px] overflow-hidden px-safe-0 py-safe-0">
+    <main className="grid size-full max-h-full grid-cols-[72px_minmax(0px,1fr)_72px] grid-rows-[72px_minmax(0px,1fr)_72px] overflow-hidden p-safe-0">
       <div
         ref={ref}
         className="col-span-3 col-start-1 row-start-2 grid items-center justify-items-center md:col-span-1 md:col-start-2"
@@ -102,7 +102,7 @@ export default function Route() {
           aspectRatio="none"
           loading="eager"
           style={{ width, aspectRatio: `${picture.width} / ${picture.height}` }}
-          className="max-h-full min-h-0 min-w-0 max-w-full"
+          className="max-h-full min-h-0 max-w-full min-w-0"
         />
       </div>
 
@@ -163,7 +163,7 @@ const PictureAction = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "grid grid-cols-1 self-center justify-self-center text-white opacity-70 icon-48 can-hover:hover:opacity-100 can-hover:focus-visible:opacity-100 can-hover:focus-visible:focus-compact",
+        "grid grid-cols-1 self-center justify-self-center icon-48 text-white opacity-70 hover:opacity-100 focus-visible:opacity-100 focus-visible:focus-ring",
         className,
       )}
     />

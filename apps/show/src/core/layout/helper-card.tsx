@@ -55,7 +55,7 @@ export const HelperCard = {
       <Primitive.h3
         {...props}
         ref={ref}
-        className={cn("text-body-lowercase-emphasis", className)}
+        className={cn("text-body-emphasis", className)}
       />
     )
   }),
@@ -79,5 +79,5 @@ type Color = "alabaster" | "paleBlue"
 
 const CLASS_NAME_BY_COLOR: Record<Color, string> = {
   alabaster: cn("bg-alabaster"),
-  paleBlue: cn("bg-paleBlue"),
+  paleBlue: cn("bg-pale-blue"),
 }

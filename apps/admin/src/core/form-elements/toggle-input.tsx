@@ -24,7 +24,7 @@ export function ToggleInput({
       <label className="relative z-0 cursor-pointer focus-within:z-10">
         <input
           {...rest}
-          className="peer absolute left-0 top-0 -z-10 h-full w-full appearance-none rounded-0.5 transition-colors duration-100 ease-in-out checked:bg-gray-100 focus-visible:focus-compact-blue-400 can-hover:group-hover:bg-gray-100"
+          className="peer absolute top-0 left-0 -z-10 size-full appearance-none rounded-0.5 transition-colors ease-in-out group-hover:bg-gray-100 checked:bg-gray-100 focus-visible:focus-ring"
         />
 
         <Item.Icon
@@ -47,7 +47,7 @@ export function ToggleInput({
           <span>{label}</span>
         </Item.Content>
 
-        <Item.Icon className="opacity-0 transition-opacity duration-100 ease-in-out peer-checked:opacity-100">
+        <Item.Icon className="opacity-0 transition-opacity ease-in-out peer-checked:opacity-100">
           <Icon
             href="icon-check-solid"
             className="text-[14px] text-green-600"

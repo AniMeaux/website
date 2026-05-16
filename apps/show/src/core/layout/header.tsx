@@ -61,11 +61,9 @@ export const Header = {
         role="menuitem"
         className={(props) =>
           cn(
-            "flex justify-center px-1 transition-[color,transform] duration-normal text-body-uppercase-emphasis active:scale-95 can-hover:focus-visible:focus-compact lg:px-2",
+            "flex justify-center px-1 text-body-uppercase-emphasis transition-[color,scale] focus-visible:focus-ring active:scale-95 lg:px-2",
 
-            isReallyActive(props)
-              ? "text-mystic"
-              : "can-hover:hover:text-mystic",
+            isReallyActive(props) ? "text-mystic" : "hover:text-mystic",
           )
         }
       >
@@ -76,7 +74,7 @@ export const Header = {
             <span
               aria-hidden
               className={cn(
-                "absolute bottom-0 left-0 h-[3px] w-full origin-left scale-x-0 bg-mystic transition-transform duration-slow",
+                "absolute bottom-0 left-0 h-0.25 w-full origin-left scale-x-0 bg-mystic transition-transform duration-slow",
                 isReallyActive(props) ? "scale-x-100" : undefined,
               )}
             />
@@ -102,7 +100,7 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
   return (
     <header className="relative z-header grid w-full grid-cols-1 md:hidden">
       <NavigationMenu.Root className="grid grid-cols-1">
-        <NavigationMenu.List className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-0.5 pt-safe-0.5 px-safe-page-narrow">
+        <NavigationMenu.List className="grid grid-cols-auto-auto items-center justify-between gap-2 pt-safe-0.5 px-safe-page-narrow pb-0.5">
           <NavigationMenu.Item className="flex">
             <NavItemHome />
           </NavigationMenu.Item>
@@ -114,15 +112,15 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
                 // https://github.com/radix-ui/primitives/issues/1630
                 onPointerMove={(event) => event.preventDefault()}
                 onPointerLeave={(event) => event.preventDefault()}
-                className="duration-100 focus-visible:focus-compact-mystic group/menu-trigger flex aspect-square w-4 items-center justify-center text-[24px] transition-transform active:scale-95"
+                className="group/menu-trigger flex aspect-square w-4 items-center justify-center icon-24 transition-transform duration-100 focus-visible:focus-ring active:scale-95"
               >
                 <Icon
                   id="bars-light"
-                  className="group-data-[state=open]/menu-trigger:hidden"
+                  className="group-data-opened/menu-trigger:hidden"
                 />
                 <Icon
                   id="x-mark-light"
-                  className="group-data-[state=closed]/menu-trigger:hidden"
+                  className="group-data-closed/menu-trigger:hidden"
                 />
               </NavigationMenu.Trigger>
 
@@ -145,12 +143,14 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
         </NavigationMenu.List>
 
         <NavigationMenu.Viewport
-          forceMount
           // We don't want the menu to close on hover.
           // https://github.com/radix-ui/primitives/issues/1630
           onPointerEnter={(event) => event.preventDefault()}
           onPointerLeave={(event) => event.preventDefault()}
-          className="duration-150 absolute left-0 top-0 -z-just-above grid w-full grid-cols-1 bg-white/70 pb-4 backdrop-blur-2xl transition-[transform,opacity] pt-safe-[84px] px-safe-page-narrow data-[state=closed]:-translate-y-full data-[state=open]:translate-y-0 data-[state=closed]:opacity-0 data-[state=open]:opacity-100 data-[state=closed]:ease-in data-[state=open]:ease-out"
+          className={cn(
+            "absolute top-0 left-0 -z-just-above grid w-full grid-cols-1 bg-white/70 pt-safe-7 px-safe-page-narrow pb-4 backdrop-blur-2xl",
+            "-out-translate-y-full animation-duration-slow out-opacity-0 data-opened:animate-enter data-closed:animate-exit",
+          )}
         />
       </NavigationMenu.Root>
     </header>
@@ -160,7 +160,7 @@ function HeaderRootSmall({ children }: React.PropsWithChildren) {
 function HeaderRootLarge({ children }: React.PropsWithChildren) {
   return (
     <header className="z-header hidden md:grid md:grid-cols-1">
-      <nav className="grid grid-cols-[auto_auto] items-center justify-between gap-2 pb-1 pt-safe-1 px-safe-page-normal">
+      <nav className="grid grid-cols-auto-auto items-center justify-between gap-2 pt-safe-1 px-safe-page-normal pb-1">
         <NavItemHome />
 
         {children != null ? (
@@ -178,7 +178,7 @@ function NavItemHome() {
     <Link
       to={Routes.home.toString()}
       prefetch="intent"
-      className="transition-transform duration-normal active:scale-95 can-hover:focus-visible:focus-compact"
+      className="transition-transform focus-visible:focus-ring active:scale-95"
     >
       <picture>
         <source srcSet={logoMedium} media={createImageMedia("md")} />

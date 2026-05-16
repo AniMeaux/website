@@ -36,7 +36,7 @@ export function CardList() {
 
       <Card.Content hasListItems>
         {applications.length > 0 ? (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto] @3xl/card-content:grid-cols-[auto_auto_auto_1fr_auto_auto] md:gap-x-2">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-x-1 md:gap-x-2 @lg/card-content:grid-cols-[auto_auto_1fr_auto] @3xl/card-content:grid-cols-[auto_auto_auto_1fr_auto_auto]">
             {applications.map((application) => (
               <ApplicationItem key={application.id} application={application} />
             ))}

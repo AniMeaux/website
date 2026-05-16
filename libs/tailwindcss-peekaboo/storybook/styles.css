@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "../src/peekaboo.css";
+
+@theme {
+  --spacing: 1px;
+}
+
+@theme {
+  --transition-duration-fast: 500ms;
+  --transition-duration-normal: 1s;
+  --transition-duration-slow: 2s;
+
+  --default-transition-duration: var(--transition-duration-slow);
+}
+
+@custom-variant data-closed (&[data-state="closed"]);
+@custom-variant data-opened (&[data-state*="open"]);

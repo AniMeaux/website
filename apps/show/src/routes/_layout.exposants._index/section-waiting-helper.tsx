@@ -10,7 +10,7 @@ export function SectionWaitingHelper() {
     <Section.Root columnCount={1}>
       <Section.TextAside asChild>
         <BoardCard>
-          <h2 className="text-mystic text-title-item">
+          <h2 className="text-item-title text-mystic">
             Il est encore un peu tôt
           </h2>
 
@@ -23,7 +23,7 @@ export function SectionWaitingHelper() {
 
           <p>
             La liste des exposants retenus sera{" "}
-            <strong className="text-body-lowercase-emphasis">
+            <strong className="text-body-emphasis">
               communiquée ultérieurement
             </strong>
             , restez donc à l’affût pour découvrir les acteurs passionnants qui

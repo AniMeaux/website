@@ -1,0 +1,19 @@
+@utility scrollbars-none {
+  &::-webkit-scrollbar {
+    @apply hidden size-0;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    @apply bg-transparent;
+  }
+}
+
+@utility scrollbars-custom {
+  &::-webkit-scrollbar {
+    @apply size-[3px];
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-alabaster-300;
+  }
+}

@@ -99,7 +99,7 @@ export default function Route() {
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-          <section className="flex flex-col md:min-w-0 md:flex-2">
+          <section className="flex flex-col md:min-w-0 md:flex-2 md:shrink-2">
             <Card>
               <Card.Header>
                 <Card.Title>
@@ -155,7 +155,7 @@ export default function Route() {
             </Card>
           </section>
 
-          <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
+          <aside className="hidden max-w-30 min-w-25 flex-1 flex-col md:flex">
             <Card className="sticky top-[calc(20px+var(--header-height))] max-h-[calc(100vh-40px-var(--header-height))]">
               <Card.Header>
                 <Card.Title>Filtrer</Card.Title>
@@ -215,7 +215,7 @@ function FosterFamilyItem({
       to={Routes.fosterFamilies.id(fosterFamily.id).toString()}
       className={cn(
         className,
-        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:gap-2 md:px-1",
+        "grid grid-flow-col grid-cols-auto-fr items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 inherit-bg-white hover:bg-gray-100 hover:inherit-bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:gap-2 md:px-1",
       )}
     >
       <FosterFamilyAvatar size="sm" availability={fosterFamily.availability} />
@@ -244,5 +244,5 @@ function FosterFamilyItem({
 const MAX_ANIMAL_AVATAR_COUNT = 5
 
 const ANIMAL_AVATAR_CLASS_NAME = cn(
-  "-ml-0.5 flex-none ring-2 ring-inheritBg first:ml-0",
+  "-ml-0.5 flex-none ring-2 ring-inherit-bg first:ml-0",
 )

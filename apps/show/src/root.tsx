@@ -1,4 +1,4 @@
-import "#i/tailwind.css"
+import "#i/styles/main.css"
 
 import { cn } from "@animeaux/core"
 import type { LinkDescriptor, LinksFunction } from "@remix-run/node"
@@ -21,7 +21,7 @@ import { createImageUrl } from "#i/core/data-display/image.js"
 import { asRouteHandle } from "#i/core/handles.js"
 import { getPageTitle, pageDescription } from "#i/core/page-title.js"
 import { ScrollRestorationLocationState } from "#i/core/scroll-restoration.js"
-import { theme } from "#i/generated/theme.js"
+import { Color, Font } from "#i/generated/theme.js"
 import appleTouchIcon from "#i/images/apple-touch-icon.png"
 import faviconDark from "#i/images/favicon-dark.png"
 import faviconLight from "#i/images/favicon-light.png"
@@ -48,24 +48,17 @@ export const links: LinksFunction = () => {
     { rel: "manifest", href: "/manifest.json" },
     { rel: "icon", href: faviconLight, media: "(prefers-color-scheme: light)" },
     { rel: "icon", href: faviconDark, media: "(prefers-color-scheme: dark)" },
-    { rel: "mask-icon", href: maskIcon, color: theme.colors.mystic.DEFAULT },
+    { rel: "mask-icon", href: maskIcon, color: Color.primary },
     { rel: "apple-touch-icon", href: appleTouchIcon },
 
-    { rel: "stylesheet", href: theme.fonts.serif.cssUrl },
-    ...theme.fonts.serif.variants.map<LinkDescriptor>((variant) => ({
-      rel: "preload",
-      href: variant.url,
-      as: "font",
-      crossOrigin: "anonymous",
-    })),
-
-    { rel: "stylesheet", href: theme.fonts.sans.cssUrl },
-    ...theme.fonts.sans.variants.map<LinkDescriptor>((variant) => ({
-      rel: "preload",
-      href: variant.url,
-      as: "font",
-      crossOrigin: "anonymous",
-    })),
+    ...Font.all.flatMap((fontFamily) =>
+      fontFamily.variants.map<LinkDescriptor>((variant) => ({
+        rel: "preload",
+        href: variant.url,
+        as: "font",
+        crossOrigin: "anonymous",
+      })),
+    ),
   ]
 }
 
@@ -149,7 +142,7 @@ function Document({
     >
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content={theme.colors.white} />
+        <meta name="theme-color" content={Color.white} />
 
         {/* Use `maximum-scale=1` to prevent browsers to zoom on form elements. */}
         <meta
@@ -189,7 +182,7 @@ function Document({
 
       <body
         className={cn(
-          "grid grid-cols-1 text-prussianBlue text-body-lowercase-default",
+          "grid grid-cols-1 text-body text-prussian-blue",
           isFullHeight ? "h-full" : "min-h-screen content-start",
 
           // We never want horizontal scroll at the page level.
@@ -199,8 +192,8 @@ function Document({
           "relative",
 
           // Make line breaks are added mid-word if needed.
-          // See https://tailwindcss.com/docs/word-break#break-words
-          "break-words",
+          // See https://tailwindcss.com/docs/overflow-wrap#wrapping-mid-word
+          "wrap-break-word",
         )}
       >
         {googleTagManagerId != null && (

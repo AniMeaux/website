@@ -42,7 +42,7 @@ export const InputFile = {
         ref={ref}
         onChange={handleChange}
         className={cn(
-          "peer/input col-start-1 row-start-1 h-full w-full cursor-pointer rounded-[inherit] opacity-0",
+          "peer/input col-start-1 row-start-1 size-full cursor-pointer rounded-inherit opacity-0",
           className,
         )}
       />
@@ -62,10 +62,10 @@ export const InputFile = {
         id={state.type === "empty" ? "upload-light" : undefined}
         mimeType={state.type === "filled" ? state.file.type : undefined}
         className={cn(
-          "pointer-events-none transition-colors duration-normal can-hover:peer-focus-visible/input:focus-spaced",
+          "pointer-events-none transition-colors focus-ring-spaced peer-focus-visible/input:focus-ring",
 
           // Background.
-          "bg-transparent peer-active/input:bg-mystic-100 can-hover:peer-hover/input:bg-mystic-50 peer-active/input:can-hover:peer-hover/input:bg-mystic-100",
+          "bg-transparent peer-hover/input:bg-mystic-50 peer-active/input:bg-mystic-100 peer-active/input:peer-hover/input:bg-mystic-100",
           className,
         )}
       />
@@ -87,7 +87,7 @@ export const InputFile = {
         {...props}
         ref={ref}
         className={cn(
-          "pointer-events-none transition-transform duration-slow can-hover:group-hover/item:scale-105",
+          "pointer-events-none transition-transform duration-slow group-hover/item:scale-105",
           className,
         )}
       />

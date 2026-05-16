@@ -46,7 +46,7 @@ export function SectionPictures() {
         </p>
       ) : null}
 
-      <ul className="grid gap-0.5 grid-auto-fill-cols-[150px] md:gap-1">
+      <ul className="grid grid-cols-auto-fill-[150px] gap-0.5 md:gap-1">
         <Suspense
           // Force skelton to show when changing edition.
           key={edition}
@@ -111,7 +111,7 @@ function PictureItem({
         state={PicturesLocationState.create({
           galleryLocationKey: scrollRestorationLocationKey,
         })}
-        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 can-hover:focus-visible:focus-spaced md:rounded-2"
+        className="group grid aspect-square grid-cols-1 overflow-hidden rounded-1 focus-ring-spaced focus-visible:focus-ring md:rounded-2"
       >
         <DynamicImage
           alt={
@@ -128,7 +128,7 @@ function PictureItem({
             isCover ? { default: "256px", sm: "400px" } : { default: "256px" }
           }
           loading={index < 5 ? "eager" : "lazy"}
-          className="w-full transition-transform duration-slow can-hover:group-hover:scale-105"
+          className="w-full transition-transform duration-slow group-hover:scale-105"
         />
       </Link>
     </li>

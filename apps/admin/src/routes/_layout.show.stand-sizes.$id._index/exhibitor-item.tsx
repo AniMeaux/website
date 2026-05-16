@@ -14,7 +14,7 @@ export function ExhibitorItem({ exhibitor }: { exhibitor: Exhibitor }) {
   return (
     <BaseLink
       to={Routes.show.exhibitors.id(exhibitor.id).toString()}
-      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1"
     >
       <DynamicImage
         imageId={ImageUrl.parse(exhibitor.logoPath).id}
@@ -29,7 +29,7 @@ export function ExhibitorItem({ exhibitor }: { exhibitor: Exhibitor }) {
 
       <VisibilityIcon
         visibility={Visibility.fromBoolean(exhibitor.isVisible)}
-        className="icon-20"
+        className="icon-2"
       />
     </BaseLink>
   )

@@ -34,8 +34,8 @@ export const Empty = {
         {...props}
         ref={ref}
         className={cn(
-          "leading-none icon-80",
-          isCompact ? undefined : "md:icon-120",
+          "icon-8 leading-none",
+          isCompact ? undefined : "md:icon-12",
           className,
         )}
       />
@@ -50,10 +50,7 @@ export const Empty = {
       <Primitive.div
         {...props}
         ref={ref}
-        className={cn(
-          "flex max-w-[400px] flex-col gap-2 text-center",
-          className,
-        )}
+        className={cn("flex max-w-40 flex-col gap-2 text-center", className)}
       />
     )
   }),

@@ -66,7 +66,7 @@ export function CardManagedAnimals() {
                 <AnimalItem
                   animal={animal}
                   imageSizeMapping={{ default: "150px" }}
-                  className="w-[160px] md:w-[170px]"
+                  className="w-16 md:w-17"
                 />
               </li>
             ))}

@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 import { useElementSize } from "#i/core/elements.js"
 import { BeeIllustration } from "#i/core/illustration/bee.js"
 import { useScreenSizeCondition } from "#i/core/screen-size.js"
-import { theme } from "#i/generated/theme.js"
+import { Breakpoint, Spacing } from "#i/generated/theme.js"
 
 export const LightBoardCard = forwardRef<
   React.ComponentRef<"div">,
@@ -30,8 +30,8 @@ export const LightBoardCard = forwardRef<
       <BeeIllustration
         direction="left-to-right"
         className={cn(
-          "absolute bottom-0.5 right-2.5 -z-just-above w-[25px] translate-y-1/2",
-          isSmall ? undefined : "md:bottom-1 md:right-5",
+          "absolute right-2.5 bottom-0.5 -z-just-above w-[25px] translate-y-1/2",
+          isSmall ? undefined : "md:right-5 md:bottom-1",
         )}
       />
 
@@ -43,7 +43,7 @@ export const LightBoardCard = forwardRef<
 function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
   const { ref, size } = useElementSize<HTMLDivElement>()
   const isMedium = useScreenSizeCondition(
-    (screenSize) => screenSize >= theme.screensPx.md,
+    (screenSize) => screenSize >= Breakpoint.value.md,
   )
 
   return (
@@ -51,7 +51,7 @@ function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
     // https://stackoverflow.com/questions/65565149/how-to-apply-resizeobserver-to-svg-element
     <div
       ref={ref}
-      className="absolute left-0 top-0 -z-just-above grid h-full w-full"
+      className="absolute top-0 left-0 -z-just-above grid size-full"
     >
       <svg
         viewBox={size == null ? "0 0 0 0" : `0 0 ${size.width} ${size.height}`}
@@ -59,7 +59,7 @@ function LightBoardBackground({ isSmall }: { isSmall: boolean }) {
         // Allow the shape to stretch.
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full overflow-visible"
+        className="size-full overflow-visible"
       >
         {size != null ? (
           <Dots
@@ -82,8 +82,8 @@ function Dots({
   height: number
   isMedium: boolean
 }) {
-  const spacing = isMedium ? theme.spacing[1] : theme.spacing["0.5"]
-  const radius = isMedium ? theme.spacing[4] : theme.spacing[2]
+  const spacing = Spacing.unitPx * (isMedium ? 1 : 0.5)
+  const radius = Spacing.unitPx * (isMedium ? 4 : 2)
 
   return (
     <rect

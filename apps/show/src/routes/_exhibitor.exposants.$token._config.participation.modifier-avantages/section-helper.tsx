@@ -5,12 +5,8 @@ export function SectionHelper() {
     <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
         Le montant de votre stand dépend de sa{" "}
-        <strong className="text-body-lowercase-emphasis">taille</strong> et de
-        votre{" "}
-        <strong className="text-body-lowercase-emphasis">
-          domaine d’activité
-        </strong>
-        .
+        <strong className="text-body-emphasis">taille</strong> et de votre{" "}
+        <strong className="text-body-emphasis">domaine d’activité</strong>.
       </p>
 
       <p>
@@ -20,12 +16,8 @@ export function SectionHelper() {
 
       <p>
         Le règlement pourra être effectué par{" "}
-        <strong className="text-body-lowercase-emphasis">
-          virement bancaire
-        </strong>{" "}
-        ou{" "}
-        <strong className="text-body-lowercase-emphasis">carte bancaire</strong>
-        .
+        <strong className="text-body-emphasis">virement bancaire</strong> ou{" "}
+        <strong className="text-body-emphasis">carte bancaire</strong>.
       </p>
 
       <p>

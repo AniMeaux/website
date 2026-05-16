@@ -47,7 +47,7 @@ export function ExhibitorItem({
     <li className={cn("grid grid-cols-1 gap-2", className)}>
       <Link
         to={exhibitor.url}
-        className="group/item grid grid-cols-1 gap-2 rounded-b-0.5 rounded-t-2 can-hover:focus-visible:focus-spaced"
+        className="group/item grid grid-cols-1 gap-2 rounded-t-2 rounded-b-0.5 focus-ring-spaced focus-visible:focus-ring"
       >
         <div className="grid w-full grid-cols-1 overflow-hidden rounded-2 border border-alabaster">
           <DynamicImage
@@ -59,7 +59,7 @@ export function ExhibitorItem({
             objectFit="contain"
             fallbackSize="512"
             sizes={imageSizes}
-            className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
+            className="w-full transition-transform duration-slow group-hover/item:scale-105"
           />
         </div>
 

@@ -30,7 +30,7 @@ namespace DiffSection {
       <Primitive.h3
         {...props}
         ref={ref}
-        className={cn("text-gray-500 text-caption-default", className)}
+        className={cn("text-caption-default text-gray-500", className)}
       />
     )
   })

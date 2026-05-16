@@ -4,10 +4,7 @@ import { promiseHash } from "remix-utils/promise"
 import invariant from "tiny-invariant"
 
 import type { IsFirstProps } from "#i/core/data-display/email-html.server.js"
-import {
-  EMAIL_PARAGRAPH_COMPONENTS,
-  EmailHtml,
-} from "#i/core/data-display/email-html.server.js"
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { Routes } from "#i/core/navigation.js"
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
@@ -324,9 +321,8 @@ export class ServiceExhibitorDogConfigurationEmail {
               <EmailHtml.Title>Présence de votre chien</EmailHtml.Title>
 
               <EmailHtml.Section.Root>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownDocument
                   content={exhibitor.dogsConfigurationStatusMessage}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
                 <EmailHtml.Paragraph>

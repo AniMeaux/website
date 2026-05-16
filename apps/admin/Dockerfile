@@ -1,5 +1,5 @@
 # Base stage for all subsequent stages.
-FROM node:22.12-bullseye-slim AS base
+FROM node:22.13-bullseye-slim AS base
 
 # Needed for Prisma generation and runtime.
 RUN apt-get update && apt-get install -y openssl
@@ -14,6 +14,9 @@ RUN corepack enable
 # There's an ongoing issue with corepack.
 # See https://github.com/nodejs/corepack/issues/612#issuecomment-2630469508
 RUN npm i -g corepack@latest
+
+# Pin the pnpm version to match `packageManager` in package.json.
+RUN corepack prepare pnpm@11.1.2 --activate
 
 WORKDIR /workspace
 
@@ -32,17 +35,22 @@ RUN rm -rf node_modules
 FROM base AS packages-json
 
 COPY package.json ./
+COPY apps/admin/package.json apps/admin/
+COPY apps/show/package.json apps/show/
+COPY apps/website/package.json apps/website/
 COPY libs/core/package.json libs/core/
 COPY libs/dev-tools/package.json libs/dev-tools/
 COPY libs/file-storage/package.json libs/file-storage/
+COPY libs/files-io/package.json libs/files-io/
 COPY libs/form-data/package.json libs/form-data/
 COPY libs/password/package.json libs/password/
 COPY libs/prisma/package.json libs/prisma/
 COPY libs/react-primitives/package.json libs/react-primitives/
 COPY libs/search-params-io/package.json libs/search-params-io/
 COPY libs/tailwind-animation/package.json libs/tailwind-animation/
+COPY libs/tailwindcss-peekaboo/package.json libs/tailwindcss-peekaboo/
 COPY libs/zod-utils/package.json libs/zod-utils/
-COPY apps/admin/package.json apps/admin/
+COPY scripts/package.json scripts/
 
 # App production build.
 FROM base AS build
@@ -61,13 +69,13 @@ COPY libs/password libs/password
 COPY libs/prisma libs/prisma
 COPY libs/react-primitives libs/react-primitives
 COPY libs/search-params-io libs/search-params-io
-COPY libs/tailwind-animation libs/tailwind-animation
+COPY libs/tailwindcss-peekaboo libs/tailwindcss-peekaboo
 COPY libs/zod-utils libs/zod-utils
 COPY apps/admin apps/admin
 
 # Synchronise injected workspace packages after copying source code.
 # See: docs/decisions/002-workspace-package-injection.md
-RUN pnpm install --frozen-lockfile --offline
+RUN pnpm -r sync-workspace
 
 # Build libs and app.
 RUN pnpm --filter admin... build
@@ -105,6 +113,6 @@ COPY libs/prisma/schema.prisma libs/prisma/schema.prisma
 
 # Synchronise injected workspace packages after copying build artifacts.
 # See: docs/decisions/002-workspace-package-injection.md
-RUN pnpm install --prod --frozen-lockfile --offline
+RUN pnpm -r sync-workspace
 
 CMD ["pnpm", "--filter", "admin", "start"]

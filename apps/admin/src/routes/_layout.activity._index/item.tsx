@@ -24,7 +24,7 @@ export function ActivityItem({
   return (
     <BaseLink
       to={Routes.activity.id(activity.id).toString()}
-      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1"
     >
       {activity.user != null ? (
         <span className="grid grid-flow-col items-center justify-start gap-1">
@@ -47,7 +47,7 @@ export function ActivityItem({
       <span className="grid grid-flow-col items-center justify-start gap-1">
         <Icon
           href={ActivityAction.icon[activity.action]}
-          className="text-gray-600 icon-20"
+          className="icon-2 text-gray-600"
         />
 
         <span className="hidden @lg/card-content:inline">
@@ -56,12 +56,12 @@ export function ActivityItem({
       </span>
 
       {activity.animal != null ? (
-        <span className="grid grid-cols-2-auto items-center justify-start gap-1">
+        <span className="grid grid-cols-auto-auto items-center justify-start gap-1">
           <AnimalAvatar size="sm" animal={activity.animal} />
           {getAnimalDisplayName(activity.animal)}
         </span>
       ) : activity.fosterFamily != null ? (
-        <span className="grid grid-cols-2-auto items-center justify-start gap-1">
+        <span className="grid grid-cols-auto-auto items-center justify-start gap-1">
           <FosterFamilyAvatar
             size="sm"
             availability={activity.fosterFamily.availability}

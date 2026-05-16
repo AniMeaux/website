@@ -1,13 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
   /*
    * Make sure focused elements without `:focus-visible` don't have an outline.
    */
   :focus:not(:focus-visible) {
-    @apply outline-none;
+    @apply outline-hidden;
   }
 
   /*
@@ -15,9 +11,9 @@
    * They usally don't have input mechanism that can hover over elements so we
    * check that.
    */
-  @media (any-hover: none) {
+  @media (hover: none) {
     :focus {
-      @apply outline-none;
+      @apply outline-hidden;
     }
   }
 
@@ -41,5 +37,20 @@
   body {
     text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * A label should be linked to an input. Clicking on a label focus its linked
+   * input.
+   */
+  label,
+  /*
+   * An anchor should have an `href` attribute.
+   */
+  a,
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  select:not(:disabled) {
+    @apply cursor-pointer;
   }
 }

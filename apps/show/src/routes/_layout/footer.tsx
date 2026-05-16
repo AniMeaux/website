@@ -1,3 +1,4 @@
+import { cn } from "@animeaux/core"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { Action } from "#i/core/actions/action.js"
@@ -45,7 +46,12 @@ function FooterOnline() {
         </Section.TextAside>
 
         <LazyElement asChild>
-          <Section.ImageAside className="-z-just-above aspect-4/3 translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+          <Section.ImageAside
+            className={cn(
+              "-z-just-above aspect-4/3",
+              "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <DynamicImage
               image={{ id: "/show/pages/pott-tirelire-tfktgcbzu4pozfvtgb0u" }}
               alt="Pott tient une tirelire"

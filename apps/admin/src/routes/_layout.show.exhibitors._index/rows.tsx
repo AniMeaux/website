@@ -21,7 +21,7 @@ export const Rows = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "grid grid-cols-[auto_1fr_auto_auto] gap-x-1 @lg/card-content:grid-cols-[auto_auto_1fr_auto_auto] md:gap-x-2",
+        "grid grid-cols-[auto_1fr_auto_auto] gap-x-1 md:gap-x-2 @lg/card-content:grid-cols-[auto_auto_1fr_auto_auto]",
         className,
       )}
     />
@@ -36,7 +36,7 @@ export function Row({
   return (
     <BaseLink
       to={Routes.show.exhibitors.id(exhibitor.id).toString()}
-      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="col-span-full grid grid-cols-subgrid items-center rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1"
     >
       <DynamicImage
         imageId={ImageUrl.parse(exhibitor.logoPath).id}
@@ -65,13 +65,13 @@ export function Row({
 
       <span className="grid grid-flow-col justify-end gap-0.5">
         {exhibitor.isOrganizersFavorite ? (
-          <span title="Lauréat Coup de cœur" className="icon-20">
+          <span title="Lauréat Coup de cœur" className="icon-2">
             <Icon href="icon-heart-light" />
           </span>
         ) : null}
 
         {exhibitor.isRisingStar ? (
-          <span title="Lauréat Espoir" className="icon-20">
+          <span title="Lauréat Espoir" className="icon-2">
             <Icon href="icon-seedling-light" />
           </span>
         ) : null}
@@ -79,7 +79,7 @@ export function Row({
 
       <VisibilityIcon
         visibility={Visibility.fromBoolean(exhibitor.isVisible)}
-        className="icon-20"
+        className="icon-2"
       />
     </BaseLink>
   )

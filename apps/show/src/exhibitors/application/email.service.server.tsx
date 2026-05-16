@@ -1,14 +1,9 @@
 import { getCompleteLocation } from "@animeaux/core"
 import type { Prisma } from "@animeaux/prisma"
 import { ShowExhibitorApplicationStatus } from "@animeaux/prisma"
-import { Img } from "@react-email/components"
 import invariant from "tiny-invariant"
 
-import {
-  EMAIL_PARAGRAPH_COMPONENTS,
-  EMAIL_SENTENCE_COMPONENTS,
-  EmailHtml,
-} from "#i/core/data-display/email-html.server.js"
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
 import { createImageUrl } from "#i/core/data-display/image.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { ImageData } from "#i/core/image/data.js"
@@ -147,14 +142,13 @@ export class ServiceApplicationEmail {
               </EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownParagraph
                   content={getCompleteLocation({
                     address: application.structureAddress,
                     zipCode: application.structureZipCode,
                     city: application.structureCity,
                     country: application.structureCountry,
                   })}
-                  components={EMAIL_SENTENCE_COMPONENTS}
                 />
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -195,7 +189,7 @@ export class ServiceApplicationEmail {
               <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                <Img
+                <EmailHtml.Img
                   src={createImageUrl(
                     process.env.CLOUDINARY_CLOUD_NAME,
                     ImageData.parse(application.structureLogoPath).id,
@@ -207,9 +201,6 @@ export class ServiceApplicationEmail {
                     },
                   )}
                   alt={application.structureName}
-                  // Reset Img default styles to avoid conflicts.
-                  style={{ border: undefined }}
-                  className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
                 />
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -369,9 +360,8 @@ export class ServiceApplicationEmail {
               <EmailHtml.Title>Candidature refusée</EmailHtml.Title>
 
               <EmailHtml.Section.Root>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownDocument
                   content={application.refusalMessage}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
               </EmailHtml.Section.Root>
 

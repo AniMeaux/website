@@ -1,0 +1,78 @@
+@theme {
+  /*
+   * Use default font families as fallbacks.
+   * See https://tailwindcss.com/docs/theme#default-theme-variable-reference
+   */
+  --font-sans:
+    Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Open Sans", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  /*
+   * In order to preserve a nice vertical rhythm, all text must have a
+   * line-height multiple of this value.
+   */
+  --base-line-height: 20px;
+}
+
+@utility text-body-default {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+}
+
+@utility text-body-emphasis {
+  @apply text-body-default;
+
+  font-weight: var(--font-weight-semibold);
+}
+
+@utility text-caption-default {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+}
+
+@utility text-caption-emphasis {
+  @apply text-caption-default;
+
+  font-weight: var(--font-weight-semibold);
+}
+
+@utility text-code-default {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--base-line-height);
+}
+
+@utility text-title-hero-small {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: var(--font-weight-bold);
+  line-height: calc(var(--base-line-height) * 2);
+}
+
+@utility text-title-hero-large {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: calc(var(--base-line-height) * 2);
+}
+
+@utility text-title-section-small {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--base-line-height);
+}
+
+@utility text-title-section-large {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--base-line-height);
+}

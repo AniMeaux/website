@@ -82,7 +82,7 @@ export default function Route() {
     <PageLayout.Root>
       <PageLayout.Content className="flex flex-col gap-1 md:gap-2">
         <section className="flex flex-col gap-1 md:flex-row md:gap-2">
-          <section className="flex flex-col md:min-w-0 md:flex-2">
+          <section className="flex flex-col md:min-w-0 md:flex-2 md:shrink-2">
             <Card>
               <Card.Header>
                 <Card.Title>
@@ -132,7 +132,7 @@ export default function Route() {
             </Card>
           </section>
 
-          <aside className="hidden min-w-[250px] max-w-[300px] flex-1 flex-col md:flex">
+          <aside className="hidden max-w-30 min-w-25 flex-1 flex-col md:flex">
             <Card className="sticky top-[calc(20px+var(--header-height))] max-h-[calc(100vh-40px-var(--header-height))]">
               <Card.Header>
                 <Card.Title>Trier et filtrer</Card.Title>
@@ -165,7 +165,7 @@ function UserItem({
       to={Routes.users.id(user.id).toString()}
       className={cn(
         className,
-        "grid grid-flow-col grid-cols-[auto_minmax(0px,1fr)] items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:gap-2 md:px-1",
+        "grid grid-flow-col grid-cols-auto-fr items-start gap-1 rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:gap-2 md:px-1",
       )}
     >
       <UserAvatar user={user} size="sm" />
@@ -190,7 +190,7 @@ function UserItem({
       ) : null}
 
       <span
-        className="flex h-2 items-center gap-0.5 text-[20px] text-gray-500"
+        className="flex h-2 items-center gap-0.5 icon-2 text-gray-500"
         title="Groupes"
       >
         {user.groups.map((group) => (

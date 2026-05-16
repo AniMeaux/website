@@ -4,7 +4,7 @@ export function SectionHelper() {
   return (
     <FormLayout.AsideHelper.Root hideOnSmallScreens>
       <p>
-        <strong className="text-body-lowercase-emphasis">
+        <strong className="text-body-emphasis">
           Votre stand sera définitivement confirmé dès réception du règlement de
           cette facture.
         </strong>

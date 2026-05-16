@@ -1,0 +1,71 @@
+@theme {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+}
+
+@utility pt-safe-* {
+  padding-top: calc(--spacing(--value(number)) + var(--safe-top));
+  padding-top: calc(--value([length]) + var(--safe-top));
+}
+
+@utility pr-safe-* {
+  padding-right: calc(--spacing(--value(number)) + var(--safe-right));
+  padding-right: calc(--value([length]) + var(--safe-right));
+}
+
+@utility pb-safe-* {
+  padding-bottom: calc(--spacing(--value(number)) + var(--safe-bottom));
+  padding-bottom: calc(--value([length]) + var(--safe-bottom));
+}
+
+@utility pl-safe-* {
+  padding-left: calc(--spacing(--value(number)) + var(--safe-left));
+  padding-left: calc(--value([length]) + var(--safe-left));
+}
+
+@utility px-safe-* {
+  padding-right: calc(--spacing(--value(number)) + var(--safe-right));
+  padding-right: calc(--value([length]) + var(--safe-right));
+  padding-left: calc(--spacing(--value(number)) + var(--safe-left));
+  padding-left: calc(--value([length]) + var(--safe-left));
+}
+
+@utility py-safe-* {
+  padding-top: calc(--spacing(--value(number)) + var(--safe-top));
+  padding-top: calc(--value([length]) + var(--safe-top));
+  padding-bottom: calc(--spacing(--value(number)) + var(--safe-bottom));
+  padding-bottom: calc(--value([length]) + var(--safe-bottom));
+}
+
+@utility p-safe-* {
+  padding-top: calc(--spacing(--value(number)) + var(--safe-top));
+  padding-top: calc(--value([length]) + var(--safe-top));
+  padding-right: calc(--spacing(--value(number)) + var(--safe-right));
+  padding-right: calc(--value([length]) + var(--safe-right));
+  padding-bottom: calc(--spacing(--value(number)) + var(--safe-bottom));
+  padding-bottom: calc(--value([length]) + var(--safe-bottom));
+  padding-left: calc(--spacing(--value(number)) + var(--safe-left));
+  padding-left: calc(--value([length]) + var(--safe-left));
+}
+
+@utility top-safe-* {
+  top: calc(--spacing(--value(number)) + var(--safe-top));
+  top: calc(--value([length]) + var(--safe-top));
+}
+
+@utility right-safe-* {
+  right: calc(--spacing(--value(number)) + var(--safe-right));
+  right: calc(--value([length]) + var(--safe-right));
+}
+
+@utility bottom-safe-* {
+  bottom: calc(--spacing(--value(number)) + var(--safe-bottom));
+  bottom: calc(--value([length]) + var(--safe-bottom));
+}
+
+@utility left-safe-* {
+  left: calc(--spacing(--value(number)) + var(--safe-left));
+  left: calc(--value([length]) + var(--safe-left));
+}

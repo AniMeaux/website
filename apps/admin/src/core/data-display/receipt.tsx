@@ -14,7 +14,7 @@ export namespace Receipt {
     return (
       <div
         {...props}
-        className="grid grid-flow-col grid-cols-fr-2-auto gap-x-1"
+        className="grid grid-flow-col grid-cols-fr-auto-auto gap-x-1"
       />
     )
   }

@@ -88,7 +88,7 @@ function ApplicationItem({
   return (
     <BaseLink
       to={Routes.show.applications.id(application.id).toString()}
-      className="grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 focus-visible:z-10 focus-visible:focus-compact-blue-400 hover:bg-gray-100 md:px-1"
+      className="grid grid-cols-[auto_minmax(0px,1fr)_auto] items-center gap-1 rounded-0.5 bg-white px-0.5 py-1 hover:bg-gray-100 focus-visible:z-10 focus-visible:focus-ring md:px-1"
     >
       <DynamicImage
         imageId={ImageUrl.parse(application.structureLogoPath).id}
@@ -106,7 +106,7 @@ function ApplicationItem({
 
         <p
           title={`Candidature reçu le ${DateTime.fromISO(application.createdAt).toLocaleString(DateTime.DATETIME_MED)}`}
-          className="text-gray-500 text-caption-default"
+          className="text-caption-default text-gray-500"
         >
           {toRoundedRelative(application.createdAt)}
         </p>
@@ -117,7 +117,7 @@ function ApplicationItem({
           <ActivityFieldIcon
             key={activityField}
             activityField={activityField}
-            className="icon-20"
+            className="icon-2"
           />
         ))}
       </span>

@@ -1,10 +1,9 @@
-import { cn } from "@animeaux/core"
 import {
   Body,
   Button,
   Column,
   Container,
-  Font,
+  Font as FontElement,
   Head,
   Heading,
   Hr,
@@ -12,13 +11,12 @@ import {
   Img,
   Link,
   Section,
-  Tailwind,
   Text,
 } from "@react-email/components"
 import { Children, cloneElement, isValidElement } from "react"
 import type { ExtraProps } from "react-markdown"
+import type { Except } from "type-fest"
 
-import tailwindConfig, { fonts } from "#i/../tailwind.config.js"
 import { createImageUrl } from "#i/core/data-display/image.js"
 import type { MarkdownComponents } from "#i/core/data-display/markdown.js"
 import {
@@ -27,53 +25,107 @@ import {
   SENTENCE_COMPONENTS,
   withoutNode,
 } from "#i/core/data-display/markdown.js"
+import { Color, Font, Spacing } from "#i/generated/theme.js"
+
+// These inline style objects duplicate the `@utility text-*` declarations in
+// `text-style.css`. Email clients don't support CSS classes, so styles must be
+// inlined. Keep both in sync when changing any text style.
+// See: apps/show/src/styles/text-style.css
+
+const TEXT_BODY: React.CSSProperties = {
+  fontFamily: '"Fira Sans", Arial',
+  fontSize: "16px",
+  fontWeight: 400,
+  lineHeight: "24px",
+  textTransform: "none",
+}
+
+const TEXT_BODY_EMPHASIS: React.CSSProperties = {
+  ...TEXT_BODY,
+
+  // `font-weight: 500` renders as `normal` in Outlook (no web font support,
+  // threshold is ~600)
+  fontWeight: 600,
+}
+
+const TEXT_CAPTION: React.CSSProperties = {
+  fontFamily: '"Fira Sans", Arial',
+  fontSize: "14px",
+  fontWeight: 400,
+  lineHeight: "24px",
+  textTransform: "none",
+}
+
+const TEXT_SECTION_TITLE: React.CSSProperties = {
+  fontFamily: '"CARAMEL MOCACINO", Impact',
+  fontSize: "52px",
+  fontWeight: 400,
+  lineHeight: "48px",
+  textTransform: "uppercase",
+}
+
+const TEXT_ITEM_TITLE: React.CSSProperties = {
+  fontFamily: '"CARAMEL MOCACINO", Impact',
+  fontSize: "26px",
+  fontWeight: 400,
+  lineHeight: "24px",
+  textTransform: "uppercase",
+}
 
 export const EmailHtml = {
   Root: function EmailHtmlRoot({ children }: React.PropsWithChildren) {
-    const fontElements = (Object.keys(fonts) as (keyof typeof fonts)[]).flatMap(
-      (type) => {
-        const fontFamily = fonts[type]
-
-        return fontFamily.variants.map((variant) => (
-          <Font
-            key={variant.url}
-            fontFamily={fontFamily.family}
-            fallbackFontFamily={fontFamily.fallback as FallbackFont}
-            webFont={{
-              url: `${process.env.PUBLIC_HOST}${variant.url}`,
-              format: variant.format,
-            }}
-            fontWeight={variant.weight}
-            fontStyle={variant.style}
-          />
-        ))
-      },
-    )
+    const fontElements = Font.all.flatMap((fontFamily) => {
+      return fontFamily.variants.map((variant) => (
+        <FontElement
+          key={variant.url}
+          fontFamily={fontFamily.name}
+          fallbackFontFamily={fontFamily.fallbacks as unknown as FallbackFont[]}
+          webFont={{
+            url: `${process.env.PUBLIC_HOST}${variant.url}`,
+            format: variant.format,
+          }}
+          fontWeight={variant.weight}
+          fontStyle={variant.style}
+        />
+      ))
+    })
 
     return (
       <Html lang="fr-FR">
-        <Tailwind config={tailwindConfig}>
-          <Head>{fontElements}</Head>
+        <Head>{fontElements}</Head>
 
-          <Body className="m-0 break-words bg-white p-0 py-4 text-prussianBlue">
-            <Container className="mx-auto max-w-screen-sm px-[16px]">
-              <Link href={process.env.PUBLIC_HOST}>
-                <Img
-                  src={createImageUrl(
-                    process.env.CLOUDINARY_CLOUD_NAME,
-                    "show/logos/flat-medium-light_aoea56",
-                  )}
-                  width="72"
-                  height="72"
-                  alt="Salon des Ani’Meaux"
-                  className="m-0"
-                />
-              </Link>
+        <Body
+          style={{
+            margin: 0,
+            backgroundColor: Color.whiteHex,
+            padding: `${Spacing.unitPx * 4}px 0`,
+            overflowWrap: "break-word",
+            color: Color.prussianBlueHex,
+          }}
+        >
+          <Container
+            style={{
+              margin: "0 auto",
+              maxWidth: 640,
+              padding: "0 16px",
+            }}
+          >
+            <Link href={process.env.PUBLIC_HOST}>
+              <Img
+                src={createImageUrl(
+                  process.env.CLOUDINARY_CLOUD_NAME,
+                  "show/logos/flat-medium-light_aoea56",
+                )}
+                width="72"
+                height="72"
+                alt="Salon des Ani'Meaux"
+                style={{ margin: 0 }}
+              />
+            </Link>
 
-              {children}
-            </Container>
-          </Body>
-        </Tailwind>
+            {children}
+          </Container>
+        </Body>
       </Html>
     )
   },
@@ -83,7 +135,11 @@ export const EmailHtml = {
       <Heading
         {...props}
         as="h1"
-        className="m-0 mt-4 text-mystic text-title-large"
+        style={{
+          margin: `${Spacing.unitPx * 4}px 0 0`,
+          ...TEXT_SECTION_TITLE,
+          color: Color.mysticHex,
+        }}
       />
     )
   },
@@ -91,9 +147,10 @@ export const EmailHtml = {
   SectionSeparator: function EmailHtmlSectionSeparator() {
     return (
       <Hr
-        // Reset Hr default styles to avoid conflicts.
-        style={{ border: undefined, borderTop: undefined }}
-        className="m-0 mt-4 border-0 border-t border-solid border-alabaster"
+        style={{
+          margin: `${Spacing.unitPx * 4}px 0 0`,
+          borderTop: `1px solid ${Color.alabasterHex}`,
+        }}
       />
     )
   },
@@ -101,7 +158,7 @@ export const EmailHtml = {
   Footer: function EmailHtmlFooter(props: React.PropsWithChildren) {
     return (
       <EmailHtml.Section.Root>
-        <Text {...props} className="m-0 text-caption-lowercase-default" />
+        <Text {...props} style={{ margin: 0, ...TEXT_CAPTION }} />
       </EmailHtml.Section.Root>
     )
   },
@@ -113,24 +170,58 @@ export const EmailHtml = {
     return (
       <Text
         {...props}
-        className={cn(
-          "m-0 text-body-lowercase-default",
-          _isFirst ? undefined : "mt-2",
-        )}
+        style={{
+          margin: 0,
+          ...TEXT_BODY,
+          ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 2 }),
+        }}
       />
     )
   },
 
   Strong,
 
-  Markdown: function EmailHtmlMarkdown({
+  MarkdownParagraph: function EmailHtmlMarkdownParagraph(
+    props: Except<
+      React.ComponentPropsWithoutRef<typeof Markdown>,
+      "components"
+    >,
+  ) {
+    return <Markdown {...props} components={EMAIL_SENTENCE_COMPONENTS} />
+  },
+
+  MarkdownDocument: function EmailHtmlMarkdownDocument({
     _isFirst,
     ...props
-  }: React.ComponentPropsWithoutRef<typeof Markdown> & IsFirstProps) {
+  }: Except<React.ComponentPropsWithoutRef<typeof Markdown>, "components"> &
+    IsFirstProps) {
     return (
-      <Section className={cn("m-0", _isFirst ? undefined : "mt-4")}>
-        <Markdown {...props} />
+      <Section
+        style={{
+          margin: 0,
+          ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 4 }),
+        }}
+      >
+        <Markdown {...props} components={EMAIL_PARAGRAPH_COMPONENTS} />
       </Section>
+    )
+  },
+
+  Img: function EmailHtmlImg(
+    props: React.ComponentPropsWithoutRef<typeof Img>,
+  ) {
+    return (
+      <Img
+        {...props}
+        style={{
+          aspectRatio: "4 / 3",
+          width: "100%",
+          minWidth: 0,
+          borderRadius: Spacing.unitPx * 2,
+          border: `1px solid ${Color.alabasterHex}`,
+          objectFit: "contain",
+        }}
+      />
     )
   },
 
@@ -141,7 +232,10 @@ export const EmailHtml = {
     return (
       <Link
         {...props}
-        className="border-0 border-b border-solid border-mystic text-prussianBlue"
+        style={{
+          borderBottom: `1px solid ${Color.mysticHex}`,
+          color: Color.prussianBlueHex,
+        }}
       >
         <EmailHtml.Strong>{children}</EmailHtml.Strong>
       </Link>
@@ -155,7 +249,12 @@ export const EmailHtml = {
     return (
       <Button
         {...props}
-        className="rounded-0.5 bg-mystic px-2 py-0.5 text-white"
+        style={{
+          borderRadius: Spacing.unitPx * 0.5,
+          backgroundColor: Color.mysticHex,
+          padding: `${Spacing.unitPx * 0.5}px ${Spacing.unitPx * 2}px`,
+          color: Color.whiteHex,
+        }}
       >
         <EmailHtml.Strong>{children}</EmailHtml.Strong>
       </Button>
@@ -169,10 +268,13 @@ export const EmailHtml = {
     return (
       <ol
         {...props}
-        className={cn(
-          "m-0 list-decimal pl-[16px] text-body-lowercase-default",
-          _isFirst ? undefined : "mt-2",
-        )}
+        style={{
+          margin: 0,
+          listStyleType: "decimal",
+          paddingLeft: 16,
+          ...TEXT_BODY,
+          ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 2 }),
+        }}
       />
     )
   },
@@ -184,10 +286,13 @@ export const EmailHtml = {
     return (
       <ul
         {...props}
-        className={cn(
-          "m-0 list-disc pl-[16px] text-body-lowercase-default",
-          _isFirst ? undefined : "mt-2",
-        )}
+        style={{
+          margin: 0,
+          listStyleType: "disc",
+          paddingLeft: 16,
+          ...TEXT_BODY,
+          ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 2 }),
+        }}
       />
     )
   },
@@ -200,7 +305,7 @@ export const EmailHtml = {
       )
 
       return (
-        <Section className="mt-4">
+        <Section style={{ marginTop: Spacing.unitPx * 4 }}>
           {childrenElements.map((child, index) =>
             cloneElement(child, { _isFirst: index === 0 }),
           )}
@@ -216,10 +321,12 @@ export const EmailHtml = {
         <Heading
           {...props}
           as="h2"
-          className={cn(
-            "m-0 text-mystic text-title-item",
-            _isFirst ? undefined : "mt-2",
-          )}
+          style={{
+            margin: 0,
+            ...TEXT_ITEM_TITLE,
+            color: Color.mysticHex,
+            ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 2 }),
+          }}
         />
       )
     },
@@ -241,12 +348,14 @@ export const EmailHtml = {
           cellPadding="0"
           cellSpacing="0"
           role="presentation"
-          className={cn(
-            "m-0 w-full border-none",
-            _isFirst ? undefined : "mt-2",
-          )}
+          style={{
+            margin: 0,
+            width: "100%",
+            borderStyle: "none",
+            ...(_isFirst ? {} : { marginTop: Spacing.unitPx * 2 }),
+          }}
         >
-          <tbody className="w-full">
+          <tbody style={{ width: "100%" }}>
             {childrenElements.map((child, index) =>
               cloneElement(child, { _isFirst: index === 0 }),
             )}
@@ -257,20 +366,22 @@ export const EmailHtml = {
 
     RowSeparator: function EmailHtmlOutputRowSeparator() {
       return (
-        <tr className="w-full">
-          <Column className="pt-1">
+        <tr style={{ width: "100%" }}>
+          <Column style={{ paddingTop: Spacing.unitPx }}>
             <Hr
-              // Reset Hr default styles to avoid conflicts.
-              style={{ border: undefined, borderTop: undefined }}
-              className="m-0 border-0 border-t border-dashed border-alabaster"
+              style={{
+                borderTop: `1px dashed ${Color.alabasterHex}`,
+                margin: 0,
+              }}
             />
           </Column>
 
-          <Column className="pt-1">
+          <Column style={{ paddingTop: Spacing.unitPx }}>
             <Hr
-              // Reset Hr default styles to avoid conflicts.
-              style={{ border: undefined, borderTop: undefined }}
-              className="m-0 border-0 border-t border-dashed border-alabaster"
+              style={{
+                borderTop: `1px dashed ${Color.alabasterHex}`,
+                margin: 0,
+              }}
             />
           </Column>
         </tr>
@@ -287,7 +398,7 @@ export const EmailHtml = {
       )
 
       return (
-        <tr className="w-full">
+        <tr style={{ width: "100%" }}>
           {childrenElements.map((child) => cloneElement(child, { _isFirst }))}
         </tr>
       )
@@ -299,10 +410,13 @@ export const EmailHtml = {
     }: React.PropsWithChildren<IsFirstProps>) {
       return (
         <Column
-          className={cn(
-            "w-1/2 pr-2 align-top text-caption-lowercase-default",
-            _isFirstRow ? undefined : "pt-1",
-          )}
+          style={{
+            width: "50%",
+            paddingRight: Spacing.unitPx * 2,
+            verticalAlign: "top",
+            ...TEXT_CAPTION,
+            ...(_isFirstRow ? {} : { paddingTop: Spacing.unitPx }),
+          }}
         >
           {children}
         </Column>
@@ -315,10 +429,12 @@ export const EmailHtml = {
     }: React.PropsWithChildren<IsFirstProps>) {
       return (
         <Column
-          className={cn(
-            "w-1/2 align-top text-body-lowercase-default",
-            _isFirstRow ? undefined : "pt-1",
-          )}
+          style={{
+            width: "50%",
+            verticalAlign: "top",
+            ...TEXT_BODY,
+            ...(_isFirstRow ? {} : { paddingTop: Spacing.unitPx }),
+          }}
         >
           {Children.toArray(children).map((child, index) => {
             if (!isValidElement(child)) {
@@ -341,25 +457,17 @@ export type IsFirstProps = { _isFirst?: boolean }
  * Not exported from @react-email/components Font.
  */
 type FallbackFont = KeepString<
-  React.ComponentProps<typeof Font>["fallbackFontFamily"]
+  React.ComponentProps<typeof FontElement>["fallbackFontFamily"]
 >
 
 type KeepString<T> = T extends string ? T : never
 
 function Strong(props: React.PropsWithChildren<ExtraProps>) {
-  // Wrap in a span with the class because the font weight is not well
-  // rendered.
-  return (
-    <span className="text-body-lowercase-emphasis">
-      <strong {...withoutNode(props)} />
-    </span>
-  )
+  return <strong {...withoutNode(props)} style={TEXT_BODY_EMPHASIS} />
 }
 
-export const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
+const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
   ...SENTENCE_COMPONENTS,
-
-  strong: Strong,
 
   a: ({ children, href }) => {
     if (href == null) {
@@ -368,18 +476,17 @@ export const EMAIL_SENTENCE_COMPONENTS: MarkdownComponents = {
 
     return <EmailHtml.Link href={href}>{children}</EmailHtml.Link>
   },
+
+  em: (props) => (
+    <em {...withoutNode(props)} style={{ ...TEXT_BODY, fontStyle: "italic" }} />
+  ),
+
+  strong: Strong,
 }
 
-export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
+const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ...PARAGRAPH_COMPONENTS,
   ...EMAIL_SENTENCE_COMPONENTS,
-
-  p: (props) => (
-    <EmailHtml.Paragraph
-      {...withoutNode(props)}
-      _isFirst={props.node?.position?.start.line === 1}
-    />
-  ),
 
   ul: (props) => (
     <EmailHtml.UnorderedList
@@ -396,6 +503,13 @@ export const EMAIL_PARAGRAPH_COMPONENTS: MarkdownComponents = {
   ),
 
   li: (props) => (
-    <li {...withoutNode(props)} className="m-0 text-body-lowercase-default" />
+    <li {...withoutNode(props)} style={{ margin: 0, ...TEXT_BODY }} />
+  ),
+
+  p: (props) => (
+    <EmailHtml.Paragraph
+      {...withoutNode(props)}
+      _isFirst={props.node?.position?.start.line === 1}
+    />
   ),
 }

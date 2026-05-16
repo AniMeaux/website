@@ -11,7 +11,7 @@ import { Routes } from "#i/core/navigation.js"
 import { getPageTitle } from "#i/core/page-title.js"
 import { Dialog } from "#i/core/popovers/dialog.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 
 import type { action } from "./action.server.js"
 import { CardApplicationList } from "./card-application-list.js"
@@ -61,10 +61,10 @@ function Header() {
   const { standSize } = useLoaderData<typeof loader>()
 
   return (
-    <PageLayout.Header.Root className="grid grid-cols-2-auto justify-between gap-2 md:gap-4">
+    <PageLayout.Header.Root className="grid grid-cols-auto-auto justify-between gap-2 md:gap-4">
       <PageLayout.Header.Title>{standSize.label}</PageLayout.Header.Title>
 
-      <div className="grid grid-cols-2-auto items-center gap-1">
+      <div className="grid grid-cols-auto-auto items-center gap-1">
         <Action variant="text" asChild>
           <BaseLink
             to={Routes.show.standSizes.id(standSize.id).edit.toString()}
@@ -92,9 +92,9 @@ function MoreMenu() {
         <DropdownMenu.Content
           side="bottom"
           align="end"
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
-          className="z-20 grid w-[200px] grid-cols-1 gap-1 rounded-1 bg-white p-1 shadow-popover-sm animation-opacity-0 animation-duration-100 -animation-translate-y-2 data-[state=open]:animation-enter data-[state=closed]:animation-exit"
+          sideOffset={Spacing.unitPx}
+          collisionPadding={Spacing.unitPx}
+          className="z-20 grid w-20 grid-cols-1 gap-1 rounded-1 bg-white p-1 shadow-popover-sm -out-translate-y-2 out-opacity-0 data-opened:animate-enter data-closed:animate-exit"
         >
           <MenuItemDelete />
         </DropdownMenu.Content>
@@ -112,8 +112,8 @@ function MenuItemDelete() {
   return (
     <Dialog>
       <DropdownMenu.Item onSelect={(event) => event.preventDefault()} asChild>
-        <Dialog.Trigger className="grid grid-cols-[auto,minmax(0px,1fr)] items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors duration-100 ease-in-out active:bg-gray-100 focus-visible:focus-compact-blue-400 hover:bg-gray-100">
-          <span className="flex h-4 w-4 items-center justify-center text-[20px]">
+        <Dialog.Trigger className="grid grid-cols-auto-fr items-center rounded-0.5 pr-1 text-left text-red-500 transition-colors ease-in-out hover:bg-gray-100 focus-visible:focus-ring active:bg-gray-100">
+          <span className="flex size-4 items-center justify-center icon-2">
             <Icon href="icon-trash-solid" />
           </span>
 

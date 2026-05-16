@@ -34,25 +34,29 @@ export const ModalFilters = {
         useScrollState<React.ComponentRef<"div">>()
 
       return (
-        <Dialog.Overlay
-          {...props}
-          ref={ref}
-          className={cn(
-            // Use absolute instead of fixed to avoid performances issues when
-            // mobile browser's height change due to scroll.
-            "absolute",
-            "inset-0 z-modal overscroll-none bg-white/50",
-          )}
-        >
+        <>
+          <Dialog.Overlay
+            {...props}
+            ref={ref}
+            className={cn(
+              // Use absolute instead of fixed to avoid performances issues when
+              // mobile browser's height change due to scroll.
+              "absolute",
+              "inset-0 z-modal cursor-pointer overscroll-none bg-white/50",
+              "md:animation-duration-slow md:out-opacity-0 md:data-opened:animate-enter md:data-closed:animate-exit",
+            )}
+          />
+
           <Dialog.Content asChild>
             <section
               className={cn(
-                "fixed bottom-0 left-0 right-0 top-0 z-modal flex min-h-0 w-full flex-col bg-white md:bottom-auto md:left-1/2 md:right-auto md:top-[10vh] md:max-h-[80vh] md:max-w-[640px] md:-translate-x-1/2 md:rounded-1 md:shadow-modal",
+                "fixed inset-0 z-modal flex min-h-0 w-full flex-col bg-white md:top-[10vh] md:right-auto md:bottom-auto md:left-1/2 md:max-h-[80vh] md:max-w-[640px] md:-translate-x-1/2 md:rounded-1 md:shadow-modal",
+                "md:animation-duration-slow md:out-opacity-0 md:data-opened:animate-enter md:data-closed:animate-exit",
               )}
             >
               <header
                 className={cn(
-                  "grid flex-none grid-cols-fr-auto items-center gap-2 border-b pb-2 pt-safe-2 px-safe-page-narrow md:gap-4 md:px-2",
+                  "grid flex-none grid-cols-fr-auto items-center gap-2 border-b pt-safe-2 px-safe-page-narrow pb-2 md:gap-4 md:px-2",
                   isStickyTop ? "border-alabaster" : "border-transparent",
                 )}
               >
@@ -62,7 +66,7 @@ export const ModalFilters = {
 
                 <Dialog.Close
                   title="Fermer"
-                  className="grid aspect-square w-2 grid-cols-1-auto rounded-0.5 text-mystic transition-transform duration-normal icon-24 active:text-mystic-700 can-hover:hover:text-mystic-600 can-hover:focus-visible:focus-compact active:can-hover:hover:text-mystic-700"
+                  className="grid aspect-square w-2 grid-cols-auto rounded-0.5 icon-24 text-mystic transition-transform hover:text-mystic-600 focus-visible:focus-ring active:text-mystic-700 active:hover:text-mystic-700"
                 >
                   <Icon id="x-mark-light" />
                 </Dialog.Close>
@@ -70,7 +74,7 @@ export const ModalFilters = {
 
               <div
                 ref={elementRef}
-                className="flex min-h-0 flex-col overflow-y-auto overscroll-contain scrollbars-custom"
+                className="flex scrollbars-custom min-h-0 flex-col overflow-y-auto overscroll-contain"
               >
                 <FormLayout.Section
                   className="py-2 px-safe-page-narrow md:px-2"
@@ -87,7 +91,7 @@ export const ModalFilters = {
 
               <footer
                 className={cn(
-                  "grid flex-none grid-cols-1-auto justify-center border-t pt-2 pb-safe-2 px-safe-page-narrow md:justify-end md:px-2 md:pb-2",
+                  "grid flex-none grid-cols-auto justify-center border-t pt-2 px-safe-page-narrow pb-safe-2 md:justify-end md:px-2 md:pb-2",
                   isStickyBottom ? "border-alabaster" : "border-transparent",
                 )}
               >
@@ -99,7 +103,7 @@ export const ModalFilters = {
               </footer>
             </section>
           </Dialog.Content>
-        </Dialog.Overlay>
+        </>
       )
     },
   ),
