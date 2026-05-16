@@ -91,7 +91,7 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
     <blockquote
       className={cn("my-6 flex gap-3 italic first:mt-0 last:mb-0", "md:gap-6")}
     >
-      <LineShapeVertical className="w-2 flex-none text-brandBlue" />
+      <LineShapeVertical className="w-2 flex-none text-brand-blue" />
       <div className="flex-1">{children}</div>
     </blockquote>
   ),
@@ -107,8 +107,8 @@ export const ARTICLE_COMPONENTS: MarkdownProps["components"] = {
   h2: ({ children }) => (
     <h2
       className={cn(
-        "mb-6 mt-12 text-title-section-small first:mt-0 last:mb-0",
-        "md:text-title-section-large",
+        "mt-12 mb-6 text-section-title-small first:mt-0 last:mb-0",
+        "md:text-section-title-large",
       )}
     >
       {children}

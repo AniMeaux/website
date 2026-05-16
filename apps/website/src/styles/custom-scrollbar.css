@@ -1,0 +1,9 @@
+@utility scrollbars-none {
+  &::-webkit-scrollbar {
+    @apply hidden size-0;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    @apply bg-transparent;
+  }
+}

@@ -59,9 +59,9 @@ export function SubscriptionForm() {
         method="POST"
         action={RESOURCE_PATHNAME}
         className={cn(
-          "flex w-full gap-2 rounded-bl-[10px] rounded-br-[16px] rounded-tl-[16px] rounded-tr-[10px] p-1 shadow-base",
+          "flex w-full gap-2 rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] p-1 shadow-base",
           {
-            "bg-brandRed-lightest": isError,
+            "bg-brand-red-lightest": isError,
             "bg-white": !isError,
           },
         )}
@@ -72,15 +72,15 @@ export function SubscriptionForm() {
           name={ActionFormData.keys.email}
           aria-label="Email"
           placeholder="jean@email.com"
-          className="min-w-0 flex-1 bg-transparent px-6 py-2 placeholder-gray-500 rounded-bubble-sm"
+          className="min-w-0 flex-1 rounded-bubble-sm bg-transparent px-6 py-2 placeholder-gray-500"
         />
 
         <button
           className={cn(
-            "flex p-3 text-white transition-[background-color,transform] duration-100 ease-in-out rounded-bubble-sm",
+            "flex rounded-bubble-sm p-3 text-white transition-[background-color,scale]",
             {
-              "bg-brandGreen": isSuccess,
-              "bg-brandBlue active:scale-95 hover:bg-brandBlue-lighter":
+              "bg-brand-green": isSuccess,
+              "bg-brand-blue hover:bg-brand-blue-lighter active:scale-95":
                 !isSuccess,
             },
           )}
@@ -90,9 +90,9 @@ export function SubscriptionForm() {
       </fetcher.Form>
 
       {fetcher.data?.type === "error" && (
-        <p className="flex items-center gap-2 text-brandRed">
-          <Icon id="circle-exclamation" className="text-[14px]" />
-          <span className="text-caption-default">
+        <p className="flex items-center gap-2 text-brand-red">
+          <Icon id="circle-exclamation" className="icon-14" />
+          <span className="text-caption">
             {fetcher.data.errors.formErrors.join(". ") ||
               fetcher.data.errors.fieldErrors.email}
           </span>

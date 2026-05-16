@@ -9,7 +9,7 @@ export function ShowBanner({ className }: { className?: string }) {
       to={CLIENT_ENV.SHOW_URL}
       className={cn(
         className,
-        "flex items-center gap-3 bg-show-mystic px-page pb-2 text-show-alabaster pt-safe-2 text-show-body-lowercase-emphasis md:gap-6",
+        "flex items-center gap-3 bg-show-mystic px-page pt-safe-2 pb-2 text-show-body-emphasis text-show-alabaster md:gap-6",
       )}
     >
       <ShowLogo />
@@ -24,7 +24,7 @@ export function ShowBanner({ className }: { className?: string }) {
 
       <p className="flex items-center gap-3 p-2">
         <span className="hidden md:inline">En savoir plus</span>
-        <Icon id="arrow-right" className="text-[20px]" />
+        <Icon id="arrow-right" className="icon-20" />
       </p>
     </BaseLink>
   )

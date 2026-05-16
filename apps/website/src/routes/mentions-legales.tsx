@@ -13,7 +13,7 @@ export default function Route() {
   return (
     <main className="flex w-full flex-col gap-12 px-article">
       <header className="flex flex-col gap-6">
-        <h1 className={cn("text-title-hero-small", "md:text-title-hero-large")}>
+        <h1 className={cn("text-hero-title-small", "md:text-hero-title-large")}>
           Mentions légales
         </h1>
 

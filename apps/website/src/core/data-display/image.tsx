@@ -1,11 +1,9 @@
 import { cn } from "@animeaux/core"
-import { orderBy } from "es-toolkit/array"
 import invariant from "tiny-invariant"
 
 import type { IconProps } from "#i/generated/icon.js"
 import { Icon } from "#i/generated/icon.js"
-import type { ScreenSize } from "#i/generated/theme.js"
-import { theme } from "#i/generated/theme.js"
+import { Breakpoint } from "#i/generated/theme.js"
 
 // Ordered by decreasing size.
 const IMAGE_SIZES = ["2048", "1536", "1024", "512", "256", "128"] as const
@@ -17,19 +15,11 @@ export type ImageDescriptor = {
 }
 
 // Larger to smaller.
-const SCREEN_SIZES = orderBy(
-  (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
-  ),
-  [({ width }) => width],
-  ["desc"],
-)
-  .map(({ name }) => name)
-  .concat("default")
+const BREAKPOINT_NAMES = [...Breakpoint.names, "default"] as const
 
 export type StaticImageProps = {
   image: ImageDescriptor
-  sizes: Partial<Record<ScreenSize, string>> & {
+  sizes: Partial<Record<Breakpoint, string>> & {
     // `default` is mandatory.
     default: string
   }
@@ -47,14 +37,14 @@ export function StaticImage({
 }: StaticImageProps) {
   invariant(fallbackSize != null, "At least one size should be provided.")
 
-  const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizesProp[screen]
+  const sizes = BREAKPOINT_NAMES.reduce<string[]>((sizes, breakpoint) => {
+    const width = sizesProp[breakpoint]
 
     if (width != null) {
       sizes.push(
-        screen === "default"
+        breakpoint === "default"
           ? width
-          : `(min-width: ${theme.screens[screen]}) ${width}`,
+          : `(min-width: ${Breakpoint.value[breakpoint]}px) ${width}`,
       )
     }
 
@@ -78,8 +68,8 @@ export function StaticImage({
 type ImageBackground = "none" | "gray"
 
 const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
-  gray: "bg-gray-100",
-  none: "",
+  gray: cn("bg-gray-100"),
+  none: cn(),
 }
 
 export function DynamicImage({

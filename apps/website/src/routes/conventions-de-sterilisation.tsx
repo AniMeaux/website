@@ -77,7 +77,7 @@ function AlertSection() {
           "md:px-30 md:py-[60px]",
         )}
       >
-        <h2 className="text-center text-title-section-small md:text-title-section-large">
+        <h2 className="text-center text-section-title-small md:text-section-title-large">
           Signalements
         </h2>
 
@@ -111,12 +111,12 @@ function LawSection() {
           "md:px-30 md:py-[60px]",
         )}
       >
-        <h2 className="text-center text-title-section-small md:text-title-section-large">
+        <h2 className="text-center text-section-title-small md:text-section-title-large">
           Législation
         </h2>
 
         <div className="flex flex-col">
-          <h3 className="text-center text-title-item">
+          <h3 className="text-center text-item-title">
             Article L211-27 du Code Rural et de la Pêche Maritime
           </h3>
 
@@ -139,7 +139,7 @@ function LawSection() {
 function ErrandsSection() {
   return (
     <section className="flex flex-col gap-6 md:gap-12">
-      <h2 className="text-center text-title-section-small md:text-title-section-large">
+      <h2 className="text-center text-section-title-small md:text-section-title-large">
         Gestion des chats errants
       </h2>
 
@@ -197,7 +197,7 @@ function CitiesSection() {
   return (
     <section className="flex flex-col gap-12">
       <div className="flex flex-col gap-6">
-        <h2 className="text-center text-title-section-small md:text-title-section-large">
+        <h2 className="text-center text-section-title-small md:text-section-title-large">
           Communes
         </h2>
 
@@ -228,10 +228,10 @@ function CitiesSection() {
                 }}
                 fallbackSize="512"
                 background="none"
-                className="aspect-4/3 w-full flex-none border border-gray-200 rounded-bubble-md"
+                className="aspect-4/3 w-full flex-none rounded-bubble-md border border-gray-200"
               />
 
-              <p className="text-center text-gray-500 text-title-item">
+              <p className="text-center text-item-title text-gray-500">
                 {city.name}
               </p>
             </li>

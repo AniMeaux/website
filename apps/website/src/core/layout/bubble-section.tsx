@@ -1,13 +1,13 @@
 import { cn } from "@animeaux/core"
 
 export const bubbleSectionClassNames = {
-  root: () => "relative flex",
+  root: () => cn("relative flex"),
   // Wrap the shape because it looks like SVG can only be sized with width and
   // height. But we don't want the width class to be a complexe arbitrary value
-  // with hard coded size in px: `w-[calc(100%_-_16px)]`.
+  // with hard coded size in px: `w-[calc(100%-16px)]`.
   bubbleContainer: () =>
-    cn("absolute bottom-0 left-2 right-2 top-0 -z-10", "md:left-4 md:right-4"),
-  content: () => "w-full",
+    cn("absolute inset-x-2 inset-y-0 -z-10", "md:inset-x-4"),
+  content: () => cn("w-full"),
 }
 
 export function BubbleShape({
@@ -24,8 +24,8 @@ export function BubbleShape({
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn("h-full w-full overflow-visible", {
-        "stroke-brandYellow": isDouble,
+      className={cn("size-full overflow-visible", {
+        "stroke-brand-yellow": isDouble,
         "stroke-gray-300": !isDouble,
       })}
       style={style}

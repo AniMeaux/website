@@ -69,8 +69,8 @@ function OptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-center text-title-section-small",
-          "md:text-title-section-large",
+          "text-center text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Options
@@ -120,8 +120,8 @@ function VolunteerSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-center text-title-section-small",
-          "md:text-title-section-large",
+          "text-center text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Missions des bénévoles
@@ -209,7 +209,7 @@ function MissionItem({
         sizes={{ default: "128px" }}
         className="aspect-square w-32"
       />
-      <h3 className="text-title-item">{title}</h3>
+      <h3 className="text-item-title">{title}</h3>
       <p>{children}</p>
     </li>
   )

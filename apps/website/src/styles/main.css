@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@import "./animation.css";
+@import "./border-radius.css";
+@import "./custom-scrollbar.css";
+@import "./global.css";
+@import "./grid.css";
+@import "./icon-size.css";
+@import "./safe-area.css";
+@import "./text-style.css";
+@import "./theme.css";

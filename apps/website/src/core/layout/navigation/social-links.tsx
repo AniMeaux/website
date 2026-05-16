@@ -12,28 +12,28 @@ export function SocialLinks({ className }: { className?: string }) {
         to={CLIENT_ENV.FACEBOOK_URL}
         icon="facebook"
         title="Page Facebook"
-        className="hover:bg-facebook hover:text-facebook"
+        className="hover:bg-social-facebook/10 hover:text-social-facebook"
       />
 
       <SocialLink
         to={CLIENT_ENV.INSTAGRAM_URL}
         icon="instagram"
         title="Compte Instagram"
-        className="hover:bg-instagram hover:text-instagram"
+        className="hover:bg-social-instagram/10 hover:text-social-instagram"
       />
 
       <SocialLink
         to={CLIENT_ENV.LINKEDIN_URL}
         icon="linkedin"
         title="Page LinkedIn"
-        className="hover:bg-linkedin hover:text-linkedin"
+        className="hover:bg-social-linkedin/10 hover:text-social-linkedin"
       />
 
       <SocialLink
         to={CLIENT_ENV.TWITTER_URL}
         icon="twitter"
         title="Compte Twitter"
-        className="hover:bg-twitter hover:text-twitter"
+        className="hover:bg-social-twitter/10 hover:text-social-twitter"
       />
     </div>
   )
@@ -56,7 +56,7 @@ function SocialLink({
       title={title}
       className={cn(
         className,
-        "flex items-center bg-opacity-0 p-2 text-gray-700 transition-colors duration-100 ease-in-out rounded-bubble-sm hover:bg-opacity-10",
+        "flex items-center rounded-bubble-sm bg-transparent p-2 text-gray-700 transition-colors",
       )}
     >
       <Icon id={icon} />

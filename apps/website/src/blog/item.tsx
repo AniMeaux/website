@@ -30,14 +30,14 @@ export function ArticleItem({
         />
 
         <div className="flex flex-col">
-          <p className="text-gray-500 text-caption-default">
+          <p className="text-caption text-gray-500">
             {DateTime.fromISO(article.publicationDate).toLocaleString(
               DateTime.DATE_MED,
             )}{" "}
             par {article.authorName}
           </p>
 
-          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
+          <p className="text-item-title transition-colors group-hover:text-brand-blue">
             {article.title}
           </p>
           <p>{article.description}</p>

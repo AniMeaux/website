@@ -152,8 +152,8 @@ function WhoWeAreSection() {
       <div className={cn("flex flex-col gap-6 text-center", "md:px-30")}>
         <h2
           className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large",
+            "text-section-title-small",
+            "md:text-section-title-large",
           )}
         >
           Qui sommes-nous ?
@@ -264,14 +264,14 @@ function NumberItem({
 }) {
   return (
     <li className="flex flex-col items-center gap-4 text-center">
-      <Icon id={icon} className="text-[60px] text-gray-700" />
+      <Icon id={icon} className="icon-60 text-gray-700" />
 
       <div className="flex w-full flex-col">
         <h3
-          className={cn("font-serif text-[32px] font-bold leading-normal", {
-            "text-brandGreen": color === "green",
-            "text-brandYellow-darker": color === "yellow",
-            "text-brandRed": color === "red",
+          className={cn("font-serif icon-32 leading-normal font-bold", {
+            "text-brand-green": color === "green",
+            "text-brand-yellow-darker": color === "yellow",
+            "text-brand-red": color === "red",
           })}
         >
           {value}
@@ -293,8 +293,8 @@ function UpcomingEventsSection() {
     <section className="flex flex-col items-center gap-12">
       <h2
         className={cn(
-          "w-full text-center text-title-section-small",
-          "md:px-30 md:text-title-section-large",
+          "w-full text-center text-section-title-small",
+          "md:px-30 md:text-section-title-large",
         )}
       >
         Événements à venir

@@ -55,9 +55,9 @@ export function AnimalItem({
         <div className="flex flex-col">
           <p className="flex items-start gap-1">
             <span
-              className={cn("flex h-6 flex-none items-center text-[20px]", {
+              className={cn("flex h-6 flex-none items-center icon-20", {
                 "text-pink-500": animal.gender === Gender.FEMALE,
-                "text-brandBlue": animal.gender === Gender.MALE,
+                "text-brand-blue": animal.gender === Gender.MALE,
               })}
               title={GENDER_TRANSLATION[animal.gender]}
             >
@@ -65,21 +65,18 @@ export function AnimalItem({
             </span>
 
             <span
-              className={cn(
-                "flex-1 transition-colors duration-100 ease-in-out text-title-item",
-                {
-                  "group-hover:text-brandBlue":
-                    !isDisabled && animal.gender === Gender.MALE,
-                  "group-hover:text-pink-500":
-                    !isDisabled && animal.gender === Gender.FEMALE,
-                },
-              )}
+              className={cn("flex-1 text-item-title transition-colors", {
+                "group-hover:text-brand-blue":
+                  !isDisabled && animal.gender === Gender.MALE,
+                "group-hover:text-pink-500":
+                  !isDisabled && animal.gender === Gender.FEMALE,
+              })}
             >
               {animal.name}
             </span>
           </p>
 
-          <p className="flex items-start gap-6 text-gray-500 text-caption-default">
+          <p className="flex items-start gap-6 text-caption text-gray-500">
             <span className="flex-1">{speciesLabels}</span>
             <span className="flex-none">{formatAge(animal.birthdate)}</span>
           </p>
