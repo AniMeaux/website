@@ -1,0 +1,15 @@
+@theme {
+  --icon-size-12: 12px;
+  --icon-size-16: 16px;
+  --icon-size-24: 24px;
+  --icon-size-48: 48px;
+  --icon-size-64: 64px;
+}
+
+/*
+ * Alias of `text-[<value>]` for usage in icon component because it feels more
+ * natural to use `icon-<size>` than `text-[<value>]`.
+ */
+@utility icon-* {
+  font-size: --value(--icon-size-*);
+}

@@ -41,7 +41,12 @@ function SectionHero() {
     <Section.Root columnCount={1}>
       <div className="grid grid-cols-1 gap-2 sm:gap-0 md:grid-cols-auto-fr md:items-start">
         <LazyElement asChild>
-          <div className="relative aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:grid md:grid-cols-1">
+          <div
+            className={cn(
+              "relative aspect-4/3 md:grid md:grid-cols-1",
+              "animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <DynamicImage
               image={{ id: "/show/pages/pott-and-co_ugp2id" }}
               alt="Pott et ses amis."
@@ -56,9 +61,14 @@ function SectionHero() {
         </LazyElement>
 
         <LazyElement asChild>
-          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
-            <h1 className="text-center text-hero-small md:text-left md:text-hero-large">
-              <span className="text-prussianBlue">Salon des</span>
+          <Section.TextAside
+            className={cn(
+              "md:col-start-1 md:row-start-1",
+              "-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
+            <h1 className="text-center text-hero-title md:text-left">
+              <span className="text-prussian-blue">Salon des</span>
               <br />
               <span className="text-mystic">Ani’Meaux</span>
               <br />
@@ -67,7 +77,7 @@ function SectionHero() {
             <p className="text-center md:text-left">
               5ème édition du salon dédié au bien-être animal.
               <br />
-              <strong className="text-body-lowercase-emphasis">
+              <strong className="text-body-emphasis">
                 <time dateTime={ShowDay.openingTime.toISO()}>
                   6 et 7 juin 2026 - 10h à 18h
                 </time>{" "}
@@ -139,11 +149,11 @@ const ONE_MINUTE_IN_MS = 60 * 1000
 function CountDownItem({ label, value }: { label: string; value: number }) {
   return (
     <div className="grid grid-cols-1 justify-items-center gap-0.5">
-      <span className="grid aspect-square w-[80px] items-center justify-items-center rounded-1 bg-alabaster font-serif text-[48px] leading-none tracking-wider text-mystic">
+      <span className="grid aspect-square w-[80px] items-center justify-items-center rounded-1 bg-alabaster text-countdown text-mystic">
         {value.toLocaleString("fr-FR", { minimumIntegerDigits: 2 })}
       </span>
 
-      <span className="text-caption-lowercase-default">{label}</span>
+      <span className="text-caption">{label}</span>
     </div>
   )
 }
@@ -152,7 +162,12 @@ function SectionComeWithYourDog() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-square",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-veterinaire-ywxiy9ev9namh5vnfdes",
@@ -167,7 +182,7 @@ function SectionComeWithYourDog() {
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title>Venir avec son chien</Section.Title>
 
           <p>
@@ -178,7 +193,7 @@ function SectionComeWithYourDog() {
             autorisation de détention.
           </p>
 
-          <p className="rounded-1 bg-paleBlue px-2 py-1">
+          <p className="rounded-1 bg-pale-blue px-2 py-1">
             Pour le bien-être de votre chien et celui des autres présents durant
             le salon, veillez à ne l’amener que s’il est sociable avec les
             autres animaux et à l’aise en présence de nombreuses personnes.
@@ -197,7 +212,7 @@ function SectionPresentation() {
       <div className="grid grid-cols-1 gap-4">
         <section className="grid grid-cols-1 gap-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:px-safe-page-normal lg:gap-8">
           <LazyElement asChild>
-            <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+            <Section.TextAside className="-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0">
               <Section.Title>Présentation</Section.Title>
 
               <p>
@@ -220,7 +235,12 @@ function SectionPresentation() {
           </LazyElement>
 
           <LazyElement asChild>
-            <Section.ImageAside className="-z-just-above aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+            <Section.ImageAside
+              className={cn(
+                "-z-just-above aspect-4/3",
+                "animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0",
+              )}
+            >
               <DynamicImage
                 image={{ id: "/show/pages/pott-et-pollen-bonjour_xiufg6" }}
                 alt="Pott et Pollen disent bonjour."
@@ -236,7 +256,7 @@ function SectionPresentation() {
         <section className="relative py-2 px-safe-page-narrow md:py-4 md:px-safe-page-normal">
           <HighLightBackground
             color="paleBlue"
-            className="absolute inset-0 -z-just-above h-full w-full"
+            className="absolute inset-0 -z-just-above size-full"
           />
 
           <aside className="grid grid-cols-1">
@@ -269,7 +289,7 @@ function PresentationItem({
   icon: React.ComponentProps<typeof Pictogram>["id"]
 }>) {
   return (
-    <li className="grid min-w-[300px] max-w-sm flex-1 grid-cols-auto-fr items-center gap-2">
+    <li className="grid max-w-sm min-w-25 flex-1 grid-cols-auto-fr items-center gap-2">
       <Pictogram id={icon} className="icon-48" />
       <span>{children}</span>
     </li>
@@ -281,7 +301,7 @@ function SectionOrigin() {
     <Section.Root columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside asChild>
-          <BoardCard className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+          <BoardCard className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
             <Section.Title>Origine du salon</Section.Title>
 
             <p>
@@ -322,7 +342,12 @@ function SectionSponsors() {
   return (
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside
+          className={cn(
+            "px-safe-page-narrow",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <Section.Title className="md:text-center">Nos sponsors</Section.Title>
 
           <p className="md:text-center">
@@ -339,7 +364,10 @@ function SectionSponsors() {
             <SponsorsPlaceholderImage
               fallbackSize="1024"
               sizes={{ default: "100vw", md: "640px" }}
-              className="w-full max-w-screen-sm translate-y-4 justify-self-center opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100"
+              className={cn(
+                "w-full max-w-(--breakpoint-sm) justify-self-center",
+                "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+              )}
             />
           </LazyElement>
         ) : (
@@ -350,7 +378,10 @@ function SectionSponsors() {
                   sponsor={sponsor}
                   imageFallbackSize="256"
                   imageSizes={{ default: "130px", md: "180px" }}
-                  className="w-[130px] flex-none translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100 md:w-[180px]"
+                  className={cn(
+                    "w-[130px] flex-none md:w-15",
+                    "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+                  )}
                 />
               </LazyElement>
             ))}
@@ -367,7 +398,12 @@ function SectionExhibitors() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-square",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-stand-nduainkltifzvy2idnvl",
@@ -382,7 +418,7 @@ function SectionExhibitors() {
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title>Nos exposants</Section.Title>
 
           {exhibitorCount == null ? (
@@ -443,11 +479,16 @@ function SectionPreviousEditions() {
       <div className="relative grid grid-cols-1 gap-2 py-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:py-4 md:px-safe-page-normal lg:gap-8">
         <HighLightBackground
           color="alabaster"
-          className="absolute left-0 top-0 -z-just-above h-full w-full"
+          className="absolute top-0 left-0 -z-just-above size-full"
         />
 
         <LazyElement asChild>
-          <Section.ImageAside className="aspect-4/3 translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+          <Section.ImageAside
+            className={cn(
+              "aspect-4/3",
+              "animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <DynamicImage
               image={{
                 id: "/show/pages/pott-et-pollen-photos-ajfy5llvexzgl0df2rsy",
@@ -456,13 +497,18 @@ function SectionPreviousEditions() {
               sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
               alt="Pott regarde un album photo."
               aspectRatio="none"
-              className="absolute inset-x-0 top-1/2 w-full -translate-y-[63%] md:-translate-y-[55%]"
+              className="absolute inset-x-0 top-1/2 w-full translate-y-[-63%] md:translate-y-[-55%]"
             />
           </Section.ImageAside>
         </LazyElement>
 
         <LazyElement asChild>
-          <Section.TextAside className="-translate-x-4 opacity-0 transition-[opacity,transform] delay-150 duration-very-slow data-visible:translate-x-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
+          <Section.TextAside
+            className={cn(
+              "md:col-start-1 md:row-start-1",
+              "-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0",
+            )}
+          >
             <Section.Title>Éditions Précédentes</Section.Title>
 
             <p>
@@ -499,7 +545,12 @@ function SectionAccess() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-square",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-plan-jceivcyzibkcg2qtp8jj",
@@ -508,13 +559,13 @@ function SectionAccess() {
             sizes={{ default: "100vw", md: "50vw", lg: "512px" }}
             alt="Pott regarde un plan."
             aspectRatio="none"
-            className="absolute inset-x-0 top-1/2 w-full -translate-y-[56%] md:-translate-y-[53%]"
+            className="absolute inset-x-0 top-1/2 w-full translate-y-[-56%] md:translate-y-[-53%]"
           />
         </Section.ImageAside>
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title>Accès au salon</Section.Title>
 
           <p>
@@ -541,7 +592,12 @@ function SectionProviders() {
   return (
     <Section.Root width="full" columnCount={1}>
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow px-safe-page-narrow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.TextAside
+          className={cn(
+            "px-safe-page-narrow",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <Section.Title className="md:text-center">
             Nos prestataires
           </Section.Title>
@@ -558,7 +614,10 @@ function SectionProviders() {
             <ProvidersPlaceholderImage
               fallbackSize="1024"
               sizes={{ default: "100vw", md: "640px" }}
-              className="w-full max-w-screen-sm translate-y-4 justify-self-center opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100"
+              className={cn(
+                "w-full max-w-(--breakpoint-sm) justify-self-center",
+                "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+              )}
             />
           </LazyElement>
         ) : (
@@ -569,7 +628,10 @@ function SectionProviders() {
                   provider={provider}
                   imageFallbackSize="256"
                   imageSizes={{ default: "130px", md: "180px" }}
-                  className="w-[130px] flex-none translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100 md:w-[180px]"
+                  className={cn(
+                    "w-[130px] flex-none md:w-15",
+                    "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+                  )}
                 />
               </LazyElement>
             ))}

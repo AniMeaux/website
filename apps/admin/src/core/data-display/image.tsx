@@ -26,23 +26,23 @@ const BREAKPOINT_NAMES = [...Breakpoint.names, "default"] as const
 type AspectRatio = "none" | "1:1" | "4:3"
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
-  "1:1": "aspect-square",
-  "4:3": "aspect-4/3",
-  none: "",
+  "1:1": cn("aspect-square"),
+  "4:3": cn("aspect-4/3"),
+  none: cn(""),
 }
 
 type ImageBackground = "none" | "gray"
 
 const IMAGE_BACKGROUND_CLASS_NAME: Record<ImageBackground, string> = {
-  gray: "bg-gray-100",
-  none: "",
+  gray: cn("bg-gray-100"),
+  none: cn(""),
 }
 
 type ObjectFit = "cover" | "contain"
 
 const OBJECT_FIT_CLASS_NAME: Record<ObjectFit, string> = {
-  contain: "object-contain",
-  cover: "object-cover",
+  contain: cn("object-contain"),
+  cover: cn("object-cover"),
 }
 
 export type DynamicImageProps = React.ComponentPropsWithoutRef<

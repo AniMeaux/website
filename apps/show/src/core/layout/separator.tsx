@@ -10,10 +10,7 @@ export function VerticalSeparator({ color }: { color: SeparatorColor }) {
       // Allow the shape to stretch.
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(
-        "h-full w-[3px] overflow-visible",
-        COLOR_CLASS_NAMES[color],
-      )}
+      className={cn("h-full w-0.25 overflow-visible", COLOR_CLASS_NAMES[color])}
     >
       <path
         d="M1.5 0L1.5 100"
@@ -44,7 +41,7 @@ export function HorizontalSeparator({
       preserveAspectRatio="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
-        "h-[3px] w-full overflow-visible",
+        "h-0.25 w-full overflow-visible",
         COLOR_CLASS_NAMES[color],
         className,
       )}
@@ -66,5 +63,5 @@ export function HorizontalSeparator({
 const COLOR_CLASS_NAMES: Record<SeparatorColor, string> = {
   alabaster: cn("text-alabaster"),
   mystic: cn("text-mystic"),
-  prussianBlue: cn("text-prussianBlue"),
+  prussianBlue: cn("text-prussian-blue"),
 }

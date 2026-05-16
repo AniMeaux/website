@@ -2,11 +2,7 @@ import { ShowExhibitorStatus } from "@animeaux/prisma"
 import { promiseHash } from "remix-utils/promise"
 import invariant from "tiny-invariant"
 
-import {
-  EMAIL_PARAGRAPH_COMPONENTS,
-  EMAIL_SENTENCE_COMPONENTS,
-  EmailHtml,
-} from "#i/core/data-display/email-html.server.js"
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { Routes } from "#i/core/navigation.js"
 import type { ServiceApplication } from "#i/exhibitors/application/service.server.js"
@@ -69,9 +65,8 @@ export class ServiceExhibitorOnStandAnimationEmail {
 
                 <EmailHtml.Output.Value>
                   {exhibitor.onStandAnimations != null ? (
-                    <EmailHtml.Markdown
+                    <EmailHtml.MarkdownParagraph
                       content={exhibitor.onStandAnimations}
-                      components={EMAIL_SENTENCE_COMPONENTS}
                     />
                   ) : (
                     "-"
@@ -153,9 +148,8 @@ export class ServiceExhibitorOnStandAnimationEmail {
 
                     <EmailHtml.Output.Value>
                       {exhibitor.onStandAnimations != null ? (
-                        <EmailHtml.Markdown
+                        <EmailHtml.MarkdownParagraph
                           content={exhibitor.onStandAnimations}
-                          components={EMAIL_SENTENCE_COMPONENTS}
                         />
                       ) : (
                         "-"
@@ -189,9 +183,8 @@ export class ServiceExhibitorOnStandAnimationEmail {
               <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
 
               <EmailHtml.Section.Root>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownDocument
                   content={exhibitor.onStandAnimationsStatusMessage}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
                 <EmailHtml.Paragraph>

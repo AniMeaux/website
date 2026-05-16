@@ -20,7 +20,7 @@ export const FormLayout = {
         {...props}
         ref={ref}
         className={cn(
-          "grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start lg:gap-8",
+          "grid grid-cols-1 gap-4 md:grid-cols-fr-auto md:items-start lg:gap-8",
           className,
         )}
       />
@@ -58,7 +58,7 @@ export const FormLayout = {
             {...props}
             ref={ref}
             className={cn(
-              "row-start-1 md:sticky md:top-4 md:col-start-2 md:w-[300px]",
+              "row-start-1 md:sticky md:top-4 md:col-start-2 md:w-25",
               hideOnSmallScreens ? "hidden md:grid" : undefined,
               className,
             )}
@@ -94,7 +94,7 @@ export const FormLayout = {
         to={{ hash: `#${sectionId}` }}
         replace
         className={cn(
-          "grid grid-cols-fr-auto items-center gap-1 rounded-0.5 px-1 py-0.5 can-hover:focus-visible:focus-compact",
+          "grid grid-cols-fr-auto items-center gap-1 rounded-0.5 px-1 py-0.5 focus-visible:focus-ring",
         )}
       >
         {children}
@@ -152,7 +152,7 @@ export const FormLayout = {
       <Primitive.h2
         {...props}
         ref={ref}
-        className={cn("text-mystic text-title-item", className)}
+        className={cn("text-item-title text-mystic", className)}
       />
     )
   }),
@@ -248,7 +248,7 @@ export const FormLayout = {
         ref={ref}
         htmlFor={htmlFor}
         className={cn(
-          "text-caption-lowercase-default",
+          "text-caption",
           htmlFor != null ? "cursor-pointer" : undefined,
           className,
         )}
@@ -270,7 +270,7 @@ export const FormLayout = {
         {...props}
         ref={ref}
         className={cn(
-          "col-span-full text-caption-lowercase-default",
+          "col-span-full text-caption",
           variant === "error" ? "text-mystic" : undefined,
           className,
         )}
@@ -287,7 +287,7 @@ export const FormLayout = {
         {...props}
         ref={ref}
         className={cn(
-          "rounded-0.5 bg-transparent px-1 py-0.5 ring-1 ring-inset ring-mystic-200 placeholder:text-prussianBlue/50 can-hover:focus-visible:focus-compact",
+          "rounded-0.5 bg-transparent px-1 py-0.5 ring-1 ring-mystic-200 ring-inset placeholder:text-prussian-blue/50 focus-visible:focus-ring",
           className,
         )}
       />
@@ -304,19 +304,19 @@ export const FormLayout = {
         ref={ref}
         type="checkbox"
         className={cn(
-          "inline-flex h-2 w-3 appearance-none rounded-full p-[2px] transition-colors duration-normal enabled:cursor-pointer enabled:[&[readonly]]:cursor-default",
+          "inline-flex h-2 w-3 appearance-none rounded-full p-[2px] transition-colors enabled:cursor-pointer enabled:[[readonly]]:cursor-default",
 
           // Background.
-          "bg-transparent checked:bg-mystic active:bg-mystic-100 checked:active:bg-mystic-700 can-hover:hover:bg-mystic-50 checked:can-hover:hover:bg-mystic-600 active:can-hover:hover:bg-mystic-100 checked:active:can-hover:hover:bg-mystic-700",
+          "bg-transparent checked:bg-mystic hover:bg-mystic-50 checked:hover:bg-mystic-600 active:bg-mystic-100 checked:active:bg-mystic-700 active:hover:bg-mystic-100 checked:active:hover:bg-mystic-700",
 
           // Border.
           "border border-mystic-200 checked:border-mystic",
 
           // Focus outline.
-          "can-hover:focus-visible:focus-compact checked:can-hover:focus-visible:focus-spaced",
+          "focus-ring-spaced focus-visible:focus-ring checked:focus-visible:focus-ring",
 
           // Thumb.
-          "after:pointer-events-none after:aspect-square after:w-[18px] after:rounded-full after:border after:border-mystic after:transition-[background-color,border-color,transform] after:duration-normal checked:border-white checked:after:translate-x-1 checked:after:bg-white",
+          "after:pointer-events-none after:aspect-square after:w-1.5 after:rounded-full after:border after:border-mystic after:transition-[background-color,border-color,translate] checked:border-white checked:after:translate-x-1 checked:after:bg-white",
 
           className,
         )}
@@ -333,7 +333,7 @@ export const FormLayout = {
         {...props}
         ref={ref}
         className={cn(
-          "rounded-0.5 px-1 py-0.5 ring-1 ring-inset ring-mystic-200 can-hover:focus-visible:focus-compact",
+          "rounded-0.5 px-1 py-0.5 ring-1 ring-mystic-200 ring-inset placeholder:text-prussian-blue/50 focus-visible:focus-ring",
           className,
         )}
       />
@@ -420,7 +420,7 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "group/selector relative flex items-start gap-1 rounded-0.5 px-1 py-0.5 has-[input:enabled]:cursor-pointer has-[input:disabled]:opacity-disabled",
+            "group/selector relative flex items-start gap-1 rounded-0.5 px-1 py-0.5 has-[input:disabled]:opacity-disabled has-[input:enabled]:cursor-pointer",
             className,
           )}
         />
@@ -436,16 +436,16 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "peer/input absolute inset-0 -z-just-above h-full w-full appearance-none rounded-0.5 transition-colors duration-normal",
+            "peer/input absolute inset-0 -z-just-above size-full appearance-none rounded-0.5 transition-colors",
 
             // Background.
-            "bg-transparent enabled:checked:bg-mystic enabled:active:bg-mystic-100 enabled:checked:active:bg-mystic-700 enabled:can-hover:hover:bg-mystic-50 enabled:checked:can-hover:hover:bg-mystic-600 enabled:active:can-hover:hover:bg-mystic-100 enabled:checked:active:can-hover:hover:bg-mystic-700",
+            "bg-transparent enabled:checked:bg-mystic enabled:hover:bg-mystic-50 enabled:checked:hover:bg-mystic-600 enabled:active:bg-mystic-100 enabled:checked:active:bg-mystic-700 enabled:active:hover:bg-mystic-100 enabled:checked:active:hover:bg-mystic-700",
 
             // Border.
             "border border-mystic-200 checked:border-mystic",
 
             // Focus outline.
-            "can-hover:focus-visible:focus-compact checked:can-hover:focus-visible:focus-spaced",
+            "focus-ring-spaced focus-visible:focus-ring checked:focus-visible:focus-ring",
 
             className,
           )}
@@ -478,7 +478,7 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "hidden flex-none text-white icon-24 peer-checked/input:block",
+            "hidden flex-none icon-24 text-white peer-checked/input:block",
             className,
           )}
         />
@@ -494,7 +494,7 @@ export const FormLayout = {
           {...props}
           ref={ref}
           className={cn(
-            "min-w-0 flex-1 transition-colors duration-normal text-body-lowercase-default peer-checked/input:text-white peer-checked/input:text-body-lowercase-emphasis",
+            "min-w-0 flex-1 text-body transition-colors peer-checked/input:text-body-emphasis peer-checked/input:text-white",
             className,
           )}
         />
@@ -503,7 +503,7 @@ export const FormLayout = {
 
     CheckboxIcon: function FormLayoutSelectorCheckboxIcon() {
       return (
-        <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-0.5 border border-mystic text-transparent transition-colors duration-normal peer-checked/input:border-white peer-checked/input:bg-white peer-checked/input:text-mystic">
+        <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-0.5 border border-mystic text-transparent transition-colors peer-checked/input:border-white peer-checked/input:bg-white peer-checked/input:text-mystic">
           <Icon id="check-solid" className="icon-12" />
         </span>
       )
@@ -511,7 +511,7 @@ export const FormLayout = {
 
     RadioIcon: function FormLayoutSelectorRadioIcon() {
       return (
-        <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-full border border-mystic text-mystic transition-colors duration-normal after:flex after:aspect-square after:w-0.5 after:scale-0 after:rounded-full after:bg-mystic after:transition-transform after:duration-normal peer-checked/input:border-white peer-checked/input:bg-white peer-checked/input:after:scale-100" />
+        <span className="mt-[4px] grid aspect-square w-[16px] items-center justify-center rounded-full border border-mystic text-mystic transition-colors peer-checked/input:border-white peer-checked/input:bg-white after:flex after:aspect-square after:w-0.5 after:scale-0 after:rounded-full after:bg-mystic after:transition-transform peer-checked/input:after:scale-100" />
       )
     },
   },

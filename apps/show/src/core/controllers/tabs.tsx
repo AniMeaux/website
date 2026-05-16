@@ -28,10 +28,10 @@ export function Tab({
       {...props}
       className={(props) =>
         cn(
-          "rounded-0.5 px-1 py-0.5 transition-colors duration-normal",
+          "rounded-0.5 px-1 py-0.5 transition-colors",
           props.isActive
-            ? "bg-alabaster text-body-lowercase-emphasis can-hover:focus-visible:focus-spaced"
-            : "text-body-lowercase-default can-hover:hover:bg-alabaster-50 can-hover:focus-visible:focus-compact",
+            ? "bg-alabaster text-body-emphasis focus-ring-spaced focus-visible:focus-ring"
+            : "text-body hover:bg-alabaster-50 focus-visible:focus-ring",
           callFactory(className, () => props),
         )
       }

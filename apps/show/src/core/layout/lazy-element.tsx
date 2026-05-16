@@ -32,7 +32,7 @@ export function LazyElement(
     <Primitive.div
       {...props}
       ref={elementRef}
-      data-visible={String(isInViewport)}
+      data-state={isInViewport ? "visible" : "hidden"}
     />
   )
 }

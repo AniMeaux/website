@@ -7,7 +7,7 @@ export function SectionEcology() {
     <Section.Root columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside asChild>
-          <BoardCard className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+          <BoardCard className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
             <Section.Title>
               Privilégiez les moyens de transports écologiques
             </Section.Title>

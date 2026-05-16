@@ -1,0 +1,127 @@
+@font-face {
+  font-family: "CARAMEL MOCACINO";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/caramel-mocacino/caramel-mocacino.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/fira-sans/fira-sans-regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/fira-sans/fira-sans-medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/fira-sans/fira-sans-semi-bold.ttf") format("truetype");
+}
+
+@theme {
+  --font-sans: "Fira Sans", Arial;
+  --font-serif: "CARAMEL MOCACINO", Impact;
+
+  /*
+   * In order to preserve a nice vertical rhythm, all text must have a
+   * line-height multiple of this value.
+   */
+  --base-line-height: 24px;
+}
+
+/* 
+ * These `@utility` declarations are duplicated as inline style objects in
+ * `email-html.server.tsx`. Email clients don't support CSS classes, so styles
+ * must be inlined there. Keep both in sync when changing any text style.
+ * See: apps/show/src/core/data-display/email-html.server.tsx
+ */
+
+@utility text-hero-title {
+  font-family: var(--font-serif);
+  font-size: 79px;
+  font-weight: var(--font-weight-normal);
+  line-height: calc(var(--base-line-height) * 3);
+  text-transform: uppercase;
+}
+
+@utility text-section-title {
+  font-family: var(--font-serif);
+  font-size: 52px;
+  font-weight: var(--font-weight-normal);
+  line-height: calc(var(--base-line-height) * 2);
+  text-transform: uppercase;
+}
+
+@utility text-countdown {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: var(--font-weight-normal);
+  line-height: calc(var(--base-line-height) * 2);
+  letter-spacing: var(--tracking-wider);
+}
+
+@utility text-item-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+  text-transform: uppercase;
+}
+
+@utility text-body-uppercase-emphasis {
+  @apply text-body-uppercase;
+
+  font-weight: var(--font-weight-semibold);
+}
+
+@utility text-body-uppercase {
+  @apply text-body;
+
+  text-transform: uppercase;
+}
+
+@utility text-body-emphasis {
+  @apply text-body;
+
+  font-weight: var(--font-weight-medium);
+}
+
+@utility text-body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+  text-transform: none;
+}
+
+@utility text-caption-uppercase {
+  @apply text-caption;
+
+  text-transform: uppercase;
+}
+
+@utility text-caption-emphasis {
+  @apply text-caption;
+
+  font-weight: var(--font-weight-medium);
+}
+
+@utility text-caption {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+  text-transform: none;
+}

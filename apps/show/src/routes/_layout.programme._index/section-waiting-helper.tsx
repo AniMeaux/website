@@ -6,7 +6,7 @@ export function SectionWaitingHelper() {
     <Section.Root columnCount={1}>
       <Section.TextAside asChild>
         <BoardCard>
-          <h2 className="text-mystic text-title-item">
+          <h2 className="text-item-title text-mystic">
             En pleine effervescence
           </h2>
 

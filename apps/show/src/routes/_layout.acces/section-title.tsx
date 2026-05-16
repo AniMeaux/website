@@ -1,3 +1,4 @@
+import { cn } from "@animeaux/core"
 import { Link } from "@remix-run/react"
 
 import { Action } from "#i/core/actions/action.js"
@@ -9,7 +10,12 @@ export function SectionTitle() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-square -translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-square",
+            "-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-plan-jceivcyzibkcg2qtp8jj",
@@ -19,13 +25,13 @@ export function SectionTitle() {
             loading="eager"
             alt="Pott regarde un plan."
             aspectRatio="none"
-            className="absolute inset-x-0 top-1/2 w-full -translate-y-[56%] md:-translate-y-[53%]"
+            className="absolute inset-x-0 top-1/2 w-full translate-y-[-56%] md:translate-y-[-53%]"
           />
         </Section.ImageAside>
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title asChild>
             <h1>Accès au salon</h1>
           </Section.Title>

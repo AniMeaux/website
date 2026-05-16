@@ -48,9 +48,9 @@ export function AgreementItem({
 }
 
 const AGREEMENT_CLASS_NAMES: Record<AgreementValue, string> = {
-  [AgreementValue.TRUE]: "bg-green-50 text-green-600",
-  [AgreementValue.FALSE]: "bg-red-50 text-red-500",
-  [AgreementValue.UNKNOWN]: "bg-gray-100 text-gray-700",
+  [AgreementValue.TRUE]: cn("bg-green-50 text-green-600"),
+  [AgreementValue.FALSE]: cn("bg-red-50 text-red-500"),
+  [AgreementValue.UNKNOWN]: cn("bg-gray-100 text-gray-700"),
 }
 
 const ICONS: Record<Entity, Record<AgreementValue, IconName>> = {

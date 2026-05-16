@@ -1,0 +1,86 @@
+@layer base {
+  /*
+   * Make sure focused elements without `:focus-visible` don't have an outline.
+   */
+  :focus:not(:focus-visible) {
+    @apply outline-hidden;
+  }
+
+  /*
+   * Don't show focus outline on touch screens devices.
+   * They usally don't have input mechanism that can hover over elements so we
+   * check that.
+   */
+  @media (hover: none) {
+    :focus {
+      @apply outline-hidden;
+    }
+  }
+
+  *,
+  *::before,
+  *::after {
+    /*
+     * Disable bark background on tap.
+     * See https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-tap-highlight-color
+     */
+    -webkit-tap-highlight-color: transparent;
+
+    /*
+     * Disabling double-tap to zoom removes the need for browsers to delay the
+     * generation of click events when the user taps the screen.
+     * See https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
+     */
+    touch-action: manipulation;
+  }
+
+  body {
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * A label should be linked to an input. Clicking on a label focus its linked
+   * input.
+   */
+  label,
+  /*
+   * An anchor should have an `href` attribute.
+   */
+  a,
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  select:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
+  /* Safari >= 15, Chrome >= 99 */
+  input::-webkit-datetime-edit,
+  input::-webkit-datetime-edit-fields-wrapper,
+  input::-webkit-datetime-edit-year-field,
+  input::-webkit-datetime-edit-month-field,
+  input::-webkit-datetime-edit-day-field,
+  input::-webkit-datetime-edit-hour-field,
+  input::-webkit-datetime-edit-minute-field,
+  input::-webkit-datetime-edit-second-field,
+  input::-webkit-datetime-edit-millisecond-field,
+  input::-webkit-datetime-edit-meridiem-field {
+    @apply p-0;
+  }
+
+  input::-webkit-calendar-picker-indicator {
+    @apply m-0;
+  }
+
+  /* iOS >= 15 */
+  input::-webkit-date-and-time-value {
+    @apply text-left;
+  }
+
+  /*
+   * Hide clear icon.
+   */
+  input::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+}

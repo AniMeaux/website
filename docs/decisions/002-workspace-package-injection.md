@@ -138,8 +138,10 @@ only synchronise packages when running configured scripts. Libraries without a
 build script will not be synchronised during the build, and when the final image
 is constructed with only the `build/` folders copied, injected packages will
 have stale contents. To ensure injected packages stay synchronised with
-workspace sources, we'll add extra `pnpm install` calls at the points where
-source code or build outputs change.
+workspace sources, we'll run `pnpm -r sync-workspace` at the points where source
+code or build outputs change. This runs the no-op `sync-workspace` script across
+the entire workspace, which triggers pnpm to re-sync all injected package copies
+without performing a full install.
 
 **Advantages**:
 

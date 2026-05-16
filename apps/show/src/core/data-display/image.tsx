@@ -1,11 +1,9 @@
 import { cn } from "@animeaux/core"
 import { blurhashToDataUri } from "@unpic/placeholder"
-import { orderBy } from "es-toolkit/array"
 import { forwardRef } from "react"
 
 import type { ImageData } from "#i/core/image/data.js"
-import type { ScreenSize } from "#i/generated/theme.js"
-import { theme } from "#i/generated/theme.js"
+import { Breakpoint } from "#i/generated/theme.js"
 
 export const DynamicImage = forwardRef<
   React.ComponentRef<"img">,
@@ -16,7 +14,7 @@ export const DynamicImage = forwardRef<
     fillTransparentBackground?: boolean
     image: ImageData
     objectFit?: ObjectFit
-    sizes: Partial<Record<ScreenSize, string>> & {
+    sizes: Partial<Record<Breakpoint, string>> & {
       // `default` is mandatory.
       default: string
     }
@@ -48,11 +46,13 @@ export const DynamicImage = forwardRef<
     return `${url} ${size}w`
   }).join(",")
 
-  const sizes = SCREEN_SIZES.reduce<string[]>((sizes, screen) => {
-    const width = sizesProp[screen]
+  const sizes = BREAKPOINT_NAMES.reduce<string[]>((sizes, breakpoint) => {
+    const width = sizesProp[breakpoint]
 
     if (width != null) {
-      sizes.push(screen === "default" ? width : createImageMedia(screen, width))
+      sizes.push(
+        breakpoint === "default" ? width : createImageMedia(breakpoint, width),
+      )
     }
 
     return sizes
@@ -98,8 +98,8 @@ type ImageSize = (typeof IMAGE_SIZES)[number]
 type AspectRatio = "none" | "1:1" | "4:3" | "16:9" | "16:10"
 type ObjectFit = "cover" | "contain"
 
-export function createImageMedia(screenSize: ScreenSize, width?: string) {
-  return [`(min-width: ${theme.screens[screenSize]})`, width]
+export function createImageMedia(breakpoint: Breakpoint, width?: string) {
+  return [`(min-width: ${Breakpoint.value[breakpoint]}px)`, width]
     .filter(Boolean)
     .join(" ")
 }
@@ -161,15 +161,7 @@ export function createImageUrl(
 }
 
 // Larger to smaller.
-const SCREEN_SIZES = orderBy(
-  (Object.entries(theme.screens) as [ScreenSize | "default", string][]).map(
-    ([name, width]) => ({ name, width: Number(width.replace("px", "")) }),
-  ),
-  [({ width }) => width],
-  ["desc"],
-)
-  .map(({ name }) => name)
-  .concat("default")
+const BREAKPOINT_NAMES = [...Breakpoint.names, "default"] as const
 
 const ASPECT_RATIO_CLASS_NAME: Record<AspectRatio, string> = {
   "1:1": cn("aspect-square"),

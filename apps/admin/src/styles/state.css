@@ -33,6 +33,8 @@
  * visible focus.
  * They usally don't have input mechanism that can hover over elements so we
  * check that.
+ * This override will also be used for `peer-focus-visible` and
+ * `group-focus-visible`.
  */
 @custom-variant focus-visible {
   @media (hover: hover) {

@@ -69,10 +69,7 @@ export const Section = {
       <Primitive.h2
         {...props}
         ref={ref}
-        className={cn(
-          "text-mystic text-title-small md:text-title-large",
-          className,
-        )}
+        className={cn("text-section-title text-mystic", className)}
       />
     )
   }),

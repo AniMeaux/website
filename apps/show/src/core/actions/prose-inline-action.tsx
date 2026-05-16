@@ -13,7 +13,7 @@ export const ProseInlineAction = forwardRef<
       {...props}
       ref={ref}
       className={cn(
-        "relative can-hover:focus-visible:focus-spaced",
+        "relative focus-ring-spaced focus-visible:focus-ring",
         CLASS_NAME_BY_VARIANT[variant],
         className,
       )}
@@ -24,8 +24,6 @@ export const ProseInlineAction = forwardRef<
 type Variant = "subtle" | "normal"
 
 const CLASS_NAME_BY_VARIANT: Record<Variant, string> = {
-  normal: cn(
-    "border-b border-mystic text-body-lowercase-emphasis can-hover:hover:border-b-2",
-  ),
-  subtle: cn("can-hover:hover:border-b can-hover:hover:border-mystic"),
+  normal: cn("border-b border-mystic text-body-emphasis hover:border-b-2"),
+  subtle: cn("hover:border-b hover:border-mystic"),
 }

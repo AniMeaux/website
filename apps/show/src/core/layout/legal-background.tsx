@@ -12,7 +12,7 @@ export function LegalBackground({ className }: { className?: string }) {
     >
       <path
         d="M0 400V-20C300 -12 724 -10 1024 0V420H0Z"
-        className="fill-prussianBlue"
+        className="fill-prussian-blue"
       />
     </svg>
   )

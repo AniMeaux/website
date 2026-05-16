@@ -138,6 +138,10 @@ function Document({ children }: { children: React.ReactNode }) {
 
           isFullHeight ? "h-full" : undefined,
           "flex flex-col text-body-default text-gray-800",
+
+          // Make line breaks are added mid-word if needed.
+          // See https://tailwindcss.com/docs/overflow-wrap#wrapping-mid-word
+          "wrap-break-word",
         )}
       >
         {children}

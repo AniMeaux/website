@@ -59,7 +59,7 @@ export const SENTENCE_COMPONENTS: MarkdownComponents = {
   em: (props) => <em {...withoutNode(props)} />,
 
   strong: (props) => (
-    <strong {...withoutNode(props)} className="text-body-lowercase-emphasis" />
+    <strong {...withoutNode(props)} className="text-body-emphasis" />
   ),
 }
 

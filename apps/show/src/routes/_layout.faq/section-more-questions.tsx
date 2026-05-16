@@ -8,7 +8,7 @@ export function SectionMoreQuestions() {
     <Section.Root columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside asChild>
-          <LightBoardCard className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+          <LightBoardCard className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
             <Section.Title>Vous avez une autre question ?</Section.Title>
 
             <p>

@@ -1,3 +1,4 @@
+import { cn } from "@animeaux/core"
 import { Link } from "@remix-run/react"
 
 import { Action } from "#i/core/actions/action.js"
@@ -9,7 +10,12 @@ export function SectionCarpool() {
   return (
     <Section.Root>
       <LazyElement asChild>
-        <Section.ImageAside className="aspect-4/3 translate-y-4 items-center opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+        <Section.ImageAside
+          className={cn(
+            "aspect-4/3",
+            "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+          )}
+        >
           <DynamicImage
             image={{
               id: "/show/pages/pott-et-pollen-covoiturage-dnaoqhszblkdcwsi9ryx",
@@ -24,7 +30,7 @@ export function SectionCarpool() {
       </LazyElement>
 
       <LazyElement asChild>
-        <Section.TextAside className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100 md:col-start-1 md:row-start-1">
+        <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
           <Section.Title>Covoiturage</Section.Title>
 
           <p>

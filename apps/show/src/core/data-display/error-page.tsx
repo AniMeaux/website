@@ -37,7 +37,12 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
         <Section.Root columnCount={isRoot ? 1 : 2}>
           {!isRoot ? (
             <LazyElement asChild>
-              <Section.ImageAside className="aspect-square -translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+              <Section.ImageAside
+                className={cn(
+                  "aspect-square",
+                  "-out-translate-x-4 animation-duration-very-slow out-opacity-0 data-visible:animate-enter data-hidden:opacity-0",
+                )}
+              >
                 <DynamicImage
                   image={{
                     id: "/show/pages/pott-et-pollen-faq_yj87jv",
@@ -47,14 +52,14 @@ export function ErrorPage({ isRoot = false }: { isRoot?: boolean }) {
                   loading="eager"
                   alt="Pott et Pollen se posent des questions."
                   aspectRatio="none"
-                  className="absolute inset-x-0 top-1/2 -translate-y-[55%] md:-translate-y-[52%]"
+                  className="absolute inset-x-0 top-1/2 translate-y-[-55%] md:translate-y-[-52%]"
                 />
               </Section.ImageAside>
             </LazyElement>
           ) : null}
 
           <LazyElement asChild>
-            <Section.TextAside className="translate-x-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-x-0 data-visible:opacity-100">
+            <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-x-4 data-visible:animate-enter data-hidden:opacity-0">
               <Section.Title asChild>
                 <h1>{meta.title}</h1>
               </Section.Title>

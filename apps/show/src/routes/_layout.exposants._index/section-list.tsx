@@ -87,7 +87,7 @@ function BecomeExhibitorItem() {
           id="stand-mystic"
           height="42%"
           width={undefined}
-          className="absolute left-1/2 top-1/2 aspect-square -translate-x-1/2 -translate-y-1/2"
+          className="absolute top-1/2 left-1/2 aspect-square -translate-1/2"
         />
       </LightBoardCard>
 
