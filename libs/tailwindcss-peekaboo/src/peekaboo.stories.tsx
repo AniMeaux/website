@@ -54,7 +54,7 @@ export const fade: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="out-opacity-0 data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -67,7 +67,7 @@ export const left: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="absolute top-1/2 left-20 -translate-y-1/2 -out-translate-x-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -80,7 +80,7 @@ export const right: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="absolute top-1/2 right-20 -translate-y-1/2 out-translate-x-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -93,7 +93,7 @@ export const top: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="absolute top-20 left-1/2 -translate-x-1/2 -out-translate-y-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -106,7 +106,7 @@ export const bottom: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="absolute bottom-20 left-1/2 -translate-x-1/2 out-translate-y-[calc(100%+--spacing(20))] data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -118,7 +118,7 @@ export const bottomFade: Story = {
   render: (props) => (
     <Peekaboo {...props} asChild>
       <Component className="out-opacity-0 out-translate-y-40 data-closed:animate-exit data-opened:animate-enter">
-        Lorem ipsum dolor
+        Cheesecake gummies jelly-o
       </Component>
     </Peekaboo>
   ),
@@ -132,8 +132,25 @@ export const height: Story = {
       {...props}
       className="in-height-[200px] in-overflow-hidden out-height-0 data-closed:animate-exit data-opened:animate-enter"
     >
-      <Component className="h-200">Lorem ipsum dolor</Component>
+      <Component className="h-200">Cheesecake gummies jelly-o</Component>
     </Peekaboo>
+  ),
+}
+
+export const easing: Story = {
+  name: "Ease in out",
+
+  render: (props) => (
+    <Component className="grid w-xs grid-cols-1">
+      <p>Cheesecake gummies jelly-o</p>
+
+      <Peekaboo
+        {...props}
+        className="animation-ease-in-out in-height-[200px] in-overflow-hidden out-height-0 data-closed:animate-exit data-opened:animate-enter"
+      >
+        <p className="h-200">Halvah cupcake sweet icing bear claw pastry.</p>
+      </Peekaboo>
+    </Component>
   ),
 }
 

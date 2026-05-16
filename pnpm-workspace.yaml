@@ -66,6 +66,7 @@ catalog:
   "@types/body-scroll-lock": ^3.1.0
   "@types/compression": ^1.8.1
   "@types/cookie-signature": ^1.1.0
+  "@types/culori": ^4.0.1
   "@types/d3-dsv": ^3.0.2
   "@types/express": ^4.17.9
   "@types/luxon": ^3.7.1
@@ -90,6 +91,7 @@ catalog:
   compression: ^1.8.1
   cookie-signature: ^1.2.2
   croner: ^10.0.1
+  culori: ^4.0.2
   d3-dsv: ^3.0.1
   dotenv-flow: ^4.1.0
   downshift: ^9.3.2

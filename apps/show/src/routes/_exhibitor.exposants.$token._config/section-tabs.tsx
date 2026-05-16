@@ -14,7 +14,7 @@ export function SectionTabs() {
   return (
     <section
       className={cn(
-        "grid grid-cols-1 overflow-auto pt-4 scrollbars-none",
+        "scrollbars-none grid grid-cols-1 overflow-auto pt-4",
         // Use this trick so the focus outlines aren't cropped by
         // overflow-hidden.
         "-mb-1 pb-1",

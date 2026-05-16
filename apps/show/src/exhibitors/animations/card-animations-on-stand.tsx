@@ -8,7 +8,7 @@ export function CardAnimationsOnStand({
 }) {
   return (
     <div className="grid grid-cols-1 gap-2 rounded-1 bg-alabaster px-2 py-1">
-      <p className="grid grid-cols-auto-fr items-start gap-0.5 text-mystic text-body-lowercase-emphasis">
+      <p className="grid grid-cols-auto-fr items-start gap-0.5 text-body-emphasis text-mystic">
         <Icon id="comments-solid" className="icon-24" />
 
         <span>Animations sur stand</span>

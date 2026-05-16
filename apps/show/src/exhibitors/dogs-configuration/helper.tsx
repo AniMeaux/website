@@ -5,28 +5,21 @@ export function DogsHelper() {
     <HelperCard.Root color="alabaster">
       <p>
         Votre chien est le bienvenu sous réserve de respecter le{" "}
-        <strong className="text-body-lowercase-emphasis">
-          règlement sanitaire
-        </strong>{" "}
-        et de{" "}
-        <strong className="text-body-lowercase-emphasis">
-          bien-être animal
-        </strong>{" "}
-        en vigueur.
+        <strong className="text-body-emphasis">règlement sanitaire</strong> et
+        de <strong className="text-body-emphasis">bien-être animal</strong> en
+        vigueur.
         <br />
         Il est indispensable de compléter les informations ci-dessous le
         concernant.
       </p>
 
       <p>
-        <strong className="text-body-lowercase-emphasis">Attention</strong>
+        <strong className="text-body-emphasis">Attention</strong>
         {" "}: remplir ce formulaire ne vous dispense pas du contrôle
         vétérinaire obligatoire à l’entrée, mais permet de gagner du temps lors
         de votre arrivée. En choisissant de venir avec votre chien, vous vous
         engagez à être présent au salon au plus tard à{" "}
-        <strong className="text-body-lowercase-emphasis">
-          8h30 le samedi 6 juin
-        </strong>{" "}
+        <strong className="text-body-emphasis">8h30 le samedi 6 juin</strong>{" "}
         2026.
       </p>
     </HelperCard.Root>

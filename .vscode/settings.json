@@ -21,7 +21,7 @@
   "tailwindCSS.experimental.configFile": {
     "apps/admin/src/styles/main.css": "apps/admin/**",
     "apps/website/tailwind.config.ts": "apps/website/**",
-    "apps/show/tailwind.config.ts": "apps/show/**",
+    "apps/show/src/styles/main.css": "apps/show/**",
     "libs/tailwindcss-peekaboo/storybook/styles.css": "libs/tailwindcss-peekaboo/**"
   },
 

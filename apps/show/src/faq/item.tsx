@@ -1,3 +1,4 @@
+import { cn } from "@animeaux/core"
 import * as Collapsible from "@radix-ui/react-collapsible"
 import { chunk } from "es-toolkit/array"
 import { Children } from "react"
@@ -43,19 +44,24 @@ export function FaqList({ children }: React.PropsWithChildren) {
 export function FaqItem({ faq }: { faq: Faq }) {
   return (
     <LazyElement asChild>
-      <li className="grid translate-y-4 grid-cols-1 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100">
+      <li
+        className={cn(
+          "grid grid-cols-1",
+          "animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0",
+        )}
+      >
         <Collapsible.Root asChild>
-          <div className="group/item grid grid-cols-1 rounded-1 bg-alabaster transition-colors duration-slow data-opened:bg-paleBlue">
-            <Collapsible.Trigger className="group/trigger grid grid-cols-fr-auto items-center gap-2 rounded-1 px-2 py-1 text-left text-body-uppercase-emphasis can-hover:focus-visible:focus-spaced">
+          <div className="group/item grid grid-cols-1 rounded-1 bg-alabaster transition-colors duration-slow data-opened:bg-pale-blue">
+            <Collapsible.Trigger className="group/trigger grid grid-cols-fr-auto items-center gap-2 rounded-1 px-2 py-1 text-left text-body-uppercase-emphasis focus-ring-spaced focus-visible:focus-ring">
               {faq.question}
 
               <Icon
                 id="chevron-down-light"
-                className="transition-transform duration-slow icon-16 group-data-opened/trigger:-rotate-180 can-hover:group-hover/trigger:group-data-opened/trigger:-translate-y-0.5 can-hover:group-hover/trigger:group-data-closed/trigger:translate-y-0.5"
+                className="icon-16 transition-transform duration-slow group-data-opened/trigger:-rotate-180 group-hover/trigger:group-data-opened/trigger:-translate-y-0.5 group-hover/trigger:group-data-closed/trigger:translate-y-0.5"
               />
             </Collapsible.Trigger>
 
-            <Collapsible.Content className="overflow-hidden px-2 py-1 group-data-opened/item:animate-radix-collapsible-content-open group-data-closed/item:animate-radix-collapsible-content-close">
+            <Collapsible.Content className="overflow-hidden px-2 py-1 animation-duration-slow animation-ease-in-out in-height-(--radix-collapsible-content-height) in-overflow-hidden out-height-0 data-opened:animate-enter data-closed:animate-exit">
               <Markdown
                 content={faq.answer}
                 components={PARAGRAPH_COMPONENTS}

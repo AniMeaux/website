@@ -33,16 +33,16 @@ export const InputActiveFilter = {
         type="checkbox"
         defaultChecked
         className={cn(
-          "peer/input absolute inset-0 -z-just-above h-full w-full cursor-pointer appearance-none rounded-0.5 transition-colors duration-normal",
+          "peer/input absolute inset-0 -z-just-above size-full cursor-pointer appearance-none rounded-0.5 transition-colors",
 
           // Background.
-          "bg-mystic active:bg-mystic-700 can-hover:hover:bg-mystic-600 active:can-hover:hover:bg-mystic-700",
+          "bg-mystic hover:bg-mystic-600 active:bg-mystic-700 active:hover:bg-mystic-700",
 
           // Border.
           "border border-mystic",
 
           // Focus outline.
-          "can-hover:focus-visible:focus-spaced",
+          "focus-ring-spaced focus-visible:focus-ring",
 
           className,
         )}
@@ -60,14 +60,14 @@ export const InputActiveFilter = {
           {...props}
           ref={ref}
           className={cn(
-            "flex-none text-white icon-24 can-hover:group-hover/selector:hidden",
+            "flex-none icon-24 text-white group-hover/selector:hidden",
             className,
           )}
         />
 
         <Icon
           id="x-mark-light"
-          className="hidden flex-none text-white icon-24 can-hover:group-hover/selector:block"
+          className="hidden flex-none icon-24 text-white group-hover/selector:block"
         />
       </>
     )
@@ -81,17 +81,14 @@ export const InputActiveFilter = {
       <Primitive.span
         {...props}
         ref={ref}
-        className={cn(
-          "min-w-0 text-white text-body-lowercase-emphasis",
-          className,
-        )}
+        className={cn("min-w-0 text-body-emphasis text-white", className)}
       />
     )
   }),
 
   RemoveIcon: function InputActiveFilterRemoveIcon() {
     return (
-      <Icon id="x-mark-light" className="text-white icon-24 can-hover:hidden" />
+      <Icon id="x-mark-light" className="icon-24 text-white can-hover:hidden" />
     )
   },
 }

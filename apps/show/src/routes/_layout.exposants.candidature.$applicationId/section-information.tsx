@@ -14,13 +14,13 @@ export function SectionInformation() {
     <Section.Root columnCount={1}>
       <Section.TextAside asChild>
         <BoardCard>
-          <h2 className="text-mystic text-title-item">
+          <h2 className="text-item-title text-mystic">
             Votre candidature a bien été envoyée
           </h2>
 
           <p>
             Un e-mail de confirmation vous a été envoyé à{" "}
-            <strong className="text-body-lowercase-emphasis">
+            <strong className="text-body-emphasis">
               {application.contactEmail}
             </strong>
             .
@@ -28,7 +28,7 @@ export function SectionInformation() {
             <br />
             Votre candidature est actuellement en cours d’étude par nos équipes
             de bénévoles. Les validations commenceront à partir du{" "}
-            <strong className="text-body-lowercase-emphasis">
+            <strong className="text-body-emphasis">
               {DateTime.fromISO(
                 CLIENT_ENV.APPLICATION_VALIDATION_START_DATE,
               ).toLocaleString({ month: "long", day: "numeric" })}

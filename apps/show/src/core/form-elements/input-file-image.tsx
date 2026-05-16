@@ -69,7 +69,7 @@ export const InputFileImage = {
         ref={ref}
         onChange={handleChange}
         className={cn(
-          "peer/input col-start-1 row-start-1 aspect-4/3 w-full cursor-pointer rounded-[inherit] opacity-0",
+          "peer/input col-start-1 row-start-1 aspect-4/3 w-full cursor-pointer rounded-inherit opacity-0",
           className,
         )}
       />
@@ -87,14 +87,14 @@ export const InputFileImage = {
     }
 
     return (
-      <div className="pointer-events-none col-start-1 row-start-1 grid grid-cols-1 overflow-hidden rounded-[inherit] border border-mystic-200 can-hover:peer-focus-visible/input:focus-compact">
+      <div className="pointer-events-none col-start-1 row-start-1 grid grid-cols-1 overflow-hidden rounded-inherit border border-mystic-200 peer-focus-visible/input:focus-ring">
         <img
           {...props}
           ref={ref}
           src={state.data.dataUrl}
           alt={state.data.file.name}
           className={cn(
-            "aspect-4/3 w-full rounded-[inherit] object-cover transition-transform duration-slow can-hover:group-hover/item:scale-105",
+            "aspect-4/3 w-full rounded-inherit object-cover transition-transform duration-slow group-hover/item:scale-105",
             className,
           )}
         />
@@ -115,7 +115,7 @@ export const InputFileImage = {
 
     if (defaultLogo != null) {
       return (
-        <div className="pointer-events-none col-start-1 row-start-1 grid grid-cols-1 overflow-hidden rounded-[inherit] border border-mystic-200 can-hover:peer-focus-visible/input:focus-compact">
+        <div className="pointer-events-none col-start-1 row-start-1 grid grid-cols-1 overflow-hidden rounded-inherit border border-mystic-200 peer-focus-visible/input:focus-ring">
           <DynamicImage
             alt={defaultLogo.alt}
             aspectRatio="4:3"
@@ -125,7 +125,7 @@ export const InputFileImage = {
             objectFit="contain"
             sizes={{ default: "100vw", md: "33vw", lg: "400px" }}
             loading="eager"
-            className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
+            className="w-full transition-transform duration-slow group-hover/item:scale-105"
           />
         </div>
       )
@@ -134,13 +134,13 @@ export const InputFileImage = {
     return (
       <div
         className={cn(
-          "pointer-events-none col-start-1 row-start-1 grid grid-cols-1 items-center justify-items-center rounded-[inherit] border border-mystic-200 transition-colors duration-normal can-hover:peer-focus-visible/input:focus-compact",
+          "pointer-events-none col-start-1 row-start-1 grid grid-cols-1 items-center justify-items-center rounded-inherit border border-mystic-200 transition-colors peer-focus-visible/input:focus-ring",
 
           // Background.
-          "bg-transparent peer-active/input:bg-mystic-100 can-hover:peer-hover/input:bg-mystic-50 peer-active/input:can-hover:peer-hover/input:bg-mystic-100",
+          "bg-transparent peer-hover/input:bg-mystic-50 peer-active/input:bg-mystic-100 peer-active/input:peer-hover/input:bg-mystic-100",
         )}
       >
-        <Icon id="upload-solid" className="text-mystic icon-64" />
+        <Icon id="upload-solid" className="icon-64 text-mystic" />
       </div>
     )
   },

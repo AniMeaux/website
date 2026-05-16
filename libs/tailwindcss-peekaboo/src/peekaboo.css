@@ -136,6 +136,10 @@
   --tw-translate-y: calc(--value([*]) * -1);
 }
 
+@utility animation-ease-in-out {
+  --animation-ease: var(--ease-in-out);
+}
+
 /*
  * Inline these to ensure the element's `--animation-duration` value is used.
  * I.E. in the generated CSS we want:
@@ -151,10 +155,12 @@
  */
 @theme inline {
   --animate-enter: enter
-    var(--animation-duration, var(--default-animation-duration)) var(--ease-out);
+    var(--animation-duration, var(--default-animation-duration))
+    var(--animation-ease, var(--ease-out));
 
   --animate-exit: exit
-    var(--animation-duration, var(--default-animation-duration)) var(--ease-in);
+    var(--animation-duration, var(--default-animation-duration))
+    var(--animation-ease, var(--ease-in));
 }
 
 @theme {

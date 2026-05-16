@@ -9,12 +9,12 @@ export function SectionInformation() {
       <Section.Root
         columnCount={1}
         width="full"
-        className="translate-y-4 opacity-0 transition-[opacity,transform] duration-very-slow data-visible:translate-y-0 data-visible:opacity-100"
+        className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0"
       >
         <div className="relative py-2 px-safe-page-narrow md:py-4 md:px-safe-page-normal">
           <HighLightBackground
             color="paleBlue"
-            className="absolute inset-0 -z-just-above h-full w-full"
+            className="absolute inset-0 -z-just-above size-full"
           />
 
           <ul className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
@@ -35,7 +35,7 @@ export function SectionInformation() {
             <HighLightItem icon="car" title="Venir en voiture">
               Parking gratuit sur place.
               <br />
-              <strong className="text-body-lowercase-emphasis">
+              <strong className="text-body-emphasis">
                 Ne laissez pas vos animaux dans votre véhicule !
               </strong>
             </HighLightItem>
@@ -55,8 +55,8 @@ function HighLightItem({
   title: string
 }>) {
   return (
-    <li className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
-      <Pictogram id={icon} className="text-[48px]" />
+    <li className="grid grid-cols-auto-fr items-start gap-2">
+      <Pictogram id={icon} className="icon-48" />
       <div className="grid grid-cols-1">
         <p className="text-body-uppercase-emphasis">{title}</p>
         <p>{children}</p>

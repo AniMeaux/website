@@ -1,13 +1,9 @@
 import { joinReactNodes } from "@animeaux/core"
 import { ShowExhibitorStatus } from "@animeaux/prisma"
-import { Img } from "@react-email/components"
 import { promiseHash } from "remix-utils/promise"
 import invariant from "tiny-invariant"
 
-import {
-  EMAIL_PARAGRAPH_COMPONENTS,
-  EmailHtml,
-} from "#i/core/data-display/email-html.server.js"
+import { EmailHtml } from "#i/core/data-display/email-html.server.js"
 import { createImageUrl } from "#i/core/data-display/image.js"
 import type { ServiceEmail } from "#i/core/email/service.server.js"
 import { ImageData } from "#i/core/image/data.js"
@@ -51,7 +47,7 @@ export class ServiceExhibitorPublicProfileEmail {
               <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
 
               <EmailHtml.Output.Value>
-                <Img
+                <EmailHtml.Img
                   src={createImageUrl(
                     process.env.CLOUDINARY_CLOUD_NAME,
                     ImageData.parse(exhibitor.logoPath).id,
@@ -63,9 +59,6 @@ export class ServiceExhibitorPublicProfileEmail {
                     },
                   )}
                   alt={exhibitor.name}
-                  // Reset Img default styles to avoid conflicts.
-                  style={{ border: undefined }}
-                  className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
                 />
               </EmailHtml.Output.Value>
             </EmailHtml.Output.Row>
@@ -187,7 +180,7 @@ export class ServiceExhibitorPublicProfileEmail {
                   <EmailHtml.Output.Label>Logo</EmailHtml.Output.Label>
 
                   <EmailHtml.Output.Value>
-                    <Img
+                    <EmailHtml.Img
                       src={createImageUrl(
                         process.env.CLOUDINARY_CLOUD_NAME,
                         ImageData.parse(exhibitor.logoPath).id,
@@ -199,9 +192,6 @@ export class ServiceExhibitorPublicProfileEmail {
                         },
                       )}
                       alt={exhibitor.name}
-                      // Reset Img default styles to avoid conflicts.
-                      style={{ border: undefined }}
-                      className="aspect-4/3 w-full min-w-0 rounded-2 border border-solid border-alabaster object-contain"
                     />
                   </EmailHtml.Output.Value>
                 </EmailHtml.Output.Row>
@@ -299,9 +289,8 @@ export class ServiceExhibitorPublicProfileEmail {
               <EmailHtml.Title>Profil public</EmailHtml.Title>
 
               <EmailHtml.Section.Root>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownDocument
                   content={exhibitor.publicProfileStatusMessage}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
                 <EmailHtml.Paragraph>
@@ -357,10 +346,7 @@ export class ServiceExhibitorDescriptionEmail {
           <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
 
           {exhibitor.description != null ? (
-            <EmailHtml.Markdown
-              content={exhibitor.description}
-              components={EMAIL_PARAGRAPH_COMPONENTS}
-            />
+            <EmailHtml.MarkdownDocument content={exhibitor.description} />
           ) : (
             <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
           )}
@@ -440,10 +426,7 @@ export class ServiceExhibitorDescriptionEmail {
               <EmailHtml.Section.Title>Description</EmailHtml.Section.Title>
 
               {exhibitor.description != null ? (
-                <EmailHtml.Markdown
-                  content={exhibitor.description}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
-                />
+                <EmailHtml.MarkdownDocument content={exhibitor.description} />
               ) : (
                 <EmailHtml.Paragraph>Aucune description.</EmailHtml.Paragraph>
               )}
@@ -507,9 +490,8 @@ export class ServiceExhibitorDescriptionEmail {
               <EmailHtml.Title>Description</EmailHtml.Title>
 
               <EmailHtml.Section.Root>
-                <EmailHtml.Markdown
+                <EmailHtml.MarkdownDocument
                   content={exhibitor.descriptionStatusMessage}
-                  components={EMAIL_PARAGRAPH_COMPONENTS}
                 />
 
                 <EmailHtml.Paragraph>

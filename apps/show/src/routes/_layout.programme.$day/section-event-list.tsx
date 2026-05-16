@@ -24,7 +24,7 @@ import {
 } from "#i/exhibitors/activity-target/activity-target.js"
 import { ChipActivityTarget } from "#i/exhibitors/activity-target/chip.js"
 import { Icon } from "#i/generated/icon.js"
-import { theme } from "#i/generated/theme.js"
+import { Spacing } from "#i/generated/theme.js"
 
 import type { loader } from "./loader.server.js"
 
@@ -53,7 +53,7 @@ export function SectionEventList() {
       <div className="grid grid-cols-[60px_minmax(0,1fr)] pl-safe-page-narrow md:pl-safe-page-normal">
         <Axis now={now} />
 
-        <div className="relative grid snap-x snap-mandatory grid-cols-[repeat(2,90%)] overflow-x-auto scroll-smooth scrollbars-none pr-safe-page-narrow md:grid-cols-2 md:pr-safe-page-normal">
+        <div className="relative scrollbars-none grid snap-x snap-mandatory grid-cols-[repeat(2,90%)] overflow-x-auto scroll-smooth pr-safe-page-narrow md:grid-cols-2 md:pr-safe-page-normal">
           <GridLines now={now} columnWidth={size?.width} />
 
           <Column
@@ -115,7 +115,7 @@ function Axis({ now }: { now: DateTime }) {
       {ShowDay.intervals[day].map((dateTime, index) => (
         <span
           key={dateTime.toISO()}
-          className="absolute left-0 grid h-[1px] w-full grid-cols-fr-auto content-center items-center text-caption-lowercase-default"
+          className="absolute left-0 grid h-px w-full grid-cols-fr-auto content-center items-center text-caption"
           style={{ top: EVENT_LIST_VERTICAL_SPACING + HOUR_HEIGHT_PX * index }}
         >
           <span className="px-0.5">
@@ -128,15 +128,15 @@ function Axis({ now }: { now: DateTime }) {
 
       {isNowCursorVisible(day, now) ? (
         <span
-          className="absolute left-0 grid h-[1px] w-full grid-cols-2-auto content-center items-center justify-between"
+          className="absolute left-0 grid h-px w-full grid-cols-auto-auto content-center items-center justify-between"
           style={{ top: getNowCursorTopOffset(day, now) }}
         >
-          <span className="relative rounded-0.5 bg-mystic px-0.5 text-white text-caption-lowercase-emphasis">
+          <span className="relative rounded-0.5 bg-mystic px-0.5 text-caption-emphasis text-white">
             {now.toLocaleString({ hour: "numeric", minute: "numeric" })}
 
             <BeeIllustration
               direction="left-to-right"
-              className="absolute -top-[13.5px] left-1/2 h-1 -translate-x-1/2"
+              className="absolute top-[-13.5px] left-1/2 h-1 -translate-x-1/2"
             />
           </span>
 
@@ -168,7 +168,7 @@ function GridLines({
       {ShowDay.intervals[day].map((dateTime, index) => (
         <span
           key={dateTime.toISO()}
-          className="absolute left-0 -z-just-above h-[1px] bg-alabaster"
+          className="absolute left-0 -z-just-above h-px bg-alabaster"
           style={{
             top: EVENT_LIST_VERTICAL_SPACING + HOUR_HEIGHT_PX * index,
             width: gridLineWidth,
@@ -178,7 +178,7 @@ function GridLines({
 
       {/* Vertical separator between zones. */}
       <span
-        className="absolute inset-y-0 -z-just-above h-full w-[1px] -translate-x-1/2 bg-alabaster"
+        className="absolute inset-y-0 -z-just-above h-full w-px -translate-x-1/2 bg-alabaster"
         style={{
           left: columnWidth != null ? `${columnWidth}px` : "50%",
         }}
@@ -186,7 +186,7 @@ function GridLines({
 
       {isNowCursorVisible(day, now) ? (
         <span
-          className="absolute left-0 -z-just-above grid h-[1px] grid-cols-1 content-center items-center"
+          className="absolute left-0 -z-just-above grid h-px grid-cols-1 content-center items-center"
           style={{
             width: gridLineWidth,
             top: getNowCursorTopOffset(day, now),
@@ -224,9 +224,7 @@ const Column = forwardRef<
       ref={ref}
       className={cn("relative snap-center px-0.5", className)}
     >
-      <header className="px-2 py-1 text-center text-caption-lowercase-default">
-        {label}
-      </header>
+      <header className="px-2 py-1 text-center text-caption">{label}</header>
 
       {children}
     </section>
@@ -277,7 +275,7 @@ function AnimationItem({
     <Popover.Root>
       <section
         key={animation.id}
-        className="absolute inset-x-0.5 grid min-h-0 grid-cols-1 py-[1px]"
+        className="absolute inset-x-0.5 grid min-h-0 grid-cols-1 py-px"
         style={{
           height: HOUR_HEIGHT_PX * durationInHours,
           maxHeight: HOUR_HEIGHT_PX * durationInHours,
@@ -289,7 +287,7 @@ function AnimationItem({
       >
         <Popover.Trigger
           className={cn(
-            "grid h-full min-h-0 auto-cols-auto grid-flow-col grid-cols-1 items-start gap-1 rounded-1 bg-alabaster px-1 py-[11px] text-left data-opened:bg-paleBlue can-hover:hover:bg-alabaster-200 can-hover:focus-visible:z-just-above can-hover:focus-visible:focus-compact active:can-hover:hover:bg-alabaster-300 can-hover:hover:data-opened:bg-paleBlue active:can-hover:hover:data-opened:bg-paleBlue",
+            "grid h-full min-h-0 auto-cols-auto grid-flow-col grid-cols-1 items-start gap-1 rounded-1 bg-alabaster px-1 py-[11px] text-left hover:bg-alabaster-200 focus-visible:z-just-above focus-visible:focus-ring active:hover:bg-alabaster-300 data-opened:bg-pale-blue hover:data-opened:bg-pale-blue active:hover:data-opened:bg-pale-blue",
             hasEnded ? "opacity-disabled" : undefined,
           )}
         >
@@ -329,12 +327,12 @@ function AnimationItem({
             <span title="Sur inscription">
               <Icon
                 id="ticket-perforated-solid"
-                className="text-mystic icon-24"
+                className="icon-24 text-mystic"
               />
             </span>
           ) : null}
 
-          <span className="text-mystic text-body-lowercase-emphasis">
+          <span className="text-body-emphasis text-mystic">
             {startTime.toLocaleString({ hour: "numeric", minute: "numeric" })}
           </span>
         </Popover.Trigger>
@@ -344,10 +342,10 @@ function AnimationItem({
         <Popover.Content
           side="top"
           align={day === ShowDay.Enum.SATURDAY ? "start" : "end"}
-          sideOffset={theme.spacing[1]}
-          collisionPadding={theme.spacing[1]}
+          sideOffset={Spacing.unitPx}
+          collisionPadding={Spacing.unitPx}
           hideWhenDetached
-          className="grid w-[320px] min-w-[var(--radix-popover-trigger-width)] max-w-[calc(100vw-24px)] grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal animation-opacity-0 data-opened:animation-enter data-closed:animation-exit data-top:animation-translate-y-2 data-bottom:-animation-translate-y-2 can-hover:focus-visible:focus-compact"
+          className="grid w-[320px] max-w-[calc(100vw-24px)] min-w-(--radix-popover-trigger-width) grid-cols-1 gap-2 rounded-1 bg-white p-2 shadow-modal out-opacity-0 focus-visible:focus-ring data-opened:animate-enter data-closed:animate-exit data-top:out-translate-y-2 data-bottom:-out-translate-y-2"
         >
           <div className="grid grid-cols-1 gap-0.5">
             <div className="grid grid-cols-fr-auto items-start gap-2">
@@ -382,7 +380,7 @@ function AnimationItem({
             ) : null}
           </div>
 
-          <p className="text-body-lowercase-emphasis">
+          <p className="text-body-emphasis">
             <Markdown
               content={animation.description}
               components={SENTENCE_COMPONENTS}
@@ -395,9 +393,9 @@ function AnimationItem({
                 <Link
                   key={animator.id}
                   to={animator.url}
-                  className="group/item grid grid-cols-auto-fr items-center gap-1 rounded-0.5 can-hover:focus-visible:focus-spaced"
+                  className="group/item grid grid-cols-auto-fr items-center gap-1 rounded-0.5 focus-ring-spaced focus-visible:focus-ring"
                 >
-                  <div className="grid w-[48px] grid-cols-1 overflow-hidden rounded-0.5 border border-alabaster">
+                  <div className="grid w-4 grid-cols-1 overflow-hidden rounded-0.5 border border-alabaster">
                     <DynamicImage
                       image={ImageData.parse(animator.logoPath)}
                       fillTransparentBackground
@@ -407,11 +405,11 @@ function AnimationItem({
                       objectFit="contain"
                       fallbackSize="128"
                       sizes={{ default: "48px" }}
-                      className="w-full transition-transform duration-slow can-hover:group-hover/item:scale-105"
+                      className="w-full transition-transform duration-slow group-hover/item:scale-105"
                     />
                   </div>
 
-                  <span className="text-body-uppercase-default">
+                  <span className="text-body-uppercase">
                     {animator.name}
 
                     {animator.isOrganizer ? (
@@ -468,7 +466,7 @@ function AnimationItem({
 
 const ONE_MINUTE_IN_MS = 60 * 1000
 
-const EVENT_LIST_VERTICAL_SPACING = theme.spacing[4]
+const EVENT_LIST_VERTICAL_SPACING = Spacing.unitPx * 4
 
 // The shortest animation is 10 min and we want to show 1 line of text:
 //   1 line (24px) + vertical spacing (12px * 2) = 48px

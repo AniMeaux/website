@@ -31,7 +31,7 @@ export const Chip = {
             "grid auto-cols-auto grid-flow-col items-center gap-0.5 rounded-0.5 px-0.5 transition-colors duration-slow",
             isHighlighted
               ? "bg-mystic text-white"
-              : "ring-1 ring-inset ring-alabaster",
+              : "ring-1 ring-alabaster ring-inset",
             className,
           )}
         />
@@ -88,9 +88,7 @@ export const Chip = {
         {...props}
         ref={ref}
         className={cn(
-          isHighlighted
-            ? "text-caption-lowercase-emphasis"
-            : "text-caption-lowercase-default",
+          isHighlighted ? "text-caption-emphasis" : "text-caption",
           className,
         )}
       />

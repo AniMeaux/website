@@ -1,0 +1,131 @@
+@theme {
+  --spacing: 12px;
+
+  /*
+   * The values in the formula are defined by:
+   * - A page takes 90% of the width (5% spacing on each side).
+   * - Left and right spacing cannot go under 16px.
+   * - The page should not exceed LG or SM (1024px or 640px).
+   * Wrap the value in a `calc` so tailwind can negate it.
+   */
+  --spacing-page-normal: calc(
+    max(16px, 5vw, (100vw - var(--breakpoint-lg)) / 2)
+  );
+  --spacing-page-narrow: calc(
+    max(16px, 5vw, (100vw - var(--breakpoint-sm)) / 2)
+  );
+}
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
+@theme {
+  /*
+   * Just to create a new stacking context.
+   * See https://developer.mozilla.org/en-US/docs/Web/CSS/z-index 
+   */
+  --z-index-stacking-context: 0;
+
+  --z-index-just-above: 1;
+  --z-index-header: 20;
+  --z-index-modal: 30;
+}
+
+@theme {
+  /*
+   * Reset entire namespace.
+   * See https://tailwindcss.com/docs/theme#overriding-the-default-theme
+   */
+  --radius-*: initial;
+
+  --radius-none: 0px;
+  --radius-full: calc(infinity * 1px);
+  --radius-inherit: inherit;
+
+  --radius-0\.5: --spacing(0.5);
+  --radius-1: --spacing(1);
+  --radius-2: --spacing(2);
+}
+
+@theme {
+  /*
+   * Reset entire namespace.
+   * See https://tailwindcss.com/docs/theme#overriding-the-default-theme
+   */
+  --color-*: initial;
+
+  --color-transparent: transparent;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-alabaster: var(--color-alabaster-100);
+  --color-alabaster-50: oklab(0.9782 0.0027 0.0021);
+  --color-alabaster-100: oklab(0.9375 0.0085 0.0095);
+  --color-alabaster-200: oklab(0.9182 0.0109 0.0131);
+  --color-alabaster-300: oklab(0.858 0.02 0.0233);
+  --color-alabaster-400: oklab(0.7707 0.0317 0.0362);
+  --color-alabaster-500: oklab(0.684 0.043 0.0465);
+  --color-alabaster-600: oklab(0.6051 0.0474 0.0517);
+  --color-alabaster-700: oklab(0.5271 0.0421 0.0451);
+  --color-alabaster-800: oklab(0.4694 0.0344 0.0386);
+  --color-alabaster-900: oklab(0.4248 0.0266 0.0302);
+  --color-alabaster-950: oklab(0.2758 0.0177 0.0205);
+
+  --color-mystic: var(--color-mystic-500);
+  --color-mystic-50: oklab(0.9725 0.011 0.0006);
+  --color-mystic-100: oklab(0.9467 0.0205 0.0036);
+  --color-mystic-200: oklab(0.9003 0.0425 0.0024);
+  --color-mystic-300: oklab(0.8212 0.0771 0.0076);
+  --color-mystic-400: oklab(0.7266 0.1258 0.0152);
+  --color-mystic-500: oklab(0.6262 0.1728 0.0268);
+  --color-mystic-600: oklab(0.5633 0.1797 0.025);
+  --color-mystic-700: oklab(0.492 0.1637 0.0211);
+  --color-mystic-800: oklab(0.4385 0.142 0.0098);
+  --color-mystic-900: oklab(0.3991 0.1235 0.0028);
+  --color-mystic-950: oklab(0.2637 0.0826 0.0042);
+
+  --color-pale-blue: var(--color-pale-blue-200);
+  --color-pale-blue-50: oklab(0.9775 -0.0104 -0.006);
+  --color-pale-blue-100: oklab(0.9444 -0.0275 -0.0139);
+  --color-pale-blue-200: oklab(0.9013 -0.0424 -0.0239);
+  --color-pale-blue-300: oklab(0.8161 -0.0724 -0.0438);
+  --color-pale-blue-400: oklab(0.7213 -0.0886 -0.0602);
+  --color-pale-blue-500: oklab(0.6335 -0.0823 -0.0642);
+  --color-pale-blue-600: oklab(0.5473 -0.0663 -0.0615);
+  --color-pale-blue-700: oklab(0.4727 -0.0524 -0.0545);
+  --color-pale-blue-800: oklab(0.4181 -0.0405 -0.0441);
+  --color-pale-blue-900: oklab(0.3778 -0.0334 -0.0377);
+  --color-pale-blue-950: oklab(0.2826 -0.0256 -0.0338);
+
+  --color-prussian-blue: var(--color-prussian-blue-950);
+  --color-prussian-blue-50: oklab(0.9776 -0.0102 -0.0101);
+  --color-prussian-blue-100: oklab(0.957 -0.0226 -0.0195);
+  --color-prussian-blue-200: oklab(0.957 -0.0226 -0.0195);
+  --color-prussian-blue-300: oklab(0.8602 -0.0927 -0.0645);
+  --color-prussian-blue-400: oklab(0.8132 -0.1115 -0.0882);
+  --color-prussian-blue-500: oklab(0.7623 -0.0977 -0.1164);
+  --color-prussian-blue-600: oklab(0.6598 -0.0782 -0.1219);
+  --color-prussian-blue-700: oklab(0.5598 -0.0658 -0.1052);
+  --color-prussian-blue-800: oklab(0.4926 -0.0592 -0.0883);
+  --color-prussian-blue-900: oklab(0.4281 -0.0518 -0.0753);
+  --color-prussian-blue-950: oklab(0.2925 -0.0351 -0.0525);
+}
+
+@theme {
+  /*
+   * These values are not necessary but we define them so they're shown in
+   * autocomplete.
+   */
+  --aspect-4\/3: 4 / 3;
+  --aspect-3\/4: 3 / 4;
+  --aspect-16\/10: 16 / 10;
+}
+
+@theme {
+  --shadow-modal: 0px 15px 80px -10px rgba(0, 0, 0, 0.3);
+}
+
+@theme {
+  --opacity-disabled: 0.5;
+}

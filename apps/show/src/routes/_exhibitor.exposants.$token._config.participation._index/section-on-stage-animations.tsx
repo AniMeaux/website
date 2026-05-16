@@ -113,7 +113,7 @@ function AnimationItem({
         ) : null}
       </div>
 
-      <p className="text-body-lowercase-emphasis">
+      <p className="text-body-emphasis">
         <Markdown
           content={animation.description}
           components={SENTENCE_COMPONENTS}
@@ -122,7 +122,7 @@ function AnimationItem({
 
       {otherAnimators.length > 0 ? (
         <p>
-          <span className="text-caption-lowercase-default">Avec :{" "}</span>
+          <span className="text-caption">Avec :{" "}</span>
 
           {joinReactNodes(
             otherAnimators.map((animator) => (
@@ -139,9 +139,7 @@ function AnimationItem({
 
       {animation.registrationUrl != null ? (
         <p className="grid grid-cols-1 md:inline">
-          <span className="text-caption-lowercase-default">
-            Liens d’inscription :{" "}
-          </span>
+          <span className="text-caption">Liens d’inscription :{" "}</span>
 
           <ProseInlineAction variant="subtle" asChild>
             <Link to={animation.registrationUrl}>
