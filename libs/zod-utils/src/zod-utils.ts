@@ -6,6 +6,7 @@ export type {
   infer,
   inferFlattenedErrors,
   SafeParseReturnType,
+  ZodError,
   ZodRawShape,
   ZodTypeAny,
 } from "zod"

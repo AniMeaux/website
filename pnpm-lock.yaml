@@ -792,6 +792,9 @@ importers:
       '@types/culori':
         specifier: 'catalog:'
         version: 4.0.1
+      '@types/d3-dsv':
+        specifier: 'catalog:'
+        version: 3.0.7
       '@types/express':
         specifier: 'catalog:'
         version: 4.17.21
@@ -822,6 +825,9 @@ importers:
       culori:
         specifier: 'catalog:'
         version: 4.0.2
+      d3-dsv:
+        specifier: 'catalog:'
+        version: 3.0.1
       dotenv-flow:
         specifier: 'catalog:'
         version: 4.1.0
