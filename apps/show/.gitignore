@@ -4,6 +4,9 @@
 # Compiled code by Vite.
 /build/
 
+# CSV files used for data synchronisation scripts.
+/data/
+
 # Dependencies installed by pnpm.
 /node_modules/
 
