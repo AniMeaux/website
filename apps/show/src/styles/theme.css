@@ -41,11 +41,14 @@
 
   --radius-none: 0px;
   --radius-full: calc(infinity * 1px);
-  --radius-inherit: inherit;
 
   --radius-0\.5: --spacing(0.5);
   --radius-1: --spacing(1);
   --radius-2: --spacing(2);
+}
+
+@theme inline {
+  --radius-inherit: inherit;
 }
 
 @theme {
