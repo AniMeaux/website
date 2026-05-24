@@ -3,17 +3,17 @@ import { cn } from "@animeaux/core"
 type ActionColor = "blue" | "yellow" | "gray"
 
 const STANDALONE_ACTION_COLOR_CLASS_NAME: Record<ActionColor, string> = {
-  blue: "bg-brandBlue text-white hover:bg-brandBlue-lighter",
-  yellow: "bg-brandYellow text-black hover:bg-brandYellow-darker",
-  gray: "bg-gray-100 hover:bg-gray-200",
+  blue: cn("bg-brand-blue text-white hover:bg-brand-blue-lighter"),
+  yellow: cn("bg-brand-yellow text-black hover:bg-brand-yellow-darker"),
+  gray: cn("bg-gray-100 hover:bg-gray-200"),
 }
 
 export const actionClassNames = {
   standalone: ({ color = "blue" }: { color?: ActionColor } = {}) =>
     cn(
-      "flex min-w-max flex-none items-center justify-center px-6 py-2 transition-[background-color,transform] duration-100 ease-in-out rounded-bubble-sm text-body-emphasis active:scale-95",
+      "flex min-w-max flex-none items-center justify-center rounded-bubble-sm px-6 py-2 text-body-emphasis transition-[background-color,scale] active:scale-95",
       STANDALONE_ACTION_COLOR_CLASS_NAME[color],
     ),
   proseInline: () =>
-    "border-b text-body-emphasis border-b-brandBlue hover:border-b-2",
+    cn("border-b border-b-brand-blue text-body-emphasis hover:border-b-2"),
 }

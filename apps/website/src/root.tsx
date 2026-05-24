@@ -1,4 +1,4 @@
-import "#i/tailwind.css"
+import "#i/styles/main.css"
 
 import { cn } from "@animeaux/core"
 import type { LinksFunction, MetaFunction } from "@remix-run/node"
@@ -19,7 +19,7 @@ import { Footer } from "#i/core/layout/footer.js"
 import { Header } from "#i/core/layout/header.js"
 import { createSocialMeta } from "#i/core/meta.js"
 import { getPageTitle, pageDescription } from "#i/core/page-title.js"
-import { theme } from "#i/generated/theme.js"
+import { Color } from "#i/generated/theme.js"
 import appleTouchIcon from "#i/images/apple-touch-icon.png"
 import favicon from "#i/images/favicon.svg"
 import { socialImages } from "#i/images/social.js"
@@ -61,7 +61,7 @@ export const links: LinksFunction = () => {
     },
     {
       rel: "stylesheet",
-      href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600&display=swap",
+      href: "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap",
     },
   ]
 }
@@ -130,10 +130,10 @@ function Document({
   }
 
   return (
-    <html lang="fr" className="bg-gray-50">
+    <html lang="fr" className="bg-background">
       <head>
         <meta charSet="utf-8" />
-        <meta name="theme-color" content={theme.colors.gray[50]} />
+        <meta name="theme-color" content={Color.backgroundHex} />
 
         {/* Use `maximum-scale=1` to prevent browsers to zoom on form elements. */}
         <meta
@@ -165,8 +165,8 @@ function Document({
           "relative",
           "min-h-screen",
           // Safe top padding is handled by the header.
-          "pb-safe-0 px-safe-0",
-          "flex flex-col items-center gap-6 text-gray-800 text-body-default",
+          "px-safe-0 pb-safe-0",
+          "flex flex-col items-center gap-6 text-body text-gray-800",
           "md:gap-12",
         )}
       >

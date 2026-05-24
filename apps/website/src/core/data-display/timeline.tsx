@@ -34,15 +34,15 @@ export function TimelineItem({
 
       <BottomLine
         className={cn(
-          "absolute left-4 top-10 -z-10 h-full w-6 text-gray-300 group-last:hidden group-even:scale-x-[-1]",
-          "md:left-1/2 md:top-[78px] md:-translate-x-1/2",
+          "absolute top-10 left-4 -z-10 h-full w-6 text-gray-300 group-last:hidden group-even:scale-x-[-1]",
+          "md:top-[78px] md:left-1/2 md:-translate-x-1/2",
         )}
       />
 
       <TopLine
         className={cn(
-          "absolute left-4 top-10 -z-10 hidden h-12 w-6 scale-y-[-1] text-gray-300 group-last:block group-odd:scale-x-[-1]",
-          "md:left-1/2 md:top-[78px] md:h-20 md:-translate-x-1/2",
+          "absolute top-10 left-4 -z-10 hidden h-12 w-6 scale-y-[-1] text-gray-300 group-last:block group-odd:scale-x-[-1]",
+          "md:top-[78px] md:left-1/2 md:h-20 md:-translate-x-1/2",
         )}
       />
 
@@ -54,14 +54,14 @@ export function TimelineItem({
         >
           <Icon
             id={icon}
-            className={cn("text-[24px] text-gray-700", "md:text-[60px]")}
+            className={cn("icon-24 text-gray-700", "md:icon-60")}
           />
         </span>
       </span>
 
       <div className="flex flex-1 flex-col gap-3 md:gap-6">
         <div className={cn("flex flex-col", "md:group-odd:text-right")}>
-          <h3 className="text-title-item">{title}</h3>
+          <h3 className="text-item-title">{title}</h3>
           <p>{children}</p>
         </div>
 

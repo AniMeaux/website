@@ -37,7 +37,7 @@ export default function Route() {
       <main className="flex w-full flex-col gap-12 px-article">
         <header className="flex flex-col">
           <h1
-            className={cn("text-title-hero-small", "md:text-title-hero-large")}
+            className={cn("text-hero-title-small", "md:text-hero-title-large")}
           >
             Abandonner votre animal
           </h1>

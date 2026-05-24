@@ -109,13 +109,13 @@ export default function Route() {
       <header
         className={cn(
           "flex flex-col",
-          "md:grid md:grid-cols-[1fr,auto] md:items-center md:gap-6",
+          "md:grid md:grid-cols-fr-auto md:items-center md:gap-6",
         )}
       >
         <h1
           className={cn(
-            "break-words text-center text-title-hero-small",
-            "md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small wrap-break-word",
+            "md:text-left md:text-hero-title-large",
           )}
         >
           {animal.name}
@@ -196,7 +196,7 @@ function ImageSection({ className }: { className: string }) {
           )
         }}
         className={cn(
-          "flex min-w-0 snap-x snap-mandatory overflow-auto scroll-smooth rounded-bubble-md scrollbars-none",
+          "scrollbars-none flex min-w-0 snap-x snap-mandatory overflow-auto scroll-smooth rounded-bubble-md",
           "sm:rounded-bubble-lg",
           "lg:rounded-bubble-xl",
         )}
@@ -209,7 +209,7 @@ function ImageSection({ className }: { className: string }) {
             sizes={{ lg: "512px", md: "50vw", default: "100vw" }}
             fallbackSize="2048"
             loading="eager"
-            className="aspect-4/3 h-full min-h-0 w-full min-w-0 flex-none snap-center"
+            className="aspect-4/3 size-full min-h-0 min-w-0 flex-none snap-center"
           />
         ))}
       </div>
@@ -237,7 +237,7 @@ function ImageSection({ className }: { className: string }) {
               fallbackSize="512"
               loading="eager"
               className={cn(
-                "aspect-4/3 w-16 transition-opacity duration-100 ease-in-out rounded-bubble-sm",
+                "aspect-4/3 w-16 rounded-bubble-sm transition-opacity",
                 {
                   "opacity-50": visibleIndex !== index,
                   "opacity-100": visibleIndex === index,
@@ -335,12 +335,12 @@ function Item({
     <li className="flex items-start gap-2">
       <Icon
         id={icon}
-        className={cn("flex-none text-[24px]", {
+        className={cn("flex-none icon-24", {
           "text-gray-700": color === "default",
           "text-pink-500": color === "pink",
-          "text-brandBlue": color === "blue",
-          "text-brandRed": color === "red",
-          "text-brandGreen": color === "green",
+          "text-brand-blue": color === "blue",
+          "text-brand-red": color === "red",
+          "text-brand-green": color === "green",
         })}
       />
       <span className="flex-1">{children}</span>
@@ -355,8 +355,8 @@ function AggrementsSection({ className }: { className: string }) {
     <div className={cn(className, "flex flex-col gap-6")}>
       <h2
         className={cn(
-          "text-title-section-small",
-          "md:text-title-section-large",
+          "text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Ses ententes
@@ -400,16 +400,16 @@ function Agreement({
   return (
     <li
       className={cn(
-        "flex flex-1 flex-col items-center justify-center gap-2 p-3 rounded-bubble-sm",
+        "flex flex-1 flex-col items-center justify-center gap-2 rounded-bubble-sm p-3",
         {
           "bg-gray-100 text-gray-700": value == null,
-          "bg-brandGreen-lightest text-brandGreen": value === true,
-          "bg-brandRed-lightest text-brandRed": value === false,
+          "bg-brand-green-lightest text-brand-green": value === true,
+          "bg-brand-red-lightest text-brand-red": value === false,
         },
       )}
     >
-      <Icon id={icon} className="text-[32px]" />
-      <span className="font-sans text-[14px] font-semibold leading-none">
+      <Icon id={icon} className="icon-32" />
+      <span className="font-sans icon-14 leading-none font-semibold">
         {value == null ? "Inconnu" : value ? "Oui" : "Non"}
       </span>
     </li>
@@ -424,7 +424,7 @@ const DESCRIPTION_COMPONENTS: MarkdownProps["components"] = {
   ),
   em: ({ children }) => <em>{children}</em>,
   code: ({ children }) => (
-    <code className="inline-flex rounded-sm bg-gray-100 px-1 text-code-default">
+    <code className="inline-flex rounded-xs bg-gray-100 px-1 text-code">
       {children}
     </code>
   ),
@@ -455,8 +455,8 @@ function DescriptionSection({ className }: { className: string }) {
     <section className={cn(className, "flex flex-col gap-6")}>
       <h2
         className={cn(
-          "text-title-section-small",
-          "md:text-title-section-large",
+          "text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Son histoire

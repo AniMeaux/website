@@ -1,0 +1,16 @@
+@theme inline {
+  --rounded-bubble-sm: --spacing(3);
+  --rounded-bubble-md: --spacing(6);
+  --rounded-bubble-lg: --spacing(12);
+  --rounded-bubble-xl: --spacing(24);
+}
+
+@utility rounded-bubble-* {
+  border-radius: --value(--rounded-bubble-*)
+    calc(--value(--rounded-bubble-*) / 2);
+}
+
+@utility rounded-bubble-b-* {
+  border-bottom-right-radius: --value(--rounded-bubble-*);
+  border-bottom-left-radius: calc(--value(--rounded-bubble-*) / 2);
+}

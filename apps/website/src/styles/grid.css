@@ -1,0 +1,7 @@
+@theme {
+  --grid-template-columns-fr-auto: minmax(0, 1fr) auto;
+}
+
+@theme {
+  --grid-template-rows-auto: auto;
+}

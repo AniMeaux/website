@@ -77,9 +77,9 @@ function PaginatorItem({
           {
             "w-[40px] rounded-bubble-sm": !isEllipsis,
           },
-          "flex items-center justify-center transition-colors duration-100 ease-in-out text-body-emphasis",
+          "flex items-center justify-center text-body-emphasis transition-colors",
           {
-            "bg-brandBlue text-white": isActive,
+            "bg-brand-blue text-white": isActive,
             "hover:bg-gray-200": !isActive && to != null,
           },
         )}

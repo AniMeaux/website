@@ -89,8 +89,8 @@ function OtherOptionsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-center text-title-section-small",
-          "md:text-title-section-large",
+          "text-center text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Autres options
@@ -150,7 +150,7 @@ function OtherOption({
   return (
     <li className="flex w-[200px] flex-none flex-col gap-6 text-center">
       {typeof image === "string" ? (
-        <span className="flex aspect-video w-[200px] items-center justify-center text-[80px] text-gray-700">
+        <span className="flex aspect-video w-[200px] items-center justify-center icon-80 text-gray-700">
           <Icon id={image} />
         </span>
       ) : (
@@ -183,8 +183,8 @@ function TaxationSection() {
       >
         <h2
           className={cn(
-            "text-title-section-small",
-            "md:text-title-section-large",
+            "text-section-title-small",
+            "md:text-section-title-large",
           )}
         >
           Déduction fiscale
@@ -201,12 +201,12 @@ function TaxationSection() {
           className={cn("flex flex-col gap-6", "md:flex-row md:items-start")}
         >
           <div className="flex flex-1 flex-col">
-            <h3 className="text-title-item">En passant par Helloasso</h3>
+            <h3 className="text-item-title">En passant par Helloasso</h3>
             <p>Vous recevrez automatiquement votre reçu fiscal par mail.</p>
           </div>
 
           <div className="flex flex-1 flex-col">
-            <h3 className="text-title-item">
+            <h3 className="text-item-title">
               En passant par les autres options
             </h3>
             <p>

@@ -28,8 +28,8 @@ export function RelatedSectionTitle({
   return (
     <h2
       className={cn(
-        "text-center text-title-section-small",
-        "md:text-left md:text-title-section-large",
+        "text-center text-section-title-small",
+        "md:text-left md:text-section-title-large",
       )}
     >
       {children}

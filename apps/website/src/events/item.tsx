@@ -55,10 +55,9 @@ export function EventItem({
 
         <div className="flex flex-1 flex-col">
           <p
-            className={cn(
-              "transition-colors duration-100 ease-in-out text-title-item",
-              { "group-hover:text-brandBlue": !isDisabled },
-            )}
+            className={cn("text-item-title transition-colors", {
+              "group-hover:text-brand-blue": !isDisabled,
+            })}
           >
             {event.title}
           </p>
@@ -78,10 +77,9 @@ export function EventItem({
           <Icon
             id="arrow-right"
             className={cn(
-              "hidden self-center text-[32px] text-gray-500",
+              "hidden self-center icon-32 text-gray-500",
               {
-                "transition-transform duration-100 ease-in-out group-hover:scale-110":
-                  !isDisabled,
+                "transition-transform group-hover:scale-110": !isDisabled,
               },
               "sm:block",
             )}
@@ -102,7 +100,7 @@ function DetailsItem({
   return (
     <li className="flex items-start gap-2 text-gray-500">
       <span className="flex h-6 flex-none items-center">
-        <Icon id={icon} className="text-[14px]" />
+        <Icon id={icon} className="icon-14" />
       </span>
 
       <span className="flex-1">{children}</span>
