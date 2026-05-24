@@ -127,7 +127,6 @@ catalog:
   pg-copy-streams: ^6.0.6
   pm2: ^6.0.14
   prettier: ^3.8.2
-  prettier-plugin-tailwindcss: ^0.7.2
   prisma: ^7.4.0
   react: ^18.2.0
   react-dnd: ^16.0.1

@@ -28,9 +28,6 @@
     "lint-fix:prettier": "prettier --write .",
     "sync-workspace": "# See /docs/decisions/002-workspace-package-injection.md"
   },
-  "optionalDependencies": {
-    "prettier-plugin-tailwindcss": "catalog:"
-  },
   "dependencies": {
     "@total-typescript/ts-reset": "catalog:",
     "eslint": "catalog:",
