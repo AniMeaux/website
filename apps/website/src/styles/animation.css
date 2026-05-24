@@ -1,0 +1,6 @@
+@theme {
+  --transition-duration-normal: 100ms;
+  --transition-duration-slow: 150ms;
+
+  --default-transition-duration: var(--transition-duration-normal);
+}

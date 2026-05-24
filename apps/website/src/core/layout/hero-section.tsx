@@ -65,8 +65,8 @@ export function HeroSectionTitle({
   return (
     <TitleComponent
       className={cn("text-center", "md:text-left", {
-        "text-title-hero-small md:text-title-hero-large": isLarge,
-        "text-title-section-small md:text-title-section-large": !isLarge,
+        "text-hero-title-small md:text-hero-title-large": isLarge,
+        "text-section-title-small md:text-section-title-large": !isLarge,
       })}
     >
       {children}

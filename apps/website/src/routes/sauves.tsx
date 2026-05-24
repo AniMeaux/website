@@ -66,8 +66,8 @@ export default function Route() {
       >
         <h1
           className={cn(
-            "text-center text-title-hero-small",
-            "md:flex-1 md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small",
+            "md:flex-1 md:text-left md:text-hero-title-large",
           )}
         >
           Animaux sauvés

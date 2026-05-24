@@ -95,8 +95,8 @@ function StepsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-center text-title-section-small",
-          "md:text-title-section-large",
+          "text-center text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Les étapes
@@ -177,8 +177,8 @@ function CostsSection() {
     <section className="flex flex-col gap-12">
       <h2
         className={cn(
-          "text-center text-title-section-small",
-          "md:text-title-section-large",
+          "text-center text-section-title-small",
+          "md:text-section-title-large",
         )}
       >
         Frais d’adoption

@@ -168,9 +168,9 @@ function NavGroupButton({
         {(transitionState) => (
           <LineShapeHorizontal
             className={cn(
-              "absolute bottom-0 left-0 block h-1 w-full text-brandBlue",
+              "absolute bottom-0 left-0 block h-1 w-full text-brand-blue",
               {
-                "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                "transition-[stroke-dashoffset] duration-slow":
                   transitionState === "entering" ||
                   transitionState === "exiting",
               },
@@ -220,9 +220,9 @@ function NavLink({
             {(transitionState) => (
               <LineShapeHorizontal
                 className={cn(
-                  "absolute bottom-0 left-0 block h-1 w-full text-brandBlue",
+                  "absolute bottom-0 left-0 block h-1 w-full text-brand-blue",
                   {
-                    "transition-[stroke-dashoffset] duration-150 ease-in-out":
+                    "transition-[stroke-dashoffset] duration-slow":
                       transitionState === "entering" ||
                       transitionState === "exiting",
                   },
@@ -267,11 +267,9 @@ const Dropdown = forwardRef<
           <div
             ref={ref}
             className={cn(
-              "absolute left-0 top-0 -z-10 flex w-full flex-col items-center overflow-hidden bg-white shadow-base rounded-bubble-b-lg",
+              "absolute top-0 left-0 -z-10 flex w-full flex-col items-center overflow-hidden rounded-bubble-b-lg bg-white shadow-base",
               {
-                // Use `ease-in-out` to make sure animation is symetrical between
-                // entering and exiting to avoid a weird progress missmatch.
-                "transition-[height] duration-100 ease-in-out":
+                "transition-[height]":
                   transitionState === "entering" ||
                   transitionState === "exiting" ||
                   // Keep it the transition when visible child changes.
@@ -283,7 +281,7 @@ const Dropdown = forwardRef<
             <div
               ref={childrenRef}
               role="presentation"
-              className="flex w-[600px] flex-col pb-12 pt-safe-[calc(48px+var(--header-height))]"
+              className="flex w-[600px] flex-col pt-safe-[calc(48px+var(--header-height))] pb-12"
               onKeyDown={handleEscape(onClose)}
             >
               {children}
@@ -298,7 +296,7 @@ const Dropdown = forwardRef<
           aria-hidden
           tabIndex={-1}
           onClick={() => onClose()}
-          className="absolute left-0 top-0 -z-20 h-full w-full cursor-pointer"
+          className="absolute top-0 left-0 -z-20 size-full cursor-pointer"
         />
       )}
     </>

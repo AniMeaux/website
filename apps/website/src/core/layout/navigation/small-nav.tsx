@@ -91,10 +91,7 @@ export function SmallNav({
             )
           }
         >
-          <Icon
-            id={state.isOpened ? "x-mark" : "bars"}
-            className="text-[20px]"
-          />
+          <Icon id={state.isOpened ? "x-mark" : "bars"} className="icon-20" />
         </button>
 
         <Transition
@@ -107,16 +104,16 @@ export function SmallNav({
             return (
               <div
                 className={cn(
-                  "absolute left-0 top-0 h-screen w-full bg-white",
+                  "absolute top-0 left-0 h-screen w-full bg-white",
                   // We need to handle safe areas because this element has
                   // absolute positioning.
-                  "pb-safe-2 pt-safe-[calc(8px+var(--header-height))] px-safe-page",
+                  "pt-safe-[calc(8px+var(--header-height))] px-safe-page pb-safe-2",
                   "flex",
                   {
-                    "translate-y-0 opacity-100 transition-[opacity,transform] duration-100 ease-out":
+                    "translate-y-0 opacity-100 transition-[opacity,translate] ease-out":
                       transitionState === "entering",
                     "translate-y-0 opacity-100": transitionState === "entered",
-                    "-translate-y-4 opacity-0 transition-[opacity,transform] duration-100 ease-in":
+                    "-translate-y-4 opacity-0 transition-[opacity,translate] ease-in":
                       transitionState === "exiting",
                     "-translate-y-4 opacity-0": transitionState === "exited",
                   },
@@ -124,7 +121,7 @@ export function SmallNav({
               >
                 <nav
                   ref={navRef}
-                  className="flex h-full min-h-0 w-full flex-col overflow-auto"
+                  className="flex size-full min-h-0 flex-col overflow-auto"
                 >
                   <NavGroupButton
                     isActive={state.openedGroup === "adopt"}
@@ -196,10 +193,10 @@ export function SmallNav({
           {(transitionState) => (
             <SocialLinks
               className={cn("absolute bottom-3 left-1/2 z-10", {
-                "-translate-x-1/2 opacity-100 transition-[opacity,transform] duration-100 ease-out":
+                "-translate-x-1/2 opacity-100 transition-[opacity,translate] ease-out":
                   transitionState === "entering",
                 "-translate-x-1/2 opacity-100": transitionState === "entered",
-                "translate-x-0 opacity-0 transition-[opacity,transform] duration-100 ease-in":
+                "translate-x-0 opacity-0 transition-[opacity,translate] ease-in":
                   transitionState === "exiting",
                 "translate-x-0 opacity-0": transitionState === "exited",
               })}
@@ -281,16 +278,14 @@ function SubNav({
           <div
             ref={containerRef}
             className={cn("flex flex-none flex-col overflow-hidden", {
-              // Use `ease-in-out` to make sure animation is symetrical between
-              // entering and exiting to avoid a weird progress missmatch.
-              "transition-[height] duration-100 ease-in-out":
+              "transition-[height]":
                 transitionState === "entering" || transitionState === "exiting",
             })}
             style={{ height: containerHeight }}
           >
             <div
               ref={childrenRef}
-              className="flex flex-col bg-gray-50 px-2 py-3 rounded-bubble-md"
+              className="flex flex-col rounded-bubble-md bg-gray-50 px-2 py-3"
             >
               {children}
             </div>

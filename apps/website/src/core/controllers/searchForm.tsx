@@ -89,7 +89,7 @@ export function SearchForm({
     <div
       className={cn(
         className,
-        "flex gap-2 rounded-bl-[10px] rounded-br-[16px] rounded-tl-[16px] rounded-tr-[10px] bg-white p-1 shadow-base",
+        "flex gap-2 rounded-tl-[16px] rounded-tr-[10px] rounded-br-[16px] rounded-bl-[10px] bg-white p-1 shadow-base",
       )}
     >
       <Select<AnimalSpeciesOption>
@@ -135,7 +135,7 @@ export function SearchForm({
       <BaseLink
         to={getPath(state)}
         title="Rechercher"
-        className="flex flex-none bg-brandBlue p-3 text-white transition-[background-color,transform] duration-100 ease-in-out rounded-bubble-sm active:scale-95 hover:bg-brandBlue-lighter"
+        className="flex flex-none rounded-bubble-sm bg-brand-blue p-3 text-white transition-[background-color,scale] hover:bg-brand-blue-lighter active:scale-95"
       >
         <Icon id="magnifying-glass" />
       </BaseLink>
@@ -161,7 +161,7 @@ function Select<ValueType extends string>({
         onChange(event.target.value as ValueType)
       }}
       className={cn(
-        "min-w-0 flex-1 cursor-pointer appearance-none bg-transparent px-6 py-2 transition-colors duration-100 ease-in-out rounded-bubble-sm hover:bg-gray-50",
+        "min-w-0 flex-1 cursor-pointer appearance-none rounded-bubble-sm bg-transparent px-6 py-2 transition-colors hover:bg-gray-50",
         { "text-gray-500": value == null },
       )}
     >

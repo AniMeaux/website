@@ -53,14 +53,14 @@ export default function Route() {
             <li key={faq.question} className="flex flex-col items-start gap-6">
               <span
                 className={cn(
-                  "flex items-center justify-center p-3 text-[40px] rounded-bubble-sm",
+                  "flex items-center justify-center rounded-bubble-sm p-3 icon-40",
                   ICON_COLOR_CLASS_NAME[faq.color],
                 )}
               >
                 <Icon id={faq.icon} />
               </span>
 
-              <h2 className="text-title-item">{faq.question}</h2>
+              <h2 className="text-item-title">{faq.question}</h2>
               <p>{faq.answer}</p>
             </li>
           ))}
@@ -78,11 +78,11 @@ type Faq = {
 }
 
 const ICON_COLOR_CLASS_NAME: Record<Faq["color"], string> = {
-  blue: "bg-brandBlue-lightest text-brandBlue",
-  cyan: "bg-brandCyan-lightest text-brandCyan",
-  green: "bg-brandGreen-lightest text-brandGreen",
-  red: "bg-brandRed-lightest text-brandRed",
-  yellow: "bg-brandYellow-lightest text-brandYellow-darker",
+  blue: cn("bg-brand-blue-lightest text-brand-blue"),
+  cyan: cn("bg-brand-cyan-lightest text-brand-cyan"),
+  green: cn("bg-brand-green-lightest text-brand-green"),
+  red: cn("bg-brand-red-lightest text-brand-red"),
+  yellow: cn("bg-brand-yellow-lightest text-brand-yellow-darker"),
 }
 
 const FAQ: Faq[] = [

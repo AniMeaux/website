@@ -75,8 +75,8 @@ export default function Route() {
       <header className="flex flex-col gap-6">
         <h1
           className={cn(
-            "text-center text-title-hero-small",
-            "md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small",
+            "md:text-left md:text-hero-title-large",
           )}
         >
           Nommez votre animal
@@ -96,7 +96,7 @@ export default function Route() {
       >
         <section
           className={cn(
-            "flex bg-white p-6 shadow-base rounded-bubble-lg",
+            "flex rounded-bubble-lg bg-white p-6 shadow-base",
             "md:max-w-xs md:flex-1",
           )}
         >
@@ -106,7 +106,7 @@ export default function Route() {
             preventScrollReset
             className="flex w-full flex-col gap-6"
           >
-            <h2 className="text-title-item">Critères</h2>
+            <h2 className="text-item-title">Critères</h2>
 
             <div className="flex flex-col gap-3">
               <div className={formClassNames.field()}>
@@ -180,7 +180,7 @@ export default function Route() {
             <>
               <ul
                 className={cn(
-                  "grid w-full grid-cols-1 grid-rows-[auto] items-start gap-6",
+                  "grid w-full grid-cols-1 grid-rows-auto items-start gap-6",
                   "xs:grid-cols-2",
                   "sm:grid-cols-3",
                   "md:grid-cols-2 md:gap-y-12",
@@ -192,7 +192,7 @@ export default function Route() {
                     key={name.label}
                     className="flex items-center justify-center gap-1"
                   >
-                    <span className="flex items-center text-[20px]">
+                    <span className="flex items-center icon-20">
                       <Icon
                         id="venus"
                         className={cn("text-pink-500", {
@@ -202,13 +202,13 @@ export default function Route() {
 
                       <Icon
                         id="mars"
-                        className={cn("text-brandBlue", {
+                        className={cn("text-brand-blue", {
                           hidden: name.gender === Gender.FEMALE,
                         })}
                       />
                     </span>
 
-                    <span className="text-title-item">{name.label}</span>
+                    <span className="text-item-title">{name.label}</span>
                   </li>
                 ))}
               </ul>
@@ -233,11 +233,13 @@ export default function Route() {
 }
 
 const formClassNames = {
-  field: () => "flex flex-col",
-  label: () => "text-caption-default text-gray-500",
-  checkboxLabel: () => "flex items-center gap-2 cursor-pointer",
+  field: () => cn("flex flex-col"),
+  label: () => cn("text-caption text-gray-500"),
+  checkboxLabel: () => cn("flex cursor-pointer items-center gap-2"),
   checkbox: () =>
-    "appearance-none w-[14px] h-[14px] rounded-full ring-inset ring-gray-400 ring-1 checked:ring-4 checked:ring-brandBlue transition-shadow duration-100 ease-in-out",
+    cn(
+      "size-[14px] appearance-none rounded-full ring-1 ring-gray-400 transition-shadow ring-inset checked:ring-4 checked:ring-brand-blue",
+    ),
 }
 
 function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
@@ -260,7 +262,7 @@ function FirstLetterInput({ defaultValue }: { defaultValue: string }) {
 
         setValue(value)
       }}
-      className="w-full border border-gray-200 px-6 py-2 rounded-bubble-sm"
+      className="w-full rounded-bubble-sm border border-gray-200 px-6 py-2"
     />
   )
 }

@@ -1,0 +1,95 @@
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/fira-sans/fira-sans-medium.ttf") format("truetype");
+}
+
+@theme {
+  /*
+   * Use default font families as fallbacks.
+   * See https://tailwindcss.com/docs/theme#default-theme-variable-reference
+   */
+  --font-sans:
+    Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif:
+    "Open Sans", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-show: "Fira Sans", Arial;
+
+  /*
+   * In order to preserve a nice vertical rhythm, all text must have a
+   * line-height multiple of this value.
+   */
+  --base-line-height: 24px;
+}
+
+@utility text-hero-title-large {
+  font-family: var(--font-serif);
+  font-size: 60px;
+  font-weight: var(--font-weight-semibold);
+  line-height: calc(var(--base-line-height) * 3);
+}
+
+@utility text-hero-title-small {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: var(--font-weight-semibold);
+  line-height: calc(var(--base-line-height) * 2);
+}
+
+@utility text-section-title-large {
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: var(--font-weight-semibold);
+  line-height: calc(var(--base-line-height) * 2);
+}
+
+@utility text-section-title-small {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--base-line-height);
+}
+
+@utility text-item-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--base-line-height);
+}
+
+@utility text-body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+}
+
+@utility text-body-emphasis {
+  @apply text-body;
+
+  font-weight: var(--font-weight-medium);
+}
+
+@utility text-show-body-emphasis {
+  font-family: var(--font-show);
+  font-size: 16px;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--base-line-height);
+}
+
+@utility text-caption {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: var(--font-weight-normal);
+  line-height: var(--base-line-height);
+}
+
+@utility text-code {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--base-line-height);
+}

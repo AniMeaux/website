@@ -24,8 +24,8 @@ export default function Route() {
       <header className="flex">
         <h1
           className={cn(
-            "text-center text-title-hero-small",
-            "md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small",
+            "md:text-left md:text-hero-title-large",
           )}
         >
           Blog

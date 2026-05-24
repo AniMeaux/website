@@ -28,7 +28,7 @@ export function WarnItem({
         />
 
         <div className="flex flex-col">
-          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
+          <p className="text-item-title transition-colors group-hover:text-brand-blue">
             {title}
           </p>
           <p>{description}</p>

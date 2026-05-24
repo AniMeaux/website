@@ -27,8 +27,8 @@ export default function Route() {
       <header className="flex">
         <h1
           className={cn(
-            "text-center text-title-hero-small",
-            "md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small",
+            "md:text-left md:text-hero-title-large",
           )}
         >
           Partenaires
@@ -82,11 +82,11 @@ function PartnerItem({
           alt={partner.name}
           sizes={{ lg: "300px", md: "30vw", xs: "50vw", default: "100vw" }}
           fallbackSize="512"
-          className="aspect-4/3 w-full flex-none border border-gray-200 bg-white rounded-bubble-md"
+          className="aspect-4/3 w-full flex-none rounded-bubble-md border border-gray-200 bg-white"
         />
 
         <div className="flex flex-col">
-          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
+          <p className="text-item-title transition-colors group-hover:text-brand-blue">
             {partner.name}
           </p>
           <p>

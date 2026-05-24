@@ -9,7 +9,7 @@ export function OptionList({ children }: { children: React.ReactNode }) {
         // Ensure the list takes the entire viewport width for better overflow
         // indicators.
         "-mx-page w-screen min-w-0",
-        "flex snap-x snap-mandatory items-start gap-3 overflow-x-auto scroll-smooth scrollbars-none",
+        "scrollbars-none flex snap-x snap-mandatory items-start gap-3 overflow-x-auto scroll-smooth",
         // Because of `overflow-x-auto`, we need to ensure card shadows are
         // visible.
         "-my-6 py-6",
@@ -37,7 +37,7 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
         "md:m-0 md:w-auto md:max-w-sm md:flex-1 md:p-0",
       )}
     >
-      <div className="flex w-full flex-col gap-6 bg-white p-6 shadow-base rounded-bubble-lg">
+      <div className="flex w-full flex-col gap-6 rounded-bubble-lg bg-white p-6 shadow-base">
         {children}
       </div>
     </section>
@@ -45,7 +45,7 @@ export function OptionCard({ children }: { children: React.ReactNode }) {
 }
 
 export function OptionTitle({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-title-item">{children}</h3>
+  return <h3 className="text-item-title">{children}</h3>
 }
 
 export function OptionDescription({ children }: { children: React.ReactNode }) {
@@ -63,8 +63,8 @@ export function OptionPrice({
     <p>
       <span
         className={cn(
-          "font-serif text-[32px] font-bold leading-normal",
-          "md:text-[40px] md:leading-[1.2]",
+          "font-serif icon-32 leading-normal font-bold",
+          "md:icon-40 md:leading-[1.2]",
         )}
       >
         {children}
@@ -91,7 +91,7 @@ export function OptionFeature({
       <span className="flex h-6 flex-none items-center">
         <Icon
           id={isIncluded ? "check" : "x-mark"}
-          className={isIncluded ? "text-brandGreen" : "text-brandRed"}
+          className={isIncluded ? "text-brand-green" : "text-brand-red"}
         />
       </span>
 

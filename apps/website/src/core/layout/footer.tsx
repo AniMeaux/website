@@ -12,7 +12,7 @@ export function Footer() {
   return (
     <footer
       className={cn(
-        "flex w-full flex-col items-center gap-24 px-page pb-12 pt-18",
+        "flex w-full flex-col items-center gap-24 px-page pt-18 pb-12",
         "md:pt-12",
       )}
     >
@@ -30,8 +30,8 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             <h2
               className={cn(
-                "text-center text-title-section-small",
-                "md:text-left md:text-title-section-large",
+                "text-center text-section-title-small",
+                "md:text-left md:text-section-title-large",
               )}
             >
               Newsletter
@@ -92,14 +92,14 @@ export function Footer() {
           "md:w-full md:flex-row md:items-center md:justify-between md:gap-12 md:text-left",
         )}
       >
-        <p className="text-caption-default">
+        <p className="text-caption">
           <BaseLink to="/mentions-legales" className="hover:text-gray-800">
             Mentions légales
           </BaseLink>{" "}
           • SIRET : 83962717100037 • RNA : W771014759
         </p>
 
-        <p className="text-caption-default">
+        <p className="text-caption">
           Copyright © {new Date().getFullYear()} Ani’Meaux
         </p>
       </section>
@@ -125,7 +125,7 @@ function ContactItem({
         <span className="flex h-6 items-center">
           <Icon
             id={icon}
-            className="text-[14px] text-gray-500 group-hover:text-gray-800"
+            className="icon-14 text-gray-500 group-hover:text-gray-800"
           />
         </span>
 

@@ -49,8 +49,8 @@ export default function Route() {
       <section className="flex flex-col gap-12">
         <h2
           className={cn(
-            "text-center text-title-section-small",
-            "md:text-title-section-large",
+            "text-center text-section-title-small",
+            "md:text-section-title-large",
           )}
         >
           En 3 étapes

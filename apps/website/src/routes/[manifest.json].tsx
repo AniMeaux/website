@@ -2,7 +2,7 @@ import type { LinksFunction } from "@remix-run/node"
 import { json } from "@remix-run/node"
 
 import { getPageTitle } from "#i/core/page-title.js"
-import { theme } from "#i/generated/theme.js"
+import { Color } from "#i/generated/theme.js"
 import googleTouchIcon from "#i/images/google-touch-icon.png"
 
 // Make sure `google-touch-icon.png` is added to the build assets.
@@ -16,8 +16,8 @@ export async function loader() {
   return json({
     name: getPageTitle(),
     short_name: getPageTitle(),
-    background_color: theme.colors.gray[50],
-    theme_color: theme.colors.brandBlue.DEFAULT,
+    background_color: Color.backgroundHex,
+    theme_color: Color.primaryHex,
     display: "standalone",
     scope: "/",
     start_url: "/?source=pwa",

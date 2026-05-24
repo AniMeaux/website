@@ -39,8 +39,8 @@ export default function Route() {
       <header className="flex">
         <h1
           className={cn(
-            "text-center text-title-hero-small",
-            "md:text-left md:text-title-hero-large",
+            "text-center text-hero-title-small",
+            "md:text-left md:text-hero-title-large",
           )}
         >
           Articles de presse
@@ -105,12 +105,12 @@ function PressArticleItem({
             alt={pressArticle.title}
             src={pressArticle.image}
             loading="lazy"
-            className="aspect-4/3 w-full flex-none bg-gray-100 object-cover rounded-bubble-md"
+            className="aspect-4/3 w-full flex-none rounded-bubble-md bg-gray-100 object-cover"
           />
         )}
 
         <div className="flex flex-col">
-          <p className="text-gray-500 text-caption-default">
+          <p className="text-caption text-gray-500">
             {DateTime.fromISO(pressArticle.publicationDate).toLocaleString(
               DateTime.DATE_MED,
             )}
@@ -118,7 +118,7 @@ function PressArticleItem({
             {pressArticle.publisherName}
           </p>
 
-          <p className="transition-colors duration-100 ease-in-out text-title-item group-hover:text-brandBlue">
+          <p className="text-item-title transition-colors group-hover:text-brand-blue">
             {pressArticle.title}
           </p>
         </div>

@@ -24,8 +24,8 @@ export function DonationSection() {
         <div className="flex w-full flex-col gap-6 text-center">
           <h2
             className={cn(
-              "text-title-section-small",
-              "md:text-title-section-large",
+              "text-section-title-small",
+              "md:text-section-title-large",
             )}
           >
             Faîtes un don !
