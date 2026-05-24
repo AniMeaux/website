@@ -2,10 +2,9 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises"
 import { basename, dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import { relativeToCwd, safelyReadFile } from "@animeaux/dev-tools"
 import { watch } from "chokidar"
 import { parse } from "node-html-parser"
-
-import { relativeToCwd, safelyReadFile } from "./shared.js"
 
 const FILENAME = fileURLToPath(import.meta.url)
 const DIRNAME = dirname(FILENAME)
