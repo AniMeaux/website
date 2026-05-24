@@ -2,10 +2,13 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises"
 import { basename, dirname, join, relative, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
+import {
+  oneAtTheTime,
+  relativeToCwd,
+  safelyReadFile,
+} from "@animeaux/dev-tools"
 import { watch } from "chokidar"
 import { parse } from "node-html-parser"
-
-import { relativeToCwd, safelyReadFile } from "./shared.js"
 
 const FILENAME = fileURLToPath(import.meta.url)
 const DIRNAME = dirname(FILENAME)
@@ -209,21 +212,4 @@ async function generateSymbolForIcon(icon: IconDescriptor) {
   svg.removeAttribute("xmlns")
   svg.removeAttribute("xmlns:xlink")
   return svg.toString()
-}
-
-function oneAtTheTime(fn: () => Promise<void>) {
-  let currentCall: null | Promise<void> = null
-
-  return async () => {
-    if (currentCall != null) {
-      return await currentCall
-    }
-
-    try {
-      currentCall = fn()
-      await currentCall
-    } finally {
-      currentCall = null
-    }
-  }
 }
