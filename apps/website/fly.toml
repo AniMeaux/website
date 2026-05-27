@@ -1,7 +1,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 
 app = "animeaux-website-3ac2"
-primary_region = "ams"
+primary_region = "cdg"
 kill_signal = "SIGINT"
 kill_timeout = "5s"
 
@@ -33,16 +33,10 @@ kill_timeout = "5s"
     hard_limit = 100
     soft_limit = 80
 
-  [[services.tcp_checks]]
-    interval = "15s"
-    timeout = "2s"
-    grace_period = "1s"
-    restart_limit = 0
-
   [[services.http_checks]]
-    interval = "10s"
-    timeout = "2s"
-    grace_period = "5s"
+    interval = "1m"
+    timeout = "5s"
+    grace_period = "1m"
     restart_limit = 0
     method = "get"
     path = "/healthcheck"

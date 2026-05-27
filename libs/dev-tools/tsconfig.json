@@ -2,11 +2,13 @@
   "extends": ["./tsconfig.lib.json"],
 
   "include": ["./**/*.ts"],
-  "exclude": ["./node_modules"],
+  "exclude": ["./node_modules", "./build"],
 
   "compilerOptions": {
     "rootDir": "./",
+    "outDir": "./build",
+    "paths": { "#i/*": ["./src/*"] },
 
-    "types": ["./reset.d.ts"]
+    "types": ["node", "./reset.d.ts"]
   }
 }

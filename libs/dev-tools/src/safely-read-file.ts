@@ -1,7 +1,5 @@
 import { readFile } from "node:fs/promises"
 
-import { relative } from "path/posix"
-
 export async function safelyReadFile(path: string) {
   let content: undefined | string
   try {
@@ -9,8 +7,4 @@ export async function safelyReadFile(path: string) {
   } catch (_error) {}
 
   return content
-}
-
-export function relativeToCwd(filePath: string): string {
-  return relative(process.cwd(), filePath)
 }
