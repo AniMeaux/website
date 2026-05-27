@@ -36,7 +36,7 @@ swap_size_mb = 512
 
   [[services.http_checks]]
     interval = "1m"
-    timeout = "2s"
+    timeout = "5s"
     grace_period = "1m"
     restart_limit = 0
     method = "get"
