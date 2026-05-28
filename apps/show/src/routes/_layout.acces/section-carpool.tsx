@@ -8,7 +8,7 @@ import { Section } from "#i/core/layout/section.js"
 
 export function SectionCarpool() {
   return (
-    <Section.Root>
+    <Section.Root id="covoiturage">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(

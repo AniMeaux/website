@@ -5,7 +5,7 @@ import { Section } from "#i/core/layout/section.js"
 
 export function SectionMoreQuestions() {
   return (
-    <Section.Root columnCount={1}>
+    <Section.Root id="autre-question" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside asChild>
           <LightBoardCard className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">

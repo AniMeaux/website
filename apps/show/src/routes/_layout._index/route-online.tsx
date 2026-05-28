@@ -38,7 +38,7 @@ export function RouteOnline() {
 
 function SectionHero() {
   return (
-    <Section.Root columnCount={1}>
+    <Section.Root id="accueil" columnCount={1}>
       <div className="grid grid-cols-1 gap-2 sm:gap-0 md:grid-cols-auto-fr md:items-start">
         <LazyElement asChild>
           <div
@@ -160,7 +160,7 @@ function CountDownItem({ label, value }: { label: string; value: number }) {
 
 function SectionComeWithYourDog() {
   return (
-    <Section.Root>
+    <Section.Root id="venir-avec-son-chien">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
@@ -208,7 +208,7 @@ function SectionPresentation() {
   const { exhibitorCount } = useLoaderData<typeof loader>()
 
   return (
-    <Section.Root width="full" columnCount={1}>
+    <Section.Root id="presentation" width="full" columnCount={1}>
       <div className="grid grid-cols-1 gap-4">
         <section className="grid grid-cols-1 gap-2 px-safe-page-narrow sm:gap-4 md:grid-cols-2 md:items-center md:px-safe-page-normal lg:gap-8">
           <LazyElement asChild>
@@ -298,7 +298,7 @@ function PresentationItem({
 
 function SectionOrigin() {
   return (
-    <Section.Root columnCount={1}>
+    <Section.Root id="origine" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside asChild>
           <BoardCard className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
@@ -340,7 +340,7 @@ function SectionSponsors() {
   const { sponsors } = useLoaderData<typeof loader>()
 
   return (
-    <Section.Root width="full" columnCount={1}>
+    <Section.Root id="sponsors" width="full" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside
           className={cn(
@@ -396,7 +396,7 @@ function SectionExhibitors() {
   const { exhibitorCount } = useLoaderData<typeof loader>()
 
   return (
-    <Section.Root>
+    <Section.Root id="exposants">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
@@ -471,6 +471,7 @@ function ExhibitorItem({
 function SectionPreviousEditions() {
   return (
     <Section.Root
+      id="editions-precedentes"
       width="full"
       height="large"
       columnCount={1}
@@ -543,7 +544,7 @@ function SectionPreviousEditions() {
 
 function SectionAccess() {
   return (
-    <Section.Root>
+    <Section.Root id="acces">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
@@ -590,7 +591,7 @@ function SectionProviders() {
   const { providers } = useLoaderData<typeof loader>()
 
   return (
-    <Section.Root width="full" columnCount={1}>
+    <Section.Root id="prestataires" width="full" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside
           className={cn(

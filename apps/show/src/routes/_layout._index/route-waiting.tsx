@@ -24,7 +24,10 @@ export function RouteWaiting() {
 
 function SectionLogo() {
   return (
-    <header className="grid grid-cols-1 justify-items-center pt-safe-4 px-safe-page-narrow pb-4 md:px-safe-page-normal">
+    <header
+      id="accueil"
+      className="grid grid-cols-1 justify-items-center pt-safe-4 px-safe-page-narrow pb-4 md:px-safe-page-normal"
+    >
       <img
         src={logoLarge}
         alt="Salon des Ani’Meaux"
@@ -36,7 +39,7 @@ function SectionLogo() {
 
 function SectionComeBack() {
   return (
-    <Section.Root>
+    <Section.Root id="retour-en-2026">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
@@ -87,6 +90,7 @@ function SectionComeBack() {
 function SectionPreviousEditions() {
   return (
     <Section.Root
+      id="editions-precedentes"
       width="full"
       height="large"
       columnCount={1}
@@ -159,7 +163,7 @@ function SectionPreviousEditions() {
 
 function SectionFollow() {
   return (
-    <Section.Root width="full" columnCount={1}>
+    <Section.Root id="nous-suivre" width="full" columnCount={1}>
       <LazyElement asChild>
         <Section.TextAside
           className={cn(
