@@ -9,7 +9,7 @@ export function SectionQuestions() {
   const { questions } = useLoaderData<typeof loader>()
 
   return (
-    <Section.Root columnCount={1}>
+    <Section.Root id="questions" columnCount={1}>
       <FaqList>
         {questions.map((question) => (
           <FaqItem key={question.question} faq={question} />

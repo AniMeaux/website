@@ -6,7 +6,7 @@ import { Section } from "#i/core/layout/section.js"
 
 export function SectionTitle() {
   return (
-    <Section.Root>
+    <Section.Root id="foire-aux-questions">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
