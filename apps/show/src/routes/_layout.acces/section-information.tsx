@@ -7,6 +7,7 @@ export function SectionInformation() {
   return (
     <LazyElement asChild>
       <Section.Root
+        id="informations"
         columnCount={1}
         width="full"
         className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0"
