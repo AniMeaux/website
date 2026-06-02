@@ -30,7 +30,7 @@ export function SectionInformation() {
             </HighLightItem>
 
             <HighLightItem icon="bus" title="Venir en transports en commun">
-              Bus ligne D ou I, arrêt Colisée de Meaux ou Roland Garros.
+              Bus ligne 2304, arrêt Colisée de Meaux ou Roland Garros.
             </HighLightItem>
 
             <HighLightItem icon="car" title="Venir en voiture">
