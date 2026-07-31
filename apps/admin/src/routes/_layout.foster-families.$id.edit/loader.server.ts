@@ -37,6 +37,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       email: true,
       garden: true,
       housing: true,
+      isArchived: true,
       isBanned: true,
       phone: true,
       speciesAlreadyPresent: true,

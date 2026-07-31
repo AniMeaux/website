@@ -78,6 +78,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
         garden: true,
         housing: true,
         id: true,
+        isArchived: true,
         isBanned: true,
         phone: true,
         speciesAlreadyPresent: true,
@@ -125,9 +126,21 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: getPageTitle(fosterFamily.displayName) }]
 }
 
+const SharedActionFormData = FormDataDelegate.create(
+  zu.object({
+    action: zu.union([zu.literal("ARCHIVE"), zu.literal("BAN")]),
+  }),
+)
+
 const BanActionFormData = FormDataDelegate.create(
   zu.object({
     isBanned: zu.checkbox(),
+  }),
+)
+
+const ArchiveActionFormData = FormDataDelegate.create(
+  zu.object({
+    isArchived: zu.checkbox(),
   }),
 )
 
@@ -153,9 +166,23 @@ export async function action({ request, params }: ActionFunctionArgs) {
     })
   }
 
-  return await actionBan({
+  const rawFormData = await request.formData()
+  const formData = SharedActionFormData.safeParse(rawFormData)
+  if (!formData.success) {
+    throw badRequest()
+  }
+
+  if (formData.data.action === "BAN") {
+    return await actionBan({
+      fosterFamilyId: paramsResult.data.id,
+      formData: rawFormData,
+      currentUser,
+    })
+  }
+
+  return await actionArchive({
     fosterFamilyId: paramsResult.data.id,
-    request,
+    formData: rawFormData,
     currentUser,
   })
 }
@@ -197,23 +224,55 @@ async function actionDelete({
   throw redirect(Routes.fosterFamilies.toString())
 }
 
-async function actionBan({
+async function actionArchive({
   fosterFamilyId,
   currentUser,
-  request,
-}: Pick<ActionFunctionArgs, "request"> & {
+  formData,
+}: {
   fosterFamilyId: FosterFamily["id"]
   currentUser: { id: string }
+  formData: FormData
 }) {
-  const formData = BanActionFormData.safeParse(await request.formData())
-  if (!formData.success) {
+  const parsedData = ArchiveActionFormData.safeParse(formData)
+  if (!parsedData.success) {
     throw badRequest()
   }
 
   try {
     await db.fosterFamily.update(
       fosterFamilyId,
-      { isBanned: formData.data.isBanned },
+      { isArchived: parsedData.data.isArchived },
+      currentUser,
+    )
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      throw notFound()
+    }
+
+    throw error
+  }
+
+  return json<ActionData>({})
+}
+
+async function actionBan({
+  fosterFamilyId,
+  currentUser,
+  formData,
+}: {
+  fosterFamilyId: FosterFamily["id"]
+  currentUser: { id: string }
+  formData: FormData
+}) {
+  const parsedData = BanActionFormData.safeParse(formData)
+  if (!parsedData.success) {
+    throw badRequest()
+  }
+
+  try {
+    await db.fosterFamily.update(
+      fosterFamilyId,
+      { isBanned: parsedData.data.isBanned },
       currentUser,
     )
   } catch (error) {
@@ -240,6 +299,11 @@ export default function Route() {
         {fosterFamily.isBanned ? (
           <BlockHelper variant="warning" icon="icon-ban-solid">
             {fosterFamily.displayName} est actuellement banni.
+          </BlockHelper>
+        ) : null}
+        {fosterFamily.isArchived ? (
+          <BlockHelper variant="neutral" icon="icon-ban-solid">
+            {fosterFamily.displayName} est actuellement archivé.
           </BlockHelper>
         ) : null}
         <HeaderCard />
@@ -426,6 +490,7 @@ function ActionsCard() {
       <Card.Content>
         <div className="flex flex-col gap-1">
           <ActionBan />
+          <ActionArchive />
           <ActionDelete />
         </div>
       </Card.Content>
@@ -475,6 +540,8 @@ function ActionBan() {
           <Dialog.CloseAction>Annuler</Dialog.CloseAction>
 
           <fetcher.Form method="POST" className="flex">
+            <input type="hidden" name="action" value="BAN" />
+
             {!fosterFamily.isBanned ? (
               <input
                 type="hidden"
@@ -485,6 +552,68 @@ function ActionBan() {
 
             <Dialog.ConfirmAction type="submit">
               Oui, {fosterFamily.isBanned ? "débannir" : "bannir"}
+            </Dialog.ConfirmAction>
+          </fetcher.Form>
+        </Dialog.Actions>
+      </Dialog.Content>
+    </Dialog>
+  )
+}
+
+function ActionArchive() {
+  const { fosterFamily } = useLoaderData<typeof loader>()
+  const fetcher = useFetcher<typeof action>()
+  const [isDialogOpened, setIsDialogOpened] = useState(false)
+
+  const done = fetcher.state === "idle" && fetcher.data != null
+  useEffect(() => {
+    if (done) {
+      setIsDialogOpened(false)
+    }
+  }, [done])
+
+  return (
+    <Dialog open={isDialogOpened} onOpenChange={setIsDialogOpened}>
+      <Dialog.Trigger asChild>
+        <Action variant="secondary" color="gray">
+          <Action.Icon href="icon-ban-solid" />
+          {fosterFamily.isArchived ? "Désarchiver" : "Archiver"}
+        </Action>
+      </Dialog.Trigger>
+
+      <Dialog.Content variant="warning">
+        <Dialog.Header>
+          {fosterFamily.isArchived ? "Désarchiver" : "Archiver"}{" "}
+          {fosterFamily.displayName}
+        </Dialog.Header>
+
+        <Dialog.Message>
+          Êtes-vous sûr de vouloir{" "}
+          {fosterFamily.isArchived ? "désarchiver" : "archiver"}{" "}
+          <strong className="text-body-emphasis">
+            {fosterFamily.displayName}
+          </strong>
+          {" "}?
+        </Dialog.Message>
+
+        <ErrorsInlineHelper errors={fetcher.data?.errors} />
+
+        <Dialog.Actions>
+          <Dialog.CloseAction>Annuler</Dialog.CloseAction>
+
+          <fetcher.Form method="POST" className="flex">
+            <input type="hidden" name="action" value="ARCHIVE" />
+
+            {!fosterFamily.isArchived ? (
+              <input
+                type="hidden"
+                name={ArchiveActionFormData.keys.isArchived}
+                value="on"
+              />
+            ) : null}
+
+            <Dialog.ConfirmAction type="submit">
+              Oui, {fosterFamily.isArchived ? "désarchiver" : "archiver"}
             </Dialog.ConfirmAction>
           </fetcher.Form>
         </Dialog.Actions>

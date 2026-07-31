@@ -363,6 +363,7 @@ type DataUpdate = {
   email?: string
   garden?: FosterFamilyGarden
   housing?: FosterFamilyHousing
+  isArchived?: boolean
   isBanned?: boolean
   phone?: string
   speciesAlreadyPresent?: Species[]
