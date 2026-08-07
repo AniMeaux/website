@@ -149,7 +149,22 @@ export function SituationCard() {
                 )
               </>
             ) : null}
+            {animal.status === Status.FREE && animal.freeCity != null ? (
+              <>
+                {" "}
+                à{" "}
+                <strong className="text-body-emphasis">
+                  {animal.freeCity}
+                </strong>
+              </>
+            ) : null}
           </SimpleItem>
+
+          {animal.status === Status.FREE && animal.freeComment != null ? (
+            <SimpleItem icon={<Icon href="icon-comment-solid" />}>
+              {animal.freeComment}
+            </SimpleItem>
+          ) : null}
 
           {animal.fosterFamily != null ? (
             <DropdownSheet>
