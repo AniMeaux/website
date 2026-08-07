@@ -66,6 +66,8 @@ export const ActionFormData = FormDataDelegate.create(
     comments: zu.string().trim(),
     diagnosis: zu.nativeEnum(Diagnosis).default(Diagnosis.UNKNOWN),
     fosterFamilyId: zu.string().uuid().optional(),
+    freeCity: zu.string().trim().optional(),
+    freeComment: zu.string().trim().optional(),
     isSterilized: zu.enum(["YES", "NO", "NOT_MANDATORY"], {
       required_error: "Veuillez choisir une option",
     }),
@@ -103,6 +105,8 @@ type DefaultAnimal = null | SerializeFrom<
     | "adoptionOption"
     | "comments"
     | "diagnosis"
+    | "freeCity"
+    | "freeComment"
     | "gender"
     | "isSterilizationMandatory"
     | "isSterilized"
@@ -195,6 +199,43 @@ export function AnimalSituationForm({
               </Form.Field>
 
               <Separator />
+            </>
+          ) : null}
+
+          {statusState === Status.FREE &&
+          defaultAnimal?.species === Species.CAT ? (
+            <>
+              <Separator />
+
+              <Form.Field>
+                <Form.Label htmlFor={ActionFormData.keys.freeCity}>
+                  Ville
+                </Form.Label>
+
+                <Input
+                  id={ActionFormData.keys.freeCity}
+                  name={ActionFormData.keys.freeCity}
+                  defaultValue={defaultAnimal?.freeCity ?? undefined}
+                  leftAdornment={
+                    <Input.Adornment>
+                      <Icon href="icon-location-dot-solid" />
+                    </Input.Adornment>
+                  }
+                />
+              </Form.Field>
+
+              <Form.Field>
+                <Form.Label htmlFor={ActionFormData.keys.freeComment}>
+                  Informations complémentaires
+                </Form.Label>
+
+                <Textarea
+                  id={ActionFormData.keys.freeComment}
+                  name={ActionFormData.keys.freeComment}
+                  defaultValue={defaultAnimal?.freeComment ?? undefined}
+                  rows={5}
+                />
+              </Form.Field>
             </>
           ) : null}
 

@@ -168,6 +168,8 @@ model Animal {
   diagnosis                Diagnosis       @default(UNKNOWN)
   fosterFamily             FosterFamily?   @relation(fields: [fosterFamilyId], references: [id], onDelete: Restrict)
   fosterFamilyId           String?
+  freeCity                 String?         @db.VarChar(255)
+  freeComment              String?
   gender                   Gender
   iCadNumber               String?
   isOkCats                 Boolean?
@@ -213,6 +215,8 @@ model AnimalDraft {
   diagnosis                Diagnosis?       @default(UNKNOWN)
   fosterFamily             FosterFamily?    @relation(fields: [fosterFamilyId], references: [id])
   fosterFamilyId           String?
+  freeCity                 String?          @db.VarChar(255)
+  freeComment              String?
   gender                   Gender?
   iCadNumber               String?
   isOkCats                 Boolean?

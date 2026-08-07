@@ -87,6 +87,8 @@ export async function action({ request }: ActionFunctionArgs) {
       comments: formData.data.comments || null,
       diagnosis: formData.data.diagnosis,
       fosterFamilyId: formData.data.fosterFamilyId ?? null,
+      freeCity: formData.data.freeCity || null,
+      freeComment: formData.data.freeComment || null,
       isSterilizationMandatory:
         formData.data.isSterilized !==
         ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY,

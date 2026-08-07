@@ -60,6 +60,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       comments: true,
       diagnosis: true,
       fosterFamily: { select: { id: true, displayName: true } },
+      freeCity: true,
+      freeComment: true,
       gender: true,
       isSterilizationMandatory: true,
       isSterilized: true,
@@ -135,6 +137,8 @@ export async function action({ request, params }: ActionFunctionArgs) {
         comments: formData.data.comments || null,
         diagnosis: formData.data.diagnosis,
         fosterFamilyId: formData.data.fosterFamilyId ?? null,
+        freeCity: formData.data.freeCity || null,
+        freeComment: formData.data.freeComment || null,
         isSterilizationMandatory:
           formData.data.isSterilized !==
           ActionFormData.schema.shape.isSterilized.Enum.NOT_MANDATORY,
