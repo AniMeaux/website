@@ -5,7 +5,7 @@ import { Action } from "#i/core/actions.js"
 import type { IconName } from "#i/generated/icon.js"
 import { Icon } from "#i/generated/icon.js"
 
-type HelperVariant = "error" | "info" | "success" | "warning"
+type HelperVariant = "error" | "info" | "neutral" | "success" | "warning"
 
 type BlockHelperProps = {
   children?: React.ReactNode
@@ -34,6 +34,7 @@ export function BlockHelper({ children, icon, variant }: BlockHelperProps) {
 const BLOCK_VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   error: cn("border-red-100"),
   info: cn("border-blue-100"),
+  neutral: cn("border-gray-100"),
   success: cn("border-green-100"),
   warning: cn("border-orange-100"),
 }
@@ -76,6 +77,7 @@ export function InlineHelper({
 const VARIANT_ACTION_COLOR: Record<HelperVariant, ActionColor> = {
   error: "red",
   info: "blue",
+  neutral: "gray",
   success: "green",
   warning: "orange",
 }
@@ -113,6 +115,7 @@ export function DenseHelper({
 const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
   error: cn("bg-red-50 text-red-500"),
   info: cn("bg-blue-50 text-blue-500"),
+  neutral: cn("bg-gray-200 text-gray-500"),
   success: cn("bg-green-50 text-green-600"),
   warning: cn("bg-orange-50 text-orange-500"),
 }
@@ -120,6 +123,7 @@ const VARIANT_CLASS_NAME: Record<HelperVariant, string> = {
 const VARIANT_ICON: Record<HelperVariant, IconName> = {
   error: "icon-circle-exclamation-solid",
   info: "icon-circle-info-solid",
+  neutral: "icon-triangle-exclamation-solid",
   success: "icon-circle-check-solid",
   warning: "icon-triangle-exclamation-solid",
 }
