@@ -2,7 +2,12 @@
 FROM node:22.13-bullseye-slim AS base
 
 # Needed for Prisma generation and runtime.
-RUN apt-get update && apt-get install -y openssl
+# Debian 11 (bullseye) is oldoldstable: its security updates no longer live
+# on deb.debian.org and must be fetched from archive.debian.org instead.
+# See: https://www.debian.org/distrib/archive
+RUN sed -i "s|deb.debian.org/debian-security|archive.debian.org/debian-security|g" /etc/apt/sources.list \
+  && apt-get -o Acquire::Check-Valid-Until=false update \
+  && apt-get install -y openssl
 
 # The store dir will be `$PNPM_HOME/store`.
 # See https://pnpm.io/settings#storedir

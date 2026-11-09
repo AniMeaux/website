@@ -39,7 +39,7 @@ function SectionLogo() {
 
 function SectionComeBack() {
   return (
-    <Section.Root id="retour-en-2026">
+    <Section.Root id="retour-en-2027">
       <LazyElement asChild>
         <Section.ImageAside
           className={cn(
@@ -63,11 +63,11 @@ function SectionComeBack() {
 
       <LazyElement asChild>
         <Section.TextAside className="animation-duration-very-slow out-opacity-0 out-translate-y-4 data-visible:animate-enter data-hidden:opacity-0">
-          <Section.Title>Revient en 2026</Section.Title>
+          <Section.Title>Revient en 2027</Section.Title>
 
           <p>
             Le Salon des Ani’Meaux revient en force pour une nouvelle édition en
-            2026 ! Préparez-vous à vivre une expérience unique dédiée au
+            2027 ! Préparez-vous à vivre une expérience unique dédiée au
             bien-être des animaux domestiques et sauvages.
           </p>
 
