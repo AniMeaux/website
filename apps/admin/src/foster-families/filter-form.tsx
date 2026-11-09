@@ -27,7 +27,10 @@ import {
   SORTED_GARDEN,
   SORTED_HOUSING,
 } from "#i/foster-families/housing.js"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import {
+  FosterFamilyBan,
+  FosterFamilySearchParams,
+} from "#i/foster-families/search-params.js"
 import { Icon } from "#i/generated/icon.js"
 
 export function FosterFamilyFilters({
@@ -91,34 +94,84 @@ export function FosterFamilyFilters({
         <Filters.Filter
           value={FosterFamilySearchParams.keys.availability}
           label="Disponibilités"
-          count={fosterFamilySearchParams.availability.size}
-          hiddenContent={Array.from(fosterFamilySearchParams.availability).map(
-            (availability) => (
-              <input
-                key={availability}
-                type="hidden"
-                name={FosterFamilySearchParams.keys.availability}
-                value={availability}
-              />
-            ),
-          )}
+          count={
+            fosterFamilySearchParams.availability.size +
+            fosterFamilySearchParams.ban.size
+          }
+          hiddenContent={
+            <>
+              {Array.from(fosterFamilySearchParams.availability).map(
+                (availability) => (
+                  <input
+                    key={availability}
+                    type="hidden"
+                    name={FosterFamilySearchParams.keys.availability}
+                    value={availability}
+                  />
+                ),
+              )}
+
+              {Array.from(fosterFamilySearchParams.ban).map((ban) => (
+                <input
+                  key={ban}
+                  type="hidden"
+                  name={FosterFamilySearchParams.keys.ban}
+                  value={ban}
+                />
+              ))}
+            </>
+          }
         >
-          <ToggleInputList>
-            {SORTED_AVAILABILITIES.map((availability) => (
-              <ToggleInput
-                key={availability}
-                type="checkbox"
-                label={AVAILABILITY_TRANSLATION[availability]}
-                name={FosterFamilySearchParams.keys.availability}
-                value={availability}
-                icon={<AvailabilityIcon availability={availability} />}
-                checked={fosterFamilySearchParams.availability.has(
-                  availability,
-                )}
-                onChange={() => {}}
-              />
-            ))}
-          </ToggleInputList>
+          <Form.Fields>
+            <Form.Field>
+              <Form.Label>Statut</Form.Label>
+
+              <ToggleInputList>
+                {SORTED_AVAILABILITIES.map((availability) => (
+                  <ToggleInput
+                    key={availability}
+                    type="checkbox"
+                    label={AVAILABILITY_TRANSLATION[availability]}
+                    name={FosterFamilySearchParams.keys.availability}
+                    value={availability}
+                    icon={<AvailabilityIcon availability={availability} />}
+                    checked={fosterFamilySearchParams.availability.has(
+                      availability,
+                    )}
+                    onChange={() => {}}
+                  />
+                ))}
+              </ToggleInputList>
+            </Form.Field>
+
+            <Form.Field>
+              <Form.Label>Bannissement</Form.Label>
+
+              <ToggleInputList>
+                <ToggleInput
+                  type="checkbox"
+                  label="Oui"
+                  name={FosterFamilySearchParams.keys.ban}
+                  value={FosterFamilyBan.YES}
+                  icon={<Icon href="icon-ban-solid" />}
+                  checked={fosterFamilySearchParams.ban.has(
+                    FosterFamilyBan.YES,
+                  )}
+                  onChange={() => {}}
+                />
+
+                <ToggleInput
+                  type="checkbox"
+                  label="Non"
+                  name={FosterFamilySearchParams.keys.ban}
+                  value={FosterFamilyBan.NO}
+                  icon={<Icon href="icon-ban-solid" />}
+                  checked={fosterFamilySearchParams.ban.has(FosterFamilyBan.NO)}
+                  onChange={() => {}}
+                />
+              </ToggleInputList>
+            </Form.Field>
+          </Form.Fields>
         </Filters.Filter>
 
         <Filters.Filter
