@@ -20,6 +20,7 @@ import {
 import { orderByRank } from "#i/core/order-by-rank.js"
 import { prisma } from "#i/core/prisma.server.js"
 import type { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import { FosterFamilyEmergencies } from "#i/foster-families/search-params.js"
 
 export class MissingSpeciesToHostError extends Error {}
 export class InvalidAvailabilityDateError extends Error {}
@@ -267,6 +268,14 @@ export class FosterFamilyDbDelegate {
       })
     }
 
+    if (searchParams.emergencies.size > 0) {
+      where.push({
+        OR: Array.from(searchParams.emergencies).map(
+          (emergencies) => FOSTER_FAMILY_EMERGENCIES_WHERE[emergencies],
+        ),
+      })
+    }
+
     if (searchParams.garden.size > 0) {
       where.push({ garden: { in: Array.from(searchParams.garden) } })
     }
@@ -345,6 +354,7 @@ type DataCreate = {
   comments: string | null
   displayName: string
   email: string
+  emergencies?: boolean
   garden: FosterFamilyGarden
   housing: FosterFamilyHousing
   phone: string
@@ -361,6 +371,7 @@ type DataUpdate = {
   comments?: string | null
   displayName?: string
   email?: string
+  emergencies?: boolean
   garden?: FosterFamilyGarden
   housing?: FosterFamilyHousing
   isBanned?: boolean
@@ -368,4 +379,16 @@ type DataUpdate = {
   speciesAlreadyPresent?: Species[]
   speciesToHost?: Species[]
   zipCode?: string
+}
+
+const FOSTER_FAMILY_EMERGENCIES_WHERE: Record<
+  FosterFamilyEmergencies,
+  Prisma.FosterFamilyWhereInput
+> = {
+  [FosterFamilyEmergencies.YES]: {
+    emergencies: true,
+  },
+  [FosterFamilyEmergencies.NO]: {
+    emergencies: false,
+  },
 }

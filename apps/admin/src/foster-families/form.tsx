@@ -51,6 +51,7 @@ const actionSchema = zu.object({
   comments: zu.string().trim(),
   displayName: zu.string().trim().min(1, "Veuillez entrer un nom"),
   email: zu.string().email("Veuillez entrer un email valide"),
+  emergencies: zu.enum(["YES", "NO"]),
   garden: zu.nativeEnum(FosterFamilyGarden),
   housing: zu.nativeEnum(FosterFamilyHousing),
   phone: zu
@@ -77,6 +78,7 @@ type DefaultFosterFamily = null | SerializeFrom<
   Pick<
     FosterFamily,
     | "address"
+    | "emergencies"
     | "availability"
     | "availabilityExpirationDate"
     | "city"
@@ -439,6 +441,10 @@ export function FosterFamilyForm({
 
           <Separator />
 
+          <EmergenciesField defaultFosterFamily={defaultFosterFamily} />
+
+          <Separator />
+
           <Form.Field>
             <Form.Label>
               Espèces à accueillir{" "}
@@ -566,6 +572,36 @@ function GardenField({
             }
           />
         ))}
+      </RadioInputList>
+    </Form.Field>
+  )
+}
+
+function EmergenciesField({
+  defaultFosterFamily,
+}: {
+  defaultFosterFamily?: DefaultFosterFamily
+}) {
+  return (
+    <Form.Field>
+      <Form.Label>
+        Accepte les accueils court terme et d'urgence <RequiredStar />
+      </Form.Label>
+
+      <RadioInputList>
+        <RadioInput
+          label="Oui"
+          name={ActionFormData.keys.emergencies}
+          value={ActionFormData.schema.shape.emergencies.Enum.YES}
+          defaultChecked={defaultFosterFamily?.emergencies !== false}
+        />
+
+        <RadioInput
+          label="Non"
+          name={ActionFormData.keys.emergencies}
+          value={ActionFormData.schema.shape.emergencies.Enum.NO}
+          defaultChecked={defaultFosterFamily?.emergencies === false}
+        />
       </RadioInputList>
     </Form.Field>
   )
