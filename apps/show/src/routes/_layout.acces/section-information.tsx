@@ -24,9 +24,9 @@ export function SectionInformation() {
             </HighLightItem>
 
             <HighLightItem icon="time" title="Horaires d’ouverture">
-              Samedi 6 juin 2026 de 10h à 18h.
+              Samedi 12 juin 2027 de 10h à 18h.
               <br />
-              Dimanche 7 juin 2026 de 10h à 18h.
+              Dimanche 13 juin 2027 de 10h à 18h.
             </HighLightItem>
 
             <HighLightItem icon="bus" title="Venir en transports en commun">

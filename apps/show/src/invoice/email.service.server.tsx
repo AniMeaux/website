@@ -62,7 +62,7 @@ export class ServiceInvoiceEmail {
       name: "exposant-adresse-de-facturation-mise-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Adresse de facturation mise à jour - Salon des Ani’Meaux 2026",
+      subject: "Adresse de facturation mise à jour - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Adresse de facturation mise à jour</EmailHtml.Title>
@@ -113,7 +113,7 @@ export class ServiceInvoiceEmail {
       name: "exposant-nouvelle-facture",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Nouvelle facture - Salon des Ani’Meaux 2026",
+      subject: "Nouvelle facture - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Une nouvelle facture est disponible</EmailHtml.Title>
@@ -173,7 +173,7 @@ export class ServiceInvoiceEmail {
       name: "exposant-facture-payee",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: `Facture ${invoice.number} réglée - Salon des Ani’Meaux 2026`,
+      subject: `Facture ${invoice.number} réglée - Salon des Ani’Meaux 2027`,
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Facture {invoice.number} réglée</EmailHtml.Title>

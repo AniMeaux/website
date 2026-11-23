@@ -170,7 +170,7 @@ export class ServiceExhibitorStandConfigurationEmail {
       name: "stand-exposant-demandé",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Demande de stand - Salon des Ani’Meaux 2026",
+      subject: "Demande de stand - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Demande de stand</EmailHtml.Title>
@@ -378,7 +378,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           name: "stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Demande de stand - Salon des Ani’Meaux 2026",
+          subject: "Demande de stand - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Demande de stand</EmailHtml.Title>
@@ -424,7 +424,7 @@ export class ServiceExhibitorStandConfigurationEmail {
           name: "stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Demande de stand - Salon des Ani’Meaux 2026",
+          subject: "Demande de stand - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Demande de stand</EmailHtml.Title>
