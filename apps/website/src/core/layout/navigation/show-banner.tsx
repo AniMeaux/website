@@ -18,7 +18,7 @@ export function ShowBanner({ className }: { className?: string }) {
         Salon des Ani’Meaux
         <span className="hidden md:inline">
           {" "}
-          - 6 et 7 juin 2026 - Colisée de Meaux
+          - 12 et 13 juin 2027 - Colisée de Meaux
         </span>
       </p>
 
