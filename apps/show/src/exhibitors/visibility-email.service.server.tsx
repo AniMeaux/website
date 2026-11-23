@@ -18,7 +18,7 @@ export class ServiceExhibitorVisibilityEmail {
       name: "exposant-visible",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Votre profil exposant est en ligne - Salon des Ani’Meaux 2026",
+      subject: "Votre profil exposant est en ligne - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Votre profil exposant est en ligne</EmailHtml.Title>

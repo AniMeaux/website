@@ -28,7 +28,7 @@ export class ServiceExhibitorDocumentEmail {
       name: "documents-exposant-modifie",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Documents mis à jour - Salon des Ani’Meaux 2026",
+      subject: "Documents mis à jour - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Documents mis à jour</EmailHtml.Title>
@@ -125,7 +125,7 @@ export class ServiceExhibitorDocumentEmail {
           name: "documents-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Documents - Salon des Ani’Meaux 2026",
+          subject: "Documents - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Documents</EmailHtml.Title>
@@ -202,7 +202,7 @@ export class ServiceExhibitorDocumentEmail {
           name: "documents-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Documents - Salon des Ani’Meaux 2026",
+          subject: "Documents - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Documents</EmailHtml.Title>

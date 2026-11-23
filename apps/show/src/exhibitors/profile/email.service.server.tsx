@@ -103,7 +103,7 @@ export class ServiceExhibitorPublicProfileEmail {
       name: "profil-public-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Profil public mis à jour - Salon des Ani’Meaux 2026",
+      subject: "Profil public mis à jour - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Profil public mis à jour</EmailHtml.Title>
@@ -236,7 +236,7 @@ export class ServiceExhibitorPublicProfileEmail {
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Profil public - Salon des Ani’Meaux 2026",
+          subject: "Profil public - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Profil public</EmailHtml.Title>
@@ -283,7 +283,7 @@ export class ServiceExhibitorPublicProfileEmail {
           name: "profil-public-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Profil public - Salon des Ani’Meaux 2026",
+          subject: "Profil public - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Profil public</EmailHtml.Title>
@@ -358,7 +358,7 @@ export class ServiceExhibitorDescriptionEmail {
       name: "description-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Description mise à jour - Salon des Ani’Meaux 2026",
+      subject: "Description mise à jour - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Description mise à jour</EmailHtml.Title>
@@ -438,7 +438,7 @@ export class ServiceExhibitorDescriptionEmail {
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Description - Salon des Ani’Meaux 2026",
+          subject: "Description - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Description</EmailHtml.Title>
@@ -484,7 +484,7 @@ export class ServiceExhibitorDescriptionEmail {
           name: "description-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Description - Salon des Ani’Meaux 2026",
+          subject: "Description - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Description</EmailHtml.Title>

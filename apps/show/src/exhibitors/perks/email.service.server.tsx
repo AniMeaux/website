@@ -75,7 +75,7 @@ export class ServiceExhibitorPerksEmail {
       name: "avantages-demandés",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Demande d’avantages - Salon des Ani’Meaux 2026",
+      subject: "Demande d’avantages - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Demande d’avantages</EmailHtml.Title>
@@ -182,7 +182,7 @@ export class ServiceExhibitorPerksEmail {
           name: "avantages-traités",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Demande d’avantages - Salon des Ani’Meaux 2026",
+          subject: "Demande d’avantages - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Demande d’avantages</EmailHtml.Title>
@@ -228,7 +228,7 @@ export class ServiceExhibitorPerksEmail {
           name: "avantages-traités",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Demande d’avantages - Salon des Ani’Meaux 2026",
+          subject: "Demande d’avantages - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Demande d’avantages</EmailHtml.Title>

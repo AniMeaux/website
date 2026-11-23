@@ -118,7 +118,7 @@ export class ServiceExhibitorDogConfigurationEmail {
       name: "chiens-exposant-demandé",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Présence de votre chien - Salon des Ani’Meaux 2026",
+      subject: "Présence de votre chien - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Présence de votre chien</EmailHtml.Title>
@@ -269,7 +269,7 @@ export class ServiceExhibitorDogConfigurationEmail {
           name: "chiens-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Présence de votre chien - Salon des Ani’Meaux 2026",
+          subject: "Présence de votre chien - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Présence de votre chien</EmailHtml.Title>
@@ -315,7 +315,7 @@ export class ServiceExhibitorDogConfigurationEmail {
           name: "chiens-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Présence de votre chien - Salon des Ani’Meaux 2026",
+          subject: "Présence de votre chien - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Présence de votre chien</EmailHtml.Title>
