@@ -20,9 +20,18 @@ import {
 import { orderByRank } from "#i/core/order-by-rank.js"
 import { prisma } from "#i/core/prisma.server.js"
 import type { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import { FosterFamilyBan } from "#i/foster-families/search-params.js"
 
 export class MissingSpeciesToHostError extends Error {}
 export class InvalidAvailabilityDateError extends Error {}
+
+const FOSTER_FAMILY_BAN_WHERE: Record<
+  FosterFamilyBan,
+  Prisma.FosterFamilyWhereInput
+> = {
+  [FosterFamilyBan.NO]: { isBanned: false },
+  [FosterFamilyBan.YES]: { isBanned: true },
+}
 
 export class FosterFamilyDbDelegate {
   async fuzzySearch<T extends Prisma.FosterFamilySelect>(
@@ -274,6 +283,14 @@ export class FosterFamilyDbDelegate {
     if (searchParams.housing.size > 0) {
       where.push({
         housing: { in: Array.from(searchParams.housing) },
+      })
+    }
+
+    if (searchParams.ban.size > 0) {
+      where.push({
+        OR: Array.from(searchParams.ban).map(
+          (ban) => FOSTER_FAMILY_BAN_WHERE[ban],
+        ),
       })
     }
 
