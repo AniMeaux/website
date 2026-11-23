@@ -32,7 +32,7 @@ export class ServiceApplicationEmail {
         <EmailHtml.Section.Root>
           <EmailHtml.Paragraph>
             <EmailHtml.Strong>
-              Merci pour votre candidature au Salon des Ani’Meaux 2026 !
+              Merci pour votre candidature au Salon des Ani’Meaux 2027 !
             </EmailHtml.Strong>
           </EmailHtml.Paragraph>
 
@@ -304,7 +304,7 @@ export class ServiceApplicationEmail {
       name: "candidature-exposant-confirmation",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Candidature exposant - Salon des Ani’Meaux 2026",
+      subject: "Candidature exposant - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Candidature exposant</EmailHtml.Title>
@@ -354,7 +354,7 @@ export class ServiceApplicationEmail {
           name: "candidature-exposant-refusee",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Candidature refusée - Salon des Ani’Meaux 2026",
+          subject: "Candidature refusée - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Candidature refusée</EmailHtml.Title>
@@ -380,7 +380,7 @@ export class ServiceApplicationEmail {
           name: "candidature-exposant-validee",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Candidature validée - Salon des Ani’Meaux 2026",
+          subject: "Candidature validée - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Candidature validée</EmailHtml.Title>
@@ -391,7 +391,7 @@ export class ServiceApplicationEmail {
                 <EmailHtml.Paragraph>
                   C’est avec un immense plaisir que nous vous annonçons que
                   votre candidature pour le{" "}
-                  <EmailHtml.Strong>Salon des Ani’Meaux 2026</EmailHtml.Strong>{" "}
+                  <EmailHtml.Strong>Salon des Ani’Meaux 2027</EmailHtml.Strong>{" "}
                   a été <EmailHtml.Strong>validée</EmailHtml.Strong> 🎉 !
                 </EmailHtml.Paragraph>
 
@@ -481,7 +481,7 @@ export class ServiceApplicationEmail {
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
           subject:
-            "Mise en attente de votre candidature - Salon des Ani’Meaux 2026",
+            "Mise en attente de votre candidature - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>
@@ -493,7 +493,7 @@ export class ServiceApplicationEmail {
 
                 <EmailHtml.Paragraph>
                   Nous vous remercions pour l’intérêt que vous portez au Salon
-                  des Ani’Meaux 2026 et pour votre candidature.
+                  des Ani’Meaux 2027 et pour votre candidature.
                 </EmailHtml.Paragraph>
 
                 <EmailHtml.Paragraph>

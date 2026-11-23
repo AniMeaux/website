@@ -19,8 +19,8 @@ export function DogsHelper() {
         vétérinaire obligatoire à l’entrée, mais permet de gagner du temps lors
         de votre arrivée. En choisissant de venir avec votre chien, vous vous
         engagez à être présent au salon au plus tard à{" "}
-        <strong className="text-body-emphasis">8h30 le samedi 6 juin</strong>{" "}
-        2026.
+        <strong className="text-body-emphasis">8h30 le samedi 12 juin</strong>{" "}
+        2027.
       </p>
     </HelperCard.Root>
   )

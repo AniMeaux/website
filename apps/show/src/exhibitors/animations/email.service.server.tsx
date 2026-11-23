@@ -31,7 +31,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
       name: "animation-sur-stand-exposant-mis-a-jour",
       from: "Salon des Ani’Meaux <salon@animeaux.org>",
       to: [application.contactEmail],
-      subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2026",
+      subject: "Animations sur stand mis à jour - Salon des Ani’Meaux 2027",
       body: (
         <EmailHtml.Root>
           <EmailHtml.Title>Animations sur stand mis à jour</EmailHtml.Title>
@@ -114,7 +114,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Animations sur stand - Salon des Ani’Meaux 2026",
+          subject: "Animations sur stand - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
@@ -177,7 +177,7 @@ export class ServiceExhibitorOnStandAnimationEmail {
           name: "animation-sur-stand-exposant-traité",
           from: "Salon des Ani’Meaux <salon@animeaux.org>",
           to: [application.contactEmail],
-          subject: "Animations sur stand - Salon des Ani’Meaux 2026",
+          subject: "Animations sur stand - Salon des Ani’Meaux 2027",
           body: (
             <EmailHtml.Root>
               <EmailHtml.Title>Animations sur stand</EmailHtml.Title>
