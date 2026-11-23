@@ -5,7 +5,14 @@ import { Icon } from "#i/generated/icon.js"
 
 export type ChipVariant = "primary" | "secondary"
 
-export type ChipColor = "black" | "blue" | "green" | "orange" | "red" | "yellow"
+export type ChipColor =
+  | "black"
+  | "blue"
+  | "green"
+  | "grey"
+  | "orange"
+  | "red"
+  | "yellow"
 
 export function Chip({
   variant,
@@ -42,6 +49,7 @@ const COLOR_CLASS_NAME: Record<ChipVariant, Record<ChipColor, string>> = {
     black: cn("bg-gray-800 text-white"),
     blue: cn("bg-blue-500 text-white"),
     green: cn("bg-green-600 text-white"),
+    grey: cn("bg-gray-500 text-white"),
     orange: cn("bg-orange-500 text-white"),
     red: cn("bg-red-500 text-white"),
     yellow: cn("bg-yellow-400 text-gray-800"),
@@ -51,6 +59,7 @@ const COLOR_CLASS_NAME: Record<ChipVariant, Record<ChipColor, string>> = {
     black: cn("bg-gray-100 text-gray-800"),
     blue: cn("bg-blue-50 text-blue-500"),
     green: cn("bg-green-50 text-green-600"),
+    grey: cn("bg-gray-100 text-gray-500"),
     orange: cn("bg-orange-50 text-orange-500"),
     red: cn("bg-red-50 text-red-500"),
     yellow: cn("bg-yellow-50 text-yellow-700"),

@@ -91,6 +91,7 @@ export function StatusIcon({
 const CHIP_COLOR_STATUS_ICON_CLASS_NAMES: Record<ChipColor, string> = {
   green: cn("text-green-600"),
   black: cn("text-gray-800"),
+  grey: cn("text-gray-500"),
   red: cn("text-red-500"),
   blue: cn("text-blue-500"),
   yellow: cn("text-yellow-400"),

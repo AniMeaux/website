@@ -70,6 +70,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         displayName: true,
         fosterAnimals: { select: { avatar: true, name: true, id: true } },
         id: true,
+        isArchived: true,
         isBanned: true,
         zipCode: true,
       },
@@ -224,6 +225,15 @@ function FosterFamilyItem({
         <span className="text-body-emphasis">{fosterFamily.displayName}</span>
         <span className="text-gray-500">{getShortLocation(fosterFamily)}</span>
       </span>
+
+      {fosterFamily.isArchived ? (
+        <Chip
+          variant="primary"
+          color="grey"
+          icon="icon-ban-solid"
+          title="Archivé"
+        />
+      ) : null}
 
       {fosterFamily.isBanned ? (
         <Chip
