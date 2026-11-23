@@ -27,7 +27,10 @@ import {
   SORTED_GARDEN,
   SORTED_HOUSING,
 } from "#i/foster-families/housing.js"
-import { FosterFamilySearchParams } from "#i/foster-families/search-params.js"
+import {
+  FosterFamilyEmergencies,
+  FosterFamilySearchParams,
+} from "#i/foster-families/search-params.js"
 import { Icon } from "#i/generated/icon.js"
 
 export function FosterFamilyFilters({
@@ -118,6 +121,48 @@ export function FosterFamilyFilters({
                 onChange={() => {}}
               />
             ))}
+          </ToggleInputList>
+        </Filters.Filter>
+
+        <Filters.Filter
+          value={FosterFamilySearchParams.keys.emergencies}
+          label="Accueil court terme et urgence"
+          count={fosterFamilySearchParams.emergencies.size}
+          hiddenContent={Array.from(fosterFamilySearchParams.emergencies).map(
+            (emergencies) => (
+              <input
+                key={emergencies}
+                type="hidden"
+                name={FosterFamilySearchParams.keys.emergencies}
+                value={emergencies}
+              />
+            ),
+          )}
+        >
+          <ToggleInputList>
+            <ToggleInput
+              type="checkbox"
+              label="Oui"
+              name={FosterFamilySearchParams.keys.emergencies}
+              value={FosterFamilyEmergencies.YES}
+              icon={<Icon href="icon-siren-on-solid" />}
+              checked={fosterFamilySearchParams.emergencies.has(
+                FosterFamilyEmergencies.YES,
+              )}
+              onChange={() => {}}
+            />
+
+            <ToggleInput
+              type="checkbox"
+              label="Non"
+              name={FosterFamilySearchParams.keys.emergencies}
+              value={FosterFamilyEmergencies.NO}
+              icon={<Icon href="icon-siren-on-slash-solid" />}
+              checked={fosterFamilySearchParams.emergencies.has(
+                FosterFamilyEmergencies.NO,
+              )}
+              onChange={() => {}}
+            />
           </ToggleInputList>
         </Filters.Filter>
 

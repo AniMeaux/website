@@ -44,6 +44,9 @@ export async function action({ request }: ActionFunctionArgs) {
         comments: formData.data.comments || null,
         displayName: formData.data.displayName,
         email: formData.data.email,
+        emergencies:
+          formData.data.emergencies ===
+          ActionFormData.schema.shape.emergencies.Enum.YES,
         garden: formData.data.garden,
         housing: formData.data.housing,
         phone: formData.data.phone,

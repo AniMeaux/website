@@ -83,6 +83,7 @@ model FosterFamily {
   updatedAt  DateTime   @updatedAt
   activities Activity[]
 
+  emergencies                Boolean                  @default(false)
   availability               FosterFamilyAvailability @default(UNKNOWN)
   availabilityExpirationDate DateTime?
   comments                   String?

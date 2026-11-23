@@ -118,6 +118,24 @@ export function SituationCard() {
               ].join("")}
             </Markdown>
           </SimpleItem>
+
+          <SimpleItem
+            icon={
+              <Icon
+                href={
+                  fosterFamily.emergencies
+                    ? "icon-siren-on-solid"
+                    : "icon-siren-on-slash-solid"
+                }
+              />
+            }
+          >
+            <Markdown components={HIGHLIGHT_COMPONENTS}>
+              {fosterFamily.emergencies
+                ? "Accueil court terme et urgence : **Oui**"
+                : "Accueil court terme et urgence : **Non**"}
+            </Markdown>
+          </SimpleItem>
         </ItemList>
       </Card.Content>
     </Card>
