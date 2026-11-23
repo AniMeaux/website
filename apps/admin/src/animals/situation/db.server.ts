@@ -16,6 +16,8 @@ type SituationKeys =
   | "comments"
   | "diagnosis"
   | "fosterFamilyId"
+  | "freeCity"
+  | "freeComment"
   | "isSterilizationMandatory"
   | "isSterilized"
   | "isVaccinationMandatory"
@@ -142,6 +144,11 @@ export class AnimalSituationDbDelegate {
     if (data.status !== Status.ADOPTED) {
       data.adoptionDate = null
       data.adoptionOption = null
+    }
+
+    if (data.status !== Status.FREE) {
+      data.freeCity = null
+      data.freeComment = null
     }
 
     if (!ACTIVE_ANIMAL_STATUS.includes(data.status)) {

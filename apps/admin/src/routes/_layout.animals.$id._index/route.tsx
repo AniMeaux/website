@@ -88,6 +88,8 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
       breed: { select: { name: true } },
       color: { select: { name: true } },
       description: true,
+      freeCity: true,
+      freeComment: true,
       gender: true,
       id: true,
       isOkCats: true,
