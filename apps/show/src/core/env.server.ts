@@ -69,6 +69,7 @@ export function getClientEnv() {
     SENTRY_DSN: process.env.SENTRY_DSN,
     SENTRY_TRACES_SAMPLE_RATE: process.env.SENTRY_TRACES_SAMPLE_RATE,
     SPONSORSHIP_URL: process.env.SPONSORSHIP_URL,
+    STAND_SIZE_PRICES_URL: process.env.STAND_SIZE_PRICES_URL,
     TICKETING_URL: process.env.TICKETING_URL,
   }
 }
@@ -165,6 +166,7 @@ const processEnvSchema = zu
       .transform((value) => String(value))
       .optional(),
     SPONSORSHIP_URL: zu.string().optional(),
+    STAND_SIZE_PRICES_URL: zu.string(),
     TICKETING_URL: zu.string(),
   })
   .refine(
