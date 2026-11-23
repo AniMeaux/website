@@ -2,8 +2,10 @@ import { ensureArray } from "@animeaux/core"
 import type { FieldMetadata } from "@conform-to/react"
 import { useLoaderData } from "@remix-run/react"
 
+import { ProseInlineAction } from "#i/core/actions/prose-inline-action.js"
 import { FieldTextarea } from "#i/core/form-elements/field-textarea.js"
 import { FormLayout } from "#i/core/layout/form-layout.js"
+import { HelperCard } from "#i/core/layout/helper-card.js"
 import type { ActivityField } from "#i/exhibitors/activity-field/activity-field.js"
 import type { LegalStatus } from "#i/exhibitors/application/legal-status.js"
 import { ExhibitorCategory } from "#i/exhibitors/category.js"
@@ -45,6 +47,16 @@ export function FieldsetParticipation() {
   return (
     <FormLayout.Section id={FieldsetId.PARTICIPATION}>
       <FormLayout.Title>Participation</FormLayout.Title>
+
+      <HelperCard.Root color="paleBlue">
+        <p>
+          Avant de choisir la taille de votre stand, consultez{" "}
+          <ProseInlineAction asChild>
+            <a href={CLIENT_ENV.STAND_SIZE_PRICES_URL}>notre document</a>
+          </ProseInlineAction>{" "}
+          détaillant les tarifs de chaque taille de stand.
+        </p>
+      </HelperCard.Root>
 
       <FieldStandSize
         label="Taille du stand souhaité"
